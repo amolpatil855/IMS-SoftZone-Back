@@ -15,6 +15,8 @@ namespace WebApi.Controllers
         [ApiAuthorize(AccessLevel ="All")]
         public IEnumerable<string> Get()
         {
+            int b = 0;
+            int a = 5 / b;
             return new string[] { "value1", "value2" };
         }
 
