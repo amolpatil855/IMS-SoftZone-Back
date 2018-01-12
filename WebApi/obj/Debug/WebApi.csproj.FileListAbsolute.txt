@@ -1,0 +1,380 @@
+D:\Amol AngularJS Authentication\WebApi\WebApi\obj\Debug\WebApi.csprojResolveAssemblyReference.cache
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\WebApi.dll.config
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\WebApi.dll
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\WebApi.pdb
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\Antlr3.Runtime.dll
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\EntityFramework.dll
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\EntityFramework.SqlServer.dll
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\Microsoft.AspNet.Identity.Core.dll
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\Microsoft.AspNet.Identity.Owin.dll
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\Microsoft.Data.Edm.dll
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\Microsoft.Data.OData.dll
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\Microsoft.Owin.dll
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\Microsoft.Owin.Host.SystemWeb.dll
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\Microsoft.Owin.Security.Cookies.dll
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\Microsoft.Owin.Security.dll
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\Microsoft.Owin.Security.OAuth.dll
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\Microsoft.Web.Infrastructure.dll
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\Microsoft.Web.Mvc.FixedDisplayModes.dll
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\Newtonsoft.Json.dll
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\Owin.dll
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\System.Net.Http.Formatting.dll
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\System.Spatial.dll
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\System.Web.Helpers.dll
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\System.Web.Http.dll
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\System.Web.Http.OData.dll
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\System.Web.Http.Owin.dll
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\System.Web.Http.Tracing.dll
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\System.Web.Http.WebHost.dll
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\System.Web.Mvc.dll
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\System.Web.Optimization.dll
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\System.Web.Providers.dll
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\System.Web.Razor.dll
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\System.Web.WebPages.Deployment.dll
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\System.Web.WebPages.dll
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\System.Web.WebPages.Razor.dll
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\WebGrease.dll
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\EntityFramework.xml
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\EntityFramework.SqlServer.xml
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\Microsoft.AspNet.Identity.Core.xml
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\Microsoft.AspNet.Identity.Owin.xml
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\Microsoft.Owin.xml
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\Microsoft.Owin.Host.SystemWeb.xml
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\Microsoft.Owin.Security.xml
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\Microsoft.Owin.Security.Cookies.xml
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\Microsoft.Owin.Security.OAuth.xml
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\System.Net.Http.Formatting.xml
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\System.Web.Http.xml
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\System.Web.Http.Owin.xml
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\Newtonsoft.Json.xml
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\System.Web.Helpers.xml
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\System.Web.Http.WebHost.xml
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\System.Web.Mvc.xml
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\System.Web.Razor.xml
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\System.Web.WebPages.xml
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\System.Web.WebPages.Deployment.xml
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\System.Web.WebPages.Razor.xml
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\System.Web.Http.Tracing.xml
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\System.Web.Http.OData.xml
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\Microsoft.Data.Edm.xml
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\Microsoft.Data.OData.xml
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\System.Spatial.xml
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\de\Microsoft.Data.Edm.resources.dll
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\es\Microsoft.Data.Edm.resources.dll
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\fr\Microsoft.Data.Edm.resources.dll
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\it\Microsoft.Data.Edm.resources.dll
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\ja\Microsoft.Data.Edm.resources.dll
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\ko\Microsoft.Data.Edm.resources.dll
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\ru\Microsoft.Data.Edm.resources.dll
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\zh-Hans\Microsoft.Data.Edm.resources.dll
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\zh-Hant\Microsoft.Data.Edm.resources.dll
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\de\Microsoft.Data.OData.resources.dll
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\es\Microsoft.Data.OData.resources.dll
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\fr\Microsoft.Data.OData.resources.dll
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\it\Microsoft.Data.OData.resources.dll
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\ja\Microsoft.Data.OData.resources.dll
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\ko\Microsoft.Data.OData.resources.dll
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\ru\Microsoft.Data.OData.resources.dll
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\zh-Hans\Microsoft.Data.OData.resources.dll
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\zh-Hant\Microsoft.Data.OData.resources.dll
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\de\System.Spatial.resources.dll
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\es\System.Spatial.resources.dll
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\fr\System.Spatial.resources.dll
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\it\System.Spatial.resources.dll
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\ja\System.Spatial.resources.dll
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\ko\System.Spatial.resources.dll
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\ru\System.Spatial.resources.dll
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\zh-Hans\System.Spatial.resources.dll
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\zh-Hant\System.Spatial.resources.dll
+D:\Amol AngularJS Authentication\WebApi\WebApi\obj\Debug\WebApi.dll
+D:\Amol AngularJS Authentication\WebApi\WebApi\obj\Debug\WebApi.pdb
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\Microsoft.Owin.Cors.dll
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\System.Web.Cors.dll
+D:\Amol AngularJS Authentication\WebApi\WebApi\bin\Microsoft.Owin.Cors.xml
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\obj\Debug\WebApi.csprojResolveAssemblyReference.cache
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\obj\Debug\WebApi.dll
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\obj\Debug\WebApi.pdb
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\WebApi.dll.config
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\WebApi.dll
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\WebApi.pdb
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\Antlr3.Runtime.dll
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\EntityFramework.dll
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\EntityFramework.SqlServer.dll
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\Microsoft.AspNet.Identity.Core.dll
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\Microsoft.AspNet.Identity.Owin.dll
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\Microsoft.Data.Edm.dll
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\Microsoft.Data.OData.dll
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\Microsoft.Owin.Cors.dll
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\Microsoft.Owin.dll
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\Microsoft.Owin.Host.SystemWeb.dll
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\Microsoft.Owin.Security.Cookies.dll
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\Microsoft.Owin.Security.dll
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\Microsoft.Owin.Security.OAuth.dll
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\Microsoft.Web.Infrastructure.dll
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\Microsoft.Web.Mvc.FixedDisplayModes.dll
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\Newtonsoft.Json.dll
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\Owin.dll
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\System.Net.Http.Formatting.dll
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\System.Spatial.dll
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\System.Web.Cors.dll
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\System.Web.Helpers.dll
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\System.Web.Http.dll
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\System.Web.Http.OData.dll
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\System.Web.Http.Owin.dll
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\System.Web.Http.Tracing.dll
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\System.Web.Http.WebHost.dll
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\System.Web.Mvc.dll
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\System.Web.Optimization.dll
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\System.Web.Providers.dll
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\System.Web.Razor.dll
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\System.Web.WebPages.Deployment.dll
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\System.Web.WebPages.dll
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\System.Web.WebPages.Razor.dll
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\WebGrease.dll
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\EntityFramework.xml
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\EntityFramework.SqlServer.xml
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\Microsoft.AspNet.Identity.Core.xml
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\Microsoft.AspNet.Identity.Owin.xml
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\Microsoft.Owin.xml
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\Microsoft.Owin.Cors.xml
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\Microsoft.Owin.Host.SystemWeb.xml
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\Microsoft.Owin.Security.xml
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\Microsoft.Owin.Security.Cookies.xml
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\Microsoft.Owin.Security.OAuth.xml
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\Newtonsoft.Json.xml
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\System.Net.Http.Formatting.xml
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\System.Web.Http.xml
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\System.Web.Http.Owin.xml
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\System.Web.Http.WebHost.xml
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\System.Web.Helpers.xml
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\System.Web.Mvc.xml
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\System.Web.Razor.xml
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\System.Web.WebPages.xml
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\System.Web.WebPages.Deployment.xml
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\System.Web.WebPages.Razor.xml
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\System.Web.Http.Tracing.xml
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\System.Web.Http.OData.xml
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\Microsoft.Data.Edm.xml
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\Microsoft.Data.OData.xml
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\System.Spatial.xml
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\de\Microsoft.Data.Edm.resources.dll
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\es\Microsoft.Data.Edm.resources.dll
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\fr\Microsoft.Data.Edm.resources.dll
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\it\Microsoft.Data.Edm.resources.dll
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\ja\Microsoft.Data.Edm.resources.dll
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\ko\Microsoft.Data.Edm.resources.dll
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\ru\Microsoft.Data.Edm.resources.dll
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\zh-Hans\Microsoft.Data.Edm.resources.dll
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\zh-Hant\Microsoft.Data.Edm.resources.dll
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\de\Microsoft.Data.OData.resources.dll
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\es\Microsoft.Data.OData.resources.dll
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\fr\Microsoft.Data.OData.resources.dll
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\it\Microsoft.Data.OData.resources.dll
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\ja\Microsoft.Data.OData.resources.dll
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\ko\Microsoft.Data.OData.resources.dll
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\ru\Microsoft.Data.OData.resources.dll
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\zh-Hans\Microsoft.Data.OData.resources.dll
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\zh-Hant\Microsoft.Data.OData.resources.dll
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\de\System.Spatial.resources.dll
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\es\System.Spatial.resources.dll
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\fr\System.Spatial.resources.dll
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\it\System.Spatial.resources.dll
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\ja\System.Spatial.resources.dll
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\ko\System.Spatial.resources.dll
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\ru\System.Spatial.resources.dll
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\zh-Hans\System.Spatial.resources.dll
+D:\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\zh-Hant\System.Spatial.resources.dll
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\obj\Debug\WebApi.csprojResolveAssemblyReference.cache
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\obj\Debug\WebApi.dll
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\WebApi.dll.config
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\WebApi.dll
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\WebApi.pdb
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\Antlr3.Runtime.dll
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\EntityFramework.dll
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\EntityFramework.SqlServer.dll
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\Microsoft.AspNet.Identity.Core.dll
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\Microsoft.AspNet.Identity.Owin.dll
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\Microsoft.Data.Edm.dll
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\Microsoft.Data.OData.dll
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\Microsoft.Owin.Cors.dll
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\Microsoft.Owin.dll
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\Microsoft.Owin.Host.SystemWeb.dll
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\Microsoft.Owin.Security.Cookies.dll
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\Microsoft.Owin.Security.dll
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\Microsoft.Owin.Security.OAuth.dll
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\Microsoft.Web.Infrastructure.dll
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\Microsoft.Web.Mvc.FixedDisplayModes.dll
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\Newtonsoft.Json.dll
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\Owin.dll
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\System.Net.Http.Formatting.dll
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\System.Spatial.dll
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\System.Web.Cors.dll
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\System.Web.Helpers.dll
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\System.Web.Http.dll
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\System.Web.Http.OData.dll
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\System.Web.Http.Owin.dll
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\System.Web.Http.Tracing.dll
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\System.Web.Http.WebHost.dll
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\System.Web.Mvc.dll
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\System.Web.Optimization.dll
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\System.Web.Providers.dll
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\System.Web.Razor.dll
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\System.Web.WebPages.Deployment.dll
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\System.Web.WebPages.dll
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\System.Web.WebPages.Razor.dll
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\WebGrease.dll
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\EntityFramework.xml
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\EntityFramework.SqlServer.xml
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\Microsoft.AspNet.Identity.Core.xml
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\Microsoft.AspNet.Identity.Owin.xml
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\Microsoft.Owin.xml
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\Microsoft.Owin.Cors.xml
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\Microsoft.Owin.Host.SystemWeb.xml
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\Microsoft.Owin.Security.xml
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\Microsoft.Owin.Security.Cookies.xml
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\Microsoft.Owin.Security.OAuth.xml
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\Newtonsoft.Json.xml
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\System.Net.Http.Formatting.xml
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\System.Web.Http.xml
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\System.Web.Http.Owin.xml
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\System.Web.Http.WebHost.xml
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\System.Web.Helpers.xml
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\System.Web.Mvc.xml
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\System.Web.Razor.xml
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\System.Web.WebPages.xml
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\System.Web.WebPages.Deployment.xml
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\System.Web.WebPages.Razor.xml
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\System.Web.Http.Tracing.xml
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\System.Web.Http.OData.xml
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\Microsoft.Data.Edm.xml
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\Microsoft.Data.OData.xml
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\System.Spatial.xml
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\de\Microsoft.Data.Edm.resources.dll
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\es\Microsoft.Data.Edm.resources.dll
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\fr\Microsoft.Data.Edm.resources.dll
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\it\Microsoft.Data.Edm.resources.dll
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\ja\Microsoft.Data.Edm.resources.dll
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\ko\Microsoft.Data.Edm.resources.dll
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\ru\Microsoft.Data.Edm.resources.dll
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\zh-Hans\Microsoft.Data.Edm.resources.dll
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\zh-Hant\Microsoft.Data.Edm.resources.dll
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\de\Microsoft.Data.OData.resources.dll
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\es\Microsoft.Data.OData.resources.dll
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\fr\Microsoft.Data.OData.resources.dll
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\it\Microsoft.Data.OData.resources.dll
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\ja\Microsoft.Data.OData.resources.dll
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\ko\Microsoft.Data.OData.resources.dll
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\ru\Microsoft.Data.OData.resources.dll
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\zh-Hans\Microsoft.Data.OData.resources.dll
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\zh-Hant\Microsoft.Data.OData.resources.dll
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\de\System.Spatial.resources.dll
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\es\System.Spatial.resources.dll
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\fr\System.Spatial.resources.dll
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\it\System.Spatial.resources.dll
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\ja\System.Spatial.resources.dll
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\ko\System.Spatial.resources.dll
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\ru\System.Spatial.resources.dll
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\zh-Hans\System.Spatial.resources.dll
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\bin\zh-Hant\System.Spatial.resources.dll
+F:\Amol AngularJS Authentication - Copy\Amol AngularJS Authentication - Copy\WebApi\WebApi\obj\Debug\WebApi.pdb
+F:\IMS-SoftZone\inventory App\WebApi\bin\WebApi.dll.config
+F:\IMS-SoftZone\inventory App\WebApi\bin\WebApi.dll
+F:\IMS-SoftZone\inventory App\WebApi\bin\WebApi.pdb
+F:\IMS-SoftZone\inventory App\WebApi\bin\Antlr3.Runtime.dll
+F:\IMS-SoftZone\inventory App\WebApi\bin\EntityFramework.dll
+F:\IMS-SoftZone\inventory App\WebApi\bin\EntityFramework.SqlServer.dll
+F:\IMS-SoftZone\inventory App\WebApi\bin\Microsoft.AspNet.Identity.Core.dll
+F:\IMS-SoftZone\inventory App\WebApi\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+F:\IMS-SoftZone\inventory App\WebApi\bin\Microsoft.AspNet.Identity.Owin.dll
+F:\IMS-SoftZone\inventory App\WebApi\bin\Microsoft.Data.Edm.dll
+F:\IMS-SoftZone\inventory App\WebApi\bin\Microsoft.Data.OData.dll
+F:\IMS-SoftZone\inventory App\WebApi\bin\Microsoft.Owin.Cors.dll
+F:\IMS-SoftZone\inventory App\WebApi\bin\Microsoft.Owin.dll
+F:\IMS-SoftZone\inventory App\WebApi\bin\Microsoft.Owin.Host.SystemWeb.dll
+F:\IMS-SoftZone\inventory App\WebApi\bin\Microsoft.Owin.Security.Cookies.dll
+F:\IMS-SoftZone\inventory App\WebApi\bin\Microsoft.Owin.Security.dll
+F:\IMS-SoftZone\inventory App\WebApi\bin\Microsoft.Owin.Security.OAuth.dll
+F:\IMS-SoftZone\inventory App\WebApi\bin\Microsoft.Web.Infrastructure.dll
+F:\IMS-SoftZone\inventory App\WebApi\bin\Microsoft.Web.Mvc.FixedDisplayModes.dll
+F:\IMS-SoftZone\inventory App\WebApi\bin\Newtonsoft.Json.dll
+F:\IMS-SoftZone\inventory App\WebApi\bin\Owin.dll
+F:\IMS-SoftZone\inventory App\WebApi\bin\System.Net.Http.Formatting.dll
+F:\IMS-SoftZone\inventory App\WebApi\bin\System.Spatial.dll
+F:\IMS-SoftZone\inventory App\WebApi\bin\System.Web.Cors.dll
+F:\IMS-SoftZone\inventory App\WebApi\bin\System.Web.Helpers.dll
+F:\IMS-SoftZone\inventory App\WebApi\bin\System.Web.Http.dll
+F:\IMS-SoftZone\inventory App\WebApi\bin\System.Web.Http.OData.dll
+F:\IMS-SoftZone\inventory App\WebApi\bin\System.Web.Http.Owin.dll
+F:\IMS-SoftZone\inventory App\WebApi\bin\System.Web.Http.Tracing.dll
+F:\IMS-SoftZone\inventory App\WebApi\bin\System.Web.Http.WebHost.dll
+F:\IMS-SoftZone\inventory App\WebApi\bin\System.Web.Mvc.dll
+F:\IMS-SoftZone\inventory App\WebApi\bin\System.Web.Optimization.dll
+F:\IMS-SoftZone\inventory App\WebApi\bin\System.Web.Providers.dll
+F:\IMS-SoftZone\inventory App\WebApi\bin\System.Web.Razor.dll
+F:\IMS-SoftZone\inventory App\WebApi\bin\System.Web.WebPages.Deployment.dll
+F:\IMS-SoftZone\inventory App\WebApi\bin\System.Web.WebPages.dll
+F:\IMS-SoftZone\inventory App\WebApi\bin\System.Web.WebPages.Razor.dll
+F:\IMS-SoftZone\inventory App\WebApi\bin\WebGrease.dll
+F:\IMS-SoftZone\inventory App\WebApi\bin\EntityFramework.xml
+F:\IMS-SoftZone\inventory App\WebApi\bin\EntityFramework.SqlServer.xml
+F:\IMS-SoftZone\inventory App\WebApi\bin\Microsoft.AspNet.Identity.Core.xml
+F:\IMS-SoftZone\inventory App\WebApi\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+F:\IMS-SoftZone\inventory App\WebApi\bin\Microsoft.AspNet.Identity.Owin.xml
+F:\IMS-SoftZone\inventory App\WebApi\bin\Microsoft.Owin.xml
+F:\IMS-SoftZone\inventory App\WebApi\bin\Microsoft.Owin.Cors.xml
+F:\IMS-SoftZone\inventory App\WebApi\bin\Microsoft.Owin.Host.SystemWeb.xml
+F:\IMS-SoftZone\inventory App\WebApi\bin\Microsoft.Owin.Security.xml
+F:\IMS-SoftZone\inventory App\WebApi\bin\Microsoft.Owin.Security.Cookies.xml
+F:\IMS-SoftZone\inventory App\WebApi\bin\Microsoft.Owin.Security.OAuth.xml
+F:\IMS-SoftZone\inventory App\WebApi\bin\Newtonsoft.Json.xml
+F:\IMS-SoftZone\inventory App\WebApi\bin\System.Net.Http.Formatting.xml
+F:\IMS-SoftZone\inventory App\WebApi\bin\System.Web.Http.xml
+F:\IMS-SoftZone\inventory App\WebApi\bin\System.Web.Http.Owin.xml
+F:\IMS-SoftZone\inventory App\WebApi\bin\System.Web.Http.WebHost.xml
+F:\IMS-SoftZone\inventory App\WebApi\bin\System.Web.Helpers.xml
+F:\IMS-SoftZone\inventory App\WebApi\bin\System.Web.Mvc.xml
+F:\IMS-SoftZone\inventory App\WebApi\bin\System.Web.Razor.xml
+F:\IMS-SoftZone\inventory App\WebApi\bin\System.Web.WebPages.xml
+F:\IMS-SoftZone\inventory App\WebApi\bin\System.Web.WebPages.Deployment.xml
+F:\IMS-SoftZone\inventory App\WebApi\bin\System.Web.WebPages.Razor.xml
+F:\IMS-SoftZone\inventory App\WebApi\bin\System.Web.Http.Tracing.xml
+F:\IMS-SoftZone\inventory App\WebApi\bin\System.Web.Http.OData.xml
+F:\IMS-SoftZone\inventory App\WebApi\bin\Microsoft.Data.Edm.xml
+F:\IMS-SoftZone\inventory App\WebApi\bin\Microsoft.Data.OData.xml
+F:\IMS-SoftZone\inventory App\WebApi\bin\System.Spatial.xml
+F:\IMS-SoftZone\inventory App\WebApi\bin\de\Microsoft.Data.Edm.resources.dll
+F:\IMS-SoftZone\inventory App\WebApi\bin\es\Microsoft.Data.Edm.resources.dll
+F:\IMS-SoftZone\inventory App\WebApi\bin\fr\Microsoft.Data.Edm.resources.dll
+F:\IMS-SoftZone\inventory App\WebApi\bin\it\Microsoft.Data.Edm.resources.dll
+F:\IMS-SoftZone\inventory App\WebApi\bin\ja\Microsoft.Data.Edm.resources.dll
+F:\IMS-SoftZone\inventory App\WebApi\bin\ko\Microsoft.Data.Edm.resources.dll
+F:\IMS-SoftZone\inventory App\WebApi\bin\ru\Microsoft.Data.Edm.resources.dll
+F:\IMS-SoftZone\inventory App\WebApi\bin\zh-Hans\Microsoft.Data.Edm.resources.dll
+F:\IMS-SoftZone\inventory App\WebApi\bin\zh-Hant\Microsoft.Data.Edm.resources.dll
+F:\IMS-SoftZone\inventory App\WebApi\bin\de\Microsoft.Data.OData.resources.dll
+F:\IMS-SoftZone\inventory App\WebApi\bin\es\Microsoft.Data.OData.resources.dll
+F:\IMS-SoftZone\inventory App\WebApi\bin\fr\Microsoft.Data.OData.resources.dll
+F:\IMS-SoftZone\inventory App\WebApi\bin\it\Microsoft.Data.OData.resources.dll
+F:\IMS-SoftZone\inventory App\WebApi\bin\ja\Microsoft.Data.OData.resources.dll
+F:\IMS-SoftZone\inventory App\WebApi\bin\ko\Microsoft.Data.OData.resources.dll
+F:\IMS-SoftZone\inventory App\WebApi\bin\ru\Microsoft.Data.OData.resources.dll
+F:\IMS-SoftZone\inventory App\WebApi\bin\zh-Hans\Microsoft.Data.OData.resources.dll
+F:\IMS-SoftZone\inventory App\WebApi\bin\zh-Hant\Microsoft.Data.OData.resources.dll
+F:\IMS-SoftZone\inventory App\WebApi\bin\de\System.Spatial.resources.dll
+F:\IMS-SoftZone\inventory App\WebApi\bin\es\System.Spatial.resources.dll
+F:\IMS-SoftZone\inventory App\WebApi\bin\fr\System.Spatial.resources.dll
+F:\IMS-SoftZone\inventory App\WebApi\bin\it\System.Spatial.resources.dll
+F:\IMS-SoftZone\inventory App\WebApi\bin\ja\System.Spatial.resources.dll
+F:\IMS-SoftZone\inventory App\WebApi\bin\ko\System.Spatial.resources.dll
+F:\IMS-SoftZone\inventory App\WebApi\bin\ru\System.Spatial.resources.dll
+F:\IMS-SoftZone\inventory App\WebApi\bin\zh-Hans\System.Spatial.resources.dll
+F:\IMS-SoftZone\inventory App\WebApi\bin\zh-Hant\System.Spatial.resources.dll
+F:\IMS-SoftZone\inventory App\WebApi\obj\Debug\WebApi.csprojResolveAssemblyReference.cache
+F:\IMS-SoftZone\inventory App\WebApi\obj\Debug\WebApi.dll
+F:\IMS-SoftZone\inventory App\WebApi\obj\Debug\WebApi.pdb
