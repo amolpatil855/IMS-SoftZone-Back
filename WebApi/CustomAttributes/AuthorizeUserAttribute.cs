@@ -29,7 +29,7 @@ namespace WebApi.CustomAttributes
             var roles = ((ClaimsIdentity)HttpContext.Current.User.Identity).Claims
                 .Where(c => c.Type == ClaimTypes.Role)
                 .Select(c => c.Value);
-            if (roles.Equals("Amol"))
+            if (roles.Contains("admin"))
             {
                 permissionSet.Add("All");
             }
