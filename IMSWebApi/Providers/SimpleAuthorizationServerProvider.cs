@@ -24,7 +24,7 @@ namespace IMSWebApi.Providers
 
             using (WebAPIdbEntities _repo = new WebAPIdbEntities())
             {
-                User user = _repo.Users.FirstOrDefault(p => p.username.Equals(context.UserName) && p.password.Equals(context.Password));
+                MstUser user = _repo.MstUsers.FirstOrDefault(p => p.userName.Equals(context.UserName) && p.password.Equals(context.Password));
 
                 if (user == null)
                 {

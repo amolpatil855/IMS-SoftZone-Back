@@ -12,21 +12,21 @@ namespace IMSWebApi
     public class AuthRepository 
     {
         WebAPIdbEntities repo = new WebAPIdbEntities();
-       public bool RegisterUser(User userModel)
+       public bool RegisterUser(MstUser userModel)
         {
             IdentityUser user = new IdentityUser
             {
-                UserName = userModel.username
+                UserName = userModel.userName
             };
 
-           repo.Users.Add(userModel);
+            repo.MstUsers.Add(userModel);
            repo.SaveChanges();
            return true;
         }
 
-        public User FindUser(string userName, string password)
+       public MstUser FindUser(string userName, string password)
         {
-            User user = repo.Users.FirstOrDefault(p => p.username == userName && p.password == password);
+            MstUser user = repo.MstUsers.FirstOrDefault(p => p.userName == userName && p.password == password);
             return user;
         }
 

@@ -23,7 +23,7 @@ namespace IMSWebApi.Controllers
         // POST api/Account/Register
         [AllowAnonymous]
         [Route("Register")]
-        public IHttpActionResult Register(User userModel)
+        public IHttpActionResult Register(MstUser userModel)
         {
             if (!ModelState.IsValid)
             {
