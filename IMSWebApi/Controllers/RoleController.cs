@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using IMSWebApi.Models;
 using IMSWebApi.Services;
+using IMSWebApi.ViewModel;
 
 namespace IMSWebApi.Controllers
 {
@@ -42,5 +43,13 @@ namespace IMSWebApi.Controllers
         {
             return Ok(_roleService.getRoleMenu(id));
         }
+
+        [HttpPost]
+        public IHttpActionResult insertRole(VMRole role)
+        {
+            return Ok(_roleService.insertRole(role));
+        }
+
+
     }
 }

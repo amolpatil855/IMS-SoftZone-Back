@@ -250,6 +250,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="AuthRepository.cs" />
+    <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -292,6 +293,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\SimpleAuthorizationServerProvider.cs" />
+    <Compile Include="Services\MenuService.cs" />
     <Compile Include="Services\RoleService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Startup.cs" />
@@ -345,23 +347,6 @@
     <Content Include="Content\themes\base\tooltip.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
-    <EntityDeploy Include="Models\WebApiModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>WebApiModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\WebApiModel.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>WebApiModel.edmx</DependentUpon>
-      <LastGenOutput>WebApiModel.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Models\WebApiModel.edmx.diagram">
-      <DependentUpon>WebApiModel.edmx</DependentUpon>
-    </Content>
-    <Content Include="Models\WebApiModel.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>WebApiModel.edmx</DependentUpon>
-      <LastGenOutput>WebApiModel.cs</LastGenOutput>
-    </Content>
     <Content Include="Areas\HelpPage\Views\_ViewStart.cshtml" />
     <Content Include="Areas\HelpPage\Views\Web.config" />
     <Content Include="Areas\HelpPage\Views\Shared\_Layout.cshtml" />
@@ -382,10 +367,27 @@
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\CollectionModelDescription.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ApiGroup.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
+    <EntityDeploy Include="Models\WebApiModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>WebApiModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\WebApiModel.edmx.diagram">
+      <DependentUpon>WebApiModel.edmx</DependentUpon>
+    </Content>
     <None Include="Properties\PublishProfiles\TestWebApiPublish.pubxml" />
     <None Include="Properties\PublishProfiles\WebAPIPublish.pubxml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <None Include="Scripts\jquery-3.2.1.intellisense.js" />
+    <Content Include="Models\WebApiModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>WebApiModel.edmx</DependentUpon>
+      <LastGenOutput>WebApiModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\WebApiModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>WebApiModel.edmx</DependentUpon>
+      <LastGenOutput>WebApiModel.cs</LastGenOutput>
+    </Content>
     <Content Include="Scripts\jquery-3.2.1.js" />
     <Content Include="Scripts\jquery-3.2.1.min.js" />
     <Content Include="Scripts\jquery-3.2.1.slim.js" />
