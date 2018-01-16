@@ -10,6 +10,7 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using IMSWebApi.Models;
 using IMSWebApi.Services;
+using IMSWebApi.ViewModel;
 
 namespace IMSWebApi.Controllers
 {
@@ -30,18 +31,13 @@ namespace IMSWebApi.Controllers
             return Ok(result);
         }
 
-        //// GET api/User/5
-        //[ResponseType(typeof(MstUser))]
-        //public IHttpActionResult GetMstUser(long id)
-        //{
-        //    MstUser mstuser = db.MstUsers.Find(id);
-        //    if (mstuser == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return Ok(mstuser);
-        //}
+        // GET api/User/5
+        [HttpGet]
+        public IHttpActionResult Get(long id)
+        {
+            var result = _userService.getUserById(id);
+            return Ok(result);
+        }
 
         //// PUT api/User/5
         //public IHttpActionResult PutMstUser(long id, MstUser mstuser)
@@ -77,20 +73,17 @@ namespace IMSWebApi.Controllers
         //    return StatusCode(HttpStatusCode.NoContent);
         //}
 
-        //// POST api/User
-        //[ResponseType(typeof(MstUser))]
-        //public IHttpActionResult PostMstUser(MstUser mstuser)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
-
-        //    db.MstUsers.Add(mstuser);
-        //    db.SaveChanges();
-
-        //    return CreatedAtRoute("DefaultApi", new { id = mstuser.id }, mstuser);
-        //}
+         //POST api/User
+        [HttpPost]
+        public IHttpActionResult PostMstUser(VMUser mstuser)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var result = _userService.postUser(mstuser);
+            return Ok(result);
+        }
 
         //// DELETE api/User/5
         //[ResponseType(typeof(MstUser))]

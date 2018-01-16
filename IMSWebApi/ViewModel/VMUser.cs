@@ -13,6 +13,8 @@ namespace IMSWebApi.ViewModel
         public string userName { get; set; }
         public string email { get; set; }
         public string phone { get; set; }
+        public string password { get; set; }
+        public long createdBy { get; set; }
         public Nullable<DateTime> lastLogin { get; set; }
         public Nullable<bool> isActive { get; set; }
         public VMRole MstRole { get; set; }
