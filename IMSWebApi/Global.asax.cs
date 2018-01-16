@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IMSWebApi.App_Start;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -17,12 +18,17 @@ namespace IMSWebApi
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
+            HttpConfiguration config = GlobalConfiguration.Configuration;
 
+            config.Formatters.JsonFormatter
+                        .SerializerSettings
+                        .ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
             WebApiConfig.Register(GlobalConfiguration.Configuration);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             GlobalConfiguration.Configuration.EnsureInitialized();
+            AutoMapperConfiguration.Configure();
             log4net.Config.XmlConfigurator.Configure();
         }
     }
