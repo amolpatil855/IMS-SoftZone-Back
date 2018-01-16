@@ -30,5 +30,27 @@ namespace IMSWebApi.Services
             List<VMCFGRoleMenu> roleViews = Mapper.Map<List<CFGRoleMenu>, List<VMCFGRoleMenu>>(result);
             return roleViews;
         }
+
+        public Int64 insertRole(VMRole role)
+        {
+            MstRole roleObj = Mapper.Map<VMRole, MstRole>(role);
+            List<CFGRoleMenu> lstCfg = roleObj.CFGRoleMenus.ToList();
+            roleObj.createdOn = DateTime.Now;
+            roleObj.createdBy = 1;
+            roleObj.CFGRoleMenus = null;
+            repo.MstRoles.Add(roleObj);
+            repo.SaveChanges();
+            foreach (var item in lstCfg)
+            {
+                item.MstRole = null;
+                item.roleId = roleObj.id;
+                item.createdOn = DateTime.Now;
+                item.createdBy = 1;
+                repo.CFGRoleMenus.Add(item);
+            }
+            repo.SaveChanges();
+            return 0;
+        }
+
     }
 }

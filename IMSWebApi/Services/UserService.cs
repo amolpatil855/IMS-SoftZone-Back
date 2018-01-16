@@ -17,6 +17,7 @@ namespace IMSWebApi.Services
         {
             var result = repo.MstUsers.ToList();
             List<VMUser> userViews = Mapper.Map<List<MstUser>, List<VMUser>>(result);
+            userViews.ForEach(d => d.MstRole.CFGRoleMenus = null);
             return userViews;
         }
 
@@ -24,28 +25,21 @@ namespace IMSWebApi.Services
         {
             var result = repo.MstUsers.Where(p => p.id == id).FirstOrDefault();
             VMUser userView = Mapper.Map<MstUser, VMUser>(result);
+            if (userView.MstRole != null)
+            {
+                userView.MstRole.CFGRoleMenus = null;
+            }
             return userView;
         }
 
         public long postUser(VMUser user)
         {
            MstUser userToPost = Mapper.Map<VMUser,MstUser>(user);
-
-            //MstUser userToPost = new MstUser();
-            //userToPost.userName = user.userName;
-            //userToPost.email = user.email;
-            //userToPost.phone = user.phone != string.Empty ? user.phone : null;
-            //userToPost.isActive = user.isActive;
-            //userToPost.createdBy = user.createdBy;
-            //userToPost.roleId = user.roleId;
-            //userToPost.password = "espl@123";
-            //userToPost.userTypeId = 1;
-            userToPost.createdOn = DateTime.Now;
+           userToPost.createdOn = DateTime.Now;
            repo.MstUsers.Add(userToPost);
-            
-            repo.SaveChanges();
+           repo.SaveChanges();
 
-            return userToPost.id;
+           return userToPost.id;
 
         }
 
