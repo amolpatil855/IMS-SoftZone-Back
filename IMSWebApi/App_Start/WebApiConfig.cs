@@ -24,6 +24,7 @@ namespace IMSWebApi
             );
             log4net.Config.XmlConfigurator.Configure();
             config.Services.Add(typeof(IExceptionLogger), new ExceptionManagerApi());
+            config.Filters.Add(new IMSWebApi.CustomAttributes.ExceptionFilterCustomAttribute());
             var jsonFormatter = config.Formatters.OfType<JsonMediaTypeFormatter>().First();
             jsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
         }

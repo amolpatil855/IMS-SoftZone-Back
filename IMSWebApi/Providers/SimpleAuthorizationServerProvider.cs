@@ -31,15 +31,11 @@ namespace IMSWebApi.Providers
                     context.SetError("invalid_grant", "The user name or password is incorrect.");
                     return;
                 }
+                var identity = new ClaimsIdentity(context.Options.AuthenticationType);
+                identity.AddClaim(new Claim("userName", context.UserName));
+                identity.AddClaim(new Claim(ClaimTypes.Role, user.MstRole.roleName));
+                context.Validated(identity);
             }
-
-            var identity = new ClaimsIdentity(context.Options.AuthenticationType);
-            identity.AddClaim(new Claim("sub", context.UserName));
-            if (context.UserName.Equals("amol"))
-                identity.AddClaim(new Claim(ClaimTypes.Role, "admin"));
-            else
-                identity.AddClaim(new Claim(ClaimTypes.Role, "user"));
-            context.Validated(identity);
 
         }
     }
