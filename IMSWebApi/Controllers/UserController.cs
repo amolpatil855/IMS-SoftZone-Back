@@ -47,6 +47,15 @@ namespace IMSWebApi.Controllers
             return Ok(result);
         }
 
+        
+        [HttpGet]
+        [Route("api/User/getPermissions")]
+        public IHttpActionResult getPermissions()
+        {
+            var res = User.Identity.Name;
+            var result = _userService.getUserPermission(User.Identity.Name);
+            return Ok(result);
+        }
         // PUT api/User/5
         [HttpPut]
         public IHttpActionResult PutMstUser(VMUser mstuser)

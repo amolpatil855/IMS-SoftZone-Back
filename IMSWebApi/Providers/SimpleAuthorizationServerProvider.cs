@@ -32,7 +32,7 @@ namespace IMSWebApi.Providers
                     return;
                 }
                 var identity = new ClaimsIdentity(context.Options.AuthenticationType);
-                identity.AddClaim(new Claim("userName", context.UserName));
+                identity.AddClaim(new Claim(ClaimTypes.Name, context.UserName));
                 identity.AddClaim(new Claim(ClaimTypes.Role, user.MstRole.roleName));
                 context.Validated(identity);
             }

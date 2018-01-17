@@ -21,6 +21,25 @@ namespace IMSWebApi.Services
             return userViews;
         }
 
+        public List<string> getUserPermission(string username)
+        {
+            List<string> permissions = new List<string>();
+            var result = from u in repo.MstUsers
+                         join cfg in repo.CFGRoleMenus on u.roleId equals cfg.roleId
+                         join menu in repo.MstMenus on cfg.id equals menu.id
+                         where u.userName.Equals(username)
+                         select new
+                    {
+                        Menu = menu.menuName
+                    };
+
+            foreach (var item in result)
+            {
+                permissions.Add(item.Menu.Replace(" ", string.Empty).ToLower());
+            }
+            return permissions;
+        }
+
         public List<VMUserType> getUserType()
         {
             var result = repo.MstuserTypes.ToList();
@@ -41,13 +60,13 @@ namespace IMSWebApi.Services
 
         public long postUser(VMUser user)
         {
-           MstUser userToPost = Mapper.Map<VMUser,MstUser>(user);
-           userToPost.password = createRandomPassword(8);
-           userToPost.createdOn = DateTime.Now;
-           repo.MstUsers.Add(userToPost);
-           repo.SaveChanges();
-           sendEmail(userToPost.id,"RegisterUser");
-           return userToPost.id;
+            MstUser userToPost = Mapper.Map<VMUser, MstUser>(user);
+            userToPost.password = createRandomPassword(8);
+            userToPost.createdOn = DateTime.Now;
+            repo.MstUsers.Add(userToPost);
+            repo.SaveChanges();
+            sendEmail(userToPost.id, "RegisterUser");
+            return userToPost.id;
         }
 
         private static string createRandomPassword(int passwordLength)
@@ -66,10 +85,10 @@ namespace IMSWebApi.Services
 
         public long putUser(VMUser user)
         {
-            if (user!=null)
-            {   
-                var userToPut =  repo.MstUsers.Where(p => p.id == user.id).FirstOrDefault();
-                if (userToPut!=null)
+            if (user != null)
+            {
+                var userToPut = repo.MstUsers.Where(p => p.id == user.id).FirstOrDefault();
+                if (userToPut != null)
                 {
                     userToPut.userName = user.userName;
                     userToPut.roleId = user.roleId;
@@ -100,7 +119,7 @@ namespace IMSWebApi.Services
             {
                 return false;
             }
-            
+
         }
 
         public long changePassword(VMUser user)
@@ -122,9 +141,9 @@ namespace IMSWebApi.Services
 
         }
 
-        public void sendEmail(Int64 id,string fileName)
+        public void sendEmail(Int64 id, string fileName)
         {
-            var result = repo.MstUsers.Where(u=>u.id == id).FirstOrDefault();
+            var result = repo.MstUsers.Where(u => u.id == id).FirstOrDefault();
             Email.email(result, fileName);
         }
 
