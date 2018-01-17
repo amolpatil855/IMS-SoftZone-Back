@@ -39,39 +39,25 @@ namespace IMSWebApi.Controllers
             return Ok(result);
         }
 
-        //// PUT api/User/5
-        //public IHttpActionResult PutMstUser(long id, MstUser mstuser)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
+        [HttpGet]
+        [Route("api/User/GetUserType")]
+        public IHttpActionResult GetUserType()
+        {
+            var result = _userService.getUserType();
+            return Ok(result);
+        }
 
-        //    if (id != mstuser.id)
-        //    {
-        //        return BadRequest();
-        //    }
-
-        //    db.Entry(mstuser).State = EntityState.Modified;
-
-        //    try
-        //    {
-        //        db.SaveChanges();
-        //    }
-        //    catch (DbUpdateConcurrencyException)
-        //    {
-        //        if (!MstUserExists(id))
-        //        {
-        //            return NotFound();
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
-
-        //    return StatusCode(HttpStatusCode.NoContent);
-        //}
+        // PUT api/User/5
+        [HttpPut]
+        public IHttpActionResult PutMstUser(VMUser mstuser)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var result = _userService.putUser(mstuser);
+            return Ok(result);
+        }
 
          //POST api/User
         [HttpPost]
@@ -85,34 +71,38 @@ namespace IMSWebApi.Controllers
             return Ok(result);
         }
 
-        //// DELETE api/User/5
-        //[ResponseType(typeof(MstUser))]
-        //public IHttpActionResult DeleteMstUser(long id)
-        //{
-        //    MstUser mstuser = db.MstUsers.Find(id);
-        //    if (mstuser == null)
-        //    {
-        //        return NotFound();
-        //    }
+        // DELETE api/User/5
+        [HttpDelete]
+        public IHttpActionResult DeleteMstUser(long id)
+        {   
+            var result = _userService.deleteUser(id);
+            if (result)
+            {
+                return Ok();
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
 
-        //    db.MstUsers.Remove(mstuser);
-        //    db.SaveChanges();
-
-        //    return Ok(mstuser);
-        //}
-
-        //protected override void Dispose(bool disposing)
-        //{
-        //    if (disposing)
-        //    {
-        //        db.Dispose();
-        //    }
-        //    base.Dispose(disposing);
-        //}
-
-        //private bool MstUserExists(long id)
-        //{
-        //    return db.MstUsers.Count(e => e.id == id) > 0;
-        //}
+        [HttpPut]
+        [Route("api/User/ChangePassword")]
+        public IHttpActionResult ChangePassword(VMUser user)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var result = _userService.changePassword(user);
+            if (result!=0)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
     }
 }

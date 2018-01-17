@@ -20,6 +20,7 @@ namespace IMSWebApi.App_Start
             Mapper.CreateMap<MstMenu, VMMenu>();
             Mapper.CreateMap<MstUser, VMUser>();
             Mapper.CreateMap<VMUser, MstUser>();
+            Mapper.CreateMap<MstuserType, VMUserType>();
         }
     }
 }
