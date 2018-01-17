@@ -18,6 +18,7 @@ namespace IMSWebApi.ViewModel
         public Nullable<DateTime> lastLogin { get; set; }
         public Nullable<bool> isActive { get; set; }
         public VMRole MstRole { get; set; }
+        public string oldPassword{ get; set; }
         
     }
 }
