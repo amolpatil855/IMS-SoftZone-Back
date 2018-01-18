@@ -14,6 +14,11 @@ namespace IMSWebApi.Models
     
     public partial class MstUser
     {
+        public MstUser()
+        {
+            this.MstCustomers = new HashSet<MstCustomer>();
+        }
+    
         public long id { get; set; }
         public long roleId { get; set; }
         public long userTypeId { get; set; }
@@ -30,5 +35,6 @@ namespace IMSWebApi.Models
     
         public virtual MstRole MstRole { get; set; }
         public virtual MstuserType MstuserType { get; set; }
+        public virtual ICollection<MstCustomer> MstCustomers { get; set; }
     }
 }

@@ -2,15 +2,16 @@
 using ReusableEmailComponent;
 using System.Text;
 using System.Web;
+using System.Configuration;
 
 namespace IMSWebApi.Common
 {
     public class SendEmail
     {
 
-        public static string _smtpAddress = System.Configuration.ConfigurationSettings.AppSettings["SMTPHost"];
-        public static string _emailFrom = System.Configuration.ConfigurationSettings.AppSettings["SMTPUserName"];
-        public static string _password = System.Configuration.ConfigurationSettings.AppSettings["SMTPPassword"];
+        public static string _smtpAddress =ConfigurationManager.AppSettings["SMTPHost"];
+        public static string _emailFrom = ConfigurationManager.AppSettings["SMTPUserName"];
+        public static string _password = ConfigurationManager.AppSettings["SMTPPassword"];
 
         public void email(MstUser result,string fileName)
         {
