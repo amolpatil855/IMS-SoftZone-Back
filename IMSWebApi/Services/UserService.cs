@@ -14,9 +14,13 @@ namespace IMSWebApi.Services
         SendEmail Email = new SendEmail();
 
         public VMUser getLoggedInUserDetails(string username)
-        {
-            var result = repo.MstUsers.Where(p => p.userName == username).FirstOrDefault();
-            VMUser userView = Mapper.Map<MstUser, VMUser>(result);
+        { 
+            MstUser result = repo.MstUsers.Where(p => p.userName.Equals(username)).FirstOrDefault();
+            VMUser userView = new VMUser();
+            userView.id = result.id;
+            userView.userName = result.userName;
+            userView.email = result.email;
+            userView.MstRole = Mapper.Map<MstRole, VMRole>(result.MstRole);
             if (userView.MstRole != null)
             {
                 userView.MstRole.CFGRoleMenus = null;
@@ -30,6 +34,25 @@ namespace IMSWebApi.Services
             List<VMUser> userViews = Mapper.Map<List<MstUser>, List<VMUser>>(result);
             userViews.ForEach(d => d.MstRole.CFGRoleMenus = null);
             return userViews;
+        }
+
+        public List<string> getUserPermission(string username)
+        {
+            List<string> permissions = new List<string>();
+            var result = from u in repo.MstUsers
+                         join cfg in repo.CFGRoleMenus on u.roleId equals cfg.roleId
+                         join menu in repo.MstMenus on cfg.id equals menu.id
+                         where u.userName.Equals(username)
+                         select new
+                    {
+                        Menu = menu.menuName
+                    };
+
+            foreach (var item in result)
+            {
+                permissions.Add(item.Menu.Replace(" ", string.Empty).ToLower());
+            }
+            return permissions;
         }
 
         public List<VMUserType> getUserType()
@@ -52,13 +75,13 @@ namespace IMSWebApi.Services
 
         public long postUser(VMUser user)
         {
-           MstUser userToPost = Mapper.Map<VMUser,MstUser>(user);
-           userToPost.password = createRandomPassword(8);
-           userToPost.createdOn = DateTime.Now;
-           repo.MstUsers.Add(userToPost);
-           repo.SaveChanges();
-           sendEmail(userToPost.id,"RegisterUser");
-           return userToPost.id;
+            MstUser userToPost = Mapper.Map<VMUser, MstUser>(user);
+            userToPost.password = createRandomPassword(8);
+            userToPost.createdOn = DateTime.Now;
+            repo.MstUsers.Add(userToPost);
+            repo.SaveChanges();
+            sendEmail(userToPost.id, "RegisterUser");
+            return userToPost.id;
         }
 
         private static string createRandomPassword(int passwordLength)
@@ -77,10 +100,10 @@ namespace IMSWebApi.Services
 
         public long putUser(VMUser user)
         {
-            if (user!=null)
-            {   
-                var userToPut =  repo.MstUsers.Where(p => p.id == user.id).FirstOrDefault();
-                if (userToPut!=null)
+            if (user != null)
+            {
+                var userToPut = repo.MstUsers.Where(p => p.id == user.id).FirstOrDefault();
+                if (userToPut != null)
                 {
                     userToPut.userName = user.userName;
                     userToPut.roleId = user.roleId;
@@ -111,7 +134,7 @@ namespace IMSWebApi.Services
             {
                 return false;
             }
-            
+
         }
 
         public long changePassword(VMUser user)
@@ -133,9 +156,9 @@ namespace IMSWebApi.Services
 
         }
 
-        public void sendEmail(Int64 id,string fileName)
+        public void sendEmail(Int64 id, string fileName)
         {
-            var result = repo.MstUsers.Where(u=>u.id == id).FirstOrDefault();
+            var result = repo.MstUsers.Where(u => u.id == id).FirstOrDefault();
             Email.email(result, fileName);
         }
 

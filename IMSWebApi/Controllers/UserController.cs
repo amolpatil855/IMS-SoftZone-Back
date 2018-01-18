@@ -54,11 +54,20 @@ namespace IMSWebApi.Controllers
         [Route("api/User/GetLoggedInUserDetail")]
         public IHttpActionResult GetLoggedInUserDetail()
         {
-            var identity = (ClaimsIdentity)User.Identity;
-            var result = _userService.getLoggedInUserDetails(identity.Name);
+            var identity = User.Identity.Name;
+            var result = _userService.getLoggedInUserDetails(User.Identity.Name);
             return Ok(result);
         }
 
+        
+        [HttpGet]
+        [Route("api/User/getPermissions")]
+        public IHttpActionResult getPermissions()
+        {
+            var res = User.Identity.Name;
+            var result = _userService.getUserPermission(User.Identity.Name);
+            return Ok(result);
+        }
         // PUT api/User/5
         [HttpPut]
         public IHttpActionResult PutMstUser(VMUser mstuser)

@@ -9,6 +9,7 @@ using System.Web.Http;
 using IMSWebApi.Models;
 using IMSWebApi.Services;
 using IMSWebApi.ViewModel;
+using IMSWebApi.Enums;
 
 namespace IMSWebApi.Controllers
 {
@@ -35,10 +36,10 @@ namespace IMSWebApi.Controllers
             var result = _roleService.getRoleById(id);
             return Ok(result);
         }
-       
+
         [HttpGet]
-        [Route("api/{Role}/{getRoleMenu}/{id}")] 
-      //  [ActionName("getRoleMenu")]  
+        [Route("api/{Role}/{getRoleMenu}/{id}")]
+        //  [ActionName("getRoleMenu")]  
         public IHttpActionResult getRoleMenu(Int64 id)
         {
             return Ok(_roleService.getRoleMenu(id));
@@ -50,6 +51,16 @@ namespace IMSWebApi.Controllers
             return Ok(_roleService.insertRole(role));
         }
 
+        [HttpPut]
+        public IHttpActionResult updateRole(VMRole role)
+        {
+            return Ok(_roleService.updateRole(role));
+        }
 
+        [HttpDelete]
+        public IHttpActionResult deleRole(Int64 Id)
+        {
+            return Ok(_roleService.deleteRole(Id));
+        }
     }
 }
