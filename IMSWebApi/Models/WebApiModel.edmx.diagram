@@ -5,7 +5,6 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="879bac55b8584755be29a35693d619f3" Name="Diagram1" >
-        <EntityTypeShape EntityType="WebAPIdbModel.CFGRoleMenu" Width="1.5" PointX="3" PointY="4.75" />
         <EntityTypeShape EntityType="WebAPIdbModel.MstCompanyInfo" Width="1.5" PointX="5.75" PointY="10.125" />
         <EntityTypeShape EntityType="WebAPIdbModel.MstCustomer" Width="1.5" PointX="8.25" PointY="3.375" />
         <EntityTypeShape EntityType="WebAPIdbModel.MstCustomerAddressDetail" Width="1.5" PointX="10.5" PointY="4.5" />
@@ -15,13 +14,14 @@
         <EntityTypeShape EntityType="WebAPIdbModel.MstSupplierAddressDetail" Width="1.5" PointX="3" PointY="10.375" />
         <EntityTypeShape EntityType="WebAPIdbModel.MstUser" Width="1.5" PointX="6" PointY="4.125" />
         <EntityTypeShape EntityType="WebAPIdbModel.MstuserType" Width="1.5" PointX="3.75" PointY="1" />
-        <AssociationConnector Association="WebAPIdbModel.FK_CFGRoleMenu_MstMenu" />
-        <AssociationConnector Association="WebAPIdbModel.FK_CFGRoleMenu_MstRole" />
         <AssociationConnector Association="WebAPIdbModel.FK_MstCustomer_MstUser" />
         <AssociationConnector Association="WebAPIdbModel.FK_MstCustomerAddressDetails_MstCustomer" />
         <AssociationConnector Association="WebAPIdbModel.FK_MstUser_MstRole" />
         <AssociationConnector Association="WebAPIdbModel.FK_MstSupplierAddressDetails_MstSupplier" />
         <AssociationConnector Association="WebAPIdbModel.FK_MstUser_MstUserType" />
+        <EntityTypeShape EntityType="WebAPIdbModel.CFGRoleMenu" Width="1.5" PointX="3" PointY="4.75" />
+        <AssociationConnector Association="WebAPIdbModel.FK_CFGRoleMenu_MstMenu" />
+        <AssociationConnector Association="WebAPIdbModel.FK_CFGRoleMenu_MstRole" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
