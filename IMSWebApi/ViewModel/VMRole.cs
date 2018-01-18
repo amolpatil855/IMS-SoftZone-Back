@@ -12,7 +12,7 @@ namespace IMSWebApi.ViewModel
         public string roleName { get; set; }
         public string roleDescription { get; set; }
 
-        public virtual List<CFGRoleMenu> CFGRoleMenus { get; set; }
+        public virtual List<VMCFGRoleMenu> CFGRoleMenus { get; set; }
         //public virtual ICollection<MstUser> MstUsers { get; set; }
     }
 }

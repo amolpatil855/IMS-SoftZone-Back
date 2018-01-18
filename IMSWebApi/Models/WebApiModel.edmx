@@ -11,7 +11,7 @@
           </Key>
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="roleId" Type="bigint" Nullable="false" />
-          <Property Name="menuId" Type="bigint" />
+          <Property Name="menuId" Type="bigint" Nullable="false" />
           <Property Name="createdOn" Type="datetime" Nullable="false" />
           <Property Name="createdBy" Type="bigint" Nullable="false" />
           <Property Name="updatedOn" Type="datetime" />
@@ -171,7 +171,7 @@
           <Property Name="updatedBy" Type="bigint" />
         </EntityType>
         <Association Name="FK_CFGRoleMenu_MstMenu">
-          <End Role="MstMenu" Type="Self.MstMenu" Multiplicity="0..1" />
+          <End Role="MstMenu" Type="Self.MstMenu" Multiplicity="1" />
           <End Role="CFGRoleMenu" Type="Self.CFGRoleMenu" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="MstMenu">
@@ -299,7 +299,6 @@
     <edmx:ConceptualModels>
       <Schema Namespace="WebAPIdbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="WebAPIdbEntities" annotation:LazyLoadingEnabled="true" >
-          <EntitySet Name="CFGRoleMenus" EntityType="WebAPIdbModel.CFGRoleMenu" />
           <EntitySet Name="MstCompanyInfoes" EntityType="WebAPIdbModel.MstCompanyInfo" />
           <EntitySet Name="MstCustomers" EntityType="WebAPIdbModel.MstCustomer" />
           <EntitySet Name="MstCustomerAddressDetails" EntityType="WebAPIdbModel.MstCustomerAddressDetail" />
@@ -309,14 +308,6 @@
           <EntitySet Name="MstSupplierAddressDetails" EntityType="WebAPIdbModel.MstSupplierAddressDetail" />
           <EntitySet Name="MstUsers" EntityType="WebAPIdbModel.MstUser" />
           <EntitySet Name="MstuserTypes" EntityType="WebAPIdbModel.MstuserType" />
-          <AssociationSet Name="FK_CFGRoleMenu_MstMenu" Association="WebAPIdbModel.FK_CFGRoleMenu_MstMenu">
-            <End Role="MstMenu" EntitySet="MstMenus" />
-            <End Role="CFGRoleMenu" EntitySet="CFGRoleMenus" />
-          </AssociationSet>
-          <AssociationSet Name="FK_CFGRoleMenu_MstRole" Association="WebAPIdbModel.FK_CFGRoleMenu_MstRole">
-            <End Role="MstRole" EntitySet="MstRoles" />
-            <End Role="CFGRoleMenu" EntitySet="CFGRoleMenus" />
-          </AssociationSet>
           <AssociationSet Name="FK_MstCustomer_MstUser" Association="WebAPIdbModel.FK_MstCustomer_MstUser">
             <End Role="MstUser" EntitySet="MstUsers" />
             <End Role="MstCustomer" EntitySet="MstCustomers" />
@@ -337,21 +328,16 @@
             <End Role="MstuserType" EntitySet="MstuserTypes" />
             <End Role="MstUser" EntitySet="MstUsers" />
           </AssociationSet>
+          <EntitySet Name="CFGRoleMenus" EntityType="WebAPIdbModel.CFGRoleMenu" />
+          <AssociationSet Name="FK_CFGRoleMenu_MstMenu" Association="WebAPIdbModel.FK_CFGRoleMenu_MstMenu">
+            <End Role="MstMenu" EntitySet="MstMenus" />
+            <End Role="CFGRoleMenu" EntitySet="CFGRoleMenus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CFGRoleMenu_MstRole" Association="WebAPIdbModel.FK_CFGRoleMenu_MstRole">
+            <End Role="MstRole" EntitySet="MstRoles" />
+            <End Role="CFGRoleMenu" EntitySet="CFGRoleMenus" />
+          </AssociationSet>
         </EntityContainer>
-        <EntityType Name="CFGRoleMenu">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="roleId" Type="Int64" Nullable="false" />
-          <Property Name="menuId" Type="Int64" />
-          <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="createdBy" Type="Int64" Nullable="false" />
-          <Property Name="updatedOn" Type="DateTime" Precision="3" />
-          <Property Name="updatedBy" Type="Int64" />
-          <NavigationProperty Name="MstMenu" Relationship="WebAPIdbModel.FK_CFGRoleMenu_MstMenu" FromRole="CFGRoleMenu" ToRole="MstMenu" />
-          <NavigationProperty Name="MstRole" Relationship="WebAPIdbModel.FK_CFGRoleMenu_MstRole" FromRole="CFGRoleMenu" ToRole="MstRole" />
-        </EntityType>
         <EntityType Name="MstCompanyInfo">
           <Key>
             <PropertyRef Name="id" />
@@ -437,8 +423,8 @@
           <Property Name="createdBy" Type="Int64" Nullable="false" />
           <Property Name="updatedOn" Type="DateTime" Precision="3" />
           <Property Name="updatedBy" Type="Int64" />
-          <NavigationProperty Name="CFGRoleMenus" Relationship="WebAPIdbModel.FK_CFGRoleMenu_MstRole" FromRole="MstRole" ToRole="CFGRoleMenu" />
           <NavigationProperty Name="MstUsers" Relationship="WebAPIdbModel.FK_MstUser_MstRole" FromRole="MstRole" ToRole="MstUser" />
+          <NavigationProperty Name="CFGRoleMenus" Relationship="WebAPIdbModel.FK_CFGRoleMenu_MstRole" FromRole="MstRole" ToRole="CFGRoleMenu" />
         </EntityType>
         <EntityType Name="MstSupplier">
           <Key>
@@ -517,30 +503,6 @@
           <Property Name="updatedBy" Type="Int64" />
           <NavigationProperty Name="MstUsers" Relationship="WebAPIdbModel.FK_MstUser_MstUserType" FromRole="MstuserType" ToRole="MstUser" />
         </EntityType>
-        <Association Name="FK_CFGRoleMenu_MstMenu">
-          <End Type="WebAPIdbModel.MstMenu" Role="MstMenu" Multiplicity="0..1" />
-          <End Type="WebAPIdbModel.CFGRoleMenu" Role="CFGRoleMenu" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MstMenu">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="CFGRoleMenu">
-              <PropertyRef Name="menuId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_CFGRoleMenu_MstRole">
-          <End Type="WebAPIdbModel.MstRole" Role="MstRole" Multiplicity="1" />
-          <End Type="WebAPIdbModel.CFGRoleMenu" Role="CFGRoleMenu" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MstRole">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="CFGRoleMenu">
-              <PropertyRef Name="roleId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_MstCustomer_MstUser">
           <End Type="WebAPIdbModel.MstUser" Role="MstUser" Multiplicity="0..1" />
           <End Type="WebAPIdbModel.MstCustomer" Role="MstCustomer" Multiplicity="*" />
@@ -601,25 +563,50 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="CFGRoleMenu">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="roleId" Type="Int64" Nullable="false" />
+          <Property Name="menuId" Type="Int64" Nullable="false" />
+          <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="createdBy" Type="Int64" Nullable="false" />
+          <Property Name="updatedOn" Type="DateTime" Precision="3" />
+          <Property Name="updatedBy" Type="Int64" />
+          <NavigationProperty Name="MstMenu" Relationship="WebAPIdbModel.FK_CFGRoleMenu_MstMenu" FromRole="CFGRoleMenu" ToRole="MstMenu" />
+          <NavigationProperty Name="MstRole" Relationship="WebAPIdbModel.FK_CFGRoleMenu_MstRole" FromRole="CFGRoleMenu" ToRole="MstRole" />
+        </EntityType>
+        <Association Name="FK_CFGRoleMenu_MstMenu">
+          <End Type="WebAPIdbModel.MstMenu" Role="MstMenu" Multiplicity="1" />
+          <End Type="WebAPIdbModel.CFGRoleMenu" Role="CFGRoleMenu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstMenu">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="CFGRoleMenu">
+              <PropertyRef Name="menuId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CFGRoleMenu_MstRole">
+          <End Type="WebAPIdbModel.MstRole" Role="MstRole" Multiplicity="1" />
+          <End Type="WebAPIdbModel.CFGRoleMenu" Role="CFGRoleMenu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstRole">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="CFGRoleMenu">
+              <PropertyRef Name="roleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="WebAPIdbModelStoreContainer" CdmEntityContainer="WebAPIdbEntities" >
-          <EntitySetMapping Name="CFGRoleMenus">
-            <EntityTypeMapping TypeName="WebAPIdbModel.CFGRoleMenu">
-              <MappingFragment StoreEntitySet="CFGRoleMenu">
-                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
-                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
-                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
-                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
-                <ScalarProperty Name="menuId" ColumnName="menuId" />
-                <ScalarProperty Name="roleId" ColumnName="roleId" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="MstCompanyInfoes">
             <EntityTypeMapping TypeName="WebAPIdbModel.MstCompanyInfo">
               <MappingFragment StoreEntitySet="MstCompanyInfo">
@@ -778,6 +765,19 @@
                 <ScalarProperty Name="createdBy" ColumnName="createdBy" />
                 <ScalarProperty Name="createdOn" ColumnName="createdOn" />
                 <ScalarProperty Name="userTypeName" ColumnName="userTypeName" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CFGRoleMenus">
+            <EntityTypeMapping TypeName="WebAPIdbModel.CFGRoleMenu">
+              <MappingFragment StoreEntitySet="CFGRoleMenu">
+                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
+                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
+                <ScalarProperty Name="menuId" ColumnName="menuId" />
+                <ScalarProperty Name="roleId" ColumnName="roleId" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
