@@ -97,14 +97,7 @@ namespace IMSWebApi.Controllers
         public IHttpActionResult DeleteMstUser(long id)
         {   
             var result = _userService.deleteUser(id);
-            if (result)
-            {
-                return Ok();
-            }
-            else
-            {
-                return NotFound();
-            }
+            return Ok(result);
         }
         
         //Change Password for Current User
@@ -117,14 +110,8 @@ namespace IMSWebApi.Controllers
                 return BadRequest(ModelState);
             }
             var result = _userService.changePassword(user);
-            if (result!=0)
-            {
-                return Ok(result);
-            }
-            else
-            {
-                return NotFound();
-            }
+            return Ok(result);
+           
         }
     }
 }
