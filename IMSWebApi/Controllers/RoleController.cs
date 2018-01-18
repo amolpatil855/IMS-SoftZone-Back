@@ -24,9 +24,11 @@ namespace IMSWebApi.Controllers
 
         // POST api/Role/getRole
         [HttpGet]
-        public IHttpActionResult Get()
+        public IHttpActionResult Get(int pageSize=0, int page=0,string search=null)
         {
-            var result = _roleService.getRole();
+
+            var temp = User.Identity.GetUserId();
+            var result = _roleService.getRole(pageSize,page,search);
             return Ok(result);
         }
 

@@ -115,7 +115,7 @@
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
     </Reference>
     <Reference Include="ReusableEmailComponent">
-      <HintPath>C:\Users\Amol Patil\Downloads\ReusableEmailComponent.dll</HintPath>
+      <HintPath>..\WebApi\bin\ReusableEmailComponent.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -253,6 +253,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="AuthRepository.cs" />
+    <Compile Include="Common\ListResult.cs" />
     <Compile Include="Common\SendEmail.cs" />
     <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
@@ -270,10 +271,25 @@
     <Compile Include="Models\CFGRoleMenu.cs">
       <DependentUpon>WebApiModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\MstCompanyInfo.cs">
+      <DependentUpon>WebApiModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MstCustomer.cs">
+      <DependentUpon>WebApiModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MstCustomerAddressDetail.cs">
+      <DependentUpon>WebApiModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\MstMenu.cs">
       <DependentUpon>WebApiModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\MstRole.cs">
+      <DependentUpon>WebApiModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MstSupplier.cs">
+      <DependentUpon>WebApiModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MstSupplierAddressDetail.cs">
       <DependentUpon>WebApiModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\MstUser.cs">

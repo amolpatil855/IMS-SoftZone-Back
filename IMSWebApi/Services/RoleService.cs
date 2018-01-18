@@ -6,17 +6,41 @@ using System.Linq;
 using System.Web;
 using AutoMapper;
 using IMSWebApi.Enums;
+using IMSWebApi.Common;
+using Microsoft.AspNet.Identity;
 namespace IMSWebApi.Services
 {
     public class RoleService
     {
-        WebAPIdbEntities repo = new WebAPIdbEntities();
-        public List<VMRole> getRole()
+        Int64 _LoggedInuserId;
+
+        public RoleService()
         {
-            var result = repo.MstRoles.Where(p => !p.roleName.Equals("Administrator")).ToList();
-            List<VMRole> roleViews = Mapper.Map<List<MstRole>, List<VMRole>>(result);
+            _LoggedInuserId=Convert.ToInt64(HttpContext.Current.User.Identity.GetUserId());
+        }
+
+        WebAPIdbEntities repo = new WebAPIdbEntities();
+        public ListResult<VMRole> getRole(int pageSize, int page,string search)
+        {
+            List<VMRole> roleViews;
+            if (pageSize > 0)
+            {
+                var result = repo.MstRoles.Where(p => !p.roleName.Equals("Administrator") &&(!string.IsNullOrEmpty(search)? p.roleName.StartsWith(search):true)).OrderBy(p=>p.id).Skip(page * pageSize).Take(pageSize).ToList();
+                roleViews = Mapper.Map<List<MstRole>, List<VMRole>>(result);
+            }
+            else
+            {
+                var result = repo.MstRoles.Where(p => !p.roleName.Equals("Administrator")).ToList();
+                roleViews = Mapper.Map<List<MstRole>, List<VMRole>>(result);
+            }
+
             roleViews.ForEach(d => d.CFGRoleMenus = null);
-            return roleViews;
+            return new ListResult<VMRole>
+            {
+                Data = roleViews,
+                TotalCount = repo.MstRoles.Where(p => !p.roleName.Equals("Administrator") && (!string.IsNullOrEmpty(search) ? p.roleName.StartsWith(search) : true)).Count(),
+                Page = page
+            };
         }
 
         public VMRole getRoleById(Int64 id)
@@ -39,7 +63,7 @@ namespace IMSWebApi.Services
             MstRole roleObj = Mapper.Map<VMRole, MstRole>(role);
             List<CFGRoleMenu> lstCfg = roleObj.CFGRoleMenus.ToList();
             roleObj.createdOn = DateTime.Now;
-            roleObj.createdBy = 1;
+            roleObj.createdBy = _LoggedInuserId;
             roleObj.CFGRoleMenus = null;
             repo.MstRoles.Add(roleObj);
             repo.SaveChanges();
@@ -48,7 +72,7 @@ namespace IMSWebApi.Services
                 item.MstRole = null;
                 item.roleId = roleObj.id;
                 item.createdOn = DateTime.Now;
-                item.createdBy = 1;
+                item.createdBy = _LoggedInuserId;
                 repo.CFGRoleMenus.Add(item);
             }
             repo.SaveChanges();
@@ -75,7 +99,7 @@ namespace IMSWebApi.Services
                 item.MstRole = null;
                 item.roleId = role.id;
                 item.createdOn = DateTime.Now;
-                item.createdBy = 1;
+                item.createdBy = _LoggedInuserId;
                 repo.CFGRoleMenus.Add(item);
             }
             repo.SaveChanges();
@@ -87,7 +111,7 @@ namespace IMSWebApi.Services
             MstRole recordToRemove = repo.MstRoles.FirstOrDefault(p => p.id == roleId);
             if (recordToRemove.MstUsers.Count() > 0)
             {
-                return new ResponseMessage(roleId, "Role already assigned to other user. cannot be deleted",ResponseType.Error);
+                return new ResponseMessage(roleId, "Role already assigned to other user. cannot be deleted", ResponseType.Error);
             }
             repo.MstRoles.Remove(recordToRemove);
             var savedCfgRoleMenu = repo.CFGRoleMenus.Where(p => p.roleId == recordToRemove.id).ToList();
