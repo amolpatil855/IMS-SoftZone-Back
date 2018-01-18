@@ -21,6 +21,12 @@ namespace IMSWebApi.App_Start
             Mapper.CreateMap<MstUser, VMUser>();
             Mapper.CreateMap<VMUser, MstUser>();
             Mapper.CreateMap<MstuserType, VMUserType>();
+            Mapper.CreateMap<MstCompanyInfo, VMCompanyInfo>();
+            Mapper.CreateMap<VMCompanyInfo, MstCompanyInfo>();
+            Mapper.CreateMap<MstCustomer, VMCustomer>();
+            Mapper.CreateMap<VMCustomer, MstCustomer>();
+            Mapper.CreateMap<MstCustomerAddressDetail, VMCustomerAddressDetail>();
+            Mapper.CreateMap<VMCustomerAddressDetail, MstCustomerAddressDetail>();
         }
     }
 }
