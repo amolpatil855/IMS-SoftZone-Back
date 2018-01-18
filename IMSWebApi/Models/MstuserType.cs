@@ -24,7 +24,7 @@ namespace IMSWebApi.Models
         public System.DateTime createdOn { get; set; }
         public long createdBy { get; set; }
         public Nullable<System.DateTime> updatedOn { get; set; }
-        public Nullable<System.DateTime> updatedBy { get; set; }
+        public Nullable<long> updatedBy { get; set; }
     
         public virtual ICollection<MstUser> MstUsers { get; set; }
     }
