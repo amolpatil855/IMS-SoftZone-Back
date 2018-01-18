@@ -13,6 +13,17 @@ namespace IMSWebApi.Services
         WebAPIdbEntities repo = new WebAPIdbEntities();
         SendEmail Email = new SendEmail();
 
+        public VMUser getLoggedInUserDetails(string username)
+        {
+            var result = repo.MstUsers.Where(p => p.userName == username).FirstOrDefault();
+            VMUser userView = Mapper.Map<MstUser, VMUser>(result);
+            if (userView.MstRole != null)
+            {
+                userView.MstRole.CFGRoleMenus = null;
+            }
+            return userView;
+        }
+
         public List<VMUser> getUser()
         {
             var result = repo.MstUsers.ToList();
