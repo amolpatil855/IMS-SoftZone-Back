@@ -59,7 +59,7 @@ namespace IMSWebApi.Services
         public ResponseMessage updateRole(VMRole role)
         {
 
-            List<CFGRoleMenu> lstCfg = role.CFGRoleMenus.ToList();
+            List<CFGRoleMenu> lstCfg = Mapper.Map<List<VMCFGRoleMenu>, List<CFGRoleMenu>>(role.CFGRoleMenus);
             MstRole recordToUpdate = repo.MstRoles.FirstOrDefault(p => p.id == role.id);
             recordToUpdate.updatedOn = DateTime.Now;
             recordToUpdate.roleName = role.roleName;

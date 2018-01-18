@@ -260,6 +260,7 @@
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\SupplierController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="CustomAttributes\AuthorizeUserAttribute.cs" />
@@ -320,15 +321,18 @@
     <Compile Include="Services\CustomerService.cs" />
     <Compile Include="Services\MenuService.cs" />
     <Compile Include="Services\RoleService.cs" />
+    <Compile Include="Services\SupplierService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModel\ResponseMessage.cs" />
+    <Compile Include="ViewModel\VMSupplier.cs" />
     <Compile Include="ViewModel\VMCFGRoleMenu.cs" />
     <Compile Include="ViewModel\VMCompanyInfo.cs" />
     <Compile Include="ViewModel\VMCustomer.cs" />
     <Compile Include="ViewModel\VMCustomerAddressDetail.cs" />
     <Compile Include="ViewModel\VMMenu.cs" />
     <Compile Include="ViewModel\VMRole.cs" />
+    <Compile Include="ViewModel\VMSupplierAddressDetail.cs" />
     <Compile Include="ViewModel\VMUser.cs" />
     <Compile Include="ViewModel\VMUserType.cs" />
   </ItemGroup>
