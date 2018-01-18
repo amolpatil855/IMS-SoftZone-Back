@@ -11,6 +11,7 @@ using System.Web.Http.Description;
 using IMSWebApi.Models;
 using IMSWebApi.Services;
 using IMSWebApi.ViewModel;
+using System.Security.Claims;
 
 namespace IMSWebApi.Controllers
 {
@@ -39,11 +40,22 @@ namespace IMSWebApi.Controllers
             return Ok(result);
         }
 
+        // Get the type of User
         [HttpGet]
         [Route("api/User/GetUserType")]
         public IHttpActionResult GetUserType()
         {
             var result = _userService.getUserType();
+            return Ok(result);
+        }
+        
+        //Get Currently Logged In User Details
+        [HttpGet]
+        [Route("api/User/GetLoggedInUserDetail")]
+        public IHttpActionResult GetLoggedInUserDetail()
+        {
+            var identity = User.Identity.Name;
+            var result = _userService.getLoggedInUserDetails(User.Identity.Name);
             return Ok(result);
         }
 
@@ -94,7 +106,8 @@ namespace IMSWebApi.Controllers
                 return NotFound();
             }
         }
-
+        
+        //Change Password for Current User
         [HttpPut]
         [Route("api/User/ChangePassword")]
         public IHttpActionResult ChangePassword(VMUser user)
