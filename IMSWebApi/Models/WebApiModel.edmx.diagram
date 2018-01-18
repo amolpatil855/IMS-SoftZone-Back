@@ -14,6 +14,14 @@
         <AssociationConnector Association="WebAPIdbModel.FK_CFGRoleMenu_MstRole" />
         <AssociationConnector Association="WebAPIdbModel.FK_MstUser_MstRole" />
         <AssociationConnector Association="WebAPIdbModel.FK_MstUser_MstUserType" />
+        <EntityTypeShape EntityType="WebAPIdbModel.MstCustomer" Width="1.5" PointX="11.25" PointY="3.5" />
+        <EntityTypeShape EntityType="WebAPIdbModel.MstCustomerAddressDetail" Width="1.5" PointX="13.5" PointY="4.5" />
+        <EntityTypeShape EntityType="WebAPIdbModel.MstSupplier" Width="1.5" PointX="0.75" PointY="9.125" />
+        <EntityTypeShape EntityType="WebAPIdbModel.MstSupplierAddressDetail" Width="1.5" PointX="3" PointY="10" />
+        <AssociationConnector Association="WebAPIdbModel.FK_MstCustomer_MstUser" />
+        <AssociationConnector Association="WebAPIdbModel.FK_MstCustomerAddressDetails_MstCustomer" />
+        <AssociationConnector Association="WebAPIdbModel.FK_MstSupplierAddressDetails_MstSupplier" />
+        <EntityTypeShape EntityType="WebAPIdbModel.MstCompanyInfo" Width="1.5" PointX="0.75" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
