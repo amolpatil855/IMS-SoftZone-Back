@@ -16,11 +16,11 @@ namespace IMSWebApi.Models
     {
         public long id { get; set; }
         public long roleId { get; set; }
-        public Nullable<long> menuId { get; set; }
+        public long menuId { get; set; }
         public System.DateTime createdOn { get; set; }
         public long createdBy { get; set; }
         public Nullable<System.DateTime> updatedOn { get; set; }
-        public Nullable<System.DateTime> updatedBy { get; set; }
+        public Nullable<long> updatedBy { get; set; }
     
         public virtual MstMenu MstMenu { get; set; }
         public virtual MstRole MstRole { get; set; }

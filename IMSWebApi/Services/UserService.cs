@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using IMSWebApi.Common;
+using IMSWebApi.Enums;
 using IMSWebApi.Models;
 using IMSWebApi.ViewModel;
 using System;
@@ -73,7 +74,7 @@ namespace IMSWebApi.Services
             return userView;
         }
 
-        public long postUser(VMUser user)
+        public ResponseMessage postUser(VMUser user)
         {
             MstUser userToPost = Mapper.Map<VMUser, MstUser>(user);
             userToPost.password = createRandomPassword(8);
@@ -81,7 +82,7 @@ namespace IMSWebApi.Services
             repo.MstUsers.Add(userToPost);
             repo.SaveChanges();
             sendEmail(userToPost.id, "RegisterUser");
-            return userToPost.id;
+            return new ResponseMessage(userToPost.id, "User Added Successfully", ResponseType.Success);
         }
 
         private static string createRandomPassword(int passwordLength)
@@ -89,71 +90,53 @@ namespace IMSWebApi.Services
             string allowedChars = "abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ0123456789!@$?_-";
             char[] chars = new char[passwordLength];
             Random rd = new Random();
-
             for (int i = 0; i < passwordLength; i++)
             {
                 chars[i] = allowedChars[rd.Next(0, allowedChars.Length)];
             }
-
             return new string(chars);
         }
 
-        public long putUser(VMUser user)
+        public ResponseMessage putUser(VMUser user)
         {
-            if (user != null)
-            {
-                var userToPut = repo.MstUsers.Where(p => p.id == user.id).FirstOrDefault();
-                if (userToPut != null)
-                {
-                    userToPut.userName = user.userName;
-                    userToPut.roleId = user.roleId;
-                    userToPut.userTypeId = user.userTypeId;
-                    userToPut.email = user.email;
-                    userToPut.phone = user.phone;
-                    userToPut.updatedOn = DateTime.Now;
-                    repo.SaveChanges();
-                    return userToPut.id;
-                }
-                else
-                    return 0;
-            }
-            else
-                return 0;
+            var userToPut = repo.MstUsers.Where(p => p.id == user.id).FirstOrDefault();
+            userToPut.userName = user.userName;
+            userToPut.roleId = user.roleId;
+            userToPut.userTypeId = user.userTypeId;
+            userToPut.email = user.email;
+            userToPut.phone = user.phone;
+            userToPut.updatedOn = DateTime.Now;
+            repo.SaveChanges();
+            return new ResponseMessage(userToPut.id, "User Details Updated Successfully", ResponseType.Success);
         }
 
-        public bool deleteUser(Int64 id)
+        public ResponseMessage deleteUser(Int64 id)
         {
             MstUser mstuser = repo.MstUsers.Find(id);
             if (mstuser != null)
             {
                 repo.MstUsers.Remove(mstuser);
                 repo.SaveChanges();
-                return true;
+                return new ResponseMessage(id, "User Deleted Successfully", ResponseType.Success);
             }
             else
             {
-                return false;
+                return new ResponseMessage(id, "User Does not exist", ResponseType.Error);
             }
 
         }
 
-        public long changePassword(VMUser user)
-        {
-            if (user.id != null)
-            {
+        public ResponseMessage changePassword(VMUser user)
+        {  
                 var userToPut = repo.MstUsers.Where(p => p.id == user.id && p.password == user.oldPassword).FirstOrDefault();
                 if (userToPut != null)
                 {
                     userToPut.password = user.password;
                     repo.SaveChanges();
-                    return userToPut.id;
+                    return new ResponseMessage(userToPut.id, "Password Updated Successfully", ResponseType.Success);
                 }
                 else
-                    return 0;
-            }
-            else
-                return 0;
-
+                    return new ResponseMessage(user.id, "Old Password didn't Matched", ResponseType.Error);
         }
 
         public void sendEmail(Int64 id, string fileName)
