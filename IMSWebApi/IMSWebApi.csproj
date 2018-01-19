@@ -255,6 +255,7 @@
     <Compile Include="AuthRepository.cs" />
     <Compile Include="Common\ListResult.cs" />
     <Compile Include="Common\SendEmail.cs" />
+    <Compile Include="Controllers\CollectionController.cs" />
     <Compile Include="Controllers\CompanyInfoController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\MenuController.cs" />

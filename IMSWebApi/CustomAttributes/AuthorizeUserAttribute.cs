@@ -10,6 +10,7 @@ using System.Web.Http.Controllers;
 using System.Web.Security;
 using System.Linq;
 using System.Security.Claims;
+using IMSWebApi.Services;
 
 namespace IMSWebApi.CustomAttributes
 {
@@ -25,16 +26,9 @@ namespace IMSWebApi.CustomAttributes
         }
         protected override bool IsAuthorized(HttpActionContext actionContext)
         {
-            List<string> permissionSet = new List<string>();
-            var roles = ((ClaimsIdentity)HttpContext.Current.User.Identity).Claims
-                .Where(c => c.Type == ClaimTypes.Role)
-                .Select(c => c.Value);
-            if (roles.Contains("admin"))
-            {
-                permissionSet.Add("All");
-            }
-
-
+            string userName = HttpContext.Current.User.Identity.Name;
+            UserService _userService = new UserService();
+            List<string> permissionSet = _userService.getUserPermission(userName);
             if (!permissionSet.Contains(AccessLevel) && !string.IsNullOrWhiteSpace(AccessLevel))
             {
                // throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.Unauthorized));
