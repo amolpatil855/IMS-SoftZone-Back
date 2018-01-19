@@ -28,6 +28,10 @@
         <EntityTypeShape EntityType="WebAPIdbModel.MstUnitOfMeasure" Width="1.5" PointX="10.375" PointY="0.75" />
         <AssociationConnector Association="WebAPIdbModel.FK_MstCollection_MstCategory" />
         <AssociationConnector Association="WebAPIdbModel.FK_MstCollection_MstSupplier" />
+        <EntityTypeShape EntityType="WebAPIdbModel.MstQuality" Width="1.5" PointX="10.625" PointY="11.375" />
+        <AssociationConnector Association="WebAPIdbModel.FK_MstQuality_MstCategory" />
+        <AssociationConnector Association="WebAPIdbModel.FK_MstQuality_MstCollection" />
+        <AssociationConnector Association="WebAPIdbModel.FK_MstQuality_MstHsn" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

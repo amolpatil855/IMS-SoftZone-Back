@@ -14,6 +14,11 @@ namespace IMSWebApi.Models
     
     public partial class MstHsn
     {
+        public MstHsn()
+        {
+            this.MstQualities = new HashSet<MstQuality>();
+        }
+    
         public long id { get; set; }
         public string hsnCode { get; set; }
         public Nullable<int> gst { get; set; }
@@ -21,5 +26,7 @@ namespace IMSWebApi.Models
         public long createdBy { get; set; }
         public Nullable<System.DateTime> updatedOn { get; set; }
         public Nullable<long> updatedBy { get; set; }
+    
+        public virtual ICollection<MstQuality> MstQualities { get; set; }
     }
 }

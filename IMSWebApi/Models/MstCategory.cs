@@ -17,6 +17,7 @@ namespace IMSWebApi.Models
         public MstCategory()
         {
             this.MstCollections = new HashSet<MstCollection>();
+            this.MstQualities = new HashSet<MstQuality>();
         }
     
         public long id { get; set; }
@@ -28,5 +29,6 @@ namespace IMSWebApi.Models
         public Nullable<long> updatedBy { get; set; }
     
         public virtual ICollection<MstCollection> MstCollections { get; set; }
+        public virtual ICollection<MstQuality> MstQualities { get; set; }
     }
 }
