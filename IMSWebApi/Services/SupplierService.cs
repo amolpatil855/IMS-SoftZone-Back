@@ -6,11 +6,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Microsoft.AspNet.Identity;
 namespace IMSWebApi.Services
 {
     public class SupplierService
     {
         WebAPIdbEntities repo = new WebAPIdbEntities();
+        Int64 _LoggedInuserId;
+        public SupplierService()
+        {
+            _LoggedInuserId = Convert.ToInt64(HttpContext.Current.User.Identity.GetUserId());
+        }
 
         public List<VMSupplier>getSupplier()
         {
@@ -34,26 +40,33 @@ namespace IMSWebApi.Services
         public ResponseMessage postSupplier(VMSupplier supplier)
         {
             MstSupplier supplierToPost = Mapper.Map<VMSupplier, MstSupplier>(supplier);
-            supplierToPost.MstSupplierAddressDetails = null;
+            var supplierAddresses = supplierToPost.MstSupplierAddressDetails.ToList();
+            foreach(var saddress in supplierAddresses)
+            {
+                saddress.createdOn = DateTime.Now;
+                saddress.createdBy = _LoggedInuserId;
+            }
             supplierToPost.createdOn = DateTime.Now;
+            supplierToPost.createdBy = _LoggedInuserId;
+            
             repo.MstSuppliers.Add(supplierToPost);
             repo.SaveChanges();
 
-            List<MstSupplierAddressDetail> supplierAddresDetailsToPost = Mapper.Map<List<VMSupplierAddressDetail>, List<MstSupplierAddressDetail>>(supplier.SupplierAddressDetails);
-            foreach(var supplierAddresDetail in supplierAddresDetailsToPost )
-            {
-                supplierAddresDetail.supplierId = supplierToPost.id;
-                supplierAddresDetail.createdOn = DateTime.Now;
-                repo.MstSupplierAddressDetails.Add(supplierAddresDetail);
-            }
-            repo.SaveChanges();
+            //List<MstSupplierAddressDetail> supplierAddresDetailsToPost = Mapper.Map<List<VMSupplierAddressDetail>, List<MstSupplierAddressDetail>>(supplier.SupplierAddressDetails);
+            //foreach(var supplierAddresDetail in supplierAddresDetailsToPost )
+            //{
+            //    supplierAddresDetail.supplierId = supplierToPost.id;
+            //    supplierAddresDetail.createdOn = DateTime.Now;
+            //    repo.MstSupplierAddressDetails.Add(supplierAddresDetail);
+            //}
+            //repo.SaveChanges();
             return new ResponseMessage(supplierToPost.id, "Supplier Added Successfully", ResponseType.Success);
 
         }
 
         public ResponseMessage putSupplier(VMSupplier supplier)
         {
-            var supplierAddressDetails = Mapper.Map<List<VMSupplierAddressDetail>, List<MstSupplierAddressDetail>>(supplier.SupplierAddressDetails);
+            var supplierAddressDetails = Mapper.Map<List<VMSupplierAddressDetail>, List<MstSupplierAddressDetail>>(supplier.MstSupplierAddressDetails);
             repo.MstSupplierAddressDetails.RemoveRange(repo.MstSupplierAddressDetails.Where(s => s.supplierId == supplier.id));
             repo.SaveChanges();
 
@@ -75,11 +88,13 @@ namespace IMSWebApi.Services
             supplierToPut.dispatchPersonEmail = supplier.dispatchPersonEmail;
             supplierToPut.dispatchPersonPhone = supplier.dispatchPersonPhone;
             supplierToPut.updatedOn = DateTime.Now;
+            supplierToPut.updatedBy = _LoggedInuserId;
             repo.SaveChanges();
 
             foreach(var supplierAddressDetail in supplierAddressDetails)
             {
-                supplierAddressDetail.updatedOn = DateTime.Now;
+                supplierAddressDetail.createdOn = DateTime.Now;
+                supplierAddressDetail.createdBy = _LoggedInuserId;
                 repo.MstSupplierAddressDetails.Add(supplierAddressDetail);
             }
             repo.SaveChanges();

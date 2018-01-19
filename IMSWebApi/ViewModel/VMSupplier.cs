@@ -25,6 +25,8 @@ namespace IMSWebApi.ViewModel
         public string dispatchPersonEmail { get; set; }
         public string dispatchPersonPhone { get; set; }
 
+
+
         public virtual List<VMSupplierAddressDetail> MstSupplierAddressDetails { get; set; }
     }
 }
