@@ -258,6 +258,7 @@
     <Compile Include="Controllers\CollectionController.cs" />
     <Compile Include="Controllers\CompanyInfoController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
+    <Compile Include="Controllers\DesignController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -346,6 +347,7 @@
     <Compile Include="Services\CollectionService.cs" />
     <Compile Include="Services\CompanyInfoService.cs" />
     <Compile Include="Services\CustomerService.cs" />
+    <Compile Include="Services\DesignService.cs" />
     <Compile Include="Services\MenuService.cs" />
     <Compile Include="Services\RoleService.cs" />
     <Compile Include="Services\SupplierService.cs" />
@@ -354,6 +356,7 @@
     <Compile Include="ViewModel\ResponseMessage.cs" />
     <Compile Include="ViewModel\VMCategory.cs" />
     <Compile Include="ViewModel\VMCollection.cs" />
+    <Compile Include="ViewModel\VMDesign.cs" />
     <Compile Include="ViewModel\VMLookUpItem.cs" />
     <Compile Include="ViewModel\VMSupplier.cs" />
     <Compile Include="ViewModel\VMCFGRoleMenu.cs" />
