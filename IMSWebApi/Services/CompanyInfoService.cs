@@ -13,11 +13,11 @@ namespace IMSWebApi.Services
     {
         WebAPIdbEntities repo = new WebAPIdbEntities();
 
-        public List<VMCompanyInfo> getCompanyInfo()
+        public VMCompanyInfo getCompanyInfo()
         {
-            var result = repo.MstCompanyInfoes.ToList();
-            List<VMCompanyInfo> companyInfoViews = Mapper.Map<List<MstCompanyInfo>, List<VMCompanyInfo>>(result);
-            return companyInfoViews;
+            var result = repo.MstCompanyInfoes.FirstOrDefault();
+            VMCompanyInfo companyInfoView = Mapper.Map<MstCompanyInfo, VMCompanyInfo>(result);
+            return companyInfoView;
         }
 
         public VMCompanyInfo getCompanyInfoById(Int64 id)
