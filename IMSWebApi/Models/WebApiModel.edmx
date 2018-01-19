@@ -102,6 +102,22 @@
           <Property Name="updatedOn" Type="datetime" />
           <Property Name="updatedBy" Type="bigint" />
         </EntityType>
+        <EntityType Name="MstDesign">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="categoryId" Type="bigint" Nullable="false" />
+          <Property Name="collectionId" Type="bigint" Nullable="false" />
+          <Property Name="qualityId" Type="bigint" Nullable="false" />
+          <Property Name="designCode" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="designName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="description" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="createdOn" Type="datetime" Nullable="false" />
+          <Property Name="createdBy" Type="bigint" Nullable="false" />
+          <Property Name="updatedOn" Type="datetime" />
+          <Property Name="updatedBy" Type="bigint" />
+        </EntityType>
         <EntityType Name="MstHsn">
           <Key>
             <PropertyRef Name="id" />
@@ -160,6 +176,24 @@
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="roleName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="roleDescription" Type="nvarchar" MaxLength="100" />
+          <Property Name="createdOn" Type="datetime" Nullable="false" />
+          <Property Name="createdBy" Type="bigint" Nullable="false" />
+          <Property Name="updatedOn" Type="datetime" />
+          <Property Name="updatedBy" Type="bigint" />
+        </EntityType>
+        <EntityType Name="MstShade">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="categoryId" Type="bigint" Nullable="false" />
+          <Property Name="collectionId" Type="bigint" Nullable="false" />
+          <Property Name="qualityId" Type="bigint" Nullable="false" />
+          <Property Name="designId" Type="bigint" Nullable="false" />
+          <Property Name="shadeCode" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="shadeName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="serialNumber" Type="int" Nullable="false" />
+          <Property Name="description" Type="varchar" MaxLength="500" />
           <Property Name="createdOn" Type="datetime" Nullable="false" />
           <Property Name="createdBy" Type="bigint" Nullable="false" />
           <Property Name="updatedOn" Type="datetime" />
@@ -248,6 +282,16 @@
           <Property Name="updatedOn" Type="datetime" />
           <Property Name="updatedBy" Type="bigint" />
         </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
         <Association Name="FK_CFGRoleMenu_MstMenu">
           <End Role="MstMenu" Type="Self.MstMenu" Multiplicity="1" />
           <End Role="CFGRoleMenu" Type="Self.CFGRoleMenu" Multiplicity="*" />
@@ -320,6 +364,42 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_MstDesign_MstCategory">
+          <End Role="MstCategory" Type="Self.MstCategory" Multiplicity="1" />
+          <End Role="MstDesign" Type="Self.MstDesign" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstCategory">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MstDesign">
+              <PropertyRef Name="categoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MstDesign_MstCollection">
+          <End Role="MstCollection" Type="Self.MstCollection" Multiplicity="1" />
+          <End Role="MstDesign" Type="Self.MstDesign" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstCollection">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MstDesign">
+              <PropertyRef Name="collectionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MstDesign_MstQuality">
+          <End Role="MstQuality" Type="Self.MstQuality" Multiplicity="1" />
+          <End Role="MstDesign" Type="Self.MstDesign" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstQuality">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MstDesign">
+              <PropertyRef Name="qualityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_MstQuality_MstCategory">
           <End Role="MstCategory" Type="Self.MstCategory" Multiplicity="1" />
           <End Role="MstQuality" Type="Self.MstQuality" Multiplicity="*" />
@@ -353,6 +433,54 @@
             </Principal>
             <Dependent Role="MstQuality">
               <PropertyRef Name="hsnId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MstShade_MstCategory">
+          <End Role="MstCategory" Type="Self.MstCategory" Multiplicity="1" />
+          <End Role="MstShade" Type="Self.MstShade" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstCategory">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MstShade">
+              <PropertyRef Name="categoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MstShade_MstCollection">
+          <End Role="MstCollection" Type="Self.MstCollection" Multiplicity="1" />
+          <End Role="MstShade" Type="Self.MstShade" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstCollection">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MstShade">
+              <PropertyRef Name="collectionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MstShade_MstDesign">
+          <End Role="MstDesign" Type="Self.MstDesign" Multiplicity="1" />
+          <End Role="MstShade" Type="Self.MstShade" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstDesign">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MstShade">
+              <PropertyRef Name="designId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MstShade_MstQuality">
+          <End Role="MstQuality" Type="Self.MstQuality" Multiplicity="1" />
+          <End Role="MstShade" Type="Self.MstShade" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstQuality">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MstShade">
+              <PropertyRef Name="qualityId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -399,15 +527,18 @@
           <EntitySet Name="MstCompanyInfo" EntityType="Self.MstCompanyInfo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MstCustomer" EntityType="Self.MstCustomer" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MstCustomerAddressDetails" EntityType="Self.MstCustomerAddressDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MstDesign" EntityType="Self.MstDesign" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MstHsn" EntityType="Self.MstHsn" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MstMenu" EntityType="Self.MstMenu" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MstQuality" EntityType="Self.MstQuality" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MstRole" EntityType="Self.MstRole" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MstShade" EntityType="Self.MstShade" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MstSupplier" EntityType="Self.MstSupplier" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MstSupplierAddressDetails" EntityType="Self.MstSupplierAddressDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MstUnitOfMeasure" EntityType="Self.MstUnitOfMeasure" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MstUser" EntityType="Self.MstUser" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MstuserType" EntityType="Self.MstuserType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_CFGRoleMenu_MstMenu" Association="Self.FK_CFGRoleMenu_MstMenu">
             <End Role="MstMenu" EntitySet="MstMenu" />
             <End Role="CFGRoleMenu" EntitySet="CFGRoleMenu" />
@@ -432,6 +563,18 @@
             <End Role="MstCustomer" EntitySet="MstCustomer" />
             <End Role="MstCustomerAddressDetails" EntitySet="MstCustomerAddressDetails" />
           </AssociationSet>
+          <AssociationSet Name="FK_MstDesign_MstCategory" Association="Self.FK_MstDesign_MstCategory">
+            <End Role="MstCategory" EntitySet="MstCategory" />
+            <End Role="MstDesign" EntitySet="MstDesign" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MstDesign_MstCollection" Association="Self.FK_MstDesign_MstCollection">
+            <End Role="MstCollection" EntitySet="MstCollection" />
+            <End Role="MstDesign" EntitySet="MstDesign" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MstDesign_MstQuality" Association="Self.FK_MstDesign_MstQuality">
+            <End Role="MstQuality" EntitySet="MstQuality" />
+            <End Role="MstDesign" EntitySet="MstDesign" />
+          </AssociationSet>
           <AssociationSet Name="FK_MstQuality_MstCategory" Association="Self.FK_MstQuality_MstCategory">
             <End Role="MstCategory" EntitySet="MstCategory" />
             <End Role="MstQuality" EntitySet="MstQuality" />
@@ -443,6 +586,22 @@
           <AssociationSet Name="FK_MstQuality_MstHsn" Association="Self.FK_MstQuality_MstHsn">
             <End Role="MstHsn" EntitySet="MstHsn" />
             <End Role="MstQuality" EntitySet="MstQuality" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MstShade_MstCategory" Association="Self.FK_MstShade_MstCategory">
+            <End Role="MstCategory" EntitySet="MstCategory" />
+            <End Role="MstShade" EntitySet="MstShade" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MstShade_MstCollection" Association="Self.FK_MstShade_MstCollection">
+            <End Role="MstCollection" EntitySet="MstCollection" />
+            <End Role="MstShade" EntitySet="MstShade" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MstShade_MstDesign" Association="Self.FK_MstShade_MstDesign">
+            <End Role="MstDesign" EntitySet="MstDesign" />
+            <End Role="MstShade" EntitySet="MstShade" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MstShade_MstQuality" Association="Self.FK_MstShade_MstQuality">
+            <End Role="MstQuality" EntitySet="MstQuality" />
+            <End Role="MstShade" EntitySet="MstShade" />
           </AssociationSet>
           <AssociationSet Name="FK_MstSupplierAddressDetails_MstSupplier" Association="Self.FK_MstSupplierAddressDetails_MstSupplier">
             <End Role="MstSupplier" EntitySet="MstSupplier" />
@@ -524,6 +683,37 @@
           <AssociationSet Name="FK_MstQuality_MstHsn" Association="WebAPIdbModel.FK_MstQuality_MstHsn">
             <End Role="MstHsn" EntitySet="MstHsns" />
             <End Role="MstQuality" EntitySet="MstQualities" />
+          </AssociationSet>
+          <EntitySet Name="MstDesigns" EntityType="WebAPIdbModel.MstDesign" />
+          <EntitySet Name="MstShades" EntityType="WebAPIdbModel.MstShade" />
+          <EntitySet Name="sysdiagrams" EntityType="WebAPIdbModel.sysdiagram" />
+          <AssociationSet Name="FK_MstDesign_MstCategory" Association="WebAPIdbModel.FK_MstDesign_MstCategory">
+            <End Role="MstCategory" EntitySet="MstCategories" />
+            <End Role="MstDesign" EntitySet="MstDesigns" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MstShade_MstCategory" Association="WebAPIdbModel.FK_MstShade_MstCategory">
+            <End Role="MstCategory" EntitySet="MstCategories" />
+            <End Role="MstShade" EntitySet="MstShades" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MstDesign_MstCollection" Association="WebAPIdbModel.FK_MstDesign_MstCollection">
+            <End Role="MstCollection" EntitySet="MstCollections" />
+            <End Role="MstDesign" EntitySet="MstDesigns" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MstShade_MstCollection" Association="WebAPIdbModel.FK_MstShade_MstCollection">
+            <End Role="MstCollection" EntitySet="MstCollections" />
+            <End Role="MstShade" EntitySet="MstShades" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MstDesign_MstQuality" Association="WebAPIdbModel.FK_MstDesign_MstQuality">
+            <End Role="MstQuality" EntitySet="MstQualities" />
+            <End Role="MstDesign" EntitySet="MstDesigns" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MstShade_MstDesign" Association="WebAPIdbModel.FK_MstShade_MstDesign">
+            <End Role="MstDesign" EntitySet="MstDesigns" />
+            <End Role="MstShade" EntitySet="MstShades" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MstShade_MstQuality" Association="WebAPIdbModel.FK_MstShade_MstQuality">
+            <End Role="MstQuality" EntitySet="MstQualities" />
+            <End Role="MstShade" EntitySet="MstShades" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="MstCompanyInfo">
@@ -803,6 +993,8 @@
           <Property Name="updatedBy" Type="Int64" />
           <NavigationProperty Name="MstCollections" Relationship="WebAPIdbModel.FK_MstCollection_MstCategory" FromRole="MstCategory" ToRole="MstCollection" />
           <NavigationProperty Name="MstQualities" Relationship="WebAPIdbModel.FK_MstQuality_MstCategory" FromRole="MstCategory" ToRole="MstQuality" />
+          <NavigationProperty Name="MstDesigns" Relationship="WebAPIdbModel.FK_MstDesign_MstCategory" FromRole="MstCategory" ToRole="MstDesign" />
+          <NavigationProperty Name="MstShades" Relationship="WebAPIdbModel.FK_MstShade_MstCategory" FromRole="MstCategory" ToRole="MstShade" />
         </EntityType>
         <EntityType Name="MstCollection">
           <Key>
@@ -822,6 +1014,8 @@
           <NavigationProperty Name="MstCategory" Relationship="WebAPIdbModel.FK_MstCollection_MstCategory" FromRole="MstCollection" ToRole="MstCategory" />
           <NavigationProperty Name="MstSupplier" Relationship="WebAPIdbModel.FK_MstCollection_MstSupplier" FromRole="MstCollection" ToRole="MstSupplier" />
           <NavigationProperty Name="MstQualities" Relationship="WebAPIdbModel.FK_MstQuality_MstCollection" FromRole="MstCollection" ToRole="MstQuality" />
+          <NavigationProperty Name="MstDesigns" Relationship="WebAPIdbModel.FK_MstDesign_MstCollection" FromRole="MstCollection" ToRole="MstDesign" />
+          <NavigationProperty Name="MstShades" Relationship="WebAPIdbModel.FK_MstShade_MstCollection" FromRole="MstCollection" ToRole="MstShade" />
         </EntityType>
         <EntityType Name="MstHsn">
           <Key>
@@ -900,6 +1094,8 @@
           <NavigationProperty Name="MstCategory" Relationship="WebAPIdbModel.FK_MstQuality_MstCategory" FromRole="MstQuality" ToRole="MstCategory" />
           <NavigationProperty Name="MstCollection" Relationship="WebAPIdbModel.FK_MstQuality_MstCollection" FromRole="MstQuality" ToRole="MstCollection" />
           <NavigationProperty Name="MstHsn" Relationship="WebAPIdbModel.FK_MstQuality_MstHsn" FromRole="MstQuality" ToRole="MstHsn" />
+          <NavigationProperty Name="MstDesigns" Relationship="WebAPIdbModel.FK_MstDesign_MstQuality" FromRole="MstQuality" ToRole="MstDesign" />
+          <NavigationProperty Name="MstShades" Relationship="WebAPIdbModel.FK_MstShade_MstQuality" FromRole="MstQuality" ToRole="MstShade" />
         </EntityType>
         <Association Name="FK_MstQuality_MstCategory">
           <End Type="WebAPIdbModel.MstCategory" Role="MstCategory" Multiplicity="1" />
@@ -934,6 +1130,142 @@
             </Principal>
             <Dependent Role="MstQuality">
               <PropertyRef Name="hsnId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="MstDesign">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="categoryId" Type="Int64" Nullable="false" />
+          <Property Name="collectionId" Type="Int64" Nullable="false" />
+          <Property Name="qualityId" Type="Int64" Nullable="false" />
+          <Property Name="designCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="designName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="description" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="createdBy" Type="Int64" Nullable="false" />
+          <Property Name="updatedOn" Type="DateTime" Precision="3" />
+          <Property Name="updatedBy" Type="Int64" />
+          <NavigationProperty Name="MstCategory" Relationship="WebAPIdbModel.FK_MstDesign_MstCategory" FromRole="MstDesign" ToRole="MstCategory" />
+          <NavigationProperty Name="MstCollection" Relationship="WebAPIdbModel.FK_MstDesign_MstCollection" FromRole="MstDesign" ToRole="MstCollection" />
+          <NavigationProperty Name="MstQuality" Relationship="WebAPIdbModel.FK_MstDesign_MstQuality" FromRole="MstDesign" ToRole="MstQuality" />
+          <NavigationProperty Name="MstShades" Relationship="WebAPIdbModel.FK_MstShade_MstDesign" FromRole="MstDesign" ToRole="MstShade" />
+        </EntityType>
+        <EntityType Name="MstShade">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="categoryId" Type="Int64" Nullable="false" />
+          <Property Name="collectionId" Type="Int64" Nullable="false" />
+          <Property Name="qualityId" Type="Int64" Nullable="false" />
+          <Property Name="designId" Type="Int64" Nullable="false" />
+          <Property Name="shadeCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="shadeName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="serialNumber" Type="Int32" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="createdBy" Type="Int64" Nullable="false" />
+          <Property Name="updatedOn" Type="DateTime" Precision="3" />
+          <Property Name="updatedBy" Type="Int64" />
+          <NavigationProperty Name="MstCategory" Relationship="WebAPIdbModel.FK_MstShade_MstCategory" FromRole="MstShade" ToRole="MstCategory" />
+          <NavigationProperty Name="MstCollection" Relationship="WebAPIdbModel.FK_MstShade_MstCollection" FromRole="MstShade" ToRole="MstCollection" />
+          <NavigationProperty Name="MstDesign" Relationship="WebAPIdbModel.FK_MstShade_MstDesign" FromRole="MstShade" ToRole="MstDesign" />
+          <NavigationProperty Name="MstQuality" Relationship="WebAPIdbModel.FK_MstShade_MstQuality" FromRole="MstShade" ToRole="MstQuality" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <Association Name="FK_MstDesign_MstCategory">
+          <End Type="WebAPIdbModel.MstCategory" Role="MstCategory" Multiplicity="1" />
+          <End Type="WebAPIdbModel.MstDesign" Role="MstDesign" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstCategory">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MstDesign">
+              <PropertyRef Name="categoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MstShade_MstCategory">
+          <End Type="WebAPIdbModel.MstCategory" Role="MstCategory" Multiplicity="1" />
+          <End Type="WebAPIdbModel.MstShade" Role="MstShade" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstCategory">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MstShade">
+              <PropertyRef Name="categoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MstDesign_MstCollection">
+          <End Type="WebAPIdbModel.MstCollection" Role="MstCollection" Multiplicity="1" />
+          <End Type="WebAPIdbModel.MstDesign" Role="MstDesign" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstCollection">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MstDesign">
+              <PropertyRef Name="collectionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MstShade_MstCollection">
+          <End Type="WebAPIdbModel.MstCollection" Role="MstCollection" Multiplicity="1" />
+          <End Type="WebAPIdbModel.MstShade" Role="MstShade" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstCollection">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MstShade">
+              <PropertyRef Name="collectionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MstDesign_MstQuality">
+          <End Type="WebAPIdbModel.MstQuality" Role="MstQuality" Multiplicity="1" />
+          <End Type="WebAPIdbModel.MstDesign" Role="MstDesign" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstQuality">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MstDesign">
+              <PropertyRef Name="qualityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MstShade_MstDesign">
+          <End Type="WebAPIdbModel.MstDesign" Role="MstDesign" Multiplicity="1" />
+          <End Type="WebAPIdbModel.MstShade" Role="MstShade" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstDesign">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MstShade">
+              <PropertyRef Name="designId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MstShade_MstQuality">
+          <End Type="WebAPIdbModel.MstQuality" Role="MstQuality" Multiplicity="1" />
+          <End Type="WebAPIdbModel.MstShade" Role="MstShade" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstQuality">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MstShade">
+              <PropertyRef Name="qualityId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1198,6 +1530,53 @@
                 <ScalarProperty Name="collectionId" ColumnName="collectionId" />
                 <ScalarProperty Name="categoryId" ColumnName="categoryId" />
                 <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MstDesigns">
+            <EntityTypeMapping TypeName="WebAPIdbModel.MstDesign">
+              <MappingFragment StoreEntitySet="MstDesign">
+                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
+                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="designName" ColumnName="designName" />
+                <ScalarProperty Name="designCode" ColumnName="designCode" />
+                <ScalarProperty Name="qualityId" ColumnName="qualityId" />
+                <ScalarProperty Name="collectionId" ColumnName="collectionId" />
+                <ScalarProperty Name="categoryId" ColumnName="categoryId" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MstShades">
+            <EntityTypeMapping TypeName="WebAPIdbModel.MstShade">
+              <MappingFragment StoreEntitySet="MstShade">
+                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
+                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="serialNumber" ColumnName="serialNumber" />
+                <ScalarProperty Name="shadeName" ColumnName="shadeName" />
+                <ScalarProperty Name="shadeCode" ColumnName="shadeCode" />
+                <ScalarProperty Name="designId" ColumnName="designId" />
+                <ScalarProperty Name="qualityId" ColumnName="qualityId" />
+                <ScalarProperty Name="collectionId" ColumnName="collectionId" />
+                <ScalarProperty Name="categoryId" ColumnName="categoryId" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="WebAPIdbModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

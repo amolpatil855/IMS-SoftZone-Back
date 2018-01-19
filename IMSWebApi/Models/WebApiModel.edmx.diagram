@@ -32,6 +32,16 @@
         <AssociationConnector Association="WebAPIdbModel.FK_MstQuality_MstCategory" />
         <AssociationConnector Association="WebAPIdbModel.FK_MstQuality_MstCollection" />
         <AssociationConnector Association="WebAPIdbModel.FK_MstQuality_MstHsn" />
+        <EntityTypeShape EntityType="WebAPIdbModel.MstDesign" Width="1.5" PointX="12.875" PointY="13.25" />
+        <EntityTypeShape EntityType="WebAPIdbModel.MstShade" Width="1.5" PointX="15.125" PointY="13.125" />
+        <EntityTypeShape EntityType="WebAPIdbModel.sysdiagram" Width="1.5" PointX="12.375" PointY="0.75" />
+        <AssociationConnector Association="WebAPIdbModel.FK_MstDesign_MstCategory" />
+        <AssociationConnector Association="WebAPIdbModel.FK_MstShade_MstCategory" />
+        <AssociationConnector Association="WebAPIdbModel.FK_MstDesign_MstCollection" />
+        <AssociationConnector Association="WebAPIdbModel.FK_MstShade_MstCollection" />
+        <AssociationConnector Association="WebAPIdbModel.FK_MstDesign_MstQuality" />
+        <AssociationConnector Association="WebAPIdbModel.FK_MstShade_MstDesign" />
+        <AssociationConnector Association="WebAPIdbModel.FK_MstShade_MstQuality" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

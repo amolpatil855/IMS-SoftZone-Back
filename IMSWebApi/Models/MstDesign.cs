@@ -12,31 +12,20 @@ namespace IMSWebApi.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class MstQuality
+    public partial class MstDesign
     {
-        public MstQuality()
+        public MstDesign()
         {
-            this.MstDesigns = new HashSet<MstDesign>();
             this.MstShades = new HashSet<MstShade>();
         }
     
         public long id { get; set; }
         public long categoryId { get; set; }
         public long collectionId { get; set; }
-        public string qualityCode { get; set; }
-        public string qualityName { get; set; }
+        public long qualityId { get; set; }
+        public string designCode { get; set; }
+        public string designName { get; set; }
         public string description { get; set; }
-        public Nullable<decimal> width { get; set; }
-        public Nullable<decimal> size { get; set; }
-        public Nullable<long> hsnId { get; set; }
-        public decimal cutRate { get; set; }
-        public decimal roleRate { get; set; }
-        public decimal rrp { get; set; }
-        public int maxCutRateDisc { get; set; }
-        public int maxRoleRateDisc { get; set; }
-        public Nullable<decimal> floorRate { get; set; }
-        public int maxFloorCutRateDisc { get; set; }
-        public int maxFloorRoleRateDisc { get; set; }
         public System.DateTime createdOn { get; set; }
         public long createdBy { get; set; }
         public Nullable<System.DateTime> updatedOn { get; set; }
@@ -44,8 +33,7 @@ namespace IMSWebApi.Models
     
         public virtual MstCategory MstCategory { get; set; }
         public virtual MstCollection MstCollection { get; set; }
-        public virtual MstHsn MstHsn { get; set; }
-        public virtual ICollection<MstDesign> MstDesigns { get; set; }
+        public virtual MstQuality MstQuality { get; set; }
         public virtual ICollection<MstShade> MstShades { get; set; }
     }
 }
