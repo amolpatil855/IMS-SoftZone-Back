@@ -42,7 +42,7 @@ namespace IMSWebApi.Services
             List<string> permissions = new List<string>();
             var result = from u in repo.MstUsers
                          join cfg in repo.CFGRoleMenus on u.roleId equals cfg.roleId
-                         join menu in repo.MstMenus on cfg.id equals menu.id
+                         join menu in repo.MstMenus on cfg.menuId equals menu.id
                          where u.userName.Equals(username)
                          select new
                     {
