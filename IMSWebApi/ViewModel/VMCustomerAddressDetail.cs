@@ -11,7 +11,7 @@ namespace IMSWebApi.ViewModel
         public long customerId { get; set; }
         public string address { get; set; }
         public string city { get; set; }
-        public string steate { get; set; }
+        public string state { get; set; }
         public string country { get; set; }
         public string pin { get; set; }
         public long createdBy { get; set; }
