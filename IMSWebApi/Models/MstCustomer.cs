@@ -27,7 +27,7 @@ namespace IMSWebApi.Models
         public string email { get; set; }
         public string phone { get; set; }
         public string alternateEmail1 { get; set; }
-        public string alternateEamil2 { get; set; }
+        public string alternateEmail2 { get; set; }
         public string alternatePhone1 { get; set; }
         public string alternatePhone2 { get; set; }
         public string pan { get; set; }
