@@ -22,6 +22,12 @@
         <EntityTypeShape EntityType="WebAPIdbModel.CFGRoleMenu" Width="1.5" PointX="3" PointY="4.75" />
         <AssociationConnector Association="WebAPIdbModel.FK_CFGRoleMenu_MstMenu" />
         <AssociationConnector Association="WebAPIdbModel.FK_CFGRoleMenu_MstRole" />
+        <EntityTypeShape EntityType="WebAPIdbModel.MstCategory" Width="1.5" PointX="0.75" PointY="16" />
+        <EntityTypeShape EntityType="WebAPIdbModel.MstCollection" Width="1.5" PointX="3" PointY="14.5" />
+        <EntityTypeShape EntityType="WebAPIdbModel.MstHsn" Width="1.5" PointX="8.375" PointY="9.75" />
+        <EntityTypeShape EntityType="WebAPIdbModel.MstUnitOfMeasure" Width="1.5" PointX="10.375" PointY="0.75" />
+        <AssociationConnector Association="WebAPIdbModel.FK_MstCollection_MstCategory" />
+        <AssociationConnector Association="WebAPIdbModel.FK_MstCollection_MstSupplier" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

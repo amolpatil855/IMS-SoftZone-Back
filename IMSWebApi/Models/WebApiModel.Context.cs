@@ -35,5 +35,9 @@ namespace IMSWebApi.Models
         public virtual DbSet<MstuserType> MstuserTypes { get; set; }
         public virtual DbSet<CFGRoleMenu> CFGRoleMenus { get; set; }
         public virtual DbSet<MstCustomer> MstCustomers { get; set; }
+        public virtual DbSet<MstCategory> MstCategories { get; set; }
+        public virtual DbSet<MstCollection> MstCollections { get; set; }
+        public virtual DbSet<MstHsn> MstHsns { get; set; }
+        public virtual DbSet<MstUnitOfMeasure> MstUnitOfMeasures { get; set; }
     }
 }
