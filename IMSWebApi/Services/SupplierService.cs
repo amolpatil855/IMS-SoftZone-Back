@@ -24,19 +24,23 @@ namespace IMSWebApi.Services
             List<VMSupplier> supplierView;
             if (pageSize > 0)
             {
-                var result = repo.MstSuppliers.Where(s => !string.IsNullOrEmpty(search) ? s.firmName.StartsWith(search) || s.code.StartsWith(search) || s.email.StartsWith(search) || s.phone.StartsWith(search) : true).OrderBy(p => p.id).Skip(page * pageSize).Take(pageSize).ToList();
+                var result = repo.MstSuppliers.Where(s => !string.IsNullOrEmpty(search) ? s.firmName.StartsWith(search) || 
+                    s.code.StartsWith(search) || s.email.StartsWith(search) || s.phone.StartsWith(search) : true)
+                    .OrderBy(p => p.id).Skip(page * pageSize).Take(pageSize).ToList();
                 supplierView = Mapper.Map<List<MstSupplier>, List<VMSupplier>>(result);
             }
             else
             {
-                var result = repo.MstSuppliers.Where(s => !string.IsNullOrEmpty(search) ? s.firmName.StartsWith(search) || s.code.StartsWith(search) || s.email.StartsWith(search) || s.phone.StartsWith(search) : true).ToList();
+                var result = repo.MstSuppliers.Where(s => !string.IsNullOrEmpty(search) ? s.firmName.StartsWith(search) || 
+                    s.code.StartsWith(search) || s.email.StartsWith(search) || s.phone.StartsWith(search) : true).ToList();
                 supplierView = Mapper.Map<List<MstSupplier>, List<VMSupplier>>(result);
             }
 
             return new ListResult<VMSupplier>
             {
                 Data = supplierView,
-                TotalCount = repo.MstSuppliers.Where(s => !string.IsNullOrEmpty(search) ? s.firmName.StartsWith(search) || s.code.StartsWith(search) || s.email.StartsWith(search) || s.phone.StartsWith(search) : true).Count(),
+                TotalCount = repo.MstSuppliers.Where(s => !string.IsNullOrEmpty(search) ? s.firmName.StartsWith(search) || 
+                    s.code.StartsWith(search) || s.email.StartsWith(search) || s.phone.StartsWith(search) : true).Count(),
                 Page = page
             };
         }
@@ -66,24 +70,17 @@ namespace IMSWebApi.Services
             supplierToPost.createdBy = _LoggedInuserId;
 
             repo.MstSuppliers.Add(supplierToPost);
-            repo.SaveChanges();
-
-            //List<MstSupplierAddressDetail> supplierAddresDetailsToPost = Mapper.Map<List<VMSupplierAddressDetail>, List<MstSupplierAddressDetail>>(supplier.SupplierAddressDetails);
-            //foreach(var supplierAddresDetail in supplierAddresDetailsToPost )
-            //{
-            //    supplierAddresDetail.supplierId = supplierToPost.id;
-            //    supplierAddresDetail.createdOn = DateTime.Now;
-            //    repo.MstSupplierAddressDetails.Add(supplierAddresDetail);
-            //}
-            //repo.SaveChanges();
+            repo.SaveChanges();          
             return new ResponseMessage(supplierToPost.id, "Supplier Added Successfully", ResponseType.Success);
 
         }
 
         public ResponseMessage putSupplier(VMSupplier supplier)
         {
-            var supplierAddressDetails = Mapper.Map<List<VMSupplierAddressDetail>, List<MstSupplierAddressDetail>>(supplier.MstSupplierAddressDetails);
-            repo.MstSupplierAddressDetails.RemoveRange(repo.MstSupplierAddressDetails.Where(s => s.supplierId == supplier.id));
+            var supplierAddressDetails = Mapper.Map<List<VMSupplierAddressDetail>, 
+                List<MstSupplierAddressDetail>>(supplier.MstSupplierAddressDetails);
+            repo.MstSupplierAddressDetails.RemoveRange(repo.MstSupplierAddressDetails
+                .Where(s => s.supplierId == supplier.id));
             repo.SaveChanges();
 
             foreach (var saddress in supplierAddressDetails)
