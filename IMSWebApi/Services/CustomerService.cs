@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Microsoft.AspNet.Identity;
+using IMSWebApi.Common;
 
 namespace IMSWebApi.Services
 {
@@ -19,11 +20,26 @@ namespace IMSWebApi.Services
             _LoggedInuserId = Convert.ToInt64(HttpContext.Current.User.Identity.GetUserId());
         }
 
-        public List<VMCustomer> getCustomer()
+         public ListResult<VMCustomer> getCustomer(int pageSize, int page, string search)
         {
-            var result = repo.MstCustomers.ToList();
-            List<VMCustomer> customerViews = Mapper.Map<List<MstCustomer>, List<VMCustomer>>(result);
-            return customerViews;
+            List<VMCustomer> customerViews;
+            if (pageSize > 0)
+            {
+                var result = repo.MstCustomers.Where(c => !string.IsNullOrEmpty(search) ? c.code.StartsWith(search) || c.phone.StartsWith(search) : true).OrderBy(p => p.id).Skip(page * pageSize).Take(pageSize).ToList();
+                customerViews = Mapper.Map<List<MstCustomer>, List<VMCustomer>>(result);
+            }
+            else
+            {
+                var result = repo.MstCustomers.Where(c => !string.IsNullOrEmpty(search) ? c.code.StartsWith(search) || c.phone.StartsWith(search) : true).ToList();
+                customerViews = Mapper.Map<List<MstCustomer>, List<VMCustomer>>(result);
+            }
+
+            return new ListResult<VMCustomer>
+                {
+                    Data = customerViews,
+                    TotalCount = repo.MstCustomers.Where(c => !string.IsNullOrEmpty(search) ? c.code.StartsWith(search) || c.phone.StartsWith(search) : true).Count(),
+                    Page = page
+                };
         }
 
         public VMCustomer getCustomerById(Int64 id)

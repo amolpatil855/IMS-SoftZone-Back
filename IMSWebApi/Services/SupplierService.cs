@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Microsoft.AspNet.Identity;
+using IMSWebApi.Common;
 namespace IMSWebApi.Services
 {
     public class SupplierService
@@ -18,11 +19,26 @@ namespace IMSWebApi.Services
             _LoggedInuserId = Convert.ToInt64(HttpContext.Current.User.Identity.GetUserId());
         }
 
-        public List<VMSupplier> getSupplier()
+        public ListResult<VMSupplier> getSupplier(int pageSize, int page, string search)
         {
-            var rusult = repo.MstSuppliers.ToList();
-            var suppliers = Mapper.Map<List<MstSupplier>, List<VMSupplier>>(rusult);
-            return suppliers;
+            List<VMSupplier> supplierView;
+            if (pageSize > 0)
+            {
+                var result = repo.MstSuppliers.Where(s => !string.IsNullOrEmpty(search) ? s.firmName.StartsWith(search) || s.code.StartsWith(search) || s.email.StartsWith(search) || s.phone.StartsWith(search) : true).OrderBy(p => p.id).Skip(page * pageSize).Take(pageSize).ToList();
+                supplierView = Mapper.Map<List<MstSupplier>, List<VMSupplier>>(result);
+            }
+            else
+            {
+                var result = repo.MstSuppliers.Where(s => !string.IsNullOrEmpty(search) ? s.firmName.StartsWith(search) || s.code.StartsWith(search) || s.email.StartsWith(search) || s.phone.StartsWith(search) : true).ToList();
+                supplierView = Mapper.Map<List<MstSupplier>, List<VMSupplier>>(result);
+            }
+
+            return new ListResult<VMSupplier>
+            {
+                Data = supplierView,
+                TotalCount = repo.MstSuppliers.Where(s => !string.IsNullOrEmpty(search) ? s.firmName.StartsWith(search) || s.code.StartsWith(search) || s.email.StartsWith(search) || s.phone.StartsWith(search) : true).Count(),
+                Page = page
+            };
         }
 
         public VMSupplier getSupplierById(Int64 id)

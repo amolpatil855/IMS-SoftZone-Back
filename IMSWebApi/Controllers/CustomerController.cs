@@ -20,9 +20,9 @@ namespace IMSWebApi.Controllers
 
         // GET api/Customer
         [HttpGet]
-        public IHttpActionResult Get()
+        public IHttpActionResult Get(int pageSize = 0, int page = 0, string search = null)
         {
-            var result = _customerService.getCustomer();
+            var result = _customerService.getCustomer(pageSize, page, search);
             return Ok(result);
         }
 
