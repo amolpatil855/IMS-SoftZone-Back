@@ -23,8 +23,8 @@ namespace IMSWebApi.ViewModel
         public string warehousePersonPhone { get; set; }
         public string dispatchPersonName { get; set; }
         public string dispatchPersonEmail { get; set; }
-        public string dispatchPersonPhone { get; set; }       
+        public string dispatchPersonPhone { get; set; }
 
-        public virtual List<VMSupplierAddressDetail> SupplierAddressDetails { get; set; }
+        public virtual List<VMSupplierAddressDetail> MstSupplierAddressDetails { get; set; }
     }
 }
