@@ -17,6 +17,34 @@
           <Property Name="updatedOn" Type="datetime" />
           <Property Name="updatedBy" Type="bigint" />
         </EntityType>
+        <EntityType Name="MstCategory">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="code" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="createdOn" Type="datetime" Nullable="false" />
+          <Property Name="createdBy" Type="bigint" Nullable="false" />
+          <Property Name="updatedOn" Type="datetime" />
+          <Property Name="updatedBy" Type="bigint" />
+        </EntityType>
+        <EntityType Name="MstCollection">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="categoryId" Type="bigint" Nullable="false" />
+          <Property Name="supplierId" Type="bigint" Nullable="false" />
+          <Property Name="collectionCode" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="collectionName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="description" Type="varchar" MaxLength="500" />
+          <Property Name="manufacturerName" Type="varchar" MaxLength="100" />
+          <Property Name="createdOn" Type="datetime" Nullable="false" />
+          <Property Name="createdBy" Type="bigint" Nullable="false" />
+          <Property Name="updatedOn" Type="datetime" />
+          <Property Name="updatedBy" Type="bigint" />
+        </EntityType>
         <EntityType Name="MstCompanyInfo">
           <Key>
             <PropertyRef Name="id" />
@@ -69,6 +97,18 @@
           <Property Name="state" Type="varchar" MaxLength="50" />
           <Property Name="country" Type="varchar" MaxLength="50" />
           <Property Name="pin" Type="varchar" MaxLength="10" />
+          <Property Name="createdOn" Type="datetime" Nullable="false" />
+          <Property Name="createdBy" Type="bigint" Nullable="false" />
+          <Property Name="updatedOn" Type="datetime" />
+          <Property Name="updatedBy" Type="bigint" />
+        </EntityType>
+        <EntityType Name="MstHsn">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="hsnCode" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="gst" Type="int" />
           <Property Name="createdOn" Type="datetime" Nullable="false" />
           <Property Name="createdBy" Type="bigint" Nullable="false" />
           <Property Name="updatedOn" Type="datetime" />
@@ -133,9 +173,21 @@
           <Property Name="supplierId" Type="bigint" Nullable="false" />
           <Property Name="address" Type="varchar" MaxLength="1000" />
           <Property Name="city" Type="varchar" MaxLength="50" />
-          <Property Name="steate" Type="varchar" MaxLength="50" />
+          <Property Name="state" Type="varchar" MaxLength="50" />
           <Property Name="country" Type="varchar" MaxLength="50" />
           <Property Name="pin" Type="varchar" MaxLength="10" />
+          <Property Name="createdOn" Type="datetime" Nullable="false" />
+          <Property Name="createdBy" Type="bigint" Nullable="false" />
+          <Property Name="updatedOn" Type="datetime" />
+          <Property Name="updatedBy" Type="bigint" />
+        </EntityType>
+        <EntityType Name="MstUnitOfMeasure">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="uomCode" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="uomName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="createdOn" Type="datetime" Nullable="false" />
           <Property Name="createdBy" Type="bigint" Nullable="false" />
           <Property Name="updatedOn" Type="datetime" />
@@ -191,6 +243,30 @@
             </Principal>
             <Dependent Role="CFGRoleMenu">
               <PropertyRef Name="roleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MstCollection_MstCategory">
+          <End Role="MstCategory" Type="Self.MstCategory" Multiplicity="1" />
+          <End Role="MstCollection" Type="Self.MstCollection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstCategory">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MstCollection">
+              <PropertyRef Name="categoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MstCollection_MstSupplier">
+          <End Role="MstSupplier" Type="Self.MstSupplier" Multiplicity="1" />
+          <End Role="MstCollection" Type="Self.MstCollection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstSupplier">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MstCollection">
+              <PropertyRef Name="supplierId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -256,13 +332,17 @@
         </Association>
         <EntityContainer Name="WebAPIdbModelStoreContainer">
           <EntitySet Name="CFGRoleMenu" EntityType="Self.CFGRoleMenu" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MstCategory" EntityType="Self.MstCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MstCollection" EntityType="Self.MstCollection" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MstCompanyInfo" EntityType="Self.MstCompanyInfo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MstCustomer" EntityType="Self.MstCustomer" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MstCustomerAddressDetails" EntityType="Self.MstCustomerAddressDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MstHsn" EntityType="Self.MstHsn" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MstMenu" EntityType="Self.MstMenu" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MstRole" EntityType="Self.MstRole" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MstSupplier" EntityType="Self.MstSupplier" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MstSupplierAddressDetails" EntityType="Self.MstSupplierAddressDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MstUnitOfMeasure" EntityType="Self.MstUnitOfMeasure" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MstUser" EntityType="Self.MstUser" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MstuserType" EntityType="Self.MstuserType" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_CFGRoleMenu_MstMenu" Association="Self.FK_CFGRoleMenu_MstMenu">
@@ -272,6 +352,14 @@
           <AssociationSet Name="FK_CFGRoleMenu_MstRole" Association="Self.FK_CFGRoleMenu_MstRole">
             <End Role="MstRole" EntitySet="MstRole" />
             <End Role="CFGRoleMenu" EntitySet="CFGRoleMenu" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MstCollection_MstCategory" Association="Self.FK_MstCollection_MstCategory">
+            <End Role="MstCategory" EntitySet="MstCategory" />
+            <End Role="MstCollection" EntitySet="MstCollection" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MstCollection_MstSupplier" Association="Self.FK_MstCollection_MstSupplier">
+            <End Role="MstSupplier" EntitySet="MstSupplier" />
+            <End Role="MstCollection" EntitySet="MstCollection" />
           </AssociationSet>
           <AssociationSet Name="FK_MstCustomer_MstUser" Association="Self.FK_MstCustomer_MstUser">
             <End Role="MstUser" EntitySet="MstUser" />
@@ -336,6 +424,18 @@
           <AssociationSet Name="FK_MstCustomerAddressDetails_MstCustomer" Association="WebAPIdbModel.FK_MstCustomerAddressDetails_MstCustomer">
             <End Role="MstCustomer" EntitySet="MstCustomers" />
             <End Role="MstCustomerAddressDetail" EntitySet="MstCustomerAddressDetails" />
+          </AssociationSet>
+          <EntitySet Name="MstCategories" EntityType="WebAPIdbModel.MstCategory" />
+          <EntitySet Name="MstCollections" EntityType="WebAPIdbModel.MstCollection" />
+          <EntitySet Name="MstHsns" EntityType="WebAPIdbModel.MstHsn" />
+          <EntitySet Name="MstUnitOfMeasures" EntityType="WebAPIdbModel.MstUnitOfMeasure" />
+          <AssociationSet Name="FK_MstCollection_MstCategory" Association="WebAPIdbModel.FK_MstCollection_MstCategory">
+            <End Role="MstCategory" EntitySet="MstCategories" />
+            <End Role="MstCollection" EntitySet="MstCollections" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MstCollection_MstSupplier" Association="WebAPIdbModel.FK_MstCollection_MstSupplier">
+            <End Role="MstSupplier" EntitySet="MstSuppliers" />
+            <End Role="MstCollection" EntitySet="MstCollections" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="MstCompanyInfo">
@@ -424,6 +524,7 @@
           <Property Name="updatedOn" Type="DateTime" Precision="3" />
           <Property Name="updatedBy" Type="Int64" />
           <NavigationProperty Name="MstSupplierAddressDetails" Relationship="WebAPIdbModel.FK_MstSupplierAddressDetails_MstSupplier" FromRole="MstSupplier" ToRole="MstSupplierAddressDetail" />
+          <NavigationProperty Name="MstCollections" Relationship="WebAPIdbModel.FK_MstCollection_MstSupplier" FromRole="MstSupplier" ToRole="MstCollection" />
         </EntityType>
         <EntityType Name="MstSupplierAddressDetail">
           <Key>
@@ -433,7 +534,7 @@
           <Property Name="supplierId" Type="Int64" Nullable="false" />
           <Property Name="address" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
           <Property Name="city" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="steate" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="state" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="country" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="pin" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
@@ -601,6 +702,85 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="MstCategory">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="code" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="createdBy" Type="Int64" Nullable="false" />
+          <Property Name="updatedOn" Type="DateTime" Precision="3" />
+          <Property Name="updatedBy" Type="Int64" />
+          <NavigationProperty Name="MstCollections" Relationship="WebAPIdbModel.FK_MstCollection_MstCategory" FromRole="MstCategory" ToRole="MstCollection" />
+        </EntityType>
+        <EntityType Name="MstCollection">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="categoryId" Type="Int64" Nullable="false" />
+          <Property Name="supplierId" Type="Int64" Nullable="false" />
+          <Property Name="collectionCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="collectionName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="manufacturerName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="createdBy" Type="Int64" Nullable="false" />
+          <Property Name="updatedOn" Type="DateTime" Precision="3" />
+          <Property Name="updatedBy" Type="Int64" />
+          <NavigationProperty Name="MstCategory" Relationship="WebAPIdbModel.FK_MstCollection_MstCategory" FromRole="MstCollection" ToRole="MstCategory" />
+          <NavigationProperty Name="MstSupplier" Relationship="WebAPIdbModel.FK_MstCollection_MstSupplier" FromRole="MstCollection" ToRole="MstSupplier" />
+        </EntityType>
+        <EntityType Name="MstHsn">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="hsnCode" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="gst" Type="Int32" />
+          <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="createdBy" Type="Int64" Nullable="false" />
+          <Property Name="updatedOn" Type="DateTime" Precision="3" />
+          <Property Name="updatedBy" Type="Int64" />
+        </EntityType>
+        <EntityType Name="MstUnitOfMeasure">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="uomCode" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="uomName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="createdBy" Type="Int64" Nullable="false" />
+          <Property Name="updatedOn" Type="DateTime" Precision="3" />
+          <Property Name="updatedBy" Type="Int64" />
+        </EntityType>
+        <Association Name="FK_MstCollection_MstCategory">
+          <End Type="WebAPIdbModel.MstCategory" Role="MstCategory" Multiplicity="1" />
+          <End Type="WebAPIdbModel.MstCollection" Role="MstCollection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstCategory">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MstCollection">
+              <PropertyRef Name="categoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MstCollection_MstSupplier">
+          <End Type="WebAPIdbModel.MstSupplier" Role="MstSupplier" Multiplicity="1" />
+          <End Type="WebAPIdbModel.MstCollection" Role="MstCollection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstSupplier">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MstCollection">
+              <PropertyRef Name="supplierId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -697,13 +877,13 @@
           <EntitySetMapping Name="MstSupplierAddressDetails">
             <EntityTypeMapping TypeName="WebAPIdbModel.MstSupplierAddressDetail">
               <MappingFragment StoreEntitySet="MstSupplierAddressDetails">
+                <ScalarProperty Name="state" ColumnName="state" />
                 <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
                 <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
                 <ScalarProperty Name="createdBy" ColumnName="createdBy" />
                 <ScalarProperty Name="createdOn" ColumnName="createdOn" />
                 <ScalarProperty Name="pin" ColumnName="pin" />
                 <ScalarProperty Name="country" ColumnName="country" />
-                <ScalarProperty Name="steate" ColumnName="steate" />
                 <ScalarProperty Name="city" ColumnName="city" />
                 <ScalarProperty Name="address" ColumnName="address" />
                 <ScalarProperty Name="supplierId" ColumnName="supplierId" />
@@ -778,6 +958,62 @@
                 <ScalarProperty Name="nickName" ColumnName="nickName" />
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="code" ColumnName="code" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MstCategories">
+            <EntityTypeMapping TypeName="WebAPIdbModel.MstCategory">
+              <MappingFragment StoreEntitySet="MstCategory">
+                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
+                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="code" ColumnName="code" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MstCollections">
+            <EntityTypeMapping TypeName="WebAPIdbModel.MstCollection">
+              <MappingFragment StoreEntitySet="MstCollection">
+                <ScalarProperty Name="collectionName" ColumnName="collectionName" />
+                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
+                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
+                <ScalarProperty Name="manufacturerName" ColumnName="manufacturerName" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="collectionCode" ColumnName="collectionCode" />
+                <ScalarProperty Name="supplierId" ColumnName="supplierId" />
+                <ScalarProperty Name="categoryId" ColumnName="categoryId" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MstHsns">
+            <EntityTypeMapping TypeName="WebAPIdbModel.MstHsn">
+              <MappingFragment StoreEntitySet="MstHsn">
+                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
+                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
+                <ScalarProperty Name="gst" ColumnName="gst" />
+                <ScalarProperty Name="hsnCode" ColumnName="hsnCode" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MstUnitOfMeasures">
+            <EntityTypeMapping TypeName="WebAPIdbModel.MstUnitOfMeasure">
+              <MappingFragment StoreEntitySet="MstUnitOfMeasure">
+                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
+                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
+                <ScalarProperty Name="uomName" ColumnName="uomName" />
+                <ScalarProperty Name="uomCode" ColumnName="uomCode" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
