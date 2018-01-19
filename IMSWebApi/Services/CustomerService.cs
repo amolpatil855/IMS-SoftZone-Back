@@ -33,6 +33,11 @@ namespace IMSWebApi.Services
             return customerViews;
         }
 
+        public List<VMLookUpItem> getCustomerLookUp()
+        {
+            return repo.MstCustomers.Select(s => new VMLookUpItem { id = s.id, Name = s.name }).ToList();
+        }
+
         public ResponseMessage postCustomer(VMCustomer customer)
         {
             MstCustomer customerToPost = Mapper.Map<VMCustomer, MstCustomer>(customer);
