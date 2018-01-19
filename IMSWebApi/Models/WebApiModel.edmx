@@ -127,6 +127,32 @@
           <Property Name="updatedOn" Type="datetime" />
           <Property Name="updatedBy" Type="bigint" />
         </EntityType>
+        <EntityType Name="MstQuality">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="categoryId" Type="bigint" Nullable="false" />
+          <Property Name="collectionId" Type="bigint" Nullable="false" />
+          <Property Name="qualityCode" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="qualityName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="description" Type="varchar" MaxLength="500" />
+          <Property Name="width" Type="decimal" Precision="6" Scale="2" />
+          <Property Name="size" Type="decimal" Precision="6" Scale="2" />
+          <Property Name="hsnId" Type="bigint" />
+          <Property Name="cutRate" Type="decimal" Precision="7" Scale="2" Nullable="false" />
+          <Property Name="roleRate" Type="decimal" Precision="7" Scale="2" Nullable="false" />
+          <Property Name="rrp" Type="decimal" Precision="7" Scale="2" Nullable="false" />
+          <Property Name="maxCutRateDisc" Type="int" Nullable="false" />
+          <Property Name="maxRoleRateDisc" Type="int" Nullable="false" />
+          <Property Name="floorRate" Type="decimal" Precision="7" Scale="2" />
+          <Property Name="maxFloorCutRateDisc" Type="int" Nullable="false" />
+          <Property Name="maxFloorRoleRateDisc" Type="int" Nullable="false" />
+          <Property Name="createdOn" Type="datetime" Nullable="false" />
+          <Property Name="createdBy" Type="bigint" Nullable="false" />
+          <Property Name="updatedOn" Type="datetime" />
+          <Property Name="updatedBy" Type="bigint" />
+        </EntityType>
         <EntityType Name="MstRole">
           <Key>
             <PropertyRef Name="id" />
@@ -294,6 +320,42 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_MstQuality_MstCategory">
+          <End Role="MstCategory" Type="Self.MstCategory" Multiplicity="1" />
+          <End Role="MstQuality" Type="Self.MstQuality" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstCategory">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MstQuality">
+              <PropertyRef Name="categoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MstQuality_MstCollection">
+          <End Role="MstCollection" Type="Self.MstCollection" Multiplicity="1" />
+          <End Role="MstQuality" Type="Self.MstQuality" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstCollection">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MstQuality">
+              <PropertyRef Name="collectionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MstQuality_MstHsn">
+          <End Role="MstHsn" Type="Self.MstHsn" Multiplicity="0..1" />
+          <End Role="MstQuality" Type="Self.MstQuality" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstHsn">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MstQuality">
+              <PropertyRef Name="hsnId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_MstSupplierAddressDetails_MstSupplier">
           <End Role="MstSupplier" Type="Self.MstSupplier" Multiplicity="1" />
           <End Role="MstSupplierAddressDetails" Type="Self.MstSupplierAddressDetails" Multiplicity="*" />
@@ -339,6 +401,7 @@
           <EntitySet Name="MstCustomerAddressDetails" EntityType="Self.MstCustomerAddressDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MstHsn" EntityType="Self.MstHsn" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MstMenu" EntityType="Self.MstMenu" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MstQuality" EntityType="Self.MstQuality" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MstRole" EntityType="Self.MstRole" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MstSupplier" EntityType="Self.MstSupplier" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MstSupplierAddressDetails" EntityType="Self.MstSupplierAddressDetails" Schema="dbo" store:Type="Tables" />
@@ -368,6 +431,18 @@
           <AssociationSet Name="FK_MstCustomerAddressDetails_MstCustomer" Association="Self.FK_MstCustomerAddressDetails_MstCustomer">
             <End Role="MstCustomer" EntitySet="MstCustomer" />
             <End Role="MstCustomerAddressDetails" EntitySet="MstCustomerAddressDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MstQuality_MstCategory" Association="Self.FK_MstQuality_MstCategory">
+            <End Role="MstCategory" EntitySet="MstCategory" />
+            <End Role="MstQuality" EntitySet="MstQuality" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MstQuality_MstCollection" Association="Self.FK_MstQuality_MstCollection">
+            <End Role="MstCollection" EntitySet="MstCollection" />
+            <End Role="MstQuality" EntitySet="MstQuality" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MstQuality_MstHsn" Association="Self.FK_MstQuality_MstHsn">
+            <End Role="MstHsn" EntitySet="MstHsn" />
+            <End Role="MstQuality" EntitySet="MstQuality" />
           </AssociationSet>
           <AssociationSet Name="FK_MstSupplierAddressDetails_MstSupplier" Association="Self.FK_MstSupplierAddressDetails_MstSupplier">
             <End Role="MstSupplier" EntitySet="MstSupplier" />
@@ -436,6 +511,19 @@
           <AssociationSet Name="FK_MstCollection_MstSupplier" Association="WebAPIdbModel.FK_MstCollection_MstSupplier">
             <End Role="MstSupplier" EntitySet="MstSuppliers" />
             <End Role="MstCollection" EntitySet="MstCollections" />
+          </AssociationSet>
+          <EntitySet Name="MstQualities" EntityType="WebAPIdbModel.MstQuality" />
+          <AssociationSet Name="FK_MstQuality_MstCategory" Association="WebAPIdbModel.FK_MstQuality_MstCategory">
+            <End Role="MstCategory" EntitySet="MstCategories" />
+            <End Role="MstQuality" EntitySet="MstQualities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MstQuality_MstCollection" Association="WebAPIdbModel.FK_MstQuality_MstCollection">
+            <End Role="MstCollection" EntitySet="MstCollections" />
+            <End Role="MstQuality" EntitySet="MstQualities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MstQuality_MstHsn" Association="WebAPIdbModel.FK_MstQuality_MstHsn">
+            <End Role="MstHsn" EntitySet="MstHsns" />
+            <End Role="MstQuality" EntitySet="MstQualities" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="MstCompanyInfo">
@@ -714,6 +802,7 @@
           <Property Name="updatedOn" Type="DateTime" Precision="3" />
           <Property Name="updatedBy" Type="Int64" />
           <NavigationProperty Name="MstCollections" Relationship="WebAPIdbModel.FK_MstCollection_MstCategory" FromRole="MstCategory" ToRole="MstCollection" />
+          <NavigationProperty Name="MstQualities" Relationship="WebAPIdbModel.FK_MstQuality_MstCategory" FromRole="MstCategory" ToRole="MstQuality" />
         </EntityType>
         <EntityType Name="MstCollection">
           <Key>
@@ -732,6 +821,7 @@
           <Property Name="updatedBy" Type="Int64" />
           <NavigationProperty Name="MstCategory" Relationship="WebAPIdbModel.FK_MstCollection_MstCategory" FromRole="MstCollection" ToRole="MstCategory" />
           <NavigationProperty Name="MstSupplier" Relationship="WebAPIdbModel.FK_MstCollection_MstSupplier" FromRole="MstCollection" ToRole="MstSupplier" />
+          <NavigationProperty Name="MstQualities" Relationship="WebAPIdbModel.FK_MstQuality_MstCollection" FromRole="MstCollection" ToRole="MstQuality" />
         </EntityType>
         <EntityType Name="MstHsn">
           <Key>
@@ -744,6 +834,7 @@
           <Property Name="createdBy" Type="Int64" Nullable="false" />
           <Property Name="updatedOn" Type="DateTime" Precision="3" />
           <Property Name="updatedBy" Type="Int64" />
+          <NavigationProperty Name="MstQualities" Relationship="WebAPIdbModel.FK_MstQuality_MstHsn" FromRole="MstHsn" ToRole="MstQuality" />
         </EntityType>
         <EntityType Name="MstUnitOfMeasure">
           <Key>
@@ -778,6 +869,71 @@
             </Principal>
             <Dependent Role="MstCollection">
               <PropertyRef Name="supplierId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="MstQuality">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="categoryId" Type="Int64" Nullable="false" />
+          <Property Name="collectionId" Type="Int64" Nullable="false" />
+          <Property Name="qualityCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="qualityName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="width" Type="Decimal" Precision="6" Scale="2" />
+          <Property Name="size" Type="Decimal" Precision="6" Scale="2" />
+          <Property Name="hsnId" Type="Int64" />
+          <Property Name="cutRate" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
+          <Property Name="roleRate" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
+          <Property Name="rrp" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
+          <Property Name="maxCutRateDisc" Type="Int32" Nullable="false" />
+          <Property Name="maxRoleRateDisc" Type="Int32" Nullable="false" />
+          <Property Name="floorRate" Type="Decimal" Precision="7" Scale="2" />
+          <Property Name="maxFloorCutRateDisc" Type="Int32" Nullable="false" />
+          <Property Name="maxFloorRoleRateDisc" Type="Int32" Nullable="false" />
+          <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="createdBy" Type="Int64" Nullable="false" />
+          <Property Name="updatedOn" Type="DateTime" Precision="3" />
+          <Property Name="updatedBy" Type="Int64" />
+          <NavigationProperty Name="MstCategory" Relationship="WebAPIdbModel.FK_MstQuality_MstCategory" FromRole="MstQuality" ToRole="MstCategory" />
+          <NavigationProperty Name="MstCollection" Relationship="WebAPIdbModel.FK_MstQuality_MstCollection" FromRole="MstQuality" ToRole="MstCollection" />
+          <NavigationProperty Name="MstHsn" Relationship="WebAPIdbModel.FK_MstQuality_MstHsn" FromRole="MstQuality" ToRole="MstHsn" />
+        </EntityType>
+        <Association Name="FK_MstQuality_MstCategory">
+          <End Type="WebAPIdbModel.MstCategory" Role="MstCategory" Multiplicity="1" />
+          <End Type="WebAPIdbModel.MstQuality" Role="MstQuality" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstCategory">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MstQuality">
+              <PropertyRef Name="categoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MstQuality_MstCollection">
+          <End Type="WebAPIdbModel.MstCollection" Role="MstCollection" Multiplicity="1" />
+          <End Type="WebAPIdbModel.MstQuality" Role="MstQuality" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstCollection">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MstQuality">
+              <PropertyRef Name="collectionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MstQuality_MstHsn">
+          <End Type="WebAPIdbModel.MstHsn" Role="MstHsn" Multiplicity="0..1" />
+          <End Type="WebAPIdbModel.MstQuality" Role="MstQuality" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstHsn">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MstQuality">
+              <PropertyRef Name="hsnId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1014,6 +1170,33 @@
                 <ScalarProperty Name="createdOn" ColumnName="createdOn" />
                 <ScalarProperty Name="uomName" ColumnName="uomName" />
                 <ScalarProperty Name="uomCode" ColumnName="uomCode" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MstQualities">
+            <EntityTypeMapping TypeName="WebAPIdbModel.MstQuality">
+              <MappingFragment StoreEntitySet="MstQuality">
+                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
+                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
+                <ScalarProperty Name="maxFloorRoleRateDisc" ColumnName="maxFloorRoleRateDisc" />
+                <ScalarProperty Name="maxFloorCutRateDisc" ColumnName="maxFloorCutRateDisc" />
+                <ScalarProperty Name="floorRate" ColumnName="floorRate" />
+                <ScalarProperty Name="maxRoleRateDisc" ColumnName="maxRoleRateDisc" />
+                <ScalarProperty Name="maxCutRateDisc" ColumnName="maxCutRateDisc" />
+                <ScalarProperty Name="rrp" ColumnName="rrp" />
+                <ScalarProperty Name="roleRate" ColumnName="roleRate" />
+                <ScalarProperty Name="cutRate" ColumnName="cutRate" />
+                <ScalarProperty Name="hsnId" ColumnName="hsnId" />
+                <ScalarProperty Name="size" ColumnName="size" />
+                <ScalarProperty Name="width" ColumnName="width" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="qualityName" ColumnName="qualityName" />
+                <ScalarProperty Name="qualityCode" ColumnName="qualityCode" />
+                <ScalarProperty Name="collectionId" ColumnName="collectionId" />
+                <ScalarProperty Name="categoryId" ColumnName="categoryId" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

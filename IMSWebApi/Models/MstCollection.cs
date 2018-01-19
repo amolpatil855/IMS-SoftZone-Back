@@ -14,6 +14,11 @@ namespace IMSWebApi.Models
     
     public partial class MstCollection
     {
+        public MstCollection()
+        {
+            this.MstQualities = new HashSet<MstQuality>();
+        }
+    
         public long id { get; set; }
         public long categoryId { get; set; }
         public long supplierId { get; set; }
@@ -28,5 +33,6 @@ namespace IMSWebApi.Models
     
         public virtual MstCategory MstCategory { get; set; }
         public virtual MstSupplier MstSupplier { get; set; }
+        public virtual ICollection<MstQuality> MstQualities { get; set; }
     }
 }
