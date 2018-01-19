@@ -29,12 +29,31 @@ namespace IMSWebApi.Services
             return userView;
         }
 
-        public List<VMUser> getUser()
+        public ListResult<VMUser> getUser(int pageSize, int page, string search)
         {
-            var result = repo.MstUsers.ToList();
-            List<VMUser> userViews = Mapper.Map<List<MstUser>, List<VMUser>>(result);
+            List<VMUser> userViews;
+            if (pageSize > 0)
+            {
+                var result = repo.MstUsers.Where(c => !string.IsNullOrEmpty(search) ? c.userName.StartsWith(search) || 
+                                    c.phone.StartsWith(search) : true).OrderBy(p => p.id).Skip(page * pageSize)
+                                    .Take(pageSize).ToList();
+                userViews = Mapper.Map<List<MstUser>, List<VMUser>>(result);
+            }
+            else
+            {
+                var result = repo.MstUsers.Where(c => !string.IsNullOrEmpty(search) ? c.userName.StartsWith(search) ||
+                                            c.phone.StartsWith(search) : true).ToList();
+                userViews = Mapper.Map<List<MstUser>, List<VMUser>>(result);
+            }
+            
             userViews.ForEach(d => d.MstRole.CFGRoleMenus = null);
-            return userViews;
+            return new ListResult<VMUser>
+            {
+                Data = userViews,
+                TotalCount = repo.MstUsers.Where(c => !string.IsNullOrEmpty(search) ? c.userName.StartsWith(search) || 
+                    c.phone.StartsWith(search) : true).Count(),
+                Page = page
+            };
         }
 
         public List<string> getUserPermission(string username)
