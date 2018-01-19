@@ -70,9 +70,8 @@ namespace IMSWebApi.Services
             supplierToPost.createdBy = _LoggedInuserId;
 
             repo.MstSuppliers.Add(supplierToPost);
-            repo.SaveChanges();          
+            repo.SaveChanges();
             return new ResponseMessage(supplierToPost.id, "Supplier Added Successfully", ResponseType.Success);
-
         }
 
         public ResponseMessage putSupplier(VMSupplier supplier)

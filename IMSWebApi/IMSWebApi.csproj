@@ -255,6 +255,7 @@
     <Compile Include="AuthRepository.cs" />
     <Compile Include="Common\ListResult.cs" />
     <Compile Include="Common\SendEmail.cs" />
+    <Compile Include="Controllers\CollectionController.cs" />
     <Compile Include="Controllers\CompanyInfoController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
@@ -333,6 +334,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\SimpleAuthorizationServerProvider.cs" />
+    <Compile Include="Services\CollectionService.cs" />
     <Compile Include="Services\CompanyInfoService.cs" />
     <Compile Include="Services\CustomerService.cs" />
     <Compile Include="Services\MenuService.cs" />
@@ -341,6 +343,8 @@
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModel\ResponseMessage.cs" />
+    <Compile Include="ViewModel\VMCategory.cs" />
+    <Compile Include="ViewModel\VMCollection.cs" />
     <Compile Include="ViewModel\VMLookUpItem.cs" />
     <Compile Include="ViewModel\VMSupplier.cs" />
     <Compile Include="ViewModel\VMCFGRoleMenu.cs" />
