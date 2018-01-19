@@ -18,37 +18,37 @@ namespace IMSWebApi.Services
             _LoggedInuserId = Convert.ToInt64(HttpContext.Current.User.Identity.GetUserId());
         }
 
-        public List<VMSupplier>getSupplier()
+        public List<VMSupplier> getSupplier()
         {
             var rusult = repo.MstSuppliers.ToList();
             var suppliers = Mapper.Map<List<MstSupplier>, List<VMSupplier>>(rusult);
             return suppliers;
         }
 
-        public VMSupplier getSupplierById (Int64 id)
+        public VMSupplier getSupplierById(Int64 id)
         {
             var result = repo.MstSuppliers.Where(s => s.id == id).FirstOrDefault();
             var supplier = Mapper.Map<MstSupplier, VMSupplier>(result);
             return supplier;
         }
-        
+
         public List<VMLookUpItem> getSupplierLookUp()
         {
             return repo.MstSuppliers.Select(s => new VMLookUpItem { id = s.id, Name = s.code }).ToList();
         }
-       
+
         public ResponseMessage postSupplier(VMSupplier supplier)
         {
             MstSupplier supplierToPost = Mapper.Map<VMSupplier, MstSupplier>(supplier);
             var supplierAddresses = supplierToPost.MstSupplierAddressDetails.ToList();
-            foreach(var saddress in supplierAddresses)
+            foreach (var saddress in supplierAddresses)
             {
                 saddress.createdOn = DateTime.Now;
                 saddress.createdBy = _LoggedInuserId;
             }
             supplierToPost.createdOn = DateTime.Now;
             supplierToPost.createdBy = _LoggedInuserId;
-            
+
             repo.MstSuppliers.Add(supplierToPost);
             repo.SaveChanges();
 
@@ -70,13 +70,18 @@ namespace IMSWebApi.Services
             repo.MstSupplierAddressDetails.RemoveRange(repo.MstSupplierAddressDetails.Where(s => s.supplierId == supplier.id));
             repo.SaveChanges();
 
+            foreach (var saddress in supplierAddressDetails)
+            {
+                saddress.createdOn = DateTime.Now;
+                saddress.createdBy = _LoggedInuserId;
+            }
             var supplierToPut = repo.MstSuppliers.Where(s => s.id == supplier.id).FirstOrDefault();
             supplierToPut.code = supplier.code;
             supplierToPut.name = supplier.name;
-            supplierToPut.firmName=supplier.firmName;
+            supplierToPut.firmName = supplier.firmName;
             supplierToPut.description = supplier.description;
-            supplierToPut.gstin=supplier.gstin;
-            supplierToPut.email=supplier.email;
+            supplierToPut.gstin = supplier.gstin;
+            supplierToPut.email = supplier.email;
             supplierToPut.phone = supplier.phone;
             supplierToPut.accountPersonName = supplier.accountPersonName;
             supplierToPut.accountPersonEmail = supplier.accountPersonEmail;
@@ -89,15 +94,9 @@ namespace IMSWebApi.Services
             supplierToPut.dispatchPersonPhone = supplier.dispatchPersonPhone;
             supplierToPut.updatedOn = DateTime.Now;
             supplierToPut.updatedBy = _LoggedInuserId;
+            supplierToPut.MstSupplierAddressDetails = supplierAddressDetails;
             repo.SaveChanges();
 
-            foreach(var supplierAddressDetail in supplierAddressDetails)
-            {
-                supplierAddressDetail.createdOn = DateTime.Now;
-                supplierAddressDetail.createdBy = _LoggedInuserId;
-                repo.MstSupplierAddressDetails.Add(supplierAddressDetail);
-            }
-            repo.SaveChanges();
             return new ResponseMessage(supplier.id, "Supplier Updated Successfully", ResponseType.Success);
         }
 
