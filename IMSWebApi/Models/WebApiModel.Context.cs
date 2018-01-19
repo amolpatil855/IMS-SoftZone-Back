@@ -26,7 +26,6 @@ namespace IMSWebApi.Models
         }
     
         public virtual DbSet<MstCompanyInfo> MstCompanyInfoes { get; set; }
-        public virtual DbSet<MstCustomer> MstCustomers { get; set; }
         public virtual DbSet<MstCustomerAddressDetail> MstCustomerAddressDetails { get; set; }
         public virtual DbSet<MstMenu> MstMenus { get; set; }
         public virtual DbSet<MstRole> MstRoles { get; set; }
@@ -35,5 +34,6 @@ namespace IMSWebApi.Models
         public virtual DbSet<MstUser> MstUsers { get; set; }
         public virtual DbSet<MstuserType> MstuserTypes { get; set; }
         public virtual DbSet<CFGRoleMenu> CFGRoleMenus { get; set; }
+        public virtual DbSet<MstCustomer> MstCustomers { get; set; }
     }
 }

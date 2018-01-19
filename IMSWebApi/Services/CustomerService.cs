@@ -73,7 +73,7 @@ namespace IMSWebApi.Services
             customerToPut.email = customer.email;
             customerToPut.phone = customer.phone;
             customerToPut.alternateEmail1 = customer.alternateEmail1;
-            customerToPut.alternateEamil2 = customer.alternateEamil2;
+            customerToPut.alternateEmail2 = customer.alternateEmail2;
             customerToPut.alternatePhone1 = customer.alternatePhone1;
             customerToPut.alternatePhone2 = customer.alternatePhone2;
             customerToPut.pan = customer.pan;

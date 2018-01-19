@@ -14,13 +14,18 @@ namespace IMSWebApi.App_Start
         {
             Mapper.CreateMap<CFGRoleMenu, VMCFGRoleMenu>();
             Mapper.CreateMap<VMCFGRoleMenu, CFGRoleMenu>();
+            
             Mapper.CreateMap<VMRole, MstRole>();
             Mapper.CreateMap<MstRole, VMRole>();
+            
             Mapper.CreateMap<VMRole, MstRole>();
             Mapper.CreateMap<MstMenu, VMMenu>();
+            
             Mapper.CreateMap<MstUser, VMUser>();
             Mapper.CreateMap<VMUser, MstUser>();
+            
             Mapper.CreateMap<MstuserType, VMUserType>();
+            
             Mapper.CreateMap<MstCompanyInfo, VMCompanyInfo>();
             Mapper.CreateMap<VMCompanyInfo, MstCompanyInfo>();
             

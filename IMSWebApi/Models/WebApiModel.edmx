@@ -44,7 +44,7 @@
           <Property Name="email" Type="varchar" MaxLength="254" Nullable="false" />
           <Property Name="phone" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="alternateEmail1" Type="varchar" MaxLength="254" />
-          <Property Name="alternateEamil2" Type="varchar" MaxLength="254" />
+          <Property Name="alternateEmail2" Type="varchar" MaxLength="254" />
           <Property Name="alternatePhone1" Type="varchar" MaxLength="20" />
           <Property Name="alternatePhone2" Type="varchar" MaxLength="20" />
           <Property Name="pan" Type="varchar" MaxLength="10" />
@@ -66,7 +66,7 @@
           <Property Name="customerId" Type="bigint" Nullable="false" />
           <Property Name="address" Type="varchar" MaxLength="1000" />
           <Property Name="city" Type="varchar" MaxLength="50" />
-          <Property Name="steate" Type="varchar" MaxLength="50" />
+          <Property Name="state" Type="varchar" MaxLength="50" />
           <Property Name="country" Type="varchar" MaxLength="50" />
           <Property Name="pin" Type="varchar" MaxLength="10" />
           <Property Name="createdOn" Type="datetime" Nullable="false" />
@@ -300,7 +300,6 @@
       <Schema Namespace="WebAPIdbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="WebAPIdbEntities" annotation:LazyLoadingEnabled="true" >
           <EntitySet Name="MstCompanyInfoes" EntityType="WebAPIdbModel.MstCompanyInfo" />
-          <EntitySet Name="MstCustomers" EntityType="WebAPIdbModel.MstCustomer" />
           <EntitySet Name="MstCustomerAddressDetails" EntityType="WebAPIdbModel.MstCustomerAddressDetail" />
           <EntitySet Name="MstMenus" EntityType="WebAPIdbModel.MstMenu" />
           <EntitySet Name="MstRoles" EntityType="WebAPIdbModel.MstRole" />
@@ -308,14 +307,6 @@
           <EntitySet Name="MstSupplierAddressDetails" EntityType="WebAPIdbModel.MstSupplierAddressDetail" />
           <EntitySet Name="MstUsers" EntityType="WebAPIdbModel.MstUser" />
           <EntitySet Name="MstuserTypes" EntityType="WebAPIdbModel.MstuserType" />
-          <AssociationSet Name="FK_MstCustomer_MstUser" Association="WebAPIdbModel.FK_MstCustomer_MstUser">
-            <End Role="MstUser" EntitySet="MstUsers" />
-            <End Role="MstCustomer" EntitySet="MstCustomers" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MstCustomerAddressDetails_MstCustomer" Association="WebAPIdbModel.FK_MstCustomerAddressDetails_MstCustomer">
-            <End Role="MstCustomer" EntitySet="MstCustomers" />
-            <End Role="MstCustomerAddressDetail" EntitySet="MstCustomerAddressDetails" />
-          </AssociationSet>
           <AssociationSet Name="FK_MstUser_MstRole" Association="WebAPIdbModel.FK_MstUser_MstRole">
             <End Role="MstRole" EntitySet="MstRoles" />
             <End Role="MstUser" EntitySet="MstUsers" />
@@ -337,6 +328,15 @@
             <End Role="MstRole" EntitySet="MstRoles" />
             <End Role="CFGRoleMenu" EntitySet="CFGRoleMenus" />
           </AssociationSet>
+          <EntitySet Name="MstCustomers" EntityType="WebAPIdbModel.MstCustomer" />
+          <AssociationSet Name="FK_MstCustomer_MstUser" Association="WebAPIdbModel.FK_MstCustomer_MstUser">
+            <End Role="MstUser" EntitySet="MstUsers" />
+            <End Role="MstCustomer" EntitySet="MstCustomers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MstCustomerAddressDetails_MstCustomer" Association="WebAPIdbModel.FK_MstCustomerAddressDetails_MstCustomer">
+            <End Role="MstCustomer" EntitySet="MstCustomers" />
+            <End Role="MstCustomerAddressDetail" EntitySet="MstCustomerAddressDetails" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="MstCompanyInfo">
           <Key>
@@ -353,34 +353,6 @@
           <Property Name="updatedOn" Type="DateTime" Precision="3" />
           <Property Name="updatedBy" Type="Int64" />
         </EntityType>
-        <EntityType Name="MstCustomer">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="code" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="nickName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="gstin" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="email" Type="String" Nullable="false" MaxLength="254" FixedLength="false" Unicode="false" />
-          <Property Name="phone" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="alternateEmail1" Type="String" MaxLength="254" FixedLength="false" Unicode="false" />
-          <Property Name="alternateEamil2" Type="String" MaxLength="254" FixedLength="false" Unicode="false" />
-          <Property Name="alternatePhone1" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="alternatePhone2" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="pan" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="isWholesaleCustomer" Type="Boolean" />
-          <Property Name="accountPersonName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="accountPersonEmail" Type="String" MaxLength="254" FixedLength="false" Unicode="false" />
-          <Property Name="accountPersonPhone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="userId" Type="Int64" />
-          <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="createdBy" Type="Int64" Nullable="false" />
-          <Property Name="updatedOn" Type="DateTime" Precision="3" />
-          <Property Name="updatedBy" Type="Int64" />
-          <NavigationProperty Name="MstUser" Relationship="WebAPIdbModel.FK_MstCustomer_MstUser" FromRole="MstCustomer" ToRole="MstUser" />
-          <NavigationProperty Name="MstCustomerAddressDetails" Relationship="WebAPIdbModel.FK_MstCustomerAddressDetails_MstCustomer" FromRole="MstCustomer" ToRole="MstCustomerAddressDetail" />
-        </EntityType>
         <EntityType Name="MstCustomerAddressDetail">
           <Key>
             <PropertyRef Name="id" />
@@ -389,7 +361,7 @@
           <Property Name="customerId" Type="Int64" Nullable="false" />
           <Property Name="address" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
           <Property Name="city" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="steate" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="state" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="country" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="pin" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
@@ -487,9 +459,9 @@
           <Property Name="createdBy" Type="Int64" Nullable="false" />
           <Property Name="updatedOn" Type="DateTime" Precision="3" />
           <Property Name="updatedBy" Type="Int64" />
-          <NavigationProperty Name="MstCustomers" Relationship="WebAPIdbModel.FK_MstCustomer_MstUser" FromRole="MstUser" ToRole="MstCustomer" />
           <NavigationProperty Name="MstRole" Relationship="WebAPIdbModel.FK_MstUser_MstRole" FromRole="MstUser" ToRole="MstRole" />
           <NavigationProperty Name="MstuserType" Relationship="WebAPIdbModel.FK_MstUser_MstUserType" FromRole="MstUser" ToRole="MstuserType" />
+          <NavigationProperty Name="MstCustomers" Relationship="WebAPIdbModel.FK_MstCustomer_MstUser" FromRole="MstUser" ToRole="MstCustomer" />
         </EntityType>
         <EntityType Name="MstuserType">
           <Key>
@@ -503,30 +475,6 @@
           <Property Name="updatedBy" Type="Int64" />
           <NavigationProperty Name="MstUsers" Relationship="WebAPIdbModel.FK_MstUser_MstUserType" FromRole="MstuserType" ToRole="MstUser" />
         </EntityType>
-        <Association Name="FK_MstCustomer_MstUser">
-          <End Type="WebAPIdbModel.MstUser" Role="MstUser" Multiplicity="0..1" />
-          <End Type="WebAPIdbModel.MstCustomer" Role="MstCustomer" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MstUser">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="MstCustomer">
-              <PropertyRef Name="userId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MstCustomerAddressDetails_MstCustomer">
-          <End Type="WebAPIdbModel.MstCustomer" Role="MstCustomer" Multiplicity="1" />
-          <End Type="WebAPIdbModel.MstCustomerAddressDetail" Role="MstCustomerAddressDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MstCustomer">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="MstCustomerAddressDetail">
-              <PropertyRef Name="customerId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_MstUser_MstRole">
           <End Type="WebAPIdbModel.MstRole" Role="MstRole" Multiplicity="1" />
           <End Type="WebAPIdbModel.MstUser" Role="MstUser" Multiplicity="*" />
@@ -601,6 +549,58 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="MstCustomer">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="code" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="nickName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="gstin" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" Nullable="false" MaxLength="254" FixedLength="false" Unicode="false" />
+          <Property Name="phone" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="alternateEmail1" Type="String" MaxLength="254" FixedLength="false" Unicode="false" />
+          <Property Name="alternateEmail2" Type="String" MaxLength="254" FixedLength="false" Unicode="false" />
+          <Property Name="alternatePhone1" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="alternatePhone2" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="pan" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="isWholesaleCustomer" Type="Boolean" />
+          <Property Name="accountPersonName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="accountPersonEmail" Type="String" MaxLength="254" FixedLength="false" Unicode="false" />
+          <Property Name="accountPersonPhone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="userId" Type="Int64" />
+          <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="createdBy" Type="Int64" Nullable="false" />
+          <Property Name="updatedOn" Type="DateTime" Precision="3" />
+          <Property Name="updatedBy" Type="Int64" />
+          <NavigationProperty Name="MstUser" Relationship="WebAPIdbModel.FK_MstCustomer_MstUser" FromRole="MstCustomer" ToRole="MstUser" />
+          <NavigationProperty Name="MstCustomerAddressDetails" Relationship="WebAPIdbModel.FK_MstCustomerAddressDetails_MstCustomer" FromRole="MstCustomer" ToRole="MstCustomerAddressDetail" />
+        </EntityType>
+        <Association Name="FK_MstCustomer_MstUser">
+          <End Type="WebAPIdbModel.MstUser" Role="MstUser" Multiplicity="0..1" />
+          <End Type="WebAPIdbModel.MstCustomer" Role="MstCustomer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstUser">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MstCustomer">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MstCustomerAddressDetails_MstCustomer">
+          <End Type="WebAPIdbModel.MstCustomer" Role="MstCustomer" Multiplicity="1" />
+          <End Type="WebAPIdbModel.MstCustomerAddressDetail" Role="MstCustomerAddressDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstCustomer">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MstCustomerAddressDetail">
+              <PropertyRef Name="customerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -623,43 +623,16 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="MstCustomers">
-            <EntityTypeMapping TypeName="WebAPIdbModel.MstCustomer">
-              <MappingFragment StoreEntitySet="MstCustomer">
-                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
-                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
-                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
-                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
-                <ScalarProperty Name="userId" ColumnName="userId" />
-                <ScalarProperty Name="accountPersonPhone" ColumnName="accountPersonPhone" />
-                <ScalarProperty Name="accountPersonEmail" ColumnName="accountPersonEmail" />
-                <ScalarProperty Name="accountPersonName" ColumnName="accountPersonName" />
-                <ScalarProperty Name="isWholesaleCustomer" ColumnName="isWholesaleCustomer" />
-                <ScalarProperty Name="pan" ColumnName="pan" />
-                <ScalarProperty Name="alternatePhone2" ColumnName="alternatePhone2" />
-                <ScalarProperty Name="alternatePhone1" ColumnName="alternatePhone1" />
-                <ScalarProperty Name="alternateEamil2" ColumnName="alternateEamil2" />
-                <ScalarProperty Name="alternateEmail1" ColumnName="alternateEmail1" />
-                <ScalarProperty Name="phone" ColumnName="phone" />
-                <ScalarProperty Name="email" ColumnName="email" />
-                <ScalarProperty Name="gstin" ColumnName="gstin" />
-                <ScalarProperty Name="nickName" ColumnName="nickName" />
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="code" ColumnName="code" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="MstCustomerAddressDetails">
             <EntityTypeMapping TypeName="WebAPIdbModel.MstCustomerAddressDetail">
               <MappingFragment StoreEntitySet="MstCustomerAddressDetails">
+                <ScalarProperty Name="state" ColumnName="state" />
                 <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
                 <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
                 <ScalarProperty Name="createdBy" ColumnName="createdBy" />
                 <ScalarProperty Name="createdOn" ColumnName="createdOn" />
                 <ScalarProperty Name="pin" ColumnName="pin" />
                 <ScalarProperty Name="country" ColumnName="country" />
-                <ScalarProperty Name="steate" ColumnName="steate" />
                 <ScalarProperty Name="city" ColumnName="city" />
                 <ScalarProperty Name="address" ColumnName="address" />
                 <ScalarProperty Name="customerId" ColumnName="customerId" />
@@ -778,6 +751,33 @@
                 <ScalarProperty Name="createdOn" ColumnName="createdOn" />
                 <ScalarProperty Name="menuId" ColumnName="menuId" />
                 <ScalarProperty Name="roleId" ColumnName="roleId" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MstCustomers">
+            <EntityTypeMapping TypeName="WebAPIdbModel.MstCustomer">
+              <MappingFragment StoreEntitySet="MstCustomer">
+                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
+                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
+                <ScalarProperty Name="userId" ColumnName="userId" />
+                <ScalarProperty Name="accountPersonPhone" ColumnName="accountPersonPhone" />
+                <ScalarProperty Name="accountPersonEmail" ColumnName="accountPersonEmail" />
+                <ScalarProperty Name="accountPersonName" ColumnName="accountPersonName" />
+                <ScalarProperty Name="isWholesaleCustomer" ColumnName="isWholesaleCustomer" />
+                <ScalarProperty Name="pan" ColumnName="pan" />
+                <ScalarProperty Name="alternatePhone2" ColumnName="alternatePhone2" />
+                <ScalarProperty Name="alternatePhone1" ColumnName="alternatePhone1" />
+                <ScalarProperty Name="alternateEmail2" ColumnName="alternateEmail2" />
+                <ScalarProperty Name="alternateEmail1" ColumnName="alternateEmail1" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="gstin" ColumnName="gstin" />
+                <ScalarProperty Name="nickName" ColumnName="nickName" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="code" ColumnName="code" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
