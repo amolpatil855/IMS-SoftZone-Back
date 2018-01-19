@@ -40,6 +40,12 @@ namespace IMSWebApi.App_Start
             
             Mapper.CreateMap<MstSupplierAddressDetail, VMSupplierAddressDetail>();
             Mapper.CreateMap<VMSupplierAddressDetail, MstSupplierAddressDetail>();
+
+            Mapper.CreateMap<MstCollection, VMCollection>();
+            Mapper.CreateMap<VMCollection, MstCollection>();
+
+            Mapper.CreateMap<MstCategory, VMCategory>();
+            Mapper.CreateMap<VMCategory, MstCategory>();
         }
     }
 }

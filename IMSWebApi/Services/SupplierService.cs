@@ -67,17 +67,7 @@ namespace IMSWebApi.Services
 
             repo.MstSuppliers.Add(supplierToPost);
             repo.SaveChanges();
-
-            //List<MstSupplierAddressDetail> supplierAddresDetailsToPost = Mapper.Map<List<VMSupplierAddressDetail>, List<MstSupplierAddressDetail>>(supplier.SupplierAddressDetails);
-            //foreach(var supplierAddresDetail in supplierAddresDetailsToPost )
-            //{
-            //    supplierAddresDetail.supplierId = supplierToPost.id;
-            //    supplierAddresDetail.createdOn = DateTime.Now;
-            //    repo.MstSupplierAddressDetails.Add(supplierAddresDetail);
-            //}
-            //repo.SaveChanges();
             return new ResponseMessage(supplierToPost.id, "Supplier Added Successfully", ResponseType.Success);
-
         }
 
         public ResponseMessage putSupplier(VMSupplier supplier)
