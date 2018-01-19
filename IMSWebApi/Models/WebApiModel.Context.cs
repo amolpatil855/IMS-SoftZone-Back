@@ -40,5 +40,8 @@ namespace IMSWebApi.Models
         public virtual DbSet<MstHsn> MstHsns { get; set; }
         public virtual DbSet<MstUnitOfMeasure> MstUnitOfMeasures { get; set; }
         public virtual DbSet<MstQuality> MstQualities { get; set; }
+        public virtual DbSet<MstDesign> MstDesigns { get; set; }
+        public virtual DbSet<MstShade> MstShades { get; set; }
+        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
     }
 }
