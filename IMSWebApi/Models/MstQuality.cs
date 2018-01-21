@@ -35,8 +35,8 @@ namespace IMSWebApi.Models
         public int maxCutRateDisc { get; set; }
         public int maxRoleRateDisc { get; set; }
         public Nullable<decimal> floorRate { get; set; }
-        public int maxFloorCutRateDisc { get; set; }
-        public int maxFloorRoleRateDisc { get; set; }
+        public Nullable<int> maxFloorCutRateDisc { get; set; }
+        public Nullable<int> maxFloorRoleRateDisc { get; set; }
         public System.DateTime createdOn { get; set; }
         public long createdBy { get; set; }
         public Nullable<System.DateTime> updatedOn { get; set; }

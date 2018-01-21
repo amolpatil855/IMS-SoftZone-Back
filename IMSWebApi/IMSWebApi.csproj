@@ -290,6 +290,9 @@
     <Compile Include="Models\MstCustomerAddressDetail.cs">
       <DependentUpon>WebApiModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\MstDesign.cs">
+      <DependentUpon>WebApiModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\MstHsn.cs">
       <DependentUpon>WebApiModel.tt</DependentUpon>
     </Compile>
@@ -300,6 +303,9 @@
       <DependentUpon>WebApiModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\MstRole.cs">
+      <DependentUpon>WebApiModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MstShade.cs">
       <DependentUpon>WebApiModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\MstSupplier.cs">
@@ -315,6 +321,9 @@
       <DependentUpon>WebApiModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\MstuserType.cs">
+      <DependentUpon>WebApiModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sysdiagram.cs">
       <DependentUpon>WebApiModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\WebApiModel.Context.cs">
@@ -337,15 +346,23 @@
     <Compile Include="Services\CollectionService.cs" />
     <Compile Include="Services\CompanyInfoService.cs" />
     <Compile Include="Services\CustomerService.cs" />
+    <Compile Include="Services\DesignService.cs" />
+    <Compile Include="Services\HsnService.cs" />
     <Compile Include="Services\MenuService.cs" />
+    <Compile Include="Services\QualityService.cs" />
     <Compile Include="Services\RoleService.cs" />
+    <Compile Include="Services\ShadeService.cs" />
     <Compile Include="Services\SupplierService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModel\ResponseMessage.cs" />
     <Compile Include="ViewModel\VMCategory.cs" />
     <Compile Include="ViewModel\VMCollection.cs" />
+    <Compile Include="ViewModel\VMDesign.cs" />
+    <Compile Include="ViewModel\VMHsn.cs" />
     <Compile Include="ViewModel\VMLookUpItem.cs" />
+    <Compile Include="ViewModel\VMQuality.cs" />
+    <Compile Include="ViewModel\VMShade.cs" />
     <Compile Include="ViewModel\VMSupplier.cs" />
     <Compile Include="ViewModel\VMCFGRoleMenu.cs" />
     <Compile Include="ViewModel\VMCompanyInfo.cs" />
