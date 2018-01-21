@@ -46,6 +46,9 @@ namespace IMSWebApi.App_Start
 
             Mapper.CreateMap<MstCategory, VMCategory>();
             Mapper.CreateMap<VMCategory, MstCategory>();
+
+            Mapper.CreateMap<MstDesign,VMDesign>();
+            Mapper.CreateMap<VMDesign, MstDesign>();
         }
     }
 }
