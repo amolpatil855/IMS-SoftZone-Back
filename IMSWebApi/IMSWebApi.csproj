@@ -260,9 +260,11 @@
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\DesignController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
+    <Compile Include="Controllers\QualityController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ShadeController.cs" />
     <Compile Include="Controllers\SupplierController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
@@ -322,9 +324,6 @@
       <DependentUpon>WebApiModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\MstuserType.cs">
-      <DependentUpon>WebApiModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\sysdiagram.cs">
       <DependentUpon>WebApiModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\WebApiModel.Context.cs">
@@ -445,9 +444,6 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>WebApiModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="Models\WebApiModel.edmx.diagram">
-      <DependentUpon>WebApiModel.edmx</DependentUpon>
-    </Content>
     <None Include="Properties\PublishProfiles\TestWebApiPublish.pubxml" />
     <None Include="Properties\PublishProfiles\WebAPIPublish.pubxml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />

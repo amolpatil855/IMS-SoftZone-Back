@@ -29,7 +29,7 @@ namespace IMSWebApi.Controllers
             return Ok(result);
         }
 
-        // GET api/Supplier/1
+        // GET api/Design/1
         //[Authorize]
         //[ApiAuthorize(AccessLevel = "design")]
         [HttpGet]
@@ -39,11 +39,20 @@ namespace IMSWebApi.Controllers
             return Ok(result);
         }
 
-        // POST api/Supplier/1
+        [HttpGet]
+        [Route("api/Design/GetDesignLookupByQuality")]
+        public IHttpActionResult GetDesignLookupByQuality(long id)
+        {
+            var result = _designService.getDesignLookUpByQuality(id);
+            return Ok(result);
+        }
+
+
+        // POST api/Design
         //[Authorize]
         //[ApiAuthorize(AccessLevel = "design")]
         [HttpPost]
-        public IHttpActionResult PostSupplier(VMDesign design)
+        public IHttpActionResult PostDesign(VMDesign design)
         {
             if (!ModelState.IsValid)
             {
@@ -53,7 +62,7 @@ namespace IMSWebApi.Controllers
             return Ok(result);
         }
 
-        // PUT api/Supplier/1
+        // PUT api/Design/1
         //[Authorize]
         //[ApiAuthorize(AccessLevel = "design")]
         [HttpPut]
@@ -67,7 +76,7 @@ namespace IMSWebApi.Controllers
             return Ok(result);
         }
 
-        // DELETE api/Supplier/1
+        // DELETE api/Design/1
         //[Authorize]
         //[ApiAuthorize(AccessLevel = "design")]
         [HttpDelete]
