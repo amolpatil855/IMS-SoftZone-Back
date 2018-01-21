@@ -14,12 +14,12 @@ namespace IMSWebApi.App_Start
         {
             Mapper.CreateMap<CFGRoleMenu, VMCFGRoleMenu>();
             Mapper.CreateMap<VMCFGRoleMenu, CFGRoleMenu>();
-            Mapper.CreateMap<VMMenu, MstMenu>();
-            Mapper.CreateMap<VMRole, MstRole>();
-            Mapper.CreateMap<MstRole, VMRole>();
             
-            Mapper.CreateMap<VMRole, MstRole>();
+            Mapper.CreateMap<VMMenu, MstMenu>();
             Mapper.CreateMap<MstMenu, VMMenu>();
+
+            Mapper.CreateMap<VMRole, MstRole>();
+            Mapper.CreateMap<MstRole, VMRole>();           
             
             Mapper.CreateMap<MstUser, VMUser>();
             Mapper.CreateMap<VMUser, MstUser>();
@@ -46,6 +46,18 @@ namespace IMSWebApi.App_Start
 
             Mapper.CreateMap<MstCategory, VMCategory>();
             Mapper.CreateMap<VMCategory, MstCategory>();
+
+            Mapper.CreateMap<MstQuality, VMQuality>();
+            Mapper.CreateMap<VMQuality, MstQuality>();
+
+            Mapper.CreateMap<MstDesign, VMDesign>();
+            Mapper.CreateMap<VMDesign, MstDesign>();
+
+            Mapper.CreateMap<MstShade, VMShade>();
+            Mapper.CreateMap<VMShade, MstShade>();
+
+            Mapper.CreateMap<MstHsn, VMHsn>();
+            Mapper.CreateMap<VMHsn, MstHsn>();
         }
     }
 }

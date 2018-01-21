@@ -25,23 +25,23 @@ namespace IMSWebApi.Services
             List<VMCollection> supplierView;
             if (pageSize > 0)
             {
-                var result = repo.MstCollections.Where(c => !string.IsNullOrEmpty(search) ? c.collectionName.StartsWith(search) : true)
-                                                .OrderBy(p => p.id).Skip(page * pageSize).Take(pageSize).ToList();
+                var result = repo.MstCollections.Where(c => !string.IsNullOrEmpty(search) 
+                    ? c.collectionName.StartsWith(search) : true)
+                    .OrderBy(p => p.id).Skip(page * pageSize).Take(pageSize).ToList();
                 supplierView = Mapper.Map<List<MstCollection>, List<VMCollection>>(result);
             }
             else
             {
-                var result = repo.MstCollections.Where(c => !string.IsNullOrEmpty(search) ? c.collectionName.StartsWith(search) : true)
-                                                .ToList();
+                var result = repo.MstCollections.Where(c => !string.IsNullOrEmpty(search) 
+                    ? c.collectionName.StartsWith(search) : true).ToList();
                 supplierView = Mapper.Map<List<MstCollection>, List<VMCollection>>(result);
             }
 
             return new ListResult<VMCollection>
             {
                 Data = supplierView,
-                TotalCount = repo.MstCollections.Where(c => !string.IsNullOrEmpty(search) ? c.collectionName.StartsWith(search) : true)
-                                                .Count(),
-                Page = page
+                TotalCount = repo.MstCollections.Where(c => !string.IsNullOrEmpty(search) 
+                    ? c.collectionName.StartsWith(search) : true).Count(),Page = page
             };
         }
 
@@ -54,9 +54,9 @@ namespace IMSWebApi.Services
 
         public List<VMLookUpItem> getCollectionLookUp()
         {
-            return repo.MstCollections.Select(s => new VMLookUpItem { id = s.id, Name = s.collectionCode +" " + s.MstSupplier.code }).ToList();
+            return repo.MstCollections.Select(s => new VMLookUpItem 
+            { key = s.id, value = s.collectionCode +"-" + s.MstSupplier.code }).ToList();
         }
-
 
         public ResponseMessage postCollection(VMCollection collection)
         {
