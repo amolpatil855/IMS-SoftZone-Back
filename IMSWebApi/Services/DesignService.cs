@@ -26,34 +26,52 @@ namespace IMSWebApi.Services
             List<VMDesign> designView;
             if (pageSize > 0)
             {
-                var result = repo.MstDesigns.Where(s => !string.IsNullOrEmpty(search) ? s.designCode.StartsWith(search) : true)
-                    .OrderBy(p => p.id).Skip(page * pageSize).Take(pageSize).ToList();
+                var result = repo.MstDesigns.Where(q => !string.IsNullOrEmpty(search)
+                    ? q.MstCollection.collectionCode.StartsWith(search) 
+                    || q.MstQuality.qualityCode.StartsWith(search) 
+                    || q.designCode.StartsWith(search) 
+                    || q.designName.StartsWith(search) : true)
+                    .OrderBy(q => q.id).Skip(page * pageSize).Take(pageSize).ToList();
                 designView = Mapper.Map<List<MstDesign>, List<VMDesign>>(result);
             }
             else
             {
-                var result = repo.MstDesigns.Where(s => !string.IsNullOrEmpty(search) ? s.designCode.StartsWith(search) : true).ToList();
+                var result = repo.MstDesigns.Where(q => !string.IsNullOrEmpty(search)
+                   ? q.MstCollection.collectionCode.StartsWith(search)
+                    || q.MstQuality.qualityCode.StartsWith(search)
+                    || q.designCode.StartsWith(search)
+                    || q.designName.StartsWith(search) : true).ToList();
                 designView = Mapper.Map<List<MstDesign>, List<VMDesign>>(result);
             }
 
             return new ListResult<VMDesign>
             {
                 Data = designView,
-                TotalCount = repo.MstDesigns.Where(s => !string.IsNullOrEmpty(search) ? s.designCode.StartsWith(search) : true).Count(),
+                TotalCount = repo.MstDesigns.Where(q => !string.IsNullOrEmpty(search)
+                     ? q.MstCollection.collectionCode.StartsWith(search)
+                    || q.MstQuality.qualityCode.StartsWith(search)
+                    || q.designCode.StartsWith(search)
+                    || q.designName.StartsWith(search) : true).Count(),
                 Page = page
             };
         }
 
         public VMDesign getDesignById(Int64 id)
         {
-            var result = repo.MstDesigns.Where(s => s.id == id).FirstOrDefault();
-            var design = Mapper.Map<MstDesign, VMDesign>(result);
-            return design;
+            var result = repo.MstDesigns.Where(q => q.id == id).FirstOrDefault();
+            var designView = Mapper.Map<MstDesign, VMDesign>(result);
+            return designView;
+        }
+
+        public List<VMLookUpItem> getDesignLookUpByQuality(Int64 qualityId)
+        {
+            return repo.MstDesigns.Where(q => q.qualityId == qualityId)
+                .Select(q => new VMLookUpItem { key = q.id, value = q.designCode }).ToList();
         }
 
         public ResponseMessage postDesign(VMDesign design)
         {
-            MstDesign designToPost = Mapper.Map<VMDesign, MstDesign>(design);
+            var designToPost = Mapper.Map<VMDesign, MstDesign>(design);
             designToPost.createdOn = DateTime.Now;
             designToPost.createdBy = _LoggedInuserId;
 
@@ -63,30 +81,21 @@ namespace IMSWebApi.Services
         }
 
         public ResponseMessage putDesign(VMDesign design)
-        {   
-            MstDesign designToPut = repo.MstDesigns.Where(s => s.id == design.id).FirstOrDefault();
-            MstCategory designCategory = designToPut.MstCategory;
-            MstCollection designCollection = designToPut.MstCollection;
-            designToPut =  Mapper.Map<VMDesign,MstDesign>(design,designToPut);
-            designToPut.MstCollection = designCollection;
-            designToPut.MstCategory = designCategory;
-            //designToPut.categoryId = design.categoryId;
-            //designToPut.qualityId = design.qualityId;
-            //designToPut.collectionId = design.collectionId;
-            //designToPut.designCode= design.designCode;
-            //designToPut.designName = design.designName;
-            //designToPut.description = design.description;
-            designToPut.updatedOn = DateTime.Now;
-            designToPut.updatedBy = _LoggedInuserId;
-            
-            repo.SaveChanges();
+        {
+            var designToPut = repo.MstDesigns.Where(q => q.id == design.id).FirstOrDefault();
 
+            designToPut = Mapper.Map<VMDesign, MstDesign>(design, designToPut);
+            
+            designToPut.updatedBy = _LoggedInuserId;
+            designToPut.updatedOn = DateTime.Now;
+
+            repo.SaveChanges();
             return new ResponseMessage(design.id, "Design Updated Successfully", ResponseType.Success);
         }
 
         public ResponseMessage deleteDesign(Int64 id)
-        {  
-            repo.MstDesigns.Remove(repo.MstDesigns.Where(s => s.id == id).FirstOrDefault());
+        {
+            repo.MstDesigns.Remove(repo.MstDesigns.Where(q => q.id == id).FirstOrDefault());
             repo.SaveChanges();
             return new ResponseMessage(id, "Design Deleted Successfully", ResponseType.Success);
         }

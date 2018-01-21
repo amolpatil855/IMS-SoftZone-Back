@@ -54,7 +54,7 @@ namespace IMSWebApi.Services
 
         public List<VMLookUpItem> getSupplierLookUp()
         {
-            return repo.MstSuppliers.Select(s => new VMLookUpItem { id = s.id, Name = s.code }).ToList();
+            return repo.MstSuppliers.Select(s => new VMLookUpItem { key = s.id, value = s.code }).ToList();
         }
 
         public ResponseMessage postSupplier(VMSupplier supplier)

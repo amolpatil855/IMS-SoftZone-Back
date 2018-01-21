@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IMSWebApi.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -14,11 +15,9 @@ namespace IMSWebApi.ViewModel
         public string designCode { get; set; }
         public string designName { get; set; }
         public string description { get; set; }
-        public long createdBy { get; set; }
-        public Nullable<long> updatedBy { get; set; }
 
-        public virtual VMCategory MstCategory { get; set; }
-        public virtual VMCollection MstCollection { get; set; }
-        
+        public virtual MstCategory MstCategory { get; set; }
+        public virtual MstCollection MstCollection { get; set; }
+        public virtual MstQuality MstQuality { get; set; }
     }
 }

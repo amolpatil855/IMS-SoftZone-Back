@@ -348,8 +348,11 @@
     <Compile Include="Services\CompanyInfoService.cs" />
     <Compile Include="Services\CustomerService.cs" />
     <Compile Include="Services\DesignService.cs" />
+    <Compile Include="Services\HsnService.cs" />
     <Compile Include="Services\MenuService.cs" />
+    <Compile Include="Services\QualityService.cs" />
     <Compile Include="Services\RoleService.cs" />
+    <Compile Include="Services\ShadeService.cs" />
     <Compile Include="Services\SupplierService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Startup.cs" />
@@ -357,7 +360,10 @@
     <Compile Include="ViewModel\VMCategory.cs" />
     <Compile Include="ViewModel\VMCollection.cs" />
     <Compile Include="ViewModel\VMDesign.cs" />
+    <Compile Include="ViewModel\VMHsn.cs" />
     <Compile Include="ViewModel\VMLookUpItem.cs" />
+    <Compile Include="ViewModel\VMQuality.cs" />
+    <Compile Include="ViewModel\VMShade.cs" />
     <Compile Include="ViewModel\VMSupplier.cs" />
     <Compile Include="ViewModel\VMCFGRoleMenu.cs" />
     <Compile Include="ViewModel\VMCompanyInfo.cs" />
