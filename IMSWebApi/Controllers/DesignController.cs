@@ -10,6 +10,7 @@ using System.Web.Http;
 
 namespace IMSWebApi.Controllers
 {
+    [Authorize]
     public class DesignController : ApiController
     {
         private DesignService _designService = null;
@@ -20,8 +21,7 @@ namespace IMSWebApi.Controllers
         }
 
         // GET api/Design   
-        //[Authorize]
-        //[ApiAuthorize(AccessLevel = "design")]
+        [ApiAuthorize(AccessLevel = "design")]
         [HttpGet]
         public IHttpActionResult Get(int pageSize = 0, int page = 0, string search = null)
         {
@@ -30,8 +30,7 @@ namespace IMSWebApi.Controllers
         }
 
         // GET api/Design/1
-        //[Authorize]
-        //[ApiAuthorize(AccessLevel = "design")]
+        [ApiAuthorize(AccessLevel = "design")]
         [HttpGet]
         public IHttpActionResult Get(long id)
         {
@@ -40,7 +39,7 @@ namespace IMSWebApi.Controllers
         }
 
         [HttpGet]
-        [Route("api/Design/GetDesignLookupByQuality")]
+        [Route("api/Design/GetDesignLookupByQuality/{id}")]
         public IHttpActionResult GetDesignLookupByQuality(long id)
         {
             var result = _designService.getDesignLookUpByQuality(id);
@@ -49,8 +48,7 @@ namespace IMSWebApi.Controllers
 
 
         // POST api/Design
-        //[Authorize]
-        //[ApiAuthorize(AccessLevel = "design")]
+        [ApiAuthorize(AccessLevel = "design")]
         [HttpPost]
         public IHttpActionResult PostDesign(VMDesign design)
         {
@@ -63,8 +61,7 @@ namespace IMSWebApi.Controllers
         }
 
         // PUT api/Design/1
-        //[Authorize]
-        //[ApiAuthorize(AccessLevel = "design")]
+        [ApiAuthorize(AccessLevel = "design")]
         [HttpPut]
         public IHttpActionResult PutDesign(VMDesign design)
         {
@@ -77,8 +74,7 @@ namespace IMSWebApi.Controllers
         }
 
         // DELETE api/Design/1
-        //[Authorize]
-        //[ApiAuthorize(AccessLevel = "design")]
+        [ApiAuthorize(AccessLevel = "design")]
         [HttpDelete]
         public IHttpActionResult DeleteDesign(long id)
         {

@@ -47,7 +47,7 @@ namespace IMSWebApi.Controllers
         [HttpGet]
         [Authorize]
         [ApiAuthorize(AccessLevel = "role")]
-        [Route("api/{Role}/{getRoleMenu}/{id}")]
+        [Route("api/Role/getRoleMenu/{id}")]
         //  [ActionName("getRoleMenu")]  
         public IHttpActionResult getRoleMenu(Int64 id)
         {
