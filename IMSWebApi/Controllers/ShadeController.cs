@@ -39,7 +39,7 @@ namespace IMSWebApi.Controllers
          }
 
          [HttpGet]
-         [Route("api/Shade/GetSerialNumberLookUpByDesign/{id}")]
+         [Route("api/Shade/GetSerialNumberLookUpByDesign")]
          public IHttpActionResult GetSerialNumberLookUpByDesign(long designId)
          {
              var result = _shadeService.getSerialNumberLookUpByDesign(designId);
@@ -47,7 +47,7 @@ namespace IMSWebApi.Controllers
          }
 
          [HttpGet]
-         [Route("api/Shade/GetSerialNumberLookUpByCollection/{id}")]
+         [Route("api/Shade/GetSerialNumberLookUpByCollection")]
          public IHttpActionResult GetSerialNumberLookUpByCollection(long collectionId)
          {
              var result = _shadeService.getSerialNumberLookUpByCollection(collectionId);

@@ -39,10 +39,10 @@ namespace IMSWebApi.Controllers
         }
 
         [HttpGet]
-        [Route("api/Design/GetDesignLookupByQuality/{id}")]
-        public IHttpActionResult GetDesignLookupByQuality(long id)
+        [Route("api/Design/GetDesignLookupByQuality")]
+        public IHttpActionResult GetDesignLookupByQuality(long qualityid)
         {
-            var result = _designService.getDesignLookUpByQuality(id);
+            var result = _designService.getDesignLookUpByQuality(qualityid);
             return Ok(result);
         }
 
