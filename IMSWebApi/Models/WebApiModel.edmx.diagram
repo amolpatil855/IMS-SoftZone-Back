@@ -5,43 +5,42 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="879bac55b8584755be29a35693d619f3" Name="Diagram1" >
-        <EntityTypeShape EntityType="WebAPIdbModel.MstCompanyInfo" Width="1.5" PointX="5.75" PointY="10.125" />
-        <EntityTypeShape EntityType="WebAPIdbModel.MstCustomer" Width="1.5" PointX="8.25" PointY="3.375" />
-        <EntityTypeShape EntityType="WebAPIdbModel.MstCustomerAddressDetail" Width="1.5" PointX="10.5" PointY="4.5" />
-        <EntityTypeShape EntityType="WebAPIdbModel.MstMenu" Width="1.5" PointX="0.75" PointY="0.75" />
-        <EntityTypeShape EntityType="WebAPIdbModel.MstRole" Width="1.5" PointX="0.75" PointY="4.75" />
-        <EntityTypeShape EntityType="WebAPIdbModel.MstSupplier" Width="1.5" PointX="0.75" PointY="9.5" />
-        <EntityTypeShape EntityType="WebAPIdbModel.MstSupplierAddressDetail" Width="1.5" PointX="3" PointY="10.375" />
-        <EntityTypeShape EntityType="WebAPIdbModel.MstUser" Width="1.5" PointX="6" PointY="4.125" />
-        <EntityTypeShape EntityType="WebAPIdbModel.MstuserType" Width="1.5" PointX="3.75" PointY="1" />
+        <EntityTypeShape EntityType="WebAPIdbModel.CFGRoleMenu" Width="1.5" PointX="3" PointY="16.875" />
+        <EntityTypeShape EntityType="WebAPIdbModel.MstCategory" Width="1.5" PointX="0.75" PointY="7.875" />
+        <EntityTypeShape EntityType="WebAPIdbModel.MstCollection" Width="1.5" PointX="3" PointY="7.375" />
+        <EntityTypeShape EntityType="WebAPIdbModel.MstCompanyInfo" Width="1.5" PointX="10.75" PointY="3.375" />
+        <EntityTypeShape EntityType="WebAPIdbModel.MstCustomer" Width="1.5" PointX="8.25" PointY="15.625" />
+        <EntityTypeShape EntityType="WebAPIdbModel.MstCustomerAddressDetail" Width="1.5" PointX="10.5" PointY="16.625" />
+        <EntityTypeShape EntityType="WebAPIdbModel.MstDesign" Width="1.5" PointX="5.25" PointY="7.5" />
+        <EntityTypeShape EntityType="WebAPIdbModel.MstHsn" Width="1.5" PointX="6" PointY="4.25" />
+        <EntityTypeShape EntityType="WebAPIdbModel.MstMenu" Width="1.5" PointX="0.75" PointY="12.875" />
+        <EntityTypeShape EntityType="WebAPIdbModel.MstQuality" Width="1.5" PointX="8.25" PointY="6.5" />
+        <EntityTypeShape EntityType="WebAPIdbModel.MstRole" Width="1.5" PointX="0.75" PointY="16.875" />
+        <EntityTypeShape EntityType="WebAPIdbModel.MstShade" Width="1.5" PointX="10.5" PointY="7.375" />
+        <EntityTypeShape EntityType="WebAPIdbModel.MstSupplier" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="WebAPIdbModel.MstSupplierAddressDetail" Width="1.5" PointX="3" PointY="2.5" />
+        <EntityTypeShape EntityType="WebAPIdbModel.MstUnitOfMeasure" Width="1.5" PointX="10.75" PointY="13.375" />
+        <EntityTypeShape EntityType="WebAPIdbModel.MstUser" Width="1.5" PointX="6" PointY="16.25" />
+        <EntityTypeShape EntityType="WebAPIdbModel.MstuserType" Width="1.5" PointX="3.75" PointY="13.125" />
+        <AssociationConnector Association="WebAPIdbModel.FK_CFGRoleMenu_MstMenu" />
+        <AssociationConnector Association="WebAPIdbModel.FK_CFGRoleMenu_MstRole" />
+        <AssociationConnector Association="WebAPIdbModel.FK_MstCollection_MstCategory" />
+        <AssociationConnector Association="WebAPIdbModel.FK_MstDesign_MstCategory" />
+        <AssociationConnector Association="WebAPIdbModel.FK_MstQuality_MstCategory" />
+        <AssociationConnector Association="WebAPIdbModel.FK_MstShade_MstCategory" />
+        <AssociationConnector Association="WebAPIdbModel.FK_MstCollection_MstSupplier" />
+        <AssociationConnector Association="WebAPIdbModel.FK_MstDesign_MstCollection" />
+        <AssociationConnector Association="WebAPIdbModel.FK_MstQuality_MstCollection" />
+        <AssociationConnector Association="WebAPIdbModel.FK_MstShade_MstCollection" />
         <AssociationConnector Association="WebAPIdbModel.FK_MstCustomer_MstUser" />
         <AssociationConnector Association="WebAPIdbModel.FK_MstCustomerAddressDetails_MstCustomer" />
+        <AssociationConnector Association="WebAPIdbModel.FK_MstDesign_MstQuality" />
+        <AssociationConnector Association="WebAPIdbModel.FK_MstShade_MstDesign" />
+        <AssociationConnector Association="WebAPIdbModel.FK_MstQuality_MstHsn" />
+        <AssociationConnector Association="WebAPIdbModel.FK_MstShade_MstQuality" />
         <AssociationConnector Association="WebAPIdbModel.FK_MstUser_MstRole" />
         <AssociationConnector Association="WebAPIdbModel.FK_MstSupplierAddressDetails_MstSupplier" />
         <AssociationConnector Association="WebAPIdbModel.FK_MstUser_MstUserType" />
-        <EntityTypeShape EntityType="WebAPIdbModel.CFGRoleMenu" Width="1.5" PointX="3" PointY="4.75" />
-        <AssociationConnector Association="WebAPIdbModel.FK_CFGRoleMenu_MstMenu" />
-        <AssociationConnector Association="WebAPIdbModel.FK_CFGRoleMenu_MstRole" />
-        <EntityTypeShape EntityType="WebAPIdbModel.MstCategory" Width="1.5" PointX="0.75" PointY="16" />
-        <EntityTypeShape EntityType="WebAPIdbModel.MstCollection" Width="1.5" PointX="3" PointY="14.5" />
-        <EntityTypeShape EntityType="WebAPIdbModel.MstHsn" Width="1.5" PointX="8.375" PointY="9.75" />
-        <EntityTypeShape EntityType="WebAPIdbModel.MstUnitOfMeasure" Width="1.5" PointX="10.375" PointY="0.75" />
-        <AssociationConnector Association="WebAPIdbModel.FK_MstCollection_MstCategory" />
-        <AssociationConnector Association="WebAPIdbModel.FK_MstCollection_MstSupplier" />
-        <EntityTypeShape EntityType="WebAPIdbModel.MstQuality" Width="1.5" PointX="10.625" PointY="11.375" />
-        <AssociationConnector Association="WebAPIdbModel.FK_MstQuality_MstCategory" />
-        <AssociationConnector Association="WebAPIdbModel.FK_MstQuality_MstCollection" />
-        <AssociationConnector Association="WebAPIdbModel.FK_MstQuality_MstHsn" />
-        <EntityTypeShape EntityType="WebAPIdbModel.MstDesign" Width="1.5" PointX="12.875" PointY="13.25" />
-        <EntityTypeShape EntityType="WebAPIdbModel.MstShade" Width="1.5" PointX="15.125" PointY="13.125" />
-        <EntityTypeShape EntityType="WebAPIdbModel.sysdiagram" Width="1.5" PointX="12.375" PointY="0.75" />
-        <AssociationConnector Association="WebAPIdbModel.FK_MstDesign_MstCategory" />
-        <AssociationConnector Association="WebAPIdbModel.FK_MstShade_MstCategory" />
-        <AssociationConnector Association="WebAPIdbModel.FK_MstDesign_MstCollection" />
-        <AssociationConnector Association="WebAPIdbModel.FK_MstShade_MstCollection" />
-        <AssociationConnector Association="WebAPIdbModel.FK_MstDesign_MstQuality" />
-        <AssociationConnector Association="WebAPIdbModel.FK_MstShade_MstDesign" />
-        <AssociationConnector Association="WebAPIdbModel.FK_MstShade_MstQuality" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
