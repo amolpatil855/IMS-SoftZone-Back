@@ -77,24 +77,12 @@ namespace IMSWebApi.Services
         public ResponseMessage putQuality(VMQuality quality)
         {
             var qualityToPut = repo.MstQualities.Where(q => q.id == quality.id).FirstOrDefault();
+            MstCategory qualityCategory = qualityToPut.MstCategory;
+            MstCollection qualityCollection = qualityToPut.MstCollection;
 
             qualityToPut = Mapper.Map<VMQuality, MstQuality>(quality, qualityToPut);
-            //qualityToPut.categoryId = quality.categoryId;
-            //qualityToPut.collectionId = quality.collectionId;
-            //qualityToPut.qualityCode = quality.qualityCode;
-            //qualityToPut.qualityName = quality.qualityName;
-            //qualityToPut.description = quality.description;
-            //qualityToPut.width = quality.width;
-            //qualityToPut.size = quality.size;
-            //qualityToPut.hsnId = quality.hsnId;
-            //qualityToPut.cutRate = quality.cutRate;
-            //qualityToPut.roleRate = quality.roleRate;
-            //qualityToPut.rrp = quality.rrp;
-            //qualityToPut.maxCutRateDisc = quality.maxCutRateDisc;
-            //qualityToPut.maxRoleRateDisc = quality.maxRoleRateDisc;
-            //qualityToPut.floorRate = quality.floorRate;
-            //qualityToPut.maxFloorCutRateDisc = quality.maxFloorCutRateDisc;
-            //qualityToPut.maxFloorRoleRateDisc = quality.maxFloorRoleRateDisc;
+            qualityToPut.MstCategory = qualityCategory;
+            qualityToPut.MstCollection = qualityCollection;
             qualityToPut.updatedBy = _LoggedInuserId;
             qualityToPut.updatedOn = DateTime.Now;
 
