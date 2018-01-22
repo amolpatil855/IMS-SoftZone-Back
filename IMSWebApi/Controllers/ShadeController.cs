@@ -1,4 +1,5 @@
-﻿using IMSWebApi.ServicesDesign;
+﻿using IMSWebApi.CustomAttributes;
+using IMSWebApi.ServicesDesign;
 using IMSWebApi.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ using System.Web.Http;
 
 namespace IMSWebApi.Controllers
 {
+    [Authorize]
     public class ShadeController : ApiController
     {
          private ShadeService _shadeService = null;
@@ -19,8 +21,7 @@ namespace IMSWebApi.Controllers
         }
 
          // GET api/Shade   
-         //[Authorize]
-         //[ApiAuthorize(AccessLevel = "shade")]
+         [ApiAuthorize(AccessLevel = "shade")]
          [HttpGet]
          public IHttpActionResult Get(int pageSize = 0, int page = 0, string search = null)
          {
@@ -29,8 +30,7 @@ namespace IMSWebApi.Controllers
          }
 
          // GET api/Shade/1
-         //[Authorize]
-         //[ApiAuthorize(AccessLevel = "shade")]
+         [ApiAuthorize(AccessLevel = "shade")]
          [HttpGet]
          public IHttpActionResult Get(long id)
          {
@@ -39,7 +39,7 @@ namespace IMSWebApi.Controllers
          }
 
          [HttpGet]
-         [Route("api/Shade/GetSerialNumberLookUpByDesign")]
+         [Route("api/Shade/GetSerialNumberLookUpByDesign/{id}")]
          public IHttpActionResult GetSerialNumberLookUpByDesign(long designId)
          {
              var result = _shadeService.getSerialNumberLookUpByDesign(designId);
@@ -47,7 +47,7 @@ namespace IMSWebApi.Controllers
          }
 
          [HttpGet]
-         [Route("api/Shade/GetSerialNumberLookUpByCollection")]
+         [Route("api/Shade/GetSerialNumberLookUpByCollection/{id}")]
          public IHttpActionResult GetSerialNumberLookUpByCollection(long collectionId)
          {
              var result = _shadeService.getSerialNumberLookUpByCollection(collectionId);
@@ -55,8 +55,7 @@ namespace IMSWebApi.Controllers
          }
 
          // POST api/Shade
-         //[Authorize]
-         //[ApiAuthorize(AccessLevel = "shade")]
+         [ApiAuthorize(AccessLevel = "shade")]
          [HttpPost]
          public IHttpActionResult PostShade(VMShade shade)
          {
@@ -69,8 +68,7 @@ namespace IMSWebApi.Controllers
          }
 
          // PUT api/Shade/1
-         //[Authorize]
-         //[ApiAuthorize(AccessLevel = "shade")]
+         [ApiAuthorize(AccessLevel = "shade")]
          [HttpPut]
          public IHttpActionResult PutShade(VMShade shade)
          {
@@ -83,8 +81,7 @@ namespace IMSWebApi.Controllers
          }
 
          // DELETE api/Shade/1
-         //[Authorize]
-         //[ApiAuthorize(AccessLevel = "shade")]
+         [ApiAuthorize(AccessLevel = "shade")]
          [HttpDelete]
          public IHttpActionResult DeleteShade(long id)
          {

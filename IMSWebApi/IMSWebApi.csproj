@@ -507,7 +507,7 @@
     <Content Include="Scripts\jquery-3.2.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\App_LocalResources\" />
+    <Folder Include="App_Data\" />
     <Folder Include="Content\themes\base\minified\images\" />
     <Folder Include="UploadFile\" />
   </ItemGroup>

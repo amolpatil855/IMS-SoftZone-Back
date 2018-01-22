@@ -14,6 +14,7 @@ using IMSWebApi.CustomAttributes;
 
 namespace IMSWebApi.Controllers
 {
+    [Authorize]
     public class RoleController : ApiController
     {
         private RoleService _roleService = null;
@@ -24,7 +25,6 @@ namespace IMSWebApi.Controllers
         }
 
         // POST api/Role/getRole
-        [Authorize]
         [ApiAuthorize(AccessLevel = "role")]
         [HttpGet]
         public IHttpActionResult Get(int pageSize=0, int page=0,string search=null)
@@ -36,7 +36,6 @@ namespace IMSWebApi.Controllers
         }
 
         [HttpGet]
-        [Authorize]
         [ApiAuthorize(AccessLevel = "role")]
         public IHttpActionResult Get(Int64 id)
         {
@@ -45,7 +44,6 @@ namespace IMSWebApi.Controllers
         }
 
         [HttpGet]
-        [Authorize]
         [ApiAuthorize(AccessLevel = "role")]
         [Route("api/Role/getRoleMenu/{id}")]
         //  [ActionName("getRoleMenu")]  
@@ -55,7 +53,6 @@ namespace IMSWebApi.Controllers
         }
 
         [HttpPost]
-        [Authorize]
         [ApiAuthorize(AccessLevel = "role")]
         public IHttpActionResult insertRole(VMRole role)
         {
@@ -63,7 +60,6 @@ namespace IMSWebApi.Controllers
         }
 
         [HttpPut]
-        [Authorize]
         [ApiAuthorize(AccessLevel = "role")]
         public IHttpActionResult updateRole(VMRole role)
         {
@@ -71,7 +67,6 @@ namespace IMSWebApi.Controllers
         }
 
         [HttpDelete]
-        [Authorize]
         [ApiAuthorize(AccessLevel = "role")]
         public IHttpActionResult deleRole(Int64 Id)
         {

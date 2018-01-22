@@ -10,6 +10,7 @@ using System.Web.Http;
 
 namespace IMSWebApi.Controllers
 {
+    [Authorize]
     public class CollectionController : ApiController
     {
         private CollectionService _collectionService = null;
@@ -19,7 +20,6 @@ namespace IMSWebApi.Controllers
         }
 
         // GET api/Collection
-        [Authorize]
         [ApiAuthorize(AccessLevel = "collection")]
         [HttpGet]
         public IHttpActionResult Get(int pageSize = 0, int page = 0, string search = null)
@@ -29,7 +29,6 @@ namespace IMSWebApi.Controllers
         }
 
         // GET api/Collection/1
-        [Authorize]
         [ApiAuthorize(AccessLevel = "collection")]
         [HttpGet]
         public IHttpActionResult Get(long id)
@@ -48,7 +47,6 @@ namespace IMSWebApi.Controllers
 
 
         // POST api/Collection
-        [Authorize]
         [ApiAuthorize(AccessLevel = "collection")]
         [HttpPost]
         public IHttpActionResult PostCollection(VMCollection collection)
@@ -62,7 +60,6 @@ namespace IMSWebApi.Controllers
         }
 
         // PUT api/Collection
-        [Authorize]
         [ApiAuthorize(AccessLevel = "collection")]
         [HttpPut]
         public IHttpActionResult PutCollection(VMCollection collection)
@@ -76,7 +73,6 @@ namespace IMSWebApi.Controllers
         }
 
         // DELETE api/Collection/1
-        [Authorize]
         [ApiAuthorize(AccessLevel = "collection")]
         [HttpDelete]
         public IHttpActionResult DeleteSupplier(long id)

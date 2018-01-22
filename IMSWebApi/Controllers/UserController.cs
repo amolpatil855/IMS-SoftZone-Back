@@ -16,6 +16,7 @@ using IMSWebApi.CustomAttributes;
 
 namespace IMSWebApi.Controllers
 {
+    [Authorize]
     public class UserController : ApiController
     {
         private UserService _userService = null;
@@ -26,7 +27,6 @@ namespace IMSWebApi.Controllers
         }
 
         // GET api/User
-        [Authorize]
         [ApiAuthorize(AccessLevel = "user")]
         [HttpGet]
         public IHttpActionResult Get(int pageSize = 0, int page = 0, string search = null)
@@ -36,7 +36,6 @@ namespace IMSWebApi.Controllers
         }
 
         // GET api/User/5
-        [Authorize]
         [ApiAuthorize(AccessLevel = "user")]
         [HttpGet]
         public IHttpActionResult Get(long id)
@@ -46,7 +45,6 @@ namespace IMSWebApi.Controllers
         }
 
         // Get the type of User
-        [Authorize]
         [ApiAuthorize(AccessLevel = "user")]
         [HttpGet]
         [Route("api/User/GetUserType")]
@@ -57,7 +55,6 @@ namespace IMSWebApi.Controllers
         }
         
         //Get Currently Logged In User Details
-        [Authorize]
         [ApiAuthorize(AccessLevel = "user")]
         [HttpGet]
         [Route("api/User/GetLoggedInUserDetail")]
@@ -79,7 +76,6 @@ namespace IMSWebApi.Controllers
         }
 
         // PUT api/User/5
-        [Authorize]
         [ApiAuthorize(AccessLevel = "user")]
         [HttpPut]
         public IHttpActionResult PutMstUser(VMUser mstuser)
@@ -93,7 +89,6 @@ namespace IMSWebApi.Controllers
         }
 
          //POST api/User
-        [Authorize]
         [ApiAuthorize(AccessLevel = "user")]
         [HttpPost]
         public IHttpActionResult PostMstUser(VMUser mstuser)
@@ -107,7 +102,6 @@ namespace IMSWebApi.Controllers
         }
 
         // DELETE api/User/5
-        [Authorize]
         [ApiAuthorize(AccessLevel = "user")]
         [HttpDelete]
         public IHttpActionResult DeleteMstUser(long id)
@@ -117,7 +111,6 @@ namespace IMSWebApi.Controllers
         }
         
         //Change Password for Current User
-        [Authorize]
         [ApiAuthorize(AccessLevel = "user")]
         [HttpPut]
         [Route("api/User/ChangePassword")]
