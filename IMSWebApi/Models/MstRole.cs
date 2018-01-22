@@ -16,8 +16,8 @@ namespace IMSWebApi.Models
     {
         public MstRole()
         {
-            this.MstUsers = new HashSet<MstUser>();
             this.CFGRoleMenus = new HashSet<CFGRoleMenu>();
+            this.MstUsers = new HashSet<MstUser>();
         }
     
         public long id { get; set; }
@@ -28,7 +28,7 @@ namespace IMSWebApi.Models
         public Nullable<System.DateTime> updatedOn { get; set; }
         public Nullable<long> updatedBy { get; set; }
     
-        public virtual ICollection<MstUser> MstUsers { get; set; }
         public virtual ICollection<CFGRoleMenu> CFGRoleMenus { get; set; }
+        public virtual ICollection<MstUser> MstUsers { get; set; }
     }
 }

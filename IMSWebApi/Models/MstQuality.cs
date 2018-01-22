@@ -44,8 +44,8 @@ namespace IMSWebApi.Models
     
         public virtual MstCategory MstCategory { get; set; }
         public virtual MstCollection MstCollection { get; set; }
-        public virtual MstHsn MstHsn { get; set; }
         public virtual ICollection<MstDesign> MstDesigns { get; set; }
+        public virtual MstHsn MstHsn { get; set; }
         public virtual ICollection<MstShade> MstShades { get; set; }
     }
 }

@@ -16,8 +16,8 @@ namespace IMSWebApi.ViewModel
         public string designName { get; set; }
         public string description { get; set; }
 
-        public virtual MstCategory MstCategory { get; set; }
-        public virtual MstCollection MstCollection { get; set; }
-        public virtual MstQuality MstQuality { get; set; }
+        public virtual VMCategory MstCategory { get; set; }
+        public virtual VMCollection MstCollection { get; set; }
+        public virtual VMQuality MstQuality { get; set; }
     }
 }

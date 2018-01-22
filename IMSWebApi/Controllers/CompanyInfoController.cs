@@ -1,4 +1,5 @@
-﻿using IMSWebApi.Services;
+﻿using IMSWebApi.CustomAttributes;
+using IMSWebApi.Services;
 using IMSWebApi.ViewModel;
 using Newtonsoft.Json;
 using System;
@@ -12,6 +13,7 @@ using System.Web.Http;
 
 namespace IMSWebApi.Controllers
 {
+    [Authorize]
     public class CompanyInfoController : ApiController
     {
         private CompanyInfoService _companyInfoService = null;
@@ -22,6 +24,7 @@ namespace IMSWebApi.Controllers
         }
 
         // Get api/CompanyInfo
+        [ApiAuthorize(AccessLevel = "companyinfo")]
         [HttpGet]
         public IHttpActionResult Get()
         {
@@ -30,6 +33,7 @@ namespace IMSWebApi.Controllers
         }
 
         // Get api/CompanyInfo
+        [ApiAuthorize(AccessLevel = "companyinfo")]
         [HttpGet]
         public IHttpActionResult Get(long id)
         {
@@ -38,6 +42,7 @@ namespace IMSWebApi.Controllers
         }
 
         //POST api/CompanyInfo
+        [ApiAuthorize(AccessLevel = "companyinfo")]
         [HttpPost]
         public IHttpActionResult PostMstCompanyInfo( )
         {
@@ -65,6 +70,7 @@ namespace IMSWebApi.Controllers
         }
 
         // PUT api/CompanyInfo
+        [ApiAuthorize(AccessLevel = "companyinfo")]
         [HttpPut]
         public IHttpActionResult PutMstCompanyInfo()
         {

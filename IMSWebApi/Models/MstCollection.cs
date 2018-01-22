@@ -16,8 +16,8 @@ namespace IMSWebApi.Models
     {
         public MstCollection()
         {
-            this.MstQualities = new HashSet<MstQuality>();
             this.MstDesigns = new HashSet<MstDesign>();
+            this.MstQualities = new HashSet<MstQuality>();
             this.MstShades = new HashSet<MstShade>();
         }
     
@@ -35,8 +35,8 @@ namespace IMSWebApi.Models
     
         public virtual MstCategory MstCategory { get; set; }
         public virtual MstSupplier MstSupplier { get; set; }
-        public virtual ICollection<MstQuality> MstQualities { get; set; }
         public virtual ICollection<MstDesign> MstDesigns { get; set; }
+        public virtual ICollection<MstQuality> MstQualities { get; set; }
         public virtual ICollection<MstShade> MstShades { get; set; }
     }
 }
