@@ -1,4 +1,5 @@
-﻿using IMSWebApi.Services;
+﻿using IMSWebApi.CustomAttributes;
+using IMSWebApi.Services;
 using IMSWebApi.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ using System.Web.Http;
 
 namespace IMSWebApi.Controllers
 {
+    [Authorize]
     public class QualityController : ApiController
     {
         private QualityService _qualityService = null;
@@ -19,8 +21,7 @@ namespace IMSWebApi.Controllers
         }
 
         // GET api/Quality   
-        //[Authorize]
-        //[ApiAuthorize(AccessLevel = "quality")]
+        [ApiAuthorize(AccessLevel = "quality")]
         [HttpGet]
         public IHttpActionResult Get(int pageSize = 0, int page = 0, string search = null)
         {
@@ -29,8 +30,7 @@ namespace IMSWebApi.Controllers
         }
 
         // GET api/Quality/1
-        //[Authorize]
-        //[ApiAuthorize(AccessLevel = "quality")]
+        [ApiAuthorize(AccessLevel = "quality")]
         [HttpGet]
         public IHttpActionResult Get(long id)
         {
@@ -47,8 +47,7 @@ namespace IMSWebApi.Controllers
         }
 
         // POST api/Quality
-        //[Authorize]
-        //[ApiAuthorize(AccessLevel = "quality")]
+        [ApiAuthorize(AccessLevel = "quality")]
         [HttpPost]
         public IHttpActionResult PostQuality(VMQuality quality)
         {
@@ -61,8 +60,7 @@ namespace IMSWebApi.Controllers
         }
 
         // PUT api/Quality/1
-        //[Authorize]
-        //[ApiAuthorize(AccessLevel = "quality")]
+        [ApiAuthorize(AccessLevel = "quality")]
         [HttpPut]
         public IHttpActionResult PutQuality(VMQuality quality)
         {
@@ -75,8 +73,7 @@ namespace IMSWebApi.Controllers
         }
 
         // DELETE api/Quality/1
-        //[Authorize]
-        //[ApiAuthorize(AccessLevel = "quality")]
+        [ApiAuthorize(AccessLevel = "quality")]
         [HttpDelete]
         public IHttpActionResult DeleteQuality(long id)
         {

@@ -11,6 +11,7 @@ using System.Web.Http;
 
 namespace IMSWebApi.Controllers
 {
+    [Authorize]
     public class CustomerController : ApiController
     {
         private CustomerService _customerService = null;
@@ -21,7 +22,6 @@ namespace IMSWebApi.Controllers
         }
 
         // GET api/Customer
-        [Authorize]
         [ApiAuthorize(AccessLevel = "customer")]
         [HttpGet]
         public IHttpActionResult Get(int pageSize = 0, int page = 0, string search = null)
@@ -31,7 +31,6 @@ namespace IMSWebApi.Controllers
         }
 
         // GET api/Customer/1
-        [Authorize]
         [ApiAuthorize(AccessLevel = "customer")]
         [HttpGet]
         public IHttpActionResult Get(Int64 id)
@@ -49,7 +48,6 @@ namespace IMSWebApi.Controllers
         }
 
         // POST api/Customer
-        [Authorize]
         [ApiAuthorize(AccessLevel = "customer")]
         [HttpPost]
         public IHttpActionResult postCustomer(VMCustomer customer)
@@ -63,7 +61,6 @@ namespace IMSWebApi.Controllers
         }
 
         // PUT api/Customer/
-        [Authorize]
         [ApiAuthorize(AccessLevel = "customer")]
         [HttpPut]
         public IHttpActionResult PutCustome(VMCustomer customer)
@@ -77,7 +74,6 @@ namespace IMSWebApi.Controllers
         }
 
         // DELETE api/Customer/1
-        [Authorize]
         [ApiAuthorize(AccessLevel = "customer")]
         [HttpDelete]
         public IHttpActionResult DeleteCustomer(long id)

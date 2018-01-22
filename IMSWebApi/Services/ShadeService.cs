@@ -101,9 +101,15 @@ namespace IMSWebApi.ServicesDesign
         public ResponseMessage putShade(VMShade shade)
         {
             var shadeToPut = repo.MstShades.Where(q => q.id == shade.id).FirstOrDefault();
-
+            MstCategory shadeCategory = shadeToPut.MstCategory;
+            MstCollection shadeCollection = shadeToPut.MstCollection;
+            MstDesign shadeDesign = shadeToPut.MstDesign;
+            MstQuality shadeQuality = shadeToPut.MstQuality;
             shadeToPut = Mapper.Map<VMShade, MstShade>(shade, shadeToPut);
-            
+            shadeToPut.MstCategory = shadeCategory;
+            shadeToPut.MstCollection = shadeCollection;
+            shadeToPut.MstDesign = shadeDesign;
+            shadeToPut.MstQuality = shadeQuality;
             shadeToPut.updatedBy = _LoggedInuserId;
             shadeToPut.updatedOn = DateTime.Now;
 

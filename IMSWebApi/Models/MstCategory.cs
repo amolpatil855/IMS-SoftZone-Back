@@ -17,8 +17,8 @@ namespace IMSWebApi.Models
         public MstCategory()
         {
             this.MstCollections = new HashSet<MstCollection>();
-            this.MstQualities = new HashSet<MstQuality>();
             this.MstDesigns = new HashSet<MstDesign>();
+            this.MstQualities = new HashSet<MstQuality>();
             this.MstShades = new HashSet<MstShade>();
         }
     
@@ -31,8 +31,8 @@ namespace IMSWebApi.Models
         public Nullable<long> updatedBy { get; set; }
     
         public virtual ICollection<MstCollection> MstCollections { get; set; }
-        public virtual ICollection<MstQuality> MstQualities { get; set; }
         public virtual ICollection<MstDesign> MstDesigns { get; set; }
+        public virtual ICollection<MstQuality> MstQualities { get; set; }
         public virtual ICollection<MstShade> MstShades { get; set; }
     }
 }

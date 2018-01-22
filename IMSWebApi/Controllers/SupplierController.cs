@@ -13,6 +13,7 @@ using IMSWebApi.CustomAttributes;
 
 namespace IMSWebApi.Controllers
 {
+    [Authorize]
     public class SupplierController : ApiController
     {
         private SupplierService _supplierService = null;
@@ -21,7 +22,6 @@ namespace IMSWebApi.Controllers
             _supplierService = new SupplierService();
         }
         // GET api/Supplier
-        [Authorize]
         [ApiAuthorize(AccessLevel = "supplier")]
         [HttpGet]
         public IHttpActionResult Get(int pageSize = 0, int page = 0, string search = null)
@@ -31,7 +31,6 @@ namespace IMSWebApi.Controllers
         }
 
         // GET api/Supplier/1
-        [Authorize]
         [ApiAuthorize(AccessLevel = "supplier")]
         [HttpGet]
         public IHttpActionResult Get(long id)
@@ -49,7 +48,6 @@ namespace IMSWebApi.Controllers
         }
 
         // PUT api/Supplier/1
-        [Authorize]
         [ApiAuthorize(AccessLevel = "supplier")]
         [HttpPut]
         public IHttpActionResult PutSupplier(VMSupplier supplier)
@@ -63,7 +61,6 @@ namespace IMSWebApi.Controllers
         }
 
         // POST api/Supplier/1
-        [Authorize]
         [ApiAuthorize(AccessLevel = "supplier")]
         [HttpPost]
         public IHttpActionResult PostSupplier(VMSupplier supplier)
@@ -77,7 +74,6 @@ namespace IMSWebApi.Controllers
         }
 
         // DELETE api/Supplier/1
-        [Authorize]
         [ApiAuthorize(AccessLevel = "supplier")]
         [HttpDelete]
         public IHttpActionResult DeleteSupplier(long id)
