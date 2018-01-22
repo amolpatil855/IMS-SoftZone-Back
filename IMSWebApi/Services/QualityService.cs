@@ -27,7 +27,9 @@ namespace IMSWebApi.Services
             if (pageSize > 0)
             {
                 var result = repo.MstQualities.Where(q => !string.IsNullOrEmpty(search)
-                    ? q.MstCollection.collectionCode.StartsWith(search) || q.qualityCode.StartsWith(search) 
+                    ? q.MstCategory.code.StartsWith(search) 
+                    || q.MstCollection.collectionCode.StartsWith(search) 
+                    || q.qualityCode.StartsWith(search) 
                     || q.qualityName.StartsWith(search) : true)
                     .OrderBy(q => q.id).Skip(page * pageSize).Take(pageSize).ToList();
                 qualityView = Mapper.Map<List<MstQuality>, List<VMQuality>>(result);
@@ -35,7 +37,9 @@ namespace IMSWebApi.Services
             else
             {
                 var result = repo.MstQualities.Where(q => !string.IsNullOrEmpty(search)
-                   ? q.MstCollection.collectionCode.StartsWith(search) || q.qualityCode.StartsWith(search)
+                   ? q.MstCategory.code.StartsWith(search)
+                    || q.MstCollection.collectionCode.StartsWith(search)
+                    || q.qualityCode.StartsWith(search)
                     || q.qualityName.StartsWith(search) : true).ToList();
                 qualityView = Mapper.Map<List<MstQuality>, List<VMQuality>>(result);
             }
@@ -44,7 +48,9 @@ namespace IMSWebApi.Services
             {
                 Data = qualityView,
                 TotalCount = repo.MstQualities.Where(q => !string.IsNullOrEmpty(search)
-                     ? q.MstCollection.collectionCode.StartsWith(search) || q.qualityCode.StartsWith(search)
+                     ? q.MstCategory.code.StartsWith(search)
+                    || q.MstCollection.collectionCode.StartsWith(search)
+                    || q.qualityCode.StartsWith(search)
                     || q.qualityName.StartsWith(search) : true).Count(),
                 Page = page
             };

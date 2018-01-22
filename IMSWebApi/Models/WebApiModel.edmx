@@ -156,14 +156,18 @@
           <Property Name="width" Type="decimal" Precision="6" Scale="2" />
           <Property Name="size" Type="decimal" Precision="6" Scale="2" />
           <Property Name="hsnId" Type="bigint" />
-          <Property Name="cutRate" Type="decimal" Precision="7" Scale="2" Nullable="false" />
-          <Property Name="roleRate" Type="decimal" Precision="7" Scale="2" Nullable="false" />
-          <Property Name="rrp" Type="decimal" Precision="7" Scale="2" Nullable="false" />
-          <Property Name="maxCutRateDisc" Type="int" Nullable="false" />
-          <Property Name="maxRoleRateDisc" Type="int" Nullable="false" />
-          <Property Name="floorRate" Type="decimal" Precision="7" Scale="2" />
-          <Property Name="maxFloorCutRateDisc" Type="int" />
-          <Property Name="maxFloorRoleRateDisc" Type="int" />
+          <Property Name="cutRate" Type="decimal" Precision="7" Scale="2" />
+          <Property Name="roleRate" Type="decimal" Precision="7" Scale="2" />
+          <Property Name="rrp" Type="decimal" Precision="7" Scale="2" />
+          <Property Name="maxCutRateDisc" Type="int" />
+          <Property Name="maxRoleRateDisc" Type="int" />
+          <Property Name="flatRate" Type="decimal" Precision="7" Scale="2" />
+          <Property Name="maxflatCutRateDisc" Type="int" />
+          <Property Name="maxflatRoleRateDisc" Type="int" />
+          <Property Name="custRatePerSqFeet" Type="decimal" Precision="7" Scale="2" />
+          <Property Name="purchaseRatePerMM" Type="decimal" Precision="7" Scale="2" />
+          <Property Name="sellingRatePerMM" Type="decimal" Precision="7" Scale="2" />
+          <Property Name="maxDiscout" Type="int" />
           <Property Name="createdOn" Type="datetime" Nullable="false" />
           <Property Name="createdBy" Type="bigint" Nullable="false" />
           <Property Name="updatedOn" Type="datetime" />
@@ -875,14 +879,18 @@
           <Property Name="width" Type="Decimal" Precision="6" Scale="2" />
           <Property Name="size" Type="Decimal" Precision="6" Scale="2" />
           <Property Name="hsnId" Type="Int64" />
-          <Property Name="cutRate" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
-          <Property Name="roleRate" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
-          <Property Name="rrp" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
-          <Property Name="maxCutRateDisc" Type="Int32" Nullable="false" />
-          <Property Name="maxRoleRateDisc" Type="Int32" Nullable="false" />
-          <Property Name="floorRate" Type="Decimal" Precision="7" Scale="2" />
-          <Property Name="maxFloorCutRateDisc" Type="Int32" />
-          <Property Name="maxFloorRoleRateDisc" Type="Int32" />
+          <Property Name="cutRate" Type="Decimal" Precision="7" Scale="2" />
+          <Property Name="roleRate" Type="Decimal" Precision="7" Scale="2" />
+          <Property Name="rrp" Type="Decimal" Precision="7" Scale="2" />
+          <Property Name="maxCutRateDisc" Type="Int32" />
+          <Property Name="maxRoleRateDisc" Type="Int32" />
+          <Property Name="flatRate" Type="Decimal" Precision="7" Scale="2" />
+          <Property Name="maxflatCutRateDisc" Type="Int32" />
+          <Property Name="maxflatRoleRateDisc" Type="Int32" />
+          <Property Name="custRatePerSqFeet" Type="Decimal" Precision="7" Scale="2" />
+          <Property Name="purchaseRatePerMM" Type="Decimal" Precision="7" Scale="2" />
+          <Property Name="sellingRatePerMM" Type="Decimal" Precision="7" Scale="2" />
+          <Property Name="maxDiscout" Type="Int32" />
           <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="createdBy" Type="Int64" Nullable="false" />
           <Property Name="updatedOn" Type="DateTime" Precision="3" />
@@ -1403,13 +1411,17 @@
           <EntitySetMapping Name="MstQualities">
             <EntityTypeMapping TypeName="WebAPIdbModel.MstQuality">
               <MappingFragment StoreEntitySet="MstQuality">
+                <ScalarProperty Name="maxDiscout" ColumnName="maxDiscout" />
+                <ScalarProperty Name="sellingRatePerMM" ColumnName="sellingRatePerMM" />
+                <ScalarProperty Name="purchaseRatePerMM" ColumnName="purchaseRatePerMM" />
+                <ScalarProperty Name="custRatePerSqFeet" ColumnName="custRatePerSqFeet" />
+                <ScalarProperty Name="maxflatRoleRateDisc" ColumnName="maxflatRoleRateDisc" />
+                <ScalarProperty Name="maxflatCutRateDisc" ColumnName="maxflatCutRateDisc" />
+                <ScalarProperty Name="flatRate" ColumnName="flatRate" />
                 <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
                 <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
                 <ScalarProperty Name="createdBy" ColumnName="createdBy" />
                 <ScalarProperty Name="createdOn" ColumnName="createdOn" />
-                <ScalarProperty Name="maxFloorRoleRateDisc" ColumnName="maxFloorRoleRateDisc" />
-                <ScalarProperty Name="maxFloorCutRateDisc" ColumnName="maxFloorCutRateDisc" />
-                <ScalarProperty Name="floorRate" ColumnName="floorRate" />
                 <ScalarProperty Name="maxRoleRateDisc" ColumnName="maxRoleRateDisc" />
                 <ScalarProperty Name="maxCutRateDisc" ColumnName="maxCutRateDisc" />
                 <ScalarProperty Name="rrp" ColumnName="rrp" />

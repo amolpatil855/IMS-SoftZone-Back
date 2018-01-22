@@ -26,22 +26,26 @@ namespace IMSWebApi.Services
             if (pageSize > 0)
             {
                 var result = repo.MstCollections.Where(c => !string.IsNullOrEmpty(search) 
-                    ? c.collectionName.StartsWith(search) : true)
+                    ? c.MstCategory.code.StartsWith(search) 
+                    || c.collectionName.StartsWith(search) : true)
                     .OrderBy(p => p.id).Skip(page * pageSize).Take(pageSize).ToList();
                 supplierView = Mapper.Map<List<MstCollection>, List<VMCollection>>(result);
             }
             else
             {
-                var result = repo.MstCollections.Where(c => !string.IsNullOrEmpty(search) 
-                    ? c.collectionName.StartsWith(search) : true).ToList();
+                var result = repo.MstCollections.Where(c => !string.IsNullOrEmpty(search)
+                    ? c.MstCategory.code.StartsWith(search)
+                    || c.collectionName.StartsWith(search) : true).ToList();
                 supplierView = Mapper.Map<List<MstCollection>, List<VMCollection>>(result);
             }
 
             return new ListResult<VMCollection>
             {
                 Data = supplierView,
-                TotalCount = repo.MstCollections.Where(c => !string.IsNullOrEmpty(search) 
-                    ? c.collectionName.StartsWith(search) : true).Count(),Page = page
+                TotalCount = repo.MstCollections.Where(c => !string.IsNullOrEmpty(search)
+                    ? c.MstCategory.code.StartsWith(search)
+                    || c.collectionName.StartsWith(search) : true).Count(),
+                Page = page
             };
         }
 
