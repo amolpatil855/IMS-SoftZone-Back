@@ -29,14 +29,18 @@ namespace IMSWebApi.Models
         public Nullable<decimal> width { get; set; }
         public Nullable<decimal> size { get; set; }
         public Nullable<long> hsnId { get; set; }
-        public decimal cutRate { get; set; }
-        public decimal roleRate { get; set; }
-        public decimal rrp { get; set; }
-        public int maxCutRateDisc { get; set; }
-        public int maxRoleRateDisc { get; set; }
-        public Nullable<decimal> floorRate { get; set; }
-        public Nullable<int> maxFloorCutRateDisc { get; set; }
-        public Nullable<int> maxFloorRoleRateDisc { get; set; }
+        public Nullable<decimal> cutRate { get; set; }
+        public Nullable<decimal> roleRate { get; set; }
+        public Nullable<decimal> rrp { get; set; }
+        public Nullable<int> maxCutRateDisc { get; set; }
+        public Nullable<int> maxRoleRateDisc { get; set; }
+        public Nullable<decimal> flatRate { get; set; }
+        public Nullable<int> maxflatCutRateDisc { get; set; }
+        public Nullable<int> maxflatRoleRateDisc { get; set; }
+        public Nullable<decimal> custRatePerSqFeet { get; set; }
+        public Nullable<decimal> purchaseRatePerMM { get; set; }
+        public Nullable<decimal> sellingRatePerMM { get; set; }
+        public Nullable<int> maxDiscout { get; set; }
         public System.DateTime createdOn { get; set; }
         public long createdBy { get; set; }
         public Nullable<System.DateTime> updatedOn { get; set; }
