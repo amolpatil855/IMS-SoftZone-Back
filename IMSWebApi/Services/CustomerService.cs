@@ -82,22 +82,7 @@ namespace IMSWebApi.Services
                 caddress.createdBy = _LoggedInuserId;
             }
             var customerToPut = repo.MstCustomers.Where(s => s.id == customer.id).FirstOrDefault();
-            customerToPut.code = customer.code;
-            customerToPut.name = customer.name;
-            customerToPut.nickName = customer.nickName;
-            customerToPut.gstin = customer.gstin;
-            customerToPut.email = customer.email;
-            customerToPut.phone = customer.phone;
-            customerToPut.alternateEmail1 = customer.alternateEmail1;
-            customerToPut.alternateEmail2 = customer.alternateEmail2;
-            customerToPut.alternatePhone1 = customer.alternatePhone1;
-            customerToPut.alternatePhone2 = customer.alternatePhone2;
-            customerToPut.pan = customer.pan;
-            customerToPut.isWholesaleCustomer = customer.isWholesaleCustomer;
-            customerToPut.alternatePhone1 = customer.alternatePhone1;
-            customerToPut.accountPersonName = customer.accountPersonName;
-            customerToPut.accountPersonEmail = customer.accountPersonEmail;
-            customerToPut.accountPersonPhone = customer.accountPersonPhone;
+            customerToPut = Mapper.Map<VMCustomer, MstCustomer>(customer, customerToPut);
             customerToPut.updatedOn = DateTime.Now;
             customerToPut.updatedBy = _LoggedInuserId;
 

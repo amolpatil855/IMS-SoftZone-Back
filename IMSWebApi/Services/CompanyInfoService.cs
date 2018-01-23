@@ -6,12 +6,18 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Microsoft.AspNet.Identity;
 
 namespace IMSWebApi.Services
 {
     public class CompanyInfoService
     {
         WebAPIdbEntities repo = new WebAPIdbEntities();
+         Int64 _LoggedInuserId;
+         public CompanyInfoService()
+        {
+            _LoggedInuserId = Convert.ToInt64(HttpContext.Current.User.Identity.GetUserId());
+        }
 
         public VMCompanyInfo getCompanyInfo()
         {
@@ -31,6 +37,7 @@ namespace IMSWebApi.Services
         {
             MstCompanyInfo companyInfoToPost= Mapper.Map<VMCompanyInfo, MstCompanyInfo>(companyInfo);
             companyInfoToPost.createdOn = DateTime.Now;
+            companyInfoToPost.createdBy = _LoggedInuserId;
             repo.MstCompanyInfoes.Add(companyInfoToPost);
             repo.SaveChanges();
             return new ResponseMessage(companyInfoToPost.id, "Company Information Added Successfully", ResponseType.Success);
@@ -39,12 +46,9 @@ namespace IMSWebApi.Services
         public ResponseMessage putCompanyInfo(VMCompanyInfo companyInfo)
         {
             var companyInfoToPut = repo.MstCompanyInfoes.Where(c => c.id == companyInfo.id).FirstOrDefault();
-            companyInfoToPut.companyName = companyInfo.companyName;
-            companyInfoToPut.email = companyInfo.email;
-            companyInfoToPut.phone = companyInfo.phone;
-            companyInfoToPut.gstin = companyInfo.gstin;
-            companyInfoToPut.companyLogo = companyInfo.companyLogo;
+            companyInfoToPut = Mapper.Map<VMCompanyInfo, MstCompanyInfo>(companyInfo, companyInfoToPut);
             companyInfoToPut.updatedOn = DateTime.Now;
+            companyInfoToPut.updatedBy = _LoggedInuserId;
             repo.SaveChanges();
             return new ResponseMessage(companyInfoToPut.id, "Company Information Updated Successfully", ResponseType.Success);
         }

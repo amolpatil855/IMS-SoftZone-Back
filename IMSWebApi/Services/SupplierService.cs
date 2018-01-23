@@ -88,22 +88,7 @@ namespace IMSWebApi.Services
                 saddress.createdBy = _LoggedInuserId;
             }
             var supplierToPut = repo.MstSuppliers.Where(s => s.id == supplier.id).FirstOrDefault();
-            supplierToPut.code = supplier.code;
-            supplierToPut.name = supplier.name;
-            supplierToPut.firmName = supplier.firmName;
-            supplierToPut.description = supplier.description;
-            supplierToPut.gstin = supplier.gstin;
-            supplierToPut.email = supplier.email;
-            supplierToPut.phone = supplier.phone;
-            supplierToPut.accountPersonName = supplier.accountPersonName;
-            supplierToPut.accountPersonEmail = supplier.accountPersonEmail;
-            supplierToPut.accountPersonPhone = supplier.accountPersonPhone;
-            supplierToPut.warehousePersonName = supplier.warehousePersonName;
-            supplierToPut.warehousePersonEmail = supplier.warehousePersonEmail;
-            supplierToPut.warehousePersonPhone = supplier.warehousePersonPhone;
-            supplierToPut.dispatchPersonName = supplier.dispatchPersonName;
-            supplierToPut.dispatchPersonEmail = supplier.dispatchPersonEmail;
-            supplierToPut.dispatchPersonPhone = supplier.dispatchPersonPhone;
+            supplierToPut = Mapper.Map<VMSupplier, MstSupplier>(supplier, supplierToPut);
             supplierToPut.updatedOn = DateTime.Now;
             supplierToPut.updatedBy = _LoggedInuserId;
             supplierToPut.MstSupplierAddresses = supplierAddressDetails;
