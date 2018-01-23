@@ -32,14 +32,14 @@ namespace IMSWebApi.App_Start
             Mapper.CreateMap<MstCustomer, VMCustomer>();
             Mapper.CreateMap<VMCustomer, MstCustomer>();
             
-            Mapper.CreateMap<MstCustomerAddressDetail, VMCustomerAddressDetail>();
-            Mapper.CreateMap<VMCustomerAddressDetail, MstCustomerAddressDetail>();
+            Mapper.CreateMap<MstCustomerAddress, VMCustomerAddress>();
+            Mapper.CreateMap<VMCustomerAddress, MstCustomerAddress>();
             
             Mapper.CreateMap<MstSupplier, VMSupplier>();
             Mapper.CreateMap<VMSupplier, MstSupplier>();
             
-            Mapper.CreateMap<MstSupplierAddressDetail, VMSupplierAddressDetail>();
-            Mapper.CreateMap<VMSupplierAddressDetail, MstSupplierAddressDetail>();
+            Mapper.CreateMap<MstSupplierAddress, VMSupplierAddress>();
+            Mapper.CreateMap<VMSupplierAddress, MstSupplierAddress>();
 
             Mapper.CreateMap<MstCollection, VMCollection>();
             Mapper.CreateMap<VMCollection, MstCollection>();
@@ -50,11 +50,11 @@ namespace IMSWebApi.App_Start
             Mapper.CreateMap<MstQuality, VMQuality>();
             Mapper.CreateMap<VMQuality, MstQuality>();
 
-            Mapper.CreateMap<MstDesign, VMDesign>();
-            Mapper.CreateMap<VMDesign, MstDesign>();
+            Mapper.CreateMap<MstFWRDesign, VMFWRDesign>();
+            Mapper.CreateMap<VMFWRDesign, MstFWRDesign>();
 
-            Mapper.CreateMap<MstShade, VMShade>();
-            Mapper.CreateMap<VMShade, MstShade>();
+            Mapper.CreateMap<MstFWRShade, VMFWRShade>();
+            Mapper.CreateMap<VMFWRShade, MstFWRShade>();
 
             Mapper.CreateMap<MstHsn, VMHsn>();
             Mapper.CreateMap<VMHsn, MstHsn>();

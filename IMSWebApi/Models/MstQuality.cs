@@ -16,10 +16,10 @@ namespace IMSWebApi.Models
     {
         public MstQuality()
         {
-            this.MstDesigns = new HashSet<MstDesign>();
-            this.MstShades = new HashSet<MstShade>();
             this.MstFomDensities = new HashSet<MstFomDensity>();
             this.MstMatSizes = new HashSet<MstMatSize>();
+            this.MstFWRDesigns = new HashSet<MstFWRDesign>();
+            this.MstFWRShades = new HashSet<MstFWRShade>();
         }
     
         public long id { get; set; }
@@ -50,10 +50,10 @@ namespace IMSWebApi.Models
     
         public virtual MstCategory MstCategory { get; set; }
         public virtual MstCollection MstCollection { get; set; }
-        public virtual ICollection<MstDesign> MstDesigns { get; set; }
         public virtual MstHsn MstHsn { get; set; }
-        public virtual ICollection<MstShade> MstShades { get; set; }
         public virtual ICollection<MstFomDensity> MstFomDensities { get; set; }
         public virtual ICollection<MstMatSize> MstMatSizes { get; set; }
+        public virtual ICollection<MstFWRDesign> MstFWRDesigns { get; set; }
+        public virtual ICollection<MstFWRShade> MstFWRShades { get; set; }
     }
 }

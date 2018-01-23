@@ -258,7 +258,7 @@
     <Compile Include="Controllers\CollectionController.cs" />
     <Compile Include="Controllers\CompanyInfoController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
-    <Compile Include="Controllers\DesignController.cs" />
+    <Compile Include="Controllers\FWRDesignController.cs" />
     <Compile Include="Controllers\HsnController.cs" />
     <Compile Include="Controllers\MatSizeController.cs" />
     <Compile Include="Controllers\MatThickNessController.cs" />
@@ -267,7 +267,7 @@
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\ShadeController.cs" />
+    <Compile Include="Controllers\FWRShadeController.cs" />
     <Compile Include="Controllers\SupplierController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
@@ -293,13 +293,16 @@
     <Compile Include="Models\MstCustomer.cs">
       <DependentUpon>WebApiModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\MstCustomerAddressDetail.cs">
-      <DependentUpon>WebApiModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\MstDesign.cs">
+    <Compile Include="Models\MstCustomerAddress.cs">
       <DependentUpon>WebApiModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\MstFomDensity.cs">
+      <DependentUpon>WebApiModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MstFWRDesign.cs">
+      <DependentUpon>WebApiModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MstFWRShade.cs">
       <DependentUpon>WebApiModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\MstHsn.cs">
@@ -320,13 +323,10 @@
     <Compile Include="Models\MstRole.cs">
       <DependentUpon>WebApiModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\MstShade.cs">
-      <DependentUpon>WebApiModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\MstSupplier.cs">
       <DependentUpon>WebApiModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\MstSupplierAddressDetail.cs">
+    <Compile Include="Models\MstSupplierAddress.cs">
       <DependentUpon>WebApiModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\MstUnitOfMeasure.cs">
@@ -359,35 +359,35 @@
     <Compile Include="Services\CollectionService.cs" />
     <Compile Include="Services\CompanyInfoService.cs" />
     <Compile Include="Services\CustomerService.cs" />
-    <Compile Include="Services\DesignService.cs" />
+    <Compile Include="Services\FWRDesignService.cs" />
     <Compile Include="Services\HsnService.cs" />
     <Compile Include="Services\MatSizeService.cs" />
     <Compile Include="Services\MatThickNessService.cs" />
     <Compile Include="Services\MenuService.cs" />
     <Compile Include="Services\QualityService.cs" />
     <Compile Include="Services\RoleService.cs" />
-    <Compile Include="Services\ShadeService.cs" />
+    <Compile Include="Services\FWRShadeService.cs" />
     <Compile Include="Services\SupplierService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModel\ResponseMessage.cs" />
     <Compile Include="ViewModel\VMCategory.cs" />
     <Compile Include="ViewModel\VMCollection.cs" />
-    <Compile Include="ViewModel\VMDesign.cs" />
+    <Compile Include="ViewModel\VMFWRDesign.cs" />
     <Compile Include="ViewModel\VMHsn.cs" />
     <Compile Include="ViewModel\VMLookUpItem.cs" />
     <Compile Include="ViewModel\VMMatSize.cs" />
     <Compile Include="ViewModel\VMMatThickNess.cs" />
     <Compile Include="ViewModel\VMQuality.cs" />
-    <Compile Include="ViewModel\VMShade.cs" />
+    <Compile Include="ViewModel\VMFWRShade.cs" />
     <Compile Include="ViewModel\VMSupplier.cs" />
     <Compile Include="ViewModel\VMCFGRoleMenu.cs" />
     <Compile Include="ViewModel\VMCompanyInfo.cs" />
     <Compile Include="ViewModel\VMCustomer.cs" />
-    <Compile Include="ViewModel\VMCustomerAddressDetail.cs" />
+    <Compile Include="ViewModel\VMCustomerAddress.cs" />
     <Compile Include="ViewModel\VMMenu.cs" />
     <Compile Include="ViewModel\VMRole.cs" />
-    <Compile Include="ViewModel\VMSupplierAddressDetail.cs" />
+    <Compile Include="ViewModel\VMSupplierAddress.cs" />
     <Compile Include="ViewModel\VMUser.cs" />
     <Compile Include="ViewModel\VMUserType.cs" />
   </ItemGroup>
