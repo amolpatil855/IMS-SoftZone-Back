@@ -66,7 +66,7 @@ namespace IMSWebApi.Services
         public List<VMLookUpItem> getDesignLookUpByQuality(Int64 qualityId)
         {
             return repo.MstDesigns.Where(q => q.qualityId == qualityId)
-                .Select(q => new VMLookUpItem { key = q.id, value = q.designCode }).ToList();
+                .Select(q => new VMLookUpItem { value = q.id, label = q.designCode }).ToList();
         }
 
         public ResponseMessage postDesign(VMDesign design)

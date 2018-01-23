@@ -51,7 +51,7 @@ namespace IMSWebApi.Services
 
         public List<VMLookUpItem> getCustomerLookUp()
         {
-            return repo.MstCustomers.Select(s => new VMLookUpItem { key = s.id, value = s.name }).ToList();
+            return repo.MstCustomers.Select(s => new VMLookUpItem { value = s.id, label = s.name }).ToList();
         }
 
         public ResponseMessage postCustomer(VMCustomer customer)

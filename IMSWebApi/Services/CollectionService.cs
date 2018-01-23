@@ -59,7 +59,7 @@ namespace IMSWebApi.Services
         public List<VMLookUpItem> getCollectionLookUp()
         {
             return repo.MstCollections.Select(s => new VMLookUpItem 
-            { key = s.id, value = s.collectionCode +"-" + s.MstSupplier.code }).ToList();
+            { value = s.id, label = s.collectionCode +"-" + s.MstSupplier.code }).ToList();
         }
 
         public ResponseMessage postCollection(VMCollection collection)
