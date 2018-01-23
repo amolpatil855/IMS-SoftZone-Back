@@ -12,31 +12,21 @@ namespace IMSWebApi.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class MstCategory
+    public partial class MstMatThickNess
     {
-        public MstCategory()
+        public MstMatThickNess()
         {
-            this.MstCollections = new HashSet<MstCollection>();
-            this.MstDesigns = new HashSet<MstDesign>();
-            this.MstQualities = new HashSet<MstQuality>();
-            this.MstShades = new HashSet<MstShade>();
-            this.MstFomDensities = new HashSet<MstFomDensity>();
             this.MstMatSizes = new HashSet<MstMatSize>();
         }
     
         public long id { get; set; }
-        public string code { get; set; }
-        public string name { get; set; }
+        public string thickNessCode { get; set; }
+        public Nullable<decimal> size { get; set; }
         public System.DateTime createdOn { get; set; }
         public long createdBy { get; set; }
         public Nullable<System.DateTime> updatedOn { get; set; }
         public Nullable<long> updatedBy { get; set; }
     
-        public virtual ICollection<MstCollection> MstCollections { get; set; }
-        public virtual ICollection<MstDesign> MstDesigns { get; set; }
-        public virtual ICollection<MstQuality> MstQualities { get; set; }
-        public virtual ICollection<MstShade> MstShades { get; set; }
-        public virtual ICollection<MstFomDensity> MstFomDensities { get; set; }
         public virtual ICollection<MstMatSize> MstMatSizes { get; set; }
     }
 }

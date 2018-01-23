@@ -42,5 +42,8 @@ namespace IMSWebApi.Models
         public virtual DbSet<MstUnitOfMeasure> MstUnitOfMeasures { get; set; }
         public virtual DbSet<MstUser> MstUsers { get; set; }
         public virtual DbSet<MstuserType> MstuserTypes { get; set; }
+        public virtual DbSet<MstFomDensity> MstFomDensities { get; set; }
+        public virtual DbSet<MstMatSize> MstMatSizes { get; set; }
+        public virtual DbSet<MstMatThickNess> MstMatThickNesses { get; set; }
     }
 }
