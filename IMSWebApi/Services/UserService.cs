@@ -34,15 +34,18 @@ namespace IMSWebApi.Services
             List<VMUser> userViews;
             if (pageSize > 0)
             {
-                var result = repo.MstUsers.Where(c => !string.IsNullOrEmpty(search) ? c.userName.StartsWith(search) || 
-                                    c.phone.StartsWith(search) : true).OrderBy(p => p.id).Skip(page * pageSize)
+                var result = repo.MstUsers.Where(c => !c.MstRole.roleName.Equals("Administrator") && (!string.IsNullOrEmpty(search) 
+                                    ? c.userName.StartsWith(search) || 
+                                    c.phone.StartsWith(search) : true))
+                                    .OrderBy(p => p.id).Skip(page * pageSize)
                                     .Take(pageSize).ToList();
                 userViews = Mapper.Map<List<MstUser>, List<VMUser>>(result);
             }
             else
             {
-                var result = repo.MstUsers.Where(c => !string.IsNullOrEmpty(search) ? c.userName.StartsWith(search) ||
-                                            c.phone.StartsWith(search) : true).ToList();
+                var result = repo.MstUsers.Where(c => !c.MstRole.roleName.Equals("Administrator") && (!string.IsNullOrEmpty(search) 
+                                            ? c.userName.StartsWith(search) ||
+                                            c.phone.StartsWith(search) : true)).ToList();
                 userViews = Mapper.Map<List<MstUser>, List<VMUser>>(result);
             }
             
@@ -50,8 +53,9 @@ namespace IMSWebApi.Services
             return new ListResult<VMUser>
             {
                 Data = userViews,
-                TotalCount = repo.MstUsers.Where(c => !string.IsNullOrEmpty(search) ? c.userName.StartsWith(search) || 
-                    c.phone.StartsWith(search) : true).Count(),
+                TotalCount = repo.MstUsers.Where(c => !c.MstRole.roleName.Equals("Administrator") && (!string.IsNullOrEmpty(search)
+                                            ? c.userName.StartsWith(search) || 
+                                            c.phone.StartsWith(search) : true)).Count(),
                 Page = page
             };
         }

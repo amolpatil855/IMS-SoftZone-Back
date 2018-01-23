@@ -1,4 +1,5 @@
 ﻿using IMSWebApi.CustomAttributes;
+using IMSWebApi.Services;
 using IMSWebApi.ServicesDesign;
 using IMSWebApi.ViewModel;
 using System;
@@ -14,10 +15,12 @@ namespace IMSWebApi.Controllers
     public class ShadeController : ApiController
     {
          private ShadeService _shadeService = null;
+         private CategoryService _categoryService = null;
 
          public ShadeController()
         {
             _shadeService = new ShadeService();
+            _categoryService = new CategoryService();
         }
 
          // GET api/Shade   
@@ -35,6 +38,14 @@ namespace IMSWebApi.Controllers
          public IHttpActionResult Get(long id)
          {
              var result = _shadeService.getShadeById(id);
+             return Ok(result);
+         }
+
+         [HttpGet]
+         [Route("api/Shade/GetCategoryLookup")]
+         public IHttpActionResult GetCategoryLookup()
+         {
+             var result = _categoryService.getCategoryLookUp();
              return Ok(result);
          }
 
