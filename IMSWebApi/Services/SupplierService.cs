@@ -77,7 +77,7 @@ namespace IMSWebApi.Services
         public ResponseMessage putSupplier(VMSupplier supplier)
         {
             var supplierAddressDetails = Mapper.Map<List<VMSupplierAddress>, 
-                List<MstSupplierAddress>>(supplier.MstSupplierAddresss);
+                List<MstSupplierAddress>>(supplier.MstSupplierAddresses);
             repo.MstSupplierAddresses.RemoveRange(repo.MstSupplierAddresses
                 .Where(s => s.supplierId == supplier.id));
             repo.SaveChanges();

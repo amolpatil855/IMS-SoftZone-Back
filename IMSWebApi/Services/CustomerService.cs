@@ -72,7 +72,7 @@ namespace IMSWebApi.Services
 
         public ResponseMessage putCustomer(VMCustomer customer)
         {
-            var customerAddressDetails = Mapper.Map<List<VMCustomerAddress>, List<MstCustomerAddress>>(customer.MstCustomerAddress);
+            var customerAddressDetails = Mapper.Map<List<VMCustomerAddress>, List<MstCustomerAddress>>(customer.MstCustomerAddresses);
             repo.MstCustomerAddresses.RemoveRange(repo.MstCustomerAddresses.Where(s => s.customerId== customer.id));
             repo.SaveChanges();
 
