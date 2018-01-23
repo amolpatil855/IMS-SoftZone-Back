@@ -41,7 +41,7 @@ namespace IMSWebApi.Controllers
         }
 
         [HttpGet]
-        [Route("api/MatSize/GetMattressSizeLookUp")]
+        [Route("api/MatSize/GetMatSizeLookUp")]
         public IHttpActionResult GetMatSizeLookUp()
         {
             var result = _matSizeService.getMatSizeLookUp();

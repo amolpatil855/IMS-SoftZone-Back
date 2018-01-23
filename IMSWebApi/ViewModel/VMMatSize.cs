@@ -25,7 +25,7 @@ namespace IMSWebApi.ViewModel
        
         public virtual VMCategory MstCategory { get; set; }
         public virtual VMCollection MstCollection { get; set; }
-        public virtual VMMatThickNess MstMattressThickNess { get; set; }
+        public virtual VMMatThickNess MstMatThickNess { get; set; }
         public virtual VMQuality MstQuality { get; set; }
     }
 }
