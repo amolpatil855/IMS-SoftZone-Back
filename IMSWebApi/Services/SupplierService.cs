@@ -60,7 +60,7 @@ namespace IMSWebApi.Services
         public ResponseMessage postSupplier(VMSupplier supplier)
         {
             MstSupplier supplierToPost = Mapper.Map<VMSupplier, MstSupplier>(supplier);
-            var supplierAddresses = supplierToPost.MstSupplierAddressDetails.ToList();
+            var supplierAddresses = supplierToPost.MstSupplierAddresses.ToList();
             foreach (var saddress in supplierAddresses)
             {
                 saddress.createdOn = DateTime.Now;
@@ -76,9 +76,9 @@ namespace IMSWebApi.Services
 
         public ResponseMessage putSupplier(VMSupplier supplier)
         {
-            var supplierAddressDetails = Mapper.Map<List<VMSupplierAddressDetail>, 
-                List<MstSupplierAddressDetail>>(supplier.MstSupplierAddressDetails);
-            repo.MstSupplierAddressDetails.RemoveRange(repo.MstSupplierAddressDetails
+            var supplierAddressDetails = Mapper.Map<List<VMSupplierAddress>, 
+                List<MstSupplierAddress>>(supplier.MstSupplierAddresss);
+            repo.MstSupplierAddresses.RemoveRange(repo.MstSupplierAddresses
                 .Where(s => s.supplierId == supplier.id));
             repo.SaveChanges();
 
@@ -106,7 +106,7 @@ namespace IMSWebApi.Services
             supplierToPut.dispatchPersonPhone = supplier.dispatchPersonPhone;
             supplierToPut.updatedOn = DateTime.Now;
             supplierToPut.updatedBy = _LoggedInuserId;
-            supplierToPut.MstSupplierAddressDetails = supplierAddressDetails;
+            supplierToPut.MstSupplierAddresses = supplierAddressDetails;
             repo.SaveChanges();
 
             return new ResponseMessage(supplier.id, "Supplier Updated Successfully", ResponseType.Success);
@@ -114,7 +114,7 @@ namespace IMSWebApi.Services
 
         public ResponseMessage deleteSupplier(Int64 id)
         {
-            repo.MstSupplierAddressDetails.RemoveRange(repo.MstSupplierAddressDetails.Where(s => s.supplierId == id));
+            repo.MstSupplierAddresses.RemoveRange(repo.MstSupplierAddresses.Where(s => s.supplierId == id));
             repo.SaveChanges();
             repo.MstSuppliers.Remove(repo.MstSuppliers.Where(s => s.id == id).FirstOrDefault());
             repo.SaveChanges();

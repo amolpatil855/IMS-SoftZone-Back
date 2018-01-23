@@ -57,7 +57,7 @@ namespace IMSWebApi.Services
         public ResponseMessage postCustomer(VMCustomer customer)
         {
             MstCustomer customerToPost = Mapper.Map<VMCustomer, MstCustomer>(customer);
-            List<MstCustomerAddressDetail> customerAddress = customerToPost.MstCustomerAddressDetails.ToList();
+            List<MstCustomerAddress> customerAddress = customerToPost.MstCustomerAddresses.ToList();
             foreach (var caddress in customerAddress)
             {
                 caddress.createdOn = DateTime.Now;
@@ -72,8 +72,8 @@ namespace IMSWebApi.Services
 
         public ResponseMessage putCustomer(VMCustomer customer)
         {
-            var customerAddressDetails = Mapper.Map<List<VMCustomerAddressDetail>, List<MstCustomerAddressDetail>>(customer.MstCustomerAddressDetails);
-            repo.MstCustomerAddressDetails.RemoveRange(repo.MstCustomerAddressDetails.Where(s => s.customerId== customer.id));
+            var customerAddressDetails = Mapper.Map<List<VMCustomerAddress>, List<MstCustomerAddress>>(customer.MstCustomerAddress);
+            repo.MstCustomerAddresses.RemoveRange(repo.MstCustomerAddresses.Where(s => s.customerId== customer.id));
             repo.SaveChanges();
 
             foreach (var caddress in customerAddressDetails)
@@ -101,7 +101,7 @@ namespace IMSWebApi.Services
             customerToPut.updatedOn = DateTime.Now;
             customerToPut.updatedBy = _LoggedInuserId;
 
-            customerToPut.MstCustomerAddressDetails = customerAddressDetails;
+            customerToPut.MstCustomerAddresses = customerAddressDetails;
             repo.SaveChanges();
 
             return new ResponseMessage(customer.id, "Customer Updated Successfully", ResponseType.Success);
@@ -109,7 +109,7 @@ namespace IMSWebApi.Services
 
         public ResponseMessage deleteCustomer(Int64 id)
         {
-            repo.MstCustomerAddressDetails.RemoveRange(repo.MstCustomerAddressDetails.Where(s => s.customerId== id));
+            repo.MstCustomerAddresses.RemoveRange(repo.MstCustomerAddresses.Where(s => s.customerId== id));
             repo.SaveChanges();
             repo.MstCustomers.Remove(repo.MstCustomers.Where(s => s.id == id).FirstOrDefault());
             repo.SaveChanges();

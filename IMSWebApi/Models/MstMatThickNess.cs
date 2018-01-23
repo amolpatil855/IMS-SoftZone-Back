@@ -21,7 +21,7 @@ namespace IMSWebApi.Models
     
         public long id { get; set; }
         public string thickNessCode { get; set; }
-        public Nullable<decimal> size { get; set; }
+        public decimal size { get; set; }
         public System.DateTime createdOn { get; set; }
         public long createdBy { get; set; }
         public Nullable<System.DateTime> updatedOn { get; set; }
