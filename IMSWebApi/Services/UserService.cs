@@ -6,6 +6,8 @@ using IMSWebApi.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
+using Microsoft.AspNet.Identity;
 
 namespace IMSWebApi.Services
 {
@@ -13,6 +15,11 @@ namespace IMSWebApi.Services
     {
         WebAPIdbEntities repo = new WebAPIdbEntities();
         SendEmail Email = new SendEmail();
+        Int64 _LoggedInuserId;
+        public UserService()
+        {
+            _LoggedInuserId = Convert.ToInt64(HttpContext.Current.User.Identity.GetUserId());
+        }
 
         public VMUser getLoggedInUserDetails(string username)
         { 
@@ -102,6 +109,7 @@ namespace IMSWebApi.Services
             MstUser userToPost = Mapper.Map<VMUser, MstUser>(user);
             userToPost.password = createRandomPassword(8);
             userToPost.createdOn = DateTime.Now;
+            userToPost.createdBy = _LoggedInuserId;
             repo.MstUsers.Add(userToPost);
             repo.SaveChanges();
             sendEmail(userToPost.id, "RegisterUser");
@@ -129,6 +137,7 @@ namespace IMSWebApi.Services
             userToPut.email = user.email;
             userToPut.phone = user.phone;
             userToPut.updatedOn = DateTime.Now;
+            userToPut.updatedBy = _LoggedInuserId;
             repo.SaveChanges();
             return new ResponseMessage(userToPut.id, "User Details Updated Successfully", ResponseType.Success);
         }

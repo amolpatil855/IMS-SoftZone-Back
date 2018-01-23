@@ -47,6 +47,6 @@ namespace IMSWebApi.ViewModel
         public Nullable<long> userId { get; set; }
         
         public virtual VMUser MstUser { get; set; }
-        public virtual List<VMCustomerAddress> MstCustomerAddress { get; set; }
+        public virtual List<VMCustomerAddress> MstCustomerAddresses { get; set; }
     }
 }

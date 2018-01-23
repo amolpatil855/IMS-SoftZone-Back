@@ -27,7 +27,7 @@ namespace IMSWebApi.ServicesDesign
             if (pageSize > 0)
             {
                 var result = repo.MstFWRShades.Where(q => !string.IsNullOrEmpty(search)
-                    ? q.MstCollection.collectionCode.StartsWith(search) 
+                    ? q.MstCollection.collectionCode.StartsWith(search)
                     || q.MstQuality.qualityCode.StartsWith(search)
                     || q.MstFWRDesign.designCode.StartsWith(search)
                     || q.shadeCode.StartsWith(search)
@@ -72,8 +72,12 @@ namespace IMSWebApi.ServicesDesign
         public List<VMLookUpItem> getSerialNumberLookUpByDesign(Int64 designId)
         {
             return repo.MstFWRShades.Where(q => q.designId == designId)
-                .Select(q => new VMLookUpItem { value = q.id, label = q.serialNumber.ToString() 
-                    + "-" + q.shadeCode }).ToList();
+                .Select(q => new VMLookUpItem
+                {
+                    value = q.id,
+                    label = q.serialNumber.ToString()
+                        + "-" + q.shadeCode
+                }).ToList();
         }
 
         public List<VMLookUpItem> getSerialNumberLookUpByCollection(Int64 collectionId)
