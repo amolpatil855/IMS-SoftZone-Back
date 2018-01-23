@@ -13,6 +13,7 @@ namespace IMSWebApi.ViewModel
         [Required]
         [MaxLength(10)]
         public string hsnCode { get; set; }
+        [Required]
         public int gst { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -8,10 +9,17 @@ namespace IMSWebApi.ViewModel
     public class VMQuality
     {
         public long id { get; set; }
+        [Required]
         public long categoryId { get; set; }
+        [Required]
         public long collectionId { get; set; }
+        [Required]
+        [MaxLength(50)]
         public string qualityCode { get; set; }
+        [Required]
+        [MaxLength(100)]
         public string qualityName { get; set; }
+        [MaxLength(500)]
         public string description { get; set; }
         public Nullable<decimal> width { get; set; }
         public Nullable<decimal> size { get; set; }
