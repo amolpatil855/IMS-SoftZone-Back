@@ -41,6 +41,16 @@
         <AssociationConnector Association="WebAPIdbModel.FK_MstUser_MstRole" />
         <AssociationConnector Association="WebAPIdbModel.FK_MstSupplierAddressDetails_MstSupplier" />
         <AssociationConnector Association="WebAPIdbModel.FK_MstUser_MstUserType" />
+        <EntityTypeShape EntityType="WebAPIdbModel.MstFomDensity" Width="1.5" PointX="13.5" PointY="4.25" />
+        <EntityTypeShape EntityType="WebAPIdbModel.MstMatSize" Width="1.5" PointX="13.5" PointY="9.125" />
+        <EntityTypeShape EntityType="WebAPIdbModel.MstMatThickNess" Width="1.5" PointX="11.25" PointY="0.75" />
+        <AssociationConnector Association="WebAPIdbModel.FK_MstFoamDensity_MstCategory" />
+        <AssociationConnector Association="WebAPIdbModel.FK_MstMattressSize_MstCategory" />
+        <AssociationConnector Association="WebAPIdbModel.FK_MstFoamDensity_MstCollection" />
+        <AssociationConnector Association="WebAPIdbModel.FK_MstMattressSize_MstCollection" />
+        <AssociationConnector Association="WebAPIdbModel.FK_MstFoamDensity_MstQuality" />
+        <AssociationConnector Association="WebAPIdbModel.FK_MstMattressSize_MstMattressThickNess" />
+        <AssociationConnector Association="WebAPIdbModel.FK_MstMattressSize_MstQuality" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
