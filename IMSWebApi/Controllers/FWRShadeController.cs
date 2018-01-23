@@ -12,18 +12,18 @@ using System.Web.Http;
 namespace IMSWebApi.Controllers
 {
     [Authorize]
-    public class ShadeController : ApiController
+    public class FWRShadeController : ApiController
     {
-         private ShadeService _shadeService = null;
+         private FWRShadeService _shadeService = null;
          private CategoryService _categoryService = null;
 
-         public ShadeController()
+         public FWRShadeController()
         {
-            _shadeService = new ShadeService();
+            _shadeService = new FWRShadeService();
             _categoryService = new CategoryService();
         }
 
-         // GET api/Shade   
+         // GET api/FWRShade   
          [ApiAuthorize(AccessLevel = "shade")]
          [HttpGet]
          public IHttpActionResult Get(int pageSize = 0, int page = 0, string search = null)
@@ -32,7 +32,7 @@ namespace IMSWebApi.Controllers
              return Ok(result);
          }
 
-         // GET api/Shade/1
+         // GET api/FWRShade/1
          [ApiAuthorize(AccessLevel = "shade")]
          [HttpGet]
          public IHttpActionResult Get(long id)
@@ -42,7 +42,7 @@ namespace IMSWebApi.Controllers
          }
 
          [HttpGet]
-         [Route("api/Shade/GetCategoryLookup")]
+         [Route("api/FWRShade/GetCategoryLookup")]
          public IHttpActionResult GetCategoryLookup()
          {
              var result = _categoryService.getCategoryLookUp();
@@ -50,7 +50,7 @@ namespace IMSWebApi.Controllers
          }
 
          [HttpGet]
-         [Route("api/Shade/GetSerialNumberLookUpByDesign")]
+         [Route("api/FWRShade/GetSerialNumberLookUpByDesign")]
          public IHttpActionResult GetSerialNumberLookUpByDesign(long designId)
          {
              var result = _shadeService.getSerialNumberLookUpByDesign(designId);
@@ -58,17 +58,17 @@ namespace IMSWebApi.Controllers
          }
 
          [HttpGet]
-         [Route("api/Shade/GetSerialNumberLookUpByCollection")]
+         [Route("api/FWRShade/GetSerialNumberLookUpByCollection")]
          public IHttpActionResult GetSerialNumberLookUpByCollection(long collectionId)
          {
              var result = _shadeService.getSerialNumberLookUpByCollection(collectionId);
              return Ok(result);
          }
 
-         // POST api/Shade
+         // POST api/FWRShade
          [ApiAuthorize(AccessLevel = "shade")]
          [HttpPost]
-         public IHttpActionResult PostShade(VMShade shade)
+         public IHttpActionResult PostShade(VMFWRShade shade)
          {
              if (!ModelState.IsValid)
              {
@@ -78,10 +78,10 @@ namespace IMSWebApi.Controllers
              return Ok(result);
          }
 
-         // PUT api/Shade/1
+         // PUT api/FWRShade/1
          [ApiAuthorize(AccessLevel = "shade")]
          [HttpPut]
-         public IHttpActionResult PutShade(VMShade shade)
+         public IHttpActionResult PutShade(VMFWRShade shade)
          {
              if (!ModelState.IsValid)
              {
@@ -91,7 +91,7 @@ namespace IMSWebApi.Controllers
              return Ok(result);
          }
 
-         // DELETE api/Shade/1
+         // DELETE api/FWRShade/1
          [ApiAuthorize(AccessLevel = "shade")]
          [HttpDelete]
          public IHttpActionResult DeleteShade(long id)

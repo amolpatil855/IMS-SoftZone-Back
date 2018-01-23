@@ -30,20 +30,20 @@ namespace IMSWebApi.Models
         public virtual DbSet<MstCollection> MstCollections { get; set; }
         public virtual DbSet<MstCompanyInfo> MstCompanyInfoes { get; set; }
         public virtual DbSet<MstCustomer> MstCustomers { get; set; }
-        public virtual DbSet<MstCustomerAddressDetail> MstCustomerAddressDetails { get; set; }
-        public virtual DbSet<MstDesign> MstDesigns { get; set; }
         public virtual DbSet<MstHsn> MstHsns { get; set; }
         public virtual DbSet<MstMenu> MstMenus { get; set; }
         public virtual DbSet<MstQuality> MstQualities { get; set; }
         public virtual DbSet<MstRole> MstRoles { get; set; }
-        public virtual DbSet<MstShade> MstShades { get; set; }
         public virtual DbSet<MstSupplier> MstSuppliers { get; set; }
-        public virtual DbSet<MstSupplierAddressDetail> MstSupplierAddressDetails { get; set; }
         public virtual DbSet<MstUnitOfMeasure> MstUnitOfMeasures { get; set; }
         public virtual DbSet<MstUser> MstUsers { get; set; }
         public virtual DbSet<MstuserType> MstuserTypes { get; set; }
         public virtual DbSet<MstFomDensity> MstFomDensities { get; set; }
         public virtual DbSet<MstMatSize> MstMatSizes { get; set; }
         public virtual DbSet<MstMatThickNess> MstMatThickNesses { get; set; }
+        public virtual DbSet<MstCustomerAddress> MstCustomerAddresses { get; set; }
+        public virtual DbSet<MstSupplierAddress> MstSupplierAddresses { get; set; }
+        public virtual DbSet<MstFWRDesign> MstFWRDesigns { get; set; }
+        public virtual DbSet<MstFWRShade> MstFWRShades { get; set; }
     }
 }

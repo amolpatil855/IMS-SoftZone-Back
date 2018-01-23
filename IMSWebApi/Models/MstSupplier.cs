@@ -17,7 +17,7 @@ namespace IMSWebApi.Models
         public MstSupplier()
         {
             this.MstCollections = new HashSet<MstCollection>();
-            this.MstSupplierAddressDetails = new HashSet<MstSupplierAddressDetail>();
+            this.MstSupplierAddresses = new HashSet<MstSupplierAddress>();
         }
     
         public long id { get; set; }
@@ -43,6 +43,6 @@ namespace IMSWebApi.Models
         public Nullable<long> updatedBy { get; set; }
     
         public virtual ICollection<MstCollection> MstCollections { get; set; }
-        public virtual ICollection<MstSupplierAddressDetail> MstSupplierAddressDetails { get; set; }
+        public virtual ICollection<MstSupplierAddress> MstSupplierAddresses { get; set; }
     }
 }

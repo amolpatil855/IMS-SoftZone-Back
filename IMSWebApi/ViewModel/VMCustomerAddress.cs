@@ -6,7 +6,7 @@ using System.Web;
 
 namespace IMSWebApi.ViewModel
 {
-    public class VMCustomerAddressDetail
+    public class VMCustomerAddress
     {
         public long id { get; set; }
         [Required]

@@ -50,6 +50,6 @@ namespace IMSWebApi.ViewModel
 
 
 
-        public virtual List<VMSupplierAddressDetail> MstSupplierAddressDetails { get; set; }
+        public virtual List<VMSupplierAddress> MstSupplierAddresss { get; set; }
     }
 }

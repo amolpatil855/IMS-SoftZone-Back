@@ -12,25 +12,20 @@ namespace IMSWebApi.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class MstShade
+    public partial class MstCustomerAddress
     {
         public long id { get; set; }
-        public long categoryId { get; set; }
-        public long collectionId { get; set; }
-        public long qualityId { get; set; }
-        public long designId { get; set; }
-        public string shadeCode { get; set; }
-        public string shadeName { get; set; }
-        public int serialNumber { get; set; }
-        public string description { get; set; }
+        public long customerId { get; set; }
+        public string address { get; set; }
+        public string city { get; set; }
+        public string state { get; set; }
+        public string country { get; set; }
+        public string pin { get; set; }
         public System.DateTime createdOn { get; set; }
         public long createdBy { get; set; }
         public Nullable<System.DateTime> updatedOn { get; set; }
         public Nullable<long> updatedBy { get; set; }
     
-        public virtual MstCategory MstCategory { get; set; }
-        public virtual MstCollection MstCollection { get; set; }
-        public virtual MstDesign MstDesign { get; set; }
-        public virtual MstQuality MstQuality { get; set; }
+        public virtual MstCustomer MstCustomer { get; set; }
     }
 }

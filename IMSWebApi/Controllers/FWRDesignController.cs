@@ -11,18 +11,18 @@ using System.Web.Http;
 namespace IMSWebApi.Controllers
 {
     [Authorize]
-    public class DesignController : ApiController
+    public class FWRDesignController : ApiController
     {
-        private DesignService _designService = null;
+        private FWRDesignService _designService = null;
         private CategoryService _categoryService = null;
 
-        public DesignController()
+        public FWRDesignController()
         {
-            _designService = new DesignService();
+            _designService = new FWRDesignService();
             _categoryService = new CategoryService();
         }
 
-        // GET api/Design   
+        // GET api/FWRDesign   
         [ApiAuthorize(AccessLevel = "design")]
         [HttpGet]
         public IHttpActionResult Get(int pageSize = 0, int page = 0, string search = null)
@@ -31,7 +31,7 @@ namespace IMSWebApi.Controllers
             return Ok(result);
         }
 
-        // GET api/Design/1
+        // GET api/FWRDesign/1
         [ApiAuthorize(AccessLevel = "design")]
         [HttpGet]
         public IHttpActionResult Get(long id)
@@ -41,7 +41,7 @@ namespace IMSWebApi.Controllers
         }
 
         [HttpGet]
-        [Route("api/Design/GetCategoryLookup")]
+        [Route("api/FWRDesign/GetCategoryLookup")]
         public IHttpActionResult GetCategoryLookup()
         {
             var result = _categoryService.getCategoryLookUp();
@@ -49,7 +49,7 @@ namespace IMSWebApi.Controllers
         }
 
         [HttpGet]
-        [Route("api/Design/GetDesignLookupByQuality")]
+        [Route("api/FWRDesign/GetDesignLookupByQuality")]
         public IHttpActionResult GetDesignLookupByQuality(long qualityid)
         {
             var result = _designService.getDesignLookUpByQuality(qualityid);
@@ -57,10 +57,10 @@ namespace IMSWebApi.Controllers
         }
 
 
-        // POST api/Design
+        // POST api/FWRDesign
         [ApiAuthorize(AccessLevel = "design")]
         [HttpPost]
-        public IHttpActionResult PostDesign(VMDesign design)
+        public IHttpActionResult PostDesign(VMFWRDesign design)
         {
             if (!ModelState.IsValid)
             {
@@ -70,10 +70,10 @@ namespace IMSWebApi.Controllers
             return Ok(result);
         }
 
-        // PUT api/Design/1
+        // PUT api/FWRDesign/1
         [ApiAuthorize(AccessLevel = "design")]
         [HttpPut]
-        public IHttpActionResult PutDesign(VMDesign design)
+        public IHttpActionResult PutDesign(VMFWRDesign design)
         {
             if (!ModelState.IsValid)
             {
@@ -83,7 +83,7 @@ namespace IMSWebApi.Controllers
             return Ok(result);
         }
 
-        // DELETE api/Design/1
+        // DELETE api/FWRDesign/1
         [ApiAuthorize(AccessLevel = "design")]
         [HttpDelete]
         public IHttpActionResult DeleteDesign(long id)
