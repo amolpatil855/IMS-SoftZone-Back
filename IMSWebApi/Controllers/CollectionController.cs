@@ -39,9 +39,9 @@ namespace IMSWebApi.Controllers
 
         [HttpGet]
         [Route("api/Collection/GetCollectionLookUp")]
-        public IHttpActionResult GetCollectionLookUp()
+        public IHttpActionResult GetCollectionLookUp(long categoryId)
         {
-            var result = _collectionService.getCollectionLookUp();
+            var result = _collectionService.getCollectionLookUp(categoryId);
             return Ok(result);
         }
 

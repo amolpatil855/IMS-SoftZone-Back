@@ -14,10 +14,12 @@ namespace IMSWebApi.Controllers
     public class DesignController : ApiController
     {
         private DesignService _designService = null;
+        private CategoryService _categoryService = null;
 
         public DesignController()
         {
             _designService = new DesignService();
+            _categoryService = new CategoryService();
         }
 
         // GET api/Design   
@@ -35,6 +37,14 @@ namespace IMSWebApi.Controllers
         public IHttpActionResult Get(long id)
         {
             var result = _designService.getDesignById(id);
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("api/Design/GetCategoryLookup")]
+        public IHttpActionResult GetCategoryLookup()
+        {
+            var result = _categoryService.getCategoryLookUp();
             return Ok(result);
         }
 

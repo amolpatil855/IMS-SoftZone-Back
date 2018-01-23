@@ -56,10 +56,10 @@ namespace IMSWebApi.Services
             return collectionView;
         }
 
-        public List<VMLookUpItem> getCollectionLookUp()
+        public List<VMLookUpItem> getCollectionLookUp(Int64 categoryId)
         {
-            return repo.MstCollections.Select(s => new VMLookUpItem 
-            { value = s.id, label = s.collectionCode +"-" + s.MstSupplier.code }).ToList();
+            return repo.MstCollections.Where(c => c.categoryId == categoryId)
+                .Select(s => new VMLookUpItem{ value = s.id, label = s.collectionCode +"-" + s.MstSupplier.code }).ToList();
         }
 
         public ResponseMessage postCollection(VMCollection collection)
