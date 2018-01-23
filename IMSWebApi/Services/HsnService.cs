@@ -57,7 +57,7 @@ namespace IMSWebApi.Services
 
         public List<VMLookUpItem> getHsnLookUp()
         {
-            return repo.MstHsns.Select(h => new VMLookUpItem { key = h.id, value = h.hsnCode }).ToList();
+            return repo.MstHsns.Select(h => new VMLookUpItem { value = h.id, label = h.hsnCode }).ToList();
         }
 
         public ResponseMessage postHsn(VMHsn Hsn)
