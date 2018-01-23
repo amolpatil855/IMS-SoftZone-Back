@@ -39,7 +39,7 @@ namespace IMSWebApi.Controllers
         }
 
         [HttpGet]
-        [Route("api/MatThickNess/GetMattressThickNessLookUp")]
+        [Route("api/MatThickNess/GetMatThickNessLookUp")]
         public IHttpActionResult GetMatThickNessLookUp()
         {
             var result = _matThickNessService.getMatThickNessLookUp();
