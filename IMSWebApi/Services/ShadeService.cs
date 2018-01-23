@@ -72,7 +72,7 @@ namespace IMSWebApi.ServicesDesign
         public List<VMLookUpItem> getSerialNumberLookUpByDesign(Int64 designId)
         {
             return repo.MstShades.Where(q => q.designId == designId)
-                .Select(q => new VMLookUpItem { key = q.id, value = q.serialNumber.ToString() 
+                .Select(q => new VMLookUpItem { value = q.id, label = q.serialNumber.ToString() 
                     + "-" + q.shadeCode }).ToList();
         }
 
@@ -81,8 +81,8 @@ namespace IMSWebApi.ServicesDesign
             return repo.MstShades.Where(q => q.collectionId == collectionId)
                 .Select(q => new VMLookUpItem
                 {
-                    key = q.id,
-                    value = q.serialNumber.ToString()
+                    value = q.id,
+                    label = q.serialNumber.ToString()
                         + "-" + q.shadeCode
                 }).ToList();
         }

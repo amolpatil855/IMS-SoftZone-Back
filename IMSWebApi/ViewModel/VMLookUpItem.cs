@@ -7,7 +7,7 @@ namespace IMSWebApi.ViewModel
 {
     public class VMLookUpItem
     {
-        public long key { get; set; }
-        public string value { get; set; }
+        public long value { get; set; }
+        public string label { get; set; }
     }
 }
