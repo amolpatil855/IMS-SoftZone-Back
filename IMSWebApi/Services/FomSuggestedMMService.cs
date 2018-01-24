@@ -88,15 +88,13 @@ namespace IMSWebApi.Services
         public ResponseMessage putFomSuggestedMM(VMFomSuggestedMM fomSuggestedMM)
         {
             var fomSuggestedMMToPut = repo.MstFomSuggestedMMs.Where(q => q.id == fomSuggestedMM.id).FirstOrDefault();
-            MstCategory fomSuggestedMMCategory = fomSuggestedMMToPut.MstCategory;
-            MstCollection fomSuggestedMMCollection = fomSuggestedMMToPut.MstCollection;
-            MstFomDensity fomSuggestedMMDensity = fomSuggestedMMToPut.MstFomDensity;
-            MstQuality fomSuggestedMMQuality = fomSuggestedMMToPut.MstFomDensity.MstQuality;
-            fomSuggestedMMToPut = Mapper.Map<VMFomSuggestedMM, MstFomSuggestedMM>(fomSuggestedMM, fomSuggestedMMToPut);
-            fomSuggestedMMToPut.MstCategory = fomSuggestedMMCategory;
-            fomSuggestedMMToPut.MstCollection = fomSuggestedMMCollection;
-            fomSuggestedMMToPut.MstFomDensity = fomSuggestedMMDensity;
-            fomSuggestedMMToPut.MstQuality = fomSuggestedMMQuality;
+
+            fomSuggestedMMToPut.categoryId = fomSuggestedMM.categoryId;
+            fomSuggestedMMToPut.collectionId = fomSuggestedMM.collectionId;
+            fomSuggestedMMToPut.qualityId = fomSuggestedMM.qualityId;
+            fomSuggestedMMToPut.fomDensityId = fomSuggestedMM.fomDensityId;
+            fomSuggestedMMToPut.suggestedMM = fomSuggestedMM.suggestedMM;
+
             fomSuggestedMMToPut.updatedBy = _LoggedInuserId;
             fomSuggestedMMToPut.updatedOn = DateTime.Now;
 

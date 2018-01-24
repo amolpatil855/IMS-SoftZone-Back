@@ -10,6 +10,7 @@ using System.Web.Http;
 
 namespace IMSWebApi.Controllers
 {
+    [Authorize]
     public class FomSizeController : ApiController
     {
         private FomSizeService _fomSizeService = null;

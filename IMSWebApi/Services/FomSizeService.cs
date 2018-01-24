@@ -86,18 +86,15 @@ namespace IMSWebApi.Services
         public ResponseMessage putFomSize(VMFomSize fomSize)
         {
             var fomSizeToPut = repo.MstFomSizes.Where(q => q.id == fomSize.id).FirstOrDefault();
-            MstCategory fomSizeCategory = fomSizeToPut.MstCategory;
-            MstCollection fomSizeCollection = fomSizeToPut.MstCollection;
-            MstFomDensity fomSizeDensity = fomSizeToPut.MstFomDensity;
-            MstFomSuggestedMM fomSizeSuggestedMM = fomSizeToPut.MstFomSuggestedMM;
-            MstQuality fomSizeQuality = fomSizeToPut.MstQuality;
-            
-            fomSizeToPut = Mapper.Map<VMFomSize, MstFomSize>(fomSize, fomSizeToPut);
-            fomSizeToPut.MstCategory = fomSizeCategory;
-            fomSizeToPut.MstCollection = fomSizeCollection;
-            fomSizeToPut.MstFomDensity = fomSizeDensity;
-            fomSizeToPut.MstFomSuggestedMM = fomSizeSuggestedMM;
-            fomSizeToPut.MstQuality = fomSizeQuality;
+            fomSizeToPut.categoryId = fomSize.categoryId;
+            fomSizeToPut.collectionId = fomSize.collectionId;
+            fomSizeToPut.qualityId = fomSize.qualityId;
+            fomSizeToPut.fomDensityId = fomSize.fomDensityId;
+            fomSizeToPut.fomSuggestedMMId = fomSize.fomSuggestedMMId;
+            fomSizeToPut.width = fomSize.width;
+            fomSizeToPut.length = fomSize.length;
+            fomSizeToPut.sizeCode = fomSize.sizeCode;
+
             fomSizeToPut.updatedBy = _LoggedInuserId;
             fomSizeToPut.updatedOn = DateTime.Now;
 
