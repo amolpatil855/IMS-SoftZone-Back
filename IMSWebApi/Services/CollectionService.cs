@@ -58,13 +58,14 @@ namespace IMSWebApi.Services
             return collectionView;
         }
 
-        public List<VMLookUpItem> getCollectionLookUp(Int64 categoryId)
+        public List<VMLookUpItem> getCollectionLookUpByCategoryId(Int64 categoryId)
         {
             return repo.MstCollections.Where(c => c.categoryId == categoryId)
                 .OrderBy(s=>s.collectionCode)
                 .Select(s => new VMLookUpItem{ value = s.id, label = s.collectionCode +"-" + 
                     s.MstSupplier.code }).ToList();
         }
+        
         public List<VMLookUpItem> getMatCollectionLookUp()
         {
             
@@ -90,6 +91,8 @@ namespace IMSWebApi.Services
                         s.MstSupplier.code
                 }).ToList();
         }
+
+       
 
         public ResponseMessage postCollection(VMCollection collection)
         {
