@@ -7,17 +7,20 @@ using Microsoft.AspNet.Identity;
 using IMSWebApi.Common;
 using IMSWebApi.ViewModel;
 using AutoMapper;
+using IMSWebApi.Enums;
 
 namespace IMSWebApi.Services
 {
-    public class VMFomSizeService
+    public class FomSizeService
     {
         WebAPIdbEntities repo = new WebAPIdbEntities();
+        CategoryService _categoryService = null;
         Int64 _LoggedInuserId;
 
-        public VMFomSizeService()
+        public FomSizeService()
         {
             _LoggedInuserId = Convert.ToInt64(HttpContext.Current.User.Identity.GetUserId());
+            _categoryService = new CategoryService();
         }
 
         public ListResult<VMFomSize> getFomSize(int pageSize, int page, string search)
@@ -66,6 +69,47 @@ namespace IMSWebApi.Services
             var result = repo.MstFomSizes.Where(q => q.id == id).FirstOrDefault();
             var qualityView = Mapper.Map<MstFomSize, VMFomSize>(result);
             return qualityView;
+        }
+
+        public ResponseMessage postFomSize(VMFomSize fomSize)
+        {
+            MstFomSize fomSizeToPost = Mapper.Map<VMFomSize, MstFomSize>(fomSize);
+            fomSizeToPost.categoryId = _categoryService.getFoamCategory().id;
+            fomSizeToPost.createdOn = DateTime.Now;
+            fomSizeToPost.createdBy = _LoggedInuserId;
+
+            repo.MstFomSizes.Add(fomSizeToPost);
+            repo.SaveChanges();
+            return new ResponseMessage(fomSizeToPost.id, "Foam Size Added Successfully", ResponseType.Success);
+        }
+
+        public ResponseMessage putFomSize(VMFomSize fomSize)
+        {
+            var fomSizeToPut = repo.MstFomSizes.Where(q => q.id == fomSize.id).FirstOrDefault();
+            MstCategory fomSizeCategory = fomSizeToPut.MstCategory;
+            MstCollection fomSizeCollection = fomSizeToPut.MstCollection;
+            MstFomDensity fomSizeDensity = fomSizeToPut.MstFomDensity;
+            MstFomSuggestedMM fomSizeSuggestedMM = fomSizeToPut.MstFomSuggestedMM;
+            MstQuality fomSizeQuality = fomSizeToPut.MstQuality;
+            
+            fomSizeToPut = Mapper.Map<VMFomSize, MstFomSize>(fomSize, fomSizeToPut);
+            fomSizeToPut.MstCategory = fomSizeCategory;
+            fomSizeToPut.MstCollection = fomSizeCollection;
+            fomSizeToPut.MstFomDensity = fomSizeDensity;
+            fomSizeToPut.MstFomSuggestedMM = fomSizeSuggestedMM;
+            fomSizeToPut.MstQuality = fomSizeQuality;
+            fomSizeToPut.updatedBy = _LoggedInuserId;
+            fomSizeToPut.updatedOn = DateTime.Now;
+
+            repo.SaveChanges();
+            return new ResponseMessage(fomSize.id, "Foam Size Updated Successfully", ResponseType.Success);
+        }
+
+        public ResponseMessage deleteFomSize(Int64 id)
+        {
+            repo.MstFomSizes.Remove(repo.MstFomSizes.Where(q => q.id == id).FirstOrDefault());
+            repo.SaveChanges();
+            return new ResponseMessage(id, "Foam Size Deleted Successfully", ResponseType.Success);
         }
     }
 }

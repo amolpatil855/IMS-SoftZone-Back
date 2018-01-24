@@ -14,11 +14,13 @@ namespace IMSWebApi.Services
     public class FomDensityService
     {
         WebAPIdbEntities repo = new WebAPIdbEntities();
+        CategoryService _categoryService = null;
         Int64 _LoggedInuserId;
 
         public FomDensityService()
         {
             _LoggedInuserId = Convert.ToInt64(HttpContext.Current.User.Identity.GetUserId());
+            _categoryService = new CategoryService();
         }
 
         public ListResult<VMFomDensity> getFomDensity(int pageSize, int page, string search)
@@ -63,20 +65,21 @@ namespace IMSWebApi.Services
         public List<VMLookUpItem> getFomDensityLookUp()
         {
             return repo.MstFomDensities
+                .OrderBy(q => q.density)
                 .Select(q => new VMLookUpItem { value = q.id, label = q.density })
-                .OrderBy(q=>q.label)
                 .ToList();
         }
 
         public ResponseMessage postFomDensity(VMFomDensity fomDensity)
         {
             MstFomDensity fomDensityToPost = Mapper.Map<VMFomDensity, MstFomDensity>(fomDensity);
+            fomDensityToPost.categoryId = _categoryService.getFoamCategory().id;
             fomDensityToPost.createdOn = DateTime.Now;
             fomDensityToPost.createdBy = _LoggedInuserId;
 
             repo.MstFomDensities.Add(fomDensityToPost);
             repo.SaveChanges();
-            return new ResponseMessage(fomDensityToPost.id, "Fom Density Added Successfully", ResponseType.Success);
+            return new ResponseMessage(fomDensityToPost.id, "Foam Density Added Successfully", ResponseType.Success);
         }
 
         public ResponseMessage putFomDensity(VMFomDensity fomDensity)
@@ -94,14 +97,14 @@ namespace IMSWebApi.Services
             fomDensityToPut.updatedOn = DateTime.Now;
 
             repo.SaveChanges();
-            return new ResponseMessage(fomDensity.id, "Fom Density Updated Successfully", ResponseType.Success);
+            return new ResponseMessage(fomDensity.id, "Foam Density Updated Successfully", ResponseType.Success);
         }
 
         public ResponseMessage deleteFomDensity(Int64 id)
         {
             repo.MstFomDensities.Remove(repo.MstFomDensities.Where(q => q.id == id).FirstOrDefault());
             repo.SaveChanges();
-            return new ResponseMessage(id, "Fom Density Deleted Successfully", ResponseType.Success);
+            return new ResponseMessage(id, "Foam Density Deleted Successfully", ResponseType.Success);
         }
     }
 }
