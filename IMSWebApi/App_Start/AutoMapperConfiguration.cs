@@ -67,6 +67,13 @@ namespace IMSWebApi.App_Start
 
             Mapper.CreateMap<MstFomDensity, VMFomDensity>();
             Mapper.CreateMap<VMFomDensity, MstFomDensity>();
+
+            Mapper.CreateMap<MstFomSuggestedMM, VMFomSuggestedMM>();
+            Mapper.CreateMap<VMFomSuggestedMM, MstFomSuggestedMM>();
+
+
+            Mapper.CreateMap<MstFomSize, VMFomSize>();
+            Mapper.CreateMap<VMFomSize, MstFomSize>();
         }
     }
 }

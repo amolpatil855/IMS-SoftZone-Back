@@ -23,6 +23,7 @@ namespace IMSWebApi.Controllers
         private QualityService _qualityService = null;
         private CategoryService _categoryService = null;
         private FomDensityService _fomDensityService = null;
+        private FomSuggestedMMService _fomSuggestedMMService = null;
 
         public CommonController()
         {
@@ -37,6 +38,7 @@ namespace IMSWebApi.Controllers
             _qualityService = new QualityService();
             _categoryService = new CategoryService();
             _fomDensityService = new FomDensityService();
+            _fomSuggestedMMService = new FomSuggestedMMService();
         }
 
         [HttpGet]
@@ -48,10 +50,18 @@ namespace IMSWebApi.Controllers
         }
 
         [HttpGet]
-        [Route("api/Common/GetCollectionLookUp")]
-        public IHttpActionResult GetCollectionLookUp(long categoryId)
+        [Route("api/Common/GetCollectionLookUpByCategoryId")]
+        public IHttpActionResult GetCollectionLookUpByCategoryId(long categoryId)
         {
-            var result = _collectionService.getCollectionLookUp(categoryId);
+            var result = _collectionService.getCollectionLookUpByCategoryId(categoryId);
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("api/Common/GetCollectionLookUp")]
+        public IHttpActionResult GetCollectionLookUp()
+        {
+            var result = _collectionService.getCollectionLookUp();
             return Ok(result);
         }
 
@@ -134,5 +144,14 @@ namespace IMSWebApi.Controllers
             var result = _fomDensityService.getFomDensityLookUp();
             return Ok(result);
         }
+
+        [HttpGet]
+        [Route("api/Common/GetFomSuggestedMMLookUpByFomDensity")]
+        public IHttpActionResult GetFomSuggestedMMLookUpByFomDensity(long fomDensityId)
+        {
+            var result = _fomSuggestedMMService.getFomSuggestedMMLookUpByFomDensity(fomDensityId);
+            return Ok(result);
+        }
+
     }
 }
