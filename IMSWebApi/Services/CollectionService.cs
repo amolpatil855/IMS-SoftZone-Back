@@ -15,9 +15,11 @@ namespace IMSWebApi.Services
     {
         WebAPIdbEntities repo = new WebAPIdbEntities();
         Int64 _LoggedInuserId;
+        CategoryService _categroyService;
         public CollectionService()
         {
             _LoggedInuserId = Convert.ToInt64(HttpContext.Current.User.Identity.GetUserId());
+            _categroyService = new CategoryService();
         }
 
         public ListResult<VMCollection> getCollection(int pageSize, int page, string search)
@@ -59,7 +61,34 @@ namespace IMSWebApi.Services
         public List<VMLookUpItem> getCollectionLookUp(Int64 categoryId)
         {
             return repo.MstCollections.Where(c => c.categoryId == categoryId)
-                .Select(s => new VMLookUpItem{ value = s.id, label = s.collectionCode +"-" + s.MstSupplier.code }).ToList();
+                .OrderBy(s=>s.collectionCode)
+                .Select(s => new VMLookUpItem{ value = s.id, label = s.collectionCode +"-" + 
+                    s.MstSupplier.code }).ToList();
+        }
+        public List<VMLookUpItem> getMatCollectionLookUp()
+        {
+            
+            return repo.MstCollections.Where(c => c.categoryId == _categroyService.getMatressCategory().id)
+                .OrderBy(s => s.collectionCode)
+                .Select(s => new VMLookUpItem
+                {
+                    value = s.id,
+                    label = s.collectionCode + "-" +
+                        s.MstSupplier.code
+                }).ToList();
+        }
+
+        public List<VMLookUpItem> getFomCollectionLookUp()
+        {
+
+            return repo.MstCollections.Where(c => c.categoryId == _categroyService.getFoamCategory().id)
+                .OrderBy(s => s.collectionCode)
+                .Select(s => new VMLookUpItem
+                {
+                    value = s.id,
+                    label = s.collectionCode + "-" +
+                        s.MstSupplier.code
+                }).ToList();
         }
 
         public ResponseMessage postCollection(VMCollection collection)
@@ -70,7 +99,8 @@ namespace IMSWebApi.Services
 
             repo.MstCollections.Add(collectionToPost);
             repo.SaveChanges();
-            return new ResponseMessage(collectionToPost.id, "Collection Added Successfully", ResponseType.Success);
+            return new ResponseMessage(collectionToPost.id, 
+                "Collection Added Successfully", ResponseType.Success);
         }
 
         public ResponseMessage putCollection(VMCollection collection)

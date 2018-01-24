@@ -46,10 +46,34 @@ namespace IMSWebApi.Controllers
         }
 
         [HttpGet]
+        [Route("api/Common/GetFWRCategoryLookup")]
+        public IHttpActionResult GetFWRCategoryLookup()
+        {
+            var result = _categoryService.getFWRCategoryLookUp();
+            return Ok(result);
+        }
+
+        [HttpGet]
         [Route("api/Common/GetCollectionLookUp")]
         public IHttpActionResult GetCollectionLookUp(long categoryId)
         {
             var result = _collectionService.getCollectionLookUp(categoryId);
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("api/Common/GetMatCollectionLookUp")]
+        public IHttpActionResult GetMatCollectionLookUp()
+        {
+            var result = _collectionService.getMatCollectionLookUp();
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("api/Common/GetFomCollectionLookUp")]
+        public IHttpActionResult GetFomCollectionLookUp()
+        {
+            var result = _collectionService.getFomCollectionLookUp();
             return Ok(result);
         }
 

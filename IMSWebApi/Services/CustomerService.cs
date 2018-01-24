@@ -20,24 +20,30 @@ namespace IMSWebApi.Services
             _LoggedInuserId = Convert.ToInt64(HttpContext.Current.User.Identity.GetUserId());
         }
 
-         public ListResult<VMCustomer> getCustomer(int pageSize, int page, string search)
+        public ListResult<VMCustomer> getCustomer(int pageSize, int page, string search)
         {
             List<VMCustomer> customerViews;
             if (pageSize > 0)
             {
-                var result = repo.MstCustomers.Where(c => !string.IsNullOrEmpty(search) ? c.code.StartsWith(search) || c.phone.StartsWith(search) : true).OrderBy(p => p.id).Skip(page * pageSize).Take(pageSize).ToList();
+                var result = repo.MstCustomers.Where(c => !string.IsNullOrEmpty(search) 
+                    ? c.code.StartsWith(search) 
+                    || c.phone.StartsWith(search) : true)
+                    .OrderBy(p => p.id).Skip(page * pageSize).Take(pageSize).ToList();
                 customerViews = Mapper.Map<List<MstCustomer>, List<VMCustomer>>(result);
             }
             else
             {
-                var result = repo.MstCustomers.Where(c => !string.IsNullOrEmpty(search) ? c.code.StartsWith(search) || c.phone.StartsWith(search) : true).ToList();
+                var result = repo.MstCustomers.Where(c => !string.IsNullOrEmpty(search) 
+                    ? c.code.StartsWith(search) 
+                    || c.phone.StartsWith(search) : true).ToList();
                 customerViews = Mapper.Map<List<MstCustomer>, List<VMCustomer>>(result);
             }
 
             return new ListResult<VMCustomer>
                 {
                     Data = customerViews,
-                    TotalCount = repo.MstCustomers.Where(c => !string.IsNullOrEmpty(search) ? c.code.StartsWith(search) || c.phone.StartsWith(search) : true).Count(),
+                    TotalCount = repo.MstCustomers.Where(c => !string.IsNullOrEmpty(search) 
+                        ? c.code.StartsWith(search) || c.phone.StartsWith(search) : true).Count(),
                     Page = page
                 };
         }
@@ -51,7 +57,9 @@ namespace IMSWebApi.Services
 
         public List<VMLookUpItem> getCustomerLookUp()
         {
-            return repo.MstCustomers.Select(s => new VMLookUpItem { value = s.id, label = s.name }).ToList();
+            return repo.MstCustomers
+                .OrderBy(s=>s.code)
+                .Select(s => new VMLookUpItem { value = s.id, label = s.name }).ToList();
         }
 
         public ResponseMessage postCustomer(VMCustomer customer)
@@ -67,13 +75,16 @@ namespace IMSWebApi.Services
             customerToPost.createdBy = _LoggedInuserId;
             repo.MstCustomers.Add(customerToPost);
             repo.SaveChanges();
-            return new ResponseMessage(customerToPost.id, "Customer Added Successfully", ResponseType.Success);
+            return new ResponseMessage(customerToPost.id, "Customer Added Successfully", 
+                ResponseType.Success);
         }
 
         public ResponseMessage putCustomer(VMCustomer customer)
         {
-            var customerAddressDetails = Mapper.Map<List<VMCustomerAddress>, List<MstCustomerAddress>>(customer.MstCustomerAddresses);
-            repo.MstCustomerAddresses.RemoveRange(repo.MstCustomerAddresses.Where(s => s.customerId== customer.id));
+            var customerAddressDetails = Mapper.Map<List<VMCustomerAddress>, 
+                List<MstCustomerAddress>>(customer.MstCustomerAddresses);
+            repo.MstCustomerAddresses.RemoveRange(repo.MstCustomerAddresses
+                .Where(s => s.customerId== customer.id));
             repo.SaveChanges();
 
             foreach (var caddress in customerAddressDetails)

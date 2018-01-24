@@ -72,6 +72,7 @@ namespace IMSWebApi.ServicesDesign
         public List<VMLookUpItem> getSerialNumberLookUpByDesign(Int64 designId)
         {
             return repo.MstFWRShades.Where(q => q.designId == designId)
+                .OrderBy(s=>s.serialNumber).ThenBy(s=>s.shadeCode)
                 .Select(q => new VMLookUpItem
                 {
                     value = q.id,
@@ -83,6 +84,7 @@ namespace IMSWebApi.ServicesDesign
         public List<VMLookUpItem> getSerialNumberLookUpByCollection(Int64 collectionId)
         {
             return repo.MstFWRShades.Where(q => q.collectionId == collectionId)
+                .OrderBy(s => s.serialNumber).ThenBy(s => s.shadeCode)
                 .Select(q => new VMLookUpItem
                 {
                     value = q.id,
