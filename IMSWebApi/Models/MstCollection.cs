@@ -21,6 +21,8 @@ namespace IMSWebApi.Models
             this.MstMatSizes = new HashSet<MstMatSize>();
             this.MstFWRDesigns = new HashSet<MstFWRDesign>();
             this.MstFWRShades = new HashSet<MstFWRShade>();
+            this.MstFomSizes = new HashSet<MstFomSize>();
+            this.MstFomSuggestdMMs = new HashSet<MstFomSuggestdMM>();
         }
     
         public long id { get; set; }
@@ -42,5 +44,7 @@ namespace IMSWebApi.Models
         public virtual ICollection<MstMatSize> MstMatSizes { get; set; }
         public virtual ICollection<MstFWRDesign> MstFWRDesigns { get; set; }
         public virtual ICollection<MstFWRShade> MstFWRShades { get; set; }
+        public virtual ICollection<MstFomSize> MstFomSizes { get; set; }
+        public virtual ICollection<MstFomSuggestdMM> MstFomSuggestdMMs { get; set; }
     }
 }

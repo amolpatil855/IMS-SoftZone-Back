@@ -15,12 +15,10 @@ namespace IMSWebApi.Controllers
     public class FWRShadeController : ApiController
     {
          private FWRShadeService _shadeService = null;
-         private CategoryService _categoryService = null;
-
+         
          public FWRShadeController()
         {
             _shadeService = new FWRShadeService();
-            _categoryService = new CategoryService();
         }
 
          // GET api/FWRShade   
@@ -38,30 +36,6 @@ namespace IMSWebApi.Controllers
          public IHttpActionResult Get(long id)
          {
              var result = _shadeService.getShadeById(id);
-             return Ok(result);
-         }
-
-         [HttpGet]
-         [Route("api/FWRShade/GetCategoryLookup")]
-         public IHttpActionResult GetCategoryLookup()
-         {
-             var result = _categoryService.getCategoryLookUp();
-             return Ok(result);
-         }
-
-         [HttpGet]
-         [Route("api/FWRShade/GetSerialNumberLookUpByDesign")]
-         public IHttpActionResult GetSerialNumberLookUpByDesign(long designId)
-         {
-             var result = _shadeService.getSerialNumberLookUpByDesign(designId);
-             return Ok(result);
-         }
-
-         [HttpGet]
-         [Route("api/FWRShade/GetSerialNumberLookUpByCollection")]
-         public IHttpActionResult GetSerialNumberLookUpByCollection(long collectionId)
-         {
-             var result = _shadeService.getSerialNumberLookUpByCollection(collectionId);
              return Ok(result);
          }
 

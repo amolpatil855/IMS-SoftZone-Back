@@ -11,73 +11,65 @@ using System.Web.Http;
 namespace IMSWebApi.Controllers
 {
     [Authorize]
-    public class MatThickNessController : ApiController
+    public class MatThicknessController : ApiController
     {
-        private MatThickNessService _matThickNessService = null;
+        private MatThicknessService _matThicknessService = null;
 
-        public MatThickNessController()
+        public MatThicknessController()
         {
-            _matThickNessService = new MatThickNessService();
+            _matThicknessService = new MatThicknessService();
         }
 
-        // GET api/MatThickNess   
+        // GET api/MatThickness   
         [ApiAuthorize(AccessLevel = "mattressthickness")]
         [HttpGet]
         public IHttpActionResult Get(int pageSize = 0, int page = 0, string search = null)
         {
-            var result = _matThickNessService.getMatThickNess(pageSize, page, search);
+            var result = _matThicknessService.getMatThickness(pageSize, page, search);
             return Ok(result);
         }
 
-        // GET api/MatThickNess/1
+        // GET api/MatThickness/1
         [ApiAuthorize(AccessLevel = "mattressthickness")]
         [HttpGet]
         public IHttpActionResult Get(long id)
         {
-            var result = _matThickNessService.getMatThickNessById(id);
+            var result = _matThicknessService.getMatThicknessById(id);
             return Ok(result);
         }
-
-        [HttpGet]
-        [Route("api/MatThickNess/GetMatThickNessLookUp")]
-        public IHttpActionResult GetMatThickNessLookUp()
-        {
-            var result = _matThickNessService.getMatThickNessLookUp();
-            return Ok(result);
-        }
-
-        // POST api/MatThickNess
+        
+        // POST api/MatThickness
         [ApiAuthorize(AccessLevel = "mattressthickness")]
         [HttpPost]
-        public IHttpActionResult PostMatThickNess(VMMatThickNess matThickNess)
+        public IHttpActionResult PostMatThickness(VMMatThickness matThickness)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            var result = _matThickNessService.postMatThickNess(matThickNess);
+            var result = _matThicknessService.postMatThickness(matThickness);
             return Ok(result);
         }
 
-        // PUT api/MatThickNess/1
+        // PUT api/MatThickness/1
         [ApiAuthorize(AccessLevel = "mattressthickness")]
         [HttpPut]
-        public IHttpActionResult PutMatThickNess(VMMatThickNess matThickNess)
+        public IHttpActionResult PutMatThickness(VMMatThickness matThickness)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            var result = _matThickNessService.putMatThickNess(matThickNess);
+            var result = _matThicknessService.putMatThickness(matThickness);
             return Ok(result);
         }
 
-        // DELETE api/MatThickNess/1
+        // DELETE api/MatThickness/1
         [ApiAuthorize(AccessLevel = "mattressthickness")]
         [HttpDelete]
-        public IHttpActionResult DeleteMattressThickNess(long id)
+        public IHttpActionResult DeleteMattressThickness(long id)
         {
-            var result = _matThickNessService.deleteMatThickNess(id);
+            var result = _matThicknessService.deleteMatThickness(id);
             return Ok(result);
         }
     }

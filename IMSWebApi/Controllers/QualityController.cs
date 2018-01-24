@@ -14,8 +14,7 @@ namespace IMSWebApi.Controllers
     public class QualityController : ApiController
     {
         private QualityService _qualityService = null;
-        private CategoryService _categoryService = null;
-
+        
         public QualityController()
         {
             _qualityService = new QualityService();
@@ -36,22 +35,6 @@ namespace IMSWebApi.Controllers
         public IHttpActionResult Get(long id)
         {
             var result = _qualityService.getQualityById(id);
-            return Ok(result);
-        }
-
-        [HttpGet]
-        [Route("api/Quality/GetQualityLookUpByCollection")]
-        public IHttpActionResult GetQualityLookUpByCollection(long collectionId)
-        {
-            var result = _qualityService.getQualityLookUpByCollection(collectionId);
-            return Ok(result);
-        }
-
-        [HttpGet]
-        [Route("api/Quality/GetCategoryLookup")]
-        public IHttpActionResult GetCategoryLookup()
-        {
-            var result = _categoryService.getCategoryLookUp();
             return Ok(result);
         }
 

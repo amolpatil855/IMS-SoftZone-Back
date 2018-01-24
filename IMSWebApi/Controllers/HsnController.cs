@@ -37,15 +37,7 @@ namespace IMSWebApi.Controllers
             var result = _hsnService.getHsnById(id);
             return Ok(result);
         }
-
-        [HttpGet]
-        [Route("api/Hsn/GetHsnLookUp")]
-        public IHttpActionResult GetHsnLookUp()
-        {
-            var result = _hsnService.getHsnLookUp();
-            return Ok(result);
-        }
-
+        
         // POST api/Hsn
         [ApiAuthorize(AccessLevel = "hsn")]
         [HttpPost]

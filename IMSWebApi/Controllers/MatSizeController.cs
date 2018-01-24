@@ -14,12 +14,10 @@ namespace IMSWebApi.Controllers
     public class MatSizeController : ApiController
     {
         private MatSizeService _matSizeService = null;
-        private CategoryService _categoryService = null;
-
+        
         public MatSizeController()
         {
             _matSizeService = new MatSizeService();
-            _categoryService = new CategoryService();
         }
 
         // GET api/MatSize   
@@ -39,23 +37,7 @@ namespace IMSWebApi.Controllers
             var result = _matSizeService.getMatSizeById(id);
             return Ok(result);
         }
-
-        [HttpGet]
-        [Route("api/MatSize/GetMatSizeLookUp")]
-        public IHttpActionResult GetMatSizeLookUp()
-        {
-            var result = _matSizeService.getMatSizeLookUp();
-            return Ok(result);
-        }
-
-        [HttpGet]
-        [Route("api/MatSize/GetCategoryLookup")]
-        public IHttpActionResult GetCategoryLookup()
-        {
-            var result = _categoryService.getCategoryLookUp();
-            return Ok(result);
-        }
-
+        
         // POST api/MatSize
         [ApiAuthorize(AccessLevel = "mattresssize")]
         [HttpPost]

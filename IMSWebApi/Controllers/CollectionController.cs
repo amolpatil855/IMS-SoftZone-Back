@@ -14,11 +14,10 @@ namespace IMSWebApi.Controllers
     public class CollectionController : ApiController
     {
         private CollectionService _collectionService = null;
-        private CategoryService _categoryService = null;
+        
         public CollectionController()
         {
             _collectionService = new CollectionService();
-            _categoryService = new CategoryService();
         }
 
         // GET api/Collection
@@ -36,22 +35,6 @@ namespace IMSWebApi.Controllers
         public IHttpActionResult Get(long id)
         {
             var result = _collectionService.getCollectionById(id);
-            return Ok(result);
-        }
-
-        [HttpGet]
-        [Route("api/Collection/GetCollectionLookUp")]
-        public IHttpActionResult GetCollectionLookUp(long categoryId)
-        {
-            var result = _collectionService.getCollectionLookUp(categoryId);
-            return Ok(result);
-        }
-
-        [HttpGet]
-        [Route("api/Collection/GetCategoryLookup")]
-        public IHttpActionResult GetCategoryLookup()
-        {
-            var result = _categoryService.getCategoryLookUp();
             return Ok(result);
         }
 

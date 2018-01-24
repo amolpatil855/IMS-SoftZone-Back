@@ -76,14 +76,14 @@ namespace IMSWebApi.Services
             var matSizeToPut = repo.MstMatSizes.Where(q => q.id == matSize.id).FirstOrDefault();
             MstCategory mattressSizeCategory = matSizeToPut.MstCategory;
             MstCollection mattressSizeCollection = matSizeToPut.MstCollection;
-            MstMatThickNess mattressSizeThickNess = matSizeToPut.MstMatThickNess;
+            MstMatThickness mattressSizeThickNess = matSizeToPut.MstMatThickness;
             MstQuality mattressSizeQuality = matSizeToPut.MstQuality;
 
 
             matSizeToPut = Mapper.Map<VMMatSize, MstMatSize>(matSize, matSizeToPut);
             matSizeToPut.MstCategory = mattressSizeCategory;
             matSizeToPut.MstCollection = mattressSizeCollection;
-            matSizeToPut.MstMatThickNess = mattressSizeThickNess;
+            matSizeToPut.MstMatThickness = mattressSizeThickNess;
             matSizeToPut.MstQuality = mattressSizeQuality;
             matSizeToPut.updatedBy = _LoggedInuserId;
             matSizeToPut.updatedOn = DateTime.Now;
