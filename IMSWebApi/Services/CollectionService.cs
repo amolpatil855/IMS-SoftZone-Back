@@ -109,11 +109,12 @@ namespace IMSWebApi.Services
         public ResponseMessage putCollection(VMCollection collection)
         {
             var collectionToPut = repo.MstCollections.Where(s => s.id == collection.id).FirstOrDefault();
-            MstSupplier collectionSupplier = collectionToPut.MstSupplier;
-            MstCategory collectionCategory = collectionToPut.MstCategory;
-            collectionToPut = Mapper.Map<VMCollection, MstCollection>(collection, collectionToPut);
-            collectionToPut.MstSupplier = collectionSupplier;
-            collectionToPut.MstCategory = collectionCategory;
+            collectionToPut.categoryId = collection.categoryId;
+            collectionToPut.supplierId = collection.supplierId;
+            collectionToPut.collectionCode = collection.collectionCode;
+            collectionToPut.collectionName = collection.collectionName;
+            collectionToPut.description = collection.description;
+            collectionToPut.manufacturerName = collection.manufacturerName;
             collectionToPut.updatedBy = _LoggedInuserId;
             collectionToPut.updatedOn = DateTime.Now;
             

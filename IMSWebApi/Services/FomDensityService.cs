@@ -85,14 +85,12 @@ namespace IMSWebApi.Services
         public ResponseMessage putFomDensity(VMFomDensity fomDensity)
         {
             var fomDensityToPut = repo.MstFomDensities.Where(q => q.id == fomDensity.id).FirstOrDefault();
-            MstCategory fomDensityCategory = fomDensityToPut.MstCategory;
-            MstCollection fomDensityCollection = fomDensityToPut.MstCollection;
-            MstQuality fomDensityQuality = fomDensityToPut.MstQuality;
+            fomDensityToPut.categoryId = fomDensity.categoryId;
+            fomDensityToPut.collectionId = fomDensity.collectionId;
+            fomDensityToPut.qualityId = fomDensity.qualityId;
+            fomDensityToPut.density = fomDensity.density;
+            fomDensityToPut.description = fomDensity.description;
 
-            fomDensityToPut = Mapper.Map<VMFomDensity, MstFomDensity>(fomDensity, fomDensityToPut);
-            fomDensityToPut.MstCategory = fomDensityCategory;
-            fomDensityToPut.MstCollection = fomDensityCollection;
-            fomDensityToPut.MstQuality = fomDensityQuality;
             fomDensityToPut.updatedBy = _LoggedInuserId;
             fomDensityToPut.updatedOn = DateTime.Now;
 

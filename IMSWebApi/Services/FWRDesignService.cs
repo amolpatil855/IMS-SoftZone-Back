@@ -84,13 +84,14 @@ namespace IMSWebApi.Services
         public ResponseMessage putDesign(VMFWRDesign design)
         {
             var designToPut = repo.MstFWRDesigns.Where(q => q.id == design.id).FirstOrDefault();
-            MstCategory designCategory = designToPut.MstCategory;
-            MstCollection designCollection = designToPut.MstCollection;
-            MstQuality designQuality = designToPut.MstQuality;
-            designToPut = Mapper.Map<VMFWRDesign, MstFWRDesign>(design, designToPut);
-            designToPut.MstQuality = designQuality;
-            designToPut.MstCollection = designCollection;
-            designToPut.MstCategory = designCategory;
+
+            designToPut.categoryId = design.categoryId;
+            designToPut.collectionId = design.collectionId;
+            designToPut.qualityId = design.qualityId;
+            designToPut.designCode = design.designCode;
+            designToPut.designName = design.designName;
+            designToPut.description = design.description;
+
             designToPut.updatedBy = _LoggedInuserId;
             designToPut.updatedOn = DateTime.Now;
 

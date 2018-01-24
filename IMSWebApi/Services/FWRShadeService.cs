@@ -107,15 +107,16 @@ namespace IMSWebApi.ServicesDesign
         public ResponseMessage putShade(VMFWRShade shade)
         {
             var shadeToPut = repo.MstFWRShades.Where(q => q.id == shade.id).FirstOrDefault();
-            MstCategory shadeCategory = shadeToPut.MstCategory;
-            MstCollection shadeCollection = shadeToPut.MstCollection;
-            MstFWRDesign shadeDesign = shadeToPut.MstFWRDesign;
-            MstQuality shadeQuality = shadeToPut.MstQuality;
-            shadeToPut = Mapper.Map<VMFWRShade, MstFWRShade>(shade, shadeToPut);
-            shadeToPut.MstCategory = shadeCategory;
-            shadeToPut.MstCollection = shadeCollection;
-            shadeToPut.MstFWRDesign = shadeDesign;
-            shadeToPut.MstQuality = shadeQuality;
+
+            shadeToPut.categoryId = shade.categoryId;
+            shadeToPut.collectionId = shade.collectionId;
+            shadeToPut.qualityId = shade.qualityId;
+            shadeToPut.designId = shade.designId;
+            shadeToPut.shadeCode = shade.shadeCode;
+            shadeToPut.shadeName = shade.shadeName;
+            shadeToPut.serialNumber = shade.serialNumber;
+            shadeToPut.description = shade.description;
+
             shadeToPut.updatedBy = _LoggedInuserId;
             shadeToPut.updatedOn = DateTime.Now;
 
