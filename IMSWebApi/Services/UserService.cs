@@ -116,7 +116,7 @@ namespace IMSWebApi.Services
             return new ResponseMessage(userToPost.id, "User Added Successfully", ResponseType.Success);
         }
 
-        private static string createRandomPassword(int passwordLength)
+        public string createRandomPassword(int passwordLength)
         {
             string allowedChars = "abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ0123456789!@$?_-";
             char[] chars = new char[passwordLength];
@@ -175,6 +175,11 @@ namespace IMSWebApi.Services
         {
             var result = repo.MstUsers.Where(u => u.id == id).FirstOrDefault();
             Email.email(result, fileName);
+        }
+
+        public MstuserType getCustomerUserType()
+        {
+            return repo.MstuserTypes.Where(c => c.userTypeName == "Customer").FirstOrDefault();
         }
 
     }

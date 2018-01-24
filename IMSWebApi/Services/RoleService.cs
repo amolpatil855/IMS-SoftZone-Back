@@ -124,7 +124,10 @@ namespace IMSWebApi.Services
             return new ResponseMessage(roleId, "Role Deleted Successfully", ResponseType.Success);
         }
 
-
+        public MstRole getCustomerRole()
+        {
+            return repo.MstRoles.Where(c => c.roleName == "Administrator").FirstOrDefault();
+        }
 
     }
 }

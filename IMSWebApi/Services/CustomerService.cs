@@ -14,10 +14,14 @@ namespace IMSWebApi.Services
     public class CustomerService
     {
         WebAPIdbEntities repo = new WebAPIdbEntities();
+        RoleService _roleService = new RoleService();
+        UserService _userService = new UserService();
          Int64 _LoggedInuserId;
          public CustomerService()
         {
             _LoggedInuserId = Convert.ToInt64(HttpContext.Current.User.Identity.GetUserId());
+            _roleService = new RoleService();
+            _userService = new UserService();
         }
 
         public ListResult<VMCustomer> getCustomer(int pageSize, int page, string search)
@@ -64,7 +68,13 @@ namespace IMSWebApi.Services
 
         public ResponseMessage postCustomer(VMCustomer customer)
         {
+            Nullable<long> userId = null;
+            if (customer.isWholesaleCustomer == true)
+            {
+                userId = CreateUser(customer, userId);
+            }
             MstCustomer customerToPost = Mapper.Map<VMCustomer, MstCustomer>(customer);
+            customerToPost.userId = userId;
             List<MstCustomerAddress> customerAddress = customerToPost.MstCustomerAddresses.ToList();
             foreach (var caddress in customerAddress)
             {
@@ -79,8 +89,28 @@ namespace IMSWebApi.Services
                 ResponseType.Success);
         }
 
+        private long? CreateUser(VMCustomer customer, Nullable<long> userId)
+        {
+            VMUser user = new VMUser();
+            user.userName = customer.userName;
+            user.email = customer.email;
+            user.phone = customer.phone;
+            user.roleId = _roleService.getCustomerRole().id;
+            user.userTypeId = _userService.getCustomerUserType().id;
+            MstUser userToPost = Mapper.Map<VMUser, MstUser>(user);
+            userToPost.password = _userService.createRandomPassword(8);
+            userToPost.createdOn = DateTime.Now;
+            userToPost.createdBy = _LoggedInuserId;
+            repo.MstUsers.Add(userToPost);
+            repo.SaveChanges();
+            _userService.sendEmail(userToPost.id, "RegisterUser");
+            userId = userToPost.id;
+            return userId;
+        }
+
         public ResponseMessage putCustomer(VMCustomer customer)
         {
+            Nullable<long> userId = null;
             var customerAddressDetails = Mapper.Map<List<VMCustomerAddress>, 
                 List<MstCustomerAddress>>(customer.MstCustomerAddresses);
             repo.MstCustomerAddresses.RemoveRange(repo.MstCustomerAddresses
@@ -93,9 +123,20 @@ namespace IMSWebApi.Services
                 caddress.createdBy = _LoggedInuserId;
             }
             var customerToPut = repo.MstCustomers.Where(s => s.id == customer.id).FirstOrDefault();
+            if(customerToPut.userId ==null && customer.isWholesaleCustomer == true)
+            {
+                userId = CreateUser(customer, userId);
+            }
+            else if (customer.isWholesaleCustomer == false && customer.userId!=null)
+            {
+                repo.MstUsers.Remove(repo.MstUsers.Where(u => u.id == userId).FirstOrDefault());
+                repo.SaveChanges();
+                customer.userId = null;
+            }
             customerToPut = Mapper.Map<VMCustomer, MstCustomer>(customer, customerToPut);
             customerToPut.updatedOn = DateTime.Now;
             customerToPut.updatedBy = _LoggedInuserId;
+            customerToPut.userId = userId!=null ? userId : customer.userId;
 
             customerToPut.MstCustomerAddresses = customerAddressDetails;
             repo.SaveChanges();
@@ -107,6 +148,8 @@ namespace IMSWebApi.Services
         {
             repo.MstCustomerAddresses.RemoveRange(repo.MstCustomerAddresses.Where(s => s.customerId== id));
             repo.SaveChanges();
+            MstCustomer customerToDelete = repo.MstCustomers.Where(c => c.id == id).FirstOrDefault();
+            repo.MstUsers.Remove(repo.MstUsers.Where(u => u.id == customerToDelete.userId).FirstOrDefault());
             repo.MstCustomers.Remove(repo.MstCustomers.Where(s => s.id == id).FirstOrDefault());
             repo.SaveChanges();
             return new ResponseMessage(id, "Customer Deleted Successfully", ResponseType.Success);
