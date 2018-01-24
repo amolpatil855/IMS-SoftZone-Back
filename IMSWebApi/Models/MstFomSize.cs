@@ -31,7 +31,7 @@ namespace IMSWebApi.Models
         public virtual MstCategory MstCategory { get; set; }
         public virtual MstCollection MstCollection { get; set; }
         public virtual MstFomDensity MstFomDensity { get; set; }
-        public virtual MstFomSuggestdMM MstFomSuggestdMM { get; set; }
         public virtual MstQuality MstQuality { get; set; }
+        public virtual MstFomSuggestedMM MstFomSuggestedMM { get; set; }
     }
 }

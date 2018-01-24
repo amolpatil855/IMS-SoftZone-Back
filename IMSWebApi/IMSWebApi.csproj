@@ -260,6 +260,8 @@
     <Compile Include="Controllers\CompanyInfoController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\FomDensityController.cs" />
+    <Compile Include="Controllers\FomSizeController.cs" />
+    <Compile Include="Controllers\FomSuggestedMMController.cs" />
     <Compile Include="Controllers\FWRDesignController.cs" />
     <Compile Include="Controllers\HsnController.cs" />
     <Compile Include="Controllers\MatSizeController.cs" />
@@ -304,7 +306,7 @@
     <Compile Include="Models\MstFomSize.cs">
       <DependentUpon>WebApiModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\MstFomSuggestdMM.cs">
+    <Compile Include="Models\MstFomSuggestedMM.cs">
       <DependentUpon>WebApiModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\MstFWRDesign.cs">
@@ -368,6 +370,7 @@
     <Compile Include="Services\CompanyInfoService.cs" />
     <Compile Include="Services\CustomerService.cs" />
     <Compile Include="Services\FomDensityService.cs" />
+    <Compile Include="Services\FomSuggestedMMService.cs" />
     <Compile Include="Services\FWRDesignService.cs" />
     <Compile Include="Services\HsnService.cs" />
     <Compile Include="Services\MatSizeService.cs" />
@@ -378,11 +381,14 @@
     <Compile Include="Services\FWRShadeService.cs" />
     <Compile Include="Services\SupplierService.cs" />
     <Compile Include="Services\UserService.cs" />
+    <Compile Include="Services\VMFomSizeService.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModel\ResponseMessage.cs" />
     <Compile Include="ViewModel\VMCategory.cs" />
     <Compile Include="ViewModel\VMCollection.cs" />
     <Compile Include="ViewModel\VMFomDensity.cs" />
+    <Compile Include="ViewModel\VMFomSize.cs" />
+    <Compile Include="ViewModel\VMFomSuggestedMM.cs" />
     <Compile Include="ViewModel\VMFWRDesign.cs" />
     <Compile Include="ViewModel\VMHsn.cs" />
     <Compile Include="ViewModel\VMLookUpItem.cs" />
