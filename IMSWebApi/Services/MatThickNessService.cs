@@ -57,6 +57,7 @@ namespace IMSWebApi.Services
         public List<VMLookUpItem> getMatThicknessLookUp()
         {
             return repo.MstMatThicknesses
+                .OrderBy(s=>s.thicknessCode)
                 .Select(q => new VMLookUpItem { value = q.id, label = q.thicknessCode }).ToList();
         }
 

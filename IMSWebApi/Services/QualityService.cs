@@ -66,6 +66,7 @@ namespace IMSWebApi.Services
         public List<VMLookUpItem> getQualityLookUpByCollection(Int64 collectionId)
         {
             return repo.MstQualities.Where(q => q.collectionId == collectionId)
+                .OrderBy(q=>q.qualityCode)
                 .Select(q => new VMLookUpItem { value = q.id, label = q.qualityCode }).ToList();
         }
 

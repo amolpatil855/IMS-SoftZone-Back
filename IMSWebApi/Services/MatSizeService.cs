@@ -57,6 +57,7 @@ namespace IMSWebApi.Services
         public List<VMLookUpItem> getMatSizeLookUp()
         {
             return repo.MstMatSizes
+                .OrderBy(m=>m.sizeCode)
                 .Select(q => new VMLookUpItem { value = q.id, label = q.sizeCode }).ToList();
         }
 
