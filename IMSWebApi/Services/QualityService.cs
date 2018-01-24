@@ -84,12 +84,31 @@ namespace IMSWebApi.Services
         public ResponseMessage putQuality(VMQuality quality)
         {
             var qualityToPut = repo.MstQualities.Where(q => q.id == quality.id).FirstOrDefault();
-            MstCategory qualityCategory = qualityToPut.MstCategory;
-            MstCollection qualityCollection = qualityToPut.MstCollection;
+            //MstCategory qualityCategory = qualityToPut.MstCategory;
+            //MstCollection qualityCollection = qualityToPut.MstCollection;
 
-            qualityToPut = Mapper.Map<VMQuality, MstQuality>(quality, qualityToPut);
-            qualityToPut.MstCategory = qualityCategory;
-            qualityToPut.MstCollection = qualityCollection;
+            //qualityToPut = Mapper.Map<VMQuality, MstQuality>(quality, qualityToPut);
+            //qualityToPut.MstCategory = qualityCategory;
+            //qualityToPut.MstCollection = qualityCollection;
+            qualityToPut.categoryId = quality.categoryId;
+            qualityToPut.collectionId = quality.collectionId;
+            qualityToPut.qualityCode = quality.qualityCode;
+            qualityToPut.qualityName = quality.qualityName;
+            qualityToPut.description = quality.description;
+            qualityToPut.width = quality.width;
+            qualityToPut.size = quality.size;
+            qualityToPut.hsnId = quality.hsnId;
+            qualityToPut.cutRate = quality.cutRate;
+            qualityToPut.roleRate = quality.roleRate;
+            qualityToPut.rrp = quality.rrp;
+            qualityToPut.maxCutRateDisc = quality.maxCutRateDisc;
+            qualityToPut.maxRoleRateDisc = quality.maxRoleRateDisc;
+            qualityToPut.flatRate = quality.flatRate;
+            qualityToPut.maxflatCutRateDisc = quality.maxflatCutRateDisc;
+            qualityToPut.custRatePerSqFeet = quality.custRatePerSqFeet;
+            qualityToPut.purchaseRatePerMM = quality.purchaseRatePerMM;
+            qualityToPut.sellingRatePerMM = quality.sellingRatePerMM;
+            qualityToPut.sellingRatePerMM = quality.maxDiscout;
             qualityToPut.updatedBy = _LoggedInuserId;
             qualityToPut.updatedOn = DateTime.Now;
 
