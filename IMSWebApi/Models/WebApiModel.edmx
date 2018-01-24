@@ -117,6 +117,39 @@
           <Property Name="updatedOn" Type="datetime" />
           <Property Name="updatedBy" Type="bigint" />
         </EntityType>
+        <EntityType Name="MstFomSize">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="categoryId" Type="bigint" Nullable="false" />
+          <Property Name="collectionId" Type="bigint" Nullable="false" />
+          <Property Name="qualityId" Type="bigint" Nullable="false" />
+          <Property Name="fomDensityId" Type="bigint" Nullable="false" />
+          <Property Name="fomSuggestedMMId" Type="bigint" Nullable="false" />
+          <Property Name="width" Type="decimal" Precision="5" Scale="2" Nullable="false" />
+          <Property Name="length" Type="decimal" Precision="5" Scale="2" Nullable="false" />
+          <Property Name="sizeCode" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="createdOn" Type="datetime" Nullable="false" />
+          <Property Name="createdBy" Type="bigint" Nullable="false" />
+          <Property Name="updatedOn" Type="datetime" />
+          <Property Name="updatedBy" Type="bigint" />
+        </EntityType>
+        <EntityType Name="MstFomSuggestdMM">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="categoryId" Type="bigint" Nullable="false" />
+          <Property Name="collectionId" Type="bigint" Nullable="false" />
+          <Property Name="qualityId" Type="bigint" Nullable="false" />
+          <Property Name="fomDensityId" Type="bigint" Nullable="false" />
+          <Property Name="suggestedMM" Type="int" Nullable="false" />
+          <Property Name="createdOn" Type="datetime" Nullable="false" />
+          <Property Name="createdBy" Type="bigint" Nullable="false" />
+          <Property Name="updatedOn" Type="datetime" />
+          <Property Name="updatedBy" Type="bigint" />
+        </EntityType>
         <EntityType Name="MstFWRDesign">
           <Key>
             <PropertyRef Name="id" />
@@ -179,12 +212,12 @@
           <Property Name="updatedOn" Type="datetime" />
           <Property Name="updatedBy" Type="bigint" />
         </EntityType>
-        <EntityType Name="MstMatThickNess">
+        <EntityType Name="MstMatThickness">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="thickNessCode" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="thicknessCode" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="size" Type="decimal" Precision="4" Scale="2" Nullable="false" />
           <Property Name="createdOn" Type="datetime" Nullable="false" />
           <Property Name="createdBy" Type="bigint" Nullable="false" />
@@ -473,6 +506,114 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_MstFomSize_MstCategory">
+          <End Role="MstCategory" Type="Self.MstCategory" Multiplicity="1" />
+          <End Role="MstFomSize" Type="Self.MstFomSize" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstCategory">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MstFomSize">
+              <PropertyRef Name="categoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MstFomSize_MstCollection">
+          <End Role="MstCollection" Type="Self.MstCollection" Multiplicity="1" />
+          <End Role="MstFomSize" Type="Self.MstFomSize" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstCollection">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MstFomSize">
+              <PropertyRef Name="collectionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MstFomSize_MstFomDensity">
+          <End Role="MstFomDensity" Type="Self.MstFomDensity" Multiplicity="1" />
+          <End Role="MstFomSize" Type="Self.MstFomSize" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstFomDensity">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MstFomSize">
+              <PropertyRef Name="fomDensityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MstFomSize_MstFomSuggestdMM">
+          <End Role="MstFomSuggestdMM" Type="Self.MstFomSuggestdMM" Multiplicity="1" />
+          <End Role="MstFomSize" Type="Self.MstFomSize" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstFomSuggestdMM">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MstFomSize">
+              <PropertyRef Name="fomSuggestedMMId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MstFomSize_MstQuality">
+          <End Role="MstQuality" Type="Self.MstQuality" Multiplicity="1" />
+          <End Role="MstFomSize" Type="Self.MstFomSize" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstQuality">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MstFomSize">
+              <PropertyRef Name="qualityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MstFomSuggestdMM_MstCategory">
+          <End Role="MstCategory" Type="Self.MstCategory" Multiplicity="1" />
+          <End Role="MstFomSuggestdMM" Type="Self.MstFomSuggestdMM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstCategory">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MstFomSuggestdMM">
+              <PropertyRef Name="categoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MstFomSuggestdMM_MstCollection">
+          <End Role="MstCollection" Type="Self.MstCollection" Multiplicity="1" />
+          <End Role="MstFomSuggestdMM" Type="Self.MstFomSuggestdMM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstCollection">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MstFomSuggestdMM">
+              <PropertyRef Name="collectionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MstFomSuggestdMM_MstFomDensity">
+          <End Role="MstFomDensity" Type="Self.MstFomDensity" Multiplicity="1" />
+          <End Role="MstFomSuggestdMM" Type="Self.MstFomSuggestdMM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstFomDensity">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MstFomSuggestdMM">
+              <PropertyRef Name="fomDensityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MstFomSuggestdMM_MstQuality">
+          <End Role="MstQuality" Type="Self.MstQuality" Multiplicity="1" />
+          <End Role="MstFomSuggestdMM" Type="Self.MstFomSuggestdMM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstQuality">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MstFomSuggestdMM">
+              <PropertyRef Name="qualityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_MstMattressSize_MstCategory">
           <End Role="MstCategory" Type="Self.MstCategory" Multiplicity="1" />
           <End Role="MstMatSize" Type="Self.MstMatSize" Multiplicity="*" />
@@ -498,10 +639,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_MstMattressSize_MstMattressThickNess">
-          <End Role="MstMatThickNess" Type="Self.MstMatThickNess" Multiplicity="1" />
+          <End Role="MstMatThickness" Type="Self.MstMatThickness" Multiplicity="1" />
           <End Role="MstMatSize" Type="Self.MstMatSize" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="MstMatThickNess">
+            <Principal Role="MstMatThickness">
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="MstMatSize">
@@ -649,11 +790,13 @@
           <EntitySet Name="MstCustomer" EntityType="Self.MstCustomer" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MstCustomerAddress" EntityType="Self.MstCustomerAddress" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MstFomDensity" EntityType="Self.MstFomDensity" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MstFomSize" EntityType="Self.MstFomSize" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MstFomSuggestdMM" EntityType="Self.MstFomSuggestdMM" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MstFWRDesign" EntityType="Self.MstFWRDesign" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MstFWRShade" EntityType="Self.MstFWRShade" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MstHsn" EntityType="Self.MstHsn" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MstMatSize" EntityType="Self.MstMatSize" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="MstMatThickNess" EntityType="Self.MstMatThickNess" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MstMatThickness" EntityType="Self.MstMatThickness" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MstMenu" EntityType="Self.MstMenu" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MstQuality" EntityType="Self.MstQuality" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MstRole" EntityType="Self.MstRole" Schema="dbo" store:Type="Tables" />
@@ -710,6 +853,42 @@
             <End Role="MstQuality" EntitySet="MstQuality" />
             <End Role="MstFomDensity" EntitySet="MstFomDensity" />
           </AssociationSet>
+          <AssociationSet Name="FK_MstFomSize_MstCategory" Association="Self.FK_MstFomSize_MstCategory">
+            <End Role="MstCategory" EntitySet="MstCategory" />
+            <End Role="MstFomSize" EntitySet="MstFomSize" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MstFomSize_MstCollection" Association="Self.FK_MstFomSize_MstCollection">
+            <End Role="MstCollection" EntitySet="MstCollection" />
+            <End Role="MstFomSize" EntitySet="MstFomSize" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MstFomSize_MstFomDensity" Association="Self.FK_MstFomSize_MstFomDensity">
+            <End Role="MstFomDensity" EntitySet="MstFomDensity" />
+            <End Role="MstFomSize" EntitySet="MstFomSize" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MstFomSize_MstFomSuggestdMM" Association="Self.FK_MstFomSize_MstFomSuggestdMM">
+            <End Role="MstFomSuggestdMM" EntitySet="MstFomSuggestdMM" />
+            <End Role="MstFomSize" EntitySet="MstFomSize" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MstFomSize_MstQuality" Association="Self.FK_MstFomSize_MstQuality">
+            <End Role="MstQuality" EntitySet="MstQuality" />
+            <End Role="MstFomSize" EntitySet="MstFomSize" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MstFomSuggestdMM_MstCategory" Association="Self.FK_MstFomSuggestdMM_MstCategory">
+            <End Role="MstCategory" EntitySet="MstCategory" />
+            <End Role="MstFomSuggestdMM" EntitySet="MstFomSuggestdMM" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MstFomSuggestdMM_MstCollection" Association="Self.FK_MstFomSuggestdMM_MstCollection">
+            <End Role="MstCollection" EntitySet="MstCollection" />
+            <End Role="MstFomSuggestdMM" EntitySet="MstFomSuggestdMM" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MstFomSuggestdMM_MstFomDensity" Association="Self.FK_MstFomSuggestdMM_MstFomDensity">
+            <End Role="MstFomDensity" EntitySet="MstFomDensity" />
+            <End Role="MstFomSuggestdMM" EntitySet="MstFomSuggestdMM" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MstFomSuggestdMM_MstQuality" Association="Self.FK_MstFomSuggestdMM_MstQuality">
+            <End Role="MstQuality" EntitySet="MstQuality" />
+            <End Role="MstFomSuggestdMM" EntitySet="MstFomSuggestdMM" />
+          </AssociationSet>
           <AssociationSet Name="FK_MstMattressSize_MstCategory" Association="Self.FK_MstMattressSize_MstCategory">
             <End Role="MstCategory" EntitySet="MstCategory" />
             <End Role="MstMatSize" EntitySet="MstMatSize" />
@@ -719,7 +898,7 @@
             <End Role="MstMatSize" EntitySet="MstMatSize" />
           </AssociationSet>
           <AssociationSet Name="FK_MstMattressSize_MstMattressThickNess" Association="Self.FK_MstMattressSize_MstMattressThickNess">
-            <End Role="MstMatThickNess" EntitySet="MstMatThickNess" />
+            <End Role="MstMatThickness" EntitySet="MstMatThickness" />
             <End Role="MstMatSize" EntitySet="MstMatSize" />
           </AssociationSet>
           <AssociationSet Name="FK_MstMattressSize_MstQuality" Association="Self.FK_MstMattressSize_MstQuality">
@@ -827,7 +1006,6 @@
           </AssociationSet>
           <EntitySet Name="MstFomDensities" EntityType="WebAPIdbModel.MstFomDensity" />
           <EntitySet Name="MstMatSizes" EntityType="WebAPIdbModel.MstMatSize" />
-          <EntitySet Name="MstMatThickNesses" EntityType="WebAPIdbModel.MstMatThickNess" />
           <AssociationSet Name="FK_MstFoamDensity_MstCategory" Association="WebAPIdbModel.FK_MstFoamDensity_MstCategory">
             <End Role="MstCategory" EntitySet="MstCategories" />
             <End Role="MstFomDensity" EntitySet="MstFomDensities" />
@@ -847,10 +1025,6 @@
           <AssociationSet Name="FK_MstFoamDensity_MstQuality" Association="WebAPIdbModel.FK_MstFoamDensity_MstQuality">
             <End Role="MstQuality" EntitySet="MstQualities" />
             <End Role="MstFomDensity" EntitySet="MstFomDensities" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MstMattressSize_MstMattressThickNess" Association="WebAPIdbModel.FK_MstMattressSize_MstMattressThickNess">
-            <End Role="MstMatThickNess" EntitySet="MstMatThickNesses" />
-            <End Role="MstMatSize" EntitySet="MstMatSizes" />
           </AssociationSet>
           <AssociationSet Name="FK_MstMattressSize_MstQuality" Association="WebAPIdbModel.FK_MstMattressSize_MstQuality">
             <End Role="MstQuality" EntitySet="MstQualities" />
@@ -896,6 +1070,49 @@
             <End Role="MstQuality" EntitySet="MstQualities" />
             <End Role="MstFWRShade" EntitySet="MstFWRShades" />
           </AssociationSet>
+          <EntitySet Name="MstMatThicknesses" EntityType="WebAPIdbModel.MstMatThickness" />
+          <AssociationSet Name="FK_MstMattressSize_MstMattressThickNess" Association="WebAPIdbModel.FK_MstMattressSize_MstMattressThickNess">
+            <End Role="MstMatThickness" EntitySet="MstMatThicknesses" />
+            <End Role="MstMatSize" EntitySet="MstMatSizes" />
+          </AssociationSet>
+          <EntitySet Name="MstFomSizes" EntityType="WebAPIdbModel.MstFomSize" />
+          <EntitySet Name="MstFomSuggestdMMs" EntityType="WebAPIdbModel.MstFomSuggestdMM" />
+          <AssociationSet Name="FK_MstFomSize_MstCategory" Association="WebAPIdbModel.FK_MstFomSize_MstCategory">
+            <End Role="MstCategory" EntitySet="MstCategories" />
+            <End Role="MstFomSize" EntitySet="MstFomSizes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MstFomSuggestdMM_MstCategory" Association="WebAPIdbModel.FK_MstFomSuggestdMM_MstCategory">
+            <End Role="MstCategory" EntitySet="MstCategories" />
+            <End Role="MstFomSuggestdMM" EntitySet="MstFomSuggestdMMs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MstFomSize_MstCollection" Association="WebAPIdbModel.FK_MstFomSize_MstCollection">
+            <End Role="MstCollection" EntitySet="MstCollections" />
+            <End Role="MstFomSize" EntitySet="MstFomSizes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MstFomSuggestdMM_MstCollection" Association="WebAPIdbModel.FK_MstFomSuggestdMM_MstCollection">
+            <End Role="MstCollection" EntitySet="MstCollections" />
+            <End Role="MstFomSuggestdMM" EntitySet="MstFomSuggestdMMs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MstFomSize_MstFomDensity" Association="WebAPIdbModel.FK_MstFomSize_MstFomDensity">
+            <End Role="MstFomDensity" EntitySet="MstFomDensities" />
+            <End Role="MstFomSize" EntitySet="MstFomSizes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MstFomSuggestdMM_MstFomDensity" Association="WebAPIdbModel.FK_MstFomSuggestdMM_MstFomDensity">
+            <End Role="MstFomDensity" EntitySet="MstFomDensities" />
+            <End Role="MstFomSuggestdMM" EntitySet="MstFomSuggestdMMs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MstFomSize_MstFomSuggestdMM" Association="WebAPIdbModel.FK_MstFomSize_MstFomSuggestdMM">
+            <End Role="MstFomSuggestdMM" EntitySet="MstFomSuggestdMMs" />
+            <End Role="MstFomSize" EntitySet="MstFomSizes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MstFomSize_MstQuality" Association="WebAPIdbModel.FK_MstFomSize_MstQuality">
+            <End Role="MstQuality" EntitySet="MstQualities" />
+            <End Role="MstFomSize" EntitySet="MstFomSizes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MstFomSuggestdMM_MstQuality" Association="WebAPIdbModel.FK_MstFomSuggestdMM_MstQuality">
+            <End Role="MstQuality" EntitySet="MstQualities" />
+            <End Role="MstFomSuggestdMM" EntitySet="MstFomSuggestdMMs" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="CFGRoleMenu">
           <Key>
@@ -928,6 +1145,8 @@
           <NavigationProperty Name="MstMatSizes" Relationship="WebAPIdbModel.FK_MstMattressSize_MstCategory" FromRole="MstCategory" ToRole="MstMatSize" />
           <NavigationProperty Name="MstFWRDesigns" Relationship="WebAPIdbModel.FK_MstFWRDesign_MstCategory" FromRole="MstCategory" ToRole="MstFWRDesign" />
           <NavigationProperty Name="MstFWRShades" Relationship="WebAPIdbModel.FK_MstFWRShade_MstCategory" FromRole="MstCategory" ToRole="MstFWRShade" />
+          <NavigationProperty Name="MstFomSizes" Relationship="WebAPIdbModel.FK_MstFomSize_MstCategory" FromRole="MstCategory" ToRole="MstFomSize" />
+          <NavigationProperty Name="MstFomSuggestdMMs" Relationship="WebAPIdbModel.FK_MstFomSuggestdMM_MstCategory" FromRole="MstCategory" ToRole="MstFomSuggestdMM" />
         </EntityType>
         <EntityType Name="MstCollection">
           <Key>
@@ -951,6 +1170,8 @@
           <NavigationProperty Name="MstMatSizes" Relationship="WebAPIdbModel.FK_MstMattressSize_MstCollection" FromRole="MstCollection" ToRole="MstMatSize" />
           <NavigationProperty Name="MstFWRDesigns" Relationship="WebAPIdbModel.FK_MstFWRDesign_MstCollection" FromRole="MstCollection" ToRole="MstFWRDesign" />
           <NavigationProperty Name="MstFWRShades" Relationship="WebAPIdbModel.FK_MstFWRShade_MstCollection" FromRole="MstCollection" ToRole="MstFWRShade" />
+          <NavigationProperty Name="MstFomSizes" Relationship="WebAPIdbModel.FK_MstFomSize_MstCollection" FromRole="MstCollection" ToRole="MstFomSize" />
+          <NavigationProperty Name="MstFomSuggestdMMs" Relationship="WebAPIdbModel.FK_MstFomSuggestdMM_MstCollection" FromRole="MstCollection" ToRole="MstFomSuggestdMM" />
         </EntityType>
         <EntityType Name="MstCompanyInfo">
           <Key>
@@ -1058,6 +1279,8 @@
           <NavigationProperty Name="MstMatSizes" Relationship="WebAPIdbModel.FK_MstMattressSize_MstQuality" FromRole="MstQuality" ToRole="MstMatSize" />
           <NavigationProperty Name="MstFWRDesigns" Relationship="WebAPIdbModel.FK_MstFWRDesign_MstQuality" FromRole="MstQuality" ToRole="MstFWRDesign" />
           <NavigationProperty Name="MstFWRShades" Relationship="WebAPIdbModel.FK_MstFWRShade_MstQuality" FromRole="MstQuality" ToRole="MstFWRShade" />
+          <NavigationProperty Name="MstFomSizes" Relationship="WebAPIdbModel.FK_MstFomSize_MstQuality" FromRole="MstQuality" ToRole="MstFomSize" />
+          <NavigationProperty Name="MstFomSuggestdMMs" Relationship="WebAPIdbModel.FK_MstFomSuggestdMM_MstQuality" FromRole="MstQuality" ToRole="MstFomSuggestdMM" />
         </EntityType>
         <EntityType Name="MstRole">
           <Key>
@@ -1283,6 +1506,8 @@
           <NavigationProperty Name="MstCategory" Relationship="WebAPIdbModel.FK_MstFoamDensity_MstCategory" FromRole="MstFomDensity" ToRole="MstCategory" />
           <NavigationProperty Name="MstCollection" Relationship="WebAPIdbModel.FK_MstFoamDensity_MstCollection" FromRole="MstFomDensity" ToRole="MstCollection" />
           <NavigationProperty Name="MstQuality" Relationship="WebAPIdbModel.FK_MstFoamDensity_MstQuality" FromRole="MstFomDensity" ToRole="MstQuality" />
+          <NavigationProperty Name="MstFomSizes" Relationship="WebAPIdbModel.FK_MstFomSize_MstFomDensity" FromRole="MstFomDensity" ToRole="MstFomSize" />
+          <NavigationProperty Name="MstFomSuggestdMMs" Relationship="WebAPIdbModel.FK_MstFomSuggestdMM_MstFomDensity" FromRole="MstFomDensity" ToRole="MstFomSuggestdMM" />
         </EntityType>
         <EntityType Name="MstMatSize">
           <Key>
@@ -1301,21 +1526,8 @@
           <Property Name="updatedBy" Type="Int64" />
           <NavigationProperty Name="MstCategory" Relationship="WebAPIdbModel.FK_MstMattressSize_MstCategory" FromRole="MstMatSize" ToRole="MstCategory" />
           <NavigationProperty Name="MstCollection" Relationship="WebAPIdbModel.FK_MstMattressSize_MstCollection" FromRole="MstMatSize" ToRole="MstCollection" />
-          <NavigationProperty Name="MstMatThickNess" Relationship="WebAPIdbModel.FK_MstMattressSize_MstMattressThickNess" FromRole="MstMatSize" ToRole="MstMatThickNess" />
           <NavigationProperty Name="MstQuality" Relationship="WebAPIdbModel.FK_MstMattressSize_MstQuality" FromRole="MstMatSize" ToRole="MstQuality" />
-        </EntityType>
-        <EntityType Name="MstMatThickNess">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="thickNessCode" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="size" Type="Decimal" Precision="4" Scale="2" Nullable="false" />
-          <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="createdBy" Type="Int64" Nullable="false" />
-          <Property Name="updatedOn" Type="DateTime" Precision="3" />
-          <Property Name="updatedBy" Type="Int64" />
-          <NavigationProperty Name="MstMatSizes" Relationship="WebAPIdbModel.FK_MstMattressSize_MstMattressThickNess" FromRole="MstMatThickNess" ToRole="MstMatSize" />
+          <NavigationProperty Name="MstMatThickness" Relationship="WebAPIdbModel.FK_MstMattressSize_MstMattressThickNess" FromRole="MstMatSize" ToRole="MstMatThickness" />
         </EntityType>
         <Association Name="FK_MstFoamDensity_MstCategory">
           <End Type="WebAPIdbModel.MstCategory" Role="MstCategory" Multiplicity="1" />
@@ -1374,18 +1586,6 @@
             </Principal>
             <Dependent Role="MstFomDensity">
               <PropertyRef Name="qualityId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MstMattressSize_MstMattressThickNess">
-          <End Type="WebAPIdbModel.MstMatThickNess" Role="MstMatThickNess" Multiplicity="1" />
-          <End Type="WebAPIdbModel.MstMatSize" Role="MstMatSize" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MstMatThickNess">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="MstMatSize">
-              <PropertyRef Name="thicknessId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1581,6 +1781,182 @@
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="MstFWRShade">
+              <PropertyRef Name="qualityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="MstMatThickness">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="thicknessCode" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="size" Type="Decimal" Nullable="false" Precision="4" Scale="2" />
+          <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="createdBy" Type="Int64" Nullable="false" />
+          <Property Name="updatedOn" Type="DateTime" Precision="3" />
+          <Property Name="updatedBy" Type="Int64" />
+          <NavigationProperty Name="MstMatSizes" Relationship="WebAPIdbModel.FK_MstMattressSize_MstMattressThickNess" FromRole="MstMatThickness" ToRole="MstMatSize" />
+        </EntityType>
+        <Association Name="FK_MstMattressSize_MstMattressThickNess">
+          <End Type="WebAPIdbModel.MstMatThickness" Role="MstMatThickness" Multiplicity="1" />
+          <End Type="WebAPIdbModel.MstMatSize" Role="MstMatSize" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstMatThickness">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MstMatSize">
+              <PropertyRef Name="thicknessId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="MstFomSize">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="categoryId" Type="Int64" Nullable="false" />
+          <Property Name="collectionId" Type="Int64" Nullable="false" />
+          <Property Name="qualityId" Type="Int64" Nullable="false" />
+          <Property Name="fomDensityId" Type="Int64" Nullable="false" />
+          <Property Name="fomSuggestedMMId" Type="Int64" Nullable="false" />
+          <Property Name="width" Type="Decimal" Nullable="false" Precision="5" Scale="2" />
+          <Property Name="length" Type="Decimal" Nullable="false" Precision="5" Scale="2" />
+          <Property Name="sizeCode" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="createdBy" Type="Int64" Nullable="false" />
+          <Property Name="updatedOn" Type="DateTime" Precision="3" />
+          <Property Name="updatedBy" Type="Int64" />
+          <NavigationProperty Name="MstCategory" Relationship="WebAPIdbModel.FK_MstFomSize_MstCategory" FromRole="MstFomSize" ToRole="MstCategory" />
+          <NavigationProperty Name="MstCollection" Relationship="WebAPIdbModel.FK_MstFomSize_MstCollection" FromRole="MstFomSize" ToRole="MstCollection" />
+          <NavigationProperty Name="MstFomDensity" Relationship="WebAPIdbModel.FK_MstFomSize_MstFomDensity" FromRole="MstFomSize" ToRole="MstFomDensity" />
+          <NavigationProperty Name="MstFomSuggestdMM" Relationship="WebAPIdbModel.FK_MstFomSize_MstFomSuggestdMM" FromRole="MstFomSize" ToRole="MstFomSuggestdMM" />
+          <NavigationProperty Name="MstQuality" Relationship="WebAPIdbModel.FK_MstFomSize_MstQuality" FromRole="MstFomSize" ToRole="MstQuality" />
+        </EntityType>
+        <EntityType Name="MstFomSuggestdMM">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="categoryId" Type="Int64" Nullable="false" />
+          <Property Name="collectionId" Type="Int64" Nullable="false" />
+          <Property Name="qualityId" Type="Int64" Nullable="false" />
+          <Property Name="fomDensityId" Type="Int64" Nullable="false" />
+          <Property Name="suggestedMM" Type="Int32" Nullable="false" />
+          <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="createdBy" Type="Int64" Nullable="false" />
+          <Property Name="updatedOn" Type="DateTime" Precision="3" />
+          <Property Name="updatedBy" Type="Int64" />
+          <NavigationProperty Name="MstCategory" Relationship="WebAPIdbModel.FK_MstFomSuggestdMM_MstCategory" FromRole="MstFomSuggestdMM" ToRole="MstCategory" />
+          <NavigationProperty Name="MstCollection" Relationship="WebAPIdbModel.FK_MstFomSuggestdMM_MstCollection" FromRole="MstFomSuggestdMM" ToRole="MstCollection" />
+          <NavigationProperty Name="MstFomDensity" Relationship="WebAPIdbModel.FK_MstFomSuggestdMM_MstFomDensity" FromRole="MstFomSuggestdMM" ToRole="MstFomDensity" />
+          <NavigationProperty Name="MstFomSizes" Relationship="WebAPIdbModel.FK_MstFomSize_MstFomSuggestdMM" FromRole="MstFomSuggestdMM" ToRole="MstFomSize" />
+          <NavigationProperty Name="MstQuality" Relationship="WebAPIdbModel.FK_MstFomSuggestdMM_MstQuality" FromRole="MstFomSuggestdMM" ToRole="MstQuality" />
+        </EntityType>
+        <Association Name="FK_MstFomSize_MstCategory">
+          <End Type="WebAPIdbModel.MstCategory" Role="MstCategory" Multiplicity="1" />
+          <End Type="WebAPIdbModel.MstFomSize" Role="MstFomSize" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstCategory">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MstFomSize">
+              <PropertyRef Name="categoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MstFomSuggestdMM_MstCategory">
+          <End Type="WebAPIdbModel.MstCategory" Role="MstCategory" Multiplicity="1" />
+          <End Type="WebAPIdbModel.MstFomSuggestdMM" Role="MstFomSuggestdMM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstCategory">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MstFomSuggestdMM">
+              <PropertyRef Name="categoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MstFomSize_MstCollection">
+          <End Type="WebAPIdbModel.MstCollection" Role="MstCollection" Multiplicity="1" />
+          <End Type="WebAPIdbModel.MstFomSize" Role="MstFomSize" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstCollection">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MstFomSize">
+              <PropertyRef Name="collectionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MstFomSuggestdMM_MstCollection">
+          <End Type="WebAPIdbModel.MstCollection" Role="MstCollection" Multiplicity="1" />
+          <End Type="WebAPIdbModel.MstFomSuggestdMM" Role="MstFomSuggestdMM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstCollection">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MstFomSuggestdMM">
+              <PropertyRef Name="collectionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MstFomSize_MstFomDensity">
+          <End Type="WebAPIdbModel.MstFomDensity" Role="MstFomDensity" Multiplicity="1" />
+          <End Type="WebAPIdbModel.MstFomSize" Role="MstFomSize" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstFomDensity">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MstFomSize">
+              <PropertyRef Name="fomDensityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MstFomSuggestdMM_MstFomDensity">
+          <End Type="WebAPIdbModel.MstFomDensity" Role="MstFomDensity" Multiplicity="1" />
+          <End Type="WebAPIdbModel.MstFomSuggestdMM" Role="MstFomSuggestdMM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstFomDensity">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MstFomSuggestdMM">
+              <PropertyRef Name="fomDensityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MstFomSize_MstFomSuggestdMM">
+          <End Type="WebAPIdbModel.MstFomSuggestdMM" Role="MstFomSuggestdMM" Multiplicity="1" />
+          <End Type="WebAPIdbModel.MstFomSize" Role="MstFomSize" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstFomSuggestdMM">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MstFomSize">
+              <PropertyRef Name="fomSuggestedMMId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MstFomSize_MstQuality">
+          <End Type="WebAPIdbModel.MstQuality" Role="MstQuality" Multiplicity="1" />
+          <End Type="WebAPIdbModel.MstFomSize" Role="MstFomSize" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstQuality">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MstFomSize">
+              <PropertyRef Name="qualityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MstFomSuggestdMM_MstQuality">
+          <End Type="WebAPIdbModel.MstQuality" Role="MstQuality" Multiplicity="1" />
+          <End Type="WebAPIdbModel.MstFomSuggestdMM" Role="MstFomSuggestdMM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstQuality">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MstFomSuggestdMM">
               <PropertyRef Name="qualityId" />
             </Dependent>
           </ReferentialConstraint>
@@ -1852,19 +2228,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="MstMatThickNesses">
-            <EntityTypeMapping TypeName="WebAPIdbModel.MstMatThickNess">
-              <MappingFragment StoreEntitySet="MstMatThickNess">
-                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
-                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
-                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
-                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
-                <ScalarProperty Name="size" ColumnName="size" />
-                <ScalarProperty Name="thickNessCode" ColumnName="thickNessCode" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="MstCustomerAddresses">
             <EntityTypeMapping TypeName="WebAPIdbModel.MstCustomerAddress">
               <MappingFragment StoreEntitySet="MstCustomerAddress">
@@ -1928,6 +2291,54 @@
                 <ScalarProperty Name="shadeName" ColumnName="shadeName" />
                 <ScalarProperty Name="shadeCode" ColumnName="shadeCode" />
                 <ScalarProperty Name="designId" ColumnName="designId" />
+                <ScalarProperty Name="qualityId" ColumnName="qualityId" />
+                <ScalarProperty Name="collectionId" ColumnName="collectionId" />
+                <ScalarProperty Name="categoryId" ColumnName="categoryId" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MstMatThicknesses">
+            <EntityTypeMapping TypeName="WebAPIdbModel.MstMatThickness">
+              <MappingFragment StoreEntitySet="MstMatThickness">
+                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
+                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
+                <ScalarProperty Name="size" ColumnName="size" />
+                <ScalarProperty Name="thicknessCode" ColumnName="thicknessCode" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MstFomSizes">
+            <EntityTypeMapping TypeName="WebAPIdbModel.MstFomSize">
+              <MappingFragment StoreEntitySet="MstFomSize">
+                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
+                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
+                <ScalarProperty Name="sizeCode" ColumnName="sizeCode" />
+                <ScalarProperty Name="length" ColumnName="length" />
+                <ScalarProperty Name="width" ColumnName="width" />
+                <ScalarProperty Name="fomSuggestedMMId" ColumnName="fomSuggestedMMId" />
+                <ScalarProperty Name="fomDensityId" ColumnName="fomDensityId" />
+                <ScalarProperty Name="qualityId" ColumnName="qualityId" />
+                <ScalarProperty Name="collectionId" ColumnName="collectionId" />
+                <ScalarProperty Name="categoryId" ColumnName="categoryId" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MstFomSuggestdMMs">
+            <EntityTypeMapping TypeName="WebAPIdbModel.MstFomSuggestdMM">
+              <MappingFragment StoreEntitySet="MstFomSuggestdMM">
+                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
+                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
+                <ScalarProperty Name="suggestedMM" ColumnName="suggestedMM" />
+                <ScalarProperty Name="fomDensityId" ColumnName="fomDensityId" />
                 <ScalarProperty Name="qualityId" ColumnName="qualityId" />
                 <ScalarProperty Name="collectionId" ColumnName="collectionId" />
                 <ScalarProperty Name="categoryId" ColumnName="categoryId" />

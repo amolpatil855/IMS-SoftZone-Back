@@ -12,15 +12,15 @@ namespace IMSWebApi.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class MstMatThickNess
+    public partial class MstMatThickness
     {
-        public MstMatThickNess()
+        public MstMatThickness()
         {
             this.MstMatSizes = new HashSet<MstMatSize>();
         }
     
         public long id { get; set; }
-        public string thickNessCode { get; set; }
+        public string thicknessCode { get; set; }
         public decimal size { get; set; }
         public System.DateTime createdOn { get; set; }
         public long createdBy { get; set; }

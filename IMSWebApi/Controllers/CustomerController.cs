@@ -39,14 +39,6 @@ namespace IMSWebApi.Controllers
             return Ok(result);
         }
 
-        [HttpGet]
-        [Route("api/Customer/GetCustomerLookUp")]
-        public IHttpActionResult GetCustomerLookUp()
-        {
-            var result = _customerService.getCustomerLookUp();
-            return Ok(result);
-        }
-
         // POST api/Customer
         [ApiAuthorize(AccessLevel = "customer")]
         [HttpPost]

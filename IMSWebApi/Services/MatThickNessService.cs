@@ -11,83 +11,83 @@ using IMSWebApi.Enums;
 
 namespace IMSWebApi.Services
 {
-    public class MatThickNessService
+    public class MatThicknessService
     {
         WebAPIdbEntities repo = new WebAPIdbEntities();
         Int64 _LoggedInuserId;
 
-        public MatThickNessService()
+        public MatThicknessService()
         {
             _LoggedInuserId = Convert.ToInt64(HttpContext.Current.User.Identity.GetUserId());
         }
 
-        public ListResult<VMMatThickNess> getMatThickNess(int pageSize, int page, string search)
+        public ListResult<VMMatThickness> getMatThickness(int pageSize, int page, string search)
         {
-            List<VMMatThickNess> matThickNessView;
+            List<VMMatThickness> matThicknessView;
             if (pageSize > 0)
             {
-                var result = repo.MstMatThickNesses.Where(q => !string.IsNullOrEmpty(search)
-                    ? q.thickNessCode.StartsWith(search) : true)
+                var result = repo.MstMatThicknesses.Where(q => !string.IsNullOrEmpty(search)
+                    ? q.thicknessCode.StartsWith(search) : true)
                     .OrderBy(q => q.id).Skip(page * pageSize).Take(pageSize).ToList();
-                matThickNessView = Mapper.Map<List<MstMatThickNess>, List<VMMatThickNess>>(result);
+                matThicknessView = Mapper.Map<List<MstMatThickness>, List<VMMatThickness>>(result);
             }
             else
             {
-                var result = repo.MstMatThickNesses.Where(q => !string.IsNullOrEmpty(search)
-                   ? q.thickNessCode.StartsWith(search) : true).ToList();
-                matThickNessView = Mapper.Map<List<MstMatThickNess>, List<VMMatThickNess>>(result);
+                var result = repo.MstMatThicknesses.Where(q => !string.IsNullOrEmpty(search)
+                   ? q.thicknessCode.StartsWith(search) : true).ToList();
+                matThicknessView = Mapper.Map<List<MstMatThickness>, List<VMMatThickness>>(result);
             }
 
-            return new ListResult<VMMatThickNess>
+            return new ListResult<VMMatThickness>
             {
-                Data = matThickNessView,
-                TotalCount = repo.MstMatThickNesses.Where(q => !string.IsNullOrEmpty(search)
-                     ? q.thickNessCode.StartsWith(search) : true).Count(),
+                Data = matThicknessView,
+                TotalCount = repo.MstMatThicknesses.Where(q => !string.IsNullOrEmpty(search)
+                     ? q.thicknessCode.StartsWith(search) : true).Count(),
                 Page = page
             };
         }
 
-        public VMMatThickNess getMatThickNessById(Int64 id)
+        public VMMatThickness getMatThicknessById(Int64 id)
         {
-            var result = repo.MstMatThickNesses.Where(q => q.id == id).FirstOrDefault();
-            var matThickNessView = Mapper.Map<MstMatThickNess, VMMatThickNess>(result);
-            return matThickNessView;
+            var result = repo.MstMatThicknesses.Where(q => q.id == id).FirstOrDefault();
+            var matThicknessView = Mapper.Map<MstMatThickness, VMMatThickness>(result);
+            return matThicknessView;
         }
 
-        public List<VMLookUpItem> getMatThickNessLookUp()
+        public List<VMLookUpItem> getMatThicknessLookUp()
         {
-            return repo.MstMatThickNesses
-                .Select(q => new VMLookUpItem { value = q.id, label = q.thickNessCode }).ToList();
+            return repo.MstMatThicknesses
+                .Select(q => new VMLookUpItem { value = q.id, label = q.thicknessCode }).ToList();
         }
 
-        public ResponseMessage postMatThickNess(VMMatThickNess matThickNess)
+        public ResponseMessage postMatThickness(VMMatThickness matThickness)
         {
-            MstMatThickNess matThickNessToPost = Mapper.Map<VMMatThickNess, MstMatThickNess>(matThickNess);
-            matThickNessToPost.createdOn = DateTime.Now;
-            matThickNessToPost.createdBy = _LoggedInuserId;
+            MstMatThickness matThicknessToPost = Mapper.Map<VMMatThickness, MstMatThickness>(matThickness);
+            matThicknessToPost.createdOn = DateTime.Now;
+            matThicknessToPost.createdBy = _LoggedInuserId;
 
-            repo.MstMatThickNesses.Add(matThickNessToPost);
+            repo.MstMatThicknesses.Add(matThicknessToPost);
             repo.SaveChanges();
-            return new ResponseMessage(matThickNessToPost.id, "Mat ThickNess Added Successfully", ResponseType.Success);
+            return new ResponseMessage(matThicknessToPost.id, "Mat Thickness Added Successfully", ResponseType.Success);
         }
 
-        public ResponseMessage putMatThickNess(VMMatThickNess matThickNess)
+        public ResponseMessage putMatThickness(VMMatThickness matThickness)
         {
-            var matThickNessToPut = repo.MstMatThickNesses.Where(q => q.id == matThickNess.id).FirstOrDefault();
+            var matThicknessToPut = repo.MstMatThicknesses.Where(q => q.id == matThickness.id).FirstOrDefault();
 
-            matThickNessToPut = Mapper.Map<VMMatThickNess, MstMatThickNess>(matThickNess, matThickNessToPut);
-            matThickNessToPut.updatedBy = _LoggedInuserId;
-            matThickNessToPut.updatedOn = DateTime.Now;
+            matThicknessToPut = Mapper.Map<VMMatThickness, MstMatThickness>(matThickness, matThicknessToPut);
+            matThicknessToPut.updatedBy = _LoggedInuserId;
+            matThicknessToPut.updatedOn = DateTime.Now;
 
             repo.SaveChanges();
-            return new ResponseMessage(matThickNess.id, "Mat ThickNess Updated Successfully", ResponseType.Success);
+            return new ResponseMessage(matThicknessToPut.id, "Mat Thickness Updated Successfully", ResponseType.Success);
         }
 
-        public ResponseMessage deleteMatThickNess(Int64 id)
+        public ResponseMessage deleteMatThickness(Int64 id)
         {
-            repo.MstMatThickNesses.Remove(repo.MstMatThickNesses.Where(q => q.id == id).FirstOrDefault());
+            repo.MstMatThicknesses.Remove(repo.MstMatThicknesses.Where(q => q.id == id).FirstOrDefault());
             repo.SaveChanges();
-            return new ResponseMessage(id, "Mat ThickNess Deleted Successfully", ResponseType.Success);
+            return new ResponseMessage(id, "Mat Thickness Deleted Successfully", ResponseType.Success);
         }
     }
 }

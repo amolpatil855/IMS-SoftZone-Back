@@ -43,14 +43,25 @@
         <AssociationConnector Association="WebAPIdbModel.FK_MstUser_MstUserType" />
         <EntityTypeShape EntityType="WebAPIdbModel.MstFomDensity" Width="1.5" PointX="13.5" PointY="4.25" />
         <EntityTypeShape EntityType="WebAPIdbModel.MstMatSize" Width="1.5" PointX="13.5" PointY="9.125" />
-        <EntityTypeShape EntityType="WebAPIdbModel.MstMatThickNess" Width="1.5" PointX="11.25" PointY="0.75" />
         <AssociationConnector Association="WebAPIdbModel.FK_MstFoamDensity_MstCategory" />
         <AssociationConnector Association="WebAPIdbModel.FK_MstMattressSize_MstCategory" />
         <AssociationConnector Association="WebAPIdbModel.FK_MstFoamDensity_MstCollection" />
         <AssociationConnector Association="WebAPIdbModel.FK_MstMattressSize_MstCollection" />
         <AssociationConnector Association="WebAPIdbModel.FK_MstFoamDensity_MstQuality" />
-        <AssociationConnector Association="WebAPIdbModel.FK_MstMattressSize_MstMattressThickNess" />
         <AssociationConnector Association="WebAPIdbModel.FK_MstMattressSize_MstQuality" />
+        <EntityTypeShape EntityType="WebAPIdbModel.MstMatThickness" Width="1.5" PointX="10.375" PointY="8" />
+        <AssociationConnector Association="WebAPIdbModel.FK_MstMattressSize_MstMattressThickNess" />
+        <EntityTypeShape EntityType="WebAPIdbModel.MstFomSize" Width="1.5" PointX="15.75" PointY="6.875" />
+        <EntityTypeShape EntityType="WebAPIdbModel.MstFomSuggestdMM" Width="1.5" PointX="18.75" PointY="7.25" />
+        <AssociationConnector Association="WebAPIdbModel.FK_MstFomSize_MstCategory" />
+        <AssociationConnector Association="WebAPIdbModel.FK_MstFomSuggestdMM_MstCategory" />
+        <AssociationConnector Association="WebAPIdbModel.FK_MstFomSize_MstCollection" />
+        <AssociationConnector Association="WebAPIdbModel.FK_MstFomSuggestdMM_MstCollection" />
+        <AssociationConnector Association="WebAPIdbModel.FK_MstFomSize_MstFomDensity" />
+        <AssociationConnector Association="WebAPIdbModel.FK_MstFomSuggestdMM_MstFomDensity" />
+        <AssociationConnector Association="WebAPIdbModel.FK_MstFomSize_MstFomSuggestdMM" />
+        <AssociationConnector Association="WebAPIdbModel.FK_MstFomSize_MstQuality" />
+        <AssociationConnector Association="WebAPIdbModel.FK_MstFomSuggestdMM_MstQuality" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

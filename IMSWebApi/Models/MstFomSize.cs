@@ -12,20 +12,17 @@ namespace IMSWebApi.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class MstFomDensity
+    public partial class MstFomSize
     {
-        public MstFomDensity()
-        {
-            this.MstFomSizes = new HashSet<MstFomSize>();
-            this.MstFomSuggestdMMs = new HashSet<MstFomSuggestdMM>();
-        }
-    
         public long id { get; set; }
         public long categoryId { get; set; }
         public long collectionId { get; set; }
         public long qualityId { get; set; }
-        public string density { get; set; }
-        public string description { get; set; }
+        public long fomDensityId { get; set; }
+        public long fomSuggestedMMId { get; set; }
+        public decimal width { get; set; }
+        public decimal length { get; set; }
+        public string sizeCode { get; set; }
         public System.DateTime createdOn { get; set; }
         public long createdBy { get; set; }
         public Nullable<System.DateTime> updatedOn { get; set; }
@@ -33,8 +30,8 @@ namespace IMSWebApi.Models
     
         public virtual MstCategory MstCategory { get; set; }
         public virtual MstCollection MstCollection { get; set; }
+        public virtual MstFomDensity MstFomDensity { get; set; }
+        public virtual MstFomSuggestdMM MstFomSuggestdMM { get; set; }
         public virtual MstQuality MstQuality { get; set; }
-        public virtual ICollection<MstFomSize> MstFomSizes { get; set; }
-        public virtual ICollection<MstFomSuggestdMM> MstFomSuggestdMMs { get; set; }
     }
 }

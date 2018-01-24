@@ -14,12 +14,10 @@ namespace IMSWebApi.Controllers
     public class FWRDesignController : ApiController
     {
         private FWRDesignService _designService = null;
-        private CategoryService _categoryService = null;
-
+        
         public FWRDesignController()
         {
             _designService = new FWRDesignService();
-            _categoryService = new CategoryService();
         }
 
         // GET api/FWRDesign   
@@ -39,23 +37,6 @@ namespace IMSWebApi.Controllers
             var result = _designService.getDesignById(id);
             return Ok(result);
         }
-
-        [HttpGet]
-        [Route("api/FWRDesign/GetCategoryLookup")]
-        public IHttpActionResult GetCategoryLookup()
-        {
-            var result = _categoryService.getCategoryLookUp();
-            return Ok(result);
-        }
-
-        [HttpGet]
-        [Route("api/FWRDesign/GetDesignLookupByQuality")]
-        public IHttpActionResult GetDesignLookupByQuality(long qualityid)
-        {
-            var result = _designService.getDesignLookUpByQuality(qualityid);
-            return Ok(result);
-        }
-
 
         // POST api/FWRDesign
         [ApiAuthorize(AccessLevel = "design")]

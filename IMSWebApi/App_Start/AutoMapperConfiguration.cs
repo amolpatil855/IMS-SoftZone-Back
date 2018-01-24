@@ -59,8 +59,8 @@ namespace IMSWebApi.App_Start
             Mapper.CreateMap<MstHsn, VMHsn>();
             Mapper.CreateMap<VMHsn, MstHsn>();
 
-            Mapper.CreateMap<MstMatThickNess, VMMatThickNess>();
-            Mapper.CreateMap<VMMatThickNess, MstMatThickNess>();
+            Mapper.CreateMap<MstMatThickness, VMMatThickness>();
+            Mapper.CreateMap<VMMatThickness, MstMatThickness>();
 
             Mapper.CreateMap<MstMatSize, VMMatSize>();
             Mapper.CreateMap<VMMatSize, MstMatSize>();

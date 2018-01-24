@@ -6,7 +6,7 @@ using System.Web;
 
 namespace IMSWebApi.ViewModel
 {
-    public class VMMatSize
+    public class VMFomDensity
     {
         public long id { get; set; }
         [Required]
@@ -16,16 +16,13 @@ namespace IMSWebApi.ViewModel
         [Required]
         public long qualityId { get; set; }
         [Required]
-        public long thicknessId { get; set; }
-        [Required]
-        [MaxLength(10)]
-        public string sizeCode { get; set; }
-        [Required]
-        public decimal rate { get; set; }
+        [MaxLength(50)]
+        public string density { get; set; }
+        [MaxLength(500)]
+        public string description { get; set; }
        
         public virtual VMCategory MstCategory { get; set; }
         public virtual VMCollection MstCollection { get; set; }
-        public virtual VMMatThickness MstMatThickNess { get; set; }
         public virtual VMQuality MstQuality { get; set; }
     }
 }

@@ -39,14 +39,6 @@ namespace IMSWebApi.Controllers
             return Ok(result);
         }
 
-        [HttpGet]
-        [Route("api/Supplier/GetSupplierLookUp")]
-        public IHttpActionResult GetSupplierLookUp()
-        {
-            var result = _supplierService.getSupplierLookUp();
-            return Ok(result);
-        }
-
         // PUT api/Supplier/1
         [ApiAuthorize(AccessLevel = "supplier")]
         [HttpPut]

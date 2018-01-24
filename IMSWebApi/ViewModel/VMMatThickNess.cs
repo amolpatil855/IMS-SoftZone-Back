@@ -6,11 +6,11 @@ using System.Web;
 
 namespace IMSWebApi.ViewModel
 {
-    public class VMMatThickNess
+    public class VMMatThickness
     {
         public long id { get; set; }
         [MaxLength(10)]
-        public string thickNessCode { get; set; }
+        public string thicknessCode { get; set; }
         public Nullable<decimal> size { get; set; }
     }
 }
