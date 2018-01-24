@@ -46,6 +46,6 @@ namespace IMSWebApi.Models
         public virtual DbSet<MstFWRShade> MstFWRShades { get; set; }
         public virtual DbSet<MstMatThickness> MstMatThicknesses { get; set; }
         public virtual DbSet<MstFomSize> MstFomSizes { get; set; }
-        public virtual DbSet<MstFomSuggestdMM> MstFomSuggestdMMs { get; set; }
+        public virtual DbSet<MstFomSuggestedMM> MstFomSuggestedMMs { get; set; }
     }
 }

@@ -22,6 +22,7 @@ namespace IMSWebApi.Controllers
         private SupplierService _supplierService = null;
         private QualityService _qualityService = null;
         private CategoryService _categoryService = null;
+        private FomDensityService _fomDensityService = null;
 
         public CommonController()
         {
@@ -35,6 +36,7 @@ namespace IMSWebApi.Controllers
             _supplierService = new SupplierService();
             _qualityService = new QualityService();
             _categoryService = new CategoryService();
+            _fomDensityService = new FomDensityService();
         }
 
         [HttpGet]
@@ -122,6 +124,14 @@ namespace IMSWebApi.Controllers
         public IHttpActionResult GetQualityLookUpByCollection(long collectionId)
         {
             var result = _qualityService.getQualityLookUpByCollection(collectionId);
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("api/Common/GetFomDensityLookUp")]
+        public IHttpActionResult GetFomDensityLookUp()
+        {
+            var result = _fomDensityService.getFomDensityLookUp();
             return Ok(result);
         }
     }

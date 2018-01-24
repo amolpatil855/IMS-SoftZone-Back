@@ -304,7 +304,7 @@
     <Compile Include="Models\MstFomSize.cs">
       <DependentUpon>WebApiModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\MstFomSuggestdMM.cs">
+    <Compile Include="Models\MstFomSuggestedMM.cs">
       <DependentUpon>WebApiModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\MstFWRDesign.cs">

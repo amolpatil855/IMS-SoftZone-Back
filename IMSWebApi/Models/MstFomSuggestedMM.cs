@@ -12,9 +12,9 @@ namespace IMSWebApi.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class MstFomSuggestdMM
+    public partial class MstFomSuggestedMM
     {
-        public MstFomSuggestdMM()
+        public MstFomSuggestedMM()
         {
             this.MstFomSizes = new HashSet<MstFomSize>();
         }

@@ -7,6 +7,7 @@ using Microsoft.AspNet.Identity;
 using IMSWebApi.Common;
 using IMSWebApi.ViewModel;
 using AutoMapper;
+using IMSWebApi.Enums;
 
 namespace IMSWebApi.Services
 {
@@ -20,9 +21,9 @@ namespace IMSWebApi.Services
             _LoggedInuserId = Convert.ToInt64(HttpContext.Current.User.Identity.GetUserId());
         }
 
-        public ListResult<VMFomDensity> getFoamDensity(int pageSize, int page, string search)
+        public ListResult<VMFomDensity> getFomDensity(int pageSize, int page, string search)
         {
-            List<VMFomDensity> foamDensityView;
+            List<VMFomDensity> fomDensityView;
             if (pageSize > 0)
             {
                 var result = repo.MstFomDensities.Where(f => !string.IsNullOrEmpty(search)
@@ -30,7 +31,7 @@ namespace IMSWebApi.Services
                     || f.MstQuality.qualityCode.StartsWith(search)
                     || f.density.StartsWith(search) : true)
                     .OrderBy(f => f.id).Skip(page * pageSize).Take(pageSize).ToList();
-                foamDensityView = Mapper.Map<List<MstFomDensity>, List<VMFomDensity>>(result);
+                fomDensityView = Mapper.Map<List<MstFomDensity>, List<VMFomDensity>>(result);
             }
             else
             {
@@ -38,12 +39,12 @@ namespace IMSWebApi.Services
                     ? f.MstCollection.collectionCode.StartsWith(search)
                     || f.MstQuality.qualityCode.StartsWith(search)
                     || f.density.StartsWith(search) : true).ToList();
-                foamDensityView = Mapper.Map<List<MstFomDensity>, List<VMFomDensity>>(result);
+                fomDensityView = Mapper.Map<List<MstFomDensity>, List<VMFomDensity>>(result);
             }
 
             return new ListResult<VMFomDensity>
             {
-                Data = foamDensityView,
+                Data = fomDensityView,
                 TotalCount = repo.MstFomDensities.Where(f => !string.IsNullOrEmpty(search)
                     ? f.MstCollection.collectionCode.StartsWith(search)
                     || f.MstQuality.qualityCode.StartsWith(search)
@@ -52,12 +53,55 @@ namespace IMSWebApi.Services
             };
         }
 
-        public VMFomDensity getFoamDensityById(Int64 id)
+        public VMFomDensity getFomDensityById(Int64 id)
         {
             var result = repo.MstFomDensities.Where(q => q.id == id).FirstOrDefault();
-            var foamDensityView = Mapper.Map<MstFomDensity, VMFomDensity>(result);
-            return foamDensityView;
+            var fomDensityView = Mapper.Map<MstFomDensity, VMFomDensity>(result);
+            return fomDensityView;
         }
 
+        public List<VMLookUpItem> getFomDensityLookUp()
+        {
+            return repo.MstFomDensities
+                .Select(q => new VMLookUpItem { value = q.id, label = q.density })
+                .OrderBy(q=>q.label)
+                .ToList();
+        }
+
+        public ResponseMessage postFomDensity(VMFomDensity fomDensity)
+        {
+            MstFomDensity fomDensityToPost = Mapper.Map<VMFomDensity, MstFomDensity>(fomDensity);
+            fomDensityToPost.createdOn = DateTime.Now;
+            fomDensityToPost.createdBy = _LoggedInuserId;
+
+            repo.MstFomDensities.Add(fomDensityToPost);
+            repo.SaveChanges();
+            return new ResponseMessage(fomDensityToPost.id, "Fom Density Added Successfully", ResponseType.Success);
+        }
+
+        public ResponseMessage putFomDensity(VMFomDensity fomDensity)
+        {
+            var fomDensityToPut = repo.MstFomDensities.Where(q => q.id == fomDensity.id).FirstOrDefault();
+            MstCategory fomDensityCategory = fomDensityToPut.MstCategory;
+            MstCollection fomDensityCollection = fomDensityToPut.MstCollection;
+            MstQuality fomDensityQuality = fomDensityToPut.MstQuality;
+
+            fomDensityToPut = Mapper.Map<VMFomDensity, MstFomDensity>(fomDensity, fomDensityToPut);
+            fomDensityToPut.MstCategory = fomDensityCategory;
+            fomDensityToPut.MstCollection = fomDensityCollection;
+            fomDensityToPut.MstQuality = fomDensityQuality;
+            fomDensityToPut.updatedBy = _LoggedInuserId;
+            fomDensityToPut.updatedOn = DateTime.Now;
+
+            repo.SaveChanges();
+            return new ResponseMessage(fomDensity.id, "Fom Density Updated Successfully", ResponseType.Success);
+        }
+
+        public ResponseMessage deleteFomDensity(Int64 id)
+        {
+            repo.MstFomDensities.Remove(repo.MstFomDensities.Where(q => q.id == id).FirstOrDefault());
+            repo.SaveChanges();
+            return new ResponseMessage(id, "Fom Density Deleted Successfully", ResponseType.Success);
+        }
     }
 }

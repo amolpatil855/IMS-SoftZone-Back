@@ -52,15 +52,15 @@
         <EntityTypeShape EntityType="WebAPIdbModel.MstMatThickness" Width="1.5" PointX="10.375" PointY="8" />
         <AssociationConnector Association="WebAPIdbModel.FK_MstMattressSize_MstMattressThickNess" />
         <EntityTypeShape EntityType="WebAPIdbModel.MstFomSize" Width="1.5" PointX="15.75" PointY="6.875" />
-        <EntityTypeShape EntityType="WebAPIdbModel.MstFomSuggestdMM" Width="1.5" PointX="18.75" PointY="7.25" />
         <AssociationConnector Association="WebAPIdbModel.FK_MstFomSize_MstCategory" />
-        <AssociationConnector Association="WebAPIdbModel.FK_MstFomSuggestdMM_MstCategory" />
         <AssociationConnector Association="WebAPIdbModel.FK_MstFomSize_MstCollection" />
-        <AssociationConnector Association="WebAPIdbModel.FK_MstFomSuggestdMM_MstCollection" />
         <AssociationConnector Association="WebAPIdbModel.FK_MstFomSize_MstFomDensity" />
+        <AssociationConnector Association="WebAPIdbModel.FK_MstFomSize_MstQuality" />
+        <EntityTypeShape EntityType="WebAPIdbModel.MstFomSuggestedMM" Width="1.5" PointX="18.75" PointY="7.25" />
+        <AssociationConnector Association="WebAPIdbModel.FK_MstFomSuggestdMM_MstCategory" />
+        <AssociationConnector Association="WebAPIdbModel.FK_MstFomSuggestdMM_MstCollection" />
         <AssociationConnector Association="WebAPIdbModel.FK_MstFomSuggestdMM_MstFomDensity" />
         <AssociationConnector Association="WebAPIdbModel.FK_MstFomSize_MstFomSuggestdMM" />
-        <AssociationConnector Association="WebAPIdbModel.FK_MstFomSize_MstQuality" />
         <AssociationConnector Association="WebAPIdbModel.FK_MstFomSuggestdMM_MstQuality" />
       </Diagram>
     </edmx:Diagrams>
