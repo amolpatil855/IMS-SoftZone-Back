@@ -14,11 +14,13 @@ namespace IMSWebApi.Services
     public class FomSuggestedMMService
     {
         WebAPIdbEntities repo = new WebAPIdbEntities();
+        CategoryService _categoryService = null;
         Int64 _LoggedInuserId;
 
         public FomSuggestedMMService()
         {
             _LoggedInuserId = Convert.ToInt64(HttpContext.Current.User.Identity.GetUserId());
+            _categoryService = new CategoryService();
         }
 
         public ListResult<VMFomSuggestedMM> getFomSuggestedMM(int pageSize, int page, string search)
@@ -66,20 +68,21 @@ namespace IMSWebApi.Services
         public List<VMLookUpItem> getFomSuggestedMMLookUpByFomDensity(Int64 fomDensityId)
         {
             return repo.MstFomSuggestedMMs.Where(q => q.fomDensityId == fomDensityId)
+                .OrderBy(q => q.suggestedMM)
                 .Select(q => new VMLookUpItem { value = q.id, label = q.suggestedMM.ToString() })
-                .OrderBy(q=>q.label)
                 .ToList();
         }
 
         public ResponseMessage postFomSuggestedMM(VMFomSuggestedMM fomSuggestedMM)
         {
             MstFomSuggestedMM fomSuggestedMMToPost = Mapper.Map<VMFomSuggestedMM, MstFomSuggestedMM>(fomSuggestedMM);
+            fomSuggestedMMToPost.categoryId = _categoryService.getFoamCategory().id;
             fomSuggestedMMToPost.createdOn = DateTime.Now;
             fomSuggestedMMToPost.createdBy = _LoggedInuserId;
 
             repo.MstFomSuggestedMMs.Add(fomSuggestedMMToPost);
             repo.SaveChanges();
-            return new ResponseMessage(fomSuggestedMMToPost.id, "Fom Suggested MM Added Successfully", ResponseType.Success);
+            return new ResponseMessage(fomSuggestedMMToPost.id, "Foam Suggested MM Added Successfully", ResponseType.Success);
         }
 
         public ResponseMessage putFomSuggestedMM(VMFomSuggestedMM fomSuggestedMM)
@@ -98,14 +101,14 @@ namespace IMSWebApi.Services
             fomSuggestedMMToPut.updatedOn = DateTime.Now;
 
             repo.SaveChanges();
-            return new ResponseMessage(fomSuggestedMMToPut.id, "Fom Suggested MM Updated Successfully", ResponseType.Success);
+            return new ResponseMessage(fomSuggestedMMToPut.id, "Foam Suggested MM Updated Successfully", ResponseType.Success);
         }
 
         public ResponseMessage deleteFomSuggestedMM(Int64 id)
         {
             repo.MstFomSuggestedMMs.Remove(repo.MstFomSuggestedMMs.Where(q => q.id == id).FirstOrDefault());
             repo.SaveChanges();
-            return new ResponseMessage(id, "Fom Suggested MM Deleted Successfully", ResponseType.Success);
+            return new ResponseMessage(id, "Foam Suggested MM Deleted Successfully", ResponseType.Success);
         }
     }
 }

@@ -15,10 +15,12 @@ namespace IMSWebApi.Services
     {
         WebAPIdbEntities repo = new WebAPIdbEntities();
         Int64 _LoggedInuserId;
+        CategoryService _categoryService;
 
         public MatSizeService()
         {
             _LoggedInuserId = Convert.ToInt64(HttpContext.Current.User.Identity.GetUserId());
+            _categoryService = new CategoryService();
         }
 
         public ListResult<VMMatSize> getMatSize(int pageSize, int page, string search)
@@ -64,6 +66,7 @@ namespace IMSWebApi.Services
         public ResponseMessage postMatSize(VMMatSize matSize)
         {
             MstMatSize matSizeToPost = Mapper.Map<VMMatSize, MstMatSize>(matSize);
+            matSizeToPost.categoryId = _categoryService.getMatressCategory().id;
             matSizeToPost.createdOn = DateTime.Now;
             matSizeToPost.createdBy = _LoggedInuserId;
 

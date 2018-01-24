@@ -381,7 +381,7 @@
     <Compile Include="Services\FWRShadeService.cs" />
     <Compile Include="Services\SupplierService.cs" />
     <Compile Include="Services\UserService.cs" />
-    <Compile Include="Services\VMFomSizeService.cs" />
+    <Compile Include="Services\FomSizeService.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModel\ResponseMessage.cs" />
     <Compile Include="ViewModel\VMCategory.cs" />

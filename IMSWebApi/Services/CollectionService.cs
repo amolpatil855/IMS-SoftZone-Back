@@ -15,11 +15,11 @@ namespace IMSWebApi.Services
     {
         WebAPIdbEntities repo = new WebAPIdbEntities();
         Int64 _LoggedInuserId;
-        CategoryService _categroyService;
+        CategoryService _categoryService;
         public CollectionService()
         {
             _LoggedInuserId = Convert.ToInt64(HttpContext.Current.User.Identity.GetUserId());
-            _categroyService = new CategoryService();
+            _categoryService = new CategoryService();
         }
 
         public ListResult<VMCollection> getCollection(int pageSize, int page, string search)
@@ -68,8 +68,8 @@ namespace IMSWebApi.Services
         
         public List<VMLookUpItem> getMatCollectionLookUp()
         {
-            
-            return repo.MstCollections.Where(c => c.categoryId == _categroyService.getMatressCategory().id)
+            var matCategoryId = _categoryService.getMatressCategory().id;
+            return repo.MstCollections.Where(c => c.categoryId == matCategoryId)
                 .OrderBy(s => s.collectionCode)
                 .Select(s => new VMLookUpItem
                 {
@@ -81,8 +81,8 @@ namespace IMSWebApi.Services
 
         public List<VMLookUpItem> getFomCollectionLookUp()
         {
-
-            return repo.MstCollections.Where(c => c.categoryId == _categroyService.getFoamCategory().id)
+            var fomCategoryId = _categoryService.getFoamCategory().id;
+            return repo.MstCollections.Where(c => c.categoryId == fomCategoryId)
                 .OrderBy(s => s.collectionCode)
                 .Select(s => new VMLookUpItem
                 {
