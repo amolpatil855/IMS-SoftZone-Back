@@ -16,11 +16,14 @@ namespace IMSWebApi.Models
     {
         public long id { get; set; }
         public long supplierId { get; set; }
-        public string address { get; set; }
+        public string addressLine1 { get; set; }
+        public string addressLine2 { get; set; }
         public string city { get; set; }
         public string state { get; set; }
         public string country { get; set; }
         public string pin { get; set; }
+        public Nullable<int> gstin { get; set; }
+        public Nullable<bool> isPrimary { get; set; }
         public System.DateTime createdOn { get; set; }
         public long createdBy { get; set; }
         public Nullable<System.DateTime> updatedOn { get; set; }

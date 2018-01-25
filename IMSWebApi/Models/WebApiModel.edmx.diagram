@@ -4,64 +4,64 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="879bac55b8584755be29a35693d619f3" Name="Diagram1" >
-        <EntityTypeShape EntityType="WebAPIdbModel.CFGRoleMenu" Width="1.5" PointX="3" PointY="16.875" />
-        <EntityTypeShape EntityType="WebAPIdbModel.MstCategory" Width="1.5" PointX="0.75" PointY="7.875" />
-        <EntityTypeShape EntityType="WebAPIdbModel.MstCollection" Width="1.5" PointX="3" PointY="7.375" />
-        <EntityTypeShape EntityType="WebAPIdbModel.MstCompanyInfo" Width="1.5" PointX="10.75" PointY="3.375" />
-        <EntityTypeShape EntityType="WebAPIdbModel.MstCustomer" Width="1.5" PointX="8.25" PointY="15.625" />
-        <EntityTypeShape EntityType="WebAPIdbModel.MstCustomerAddressDetail" Width="1.5" PointX="10.5" PointY="16.625" />
-        <EntityTypeShape EntityType="WebAPIdbModel.MstDesign" Width="1.5" PointX="5.25" PointY="7.5" />
-        <EntityTypeShape EntityType="WebAPIdbModel.MstHsn" Width="1.5" PointX="6" PointY="4.25" />
-        <EntityTypeShape EntityType="WebAPIdbModel.MstMenu" Width="1.5" PointX="0.75" PointY="12.875" />
-        <EntityTypeShape EntityType="WebAPIdbModel.MstQuality" Width="1.5" PointX="8.25" PointY="6.5" />
-        <EntityTypeShape EntityType="WebAPIdbModel.MstRole" Width="1.5" PointX="0.75" PointY="16.875" />
-        <EntityTypeShape EntityType="WebAPIdbModel.MstShade" Width="1.5" PointX="10.5" PointY="7.375" />
-        <EntityTypeShape EntityType="WebAPIdbModel.MstSupplier" Width="1.5" PointX="0.75" PointY="0.75" />
-        <EntityTypeShape EntityType="WebAPIdbModel.MstSupplierAddressDetail" Width="1.5" PointX="3" PointY="2.5" />
-        <EntityTypeShape EntityType="WebAPIdbModel.MstUnitOfMeasure" Width="1.5" PointX="10.75" PointY="13.375" />
-        <EntityTypeShape EntityType="WebAPIdbModel.MstUser" Width="1.5" PointX="6" PointY="16.25" />
-        <EntityTypeShape EntityType="WebAPIdbModel.MstuserType" Width="1.5" PointX="3.75" PointY="13.125" />
-        <AssociationConnector Association="WebAPIdbModel.FK_CFGRoleMenu_MstMenu" />
-        <AssociationConnector Association="WebAPIdbModel.FK_CFGRoleMenu_MstRole" />
-        <AssociationConnector Association="WebAPIdbModel.FK_MstCollection_MstCategory" />
-        <AssociationConnector Association="WebAPIdbModel.FK_MstDesign_MstCategory" />
-        <AssociationConnector Association="WebAPIdbModel.FK_MstQuality_MstCategory" />
-        <AssociationConnector Association="WebAPIdbModel.FK_MstShade_MstCategory" />
-        <AssociationConnector Association="WebAPIdbModel.FK_MstCollection_MstSupplier" />
-        <AssociationConnector Association="WebAPIdbModel.FK_MstDesign_MstCollection" />
-        <AssociationConnector Association="WebAPIdbModel.FK_MstQuality_MstCollection" />
-        <AssociationConnector Association="WebAPIdbModel.FK_MstShade_MstCollection" />
-        <AssociationConnector Association="WebAPIdbModel.FK_MstCustomer_MstUser" />
-        <AssociationConnector Association="WebAPIdbModel.FK_MstCustomerAddressDetails_MstCustomer" />
-        <AssociationConnector Association="WebAPIdbModel.FK_MstDesign_MstQuality" />
-        <AssociationConnector Association="WebAPIdbModel.FK_MstShade_MstDesign" />
-        <AssociationConnector Association="WebAPIdbModel.FK_MstQuality_MstHsn" />
-        <AssociationConnector Association="WebAPIdbModel.FK_MstShade_MstQuality" />
-        <AssociationConnector Association="WebAPIdbModel.FK_MstUser_MstRole" />
-        <AssociationConnector Association="WebAPIdbModel.FK_MstSupplierAddressDetails_MstSupplier" />
-        <AssociationConnector Association="WebAPIdbModel.FK_MstUser_MstUserType" />
-        <EntityTypeShape EntityType="WebAPIdbModel.MstFomDensity" Width="1.5" PointX="13.5" PointY="4.25" />
-        <EntityTypeShape EntityType="WebAPIdbModel.MstMatSize" Width="1.5" PointX="13.5" PointY="9.125" />
-        <AssociationConnector Association="WebAPIdbModel.FK_MstFoamDensity_MstCategory" />
-        <AssociationConnector Association="WebAPIdbModel.FK_MstMattressSize_MstCategory" />
-        <AssociationConnector Association="WebAPIdbModel.FK_MstFoamDensity_MstCollection" />
-        <AssociationConnector Association="WebAPIdbModel.FK_MstMattressSize_MstCollection" />
-        <AssociationConnector Association="WebAPIdbModel.FK_MstFoamDensity_MstQuality" />
-        <AssociationConnector Association="WebAPIdbModel.FK_MstMattressSize_MstQuality" />
-        <EntityTypeShape EntityType="WebAPIdbModel.MstMatThickness" Width="1.5" PointX="10.375" PointY="8" />
-        <AssociationConnector Association="WebAPIdbModel.FK_MstMattressSize_MstMattressThickNess" />
-        <EntityTypeShape EntityType="WebAPIdbModel.MstFomSize" Width="1.5" PointX="15.75" PointY="6.875" />
-        <AssociationConnector Association="WebAPIdbModel.FK_MstFomSize_MstCategory" />
-        <AssociationConnector Association="WebAPIdbModel.FK_MstFomSize_MstCollection" />
-        <AssociationConnector Association="WebAPIdbModel.FK_MstFomSize_MstFomDensity" />
-        <AssociationConnector Association="WebAPIdbModel.FK_MstFomSize_MstQuality" />
-        <EntityTypeShape EntityType="WebAPIdbModel.MstFomSuggestedMM" Width="1.5" PointX="18.75" PointY="7.25" />
-        <AssociationConnector Association="WebAPIdbModel.FK_MstFomSuggestdMM_MstCategory" />
-        <AssociationConnector Association="WebAPIdbModel.FK_MstFomSuggestdMM_MstCollection" />
-        <AssociationConnector Association="WebAPIdbModel.FK_MstFomSuggestdMM_MstFomDensity" />
-        <AssociationConnector Association="WebAPIdbModel.FK_MstFomSize_MstFomSuggestdMM" />
-        <AssociationConnector Association="WebAPIdbModel.FK_MstFomSuggestdMM_MstQuality" />
+      <Diagram DiagramId="b93ccf94511548a08944c7935c3877fe" Name="Diagram1">
+        <EntityTypeShape EntityType="IMSModel.CFGRoleMenu" Width="1.5" PointX="18" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="IMSModel.MstCategory" Width="1.5" PointX="0.75" PointY="14.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="IMSModel.MstCollection" Width="1.5" PointX="3" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="IMSModel.MstCompanyInfo" Width="1.5" PointX="5.75" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="IMSModel.MstCustomer" Width="1.5" PointX="23.25" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="IMSModel.MstCustomerAddress" Width="1.5" PointX="25.5" PointY="4.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="IMSModel.MstFomDensity" Width="1.5" PointX="5.25" PointY="14.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="IMSModel.MstFomSize" Width="1.5" PointX="16.5" PointY="14" IsExpanded="true" />
+        <EntityTypeShape EntityType="IMSModel.MstFomSuggestedMM" Width="1.5" PointX="13.5" PointY="9.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="IMSModel.MstFWRDesign" Width="1.5" PointX="8.25" PointY="14.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="IMSModel.MstFWRShade" Width="1.5" PointX="13.5" PointY="14.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="IMSModel.MstHsn" Width="1.5" PointX="9" PointY="11" IsExpanded="true" />
+        <EntityTypeShape EntityType="IMSModel.MstMatSize" Width="1.5" PointX="5.25" PointY="9.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="IMSModel.MstMatThickness" Width="1.5" PointX="3" PointY="8.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="IMSModel.MstMenu" Width="1.5" PointX="15.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="IMSModel.MstQuality" Width="1.5" PointX="11.25" PointY="12.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="IMSModel.MstRole" Width="1.5" PointX="15.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="IMSModel.MstSupplier" Width="1.5" PointX="0.75" PointY="7.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="IMSModel.MstSupplierAddress" Width="1.5" PointX="3" PointY="3.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="IMSModel.MstUnitOfMeasure" Width="1.5" PointX="5.75" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="IMSModel.MstUser" Width="1.5" PointX="21" PointY="4.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="IMSModel.MstuserType" Width="1.5" PointX="18.75" PointY="1" IsExpanded="true" />
+        <AssociationConnector Association="IMSModel.FK_CFGRoleMenu_MstMenu" ManuallyRouted="false" />
+        <AssociationConnector Association="IMSModel.FK_CFGRoleMenu_MstRole" ManuallyRouted="false" />
+        <AssociationConnector Association="IMSModel.FK_MstCollection_MstCategory" ManuallyRouted="false" />
+        <AssociationConnector Association="IMSModel.FK_MstDesign_MstCategory" ManuallyRouted="false" />
+        <AssociationConnector Association="IMSModel.FK_MstFoamDensity_MstCategory" ManuallyRouted="false" />
+        <AssociationConnector Association="IMSModel.FK_MstFomSize_MstCategory" ManuallyRouted="false" />
+        <AssociationConnector Association="IMSModel.FK_MstFomSuggestdMM_MstCategory" ManuallyRouted="false" />
+        <AssociationConnector Association="IMSModel.FK_MstMattressSize_MstCategory" ManuallyRouted="false" />
+        <AssociationConnector Association="IMSModel.FK_MstQuality_MstCategory" ManuallyRouted="false" />
+        <AssociationConnector Association="IMSModel.FK_MstShade_MstCategory" ManuallyRouted="false" />
+        <AssociationConnector Association="IMSModel.FK_MstCollection_MstSupplier" ManuallyRouted="false" />
+        <AssociationConnector Association="IMSModel.FK_MstDesign_MstCollection" ManuallyRouted="false" />
+        <AssociationConnector Association="IMSModel.FK_MstFoamDensity_MstCollection" ManuallyRouted="false" />
+        <AssociationConnector Association="IMSModel.FK_MstFomSize_MstCollection" ManuallyRouted="false" />
+        <AssociationConnector Association="IMSModel.FK_MstFomSuggestdMM_MstCollection" ManuallyRouted="false" />
+        <AssociationConnector Association="IMSModel.FK_MstMattressSize_MstCollection" ManuallyRouted="false" />
+        <AssociationConnector Association="IMSModel.FK_MstQuality_MstCollection" ManuallyRouted="false" />
+        <AssociationConnector Association="IMSModel.FK_MstShade_MstCollection" ManuallyRouted="false" />
+        <AssociationConnector Association="IMSModel.FK_MstCustomer_MstUser" ManuallyRouted="false" />
+        <AssociationConnector Association="IMSModel.FK_MstCustomerAddressDetails_MstCustomer" ManuallyRouted="false" />
+        <AssociationConnector Association="IMSModel.FK_MstFoamDensity_MstQuality" ManuallyRouted="false" />
+        <AssociationConnector Association="IMSModel.FK_MstFomSize_MstFomDensity" ManuallyRouted="false" />
+        <AssociationConnector Association="IMSModel.FK_MstFomSuggestdMM_MstFomDensity" ManuallyRouted="false" />
+        <AssociationConnector Association="IMSModel.FK_MstFomSize_MstFomSuggestdMM" ManuallyRouted="false" />
+        <AssociationConnector Association="IMSModel.FK_MstFomSize_MstQuality" ManuallyRouted="false" />
+        <AssociationConnector Association="IMSModel.FK_MstFomSuggestdMM_MstQuality" ManuallyRouted="false" />
+        <AssociationConnector Association="IMSModel.FK_MstDesign_MstQuality" ManuallyRouted="false" />
+        <AssociationConnector Association="IMSModel.FK_MstShade_MstDesign" ManuallyRouted="false" />
+        <AssociationConnector Association="IMSModel.FK_MstShade_MstQuality" ManuallyRouted="false" />
+        <AssociationConnector Association="IMSModel.FK_MstQuality_MstHsn" ManuallyRouted="false" />
+        <AssociationConnector Association="IMSModel.FK_MstMattressSize_MstMattressThickNess" ManuallyRouted="false" />
+        <AssociationConnector Association="IMSModel.FK_MstMattressSize_MstQuality" ManuallyRouted="false" />
+        <AssociationConnector Association="IMSModel.FK_MstUser_MstRole" ManuallyRouted="false" />
+        <AssociationConnector Association="IMSModel.FK_MstSupplierAddressDetails_MstSupplier" ManuallyRouted="false" />
+        <AssociationConnector Association="IMSModel.FK_MstUser_MstUserType" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="WebAPIdbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="IMSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="CFGRoleMenu">
           <Key>
             <PropertyRef Name="id" />
@@ -68,7 +68,6 @@
           <Property Name="code" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="name" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="nickName" Type="varchar" MaxLength="100" />
-          <Property Name="gstin" Type="varchar" MaxLength="20" />
           <Property Name="email" Type="varchar" MaxLength="254" Nullable="false" />
           <Property Name="phone" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="alternateEmail1" Type="varchar" MaxLength="254" />
@@ -92,11 +91,14 @@
           </Key>
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="customerId" Type="bigint" Nullable="false" />
-          <Property Name="address" Type="varchar" MaxLength="1000" />
+          <Property Name="addressLine1" Type="varchar" MaxLength="100" />
+          <Property Name="addressLine2" Type="varchar" MaxLength="100" />
           <Property Name="city" Type="varchar" MaxLength="50" />
           <Property Name="state" Type="varchar" MaxLength="50" />
           <Property Name="country" Type="varchar" MaxLength="50" />
           <Property Name="pin" Type="varchar" MaxLength="10" />
+          <Property Name="gstin" Type="int" />
+          <Property Name="isPrimary" Type="bit" />
           <Property Name="createdOn" Type="datetime" Nullable="false" />
           <Property Name="createdBy" Type="bigint" Nullable="false" />
           <Property Name="updatedOn" Type="datetime" />
@@ -288,7 +290,6 @@
           <Property Name="name" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="firmName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="description" Type="varchar" MaxLength="1000" />
-          <Property Name="gstin" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="email" Type="varchar" MaxLength="254" Nullable="false" />
           <Property Name="phone" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="accountPersonName" Type="varchar" MaxLength="100" />
@@ -311,11 +312,14 @@
           </Key>
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="supplierId" Type="bigint" Nullable="false" />
-          <Property Name="address" Type="varchar" MaxLength="1000" />
+          <Property Name="addressLine1" Type="varchar" MaxLength="100" />
+          <Property Name="addressLine2" Type="varchar" MaxLength="100" />
           <Property Name="city" Type="varchar" MaxLength="50" />
           <Property Name="state" Type="varchar" MaxLength="50" />
           <Property Name="country" Type="varchar" MaxLength="50" />
           <Property Name="pin" Type="varchar" MaxLength="10" />
+          <Property Name="gstin" Type="int" />
+          <Property Name="isPrimary" Type="bit" />
           <Property Name="createdOn" Type="datetime" Nullable="false" />
           <Property Name="createdBy" Type="bigint" Nullable="false" />
           <Property Name="updatedOn" Type="datetime" />
@@ -782,7 +786,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="WebAPIdbModelStoreContainer">
+        <EntityContainer Name="IMSModelStoreContainer">
           <EntitySet Name="CFGRoleMenu" EntityType="Self.CFGRoleMenu" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MstCategory" EntityType="Self.MstCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MstCollection" EntityType="Self.MstCollection" Schema="dbo" store:Type="Tables" />
@@ -946,174 +950,11 @@
             <End Role="MstUser" EntitySet="MstUser" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="WebAPIdbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityContainer Name="WebAPIdbEntities" annotation:LazyLoadingEnabled="true" >
-          <EntitySet Name="CFGRoleMenus" EntityType="WebAPIdbModel.CFGRoleMenu" />
-          <EntitySet Name="MstCategories" EntityType="WebAPIdbModel.MstCategory" />
-          <EntitySet Name="MstCollections" EntityType="WebAPIdbModel.MstCollection" />
-          <EntitySet Name="MstCompanyInfoes" EntityType="WebAPIdbModel.MstCompanyInfo" />
-          <EntitySet Name="MstCustomers" EntityType="WebAPIdbModel.MstCustomer" />
-          <EntitySet Name="MstHsns" EntityType="WebAPIdbModel.MstHsn" />
-          <EntitySet Name="MstMenus" EntityType="WebAPIdbModel.MstMenu" />
-          <EntitySet Name="MstQualities" EntityType="WebAPIdbModel.MstQuality" />
-          <EntitySet Name="MstRoles" EntityType="WebAPIdbModel.MstRole" />
-          <EntitySet Name="MstSuppliers" EntityType="WebAPIdbModel.MstSupplier" />
-          <EntitySet Name="MstUnitOfMeasures" EntityType="WebAPIdbModel.MstUnitOfMeasure" />
-          <EntitySet Name="MstUsers" EntityType="WebAPIdbModel.MstUser" />
-          <EntitySet Name="MstuserTypes" EntityType="WebAPIdbModel.MstuserType" />
-          <AssociationSet Name="FK_CFGRoleMenu_MstMenu" Association="WebAPIdbModel.FK_CFGRoleMenu_MstMenu">
-            <End Role="MstMenu" EntitySet="MstMenus" />
-            <End Role="CFGRoleMenu" EntitySet="CFGRoleMenus" />
-          </AssociationSet>
-          <AssociationSet Name="FK_CFGRoleMenu_MstRole" Association="WebAPIdbModel.FK_CFGRoleMenu_MstRole">
-            <End Role="MstRole" EntitySet="MstRoles" />
-            <End Role="CFGRoleMenu" EntitySet="CFGRoleMenus" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MstCollection_MstCategory" Association="WebAPIdbModel.FK_MstCollection_MstCategory">
-            <End Role="MstCategory" EntitySet="MstCategories" />
-            <End Role="MstCollection" EntitySet="MstCollections" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MstQuality_MstCategory" Association="WebAPIdbModel.FK_MstQuality_MstCategory">
-            <End Role="MstCategory" EntitySet="MstCategories" />
-            <End Role="MstQuality" EntitySet="MstQualities" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MstCollection_MstSupplier" Association="WebAPIdbModel.FK_MstCollection_MstSupplier">
-            <End Role="MstSupplier" EntitySet="MstSuppliers" />
-            <End Role="MstCollection" EntitySet="MstCollections" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MstQuality_MstCollection" Association="WebAPIdbModel.FK_MstQuality_MstCollection">
-            <End Role="MstCollection" EntitySet="MstCollections" />
-            <End Role="MstQuality" EntitySet="MstQualities" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MstCustomer_MstUser" Association="WebAPIdbModel.FK_MstCustomer_MstUser">
-            <End Role="MstUser" EntitySet="MstUsers" />
-            <End Role="MstCustomer" EntitySet="MstCustomers" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MstQuality_MstHsn" Association="WebAPIdbModel.FK_MstQuality_MstHsn">
-            <End Role="MstHsn" EntitySet="MstHsns" />
-            <End Role="MstQuality" EntitySet="MstQualities" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MstUser_MstRole" Association="WebAPIdbModel.FK_MstUser_MstRole">
-            <End Role="MstRole" EntitySet="MstRoles" />
-            <End Role="MstUser" EntitySet="MstUsers" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MstUser_MstUserType" Association="WebAPIdbModel.FK_MstUser_MstUserType">
-            <End Role="MstuserType" EntitySet="MstuserTypes" />
-            <End Role="MstUser" EntitySet="MstUsers" />
-          </AssociationSet>
-          <EntitySet Name="MstFomDensities" EntityType="WebAPIdbModel.MstFomDensity" />
-          <EntitySet Name="MstMatSizes" EntityType="WebAPIdbModel.MstMatSize" />
-          <AssociationSet Name="FK_MstFoamDensity_MstCategory" Association="WebAPIdbModel.FK_MstFoamDensity_MstCategory">
-            <End Role="MstCategory" EntitySet="MstCategories" />
-            <End Role="MstFomDensity" EntitySet="MstFomDensities" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MstMattressSize_MstCategory" Association="WebAPIdbModel.FK_MstMattressSize_MstCategory">
-            <End Role="MstCategory" EntitySet="MstCategories" />
-            <End Role="MstMatSize" EntitySet="MstMatSizes" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MstFoamDensity_MstCollection" Association="WebAPIdbModel.FK_MstFoamDensity_MstCollection">
-            <End Role="MstCollection" EntitySet="MstCollections" />
-            <End Role="MstFomDensity" EntitySet="MstFomDensities" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MstMattressSize_MstCollection" Association="WebAPIdbModel.FK_MstMattressSize_MstCollection">
-            <End Role="MstCollection" EntitySet="MstCollections" />
-            <End Role="MstMatSize" EntitySet="MstMatSizes" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MstFoamDensity_MstQuality" Association="WebAPIdbModel.FK_MstFoamDensity_MstQuality">
-            <End Role="MstQuality" EntitySet="MstQualities" />
-            <End Role="MstFomDensity" EntitySet="MstFomDensities" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MstMattressSize_MstQuality" Association="WebAPIdbModel.FK_MstMattressSize_MstQuality">
-            <End Role="MstQuality" EntitySet="MstQualities" />
-            <End Role="MstMatSize" EntitySet="MstMatSizes" />
-          </AssociationSet>
-          <EntitySet Name="MstCustomerAddresses" EntityType="WebAPIdbModel.MstCustomerAddress" />
-          <EntitySet Name="MstSupplierAddresses" EntityType="WebAPIdbModel.MstSupplierAddress" />
-          <AssociationSet Name="FK_MstCustomerAddress_MstCustomer" Association="WebAPIdbModel.FK_MstCustomerAddress_MstCustomer">
-            <End Role="MstCustomer" EntitySet="MstCustomers" />
-            <End Role="MstCustomerAddress" EntitySet="MstCustomerAddresses" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MstSupplierAddresss_MstSupplier" Association="WebAPIdbModel.FK_MstSupplierAddresss_MstSupplier">
-            <End Role="MstSupplier" EntitySet="MstSuppliers" />
-            <End Role="MstSupplierAddress" EntitySet="MstSupplierAddresses" />
-          </AssociationSet>
-          <EntitySet Name="MstFWRDesigns" EntityType="WebAPIdbModel.MstFWRDesign" />
-          <EntitySet Name="MstFWRShades" EntityType="WebAPIdbModel.MstFWRShade" />
-          <AssociationSet Name="FK_MstFWRDesign_MstCategory" Association="WebAPIdbModel.FK_MstFWRDesign_MstCategory">
-            <End Role="MstCategory" EntitySet="MstCategories" />
-            <End Role="MstFWRDesign" EntitySet="MstFWRDesigns" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MstFWRShade_MstCategory" Association="WebAPIdbModel.FK_MstFWRShade_MstCategory">
-            <End Role="MstCategory" EntitySet="MstCategories" />
-            <End Role="MstFWRShade" EntitySet="MstFWRShades" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MstFWRDesign_MstCollection" Association="WebAPIdbModel.FK_MstFWRDesign_MstCollection">
-            <End Role="MstCollection" EntitySet="MstCollections" />
-            <End Role="MstFWRDesign" EntitySet="MstFWRDesigns" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MstFWRShade_MstCollection" Association="WebAPIdbModel.FK_MstFWRShade_MstCollection">
-            <End Role="MstCollection" EntitySet="MstCollections" />
-            <End Role="MstFWRShade" EntitySet="MstFWRShades" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MstFWRDesign_MstQuality" Association="WebAPIdbModel.FK_MstFWRDesign_MstQuality">
-            <End Role="MstQuality" EntitySet="MstQualities" />
-            <End Role="MstFWRDesign" EntitySet="MstFWRDesigns" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MstFWRShade_MstFWRDesign" Association="WebAPIdbModel.FK_MstFWRShade_MstFWRDesign">
-            <End Role="MstFWRDesign" EntitySet="MstFWRDesigns" />
-            <End Role="MstFWRShade" EntitySet="MstFWRShades" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MstFWRShade_MstQuality" Association="WebAPIdbModel.FK_MstFWRShade_MstQuality">
-            <End Role="MstQuality" EntitySet="MstQualities" />
-            <End Role="MstFWRShade" EntitySet="MstFWRShades" />
-          </AssociationSet>
-          <EntitySet Name="MstMatThicknesses" EntityType="WebAPIdbModel.MstMatThickness" />
-          <AssociationSet Name="FK_MstMattressSize_MstMattressThickNess" Association="WebAPIdbModel.FK_MstMattressSize_MstMattressThickNess">
-            <End Role="MstMatThickness" EntitySet="MstMatThicknesses" />
-            <End Role="MstMatSize" EntitySet="MstMatSizes" />
-          </AssociationSet>
-          <EntitySet Name="MstFomSizes" EntityType="WebAPIdbModel.MstFomSize" />
-          <AssociationSet Name="FK_MstFomSize_MstCategory" Association="WebAPIdbModel.FK_MstFomSize_MstCategory">
-            <End Role="MstCategory" EntitySet="MstCategories" />
-            <End Role="MstFomSize" EntitySet="MstFomSizes" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MstFomSize_MstCollection" Association="WebAPIdbModel.FK_MstFomSize_MstCollection">
-            <End Role="MstCollection" EntitySet="MstCollections" />
-            <End Role="MstFomSize" EntitySet="MstFomSizes" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MstFomSize_MstFomDensity" Association="WebAPIdbModel.FK_MstFomSize_MstFomDensity">
-            <End Role="MstFomDensity" EntitySet="MstFomDensities" />
-            <End Role="MstFomSize" EntitySet="MstFomSizes" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MstFomSize_MstQuality" Association="WebAPIdbModel.FK_MstFomSize_MstQuality">
-            <End Role="MstQuality" EntitySet="MstQualities" />
-            <End Role="MstFomSize" EntitySet="MstFomSizes" />
-          </AssociationSet>
-          <EntitySet Name="MstFomSuggestedMMs" EntityType="WebAPIdbModel.MstFomSuggestedMM" />
-          <AssociationSet Name="FK_MstFomSuggestdMM_MstCategory" Association="WebAPIdbModel.FK_MstFomSuggestdMM_MstCategory">
-            <End Role="MstCategory" EntitySet="MstCategories" />
-            <End Role="MstFomSuggestedMM" EntitySet="MstFomSuggestedMMs" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MstFomSuggestdMM_MstCollection" Association="WebAPIdbModel.FK_MstFomSuggestdMM_MstCollection">
-            <End Role="MstCollection" EntitySet="MstCollections" />
-            <End Role="MstFomSuggestedMM" EntitySet="MstFomSuggestedMMs" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MstFomSuggestdMM_MstFomDensity" Association="WebAPIdbModel.FK_MstFomSuggestdMM_MstFomDensity">
-            <End Role="MstFomDensity" EntitySet="MstFomDensities" />
-            <End Role="MstFomSuggestedMM" EntitySet="MstFomSuggestedMMs" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MstFomSize_MstFomSuggestdMM" Association="WebAPIdbModel.FK_MstFomSize_MstFomSuggestdMM">
-            <End Role="MstFomSuggestedMM" EntitySet="MstFomSuggestedMMs" />
-            <End Role="MstFomSize" EntitySet="MstFomSizes" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MstFomSuggestdMM_MstQuality" Association="WebAPIdbModel.FK_MstFomSuggestdMM_MstQuality">
-            <End Role="MstQuality" EntitySet="MstQualities" />
-            <End Role="MstFomSuggestedMM" EntitySet="MstFomSuggestedMMs" />
-          </AssociationSet>
-          </EntityContainer>
+      <Schema Namespace="IMSModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="CFGRoleMenu">
           <Key>
             <PropertyRef Name="id" />
@@ -1125,28 +966,28 @@
           <Property Name="createdBy" Type="Int64" Nullable="false" />
           <Property Name="updatedOn" Type="DateTime" Precision="3" />
           <Property Name="updatedBy" Type="Int64" />
-          <NavigationProperty Name="MstMenu" Relationship="WebAPIdbModel.FK_CFGRoleMenu_MstMenu" FromRole="CFGRoleMenu" ToRole="MstMenu" />
-          <NavigationProperty Name="MstRole" Relationship="WebAPIdbModel.FK_CFGRoleMenu_MstRole" FromRole="CFGRoleMenu" ToRole="MstRole" />
+          <NavigationProperty Name="MstMenu" Relationship="Self.FK_CFGRoleMenu_MstMenu" FromRole="CFGRoleMenu" ToRole="MstMenu" />
+          <NavigationProperty Name="MstRole" Relationship="Self.FK_CFGRoleMenu_MstRole" FromRole="CFGRoleMenu" ToRole="MstRole" />
         </EntityType>
         <EntityType Name="MstCategory">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="code" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="code" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="createdBy" Type="Int64" Nullable="false" />
           <Property Name="updatedOn" Type="DateTime" Precision="3" />
           <Property Name="updatedBy" Type="Int64" />
-          <NavigationProperty Name="MstCollections" Relationship="WebAPIdbModel.FK_MstCollection_MstCategory" FromRole="MstCategory" ToRole="MstCollection" />
-          <NavigationProperty Name="MstQualities" Relationship="WebAPIdbModel.FK_MstQuality_MstCategory" FromRole="MstCategory" ToRole="MstQuality" />
-          <NavigationProperty Name="MstFomDensities" Relationship="WebAPIdbModel.FK_MstFoamDensity_MstCategory" FromRole="MstCategory" ToRole="MstFomDensity" />
-          <NavigationProperty Name="MstMatSizes" Relationship="WebAPIdbModel.FK_MstMattressSize_MstCategory" FromRole="MstCategory" ToRole="MstMatSize" />
-          <NavigationProperty Name="MstFWRDesigns" Relationship="WebAPIdbModel.FK_MstFWRDesign_MstCategory" FromRole="MstCategory" ToRole="MstFWRDesign" />
-          <NavigationProperty Name="MstFWRShades" Relationship="WebAPIdbModel.FK_MstFWRShade_MstCategory" FromRole="MstCategory" ToRole="MstFWRShade" />
-          <NavigationProperty Name="MstFomSizes" Relationship="WebAPIdbModel.FK_MstFomSize_MstCategory" FromRole="MstCategory" ToRole="MstFomSize" />
-          <NavigationProperty Name="MstFomSuggestedMMs" Relationship="WebAPIdbModel.FK_MstFomSuggestdMM_MstCategory" FromRole="MstCategory" ToRole="MstFomSuggestedMM" />
+          <NavigationProperty Name="MstCollections" Relationship="Self.FK_MstCollection_MstCategory" FromRole="MstCategory" ToRole="MstCollection" />
+          <NavigationProperty Name="MstFWRDesigns" Relationship="Self.FK_MstDesign_MstCategory" FromRole="MstCategory" ToRole="MstFWRDesign" />
+          <NavigationProperty Name="MstFomDensities" Relationship="Self.FK_MstFoamDensity_MstCategory" FromRole="MstCategory" ToRole="MstFomDensity" />
+          <NavigationProperty Name="MstFomSizes" Relationship="Self.FK_MstFomSize_MstCategory" FromRole="MstCategory" ToRole="MstFomSize" />
+          <NavigationProperty Name="MstFomSuggestedMMs" Relationship="Self.FK_MstFomSuggestdMM_MstCategory" FromRole="MstCategory" ToRole="MstFomSuggestedMM" />
+          <NavigationProperty Name="MstMatSizes" Relationship="Self.FK_MstMattressSize_MstCategory" FromRole="MstCategory" ToRole="MstMatSize" />
+          <NavigationProperty Name="MstQualities" Relationship="Self.FK_MstQuality_MstCategory" FromRole="MstCategory" ToRole="MstQuality" />
+          <NavigationProperty Name="MstFWRShades" Relationship="Self.FK_MstShade_MstCategory" FromRole="MstCategory" ToRole="MstFWRShade" />
         </EntityType>
         <EntityType Name="MstCollection">
           <Key>
@@ -1155,34 +996,34 @@
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="categoryId" Type="Int64" Nullable="false" />
           <Property Name="supplierId" Type="Int64" Nullable="false" />
-          <Property Name="collectionCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="collectionName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="collectionCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="collectionName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="manufacturerName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="createdBy" Type="Int64" Nullable="false" />
           <Property Name="updatedOn" Type="DateTime" Precision="3" />
           <Property Name="updatedBy" Type="Int64" />
-          <NavigationProperty Name="MstCategory" Relationship="WebAPIdbModel.FK_MstCollection_MstCategory" FromRole="MstCollection" ToRole="MstCategory" />
-          <NavigationProperty Name="MstSupplier" Relationship="WebAPIdbModel.FK_MstCollection_MstSupplier" FromRole="MstCollection" ToRole="MstSupplier" />
-          <NavigationProperty Name="MstQualities" Relationship="WebAPIdbModel.FK_MstQuality_MstCollection" FromRole="MstCollection" ToRole="MstQuality" />
-          <NavigationProperty Name="MstFomDensities" Relationship="WebAPIdbModel.FK_MstFoamDensity_MstCollection" FromRole="MstCollection" ToRole="MstFomDensity" />
-          <NavigationProperty Name="MstMatSizes" Relationship="WebAPIdbModel.FK_MstMattressSize_MstCollection" FromRole="MstCollection" ToRole="MstMatSize" />
-          <NavigationProperty Name="MstFWRDesigns" Relationship="WebAPIdbModel.FK_MstFWRDesign_MstCollection" FromRole="MstCollection" ToRole="MstFWRDesign" />
-          <NavigationProperty Name="MstFWRShades" Relationship="WebAPIdbModel.FK_MstFWRShade_MstCollection" FromRole="MstCollection" ToRole="MstFWRShade" />
-          <NavigationProperty Name="MstFomSizes" Relationship="WebAPIdbModel.FK_MstFomSize_MstCollection" FromRole="MstCollection" ToRole="MstFomSize" />
-          <NavigationProperty Name="MstFomSuggestedMMs" Relationship="WebAPIdbModel.FK_MstFomSuggestdMM_MstCollection" FromRole="MstCollection" ToRole="MstFomSuggestedMM" />
+          <NavigationProperty Name="MstCategory" Relationship="Self.FK_MstCollection_MstCategory" FromRole="MstCollection" ToRole="MstCategory" />
+          <NavigationProperty Name="MstSupplier" Relationship="Self.FK_MstCollection_MstSupplier" FromRole="MstCollection" ToRole="MstSupplier" />
+          <NavigationProperty Name="MstFWRDesigns" Relationship="Self.FK_MstDesign_MstCollection" FromRole="MstCollection" ToRole="MstFWRDesign" />
+          <NavigationProperty Name="MstFomDensities" Relationship="Self.FK_MstFoamDensity_MstCollection" FromRole="MstCollection" ToRole="MstFomDensity" />
+          <NavigationProperty Name="MstFomSizes" Relationship="Self.FK_MstFomSize_MstCollection" FromRole="MstCollection" ToRole="MstFomSize" />
+          <NavigationProperty Name="MstFomSuggestedMMs" Relationship="Self.FK_MstFomSuggestdMM_MstCollection" FromRole="MstCollection" ToRole="MstFomSuggestedMM" />
+          <NavigationProperty Name="MstMatSizes" Relationship="Self.FK_MstMattressSize_MstCollection" FromRole="MstCollection" ToRole="MstMatSize" />
+          <NavigationProperty Name="MstQualities" Relationship="Self.FK_MstQuality_MstCollection" FromRole="MstCollection" ToRole="MstQuality" />
+          <NavigationProperty Name="MstFWRShades" Relationship="Self.FK_MstShade_MstCollection" FromRole="MstCollection" ToRole="MstFWRShade" />
         </EntityType>
         <EntityType Name="MstCompanyInfo">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="companyName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="email" Type="String" Nullable="false" MaxLength="254" FixedLength="false" Unicode="true" />
-          <Property Name="phone" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="gstin" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="companyLogo" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="companyName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="email" Type="String" MaxLength="254" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="phone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="gstin" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="companyLogo" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="createdBy" Type="Int64" Nullable="false" />
           <Property Name="updatedOn" Type="DateTime" Precision="3" />
@@ -1193,12 +1034,11 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="code" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="code" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="nickName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="gstin" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="email" Type="String" Nullable="false" MaxLength="254" FixedLength="false" Unicode="false" />
-          <Property Name="phone" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" MaxLength="254" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="phone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="alternateEmail1" Type="String" MaxLength="254" FixedLength="false" Unicode="false" />
           <Property Name="alternateEmail2" Type="String" MaxLength="254" FixedLength="false" Unicode="false" />
           <Property Name="alternatePhone1" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
@@ -1213,35 +1053,193 @@
           <Property Name="createdBy" Type="Int64" Nullable="false" />
           <Property Name="updatedOn" Type="DateTime" Precision="3" />
           <Property Name="updatedBy" Type="Int64" />
-          <NavigationProperty Name="MstUser" Relationship="WebAPIdbModel.FK_MstCustomer_MstUser" FromRole="MstCustomer" ToRole="MstUser" />
-          <NavigationProperty Name="MstCustomerAddresses" Relationship="WebAPIdbModel.FK_MstCustomerAddress_MstCustomer" FromRole="MstCustomer" ToRole="MstCustomerAddress" />
+          <NavigationProperty Name="MstUser" Relationship="Self.FK_MstCustomer_MstUser" FromRole="MstCustomer" ToRole="MstUser" />
+          <NavigationProperty Name="MstCustomerAddresses" Relationship="Self.FK_MstCustomerAddressDetails_MstCustomer" FromRole="MstCustomer" ToRole="MstCustomerAddress" />
+        </EntityType>
+        <EntityType Name="MstCustomerAddress">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="customerId" Type="Int64" Nullable="false" />
+          <Property Name="addressLine1" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="addressLine2" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="city" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="state" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="country" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="pin" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="gstin" Type="Int32" />
+          <Property Name="isPrimary" Type="Boolean" />
+          <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="createdBy" Type="Int64" Nullable="false" />
+          <Property Name="updatedOn" Type="DateTime" Precision="3" />
+          <Property Name="updatedBy" Type="Int64" />
+          <NavigationProperty Name="MstCustomer" Relationship="Self.FK_MstCustomerAddressDetails_MstCustomer" FromRole="MstCustomerAddress" ToRole="MstCustomer" />
+        </EntityType>
+        <EntityType Name="MstFomDensity">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="categoryId" Type="Int64" Nullable="false" />
+          <Property Name="collectionId" Type="Int64" Nullable="false" />
+          <Property Name="qualityId" Type="Int64" Nullable="false" />
+          <Property Name="density" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="createdBy" Type="Int64" Nullable="false" />
+          <Property Name="updatedOn" Type="DateTime" Precision="3" />
+          <Property Name="updatedBy" Type="Int64" />
+          <NavigationProperty Name="MstCategory" Relationship="Self.FK_MstFoamDensity_MstCategory" FromRole="MstFomDensity" ToRole="MstCategory" />
+          <NavigationProperty Name="MstCollection" Relationship="Self.FK_MstFoamDensity_MstCollection" FromRole="MstFomDensity" ToRole="MstCollection" />
+          <NavigationProperty Name="MstQuality" Relationship="Self.FK_MstFoamDensity_MstQuality" FromRole="MstFomDensity" ToRole="MstQuality" />
+          <NavigationProperty Name="MstFomSizes" Relationship="Self.FK_MstFomSize_MstFomDensity" FromRole="MstFomDensity" ToRole="MstFomSize" />
+          <NavigationProperty Name="MstFomSuggestedMMs" Relationship="Self.FK_MstFomSuggestdMM_MstFomDensity" FromRole="MstFomDensity" ToRole="MstFomSuggestedMM" />
+        </EntityType>
+        <EntityType Name="MstFomSize">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="categoryId" Type="Int64" Nullable="false" />
+          <Property Name="collectionId" Type="Int64" Nullable="false" />
+          <Property Name="qualityId" Type="Int64" Nullable="false" />
+          <Property Name="fomDensityId" Type="Int64" Nullable="false" />
+          <Property Name="fomSuggestedMMId" Type="Int64" Nullable="false" />
+          <Property Name="width" Type="Decimal" Precision="5" Scale="2" Nullable="false" />
+          <Property Name="length" Type="Decimal" Precision="5" Scale="2" Nullable="false" />
+          <Property Name="sizeCode" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="createdBy" Type="Int64" Nullable="false" />
+          <Property Name="updatedOn" Type="DateTime" Precision="3" />
+          <Property Name="updatedBy" Type="Int64" />
+          <NavigationProperty Name="MstCategory" Relationship="Self.FK_MstFomSize_MstCategory" FromRole="MstFomSize" ToRole="MstCategory" />
+          <NavigationProperty Name="MstCollection" Relationship="Self.FK_MstFomSize_MstCollection" FromRole="MstFomSize" ToRole="MstCollection" />
+          <NavigationProperty Name="MstFomDensity" Relationship="Self.FK_MstFomSize_MstFomDensity" FromRole="MstFomSize" ToRole="MstFomDensity" />
+          <NavigationProperty Name="MstFomSuggestedMM" Relationship="Self.FK_MstFomSize_MstFomSuggestdMM" FromRole="MstFomSize" ToRole="MstFomSuggestedMM" />
+          <NavigationProperty Name="MstQuality" Relationship="Self.FK_MstFomSize_MstQuality" FromRole="MstFomSize" ToRole="MstQuality" />
+        </EntityType>
+        <EntityType Name="MstFomSuggestedMM">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="categoryId" Type="Int64" Nullable="false" />
+          <Property Name="collectionId" Type="Int64" Nullable="false" />
+          <Property Name="qualityId" Type="Int64" Nullable="false" />
+          <Property Name="fomDensityId" Type="Int64" Nullable="false" />
+          <Property Name="suggestedMM" Type="Int32" Nullable="false" />
+          <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="createdBy" Type="Int64" Nullable="false" />
+          <Property Name="updatedOn" Type="DateTime" Precision="3" />
+          <Property Name="updatedBy" Type="Int64" />
+          <NavigationProperty Name="MstCategory" Relationship="Self.FK_MstFomSuggestdMM_MstCategory" FromRole="MstFomSuggestedMM" ToRole="MstCategory" />
+          <NavigationProperty Name="MstCollection" Relationship="Self.FK_MstFomSuggestdMM_MstCollection" FromRole="MstFomSuggestedMM" ToRole="MstCollection" />
+          <NavigationProperty Name="MstFomDensity" Relationship="Self.FK_MstFomSuggestdMM_MstFomDensity" FromRole="MstFomSuggestedMM" ToRole="MstFomDensity" />
+          <NavigationProperty Name="MstFomSizes" Relationship="Self.FK_MstFomSize_MstFomSuggestdMM" FromRole="MstFomSuggestedMM" ToRole="MstFomSize" />
+          <NavigationProperty Name="MstQuality" Relationship="Self.FK_MstFomSuggestdMM_MstQuality" FromRole="MstFomSuggestedMM" ToRole="MstQuality" />
+        </EntityType>
+        <EntityType Name="MstFWRDesign">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="categoryId" Type="Int64" Nullable="false" />
+          <Property Name="collectionId" Type="Int64" Nullable="false" />
+          <Property Name="qualityId" Type="Int64" Nullable="false" />
+          <Property Name="designCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="designName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="createdBy" Type="Int64" Nullable="false" />
+          <Property Name="updatedOn" Type="DateTime" Precision="3" />
+          <Property Name="updatedBy" Type="Int64" />
+          <NavigationProperty Name="MstCategory" Relationship="Self.FK_MstDesign_MstCategory" FromRole="MstFWRDesign" ToRole="MstCategory" />
+          <NavigationProperty Name="MstCollection" Relationship="Self.FK_MstDesign_MstCollection" FromRole="MstFWRDesign" ToRole="MstCollection" />
+          <NavigationProperty Name="MstQuality" Relationship="Self.FK_MstDesign_MstQuality" FromRole="MstFWRDesign" ToRole="MstQuality" />
+          <NavigationProperty Name="MstFWRShades" Relationship="Self.FK_MstShade_MstDesign" FromRole="MstFWRDesign" ToRole="MstFWRShade" />
+        </EntityType>
+        <EntityType Name="MstFWRShade">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="categoryId" Type="Int64" Nullable="false" />
+          <Property Name="collectionId" Type="Int64" Nullable="false" />
+          <Property Name="qualityId" Type="Int64" Nullable="false" />
+          <Property Name="designId" Type="Int64" Nullable="false" />
+          <Property Name="shadeCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="shadeName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="serialNumber" Type="Int32" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="createdBy" Type="Int64" Nullable="false" />
+          <Property Name="updatedOn" Type="DateTime" Precision="3" />
+          <Property Name="updatedBy" Type="Int64" />
+          <NavigationProperty Name="MstCategory" Relationship="Self.FK_MstShade_MstCategory" FromRole="MstFWRShade" ToRole="MstCategory" />
+          <NavigationProperty Name="MstCollection" Relationship="Self.FK_MstShade_MstCollection" FromRole="MstFWRShade" ToRole="MstCollection" />
+          <NavigationProperty Name="MstFWRDesign" Relationship="Self.FK_MstShade_MstDesign" FromRole="MstFWRShade" ToRole="MstFWRDesign" />
+          <NavigationProperty Name="MstQuality" Relationship="Self.FK_MstShade_MstQuality" FromRole="MstFWRShade" ToRole="MstQuality" />
         </EntityType>
         <EntityType Name="MstHsn">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="hsnCode" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="hsnCode" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="gst" Type="Int32" Nullable="false" />
           <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="createdBy" Type="Int64" Nullable="false" />
           <Property Name="updatedOn" Type="DateTime" Precision="3" />
           <Property Name="updatedBy" Type="Int64" />
-          <NavigationProperty Name="MstQualities" Relationship="WebAPIdbModel.FK_MstQuality_MstHsn" FromRole="MstHsn" ToRole="MstQuality" />
+          <NavigationProperty Name="MstQualities" Relationship="Self.FK_MstQuality_MstHsn" FromRole="MstHsn" ToRole="MstQuality" />
+        </EntityType>
+        <EntityType Name="MstMatSize">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="categoryId" Type="Int64" Nullable="false" />
+          <Property Name="collectionId" Type="Int64" Nullable="false" />
+          <Property Name="qualityId" Type="Int64" Nullable="false" />
+          <Property Name="thicknessId" Type="Int64" Nullable="false" />
+          <Property Name="sizeCode" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="rate" Type="Decimal" Precision="7" Scale="2" Nullable="false" />
+          <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="createdBy" Type="Int64" Nullable="false" />
+          <Property Name="updatedOn" Type="DateTime" Precision="3" />
+          <Property Name="updatedBy" Type="Int64" />
+          <NavigationProperty Name="MstCategory" Relationship="Self.FK_MstMattressSize_MstCategory" FromRole="MstMatSize" ToRole="MstCategory" />
+          <NavigationProperty Name="MstCollection" Relationship="Self.FK_MstMattressSize_MstCollection" FromRole="MstMatSize" ToRole="MstCollection" />
+          <NavigationProperty Name="MstMatThickness" Relationship="Self.FK_MstMattressSize_MstMattressThickNess" FromRole="MstMatSize" ToRole="MstMatThickness" />
+          <NavigationProperty Name="MstQuality" Relationship="Self.FK_MstMattressSize_MstQuality" FromRole="MstMatSize" ToRole="MstQuality" />
+        </EntityType>
+        <EntityType Name="MstMatThickness">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="thicknessCode" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="size" Type="Decimal" Precision="4" Scale="2" Nullable="false" />
+          <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="createdBy" Type="Int64" Nullable="false" />
+          <Property Name="updatedOn" Type="DateTime" Precision="3" />
+          <Property Name="updatedBy" Type="Int64" />
+          <NavigationProperty Name="MstMatSizes" Relationship="Self.FK_MstMattressSize_MstMattressThickNess" FromRole="MstMatThickness" ToRole="MstMatSize" />
         </EntityType>
         <EntityType Name="MstMenu">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="menuName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="menuName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="menuParentId" Type="Int64" />
           <Property Name="logicalSequence" Type="Int64" />
           <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="createdBy" Type="Int64" Nullable="false" />
           <Property Name="updatedOn" Type="DateTime" Precision="3" />
           <Property Name="updatedBy" Type="Int64" />
-          <NavigationProperty Name="CFGRoleMenus" Relationship="WebAPIdbModel.FK_CFGRoleMenu_MstMenu" FromRole="MstMenu" ToRole="CFGRoleMenu" />
+          <NavigationProperty Name="CFGRoleMenus" Relationship="Self.FK_CFGRoleMenu_MstMenu" FromRole="MstMenu" ToRole="CFGRoleMenu" />
         </EntityType>
         <EntityType Name="MstQuality">
           <Key>
@@ -1250,8 +1248,8 @@
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="categoryId" Type="Int64" Nullable="false" />
           <Property Name="collectionId" Type="Int64" Nullable="false" />
-          <Property Name="qualityCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="qualityName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="qualityCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="qualityName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="width" Type="Decimal" Precision="6" Scale="2" />
           <Property Name="size" Type="Decimal" Precision="6" Scale="2" />
@@ -1272,42 +1270,41 @@
           <Property Name="createdBy" Type="Int64" Nullable="false" />
           <Property Name="updatedOn" Type="DateTime" Precision="3" />
           <Property Name="updatedBy" Type="Int64" />
-          <NavigationProperty Name="MstCategory" Relationship="WebAPIdbModel.FK_MstQuality_MstCategory" FromRole="MstQuality" ToRole="MstCategory" />
-          <NavigationProperty Name="MstCollection" Relationship="WebAPIdbModel.FK_MstQuality_MstCollection" FromRole="MstQuality" ToRole="MstCollection" />
-          <NavigationProperty Name="MstHsn" Relationship="WebAPIdbModel.FK_MstQuality_MstHsn" FromRole="MstQuality" ToRole="MstHsn" />
-          <NavigationProperty Name="MstFomDensities" Relationship="WebAPIdbModel.FK_MstFoamDensity_MstQuality" FromRole="MstQuality" ToRole="MstFomDensity" />
-          <NavigationProperty Name="MstMatSizes" Relationship="WebAPIdbModel.FK_MstMattressSize_MstQuality" FromRole="MstQuality" ToRole="MstMatSize" />
-          <NavigationProperty Name="MstFWRDesigns" Relationship="WebAPIdbModel.FK_MstFWRDesign_MstQuality" FromRole="MstQuality" ToRole="MstFWRDesign" />
-          <NavigationProperty Name="MstFWRShades" Relationship="WebAPIdbModel.FK_MstFWRShade_MstQuality" FromRole="MstQuality" ToRole="MstFWRShade" />
-          <NavigationProperty Name="MstFomSizes" Relationship="WebAPIdbModel.FK_MstFomSize_MstQuality" FromRole="MstQuality" ToRole="MstFomSize" />
-          <NavigationProperty Name="MstFomSuggestedMMs" Relationship="WebAPIdbModel.FK_MstFomSuggestdMM_MstQuality" FromRole="MstQuality" ToRole="MstFomSuggestedMM" />
+          <NavigationProperty Name="MstCategory" Relationship="Self.FK_MstQuality_MstCategory" FromRole="MstQuality" ToRole="MstCategory" />
+          <NavigationProperty Name="MstCollection" Relationship="Self.FK_MstQuality_MstCollection" FromRole="MstQuality" ToRole="MstCollection" />
+          <NavigationProperty Name="MstFomDensities" Relationship="Self.FK_MstFoamDensity_MstQuality" FromRole="MstQuality" ToRole="MstFomDensity" />
+          <NavigationProperty Name="MstFomSizes" Relationship="Self.FK_MstFomSize_MstQuality" FromRole="MstQuality" ToRole="MstFomSize" />
+          <NavigationProperty Name="MstFomSuggestedMMs" Relationship="Self.FK_MstFomSuggestdMM_MstQuality" FromRole="MstQuality" ToRole="MstFomSuggestedMM" />
+          <NavigationProperty Name="MstFWRDesigns" Relationship="Self.FK_MstDesign_MstQuality" FromRole="MstQuality" ToRole="MstFWRDesign" />
+          <NavigationProperty Name="MstFWRShades" Relationship="Self.FK_MstShade_MstQuality" FromRole="MstQuality" ToRole="MstFWRShade" />
+          <NavigationProperty Name="MstHsn" Relationship="Self.FK_MstQuality_MstHsn" FromRole="MstQuality" ToRole="MstHsn" />
+          <NavigationProperty Name="MstMatSizes" Relationship="Self.FK_MstMattressSize_MstQuality" FromRole="MstQuality" ToRole="MstMatSize" />
         </EntityType>
         <EntityType Name="MstRole">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="roleName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="roleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="roleDescription" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="createdBy" Type="Int64" Nullable="false" />
           <Property Name="updatedOn" Type="DateTime" Precision="3" />
           <Property Name="updatedBy" Type="Int64" />
-          <NavigationProperty Name="CFGRoleMenus" Relationship="WebAPIdbModel.FK_CFGRoleMenu_MstRole" FromRole="MstRole" ToRole="CFGRoleMenu" />
-          <NavigationProperty Name="MstUsers" Relationship="WebAPIdbModel.FK_MstUser_MstRole" FromRole="MstRole" ToRole="MstUser" />
+          <NavigationProperty Name="CFGRoleMenus" Relationship="Self.FK_CFGRoleMenu_MstRole" FromRole="MstRole" ToRole="CFGRoleMenu" />
+          <NavigationProperty Name="MstUsers" Relationship="Self.FK_MstUser_MstRole" FromRole="MstRole" ToRole="MstUser" />
         </EntityType>
         <EntityType Name="MstSupplier">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="code" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="firmName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="code" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="firmName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="description" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
-          <Property Name="gstin" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="email" Type="String" Nullable="false" MaxLength="254" FixedLength="false" Unicode="false" />
-          <Property Name="phone" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" MaxLength="254" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="phone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="accountPersonName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="accountPersonEmail" Type="String" MaxLength="254" FixedLength="false" Unicode="false" />
           <Property Name="accountPersonPhone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
@@ -1321,16 +1318,36 @@
           <Property Name="createdBy" Type="Int64" Nullable="false" />
           <Property Name="updatedOn" Type="DateTime" Precision="3" />
           <Property Name="updatedBy" Type="Int64" />
-          <NavigationProperty Name="MstCollections" Relationship="WebAPIdbModel.FK_MstCollection_MstSupplier" FromRole="MstSupplier" ToRole="MstCollection" />
-          <NavigationProperty Name="MstSupplierAddresses" Relationship="WebAPIdbModel.FK_MstSupplierAddresss_MstSupplier" FromRole="MstSupplier" ToRole="MstSupplierAddress" />
+          <NavigationProperty Name="MstCollections" Relationship="Self.FK_MstCollection_MstSupplier" FromRole="MstSupplier" ToRole="MstCollection" />
+          <NavigationProperty Name="MstSupplierAddresses" Relationship="Self.FK_MstSupplierAddressDetails_MstSupplier" FromRole="MstSupplier" ToRole="MstSupplierAddress" />
+        </EntityType>
+        <EntityType Name="MstSupplierAddress">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="supplierId" Type="Int64" Nullable="false" />
+          <Property Name="addressLine1" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="addressLine2" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="city" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="state" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="country" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="pin" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="gstin" Type="Int32" />
+          <Property Name="isPrimary" Type="Boolean" />
+          <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="createdBy" Type="Int64" Nullable="false" />
+          <Property Name="updatedOn" Type="DateTime" Precision="3" />
+          <Property Name="updatedBy" Type="Int64" />
+          <NavigationProperty Name="MstSupplier" Relationship="Self.FK_MstSupplierAddressDetails_MstSupplier" FromRole="MstSupplierAddress" ToRole="MstSupplier" />
         </EntityType>
         <EntityType Name="MstUnitOfMeasure">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="uomCode" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="uomName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="uomCode" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="uomName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="createdBy" Type="Int64" Nullable="false" />
           <Property Name="updatedOn" Type="DateTime" Precision="3" />
@@ -1343,35 +1360,35 @@
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="roleId" Type="Int64" Nullable="false" />
           <Property Name="userTypeId" Type="Int64" Nullable="false" />
-          <Property Name="userName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="password" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="email" Type="String" Nullable="false" MaxLength="254" FixedLength="false" Unicode="true" />
-          <Property Name="phone" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="userName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="email" Type="String" MaxLength="254" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="phone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="lastLogin" Type="DateTime" Precision="3" />
           <Property Name="isActive" Type="Boolean" />
           <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="createdBy" Type="Int64" Nullable="false" />
           <Property Name="updatedOn" Type="DateTime" Precision="3" />
           <Property Name="updatedBy" Type="Int64" />
-          <NavigationProperty Name="MstCustomers" Relationship="WebAPIdbModel.FK_MstCustomer_MstUser" FromRole="MstUser" ToRole="MstCustomer" />
-          <NavigationProperty Name="MstRole" Relationship="WebAPIdbModel.FK_MstUser_MstRole" FromRole="MstUser" ToRole="MstRole" />
-          <NavigationProperty Name="MstuserType" Relationship="WebAPIdbModel.FK_MstUser_MstUserType" FromRole="MstUser" ToRole="MstuserType" />
+          <NavigationProperty Name="MstCustomers" Relationship="Self.FK_MstCustomer_MstUser" FromRole="MstUser" ToRole="MstCustomer" />
+          <NavigationProperty Name="MstRole" Relationship="Self.FK_MstUser_MstRole" FromRole="MstUser" ToRole="MstRole" />
+          <NavigationProperty Name="MstuserType" Relationship="Self.FK_MstUser_MstUserType" FromRole="MstUser" ToRole="MstuserType" />
         </EntityType>
         <EntityType Name="MstuserType">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="userTypeName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="userTypeName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="createdBy" Type="Int64" Nullable="false" />
           <Property Name="updatedOn" Type="DateTime" Precision="3" />
           <Property Name="updatedBy" Type="Int64" />
-          <NavigationProperty Name="MstUsers" Relationship="WebAPIdbModel.FK_MstUser_MstUserType" FromRole="MstuserType" ToRole="MstUser" />
+          <NavigationProperty Name="MstUsers" Relationship="Self.FK_MstUser_MstUserType" FromRole="MstuserType" ToRole="MstUser" />
         </EntityType>
         <Association Name="FK_CFGRoleMenu_MstMenu">
-          <End Type="WebAPIdbModel.MstMenu" Role="MstMenu" Multiplicity="1" />
-          <End Type="WebAPIdbModel.CFGRoleMenu" Role="CFGRoleMenu" Multiplicity="*" />
+          <End Role="MstMenu" Type="Self.MstMenu" Multiplicity="1" />
+          <End Role="CFGRoleMenu" Type="Self.CFGRoleMenu" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="MstMenu">
               <PropertyRef Name="id" />
@@ -1382,8 +1399,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_CFGRoleMenu_MstRole">
-          <End Type="WebAPIdbModel.MstRole" Role="MstRole" Multiplicity="1" />
-          <End Type="WebAPIdbModel.CFGRoleMenu" Role="CFGRoleMenu" Multiplicity="*" />
+          <End Role="MstRole" Type="Self.MstRole" Multiplicity="1" />
+          <End Role="CFGRoleMenu" Type="Self.CFGRoleMenu" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="MstRole">
               <PropertyRef Name="id" />
@@ -1394,8 +1411,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_MstCollection_MstCategory">
-          <End Type="WebAPIdbModel.MstCategory" Role="MstCategory" Multiplicity="1" />
-          <End Type="WebAPIdbModel.MstCollection" Role="MstCollection" Multiplicity="*" />
+          <End Role="MstCategory" Type="Self.MstCategory" Multiplicity="1" />
+          <End Role="MstCollection" Type="Self.MstCollection" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="MstCategory">
               <PropertyRef Name="id" />
@@ -1405,9 +1422,69 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_MstDesign_MstCategory">
+          <End Role="MstCategory" Type="Self.MstCategory" Multiplicity="1" />
+          <End Role="MstFWRDesign" Type="Self.MstFWRDesign" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstCategory">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MstFWRDesign">
+              <PropertyRef Name="categoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MstFoamDensity_MstCategory">
+          <End Role="MstCategory" Type="Self.MstCategory" Multiplicity="1" />
+          <End Role="MstFomDensity" Type="Self.MstFomDensity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstCategory">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MstFomDensity">
+              <PropertyRef Name="categoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MstFomSize_MstCategory">
+          <End Role="MstCategory" Type="Self.MstCategory" Multiplicity="1" />
+          <End Role="MstFomSize" Type="Self.MstFomSize" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstCategory">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MstFomSize">
+              <PropertyRef Name="categoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MstFomSuggestdMM_MstCategory">
+          <End Role="MstCategory" Type="Self.MstCategory" Multiplicity="1" />
+          <End Role="MstFomSuggestedMM" Type="Self.MstFomSuggestedMM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstCategory">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MstFomSuggestedMM">
+              <PropertyRef Name="categoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MstMattressSize_MstCategory">
+          <End Role="MstCategory" Type="Self.MstCategory" Multiplicity="1" />
+          <End Role="MstMatSize" Type="Self.MstMatSize" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstCategory">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MstMatSize">
+              <PropertyRef Name="categoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_MstQuality_MstCategory">
-          <End Type="WebAPIdbModel.MstCategory" Role="MstCategory" Multiplicity="1" />
-          <End Type="WebAPIdbModel.MstQuality" Role="MstQuality" Multiplicity="*" />
+          <End Role="MstCategory" Type="Self.MstCategory" Multiplicity="1" />
+          <End Role="MstQuality" Type="Self.MstQuality" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="MstCategory">
               <PropertyRef Name="id" />
@@ -1417,9 +1494,21 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_MstShade_MstCategory">
+          <End Role="MstCategory" Type="Self.MstCategory" Multiplicity="1" />
+          <End Role="MstFWRShade" Type="Self.MstFWRShade" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstCategory">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MstFWRShade">
+              <PropertyRef Name="categoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_MstCollection_MstSupplier">
-          <End Type="WebAPIdbModel.MstSupplier" Role="MstSupplier" Multiplicity="1" />
-          <End Type="WebAPIdbModel.MstCollection" Role="MstCollection" Multiplicity="*" />
+          <End Role="MstSupplier" Type="Self.MstSupplier" Multiplicity="1" />
+          <End Role="MstCollection" Type="Self.MstCollection" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="MstSupplier">
               <PropertyRef Name="id" />
@@ -1429,9 +1518,69 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_MstDesign_MstCollection">
+          <End Role="MstCollection" Type="Self.MstCollection" Multiplicity="1" />
+          <End Role="MstFWRDesign" Type="Self.MstFWRDesign" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstCollection">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MstFWRDesign">
+              <PropertyRef Name="collectionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MstFoamDensity_MstCollection">
+          <End Role="MstCollection" Type="Self.MstCollection" Multiplicity="1" />
+          <End Role="MstFomDensity" Type="Self.MstFomDensity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstCollection">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MstFomDensity">
+              <PropertyRef Name="collectionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MstFomSize_MstCollection">
+          <End Role="MstCollection" Type="Self.MstCollection" Multiplicity="1" />
+          <End Role="MstFomSize" Type="Self.MstFomSize" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstCollection">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MstFomSize">
+              <PropertyRef Name="collectionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MstFomSuggestdMM_MstCollection">
+          <End Role="MstCollection" Type="Self.MstCollection" Multiplicity="1" />
+          <End Role="MstFomSuggestedMM" Type="Self.MstFomSuggestedMM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstCollection">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MstFomSuggestedMM">
+              <PropertyRef Name="collectionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MstMattressSize_MstCollection">
+          <End Role="MstCollection" Type="Self.MstCollection" Multiplicity="1" />
+          <End Role="MstMatSize" Type="Self.MstMatSize" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstCollection">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MstMatSize">
+              <PropertyRef Name="collectionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_MstQuality_MstCollection">
-          <End Type="WebAPIdbModel.MstCollection" Role="MstCollection" Multiplicity="1" />
-          <End Type="WebAPIdbModel.MstQuality" Role="MstQuality" Multiplicity="*" />
+          <End Role="MstCollection" Type="Self.MstCollection" Multiplicity="1" />
+          <End Role="MstQuality" Type="Self.MstQuality" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="MstCollection">
               <PropertyRef Name="id" />
@@ -1441,9 +1590,21 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_MstShade_MstCollection">
+          <End Role="MstCollection" Type="Self.MstCollection" Multiplicity="1" />
+          <End Role="MstFWRShade" Type="Self.MstFWRShade" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstCollection">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MstFWRShade">
+              <PropertyRef Name="collectionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_MstCustomer_MstUser">
-          <End Type="WebAPIdbModel.MstUser" Role="MstUser" Multiplicity="0..1" />
-          <End Type="WebAPIdbModel.MstCustomer" Role="MstCustomer" Multiplicity="*" />
+          <End Role="MstUser" Type="Self.MstUser" Multiplicity="0..1" />
+          <End Role="MstCustomer" Type="Self.MstCustomer" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="MstUser">
               <PropertyRef Name="id" />
@@ -1453,191 +1614,9 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_MstQuality_MstHsn">
-          <End Type="WebAPIdbModel.MstHsn" Role="MstHsn" Multiplicity="0..1" />
-          <End Type="WebAPIdbModel.MstQuality" Role="MstQuality" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MstHsn">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="MstQuality">
-              <PropertyRef Name="hsnId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MstUser_MstRole">
-          <End Type="WebAPIdbModel.MstRole" Role="MstRole" Multiplicity="1" />
-          <End Type="WebAPIdbModel.MstUser" Role="MstUser" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MstRole">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="MstUser">
-              <PropertyRef Name="roleId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MstUser_MstUserType">
-          <End Type="WebAPIdbModel.MstuserType" Role="MstuserType" Multiplicity="1" />
-          <End Type="WebAPIdbModel.MstUser" Role="MstUser" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MstuserType">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="MstUser">
-              <PropertyRef Name="userTypeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="MstFomDensity">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="categoryId" Type="Int64" Nullable="false" />
-          <Property Name="collectionId" Type="Int64" Nullable="false" />
-          <Property Name="qualityId" Type="Int64" Nullable="false" />
-          <Property Name="density" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="createdBy" Type="Int64" Nullable="false" />
-          <Property Name="updatedOn" Type="DateTime" Precision="3" />
-          <Property Name="updatedBy" Type="Int64" />
-          <NavigationProperty Name="MstCategory" Relationship="WebAPIdbModel.FK_MstFoamDensity_MstCategory" FromRole="MstFomDensity" ToRole="MstCategory" />
-          <NavigationProperty Name="MstCollection" Relationship="WebAPIdbModel.FK_MstFoamDensity_MstCollection" FromRole="MstFomDensity" ToRole="MstCollection" />
-          <NavigationProperty Name="MstQuality" Relationship="WebAPIdbModel.FK_MstFoamDensity_MstQuality" FromRole="MstFomDensity" ToRole="MstQuality" />
-          <NavigationProperty Name="MstFomSizes" Relationship="WebAPIdbModel.FK_MstFomSize_MstFomDensity" FromRole="MstFomDensity" ToRole="MstFomSize" />
-          <NavigationProperty Name="MstFomSuggestedMMs" Relationship="WebAPIdbModel.FK_MstFomSuggestdMM_MstFomDensity" FromRole="MstFomDensity" ToRole="MstFomSuggestedMM" />
-        </EntityType>
-        <EntityType Name="MstMatSize">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="categoryId" Type="Int64" Nullable="false" />
-          <Property Name="collectionId" Type="Int64" Nullable="false" />
-          <Property Name="qualityId" Type="Int64" Nullable="false" />
-          <Property Name="thicknessId" Type="Int64" Nullable="false" />
-          <Property Name="sizeCode" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="rate" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
-          <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="createdBy" Type="Int64" Nullable="false" />
-          <Property Name="updatedOn" Type="DateTime" Precision="3" />
-          <Property Name="updatedBy" Type="Int64" />
-          <NavigationProperty Name="MstCategory" Relationship="WebAPIdbModel.FK_MstMattressSize_MstCategory" FromRole="MstMatSize" ToRole="MstCategory" />
-          <NavigationProperty Name="MstCollection" Relationship="WebAPIdbModel.FK_MstMattressSize_MstCollection" FromRole="MstMatSize" ToRole="MstCollection" />
-          <NavigationProperty Name="MstQuality" Relationship="WebAPIdbModel.FK_MstMattressSize_MstQuality" FromRole="MstMatSize" ToRole="MstQuality" />
-          <NavigationProperty Name="MstMatThickness" Relationship="WebAPIdbModel.FK_MstMattressSize_MstMattressThickNess" FromRole="MstMatSize" ToRole="MstMatThickness" />
-        </EntityType>
-        <Association Name="FK_MstFoamDensity_MstCategory">
-          <End Type="WebAPIdbModel.MstCategory" Role="MstCategory" Multiplicity="1" />
-          <End Type="WebAPIdbModel.MstFomDensity" Role="MstFomDensity" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MstCategory">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="MstFomDensity">
-              <PropertyRef Name="categoryId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MstMattressSize_MstCategory">
-          <End Type="WebAPIdbModel.MstCategory" Role="MstCategory" Multiplicity="1" />
-          <End Type="WebAPIdbModel.MstMatSize" Role="MstMatSize" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MstCategory">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="MstMatSize">
-              <PropertyRef Name="categoryId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MstFoamDensity_MstCollection">
-          <End Type="WebAPIdbModel.MstCollection" Role="MstCollection" Multiplicity="1" />
-          <End Type="WebAPIdbModel.MstFomDensity" Role="MstFomDensity" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MstCollection">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="MstFomDensity">
-              <PropertyRef Name="collectionId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MstMattressSize_MstCollection">
-          <End Type="WebAPIdbModel.MstCollection" Role="MstCollection" Multiplicity="1" />
-          <End Type="WebAPIdbModel.MstMatSize" Role="MstMatSize" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MstCollection">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="MstMatSize">
-              <PropertyRef Name="collectionId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MstFoamDensity_MstQuality">
-          <End Type="WebAPIdbModel.MstQuality" Role="MstQuality" Multiplicity="1" />
-          <End Type="WebAPIdbModel.MstFomDensity" Role="MstFomDensity" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MstQuality">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="MstFomDensity">
-              <PropertyRef Name="qualityId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MstMattressSize_MstQuality">
-          <End Type="WebAPIdbModel.MstQuality" Role="MstQuality" Multiplicity="1" />
-          <End Type="WebAPIdbModel.MstMatSize" Role="MstMatSize" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MstQuality">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="MstMatSize">
-              <PropertyRef Name="qualityId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="MstCustomerAddress">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="customerId" Type="Int64" Nullable="false" />
-          <Property Name="address" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
-          <Property Name="city" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="state" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="country" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="pin" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="createdBy" Type="Int64" Nullable="false" />
-          <Property Name="updatedOn" Type="DateTime" Precision="3" />
-          <Property Name="updatedBy" Type="Int64" />
-          <NavigationProperty Name="MstCustomer" Relationship="WebAPIdbModel.FK_MstCustomerAddress_MstCustomer" FromRole="MstCustomerAddress" ToRole="MstCustomer" />
-        </EntityType>
-        <EntityType Name="MstSupplierAddress">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="supplierId" Type="Int64" Nullable="false" />
-          <Property Name="address" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
-          <Property Name="city" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="state" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="country" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="pin" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="createdBy" Type="Int64" Nullable="false" />
-          <Property Name="updatedOn" Type="DateTime" Precision="3" />
-          <Property Name="updatedBy" Type="Int64" />
-          <NavigationProperty Name="MstSupplier" Relationship="WebAPIdbModel.FK_MstSupplierAddresss_MstSupplier" FromRole="MstSupplierAddress" ToRole="MstSupplier" />
-        </EntityType>
-        <Association Name="FK_MstCustomerAddress_MstCustomer">
-          <End Type="WebAPIdbModel.MstCustomer" Role="MstCustomer" Multiplicity="1" />
-          <End Type="WebAPIdbModel.MstCustomerAddress" Role="MstCustomerAddress" Multiplicity="*" />
+        <Association Name="FK_MstCustomerAddressDetails_MstCustomer">
+          <End Role="MstCustomer" Type="Self.MstCustomer" Multiplicity="1" />
+          <End Role="MstCustomerAddress" Type="Self.MstCustomerAddress" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="MstCustomer">
               <PropertyRef Name="id" />
@@ -1647,219 +1626,21 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_MstSupplierAddresss_MstSupplier">
-          <End Type="WebAPIdbModel.MstSupplier" Role="MstSupplier" Multiplicity="1" />
-          <End Type="WebAPIdbModel.MstSupplierAddress" Role="MstSupplierAddress" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MstSupplier">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="MstSupplierAddress">
-              <PropertyRef Name="supplierId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="MstFWRDesign">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="categoryId" Type="Int64" Nullable="false" />
-          <Property Name="collectionId" Type="Int64" Nullable="false" />
-          <Property Name="qualityId" Type="Int64" Nullable="false" />
-          <Property Name="designCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="designName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="description" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="createdBy" Type="Int64" Nullable="false" />
-          <Property Name="updatedOn" Type="DateTime" Precision="3" />
-          <Property Name="updatedBy" Type="Int64" />
-          <NavigationProperty Name="MstCategory" Relationship="WebAPIdbModel.FK_MstFWRDesign_MstCategory" FromRole="MstFWRDesign" ToRole="MstCategory" />
-          <NavigationProperty Name="MstCollection" Relationship="WebAPIdbModel.FK_MstFWRDesign_MstCollection" FromRole="MstFWRDesign" ToRole="MstCollection" />
-          <NavigationProperty Name="MstQuality" Relationship="WebAPIdbModel.FK_MstFWRDesign_MstQuality" FromRole="MstFWRDesign" ToRole="MstQuality" />
-          <NavigationProperty Name="MstFWRShades" Relationship="WebAPIdbModel.FK_MstFWRShade_MstFWRDesign" FromRole="MstFWRDesign" ToRole="MstFWRShade" />
-        </EntityType>
-        <EntityType Name="MstFWRShade">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="categoryId" Type="Int64" Nullable="false" />
-          <Property Name="collectionId" Type="Int64" Nullable="false" />
-          <Property Name="qualityId" Type="Int64" Nullable="false" />
-          <Property Name="designId" Type="Int64" Nullable="false" />
-          <Property Name="shadeCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="shadeName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="serialNumber" Type="Int32" Nullable="false" />
-          <Property Name="description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="createdBy" Type="Int64" Nullable="false" />
-          <Property Name="updatedOn" Type="DateTime" Precision="3" />
-          <Property Name="updatedBy" Type="Int64" />
-          <NavigationProperty Name="MstCategory" Relationship="WebAPIdbModel.FK_MstFWRShade_MstCategory" FromRole="MstFWRShade" ToRole="MstCategory" />
-          <NavigationProperty Name="MstCollection" Relationship="WebAPIdbModel.FK_MstFWRShade_MstCollection" FromRole="MstFWRShade" ToRole="MstCollection" />
-          <NavigationProperty Name="MstFWRDesign" Relationship="WebAPIdbModel.FK_MstFWRShade_MstFWRDesign" FromRole="MstFWRShade" ToRole="MstFWRDesign" />
-          <NavigationProperty Name="MstQuality" Relationship="WebAPIdbModel.FK_MstFWRShade_MstQuality" FromRole="MstFWRShade" ToRole="MstQuality" />
-        </EntityType>
-        <Association Name="FK_MstFWRDesign_MstCategory">
-          <End Type="WebAPIdbModel.MstCategory" Role="MstCategory" Multiplicity="1" />
-          <End Type="WebAPIdbModel.MstFWRDesign" Role="MstFWRDesign" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MstCategory">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="MstFWRDesign">
-              <PropertyRef Name="categoryId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MstFWRShade_MstCategory">
-          <End Type="WebAPIdbModel.MstCategory" Role="MstCategory" Multiplicity="1" />
-          <End Type="WebAPIdbModel.MstFWRShade" Role="MstFWRShade" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MstCategory">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="MstFWRShade">
-              <PropertyRef Name="categoryId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MstFWRDesign_MstCollection">
-          <End Type="WebAPIdbModel.MstCollection" Role="MstCollection" Multiplicity="1" />
-          <End Type="WebAPIdbModel.MstFWRDesign" Role="MstFWRDesign" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MstCollection">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="MstFWRDesign">
-              <PropertyRef Name="collectionId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MstFWRShade_MstCollection">
-          <End Type="WebAPIdbModel.MstCollection" Role="MstCollection" Multiplicity="1" />
-          <End Type="WebAPIdbModel.MstFWRShade" Role="MstFWRShade" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MstCollection">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="MstFWRShade">
-              <PropertyRef Name="collectionId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MstFWRDesign_MstQuality">
-          <End Type="WebAPIdbModel.MstQuality" Role="MstQuality" Multiplicity="1" />
-          <End Type="WebAPIdbModel.MstFWRDesign" Role="MstFWRDesign" Multiplicity="*" />
+        <Association Name="FK_MstFoamDensity_MstQuality">
+          <End Role="MstQuality" Type="Self.MstQuality" Multiplicity="1" />
+          <End Role="MstFomDensity" Type="Self.MstFomDensity" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="MstQuality">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="MstFWRDesign">
+            <Dependent Role="MstFomDensity">
               <PropertyRef Name="qualityId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MstFWRShade_MstFWRDesign">
-          <End Type="WebAPIdbModel.MstFWRDesign" Role="MstFWRDesign" Multiplicity="1" />
-          <End Type="WebAPIdbModel.MstFWRShade" Role="MstFWRShade" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MstFWRDesign">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="MstFWRShade">
-              <PropertyRef Name="designId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MstFWRShade_MstQuality">
-          <End Type="WebAPIdbModel.MstQuality" Role="MstQuality" Multiplicity="1" />
-          <End Type="WebAPIdbModel.MstFWRShade" Role="MstFWRShade" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MstQuality">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="MstFWRShade">
-              <PropertyRef Name="qualityId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="MstMatThickness">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="thicknessCode" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="size" Type="Decimal" Nullable="false" Precision="4" Scale="2" />
-          <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="createdBy" Type="Int64" Nullable="false" />
-          <Property Name="updatedOn" Type="DateTime" Precision="3" />
-          <Property Name="updatedBy" Type="Int64" />
-          <NavigationProperty Name="MstMatSizes" Relationship="WebAPIdbModel.FK_MstMattressSize_MstMattressThickNess" FromRole="MstMatThickness" ToRole="MstMatSize" />
-        </EntityType>
-        <Association Name="FK_MstMattressSize_MstMattressThickNess">
-          <End Type="WebAPIdbModel.MstMatThickness" Role="MstMatThickness" Multiplicity="1" />
-          <End Type="WebAPIdbModel.MstMatSize" Role="MstMatSize" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MstMatThickness">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="MstMatSize">
-              <PropertyRef Name="thicknessId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="MstFomSize">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="categoryId" Type="Int64" Nullable="false" />
-          <Property Name="collectionId" Type="Int64" Nullable="false" />
-          <Property Name="qualityId" Type="Int64" Nullable="false" />
-          <Property Name="fomDensityId" Type="Int64" Nullable="false" />
-          <Property Name="fomSuggestedMMId" Type="Int64" Nullable="false" />
-          <Property Name="width" Type="Decimal" Nullable="false" Precision="5" Scale="2" />
-          <Property Name="length" Type="Decimal" Nullable="false" Precision="5" Scale="2" />
-          <Property Name="sizeCode" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="createdBy" Type="Int64" Nullable="false" />
-          <Property Name="updatedOn" Type="DateTime" Precision="3" />
-          <Property Name="updatedBy" Type="Int64" />
-          <NavigationProperty Name="MstCategory" Relationship="WebAPIdbModel.FK_MstFomSize_MstCategory" FromRole="MstFomSize" ToRole="MstCategory" />
-          <NavigationProperty Name="MstCollection" Relationship="WebAPIdbModel.FK_MstFomSize_MstCollection" FromRole="MstFomSize" ToRole="MstCollection" />
-          <NavigationProperty Name="MstFomDensity" Relationship="WebAPIdbModel.FK_MstFomSize_MstFomDensity" FromRole="MstFomSize" ToRole="MstFomDensity" />
-          <NavigationProperty Name="MstQuality" Relationship="WebAPIdbModel.FK_MstFomSize_MstQuality" FromRole="MstFomSize" ToRole="MstQuality" />
-          <NavigationProperty Name="MstFomSuggestedMM" Relationship="WebAPIdbModel.FK_MstFomSize_MstFomSuggestdMM" FromRole="MstFomSize" ToRole="MstFomSuggestedMM" />
-        </EntityType>
-        <Association Name="FK_MstFomSize_MstCategory">
-          <End Type="WebAPIdbModel.MstCategory" Role="MstCategory" Multiplicity="1" />
-          <End Type="WebAPIdbModel.MstFomSize" Role="MstFomSize" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MstCategory">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="MstFomSize">
-              <PropertyRef Name="categoryId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MstFomSize_MstCollection">
-          <End Type="WebAPIdbModel.MstCollection" Role="MstCollection" Multiplicity="1" />
-          <End Type="WebAPIdbModel.MstFomSize" Role="MstFomSize" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MstCollection">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="MstFomSize">
-              <PropertyRef Name="collectionId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_MstFomSize_MstFomDensity">
-          <End Type="WebAPIdbModel.MstFomDensity" Role="MstFomDensity" Multiplicity="1" />
-          <End Type="WebAPIdbModel.MstFomSize" Role="MstFomSize" Multiplicity="*" />
+          <End Role="MstFomDensity" Type="Self.MstFomDensity" Multiplicity="1" />
+          <End Role="MstFomSize" Type="Self.MstFomSize" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="MstFomDensity">
               <PropertyRef Name="id" />
@@ -1869,65 +1650,9 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_MstFomSize_MstQuality">
-          <End Type="WebAPIdbModel.MstQuality" Role="MstQuality" Multiplicity="1" />
-          <End Type="WebAPIdbModel.MstFomSize" Role="MstFomSize" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MstQuality">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="MstFomSize">
-              <PropertyRef Name="qualityId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="MstFomSuggestedMM">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="categoryId" Type="Int64" Nullable="false" />
-          <Property Name="collectionId" Type="Int64" Nullable="false" />
-          <Property Name="qualityId" Type="Int64" Nullable="false" />
-          <Property Name="fomDensityId" Type="Int64" Nullable="false" />
-          <Property Name="suggestedMM" Type="Int32" Nullable="false" />
-          <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="createdBy" Type="Int64" Nullable="false" />
-          <Property Name="updatedOn" Type="DateTime" Precision="3" />
-          <Property Name="updatedBy" Type="Int64" />
-          <NavigationProperty Name="MstCategory" Relationship="WebAPIdbModel.FK_MstFomSuggestdMM_MstCategory" FromRole="MstFomSuggestedMM" ToRole="MstCategory" />
-          <NavigationProperty Name="MstCollection" Relationship="WebAPIdbModel.FK_MstFomSuggestdMM_MstCollection" FromRole="MstFomSuggestedMM" ToRole="MstCollection" />
-          <NavigationProperty Name="MstFomDensity" Relationship="WebAPIdbModel.FK_MstFomSuggestdMM_MstFomDensity" FromRole="MstFomSuggestedMM" ToRole="MstFomDensity" />
-          <NavigationProperty Name="MstFomSizes" Relationship="WebAPIdbModel.FK_MstFomSize_MstFomSuggestdMM" FromRole="MstFomSuggestedMM" ToRole="MstFomSize" />
-          <NavigationProperty Name="MstQuality" Relationship="WebAPIdbModel.FK_MstFomSuggestdMM_MstQuality" FromRole="MstFomSuggestedMM" ToRole="MstQuality" />
-        </EntityType>
-        <Association Name="FK_MstFomSuggestdMM_MstCategory">
-          <End Type="WebAPIdbModel.MstCategory" Role="MstCategory" Multiplicity="1" />
-          <End Type="WebAPIdbModel.MstFomSuggestedMM" Role="MstFomSuggestedMM" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MstCategory">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="MstFomSuggestedMM">
-              <PropertyRef Name="categoryId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MstFomSuggestdMM_MstCollection">
-          <End Type="WebAPIdbModel.MstCollection" Role="MstCollection" Multiplicity="1" />
-          <End Type="WebAPIdbModel.MstFomSuggestedMM" Role="MstFomSuggestedMM" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MstCollection">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="MstFomSuggestedMM">
-              <PropertyRef Name="collectionId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_MstFomSuggestdMM_MstFomDensity">
-          <End Type="WebAPIdbModel.MstFomDensity" Role="MstFomDensity" Multiplicity="1" />
-          <End Type="WebAPIdbModel.MstFomSuggestedMM" Role="MstFomSuggestedMM" Multiplicity="*" />
+          <End Role="MstFomDensity" Type="Self.MstFomDensity" Multiplicity="1" />
+          <End Role="MstFomSuggestedMM" Type="Self.MstFomSuggestedMM" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="MstFomDensity">
               <PropertyRef Name="id" />
@@ -1938,8 +1663,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_MstFomSize_MstFomSuggestdMM">
-          <End Type="WebAPIdbModel.MstFomSuggestedMM" Role="MstFomSuggestedMM" Multiplicity="1" />
-          <End Type="WebAPIdbModel.MstFomSize" Role="MstFomSize" Multiplicity="*" />
+          <End Role="MstFomSuggestedMM" Type="Self.MstFomSuggestedMM" Multiplicity="1" />
+          <End Role="MstFomSize" Type="Self.MstFomSize" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="MstFomSuggestedMM">
               <PropertyRef Name="id" />
@@ -1949,9 +1674,21 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_MstFomSize_MstQuality">
+          <End Role="MstQuality" Type="Self.MstQuality" Multiplicity="1" />
+          <End Role="MstFomSize" Type="Self.MstFomSize" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstQuality">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MstFomSize">
+              <PropertyRef Name="qualityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_MstFomSuggestdMM_MstQuality">
-          <End Type="WebAPIdbModel.MstQuality" Role="MstQuality" Multiplicity="1" />
-          <End Type="WebAPIdbModel.MstFomSuggestedMM" Role="MstFomSuggestedMM" Multiplicity="*" />
+          <End Role="MstQuality" Type="Self.MstQuality" Multiplicity="1" />
+          <End Role="MstFomSuggestedMM" Type="Self.MstFomSuggestedMM" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="MstQuality">
               <PropertyRef Name="id" />
@@ -1961,388 +1698,664 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        </Schema>
+        <Association Name="FK_MstDesign_MstQuality">
+          <End Role="MstQuality" Type="Self.MstQuality" Multiplicity="1" />
+          <End Role="MstFWRDesign" Type="Self.MstFWRDesign" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstQuality">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MstFWRDesign">
+              <PropertyRef Name="qualityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MstShade_MstDesign">
+          <End Role="MstFWRDesign" Type="Self.MstFWRDesign" Multiplicity="1" />
+          <End Role="MstFWRShade" Type="Self.MstFWRShade" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstFWRDesign">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MstFWRShade">
+              <PropertyRef Name="designId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MstShade_MstQuality">
+          <End Role="MstQuality" Type="Self.MstQuality" Multiplicity="1" />
+          <End Role="MstFWRShade" Type="Self.MstFWRShade" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstQuality">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MstFWRShade">
+              <PropertyRef Name="qualityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MstQuality_MstHsn">
+          <End Role="MstHsn" Type="Self.MstHsn" Multiplicity="0..1" />
+          <End Role="MstQuality" Type="Self.MstQuality" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstHsn">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MstQuality">
+              <PropertyRef Name="hsnId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MstMattressSize_MstMattressThickNess">
+          <End Role="MstMatThickness" Type="Self.MstMatThickness" Multiplicity="1" />
+          <End Role="MstMatSize" Type="Self.MstMatSize" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstMatThickness">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MstMatSize">
+              <PropertyRef Name="thicknessId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MstMattressSize_MstQuality">
+          <End Role="MstQuality" Type="Self.MstQuality" Multiplicity="1" />
+          <End Role="MstMatSize" Type="Self.MstMatSize" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstQuality">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MstMatSize">
+              <PropertyRef Name="qualityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MstUser_MstRole">
+          <End Role="MstRole" Type="Self.MstRole" Multiplicity="1" />
+          <End Role="MstUser" Type="Self.MstUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstRole">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MstUser">
+              <PropertyRef Name="roleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MstSupplierAddressDetails_MstSupplier">
+          <End Role="MstSupplier" Type="Self.MstSupplier" Multiplicity="1" />
+          <End Role="MstSupplierAddress" Type="Self.MstSupplierAddress" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstSupplier">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MstSupplierAddress">
+              <PropertyRef Name="supplierId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MstUser_MstUserType">
+          <End Role="MstuserType" Type="Self.MstuserType" Multiplicity="1" />
+          <End Role="MstUser" Type="Self.MstUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstuserType">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MstUser">
+              <PropertyRef Name="userTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="WebAPIdbEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CFGRoleMenus" EntityType="Self.CFGRoleMenu" />
+          <EntitySet Name="MstCategories" EntityType="Self.MstCategory" />
+          <EntitySet Name="MstCollections" EntityType="Self.MstCollection" />
+          <EntitySet Name="MstCompanyInfoes" EntityType="Self.MstCompanyInfo" />
+          <EntitySet Name="MstCustomers" EntityType="Self.MstCustomer" />
+          <EntitySet Name="MstCustomerAddresses" EntityType="Self.MstCustomerAddress" />
+          <EntitySet Name="MstFomDensities" EntityType="Self.MstFomDensity" />
+          <EntitySet Name="MstFomSizes" EntityType="Self.MstFomSize" />
+          <EntitySet Name="MstFomSuggestedMMs" EntityType="Self.MstFomSuggestedMM" />
+          <EntitySet Name="MstFWRDesigns" EntityType="Self.MstFWRDesign" />
+          <EntitySet Name="MstFWRShades" EntityType="Self.MstFWRShade" />
+          <EntitySet Name="MstHsns" EntityType="Self.MstHsn" />
+          <EntitySet Name="MstMatSizes" EntityType="Self.MstMatSize" />
+          <EntitySet Name="MstMatThicknesses" EntityType="Self.MstMatThickness" />
+          <EntitySet Name="MstMenus" EntityType="Self.MstMenu" />
+          <EntitySet Name="MstQualities" EntityType="Self.MstQuality" />
+          <EntitySet Name="MstRoles" EntityType="Self.MstRole" />
+          <EntitySet Name="MstSuppliers" EntityType="Self.MstSupplier" />
+          <EntitySet Name="MstSupplierAddresses" EntityType="Self.MstSupplierAddress" />
+          <EntitySet Name="MstUnitOfMeasures" EntityType="Self.MstUnitOfMeasure" />
+          <EntitySet Name="MstUsers" EntityType="Self.MstUser" />
+          <EntitySet Name="MstuserTypes" EntityType="Self.MstuserType" />
+          <AssociationSet Name="FK_CFGRoleMenu_MstMenu" Association="Self.FK_CFGRoleMenu_MstMenu">
+            <End Role="MstMenu" EntitySet="MstMenus" />
+            <End Role="CFGRoleMenu" EntitySet="CFGRoleMenus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CFGRoleMenu_MstRole" Association="Self.FK_CFGRoleMenu_MstRole">
+            <End Role="MstRole" EntitySet="MstRoles" />
+            <End Role="CFGRoleMenu" EntitySet="CFGRoleMenus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MstCollection_MstCategory" Association="Self.FK_MstCollection_MstCategory">
+            <End Role="MstCategory" EntitySet="MstCategories" />
+            <End Role="MstCollection" EntitySet="MstCollections" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MstDesign_MstCategory" Association="Self.FK_MstDesign_MstCategory">
+            <End Role="MstCategory" EntitySet="MstCategories" />
+            <End Role="MstFWRDesign" EntitySet="MstFWRDesigns" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MstFoamDensity_MstCategory" Association="Self.FK_MstFoamDensity_MstCategory">
+            <End Role="MstCategory" EntitySet="MstCategories" />
+            <End Role="MstFomDensity" EntitySet="MstFomDensities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MstFomSize_MstCategory" Association="Self.FK_MstFomSize_MstCategory">
+            <End Role="MstCategory" EntitySet="MstCategories" />
+            <End Role="MstFomSize" EntitySet="MstFomSizes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MstFomSuggestdMM_MstCategory" Association="Self.FK_MstFomSuggestdMM_MstCategory">
+            <End Role="MstCategory" EntitySet="MstCategories" />
+            <End Role="MstFomSuggestedMM" EntitySet="MstFomSuggestedMMs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MstMattressSize_MstCategory" Association="Self.FK_MstMattressSize_MstCategory">
+            <End Role="MstCategory" EntitySet="MstCategories" />
+            <End Role="MstMatSize" EntitySet="MstMatSizes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MstQuality_MstCategory" Association="Self.FK_MstQuality_MstCategory">
+            <End Role="MstCategory" EntitySet="MstCategories" />
+            <End Role="MstQuality" EntitySet="MstQualities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MstShade_MstCategory" Association="Self.FK_MstShade_MstCategory">
+            <End Role="MstCategory" EntitySet="MstCategories" />
+            <End Role="MstFWRShade" EntitySet="MstFWRShades" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MstCollection_MstSupplier" Association="Self.FK_MstCollection_MstSupplier">
+            <End Role="MstSupplier" EntitySet="MstSuppliers" />
+            <End Role="MstCollection" EntitySet="MstCollections" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MstDesign_MstCollection" Association="Self.FK_MstDesign_MstCollection">
+            <End Role="MstCollection" EntitySet="MstCollections" />
+            <End Role="MstFWRDesign" EntitySet="MstFWRDesigns" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MstFoamDensity_MstCollection" Association="Self.FK_MstFoamDensity_MstCollection">
+            <End Role="MstCollection" EntitySet="MstCollections" />
+            <End Role="MstFomDensity" EntitySet="MstFomDensities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MstFomSize_MstCollection" Association="Self.FK_MstFomSize_MstCollection">
+            <End Role="MstCollection" EntitySet="MstCollections" />
+            <End Role="MstFomSize" EntitySet="MstFomSizes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MstFomSuggestdMM_MstCollection" Association="Self.FK_MstFomSuggestdMM_MstCollection">
+            <End Role="MstCollection" EntitySet="MstCollections" />
+            <End Role="MstFomSuggestedMM" EntitySet="MstFomSuggestedMMs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MstMattressSize_MstCollection" Association="Self.FK_MstMattressSize_MstCollection">
+            <End Role="MstCollection" EntitySet="MstCollections" />
+            <End Role="MstMatSize" EntitySet="MstMatSizes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MstQuality_MstCollection" Association="Self.FK_MstQuality_MstCollection">
+            <End Role="MstCollection" EntitySet="MstCollections" />
+            <End Role="MstQuality" EntitySet="MstQualities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MstShade_MstCollection" Association="Self.FK_MstShade_MstCollection">
+            <End Role="MstCollection" EntitySet="MstCollections" />
+            <End Role="MstFWRShade" EntitySet="MstFWRShades" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MstCustomer_MstUser" Association="Self.FK_MstCustomer_MstUser">
+            <End Role="MstUser" EntitySet="MstUsers" />
+            <End Role="MstCustomer" EntitySet="MstCustomers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MstCustomerAddressDetails_MstCustomer" Association="Self.FK_MstCustomerAddressDetails_MstCustomer">
+            <End Role="MstCustomer" EntitySet="MstCustomers" />
+            <End Role="MstCustomerAddress" EntitySet="MstCustomerAddresses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MstFoamDensity_MstQuality" Association="Self.FK_MstFoamDensity_MstQuality">
+            <End Role="MstQuality" EntitySet="MstQualities" />
+            <End Role="MstFomDensity" EntitySet="MstFomDensities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MstFomSize_MstFomDensity" Association="Self.FK_MstFomSize_MstFomDensity">
+            <End Role="MstFomDensity" EntitySet="MstFomDensities" />
+            <End Role="MstFomSize" EntitySet="MstFomSizes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MstFomSuggestdMM_MstFomDensity" Association="Self.FK_MstFomSuggestdMM_MstFomDensity">
+            <End Role="MstFomDensity" EntitySet="MstFomDensities" />
+            <End Role="MstFomSuggestedMM" EntitySet="MstFomSuggestedMMs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MstFomSize_MstFomSuggestdMM" Association="Self.FK_MstFomSize_MstFomSuggestdMM">
+            <End Role="MstFomSuggestedMM" EntitySet="MstFomSuggestedMMs" />
+            <End Role="MstFomSize" EntitySet="MstFomSizes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MstFomSize_MstQuality" Association="Self.FK_MstFomSize_MstQuality">
+            <End Role="MstQuality" EntitySet="MstQualities" />
+            <End Role="MstFomSize" EntitySet="MstFomSizes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MstFomSuggestdMM_MstQuality" Association="Self.FK_MstFomSuggestdMM_MstQuality">
+            <End Role="MstQuality" EntitySet="MstQualities" />
+            <End Role="MstFomSuggestedMM" EntitySet="MstFomSuggestedMMs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MstDesign_MstQuality" Association="Self.FK_MstDesign_MstQuality">
+            <End Role="MstQuality" EntitySet="MstQualities" />
+            <End Role="MstFWRDesign" EntitySet="MstFWRDesigns" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MstShade_MstDesign" Association="Self.FK_MstShade_MstDesign">
+            <End Role="MstFWRDesign" EntitySet="MstFWRDesigns" />
+            <End Role="MstFWRShade" EntitySet="MstFWRShades" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MstShade_MstQuality" Association="Self.FK_MstShade_MstQuality">
+            <End Role="MstQuality" EntitySet="MstQualities" />
+            <End Role="MstFWRShade" EntitySet="MstFWRShades" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MstQuality_MstHsn" Association="Self.FK_MstQuality_MstHsn">
+            <End Role="MstHsn" EntitySet="MstHsns" />
+            <End Role="MstQuality" EntitySet="MstQualities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MstMattressSize_MstMattressThickNess" Association="Self.FK_MstMattressSize_MstMattressThickNess">
+            <End Role="MstMatThickness" EntitySet="MstMatThicknesses" />
+            <End Role="MstMatSize" EntitySet="MstMatSizes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MstMattressSize_MstQuality" Association="Self.FK_MstMattressSize_MstQuality">
+            <End Role="MstQuality" EntitySet="MstQualities" />
+            <End Role="MstMatSize" EntitySet="MstMatSizes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MstUser_MstRole" Association="Self.FK_MstUser_MstRole">
+            <End Role="MstRole" EntitySet="MstRoles" />
+            <End Role="MstUser" EntitySet="MstUsers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MstSupplierAddressDetails_MstSupplier" Association="Self.FK_MstSupplierAddressDetails_MstSupplier">
+            <End Role="MstSupplier" EntitySet="MstSuppliers" />
+            <End Role="MstSupplierAddress" EntitySet="MstSupplierAddresses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MstUser_MstUserType" Association="Self.FK_MstUser_MstUserType">
+            <End Role="MstuserType" EntitySet="MstuserTypes" />
+            <End Role="MstUser" EntitySet="MstUsers" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="WebAPIdbModelStoreContainer" CdmEntityContainer="WebAPIdbEntities" >
+        <EntityContainerMapping StorageEntityContainer="IMSModelStoreContainer" CdmEntityContainer="WebAPIdbEntities">
           <EntitySetMapping Name="CFGRoleMenus">
-            <EntityTypeMapping TypeName="WebAPIdbModel.CFGRoleMenu">
+            <EntityTypeMapping TypeName="IMSModel.CFGRoleMenu">
               <MappingFragment StoreEntitySet="CFGRoleMenu">
-                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
-                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
-                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
-                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
-                <ScalarProperty Name="menuId" ColumnName="menuId" />
-                <ScalarProperty Name="roleId" ColumnName="roleId" />
                 <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="roleId" ColumnName="roleId" />
+                <ScalarProperty Name="menuId" ColumnName="menuId" />
+                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
+                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="MstCategories">
-            <EntityTypeMapping TypeName="WebAPIdbModel.MstCategory">
+            <EntityTypeMapping TypeName="IMSModel.MstCategory">
               <MappingFragment StoreEntitySet="MstCategory">
-                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
-                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
-                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
-                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="code" ColumnName="code" />
                 <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="code" ColumnName="code" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
+                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="MstCollections">
-            <EntityTypeMapping TypeName="WebAPIdbModel.MstCollection">
+            <EntityTypeMapping TypeName="IMSModel.MstCollection">
               <MappingFragment StoreEntitySet="MstCollection">
-                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
-                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
-                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
-                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
-                <ScalarProperty Name="manufacturerName" ColumnName="manufacturerName" />
-                <ScalarProperty Name="description" ColumnName="description" />
-                <ScalarProperty Name="collectionName" ColumnName="collectionName" />
-                <ScalarProperty Name="collectionCode" ColumnName="collectionCode" />
-                <ScalarProperty Name="supplierId" ColumnName="supplierId" />
-                <ScalarProperty Name="categoryId" ColumnName="categoryId" />
                 <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="categoryId" ColumnName="categoryId" />
+                <ScalarProperty Name="supplierId" ColumnName="supplierId" />
+                <ScalarProperty Name="collectionCode" ColumnName="collectionCode" />
+                <ScalarProperty Name="collectionName" ColumnName="collectionName" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="manufacturerName" ColumnName="manufacturerName" />
+                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
+                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="MstCompanyInfoes">
-            <EntityTypeMapping TypeName="WebAPIdbModel.MstCompanyInfo">
+            <EntityTypeMapping TypeName="IMSModel.MstCompanyInfo">
               <MappingFragment StoreEntitySet="MstCompanyInfo">
-                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
-                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
-                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
-                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
-                <ScalarProperty Name="companyLogo" ColumnName="companyLogo" />
-                <ScalarProperty Name="gstin" ColumnName="gstin" />
-                <ScalarProperty Name="phone" ColumnName="phone" />
-                <ScalarProperty Name="email" ColumnName="email" />
-                <ScalarProperty Name="companyName" ColumnName="companyName" />
                 <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="companyName" ColumnName="companyName" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="gstin" ColumnName="gstin" />
+                <ScalarProperty Name="companyLogo" ColumnName="companyLogo" />
+                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
+                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="MstCustomers">
-            <EntityTypeMapping TypeName="WebAPIdbModel.MstCustomer">
+            <EntityTypeMapping TypeName="IMSModel.MstCustomer">
               <MappingFragment StoreEntitySet="MstCustomer">
-                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
-                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
-                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
-                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
-                <ScalarProperty Name="userId" ColumnName="userId" />
-                <ScalarProperty Name="accountPersonPhone" ColumnName="accountPersonPhone" />
-                <ScalarProperty Name="accountPersonEmail" ColumnName="accountPersonEmail" />
-                <ScalarProperty Name="accountPersonName" ColumnName="accountPersonName" />
-                <ScalarProperty Name="isWholesaleCustomer" ColumnName="isWholesaleCustomer" />
-                <ScalarProperty Name="pan" ColumnName="pan" />
-                <ScalarProperty Name="alternatePhone2" ColumnName="alternatePhone2" />
-                <ScalarProperty Name="alternatePhone1" ColumnName="alternatePhone1" />
-                <ScalarProperty Name="alternateEmail2" ColumnName="alternateEmail2" />
-                <ScalarProperty Name="alternateEmail1" ColumnName="alternateEmail1" />
-                <ScalarProperty Name="phone" ColumnName="phone" />
-                <ScalarProperty Name="email" ColumnName="email" />
-                <ScalarProperty Name="gstin" ColumnName="gstin" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="code" ColumnName="code" />
+                <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="nickName" ColumnName="nickName" />
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="code" ColumnName="code" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="MstHsns">
-            <EntityTypeMapping TypeName="WebAPIdbModel.MstHsn">
-              <MappingFragment StoreEntitySet="MstHsn">
-                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
-                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
-                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
-                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
-                <ScalarProperty Name="gst" ColumnName="gst" />
-                <ScalarProperty Name="hsnCode" ColumnName="hsnCode" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="MstMenus">
-            <EntityTypeMapping TypeName="WebAPIdbModel.MstMenu">
-              <MappingFragment StoreEntitySet="MstMenu">
-                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
-                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
-                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
-                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
-                <ScalarProperty Name="logicalSequence" ColumnName="logicalSequence" />
-                <ScalarProperty Name="menuParentId" ColumnName="menuParentId" />
-                <ScalarProperty Name="menuName" ColumnName="menuName" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="MstQualities">
-            <EntityTypeMapping TypeName="WebAPIdbModel.MstQuality">
-              <MappingFragment StoreEntitySet="MstQuality">
-                <ScalarProperty Name="maxDiscout" ColumnName="maxDiscout" />
-                <ScalarProperty Name="sellingRatePerMM" ColumnName="sellingRatePerMM" />
-                <ScalarProperty Name="purchaseRatePerMM" ColumnName="purchaseRatePerMM" />
-                <ScalarProperty Name="custRatePerSqFeet" ColumnName="custRatePerSqFeet" />
-                <ScalarProperty Name="maxflatRoleRateDisc" ColumnName="maxflatRoleRateDisc" />
-                <ScalarProperty Name="maxflatCutRateDisc" ColumnName="maxflatCutRateDisc" />
-                <ScalarProperty Name="flatRate" ColumnName="flatRate" />
-                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
-                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
-                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
-                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
-                <ScalarProperty Name="maxRoleRateDisc" ColumnName="maxRoleRateDisc" />
-                <ScalarProperty Name="maxCutRateDisc" ColumnName="maxCutRateDisc" />
-                <ScalarProperty Name="rrp" ColumnName="rrp" />
-                <ScalarProperty Name="roleRate" ColumnName="roleRate" />
-                <ScalarProperty Name="cutRate" ColumnName="cutRate" />
-                <ScalarProperty Name="hsnId" ColumnName="hsnId" />
-                <ScalarProperty Name="size" ColumnName="size" />
-                <ScalarProperty Name="width" ColumnName="width" />
-                <ScalarProperty Name="description" ColumnName="description" />
-                <ScalarProperty Name="qualityName" ColumnName="qualityName" />
-                <ScalarProperty Name="qualityCode" ColumnName="qualityCode" />
-                <ScalarProperty Name="collectionId" ColumnName="collectionId" />
-                <ScalarProperty Name="categoryId" ColumnName="categoryId" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="MstRoles">
-            <EntityTypeMapping TypeName="WebAPIdbModel.MstRole">
-              <MappingFragment StoreEntitySet="MstRole">
-                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
-                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
-                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
-                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
-                <ScalarProperty Name="roleDescription" ColumnName="roleDescription" />
-                <ScalarProperty Name="roleName" ColumnName="roleName" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="MstSuppliers">
-            <EntityTypeMapping TypeName="WebAPIdbModel.MstSupplier">
-              <MappingFragment StoreEntitySet="MstSupplier">
-                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
-                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
-                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
-                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
-                <ScalarProperty Name="dispatchPersonPhone" ColumnName="dispatchPersonPhone" />
-                <ScalarProperty Name="dispatchPersonEmail" ColumnName="dispatchPersonEmail" />
-                <ScalarProperty Name="dispatchPersonName" ColumnName="dispatchPersonName" />
-                <ScalarProperty Name="warehousePersonPhone" ColumnName="warehousePersonPhone" />
-                <ScalarProperty Name="warehousePersonEmail" ColumnName="warehousePersonEmail" />
-                <ScalarProperty Name="warehousePersonName" ColumnName="warehousePersonName" />
-                <ScalarProperty Name="accountPersonPhone" ColumnName="accountPersonPhone" />
-                <ScalarProperty Name="accountPersonEmail" ColumnName="accountPersonEmail" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="alternateEmail1" ColumnName="alternateEmail1" />
+                <ScalarProperty Name="alternateEmail2" ColumnName="alternateEmail2" />
+                <ScalarProperty Name="alternatePhone1" ColumnName="alternatePhone1" />
+                <ScalarProperty Name="alternatePhone2" ColumnName="alternatePhone2" />
+                <ScalarProperty Name="pan" ColumnName="pan" />
+                <ScalarProperty Name="isWholesaleCustomer" ColumnName="isWholesaleCustomer" />
                 <ScalarProperty Name="accountPersonName" ColumnName="accountPersonName" />
-                <ScalarProperty Name="phone" ColumnName="phone" />
-                <ScalarProperty Name="email" ColumnName="email" />
-                <ScalarProperty Name="gstin" ColumnName="gstin" />
-                <ScalarProperty Name="description" ColumnName="description" />
-                <ScalarProperty Name="firmName" ColumnName="firmName" />
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="code" ColumnName="code" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="MstUnitOfMeasures">
-            <EntityTypeMapping TypeName="WebAPIdbModel.MstUnitOfMeasure">
-              <MappingFragment StoreEntitySet="MstUnitOfMeasure">
-                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
-                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
-                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="accountPersonEmail" ColumnName="accountPersonEmail" />
+                <ScalarProperty Name="accountPersonPhone" ColumnName="accountPersonPhone" />
+                <ScalarProperty Name="userId" ColumnName="userId" />
                 <ScalarProperty Name="createdOn" ColumnName="createdOn" />
-                <ScalarProperty Name="uomName" ColumnName="uomName" />
-                <ScalarProperty Name="uomCode" ColumnName="uomCode" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="MstUsers">
-            <EntityTypeMapping TypeName="WebAPIdbModel.MstUser">
-              <MappingFragment StoreEntitySet="MstUser">
-                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
-                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
                 <ScalarProperty Name="createdBy" ColumnName="createdBy" />
-                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
-                <ScalarProperty Name="isActive" ColumnName="isActive" />
-                <ScalarProperty Name="lastLogin" ColumnName="lastLogin" />
-                <ScalarProperty Name="phone" ColumnName="phone" />
-                <ScalarProperty Name="email" ColumnName="email" />
-                <ScalarProperty Name="password" ColumnName="password" />
-                <ScalarProperty Name="userName" ColumnName="userName" />
-                <ScalarProperty Name="userTypeId" ColumnName="userTypeId" />
-                <ScalarProperty Name="roleId" ColumnName="roleId" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="MstuserTypes">
-            <EntityTypeMapping TypeName="WebAPIdbModel.MstuserType">
-              <MappingFragment StoreEntitySet="MstuserType">
-                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
                 <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
-                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
-                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
-                <ScalarProperty Name="userTypeName" ColumnName="userTypeName" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="MstFomDensities">
-            <EntityTypeMapping TypeName="WebAPIdbModel.MstFomDensity">
-              <MappingFragment StoreEntitySet="MstFomDensity">
                 <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
-                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
-                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
-                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
-                <ScalarProperty Name="description" ColumnName="description" />
-                <ScalarProperty Name="density" ColumnName="density" />
-                <ScalarProperty Name="qualityId" ColumnName="qualityId" />
-                <ScalarProperty Name="collectionId" ColumnName="collectionId" />
-                <ScalarProperty Name="categoryId" ColumnName="categoryId" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="MstMatSizes">
-            <EntityTypeMapping TypeName="WebAPIdbModel.MstMatSize">
-              <MappingFragment StoreEntitySet="MstMatSize">
-                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
-                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
-                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
-                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
-                <ScalarProperty Name="rate" ColumnName="rate" />
-                <ScalarProperty Name="sizeCode" ColumnName="sizeCode" />
-                <ScalarProperty Name="thicknessId" ColumnName="thicknessId" />
-                <ScalarProperty Name="qualityId" ColumnName="qualityId" />
-                <ScalarProperty Name="collectionId" ColumnName="collectionId" />
-                <ScalarProperty Name="categoryId" ColumnName="categoryId" />
-                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="MstCustomerAddresses">
-            <EntityTypeMapping TypeName="WebAPIdbModel.MstCustomerAddress">
+            <EntityTypeMapping TypeName="IMSModel.MstCustomerAddress">
               <MappingFragment StoreEntitySet="MstCustomerAddress">
-                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
-                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
-                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
-                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
-                <ScalarProperty Name="pin" ColumnName="pin" />
-                <ScalarProperty Name="country" ColumnName="country" />
-                <ScalarProperty Name="state" ColumnName="state" />
-                <ScalarProperty Name="city" ColumnName="city" />
-                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="customerId" ColumnName="customerId" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="MstSupplierAddresses">
-            <EntityTypeMapping TypeName="WebAPIdbModel.MstSupplierAddress">
-              <MappingFragment StoreEntitySet="MstSupplierAddress">
-                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
-                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
-                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
-                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
-                <ScalarProperty Name="pin" ColumnName="pin" />
-                <ScalarProperty Name="country" ColumnName="country" />
-                <ScalarProperty Name="state" ColumnName="state" />
+                <ScalarProperty Name="addressLine1" ColumnName="addressLine1" />
+                <ScalarProperty Name="addressLine2" ColumnName="addressLine2" />
                 <ScalarProperty Name="city" ColumnName="city" />
-                <ScalarProperty Name="address" ColumnName="address" />
-                <ScalarProperty Name="supplierId" ColumnName="supplierId" />
-                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="state" ColumnName="state" />
+                <ScalarProperty Name="country" ColumnName="country" />
+                <ScalarProperty Name="pin" ColumnName="pin" />
+                <ScalarProperty Name="gstin" ColumnName="gstin" />
+                <ScalarProperty Name="isPrimary" ColumnName="isPrimary" />
+                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
+                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="MstFWRDesigns">
-            <EntityTypeMapping TypeName="WebAPIdbModel.MstFWRDesign">
-              <MappingFragment StoreEntitySet="MstFWRDesign">
-                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
-                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
-                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
-                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
-                <ScalarProperty Name="description" ColumnName="description" />
-                <ScalarProperty Name="designName" ColumnName="designName" />
-                <ScalarProperty Name="designCode" ColumnName="designCode" />
-                <ScalarProperty Name="qualityId" ColumnName="qualityId" />
-                <ScalarProperty Name="collectionId" ColumnName="collectionId" />
+          <EntitySetMapping Name="MstFomDensities">
+            <EntityTypeMapping TypeName="IMSModel.MstFomDensity">
+              <MappingFragment StoreEntitySet="MstFomDensity">
+                <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="categoryId" ColumnName="categoryId" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="MstFWRShades">
-            <EntityTypeMapping TypeName="WebAPIdbModel.MstFWRShade">
-              <MappingFragment StoreEntitySet="MstFWRShade">
-                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
-                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
-                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
-                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
-                <ScalarProperty Name="description" ColumnName="description" />
-                <ScalarProperty Name="serialNumber" ColumnName="serialNumber" />
-                <ScalarProperty Name="shadeName" ColumnName="shadeName" />
-                <ScalarProperty Name="shadeCode" ColumnName="shadeCode" />
-                <ScalarProperty Name="designId" ColumnName="designId" />
-                <ScalarProperty Name="qualityId" ColumnName="qualityId" />
                 <ScalarProperty Name="collectionId" ColumnName="collectionId" />
-                <ScalarProperty Name="categoryId" ColumnName="categoryId" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="MstMatThicknesses">
-            <EntityTypeMapping TypeName="WebAPIdbModel.MstMatThickness">
-              <MappingFragment StoreEntitySet="MstMatThickness">
-                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
-                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
-                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="qualityId" ColumnName="qualityId" />
+                <ScalarProperty Name="density" ColumnName="density" />
+                <ScalarProperty Name="description" ColumnName="description" />
                 <ScalarProperty Name="createdOn" ColumnName="createdOn" />
-                <ScalarProperty Name="size" ColumnName="size" />
-                <ScalarProperty Name="thicknessCode" ColumnName="thicknessCode" />
-                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
+                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="MstFomSizes">
-            <EntityTypeMapping TypeName="WebAPIdbModel.MstFomSize">
+            <EntityTypeMapping TypeName="IMSModel.MstFomSize">
               <MappingFragment StoreEntitySet="MstFomSize">
-                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
-                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
-                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
-                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
-                <ScalarProperty Name="sizeCode" ColumnName="sizeCode" />
-                <ScalarProperty Name="length" ColumnName="length" />
-                <ScalarProperty Name="width" ColumnName="width" />
-                <ScalarProperty Name="fomSuggestedMMId" ColumnName="fomSuggestedMMId" />
-                <ScalarProperty Name="fomDensityId" ColumnName="fomDensityId" />
-                <ScalarProperty Name="qualityId" ColumnName="qualityId" />
-                <ScalarProperty Name="collectionId" ColumnName="collectionId" />
-                <ScalarProperty Name="categoryId" ColumnName="categoryId" />
                 <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="categoryId" ColumnName="categoryId" />
+                <ScalarProperty Name="collectionId" ColumnName="collectionId" />
+                <ScalarProperty Name="qualityId" ColumnName="qualityId" />
+                <ScalarProperty Name="fomDensityId" ColumnName="fomDensityId" />
+                <ScalarProperty Name="fomSuggestedMMId" ColumnName="fomSuggestedMMId" />
+                <ScalarProperty Name="width" ColumnName="width" />
+                <ScalarProperty Name="length" ColumnName="length" />
+                <ScalarProperty Name="sizeCode" ColumnName="sizeCode" />
+                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
+                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="MstFomSuggestedMMs">
-            <EntityTypeMapping TypeName="WebAPIdbModel.MstFomSuggestedMM">
+            <EntityTypeMapping TypeName="IMSModel.MstFomSuggestedMM">
               <MappingFragment StoreEntitySet="MstFomSuggestedMM">
-                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
-                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
-                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
-                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
-                <ScalarProperty Name="suggestedMM" ColumnName="suggestedMM" />
-                <ScalarProperty Name="fomDensityId" ColumnName="fomDensityId" />
-                <ScalarProperty Name="qualityId" ColumnName="qualityId" />
-                <ScalarProperty Name="collectionId" ColumnName="collectionId" />
-                <ScalarProperty Name="categoryId" ColumnName="categoryId" />
                 <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="categoryId" ColumnName="categoryId" />
+                <ScalarProperty Name="collectionId" ColumnName="collectionId" />
+                <ScalarProperty Name="qualityId" ColumnName="qualityId" />
+                <ScalarProperty Name="fomDensityId" ColumnName="fomDensityId" />
+                <ScalarProperty Name="suggestedMM" ColumnName="suggestedMM" />
+                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
+                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MstFWRDesigns">
+            <EntityTypeMapping TypeName="IMSModel.MstFWRDesign">
+              <MappingFragment StoreEntitySet="MstFWRDesign">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="categoryId" ColumnName="categoryId" />
+                <ScalarProperty Name="collectionId" ColumnName="collectionId" />
+                <ScalarProperty Name="qualityId" ColumnName="qualityId" />
+                <ScalarProperty Name="designCode" ColumnName="designCode" />
+                <ScalarProperty Name="designName" ColumnName="designName" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
+                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MstFWRShades">
+            <EntityTypeMapping TypeName="IMSModel.MstFWRShade">
+              <MappingFragment StoreEntitySet="MstFWRShade">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="categoryId" ColumnName="categoryId" />
+                <ScalarProperty Name="collectionId" ColumnName="collectionId" />
+                <ScalarProperty Name="qualityId" ColumnName="qualityId" />
+                <ScalarProperty Name="designId" ColumnName="designId" />
+                <ScalarProperty Name="shadeCode" ColumnName="shadeCode" />
+                <ScalarProperty Name="shadeName" ColumnName="shadeName" />
+                <ScalarProperty Name="serialNumber" ColumnName="serialNumber" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
+                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MstHsns">
+            <EntityTypeMapping TypeName="IMSModel.MstHsn">
+              <MappingFragment StoreEntitySet="MstHsn">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="hsnCode" ColumnName="hsnCode" />
+                <ScalarProperty Name="gst" ColumnName="gst" />
+                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
+                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MstMatSizes">
+            <EntityTypeMapping TypeName="IMSModel.MstMatSize">
+              <MappingFragment StoreEntitySet="MstMatSize">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="categoryId" ColumnName="categoryId" />
+                <ScalarProperty Name="collectionId" ColumnName="collectionId" />
+                <ScalarProperty Name="qualityId" ColumnName="qualityId" />
+                <ScalarProperty Name="thicknessId" ColumnName="thicknessId" />
+                <ScalarProperty Name="sizeCode" ColumnName="sizeCode" />
+                <ScalarProperty Name="rate" ColumnName="rate" />
+                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
+                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MstMatThicknesses">
+            <EntityTypeMapping TypeName="IMSModel.MstMatThickness">
+              <MappingFragment StoreEntitySet="MstMatThickness">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="thicknessCode" ColumnName="thicknessCode" />
+                <ScalarProperty Name="size" ColumnName="size" />
+                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
+                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MstMenus">
+            <EntityTypeMapping TypeName="IMSModel.MstMenu">
+              <MappingFragment StoreEntitySet="MstMenu">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="menuName" ColumnName="menuName" />
+                <ScalarProperty Name="menuParentId" ColumnName="menuParentId" />
+                <ScalarProperty Name="logicalSequence" ColumnName="logicalSequence" />
+                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
+                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MstQualities">
+            <EntityTypeMapping TypeName="IMSModel.MstQuality">
+              <MappingFragment StoreEntitySet="MstQuality">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="categoryId" ColumnName="categoryId" />
+                <ScalarProperty Name="collectionId" ColumnName="collectionId" />
+                <ScalarProperty Name="qualityCode" ColumnName="qualityCode" />
+                <ScalarProperty Name="qualityName" ColumnName="qualityName" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="width" ColumnName="width" />
+                <ScalarProperty Name="size" ColumnName="size" />
+                <ScalarProperty Name="hsnId" ColumnName="hsnId" />
+                <ScalarProperty Name="cutRate" ColumnName="cutRate" />
+                <ScalarProperty Name="roleRate" ColumnName="roleRate" />
+                <ScalarProperty Name="rrp" ColumnName="rrp" />
+                <ScalarProperty Name="maxCutRateDisc" ColumnName="maxCutRateDisc" />
+                <ScalarProperty Name="maxRoleRateDisc" ColumnName="maxRoleRateDisc" />
+                <ScalarProperty Name="flatRate" ColumnName="flatRate" />
+                <ScalarProperty Name="maxflatCutRateDisc" ColumnName="maxflatCutRateDisc" />
+                <ScalarProperty Name="maxflatRoleRateDisc" ColumnName="maxflatRoleRateDisc" />
+                <ScalarProperty Name="custRatePerSqFeet" ColumnName="custRatePerSqFeet" />
+                <ScalarProperty Name="purchaseRatePerMM" ColumnName="purchaseRatePerMM" />
+                <ScalarProperty Name="sellingRatePerMM" ColumnName="sellingRatePerMM" />
+                <ScalarProperty Name="maxDiscout" ColumnName="maxDiscout" />
+                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
+                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MstRoles">
+            <EntityTypeMapping TypeName="IMSModel.MstRole">
+              <MappingFragment StoreEntitySet="MstRole">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="roleName" ColumnName="roleName" />
+                <ScalarProperty Name="roleDescription" ColumnName="roleDescription" />
+                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
+                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MstSuppliers">
+            <EntityTypeMapping TypeName="IMSModel.MstSupplier">
+              <MappingFragment StoreEntitySet="MstSupplier">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="code" ColumnName="code" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="firmName" ColumnName="firmName" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="accountPersonName" ColumnName="accountPersonName" />
+                <ScalarProperty Name="accountPersonEmail" ColumnName="accountPersonEmail" />
+                <ScalarProperty Name="accountPersonPhone" ColumnName="accountPersonPhone" />
+                <ScalarProperty Name="warehousePersonName" ColumnName="warehousePersonName" />
+                <ScalarProperty Name="warehousePersonEmail" ColumnName="warehousePersonEmail" />
+                <ScalarProperty Name="warehousePersonPhone" ColumnName="warehousePersonPhone" />
+                <ScalarProperty Name="dispatchPersonName" ColumnName="dispatchPersonName" />
+                <ScalarProperty Name="dispatchPersonEmail" ColumnName="dispatchPersonEmail" />
+                <ScalarProperty Name="dispatchPersonPhone" ColumnName="dispatchPersonPhone" />
+                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
+                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MstSupplierAddresses">
+            <EntityTypeMapping TypeName="IMSModel.MstSupplierAddress">
+              <MappingFragment StoreEntitySet="MstSupplierAddress">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="supplierId" ColumnName="supplierId" />
+                <ScalarProperty Name="addressLine1" ColumnName="addressLine1" />
+                <ScalarProperty Name="addressLine2" ColumnName="addressLine2" />
+                <ScalarProperty Name="city" ColumnName="city" />
+                <ScalarProperty Name="state" ColumnName="state" />
+                <ScalarProperty Name="country" ColumnName="country" />
+                <ScalarProperty Name="pin" ColumnName="pin" />
+                <ScalarProperty Name="gstin" ColumnName="gstin" />
+                <ScalarProperty Name="isPrimary" ColumnName="isPrimary" />
+                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
+                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MstUnitOfMeasures">
+            <EntityTypeMapping TypeName="IMSModel.MstUnitOfMeasure">
+              <MappingFragment StoreEntitySet="MstUnitOfMeasure">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="uomCode" ColumnName="uomCode" />
+                <ScalarProperty Name="uomName" ColumnName="uomName" />
+                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
+                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MstUsers">
+            <EntityTypeMapping TypeName="IMSModel.MstUser">
+              <MappingFragment StoreEntitySet="MstUser">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="roleId" ColumnName="roleId" />
+                <ScalarProperty Name="userTypeId" ColumnName="userTypeId" />
+                <ScalarProperty Name="userName" ColumnName="userName" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="lastLogin" ColumnName="lastLogin" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
+                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MstuserTypes">
+            <EntityTypeMapping TypeName="IMSModel.MstuserType">
+              <MappingFragment StoreEntitySet="MstuserType">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="userTypeName" ColumnName="userTypeName" />
+                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
+                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
