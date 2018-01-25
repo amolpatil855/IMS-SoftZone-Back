@@ -25,7 +25,6 @@ namespace IMSWebApi.Models
         public string name { get; set; }
         public string firmName { get; set; }
         public string description { get; set; }
-        public string gstin { get; set; }
         public string email { get; set; }
         public string phone { get; set; }
         public string accountPersonName { get; set; }
