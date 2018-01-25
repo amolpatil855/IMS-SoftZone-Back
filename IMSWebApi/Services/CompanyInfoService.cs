@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Microsoft.AspNet.Identity;
+using System.Resources;
+using System.Reflection;
 
 namespace IMSWebApi.Services
 {
@@ -14,9 +16,11 @@ namespace IMSWebApi.Services
     {
         WebAPIdbEntities repo = new WebAPIdbEntities();
          Int64 _LoggedInuserId;
+         ResourceManager resourceManager = null;
          public CompanyInfoService()
         {
             _LoggedInuserId = Convert.ToInt64(HttpContext.Current.User.Identity.GetUserId());
+            resourceManager = new ResourceManager("IMSWebApi.App_Data.Resource", Assembly.GetExecutingAssembly());
         }
 
         public VMCompanyInfo getCompanyInfo()
@@ -40,7 +44,7 @@ namespace IMSWebApi.Services
             companyInfoToPost.createdBy = _LoggedInuserId;
             repo.MstCompanyInfoes.Add(companyInfoToPost);
             repo.SaveChanges();
-            return new ResponseMessage(companyInfoToPost.id, "Company Information Added Successfully", ResponseType.Success);
+            return new ResponseMessage(companyInfoToPost.id, resourceManager.GetString("CompanyInfoAdded"), ResponseType.Success);
         }
 
         public ResponseMessage putCompanyInfo(VMCompanyInfo companyInfo)
@@ -50,7 +54,7 @@ namespace IMSWebApi.Services
             companyInfoToPut.updatedOn = DateTime.Now;
             companyInfoToPut.updatedBy = _LoggedInuserId;
             repo.SaveChanges();
-            return new ResponseMessage(companyInfoToPut.id, "Company Information Updated Successfully", ResponseType.Success);
+            return new ResponseMessage(companyInfoToPut.id, resourceManager.GetString("CompanyInfoUpdated"), ResponseType.Success);
         }
 
 

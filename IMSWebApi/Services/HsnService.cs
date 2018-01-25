@@ -8,6 +8,8 @@ using IMSWebApi.Common;
 using IMSWebApi.ViewModel;
 using AutoMapper;
 using IMSWebApi.Enums;
+using System.Resources;
+using System.Reflection;
 
 namespace IMSWebApi.Services
 {
@@ -15,10 +17,12 @@ namespace IMSWebApi.Services
     {
          WebAPIdbEntities repo = new WebAPIdbEntities();
         Int64 _LoggedInuserId;
+        ResourceManager resourceManager = null;
 
         public HsnService()
         {
             _LoggedInuserId = Convert.ToInt64(HttpContext.Current.User.Identity.GetUserId());
+            resourceManager = new ResourceManager("IMSWebApi.App_Data.Resource", Assembly.GetExecutingAssembly());
         }
 
         public ListResult<VMHsn> getHsn(int pageSize, int page, string search)
@@ -70,7 +74,7 @@ namespace IMSWebApi.Services
 
             repo.MstHsns.Add(HsnToPost);
             repo.SaveChanges();
-            return new ResponseMessage(HsnToPost.id, "Hsn Added Successfully", ResponseType.Success);
+            return new ResponseMessage(HsnToPost.id,resourceManager.GetString("HsnAdded") , ResponseType.Success);
         }
 
         public ResponseMessage putHsn(VMHsn Hsn)
@@ -82,14 +86,14 @@ namespace IMSWebApi.Services
             HsnToPut.updatedOn = DateTime.Now;
 
             repo.SaveChanges();
-            return new ResponseMessage(Hsn.id, "Hsn Updated Successfully", ResponseType.Success);
+            return new ResponseMessage(Hsn.id, resourceManager.GetString("HsnUpdated"), ResponseType.Success);
         }
 
         public ResponseMessage deleteHsn(Int64 id)
         {
             repo.MstHsns.Remove(repo.MstHsns.Where(h => h.id == id).FirstOrDefault());
             repo.SaveChanges();
-            return new ResponseMessage(id, "Hsn Deleted Successfully", ResponseType.Success);
+            return new ResponseMessage(id, resourceManager.GetString("HsnDeleted"), ResponseType.Success);
         }
     }
 }

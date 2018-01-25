@@ -8,15 +8,19 @@ using AutoMapper;
 using IMSWebApi.Enums;
 using IMSWebApi.Common;
 using Microsoft.AspNet.Identity;
+using System.Resources;
+using System.Reflection;
 namespace IMSWebApi.Services
 {
     public class RoleService
     {
+        ResourceManager resourceManager = null;
         Int64 _LoggedInuserId;
 
         public RoleService()
         {
             _LoggedInuserId=Convert.ToInt64(HttpContext.Current.User.Identity.GetUserId());
+            resourceManager = new ResourceManager("IMSWebApi.App_Data.Resource", Assembly.GetExecutingAssembly());
         }
 
         WebAPIdbEntities repo = new WebAPIdbEntities();
@@ -76,7 +80,7 @@ namespace IMSWebApi.Services
                 repo.CFGRoleMenus.Add(item);
             }
             repo.SaveChanges();
-            return new ResponseMessage(roleObj.id, "Role Added Successfully", ResponseType.Success);
+            return new ResponseMessage(roleObj.id, resourceManager.GetString("RoleAdded"), ResponseType.Success);
         }
 
 
@@ -104,7 +108,7 @@ namespace IMSWebApi.Services
                 repo.CFGRoleMenus.Add(item);
             }
             repo.SaveChanges();
-            return new ResponseMessage(role.id, "Role Updated Successfully", ResponseType.Success);
+            return new ResponseMessage(role.id, resourceManager.GetString("RoleUpdated") , ResponseType.Success);
         }
 
         public ResponseMessage deleteRole(Int64 roleId)
@@ -112,7 +116,7 @@ namespace IMSWebApi.Services
             MstRole recordToRemove = repo.MstRoles.FirstOrDefault(p => p.id == roleId);
             if (recordToRemove.MstUsers.Count() > 0)
             {
-                return new ResponseMessage(roleId, "Role already assigned to other user. cannot be deleted", ResponseType.Error);
+                return new ResponseMessage(roleId, resourceManager.GetString("RoleCannotBeDeleted"), ResponseType.Error);
             }
             repo.MstRoles.Remove(recordToRemove);
             var savedCfgRoleMenu = repo.CFGRoleMenus.Where(p => p.roleId == recordToRemove.id).ToList();
@@ -121,10 +125,13 @@ namespace IMSWebApi.Services
                 repo.CFGRoleMenus.Remove(item);
             }
             repo.SaveChanges();
-            return new ResponseMessage(roleId, "Role Deleted Successfully", ResponseType.Success);
+            return new ResponseMessage(roleId, resourceManager.GetString("RoleDeleted"), ResponseType.Success);
         }
 
-
+        public MstRole getCustomerRole()
+        {
+            return repo.MstRoles.Where(c => c.roleName == "Administrator").FirstOrDefault();
+        }
 
     }
 }

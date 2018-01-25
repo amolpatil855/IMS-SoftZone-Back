@@ -1,0 +1,264 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="CollectionAdded" xml:space="preserve">
+    <value>Collection Added Successfully</value>
+  </data>
+  <data name="CollectionDeleted" xml:space="preserve">
+    <value>Collection Deleted Successfully</value>
+  </data>
+  <data name="CollectionUpdated" xml:space="preserve">
+    <value>Collection Updated Successfully</value>
+  </data>
+  <data name="CompanyInfoAdded" xml:space="preserve">
+    <value>Company Information Added Successfully</value>
+  </data>
+  <data name="CompanyInfoUpdated" xml:space="preserve">
+    <value>Company Information Updated Successfully</value>
+  </data>
+  <data name="CustomerAdded" xml:space="preserve">
+    <value>Customer Added Successfully</value>
+  </data>
+  <data name="CustomerDeleted" xml:space="preserve">
+    <value>Customer Deleted Successfully</value>
+  </data>
+  <data name="CustomerUpdated" xml:space="preserve">
+    <value>Customer Updated Successfully</value>
+  </data>
+  <data name="FomDensityAdded" xml:space="preserve">
+    <value>Foam Density Added Successfully</value>
+  </data>
+  <data name="FomDensityDeleted" xml:space="preserve">
+    <value>Foam Density Deleted Successfully</value>
+  </data>
+  <data name="FomDensityUpdated" xml:space="preserve">
+    <value>Foam Density Updated Successfully</value>
+  </data>
+  <data name="FomSizeAdded" xml:space="preserve">
+    <value>Foam Size Added Successfully</value>
+  </data>
+  <data name="FomSizeDeleted" xml:space="preserve">
+    <value>Foam Size Deleted Successfully</value>
+  </data>
+  <data name="FomSizeUpdated" xml:space="preserve">
+    <value>Foam Size Updated Successfully</value>
+  </data>
+  <data name="FomSuggestedMMAdded" xml:space="preserve">
+    <value>Foam Suggested MM Added Successfully</value>
+  </data>
+  <data name="FomSuggestedMMDeleted" xml:space="preserve">
+    <value>Foam Suggested MM Deleted Successfully</value>
+  </data>
+  <data name="FomSuggestedMMUpdated" xml:space="preserve">
+    <value>Foam Suggested MM Updated Successfully</value>
+  </data>
+  <data name="FWRDesignAdded" xml:space="preserve">
+    <value>FWR Design Added Successfully</value>
+  </data>
+  <data name="FWRDesignDeleted" xml:space="preserve">
+    <value>FWR Design Deleted Successfully</value>
+  </data>
+  <data name="FWRDesignUpdated" xml:space="preserve">
+    <value>FWR Design Updated Successfully</value>
+  </data>
+  <data name="HsnAdded" xml:space="preserve">
+    <value>Hsn Added Successfully</value>
+  </data>
+  <data name="HsnDeleted" xml:space="preserve">
+    <value>Hsn Deleted Successfully</value>
+  </data>
+  <data name="HsnUpdated" xml:space="preserve">
+    <value>Hsn Updated Successfully</value>
+  </data>
+  <data name="MatSizeAdded" xml:space="preserve">
+    <value>Mat Size Added Successfully</value>
+  </data>
+  <data name="MatSizeDeleted" xml:space="preserve">
+    <value>Mat Size Deleted Successfully</value>
+  </data>
+  <data name="MatSizeUpdated" xml:space="preserve">
+    <value>Mat Size Updated Successfully</value>
+  </data>
+  <data name="MatThicknessAdded" xml:space="preserve">
+    <value>Mat Thickness Added Successfully</value>
+  </data>
+  <data name="MatThicknessDeleted" xml:space="preserve">
+    <value>Mat Thickness Deleted Successfully</value>
+  </data>
+  <data name="MatThicknessUpdated" xml:space="preserve">
+    <value>Mat Thickness Updated Successfully</value>
+  </data>
+  <data name="OldPasswordMismatched" xml:space="preserve">
+    <value>Old Password didn't Matched</value>
+  </data>
+  <data name="PasswordUpdated" xml:space="preserve">
+    <value>Password Updated Successfully</value>
+  </data>
+  <data name="QualityAdded" xml:space="preserve">
+    <value>Quality Added Successfully</value>
+  </data>
+  <data name="QualityDeleted" xml:space="preserve">
+    <value>Quality Deleted Successfully</value>
+  </data>
+  <data name="QualityUpdated" xml:space="preserve">
+    <value>Quality Updated Successfully</value>
+  </data>
+  <data name="RoleAdded" xml:space="preserve">
+    <value>Role Added Successfully</value>
+  </data>
+  <data name="RoleCannotBeDeleted" xml:space="preserve">
+    <value>Role already assigned to other user. cannot be deleted</value>
+  </data>
+  <data name="RoleDeleted" xml:space="preserve">
+    <value>Role Deleted Successfully</value>
+  </data>
+  <data name="RoleUpdated" xml:space="preserve">
+    <value>Role Updated Successfully</value>
+  </data>
+  <data name="ShadeAdded" xml:space="preserve">
+    <value>Shade Added Successfully</value>
+  </data>
+  <data name="ShadeDeleted" xml:space="preserve">
+    <value>Shade Deleted Successfully</value>
+  </data>
+  <data name="ShadeUpdated" xml:space="preserve">
+    <value>Shade Updated Successfully</value>
+  </data>
+  <data name="SupplierAdded" xml:space="preserve">
+    <value>Supplier Added Successfully</value>
+  </data>
+  <data name="SupplierDeleted" xml:space="preserve">
+    <value>Supplier Deleted Successfully</value>
+  </data>
+  <data name="SupplierUpdated" xml:space="preserve">
+    <value>Supplier Updated Successfully</value>
+  </data>
+  <data name="UserAdded" xml:space="preserve">
+    <value>User Added Successfully</value>
+  </data>
+  <data name="UserDeleted" xml:space="preserve">
+    <value>User Deleted Successfully</value>
+  </data>
+  <data name="UserNotExist" xml:space="preserve">
+    <value>User Does not exist</value>
+  </data>
+  <data name="UserUpdated" xml:space="preserve">
+    <value>User Details Updated Successfully</value>
+  </data>
+</root>

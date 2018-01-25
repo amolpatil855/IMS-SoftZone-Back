@@ -8,6 +8,8 @@ using IMSWebApi.Common;
 using IMSWebApi.ViewModel;
 using AutoMapper;
 using IMSWebApi.Enums;
+using System.Resources;
+using System.Reflection;
 
 namespace IMSWebApi.Services
 {
@@ -16,11 +18,13 @@ namespace IMSWebApi.Services
         WebAPIdbEntities repo = new WebAPIdbEntities();
         CategoryService _categoryService = null;
         Int64 _LoggedInuserId;
+        ResourceManager resourceManager = null;
 
         public FomSizeService()
         {
             _LoggedInuserId = Convert.ToInt64(HttpContext.Current.User.Identity.GetUserId());
             _categoryService = new CategoryService();
+            resourceManager = new ResourceManager("IMSWebApi.App_Data.Resource", Assembly.GetExecutingAssembly());
         }
 
         public ListResult<VMFomSize> getFomSize(int pageSize, int page, string search)
@@ -80,7 +84,7 @@ namespace IMSWebApi.Services
 
             repo.MstFomSizes.Add(fomSizeToPost);
             repo.SaveChanges();
-            return new ResponseMessage(fomSizeToPost.id, "Foam Size Added Successfully", ResponseType.Success);
+            return new ResponseMessage(fomSizeToPost.id, resourceManager.GetString("FomSizeAdded"), ResponseType.Success);
         }
 
         public ResponseMessage putFomSize(VMFomSize fomSize)
@@ -99,14 +103,14 @@ namespace IMSWebApi.Services
             fomSizeToPut.updatedOn = DateTime.Now;
 
             repo.SaveChanges();
-            return new ResponseMessage(fomSize.id, "Foam Size Updated Successfully", ResponseType.Success);
+            return new ResponseMessage(fomSize.id, resourceManager.GetString("FomSizeUpdated"), ResponseType.Success);
         }
 
         public ResponseMessage deleteFomSize(Int64 id)
         {
             repo.MstFomSizes.Remove(repo.MstFomSizes.Where(q => q.id == id).FirstOrDefault());
             repo.SaveChanges();
-            return new ResponseMessage(id, "Foam Size Deleted Successfully", ResponseType.Success);
+            return new ResponseMessage(id, resourceManager.GetString("FomSizeDeleted"), ResponseType.Success);
         }
     }
 }

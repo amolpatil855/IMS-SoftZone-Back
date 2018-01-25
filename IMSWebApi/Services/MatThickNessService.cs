@@ -8,6 +8,8 @@ using IMSWebApi.Common;
 using IMSWebApi.ViewModel;
 using AutoMapper;
 using IMSWebApi.Enums;
+using System.Resources;
+using System.Reflection;
 
 namespace IMSWebApi.Services
 {
@@ -15,10 +17,12 @@ namespace IMSWebApi.Services
     {
         WebAPIdbEntities repo = new WebAPIdbEntities();
         Int64 _LoggedInuserId;
+        ResourceManager resourceManager = null;
 
         public MatThicknessService()
         {
             _LoggedInuserId = Convert.ToInt64(HttpContext.Current.User.Identity.GetUserId());
+            resourceManager = new ResourceManager("IMSWebApi.App_Data.Resource", Assembly.GetExecutingAssembly());
         }
 
         public ListResult<VMMatThickness> getMatThickness(int pageSize, int page, string search)
@@ -69,7 +73,7 @@ namespace IMSWebApi.Services
 
             repo.MstMatThicknesses.Add(matThicknessToPost);
             repo.SaveChanges();
-            return new ResponseMessage(matThicknessToPost.id, "Mat Thickness Added Successfully", ResponseType.Success);
+            return new ResponseMessage(matThicknessToPost.id, resourceManager.GetString("MatThicknessAdded"), ResponseType.Success);
         }
 
         public ResponseMessage putMatThickness(VMMatThickness matThickness)
@@ -81,14 +85,14 @@ namespace IMSWebApi.Services
             matThicknessToPut.updatedOn = DateTime.Now;
 
             repo.SaveChanges();
-            return new ResponseMessage(matThicknessToPut.id, "Mat Thickness Updated Successfully", ResponseType.Success);
+            return new ResponseMessage(matThicknessToPut.id, resourceManager.GetString("MatThicknessUpdated"), ResponseType.Success);
         }
 
         public ResponseMessage deleteMatThickness(Int64 id)
         {
             repo.MstMatThicknesses.Remove(repo.MstMatThicknesses.Where(q => q.id == id).FirstOrDefault());
             repo.SaveChanges();
-            return new ResponseMessage(id, "Mat Thickness Deleted Successfully", ResponseType.Success);
+            return new ResponseMessage(id, resourceManager.GetString("MatThicknessDeleted"), ResponseType.Success);
         }
     }
 }

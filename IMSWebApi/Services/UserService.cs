@@ -8,6 +8,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Microsoft.AspNet.Identity;
+using System.Resources;
+using System.Reflection;
 
 namespace IMSWebApi.Services
 {
@@ -16,9 +18,11 @@ namespace IMSWebApi.Services
         WebAPIdbEntities repo = new WebAPIdbEntities();
         SendEmail Email = new SendEmail();
         Int64 _LoggedInuserId;
+        ResourceManager resourceManager = null;
         public UserService()
         {
             _LoggedInuserId = Convert.ToInt64(HttpContext.Current.User.Identity.GetUserId());
+            resourceManager = new ResourceManager("IMSWebApi.App_Data.Resource", Assembly.GetExecutingAssembly());
         }
 
         public VMUser getLoggedInUserDetails(string username)
@@ -113,10 +117,10 @@ namespace IMSWebApi.Services
             repo.MstUsers.Add(userToPost);
             repo.SaveChanges();
             sendEmail(userToPost.id, "RegisterUser");
-            return new ResponseMessage(userToPost.id, "User Added Successfully", ResponseType.Success);
+            return new ResponseMessage(userToPost.id, resourceManager.GetString("UserAdded"), ResponseType.Success);
         }
 
-        private static string createRandomPassword(int passwordLength)
+        public string createRandomPassword(int passwordLength)
         {
             string allowedChars = "abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ0123456789!@$?_-";
             char[] chars = new char[passwordLength];
@@ -139,7 +143,7 @@ namespace IMSWebApi.Services
             userToPut.updatedOn = DateTime.Now;
             userToPut.updatedBy = _LoggedInuserId;
             repo.SaveChanges();
-            return new ResponseMessage(userToPut.id, "User Details Updated Successfully", ResponseType.Success);
+            return new ResponseMessage(userToPut.id, resourceManager.GetString("UserUpdated"), ResponseType.Success);
         }
 
         public ResponseMessage deleteUser(Int64 id)
@@ -149,11 +153,11 @@ namespace IMSWebApi.Services
             {
                 repo.MstUsers.Remove(mstuser);
                 repo.SaveChanges();
-                return new ResponseMessage(id, "User Deleted Successfully", ResponseType.Success);
+                return new ResponseMessage(id, resourceManager.GetString("UserDeleted"), ResponseType.Success);
             }
             else
             {
-                return new ResponseMessage(id, "User Does not exist", ResponseType.Error);
+                return new ResponseMessage(id, resourceManager.GetString("UserNotExist"), ResponseType.Error);
             }
 
         }
@@ -165,16 +169,21 @@ namespace IMSWebApi.Services
                 {
                     userToPut.password = user.password;
                     repo.SaveChanges();
-                    return new ResponseMessage(userToPut.id, "Password Updated Successfully", ResponseType.Success);
+                    return new ResponseMessage(userToPut.id, resourceManager.GetString("PasswordUpdated"), ResponseType.Success);
                 }
                 else
-                    return new ResponseMessage(user.id, "Old Password didn't Matched", ResponseType.Error);
+                    return new ResponseMessage(user.id, resourceManager.GetString("OldPasswordMismatched"), ResponseType.Error);
         }
 
         public void sendEmail(Int64 id, string fileName)
         {
             var result = repo.MstUsers.Where(u => u.id == id).FirstOrDefault();
             Email.email(result, fileName);
+        }
+
+        public MstuserType getCustomerUserType()
+        {
+            return repo.MstuserTypes.Where(c => c.userTypeName == "Customer").FirstOrDefault();
         }
 
     }

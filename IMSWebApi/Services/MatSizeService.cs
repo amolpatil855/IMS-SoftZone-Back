@@ -8,6 +8,8 @@ using IMSWebApi.Common;
 using IMSWebApi.ViewModel;
 using AutoMapper;
 using IMSWebApi.Enums;
+using System.Resources;
+using System.Reflection;
 
 namespace IMSWebApi.Services
 {
@@ -16,11 +18,13 @@ namespace IMSWebApi.Services
         WebAPIdbEntities repo = new WebAPIdbEntities();
         Int64 _LoggedInuserId;
         CategoryService _categoryService;
+        ResourceManager resourceManager = null;
 
         public MatSizeService()
         {
             _LoggedInuserId = Convert.ToInt64(HttpContext.Current.User.Identity.GetUserId());
             _categoryService = new CategoryService();
+            resourceManager = new ResourceManager("IMSWebApi.App_Data.Resource", Assembly.GetExecutingAssembly());
         }
 
         public ListResult<VMMatSize> getMatSize(int pageSize, int page, string search)
@@ -72,7 +76,7 @@ namespace IMSWebApi.Services
 
             repo.MstMatSizes.Add(matSizeToPost);
             repo.SaveChanges();
-            return new ResponseMessage(matSizeToPost.id, "Mat Size Added Successfully", ResponseType.Success);
+            return new ResponseMessage(matSizeToPost.id, resourceManager.GetString("MatSizeAdded"), ResponseType.Success);
         }
 
         public ResponseMessage putMatSize(VMMatSize matSize)
@@ -90,14 +94,14 @@ namespace IMSWebApi.Services
             matSizeToPut.updatedOn = DateTime.Now;
 
             repo.SaveChanges();
-            return new ResponseMessage(matSize.id, "Mat Size Updated Successfully", ResponseType.Success);
+            return new ResponseMessage(matSize.id, resourceManager.GetString("MatSizeUpdated"), ResponseType.Success);
         }
 
         public ResponseMessage deleteMatSize(Int64 id)
         {
             repo.MstMatSizes.Remove(repo.MstMatSizes.Where(q => q.id == id).FirstOrDefault());
             repo.SaveChanges();
-            return new ResponseMessage(id, "Mat Size Deleted Successfully", ResponseType.Success);
+            return new ResponseMessage(id, resourceManager.GetString("MatSizeDeleted"), ResponseType.Success);
         }
     }
 

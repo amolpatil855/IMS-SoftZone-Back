@@ -8,6 +8,8 @@ using IMSWebApi.Common;
 using IMSWebApi.ViewModel;
 using AutoMapper;
 using IMSWebApi.Enums;
+using System.Resources;
+using System.Reflection;
 
 namespace IMSWebApi.ServicesDesign
 {
@@ -15,10 +17,12 @@ namespace IMSWebApi.ServicesDesign
     {
         WebAPIdbEntities repo = new WebAPIdbEntities();
         Int64 _LoggedInuserId;
+        ResourceManager resourceManager = null;
 
         public FWRShadeService()
         {
             _LoggedInuserId = Convert.ToInt64(HttpContext.Current.User.Identity.GetUserId());
+            resourceManager = new ResourceManager("IMSWebApi.App_Data.Resource", Assembly.GetExecutingAssembly());
         }
 
         public ListResult<VMFWRShade> getShade(int pageSize, int page, string search)
@@ -101,7 +105,7 @@ namespace IMSWebApi.ServicesDesign
 
             repo.MstFWRShades.Add(shadeToPost);
             repo.SaveChanges();
-            return new ResponseMessage(shadeToPost.id, "Shade Added Successfully", ResponseType.Success);
+            return new ResponseMessage(shadeToPost.id, resourceManager.GetString("ShadeAdded"), ResponseType.Success);
         }
 
         public ResponseMessage putShade(VMFWRShade shade)
@@ -121,14 +125,14 @@ namespace IMSWebApi.ServicesDesign
             shadeToPut.updatedOn = DateTime.Now;
 
             repo.SaveChanges();
-            return new ResponseMessage(shade.id, "Shade Updated Successfully", ResponseType.Success);
+            return new ResponseMessage(shade.id, resourceManager.GetString("ShadeUpdated"), ResponseType.Success);
         }
 
         public ResponseMessage deleteShade(Int64 id)
         {
             repo.MstFWRShades.Remove(repo.MstFWRShades.Where(q => q.id == id).FirstOrDefault());
             repo.SaveChanges();
-            return new ResponseMessage(id, "Shade Deleted Successfully", ResponseType.Success);
+            return new ResponseMessage(id, resourceManager.GetString("ShadeDeleted"), ResponseType.Success);
         }
     }
 }
