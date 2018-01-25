@@ -8,6 +8,8 @@ using IMSWebApi.Common;
 using IMSWebApi.ViewModel;
 using AutoMapper;
 using IMSWebApi.Enums;
+using System.Resources;
+using System.Reflection;
 
 namespace IMSWebApi.Services
 {
@@ -15,10 +17,12 @@ namespace IMSWebApi.Services
     {
         WebAPIdbEntities repo = new WebAPIdbEntities();
         Int64 _LoggedInuserId;
+        ResourceManager resourceManager = null;
 
         public QualityService()
         {
             _LoggedInuserId = Convert.ToInt64(HttpContext.Current.User.Identity.GetUserId());
+            resourceManager = new ResourceManager("IMSWebApi.App_Data.Resource", Assembly.GetExecutingAssembly());
         }
 
         public ListResult<VMQuality> getQuality(int pageSize, int page, string search)
@@ -78,7 +82,7 @@ namespace IMSWebApi.Services
 
             repo.MstQualities.Add(QualityToPost);
             repo.SaveChanges();
-            return new ResponseMessage(QualityToPost.id, "Quality Added Successfully", ResponseType.Success);
+            return new ResponseMessage(QualityToPost.id, resourceManager.GetString("QualityAdded"), ResponseType.Success);
         }
 
         public ResponseMessage putQuality(VMQuality quality)
@@ -113,14 +117,14 @@ namespace IMSWebApi.Services
             qualityToPut.updatedOn = DateTime.Now;
 
             repo.SaveChanges();
-            return new ResponseMessage(quality.id, "Quality Updated Successfully", ResponseType.Success);
+            return new ResponseMessage(quality.id, resourceManager.GetString("QualityUpdated"), ResponseType.Success);
         }
 
         public ResponseMessage deleteQuality(Int64 id)
         {
             repo.MstQualities.Remove(repo.MstQualities.Where(q => q.id == id).FirstOrDefault());
             repo.SaveChanges();
-            return new ResponseMessage(id, "Quality Deleted Successfully", ResponseType.Success);
+            return new ResponseMessage(id, resourceManager.GetString("QualityDeleted"), ResponseType.Success);
         }
 
     }

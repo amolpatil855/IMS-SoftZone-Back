@@ -8,6 +8,8 @@ using IMSWebApi.Common;
 using IMSWebApi.ViewModel;
 using AutoMapper;
 using IMSWebApi.Enums;
+using System.Resources;
+using System.Reflection;
 
 namespace IMSWebApi.Services
 {
@@ -16,10 +18,12 @@ namespace IMSWebApi.Services
         WebAPIdbEntities repo = new WebAPIdbEntities();
         Int64 _LoggedInuserId;
         CategoryService _categoryService;
+        ResourceManager resourceManager = null;
         public CollectionService()
         {
             _LoggedInuserId = Convert.ToInt64(HttpContext.Current.User.Identity.GetUserId());
             _categoryService = new CategoryService();
+            resourceManager = new ResourceManager("IMSWebApi.App_Data.Resource", Assembly.GetExecutingAssembly());
         }
 
         public ListResult<VMCollection> getCollection(int pageSize, int page, string search)
@@ -102,8 +106,8 @@ namespace IMSWebApi.Services
 
             repo.MstCollections.Add(collectionToPost);
             repo.SaveChanges();
-            return new ResponseMessage(collectionToPost.id, 
-                "Collection Added Successfully", ResponseType.Success);
+            return new ResponseMessage(collectionToPost.id,
+                resourceManager.GetString("CollectionAdded"), ResponseType.Success);
         }
 
         public ResponseMessage putCollection(VMCollection collection)
@@ -119,14 +123,14 @@ namespace IMSWebApi.Services
             collectionToPut.updatedOn = DateTime.Now;
             
             repo.SaveChanges();
-            return new ResponseMessage(collection.id, "Collection Updated Successfully", ResponseType.Success);
+            return new ResponseMessage(collection.id, resourceManager.GetString("CollectionUpdated"), ResponseType.Success);
         }
 
         public ResponseMessage deleteCollection(Int64 id)
         {  
             repo.MstCollections.Remove(repo.MstCollections.Where(s => s.id == id).FirstOrDefault());
             repo.SaveChanges();
-            return new ResponseMessage(id, "Collection Deleted Successfully", ResponseType.Success);
+            return new ResponseMessage(id, resourceManager.GetString("CollectionDeleted"), ResponseType.Success);
         }
     }
 }

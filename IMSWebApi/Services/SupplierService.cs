@@ -8,15 +8,19 @@ using System.Linq;
 using System.Web;
 using Microsoft.AspNet.Identity;
 using IMSWebApi.Common;
+using System.Resources;
+using System.Reflection;
 namespace IMSWebApi.Services
 {
     public class SupplierService
     {
         WebAPIdbEntities repo = new WebAPIdbEntities();
         Int64 _LoggedInuserId;
+        ResourceManager resourceManager = null;
         public SupplierService()
         {
             _LoggedInuserId = Convert.ToInt64(HttpContext.Current.User.Identity.GetUserId());
+            resourceManager = new ResourceManager("IMSWebApi.App_Data.Resource", Assembly.GetExecutingAssembly());
         }
 
         public ListResult<VMSupplier> getSupplier(int pageSize, int page, string search)
@@ -73,7 +77,7 @@ namespace IMSWebApi.Services
 
             repo.MstSuppliers.Add(supplierToPost);
             repo.SaveChanges();
-            return new ResponseMessage(supplierToPost.id, "Supplier Added Successfully", ResponseType.Success);
+            return new ResponseMessage(supplierToPost.id, resourceManager.GetString("SupplierAdded"), ResponseType.Success);
         }
 
         public ResponseMessage putSupplier(VMSupplier supplier)
@@ -96,7 +100,7 @@ namespace IMSWebApi.Services
             supplierToPut.MstSupplierAddresses = supplierAddressDetails;
             repo.SaveChanges();
 
-            return new ResponseMessage(supplier.id, "Supplier Updated Successfully", ResponseType.Success);
+            return new ResponseMessage(supplier.id,  resourceManager.GetString("SupplierUpdated"), ResponseType.Success);
         }
 
         public ResponseMessage deleteSupplier(Int64 id)
@@ -105,7 +109,7 @@ namespace IMSWebApi.Services
             repo.SaveChanges();
             repo.MstSuppliers.Remove(repo.MstSuppliers.Where(s => s.id == id).FirstOrDefault());
             repo.SaveChanges();
-            return new ResponseMessage(id, "Supplier Deleted Successfully", ResponseType.Success);
+            return new ResponseMessage(id, resourceManager.GetString("SupplierDeleted"), ResponseType.Success);
         }
 
     }

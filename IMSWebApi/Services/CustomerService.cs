@@ -8,6 +8,8 @@ using System.Linq;
 using System.Web;
 using Microsoft.AspNet.Identity;
 using IMSWebApi.Common;
+using System.Resources;
+using System.Reflection;
 
 namespace IMSWebApi.Services
 {
@@ -17,11 +19,13 @@ namespace IMSWebApi.Services
         RoleService _roleService = new RoleService();
         UserService _userService = new UserService();
          Int64 _LoggedInuserId;
+         ResourceManager resourceManager = null;
          public CustomerService()
         {
             _LoggedInuserId = Convert.ToInt64(HttpContext.Current.User.Identity.GetUserId());
             _roleService = new RoleService();
             _userService = new UserService();
+            resourceManager = new ResourceManager("IMSWebApi.App_Data.Resource", Assembly.GetExecutingAssembly());
         }
 
         public ListResult<VMCustomer> getCustomer(int pageSize, int page, string search)
@@ -85,7 +89,7 @@ namespace IMSWebApi.Services
             customerToPost.createdBy = _LoggedInuserId;
             repo.MstCustomers.Add(customerToPost);
             repo.SaveChanges();
-            return new ResponseMessage(customerToPost.id, "Customer Added Successfully", 
+            return new ResponseMessage(customerToPost.id, resourceManager.GetString("CustomerAdded"), 
                 ResponseType.Success);
         }
 
@@ -110,7 +114,7 @@ namespace IMSWebApi.Services
 
         public ResponseMessage putCustomer(VMCustomer customer)
         {
-            Nullable<long> userId = null;
+            
             var customerAddressDetails = Mapper.Map<List<VMCustomerAddress>, 
                 List<MstCustomerAddress>>(customer.MstCustomerAddresses);
             repo.MstCustomerAddresses.RemoveRange(repo.MstCustomerAddresses
@@ -123,25 +127,15 @@ namespace IMSWebApi.Services
                 caddress.createdBy = _LoggedInuserId;
             }
             var customerToPut = repo.MstCustomers.Where(s => s.id == customer.id).FirstOrDefault();
-            if(customerToPut.userId ==null && customer.isWholesaleCustomer == true)
-            {
-                userId = CreateUser(customer, userId);
-            }
-            else if (customer.isWholesaleCustomer == false && customer.userId!=null)
-            {
-                repo.MstUsers.Remove(repo.MstUsers.Where(u => u.id == userId).FirstOrDefault());
-                repo.SaveChanges();
-                customer.userId = null;
-            }
+           
             customerToPut = Mapper.Map<VMCustomer, MstCustomer>(customer, customerToPut);
             customerToPut.updatedOn = DateTime.Now;
             customerToPut.updatedBy = _LoggedInuserId;
-            customerToPut.userId = userId!=null ? userId : customer.userId;
-
+           
             customerToPut.MstCustomerAddresses = customerAddressDetails;
             repo.SaveChanges();
 
-            return new ResponseMessage(customer.id, "Customer Updated Successfully", ResponseType.Success);
+            return new ResponseMessage(customer.id, resourceManager.GetString("CustomerUpdated"), ResponseType.Success);
         }
 
         public ResponseMessage deleteCustomer(Int64 id)
@@ -152,7 +146,7 @@ namespace IMSWebApi.Services
             repo.MstUsers.Remove(repo.MstUsers.Where(u => u.id == customerToDelete.userId).FirstOrDefault());
             repo.MstCustomers.Remove(repo.MstCustomers.Where(s => s.id == id).FirstOrDefault());
             repo.SaveChanges();
-            return new ResponseMessage(id, "Customer Deleted Successfully", ResponseType.Success);
+            return new ResponseMessage(id, resourceManager.GetString("CustomerDeleted"), ResponseType.Success);
         }
 
     }

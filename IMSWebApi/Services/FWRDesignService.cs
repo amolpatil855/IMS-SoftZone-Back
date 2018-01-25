@@ -8,6 +8,8 @@ using IMSWebApi.Common;
 using IMSWebApi.ViewModel;
 using AutoMapper;
 using IMSWebApi.Enums;
+using System.Resources;
+using System.Reflection;
 
 namespace IMSWebApi.Services
 {
@@ -15,10 +17,12 @@ namespace IMSWebApi.Services
     {
         WebAPIdbEntities repo = new WebAPIdbEntities();
         Int64 _LoggedInuserId;
+        ResourceManager resourceManager = null;
 
         public FWRDesignService()
         {
             _LoggedInuserId = Convert.ToInt64(HttpContext.Current.User.Identity.GetUserId());
+            resourceManager = new ResourceManager("IMSWebApi.App_Data.Resource", Assembly.GetExecutingAssembly());
         }
 
         public ListResult<VMFWRDesign> getDesign(int pageSize, int page, string search)
@@ -78,7 +82,7 @@ namespace IMSWebApi.Services
 
             repo.MstFWRDesigns.Add(designToPost);
             repo.SaveChanges();
-            return new ResponseMessage(designToPost.id, "Design Added Successfully", ResponseType.Success);
+            return new ResponseMessage(designToPost.id, resourceManager.GetString("FWRDesignAdded"), ResponseType.Success);
         }
 
         public ResponseMessage putDesign(VMFWRDesign design)
@@ -96,14 +100,14 @@ namespace IMSWebApi.Services
             designToPut.updatedOn = DateTime.Now;
 
             repo.SaveChanges();
-            return new ResponseMessage(design.id, "Design Updated Successfully", ResponseType.Success);
+            return new ResponseMessage(design.id, resourceManager.GetString("FWRDesignUpdated"), ResponseType.Success);
         }
 
         public ResponseMessage deleteDesign(Int64 id)
         {
             repo.MstFWRDesigns.Remove(repo.MstFWRDesigns.Where(q => q.id == id).FirstOrDefault());
             repo.SaveChanges();
-            return new ResponseMessage(id, "Design Deleted Successfully", ResponseType.Success);
+            return new ResponseMessage(id, resourceManager.GetString("FWRDesignDeleted"), ResponseType.Success);
         }
     }
 }

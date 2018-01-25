@@ -8,6 +8,8 @@ using IMSWebApi.Common;
 using IMSWebApi.ViewModel;
 using AutoMapper;
 using IMSWebApi.Enums;
+using System.Resources;
+using System.Reflection;
 
 namespace IMSWebApi.Services
 {
@@ -16,11 +18,13 @@ namespace IMSWebApi.Services
         WebAPIdbEntities repo = new WebAPIdbEntities();
         CategoryService _categoryService = null;
         Int64 _LoggedInuserId;
+        ResourceManager resourceManager = null;
 
         public FomSuggestedMMService()
         {
             _LoggedInuserId = Convert.ToInt64(HttpContext.Current.User.Identity.GetUserId());
             _categoryService = new CategoryService();
+            resourceManager = new ResourceManager("IMSWebApi.App_Data.Resource", Assembly.GetExecutingAssembly());
         }
 
         public ListResult<VMFomSuggestedMM> getFomSuggestedMM(int pageSize, int page, string search)
@@ -82,7 +86,7 @@ namespace IMSWebApi.Services
 
             repo.MstFomSuggestedMMs.Add(fomSuggestedMMToPost);
             repo.SaveChanges();
-            return new ResponseMessage(fomSuggestedMMToPost.id, "Foam Suggested MM Added Successfully", ResponseType.Success);
+            return new ResponseMessage(fomSuggestedMMToPost.id, resourceManager.GetString("FomSuggestedMMAdded"), ResponseType.Success);
         }
 
         public ResponseMessage putFomSuggestedMM(VMFomSuggestedMM fomSuggestedMM)
@@ -99,14 +103,14 @@ namespace IMSWebApi.Services
             fomSuggestedMMToPut.updatedOn = DateTime.Now;
 
             repo.SaveChanges();
-            return new ResponseMessage(fomSuggestedMMToPut.id, "Foam Suggested MM Updated Successfully", ResponseType.Success);
+            return new ResponseMessage(fomSuggestedMMToPut.id, resourceManager.GetString("FomSuggestedMMUpdated"), ResponseType.Success);
         }
 
         public ResponseMessage deleteFomSuggestedMM(Int64 id)
         {
             repo.MstFomSuggestedMMs.Remove(repo.MstFomSuggestedMMs.Where(q => q.id == id).FirstOrDefault());
             repo.SaveChanges();
-            return new ResponseMessage(id, "Foam Suggested MM Deleted Successfully", ResponseType.Success);
+            return new ResponseMessage(id, resourceManager.GetString("FomSuggestedMMDeleted"), ResponseType.Success);
         }
     }
 }
