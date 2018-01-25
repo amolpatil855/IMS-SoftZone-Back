@@ -19,8 +19,6 @@ namespace IMSWebApi.ViewModel
         
         [MaxLength(100)]
         public string nickName { get; set; }
-        [MaxLength(20)]
-        public string gstin { get; set; }
         [Required]
         [MaxLength(254)]
         public string email { get; set; }
