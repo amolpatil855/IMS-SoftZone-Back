@@ -24,6 +24,7 @@ namespace IMSWebApi.Controllers
         private CategoryService _categoryService = null;
         private FomDensityService _fomDensityService = null;
         private FomSuggestedMMService _fomSuggestedMMService = null;
+        private CompanyLocationService _companyLocationService = null;
 
         public CommonController()
         {
@@ -39,6 +40,7 @@ namespace IMSWebApi.Controllers
             _categoryService = new CategoryService();
             _fomDensityService = new FomDensityService();
             _fomSuggestedMMService = new FomSuggestedMMService();
+            _companyLocationService = new CompanyLocationService();
         }
 
         [HttpGet]
@@ -166,6 +168,14 @@ namespace IMSWebApi.Controllers
         public IHttpActionResult GetFomSuggestedMMLookUpByFomDensity(long fomDensityId)
         {
             var result = _fomSuggestedMMService.getFomSuggestedMMLookUpByFomDensity(fomDensityId);
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("api/Common/GetCompanyLocationLookUp")]
+        public IHttpActionResult GetCompanyLocationLookUp()
+        {
+            var result = _companyLocationService.getCompanyLocationLookUp();
             return Ok(result);
         }
 

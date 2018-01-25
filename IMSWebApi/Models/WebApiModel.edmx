@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="IMSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="IMSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="CFGRoleMenu">
           <Key>
             <PropertyRef Name="id" />
@@ -55,6 +55,22 @@
           <Property Name="phone" Type="nvarchar" MaxLength="20" Nullable="false" />
           <Property Name="gstin" Type="nvarchar" MaxLength="20" Nullable="false" />
           <Property Name="companyLogo" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="createdOn" Type="datetime" Nullable="false" />
+          <Property Name="createdBy" Type="bigint" Nullable="false" />
+          <Property Name="updatedOn" Type="datetime" />
+          <Property Name="updatedBy" Type="bigint" />
+        </EntityType>
+        <EntityType Name="MstCompanyLocation">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="locationCode" Type="varchar" MaxLength="50" />
+          <Property Name="addressLine1" Type="varchar" MaxLength="100" />
+          <Property Name="addressLine2" Type="varchar" MaxLength="100" />
+          <Property Name="pin" Type="varchar" MaxLength="10" />
+          <Property Name="city" Type="varchar" MaxLength="50" />
+          <Property Name="state" Type="varchar" MaxLength="50" />
           <Property Name="createdOn" Type="datetime" Nullable="false" />
           <Property Name="createdBy" Type="bigint" Nullable="false" />
           <Property Name="updatedOn" Type="datetime" />
@@ -791,6 +807,7 @@
           <EntitySet Name="MstCategory" EntityType="Self.MstCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MstCollection" EntityType="Self.MstCollection" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MstCompanyInfo" EntityType="Self.MstCompanyInfo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MstCompanyLocation" EntityType="Self.MstCompanyLocation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MstCustomer" EntityType="Self.MstCustomer" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MstCustomerAddress" EntityType="Self.MstCustomerAddress" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MstFomDensity" EntityType="Self.MstFomDensity" Schema="dbo" store:Type="Tables" />
@@ -950,8 +967,7 @@
             <End Role="MstUser" EntitySet="MstUser" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="IMSModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -1969,7 +1985,24 @@
             <End Role="MstuserType" EntitySet="MstuserTypes" />
             <End Role="MstUser" EntitySet="MstUsers" />
           </AssociationSet>
+          <EntitySet Name="MstCompanyLocations" EntityType="IMSModel.MstCompanyLocation" />
         </EntityContainer>
+        <EntityType Name="MstCompanyLocation">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="locationCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="addressLine1" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="addressLine2" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="pin" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="city" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="state" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="createdBy" Type="Int64" Nullable="false" />
+          <Property Name="updatedOn" Type="DateTime" Precision="3" />
+          <Property Name="updatedBy" Type="Int64" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2356,6 +2389,23 @@
                 <ScalarProperty Name="createdBy" ColumnName="createdBy" />
                 <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
                 <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MstCompanyLocations">
+            <EntityTypeMapping TypeName="IMSModel.MstCompanyLocation">
+              <MappingFragment StoreEntitySet="MstCompanyLocation">
+                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
+                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
+                <ScalarProperty Name="state" ColumnName="state" />
+                <ScalarProperty Name="city" ColumnName="city" />
+                <ScalarProperty Name="pin" ColumnName="pin" />
+                <ScalarProperty Name="addressLine2" ColumnName="addressLine2" />
+                <ScalarProperty Name="addressLine1" ColumnName="addressLine1" />
+                <ScalarProperty Name="locationCode" ColumnName="locationCode" />
+                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
