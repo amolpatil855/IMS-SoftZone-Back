@@ -294,6 +294,9 @@
     <Compile Include="Models\MstCompanyInfo.cs">
       <DependentUpon>WebApiModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\MstCompanyLocation.cs">
+      <DependentUpon>WebApiModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\MstCustomer.cs">
       <DependentUpon>WebApiModel.tt</DependentUpon>
     </Compile>
@@ -373,6 +376,7 @@
     <Compile Include="Services\CategoryService.cs" />
     <Compile Include="Services\CollectionService.cs" />
     <Compile Include="Services\CompanyInfoService.cs" />
+    <Compile Include="Services\CompanyLocationService.cs" />
     <Compile Include="Services\CustomerService.cs" />
     <Compile Include="Services\FomDensityService.cs" />
     <Compile Include="Services\FomSuggestedMMService.cs" />
