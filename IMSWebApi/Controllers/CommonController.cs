@@ -154,10 +154,10 @@ namespace IMSWebApi.Controllers
         }
 
         [HttpGet]
-        [Route("api/Common/GetFomDensityLookUp")]
-        public IHttpActionResult GetFomDensityLookUp()
+        [Route("api/Common/GetFomDensityLookUpByQuality")]
+        public IHttpActionResult GetFomDensityLookUpByQuality(long qualityId)
         {
-            var result = _fomDensityService.getFomDensityLookUp();
+            var result = _fomDensityService.getFomDensityLookUpByQualityId(qualityId);
             return Ok(result);
         }
 

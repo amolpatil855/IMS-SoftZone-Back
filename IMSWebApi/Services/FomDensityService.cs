@@ -66,9 +66,9 @@ namespace IMSWebApi.Services
             return fomDensityView;
         }
 
-        public List<VMLookUpItem> getFomDensityLookUp()
+        public List<VMLookUpItem> getFomDensityLookUpByQualityId(Int64 qualityId)
         {
-            return repo.MstFomDensities
+            return repo.MstFomDensities.Where(f=>f.qualityId == qualityId)
                 .OrderBy(q => q.density)
                 .Select(q => new VMLookUpItem { value = q.id, label = q.density })
                 .ToList();
