@@ -21,9 +21,6 @@ namespace IMSWebApi.ViewModel
         [MaxLength(1000)]
         public string description { get; set; }
         [Required]
-        [MaxLength(20)]
-        public string gstin { get; set; }
-        [Required]
         [MaxLength(254)]
         public string email { get; set; }
         [Required]
