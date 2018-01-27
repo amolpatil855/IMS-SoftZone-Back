@@ -25,6 +25,7 @@ namespace IMSWebApi.Controllers
         private FomDensityService _fomDensityService = null;
         private FomSuggestedMMService _fomSuggestedMMService = null;
         private CompanyLocationService _companyLocationService = null;
+        private RoleService _roleService = null;
 
         public CommonController()
         {
@@ -41,6 +42,7 @@ namespace IMSWebApi.Controllers
             _fomDensityService = new FomDensityService();
             _fomSuggestedMMService = new FomSuggestedMMService();
             _companyLocationService = new CompanyLocationService();
+            _roleService = new RoleService();
         }
 
         [HttpGet]
@@ -50,6 +52,15 @@ namespace IMSWebApi.Controllers
             var result = _categoryService.getCategoryLookUp();
             return Ok(result);
         }
+
+        [HttpGet]
+        [Route("api/Common/GetRoleLookup")]
+        public IHttpActionResult GetRoleLookup()
+        {
+            var result = _roleService.getRoleLookUp();
+            return Ok(result);
+        }
+
 
         [HttpGet]
         [Route("api/Common/GetFWRCategoryLookup")]

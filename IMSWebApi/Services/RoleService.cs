@@ -133,5 +133,12 @@ namespace IMSWebApi.Services
             return repo.MstRoles.Where(c => c.roleName == "Administrator").FirstOrDefault();
         }
 
+        public List<VMLookUpItem> getRoleLookUp()
+        {
+            return repo.MstRoles
+                .OrderBy(s => s.roleName)
+                .Select(s => new VMLookUpItem { value = s.id, label = s.roleName }).ToList();
+        }
+
     }
 }
