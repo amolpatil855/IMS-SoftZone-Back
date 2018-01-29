@@ -13,7 +13,7 @@ namespace IMSWebApi.Common
         public static string _emailFrom = ConfigurationManager.AppSettings["SMTPUserName"];
         public static string _password = ConfigurationManager.AppSettings["SMTPPassword"];
 
-        public void email(MstUser result,string fileName)
+        public void email(MstUser result,string originalPassword,string fileName)
         {
             StringBuilder sbEmailDetails = new StringBuilder();
             sbEmailDetails.AppendLine(System.IO.File.ReadAllText(HttpContext.Current.Server.MapPath(@"~\EmailTemplate\" + fileName + ".html")));
@@ -28,7 +28,7 @@ namespace IMSWebApi.Common
             }
             if (result.password != null)
             {
-                sbEmailDetails = sbEmailDetails.Replace("@Password", result.password);
+                sbEmailDetails = sbEmailDetails.Replace("@Password", originalPassword);
             }
             else
             {
