@@ -26,6 +26,8 @@ namespace IMSWebApi.ViewModel
         [Required]
         [MaxLength(20)]
         public string sizeCode { get; set; }
+        [Required]
+        public int stockReorderLevel { get; set; }
        
         public virtual VMCategory MstCategory { get; set; }
         public virtual VMCollection MstCollection { get; set; }

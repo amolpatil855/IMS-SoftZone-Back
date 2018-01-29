@@ -9,17 +9,17 @@ namespace IMSWebApi.ViewModel
     public class VMUser
     {
         public long id { get; set; }
-        [Required]
+        //[Required]
         public long roleId { get; set; }
-        [Required]
+        //[Required]
         public long userTypeId { get; set; }
-        [Required]
+        //[Required]
         [MaxLength(100)]
         public string userName { get; set; }
-        [Required]
+        //[Required]
         [MaxLength(254)]
         public string email { get; set; }
-        [Required]
+        //[Required]
         [MaxLength(20)]
         public string phone { get; set; }
         public string password { get; set; }

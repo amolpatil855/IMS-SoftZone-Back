@@ -22,6 +22,8 @@ namespace IMSWebApi.ViewModel
         public string sizeCode { get; set; }
         [Required]
         public decimal rate { get; set; }
+        [Required]
+        public int stockReorderLevel { get; set; }
        
         public virtual VMCategory MstCategory { get; set; }
         public virtual VMCollection MstCollection { get; set; }
