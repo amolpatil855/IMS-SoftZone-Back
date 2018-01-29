@@ -195,6 +195,23 @@ namespace IMSWebApi.Services
                 return new ResponseMessage(user.id, resourceManager.GetString("OldPasswordMismatched"), ResponseType.Error);
         }
 
+        public ResponseMessage forgetPassword(string emailId)
+        {
+            var user = repo.MstUsers.Where(u => u.email.Equals(emailId)).FirstOrDefault();
+            if (user!=null)
+            {
+                var originalPassword = createRandomPassword(8);
+                user.password = encryption(originalPassword);
+                repo.SaveChanges();
+                sendEmail(user.id, originalPassword, "RegisterUser");
+                return new ResponseMessage(user.id, resourceManager.GetString("PasswordReset"), ResponseType.Success);
+            }
+            else
+            {
+                return new ResponseMessage(0, resourceManager.GetString("PasswordResetFailed"), ResponseType.Error);
+            }
+        }
+
         public void sendEmail(Int64 id, string originalPassword, string fileName)
         {
             var result = repo.MstUsers.Where(u => u.id == id).FirstOrDefault();
