@@ -74,6 +74,9 @@ namespace IMSWebApi.App_Start
 
             Mapper.CreateMap<MstFomSize, VMFomSize>();
             Mapper.CreateMap<VMFomSize, MstFomSize>();
+
+            Mapper.CreateMap<TrnProductStock, VMTrnProductStock>();
+            Mapper.CreateMap<VMTrnProductStock, TrnProductStock>();
         }
     }
 }

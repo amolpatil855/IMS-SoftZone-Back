@@ -331,6 +331,24 @@ namespace IMSWebApi.App_Data {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Password Reset Successfully.
+        /// </summary>
+        public static string PasswordReset {
+            get {
+                return ResourceManager.GetString("PasswordReset", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Email Id does not exist..
+        /// </summary>
+        public static string PasswordResetFailed {
+            get {
+                return ResourceManager.GetString("PasswordResetFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Password Updated Successfully.
         /// </summary>
         public static string PasswordUpdated {

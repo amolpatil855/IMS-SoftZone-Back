@@ -267,4 +267,10 @@
   <data name="TrnProductStockUpdated" xml:space="preserve">
     <value>Product Stock is Updated Successfully</value>
   </data>
+  <data name="PasswordReset" xml:space="preserve">
+    <value>Password Reset Successfully</value>
+  </data>
+  <data name="PasswordResetFailed" xml:space="preserve">
+    <value>Email Id does not exist.</value>
+  </data>
 </root>
