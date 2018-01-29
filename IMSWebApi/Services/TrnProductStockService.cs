@@ -9,6 +9,7 @@ using System.Reflection;
 using IMSWebApi.Common;
 using IMSWebApi.ViewModel;
 using AutoMapper;
+using IMSWebApi.Enums;
 
 namespace IMSWebApi.Services
 {
@@ -62,5 +63,41 @@ namespace IMSWebApi.Services
             };
         }
 
+        public VMTrnProductStock getTrnProductStockById(Int64 id)
+        {
+            var result = repo.TrnProductStocks.Where(q => q.id == id).FirstOrDefault();
+            var trnProductStockView = Mapper.Map<TrnProductStock, VMTrnProductStock>(result);
+            return trnProductStockView;
+        }
+
+        public ResponseMessage postTrnProductStock(VMTrnProductStock trnProductStock)
+        {
+            TrnProductStock trnProductStockToPost = Mapper.Map<VMTrnProductStock, TrnProductStock>(trnProductStock);
+            trnProductStockToPost.createdOn = DateTime.Now;
+            trnProductStockToPost.createdBy = _LoggedInuserId;
+
+            repo.TrnProductStocks.Add(trnProductStockToPost);
+            repo.SaveChanges();
+            return new ResponseMessage(trnProductStockToPost.id, resourceManager.GetString("TrnProductStockAdded"), ResponseType.Success);
+        }
+
+        public ResponseMessage putTrnProductStock(VMTrnProductStock trnProductStock)
+        {
+            var trnProductStockToPut = repo.TrnProductStocks.Where(q => q.id == trnProductStock.id).FirstOrDefault();
+            
+            trnProductStockToPut.categoryId = trnProductStock.categoryId;
+            trnProductStockToPut.collectionid = trnProductStock.collectionid;
+            trnProductStockToPut.fomSizeId = trnProductStock.fomSizeId;
+            trnProductStockToPut.fwrShadeId = trnProductStock.fwrShadeId;
+            trnProductStockToPut.matSizeId = trnProductStock.matSizeId;
+            trnProductStockToPut.locationId = trnProductStock.locationId;
+            trnProductStockToPut.stock = trnProductStock.stock;
+           
+            trnProductStockToPut.updatedBy = _LoggedInuserId;
+            trnProductStockToPut.updatedOn = DateTime.Now;
+
+            repo.SaveChanges();
+            return new ResponseMessage(trnProductStock.id, resourceManager.GetString("TrnProductStockUpdated"), ResponseType.Success);
+        }
     }
 }
