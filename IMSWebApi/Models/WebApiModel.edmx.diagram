@@ -63,6 +63,12 @@
         <EntityTypeShape EntityType="IMSModel.MstSupplierAddress" Width="1.5" PointX="3" PointY="3.25" />
         <AssociationConnector Association="IMSModel.FK_MstCustomerAddressDetails_MstCustomer" />
         <AssociationConnector Association="IMSModel.FK_MstSupplierAddressDetails_MstSupplier" />
+        <EntityTypeShape EntityType="IMSModel.TrnProductStock" Width="1.5" PointX="18.75" PointY="11.875" />
+        <AssociationConnector Association="IMSModel.FK_TrnProductStock_MstCategory" />
+        <AssociationConnector Association="IMSModel.FK_TrnProductStock_MstCollection" />
+        <AssociationConnector Association="IMSModel.FK_TrnProductStock_MstFomSize" />
+        <AssociationConnector Association="IMSModel.FK_TrnProductStock_MstFWRShade" />
+        <AssociationConnector Association="IMSModel.FK_TrnProductStock_MstMatSize" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

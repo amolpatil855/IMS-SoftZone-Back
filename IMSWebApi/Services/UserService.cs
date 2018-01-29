@@ -10,6 +10,8 @@ using System.Web;
 using Microsoft.AspNet.Identity;
 using System.Resources;
 using System.Reflection;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace IMSWebApi.Services
 {
@@ -26,7 +28,7 @@ namespace IMSWebApi.Services
         }
 
         public VMUser getLoggedInUserDetails(string username)
-        { 
+        {
             MstUser result = repo.MstUsers.Where(p => p.userName.Equals(username)).FirstOrDefault();
             VMUser userView = new VMUser();
             userView.id = result.id;
@@ -45,8 +47,8 @@ namespace IMSWebApi.Services
             List<VMUser> userViews;
             if (pageSize > 0)
             {
-                var result = repo.MstUsers.Where(c => !c.MstRole.roleName.Equals("Administrator") && (!string.IsNullOrEmpty(search) 
-                                    ? c.userName.StartsWith(search) || 
+                var result = repo.MstUsers.Where(c => !c.MstRole.roleName.Equals("Administrator") && (!string.IsNullOrEmpty(search)
+                                    ? c.userName.StartsWith(search) ||
                                     c.phone.StartsWith(search) : true))
                                     .OrderBy(p => p.id).Skip(page * pageSize)
                                     .Take(pageSize).ToList();
@@ -54,18 +56,18 @@ namespace IMSWebApi.Services
             }
             else
             {
-                var result = repo.MstUsers.Where(c => !c.MstRole.roleName.Equals("Administrator") && (!string.IsNullOrEmpty(search) 
+                var result = repo.MstUsers.Where(c => !c.MstRole.roleName.Equals("Administrator") && (!string.IsNullOrEmpty(search)
                                             ? c.userName.StartsWith(search) ||
                                             c.phone.StartsWith(search) : true)).ToList();
                 userViews = Mapper.Map<List<MstUser>, List<VMUser>>(result);
             }
-            
+
             userViews.ForEach(d => d.MstRole.CFGRoleMenus = null);
             return new ListResult<VMUser>
             {
                 Data = userViews,
                 TotalCount = repo.MstUsers.Where(c => !c.MstRole.roleName.Equals("Administrator") && (!string.IsNullOrEmpty(search)
-                                            ? c.userName.StartsWith(search) || 
+                                            ? c.userName.StartsWith(search) ||
                                             c.phone.StartsWith(search) : true)).Count(),
                 Page = page
             };
@@ -111,12 +113,13 @@ namespace IMSWebApi.Services
         public ResponseMessage postUser(VMUser user)
         {
             MstUser userToPost = Mapper.Map<VMUser, MstUser>(user);
-            userToPost.password = createRandomPassword(8);
+            var originalPassword = createRandomPassword(8);
+            userToPost.password = encryption(originalPassword);
             userToPost.createdOn = DateTime.Now;
             userToPost.createdBy = _LoggedInuserId;
             repo.MstUsers.Add(userToPost);
             repo.SaveChanges();
-            sendEmail(userToPost.id, "RegisterUser");
+            sendEmail(userToPost.id, originalPassword, "RegisterUser");
             return new ResponseMessage(userToPost.id, resourceManager.GetString("UserAdded"), ResponseType.Success);
         }
 
@@ -130,6 +133,22 @@ namespace IMSWebApi.Services
                 chars[i] = allowedChars[rd.Next(0, allowedChars.Length)];
             }
             return new string(chars);
+        }
+
+        public static string encryption(String password)
+        {
+            MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider();
+            byte[] encrypt;
+            UTF8Encoding encode = new UTF8Encoding();
+            //encrypt the given password string into Encrypted data  
+            encrypt = md5.ComputeHash(encode.GetBytes(password));
+            StringBuilder encryptdata = new StringBuilder();
+            //Create a new string by using the encrypted data  
+            for (int i = 0; i < encrypt.Length; i++)
+            {
+                encryptdata.Append(encrypt[i].ToString());
+            }
+            return encryptdata.ToString();
         }
 
         public ResponseMessage putUser(VMUser user)
@@ -163,22 +182,23 @@ namespace IMSWebApi.Services
         }
 
         public ResponseMessage changePassword(VMUser user)
-        {  
-                var userToPut = repo.MstUsers.Where(p => p.id == user.id && p.password == user.oldPassword).FirstOrDefault();
-                if (userToPut != null)
-                {
-                    userToPut.password = user.password;
-                    repo.SaveChanges();
-                    return new ResponseMessage(userToPut.id, resourceManager.GetString("PasswordUpdated"), ResponseType.Success);
-                }
-                else
-                    return new ResponseMessage(user.id, resourceManager.GetString("OldPasswordMismatched"), ResponseType.Error);
+        {
+            var hashedPassword = encryption(user.oldPassword);
+            var userToPut = repo.MstUsers.Where(p => p.id == user.id && p.password == hashedPassword).FirstOrDefault();
+            if (userToPut != null)
+            {
+                userToPut.password = encryption(user.password);
+                repo.SaveChanges();
+                return new ResponseMessage(userToPut.id, resourceManager.GetString("PasswordUpdated"), ResponseType.Success);
+            }
+            else
+                return new ResponseMessage(user.id, resourceManager.GetString("OldPasswordMismatched"), ResponseType.Error);
         }
 
-        public void sendEmail(Int64 id, string fileName)
+        public void sendEmail(Int64 id, string originalPassword, string fileName)
         {
             var result = repo.MstUsers.Where(u => u.id == id).FirstOrDefault();
-            Email.email(result, fileName);
+            Email.email(result, originalPassword, fileName);
         }
 
         public MstuserType getCustomerUserType()

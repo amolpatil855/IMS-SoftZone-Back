@@ -45,8 +45,7 @@ namespace IMSWebApi.Controllers
         }
 
         // Get the type of User
-        [ApiAuthorize(AccessLevel = "user")]
-        [HttpGet]
+         [HttpGet]
         [Route("api/User/GetUserType")]
         public IHttpActionResult GetUserType()
         {
@@ -55,7 +54,6 @@ namespace IMSWebApi.Controllers
         }
         
         //Get Currently Logged In User Details
-        [ApiAuthorize(AccessLevel = "user")]
         [HttpGet]
         [Route("api/User/GetLoggedInUserDetail")]
         public IHttpActionResult GetLoggedInUserDetail()
@@ -111,7 +109,6 @@ namespace IMSWebApi.Controllers
         }
         
         //Change Password for Current User
-        [ApiAuthorize(AccessLevel = "user")]
         [HttpPut]
         [Route("api/User/ChangePassword")]
         public IHttpActionResult ChangePassword(VMUser user)

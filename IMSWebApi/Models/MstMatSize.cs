@@ -14,6 +14,11 @@ namespace IMSWebApi.Models
     
     public partial class MstMatSize
     {
+        public MstMatSize()
+        {
+            this.TrnProductStocks = new HashSet<TrnProductStock>();
+        }
+    
         public long id { get; set; }
         public long categoryId { get; set; }
         public long collectionId { get; set; }
@@ -31,5 +36,6 @@ namespace IMSWebApi.Models
         public virtual MstCollection MstCollection { get; set; }
         public virtual MstMatThickness MstMatThickness { get; set; }
         public virtual MstQuality MstQuality { get; set; }
+        public virtual ICollection<TrnProductStock> TrnProductStocks { get; set; }
     }
 }

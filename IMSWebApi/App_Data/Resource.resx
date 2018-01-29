@@ -261,4 +261,10 @@
   <data name="UserUpdated" xml:space="preserve">
     <value>User Details Updated Successfully</value>
   </data>
+  <data name="TrnProductStockAdded" xml:space="preserve">
+    <value>Product is Added in Stock</value>
+  </data>
+  <data name="TrnProductStockUpdated" xml:space="preserve">
+    <value>Product Stock is Updated Successfully</value>
+  </data>
 </root>

@@ -102,12 +102,13 @@ namespace IMSWebApi.Services
             user.roleId = _roleService.getCustomerRole().id;
             user.userTypeId = _userService.getCustomerUserType().id;
             MstUser userToPost = Mapper.Map<VMUser, MstUser>(user);
-            userToPost.password = _userService.createRandomPassword(8);
+            var originalPassword = _userService.createRandomPassword(8);
+            userToPost.password = UserService.encryption(originalPassword);
             userToPost.createdOn = DateTime.Now;
             userToPost.createdBy = _LoggedInuserId;
             repo.MstUsers.Add(userToPost);
             repo.SaveChanges();
-            _userService.sendEmail(userToPost.id, "RegisterUser");
+            _userService.sendEmail(userToPost.id, originalPassword,"RegisterUser");
             userId = userToPost.id;
             return userId;
         }

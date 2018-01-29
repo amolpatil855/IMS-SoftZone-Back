@@ -7,6 +7,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using IMSWebApi.Models;
+using IMSWebApi.Services;
 
 namespace IMSWebApi.Providers
 {
@@ -24,7 +25,8 @@ namespace IMSWebApi.Providers
 
             using (WebAPIdbEntities _repo = new WebAPIdbEntities())
             {
-                MstUser user = _repo.MstUsers.FirstOrDefault(p => p.userName.Equals(context.UserName) && p.password.Equals(context.Password));
+                var passWord = UserService.encryption(context.Password);
+                MstUser user = _repo.MstUsers.FirstOrDefault(p => p.userName.Equals(context.UserName) && p.password.Equals(passWord));
 
                 if (user == null)
                 {
