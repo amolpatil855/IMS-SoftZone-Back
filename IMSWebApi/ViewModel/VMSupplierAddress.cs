@@ -11,9 +11,9 @@ namespace IMSWebApi.ViewModel
         public long id { get; set; }
         [Required]
         public long supplierId { get; set; }
-        [MaxLength(100)]
+        [MaxLength(500)]
         public string addressLine1 { get; set; }
-        [MaxLength(100)]
+        [MaxLength(500)]
         public string addressLine2 { get; set; }
         [MaxLength(50)]
         public string city { get; set; }
@@ -23,7 +23,8 @@ namespace IMSWebApi.ViewModel
         public string country { get; set; }
         [MaxLength(10)]
         public string pin { get; set; }
-        public Nullable<int> gstin { get; set; }
+        [MaxLength(15)]
+        public string gstin { get; set; }
         public Nullable<bool> isPrimary { get; set; }
     }
 }

@@ -56,13 +56,14 @@ namespace IMSWebApi.Services
         public VMMatSize getMatSizeById(Int64 id)
         {
             var result = repo.MstMatSizes.Where(q => q.id == id).FirstOrDefault();
+
             var matSizeView = Mapper.Map<MstMatSize, VMMatSize>(result);
             return matSizeView;
         }
 
-        public List<VMLookUpItem> getMatSizeLookUp()
+        public List<VMLookUpItem> getMatSizeLookUpByCollectionId(Int64 collectionId)
         {
-            return repo.MstMatSizes
+            return repo.MstMatSizes.Where(m=>m.collectionId == collectionId)
                 .OrderBy(m=>m.sizeCode)
                 .Select(q => new VMLookUpItem { value = q.id, label = q.sizeCode }).ToList();
         }

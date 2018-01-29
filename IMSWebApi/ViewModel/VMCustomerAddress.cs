@@ -23,7 +23,8 @@ namespace IMSWebApi.ViewModel
         public string country { get; set; }
         [MaxLength(10)]
         public string pin { get; set; }
-        public Nullable<int> gstin { get; set; }
+        [MaxLength(15)]
+        public string gstin { get; set; }
         public Nullable<bool> isPrimary { get; set; }
     }
 }

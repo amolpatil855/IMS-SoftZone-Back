@@ -22,7 +22,7 @@ namespace IMSWebApi.Models
         public string state { get; set; }
         public string country { get; set; }
         public string pin { get; set; }
-        public Nullable<int> gstin { get; set; }
+        public string gstin { get; set; }
         public Nullable<bool> isPrimary { get; set; }
         public System.DateTime createdOn { get; set; }
         public long createdBy { get; set; }

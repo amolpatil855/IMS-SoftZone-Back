@@ -10,7 +10,6 @@
         <EntityTypeShape EntityType="IMSModel.MstCollection" Width="1.5" PointX="3" PointY="13.75" IsExpanded="true" />
         <EntityTypeShape EntityType="IMSModel.MstCompanyInfo" Width="1.5" PointX="5.75" PointY="1.25" IsExpanded="true" />
         <EntityTypeShape EntityType="IMSModel.MstCustomer" Width="1.5" PointX="23.25" PointY="3.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="IMSModel.MstCustomerAddress" Width="1.5" PointX="25.5" PointY="4.125" IsExpanded="true" />
         <EntityTypeShape EntityType="IMSModel.MstFomDensity" Width="1.5" PointX="5.25" PointY="14.25" IsExpanded="true" />
         <EntityTypeShape EntityType="IMSModel.MstFomSize" Width="1.5" PointX="16.5" PointY="14" IsExpanded="true" />
         <EntityTypeShape EntityType="IMSModel.MstFomSuggestedMM" Width="1.5" PointX="13.5" PointY="9.25" IsExpanded="true" />
@@ -23,7 +22,6 @@
         <EntityTypeShape EntityType="IMSModel.MstQuality" Width="1.5" PointX="11.25" PointY="12.5" IsExpanded="true" />
         <EntityTypeShape EntityType="IMSModel.MstRole" Width="1.5" PointX="15.75" PointY="4.75" IsExpanded="true" />
         <EntityTypeShape EntityType="IMSModel.MstSupplier" Width="1.5" PointX="0.75" PointY="7.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="IMSModel.MstSupplierAddress" Width="1.5" PointX="3" PointY="3.25" IsExpanded="true" />
         <EntityTypeShape EntityType="IMSModel.MstUnitOfMeasure" Width="1.5" PointX="5.75" PointY="5.25" IsExpanded="true" />
         <EntityTypeShape EntityType="IMSModel.MstUser" Width="1.5" PointX="21" PointY="4.125" IsExpanded="true" />
         <EntityTypeShape EntityType="IMSModel.MstuserType" Width="1.5" PointX="18.75" PointY="1" IsExpanded="true" />
@@ -46,7 +44,6 @@
         <AssociationConnector Association="IMSModel.FK_MstQuality_MstCollection" ManuallyRouted="false" />
         <AssociationConnector Association="IMSModel.FK_MstShade_MstCollection" ManuallyRouted="false" />
         <AssociationConnector Association="IMSModel.FK_MstCustomer_MstUser" ManuallyRouted="false" />
-        <AssociationConnector Association="IMSModel.FK_MstCustomerAddressDetails_MstCustomer" ManuallyRouted="false" />
         <AssociationConnector Association="IMSModel.FK_MstFoamDensity_MstQuality" ManuallyRouted="false" />
         <AssociationConnector Association="IMSModel.FK_MstFomSize_MstFomDensity" ManuallyRouted="false" />
         <AssociationConnector Association="IMSModel.FK_MstFomSuggestdMM_MstFomDensity" ManuallyRouted="false" />
@@ -60,9 +57,12 @@
         <AssociationConnector Association="IMSModel.FK_MstMattressSize_MstMattressThickNess" ManuallyRouted="false" />
         <AssociationConnector Association="IMSModel.FK_MstMattressSize_MstQuality" ManuallyRouted="false" />
         <AssociationConnector Association="IMSModel.FK_MstUser_MstRole" ManuallyRouted="false" />
-        <AssociationConnector Association="IMSModel.FK_MstSupplierAddressDetails_MstSupplier" ManuallyRouted="false" />
         <AssociationConnector Association="IMSModel.FK_MstUser_MstUserType" ManuallyRouted="false" />
         <EntityTypeShape EntityType="IMSModel.MstCompanyLocation" Width="1.5" PointX="8.375" PointY="0.75" />
+        <EntityTypeShape EntityType="IMSModel.MstCustomerAddress" Width="1.5" PointX="25.5" PointY="4.125" />
+        <EntityTypeShape EntityType="IMSModel.MstSupplierAddress" Width="1.5" PointX="3" PointY="3.25" />
+        <AssociationConnector Association="IMSModel.FK_MstCustomerAddressDetails_MstCustomer" />
+        <AssociationConnector Association="IMSModel.FK_MstSupplierAddressDetails_MstSupplier" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
