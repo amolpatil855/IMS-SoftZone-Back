@@ -130,7 +130,7 @@ namespace IMSWebApi.Services
 
         public MstRole getCustomerRole()
         {
-            return repo.MstRoles.Where(c => c.roleName == "Administrator").FirstOrDefault();
+            return repo.MstRoles.Where(c => c.roleName == "Customer").FirstOrDefault();
         }
 
         public List<VMLookUpItem> getRoleLookUp()
