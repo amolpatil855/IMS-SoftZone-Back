@@ -26,7 +26,9 @@ namespace IMSWebApi.ViewModel
         [Required]
         public int serialNumber { get; set; }
         [MaxLength(500)]
-        public string description { get; set; }       
+        public string description { get; set; }
+        [Required]
+        public int stockReorderLevel { get; set; }
     
         public virtual VMCategory MstCategory { get; set; }
         public virtual VMCollection MstCollection { get; set; }
