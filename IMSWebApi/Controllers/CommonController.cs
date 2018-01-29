@@ -26,6 +26,7 @@ namespace IMSWebApi.Controllers
         private FomSuggestedMMService _fomSuggestedMMService = null;
         private CompanyLocationService _companyLocationService = null;
         private RoleService _roleService = null;
+        private FomSizeService _fomSizeService = null;
 
         public CommonController()
         {
@@ -43,6 +44,7 @@ namespace IMSWebApi.Controllers
             _fomSuggestedMMService = new FomSuggestedMMService();
             _companyLocationService = new CompanyLocationService();
             _roleService = new RoleService();
+            _fomSizeService = new FomSizeService();
         }
 
         [HttpGet]
@@ -135,10 +137,10 @@ namespace IMSWebApi.Controllers
         }
 
         [HttpGet]
-        [Route("api/Common/GetMatSizeLookUp")]
-        public IHttpActionResult GetMatSizeLookUp()
+        [Route("api/Common/GetMatSizeLookUpByCollection")]
+        public IHttpActionResult GetMatSizeLookUp(long collectionId)
         {
-            var result = _matSizeService.getMatSizeLookUp();
+            var result = _matSizeService.getMatSizeLookUpByCollectionId(collectionId);
             return Ok(result);
         }
 
@@ -187,6 +189,14 @@ namespace IMSWebApi.Controllers
         public IHttpActionResult GetCompanyLocationLookUp()
         {
             var result = _companyLocationService.getCompanyLocationLookUp();
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("api/Common/GetFomSizeLookUpByCollection")]
+        public IHttpActionResult GetFomSizeLookUpByCollection(long collectionId)
+        {
+            var result = _fomSizeService.getFomSizeLookUpByCollection(collectionId);
             return Ok(result);
         }
 
