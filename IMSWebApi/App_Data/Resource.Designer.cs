@@ -457,6 +457,24 @@ namespace IMSWebApi.App_Data {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Product is Added in Stock.
+        /// </summary>
+        public static string TrnProductStockAdded {
+            get {
+                return ResourceManager.GetString("TrnProductStockAdded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Product Stock is Updated Successfully.
+        /// </summary>
+        public static string TrnProductStockUpdated {
+            get {
+                return ResourceManager.GetString("TrnProductStockUpdated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to User Added Successfully.
         /// </summary>
         public static string UserAdded {
