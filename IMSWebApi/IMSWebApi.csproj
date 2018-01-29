@@ -351,9 +351,6 @@
     <Compile Include="Models\MstuserType.cs">
       <DependentUpon>WebApiModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\TrnProductStock.cs">
-      <DependentUpon>WebApiModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\WebApiModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
