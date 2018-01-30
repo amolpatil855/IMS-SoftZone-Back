@@ -118,9 +118,16 @@ namespace IMSWebApi.Controllers
                 return BadRequest(ModelState);
             }
             var result = _userService.changePassword(user);
-            return Ok(result);
-           
+            if (result.type.Equals("Error"))
+            {
+                return BadRequest(result.message);
+            }
+            else
+            {
+                return Ok(result);
+            }
         }
+
         [AllowAnonymous]
         [HttpPost]
         [Route("api/User/ForgetPassword")]
