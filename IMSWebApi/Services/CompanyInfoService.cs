@@ -50,9 +50,14 @@ namespace IMSWebApi.Services
         public ResponseMessage putCompanyInfo(VMCompanyInfo companyInfo)
         {
             var companyInfoToPut = repo.MstCompanyInfoes.Where(c => c.id == companyInfo.id).FirstOrDefault();
+            string logoURL = companyInfoToPut.companyLogo;
             companyInfoToPut = Mapper.Map<VMCompanyInfo, MstCompanyInfo>(companyInfo, companyInfoToPut);
             companyInfoToPut.updatedOn = DateTime.Now;
             companyInfoToPut.updatedBy = _LoggedInuserId;
+            if(string.IsNullOrEmpty(companyInfoToPut.companyLogo))
+            {
+                companyInfoToPut.companyLogo = logoURL;
+            }
             repo.SaveChanges();
             return new ResponseMessage(companyInfoToPut.id, resourceManager.GetString("CompanyInfoUpdated"), ResponseType.Success);
         }
