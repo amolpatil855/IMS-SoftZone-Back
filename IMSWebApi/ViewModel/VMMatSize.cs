@@ -23,6 +23,11 @@ namespace IMSWebApi.ViewModel
         [Required]
         public decimal rate { get; set; }
         [Required]
+        public int purchaseDiscount { get; set; }
+        [Required]
+        public decimal purchsaseCost { get; set; }
+
+        [Required]
         public int stockReorderLevel { get; set; }
        
         public virtual VMCategory MstCategory { get; set; }
