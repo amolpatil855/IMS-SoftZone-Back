@@ -229,7 +229,7 @@
           <Property Name="sizeCode" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="rate" Type="decimal" Precision="7" Scale="2" Nullable="false" />
           <Property Name="purchaseDiscount" Type="int" Nullable="false" />
-          <Property Name="purchsaseCost" Type="decimal" Precision="7" Scale="2" Nullable="false" />
+          <Property Name="purchaseRate" Type="decimal" Precision="7" Scale="2" Nullable="false" />
           <Property Name="stockReorderLevel" Type="int" Nullable="false" />
           <Property Name="createdOn" Type="datetime" Nullable="false" />
           <Property Name="createdBy" Type="bigint" Nullable="false" />
@@ -2149,7 +2149,7 @@
           <Property Name="sizeCode" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="rate" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
           <Property Name="purchaseDiscount" Type="Int32" Nullable="false" />
-          <Property Name="purchsaseCost" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
+          <Property Name="purchaseRate" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
           <Property Name="stockReorderLevel" Type="Int32" Nullable="false" />
           <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="createdBy" Type="Int64" Nullable="false" />
@@ -2639,7 +2639,7 @@
                 <ScalarProperty Name="createdBy" ColumnName="createdBy" />
                 <ScalarProperty Name="createdOn" ColumnName="createdOn" />
                 <ScalarProperty Name="stockReorderLevel" ColumnName="stockReorderLevel" />
-                <ScalarProperty Name="purchsaseCost" ColumnName="purchsaseCost" />
+                <ScalarProperty Name="purchaseRate" ColumnName="purchaseRate" />
                 <ScalarProperty Name="purchaseDiscount" ColumnName="purchaseDiscount" />
                 <ScalarProperty Name="rate" ColumnName="rate" />
                 <ScalarProperty Name="sizeCode" ColumnName="sizeCode" />

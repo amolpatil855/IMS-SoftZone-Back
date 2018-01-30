@@ -69,7 +69,7 @@
         <AssociationConnector Association="IMSModel.FK_MstMattressSize_MstMattressThickNess" />
         <AssociationConnector Association="IMSModel.FK_MstMattressSize_MstQuality" />
         <AssociationConnector Association="IMSModel.FK_TrnProductStock_MstMatSize" />
-      </Diagram>
+        </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>
