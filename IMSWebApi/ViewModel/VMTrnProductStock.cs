@@ -12,7 +12,7 @@ namespace IMSWebApi.ViewModel
         [Required]
         public long categoryId { get; set; }
         [Required]
-        public long collectionid { get; set; }
+        public long collectionId { get; set; }
         public Nullable<long> fwrShadeId { get; set; }
         public Nullable<long> matSizeId { get; set; }
         public Nullable<long> fomSizeId { get; set; }
@@ -23,6 +23,7 @@ namespace IMSWebApi.ViewModel
         
         public virtual VMCategory MstCategory { get; set; }
         public virtual VMCollection MstCollection { get; set; }
+        public virtual VMCompanyLocation  MstCompanyLocation { get; set; }
         public virtual VMFomSize MstFomSize { get; set; }
         public virtual VMFWRShade MstFWRShade { get; set; }
         public virtual VMMatSize MstMatSize { get; set; }

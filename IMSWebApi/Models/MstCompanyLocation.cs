@@ -14,6 +14,11 @@ namespace IMSWebApi.Models
     
     public partial class MstCompanyLocation
     {
+        public MstCompanyLocation()
+        {
+            this.TrnProductStocks = new HashSet<TrnProductStock>();
+        }
+    
         public long id { get; set; }
         public string locationCode { get; set; }
         public string addressLine1 { get; set; }
@@ -26,5 +31,7 @@ namespace IMSWebApi.Models
         public Nullable<System.DateTime> updatedOn { get; set; }
         public Nullable<long> updatedBy { get; set; }
         public string phone { get; set; }
+    
+        public virtual ICollection<TrnProductStock> TrnProductStocks { get; set; }
     }
 }

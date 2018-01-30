@@ -16,7 +16,7 @@ namespace IMSWebApi.Models
     {
         public long id { get; set; }
         public long categoryId { get; set; }
-        public long collectionid { get; set; }
+        public long collectionId { get; set; }
         public Nullable<long> fwrShadeId { get; set; }
         public Nullable<long> matSizeId { get; set; }
         public Nullable<long> fomSizeId { get; set; }
@@ -29,6 +29,7 @@ namespace IMSWebApi.Models
     
         public virtual MstCategory MstCategory { get; set; }
         public virtual MstCollection MstCollection { get; set; }
+        public virtual MstCompanyLocation MstCompanyLocation { get; set; }
         public virtual MstFomSize MstFomSize { get; set; }
         public virtual MstFWRShade MstFWRShade { get; set; }
         public virtual MstMatSize MstMatSize { get; set; }

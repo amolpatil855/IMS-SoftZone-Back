@@ -47,7 +47,7 @@ namespace IMSWebApi.Models
         public virtual DbSet<MstCompanyLocation> MstCompanyLocations { get; set; }
         public virtual DbSet<MstCustomerAddress> MstCustomerAddresses { get; set; }
         public virtual DbSet<MstSupplierAddress> MstSupplierAddresses { get; set; }
-        public virtual DbSet<TrnProductStock> TrnProductStocks { get; set; }
         public virtual DbSet<MstMatSize> MstMatSizes { get; set; }
+        public virtual DbSet<TrnProductStock> TrnProductStocks { get; set; }
     }
 }

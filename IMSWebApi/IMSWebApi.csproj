@@ -400,6 +400,7 @@
     <Compile Include="ViewModel\ResponseMessage.cs" />
     <Compile Include="ViewModel\VMCategory.cs" />
     <Compile Include="ViewModel\VMCollection.cs" />
+    <Compile Include="ViewModel\VMCompanyLocation.cs" />
     <Compile Include="ViewModel\VMFomDensity.cs" />
     <Compile Include="ViewModel\VMFomSize.cs" />
     <Compile Include="ViewModel\VMFomSuggestedMM.cs" />
