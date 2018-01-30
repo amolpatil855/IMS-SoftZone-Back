@@ -122,6 +122,7 @@ namespace IMSWebApi.Controllers
            
         }
 
+        [AllowAnonymous]
         [HttpPost]
         [Route("api/User/ForgetPassword")]
         public IHttpActionResult ForgetPassword(string emailId)
@@ -131,8 +132,14 @@ namespace IMSWebApi.Controllers
                 return BadRequest(ModelState);
             }
             var result = _userService.forgetPassword(emailId);
-            return Ok(result);
-
+            if (result.type.Equals("Error"))
+            {
+                return BadRequest(result.message);
+            }
+            else
+            {
+                return Ok(result);
+            }
         }
 
     }
