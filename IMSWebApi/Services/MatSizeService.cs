@@ -90,6 +90,9 @@ namespace IMSWebApi.Services
             matSizeToPut.thicknessId = matSize.thicknessId;
             matSizeToPut.sizeCode = matSize.sizeCode;
             matSizeToPut.rate = matSize.rate;
+            matSizeToPut.purchaseDiscount = matSize.purchaseDiscount;
+            matSizeToPut.purchaseRate = matSize.purchaseRate;
+            matSizeToPut.stockReorderLevel = matSize.stockReorderLevel;
 
             matSizeToPut.updatedBy = _LoggedInuserId;
             matSizeToPut.updatedOn = DateTime.Now;

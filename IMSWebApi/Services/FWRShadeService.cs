@@ -120,6 +120,7 @@ namespace IMSWebApi.ServicesDesign
             shadeToPut.shadeName = shade.shadeName;
             shadeToPut.serialNumber = shade.serialNumber;
             shadeToPut.description = shade.description;
+            shadeToPut.stockReorderLevel = shade.stockReorderLevel;
 
             shadeToPut.updatedBy = _LoggedInuserId;
             shadeToPut.updatedOn = DateTime.Now;
