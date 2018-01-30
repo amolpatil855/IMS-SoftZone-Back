@@ -86,7 +86,7 @@ namespace IMSWebApi.Services
             var trnProductStockToPut = repo.TrnProductStocks.Where(q => q.id == trnProductStock.id).FirstOrDefault();
             
             trnProductStockToPut.categoryId = trnProductStock.categoryId;
-            trnProductStockToPut.collectionid = trnProductStock.collectionid;
+            trnProductStockToPut.collectionId = trnProductStock.collectionId;
             trnProductStockToPut.fomSizeId = trnProductStock.fomSizeId;
             trnProductStockToPut.fwrShadeId = trnProductStock.fwrShadeId;
             trnProductStockToPut.matSizeId = trnProductStock.matSizeId;
