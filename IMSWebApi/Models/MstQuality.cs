@@ -51,7 +51,6 @@ namespace IMSWebApi.Models
         public Nullable<long> updatedBy { get; set; }
     
         public virtual MstCategory MstCategory { get; set; }
-        public virtual MstCollection MstCollection { get; set; }
         public virtual ICollection<MstFomDensity> MstFomDensities { get; set; }
         public virtual ICollection<MstFomSize> MstFomSizes { get; set; }
         public virtual ICollection<MstFomSuggestedMM> MstFomSuggestedMMs { get; set; }
@@ -59,5 +58,6 @@ namespace IMSWebApi.Models
         public virtual ICollection<MstFWRShade> MstFWRShades { get; set; }
         public virtual MstHsn MstHsn { get; set; }
         public virtual ICollection<MstMatSize> MstMatSizes { get; set; }
+        public virtual MstCollection MstCollection { get; set; }
     }
 }

@@ -20,9 +20,9 @@ namespace IMSWebApi.Models
             this.MstFomDensities = new HashSet<MstFomDensity>();
             this.MstFomSizes = new HashSet<MstFomSize>();
             this.MstFomSuggestedMMs = new HashSet<MstFomSuggestedMM>();
+            this.MstMatSizes = new HashSet<MstMatSize>();
             this.MstQualities = new HashSet<MstQuality>();
             this.MstFWRShades = new HashSet<MstFWRShade>();
-            this.MstMatSizes = new HashSet<MstMatSize>();
             this.TrnProductStocks = new HashSet<TrnProductStock>();
         }
     
@@ -44,9 +44,9 @@ namespace IMSWebApi.Models
         public virtual ICollection<MstFomDensity> MstFomDensities { get; set; }
         public virtual ICollection<MstFomSize> MstFomSizes { get; set; }
         public virtual ICollection<MstFomSuggestedMM> MstFomSuggestedMMs { get; set; }
+        public virtual ICollection<MstMatSize> MstMatSizes { get; set; }
         public virtual ICollection<MstQuality> MstQualities { get; set; }
         public virtual ICollection<MstFWRShade> MstFWRShades { get; set; }
-        public virtual ICollection<MstMatSize> MstMatSizes { get; set; }
         public virtual ICollection<TrnProductStock> TrnProductStocks { get; set; }
     }
 }

@@ -32,9 +32,9 @@ namespace IMSWebApi.Models
         public Nullable<long> updatedBy { get; set; }
     
         public virtual MstCategory MstCategory { get; set; }
-        public virtual MstCollection MstCollection { get; set; }
         public virtual MstQuality MstQuality { get; set; }
         public virtual ICollection<MstFomSize> MstFomSizes { get; set; }
         public virtual ICollection<MstFomSuggestedMM> MstFomSuggestedMMs { get; set; }
+        public virtual MstCollection MstCollection { get; set; }
     }
 }

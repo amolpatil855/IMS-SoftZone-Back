@@ -29,7 +29,8 @@ namespace IMSWebApi.Services
             List<VMRole> roleViews;
             if (pageSize > 0)
             {
-                var result = repo.MstRoles.Where(p => !p.roleName.Equals("Administrator") &&(!string.IsNullOrEmpty(search)? p.roleName.StartsWith(search):true)).OrderBy(p=>p.id).Skip(page * pageSize).Take(pageSize).ToList();
+                var result = repo.MstRoles.Where(p => !p.roleName.Equals("Administrator") &&(!string.IsNullOrEmpty(search)
+                    ? p.roleName.StartsWith(search):true)).OrderBy(p=>p.id).Skip(page * pageSize).Take(pageSize).ToList();
                 roleViews = Mapper.Map<List<MstRole>, List<VMRole>>(result);
             }
             else
@@ -42,7 +43,8 @@ namespace IMSWebApi.Services
             return new ListResult<VMRole>
             {
                 Data = roleViews,
-                TotalCount = repo.MstRoles.Where(p => !p.roleName.Equals("Administrator") && (!string.IsNullOrEmpty(search) ? p.roleName.StartsWith(search) : true)).Count(),
+                TotalCount = repo.MstRoles.Where(p => !p.roleName.Equals("Administrator") && (!string.IsNullOrEmpty(search)
+                    ? p.roleName.StartsWith(search) : true)).Count(),
                 Page = page
             };
         }
