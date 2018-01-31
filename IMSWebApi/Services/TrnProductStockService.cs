@@ -72,6 +72,10 @@ namespace IMSWebApi.Services
 
         public ResponseMessage postTrnProductStock(VMTrnProductStock trnProductStock)
         {
+            trnProductStock.fwrShadeId = trnProductStock.fwrShadeId == 0 ? null : trnProductStock.fwrShadeId;
+            trnProductStock.fomSizeId = trnProductStock.fomSizeId == 0 ? null : trnProductStock.fomSizeId;
+            trnProductStock.matSizeId = trnProductStock.matSizeId == 0 ? null : trnProductStock.matSizeId;
+           
             TrnProductStock trnProductStockToPost = Mapper.Map<VMTrnProductStock, TrnProductStock>(trnProductStock);
             trnProductStockToPost.createdOn = DateTime.Now;
             trnProductStockToPost.createdBy = _LoggedInuserId;
@@ -83,6 +87,10 @@ namespace IMSWebApi.Services
 
         public ResponseMessage putTrnProductStock(VMTrnProductStock trnProductStock)
         {
+            trnProductStock.fwrShadeId = trnProductStock.fwrShadeId == 0 ? null : trnProductStock.fwrShadeId;
+            trnProductStock.fomSizeId = trnProductStock.fomSizeId == 0 ? null : trnProductStock.fomSizeId;
+            trnProductStock.matSizeId = trnProductStock.matSizeId == 0 ? null : trnProductStock.matSizeId;
+
             var trnProductStockToPut = repo.TrnProductStocks.Where(q => q.id == trnProductStock.id).FirstOrDefault();
             
             trnProductStockToPut.categoryId = trnProductStock.categoryId;
