@@ -394,6 +394,7 @@
     <Compile Include="Services\FWRShadeService.cs" />
     <Compile Include="Services\SupplierService.cs" />
     <Compile Include="Services\TrnProductStockService.cs" />
+    <Compile Include="Services\UnitOfMeasureService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Services\FomSizeService.cs" />
     <Compile Include="Startup.cs" />

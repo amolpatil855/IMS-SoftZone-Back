@@ -27,6 +27,7 @@ namespace IMSWebApi.Controllers
         private CompanyLocationService _companyLocationService = null;
         private RoleService _roleService = null;
         private FomSizeService _fomSizeService = null;
+        private UnitOfMeasureService _unitOfMeasureService = null;
 
         public CommonController()
         {
@@ -45,6 +46,7 @@ namespace IMSWebApi.Controllers
             _companyLocationService = new CompanyLocationService();
             _roleService = new RoleService();
             _fomSizeService = new FomSizeService();
+            _unitOfMeasureService = new UnitOfMeasureService();
         }
 
         [HttpGet]
@@ -200,5 +202,12 @@ namespace IMSWebApi.Controllers
             return Ok(result);
         }
 
+        [HttpGet]
+        [Route("api/Common/GetUnitOfMeasureLookup")]
+        public IHttpActionResult GetUnitOfMeasureLookup()
+        {
+            var result = _unitOfMeasureService.getUnitOfMeasureLookUp();
+            return Ok(result);
+        }
     }
 }
