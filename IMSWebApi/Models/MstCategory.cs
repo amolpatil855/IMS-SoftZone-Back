@@ -16,7 +16,6 @@ namespace IMSWebApi.Models
     {
         public MstCategory()
         {
-            this.MstCollections = new HashSet<MstCollection>();
             this.MstFWRDesigns = new HashSet<MstFWRDesign>();
             this.MstFomDensities = new HashSet<MstFomDensity>();
             this.MstFomSizes = new HashSet<MstFomSize>();
@@ -25,6 +24,7 @@ namespace IMSWebApi.Models
             this.MstFWRShades = new HashSet<MstFWRShade>();
             this.MstMatSizes = new HashSet<MstMatSize>();
             this.TrnProductStocks = new HashSet<TrnProductStock>();
+            this.MstCollections = new HashSet<MstCollection>();
         }
     
         public long id { get; set; }
@@ -35,7 +35,6 @@ namespace IMSWebApi.Models
         public Nullable<System.DateTime> updatedOn { get; set; }
         public Nullable<long> updatedBy { get; set; }
     
-        public virtual ICollection<MstCollection> MstCollections { get; set; }
         public virtual ICollection<MstFWRDesign> MstFWRDesigns { get; set; }
         public virtual ICollection<MstFomDensity> MstFomDensities { get; set; }
         public virtual ICollection<MstFomSize> MstFomSizes { get; set; }
@@ -44,5 +43,6 @@ namespace IMSWebApi.Models
         public virtual ICollection<MstFWRShade> MstFWRShades { get; set; }
         public virtual ICollection<MstMatSize> MstMatSizes { get; set; }
         public virtual ICollection<TrnProductStock> TrnProductStocks { get; set; }
+        public virtual ICollection<MstCollection> MstCollections { get; set; }
     }
 }
