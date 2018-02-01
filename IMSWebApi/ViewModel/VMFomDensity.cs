@@ -20,6 +20,16 @@ namespace IMSWebApi.ViewModel
         public string density { get; set; }
         [MaxLength(500)]
         public string description { get; set; }
+        [Required]
+        public decimal purchaseRatePerMM { get; set; }
+        [Required]
+        public decimal purchaseRatePerKG { get; set; }
+        [Required]
+        public decimal sellingRatePercentage { get; set; }
+        [Required]
+        public decimal sellingRatePerMM { get; set; }
+        [Required]
+        public decimal sellingRatePerKG { get; set; }
        
         public virtual VMCategory MstCategory { get; set; }
         public virtual VMCollection MstCollection { get; set; }

@@ -24,6 +24,8 @@ namespace IMSWebApi.Models
         public long collectionId { get; set; }
         public long qualityId { get; set; }
         public long thicknessId { get; set; }
+        public int length { get; set; }
+        public int width { get; set; }
         public string sizeCode { get; set; }
         public decimal rate { get; set; }
         public int purchaseDiscount { get; set; }
@@ -35,9 +37,9 @@ namespace IMSWebApi.Models
         public Nullable<long> updatedBy { get; set; }
     
         public virtual MstCategory MstCategory { get; set; }
+        public virtual MstCollection MstCollection { get; set; }
         public virtual MstMatThickness MstMatThickness { get; set; }
         public virtual MstQuality MstQuality { get; set; }
         public virtual ICollection<TrnProductStock> TrnProductStocks { get; set; }
-        public virtual MstCollection MstCollection { get; set; }
     }
 }

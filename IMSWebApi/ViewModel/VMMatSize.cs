@@ -18,6 +18,10 @@ namespace IMSWebApi.ViewModel
         [Required]
         public long thicknessId { get; set; }
         [Required]
+        public int length { get; set; }
+        [Required]
+        public int width { get; set; }
+        [Required]
         [MaxLength(10)]
         public string sizeCode { get; set; }
         [Required]
@@ -26,7 +30,6 @@ namespace IMSWebApi.ViewModel
         public int purchaseDiscount { get; set; }
         [Required]
         public decimal purchaseRate { get; set; }
-
         [Required]
         public int stockReorderLevel { get; set; }
        

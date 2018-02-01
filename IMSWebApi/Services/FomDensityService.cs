@@ -94,6 +94,11 @@ namespace IMSWebApi.Services
             fomDensityToPut.qualityId = fomDensity.qualityId;
             fomDensityToPut.density = fomDensity.density;
             fomDensityToPut.description = fomDensity.description;
+            fomDensityToPut.purchaseRatePerMM = fomDensity.purchaseRatePerMM;
+            fomDensityToPut.purchaseRatePerKG = fomDensity.purchaseRatePerKG;
+            fomDensityToPut.sellingRatePercentage = fomDensity.sellingRatePercentage;
+            fomDensityToPut.sellingRatePerMM = fomDensity.sellingRatePerMM;
+            fomDensityToPut.sellingRatePerKG = fomDensity.sellingRatePerKG;
 
             fomDensityToPut.updatedBy = _LoggedInuserId;
             fomDensityToPut.updatedOn = DateTime.Now;

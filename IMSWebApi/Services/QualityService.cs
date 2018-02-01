@@ -108,11 +108,9 @@ namespace IMSWebApi.Services
             qualityToPut.maxCutRateDisc = quality.maxCutRateDisc;
             qualityToPut.maxRoleRateDisc = quality.maxRoleRateDisc;
             qualityToPut.flatRate = quality.flatRate;
-            qualityToPut.maxflatCutRateDisc = quality.maxflatCutRateDisc;
+            qualityToPut.maxFlatRateDisc = quality.maxFlatRateDisc;
             qualityToPut.custRatePerSqFeet = quality.custRatePerSqFeet;
-            qualityToPut.purchaseRatePerMM = quality.purchaseRatePerMM;
-            qualityToPut.sellingRatePerMM = quality.sellingRatePerMM;
-            qualityToPut.sellingRatePerMM = quality.maxDiscout;
+            qualityToPut.maxDiscout = quality.maxDiscout;
             qualityToPut.updatedBy = _LoggedInuserId;
             qualityToPut.updatedOn = DateTime.Now;
 

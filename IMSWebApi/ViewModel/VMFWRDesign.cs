@@ -22,7 +22,6 @@ namespace IMSWebApi.ViewModel
         [Required]
         [MaxLength(100)]
         public string designName { get; set; }
-        [Required]
         [MaxLength(500)]
         public string description { get; set; }
 
