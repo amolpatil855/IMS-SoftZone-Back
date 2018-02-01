@@ -15,8 +15,12 @@ namespace IMSWebApi.CustomAttributes
         {
             if (context.Exception is System.Data.Entity.Infrastructure.DbUpdateException)
             {
+                HttpError myCustomError;
                 context.Response = new HttpResponseMessage();
-                HttpError myCustomError = new HttpError("Duplicate record exist.Record cannot be saved");
+                if(!context.Request.Method.Method.Equals("DELETE"))
+                    myCustomError = new HttpError("Duplicate record exist.Record cannot be saved");
+                else
+                    myCustomError = new HttpError("Record refrence exist.Record cannot be delete");
                 //HttpError myCustomError = new HttpError("My custom error message") { { "CustomErrorCode", 37 } };
                 //context.Request.CreateErrorResponse(HttpStatusCode.BadRequest, myCustomError);
                 throw new HttpResponseException(context.Request.CreateErrorResponse(HttpStatusCode.BadRequest, myCustomError));
