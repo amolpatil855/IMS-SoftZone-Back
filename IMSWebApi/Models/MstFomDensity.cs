@@ -26,15 +26,20 @@ namespace IMSWebApi.Models
         public long qualityId { get; set; }
         public string density { get; set; }
         public string description { get; set; }
+        public decimal purchaseRatePerMM { get; set; }
+        public decimal purchaseRatePerKG { get; set; }
+        public decimal sellingRatePercentage { get; set; }
+        public decimal sellingRatePerMM { get; set; }
+        public decimal sellingRatePerKG { get; set; }
         public System.DateTime createdOn { get; set; }
         public long createdBy { get; set; }
         public Nullable<System.DateTime> updatedOn { get; set; }
         public Nullable<long> updatedBy { get; set; }
     
         public virtual MstCategory MstCategory { get; set; }
+        public virtual MstCollection MstCollection { get; set; }
         public virtual MstQuality MstQuality { get; set; }
         public virtual ICollection<MstFomSize> MstFomSizes { get; set; }
         public virtual ICollection<MstFomSuggestedMM> MstFomSuggestedMMs { get; set; }
-        public virtual MstCollection MstCollection { get; set; }
     }
 }

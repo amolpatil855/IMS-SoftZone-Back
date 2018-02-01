@@ -32,18 +32,15 @@ namespace IMSWebApi.Models
         public string description { get; set; }
         public Nullable<decimal> width { get; set; }
         public Nullable<decimal> size { get; set; }
-        public Nullable<long> hsnId { get; set; }
+        public long hsnId { get; set; }
         public Nullable<decimal> cutRate { get; set; }
         public Nullable<decimal> roleRate { get; set; }
         public Nullable<decimal> rrp { get; set; }
         public Nullable<int> maxCutRateDisc { get; set; }
         public Nullable<int> maxRoleRateDisc { get; set; }
         public Nullable<decimal> flatRate { get; set; }
-        public Nullable<int> maxflatCutRateDisc { get; set; }
-        public Nullable<int> maxflatRoleRateDisc { get; set; }
+        public Nullable<int> maxFlatRateDisc { get; set; }
         public Nullable<decimal> custRatePerSqFeet { get; set; }
-        public Nullable<decimal> purchaseRatePerMM { get; set; }
-        public Nullable<decimal> sellingRatePerMM { get; set; }
         public Nullable<int> maxDiscout { get; set; }
         public System.DateTime createdOn { get; set; }
         public long createdBy { get; set; }
@@ -51,6 +48,7 @@ namespace IMSWebApi.Models
         public Nullable<long> updatedBy { get; set; }
     
         public virtual MstCategory MstCategory { get; set; }
+        public virtual MstCollection MstCollection { get; set; }
         public virtual ICollection<MstFomDensity> MstFomDensities { get; set; }
         public virtual ICollection<MstFomSize> MstFomSizes { get; set; }
         public virtual ICollection<MstFomSuggestedMM> MstFomSuggestedMMs { get; set; }
@@ -58,6 +56,5 @@ namespace IMSWebApi.Models
         public virtual ICollection<MstFWRShade> MstFWRShades { get; set; }
         public virtual MstHsn MstHsn { get; set; }
         public virtual ICollection<MstMatSize> MstMatSizes { get; set; }
-        public virtual MstCollection MstCollection { get; set; }
     }
 }

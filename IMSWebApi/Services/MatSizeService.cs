@@ -88,6 +88,8 @@ namespace IMSWebApi.Services
             matSizeToPut.collectionId = matSize.collectionId;
             matSizeToPut.qualityId = matSize.qualityId;
             matSizeToPut.thicknessId = matSize.thicknessId;
+            matSizeToPut.length = matSize.length;
+            matSizeToPut.width = matSize.width;
             matSizeToPut.sizeCode = matSize.sizeCode;
             matSizeToPut.rate = matSize.rate;
             matSizeToPut.purchaseDiscount = matSize.purchaseDiscount;

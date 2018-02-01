@@ -35,9 +35,9 @@ namespace IMSWebApi.Models
         public int stockReorderLevel { get; set; }
     
         public virtual MstCategory MstCategory { get; set; }
-        public virtual MstFWRDesign MstFWRDesign { get; set; }
-        public virtual MstQuality MstQuality { get; set; }
         public virtual ICollection<TrnProductStock> TrnProductStocks { get; set; }
         public virtual MstCollection MstCollection { get; set; }
+        public virtual MstFWRDesign MstFWRDesign { get; set; }
+        public virtual MstQuality MstQuality { get; set; }
     }
 }
