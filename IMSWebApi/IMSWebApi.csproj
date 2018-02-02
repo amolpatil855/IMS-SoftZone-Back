@@ -256,9 +256,11 @@
     <Compile Include="AuthRepository.cs" />
     <Compile Include="Common\ListResult.cs" />
     <Compile Include="Common\SendEmail.cs" />
+    <Compile Include="Controllers\AgentController.cs" />
     <Compile Include="Controllers\CollectionController.cs" />
     <Compile Include="Controllers\CommonController.cs" />
     <Compile Include="Controllers\CompanyInfoController.cs" />
+    <Compile Include="Controllers\CourierController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\FomDensityController.cs" />
     <Compile Include="Controllers\FomSizeController.cs" />
@@ -384,10 +386,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resource.resx</DependentUpon>
     </Compile>
+    <Compile Include="Services\AgentService.cs" />
     <Compile Include="Services\CategoryService.cs" />
     <Compile Include="Services\CollectionService.cs" />
     <Compile Include="Services\CompanyInfoService.cs" />
     <Compile Include="Services\CompanyLocationService.cs" />
+    <Compile Include="Services\CourierService.cs" />
     <Compile Include="Services\CustomerService.cs" />
     <Compile Include="Services\FomDensityService.cs" />
     <Compile Include="Services\FomSuggestedMMService.cs" />
@@ -406,9 +410,11 @@
     <Compile Include="Services\FomSizeService.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModel\ResponseMessage.cs" />
+    <Compile Include="ViewModel\VMAgent.cs" />
     <Compile Include="ViewModel\VMCategory.cs" />
     <Compile Include="ViewModel\VMCollection.cs" />
     <Compile Include="ViewModel\VMCompanyLocation.cs" />
+    <Compile Include="ViewModel\VMCourier.cs" />
     <Compile Include="ViewModel\VMFomDensity.cs" />
     <Compile Include="ViewModel\VMFomSize.cs" />
     <Compile Include="ViewModel\VMFomSuggestedMM.cs" />

@@ -29,6 +29,7 @@ namespace IMSWebApi.Controllers
         private FomSizeService _fomSizeService = null;
         private UnitOfMeasureService _unitOfMeasureService = null;
         private UserService _userService = null;
+        private AgentService _agentService = null;
 
         public CommonController()
         {
@@ -49,6 +50,7 @@ namespace IMSWebApi.Controllers
             _fomSizeService = new FomSizeService();
             _unitOfMeasureService = new UnitOfMeasureService();
             _userService = new UserService();
+            _agentService = new AgentService();
         }
 
         [HttpGet]
@@ -217,6 +219,14 @@ namespace IMSWebApi.Controllers
         public IHttpActionResult GetUnitOfMeasureLookup()
         {
             var result = _unitOfMeasureService.getUnitOfMeasureLookUp();
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("api/Common/GetAgentLookup")]
+        public IHttpActionResult GetAgentLookup()
+        {
+            var result = _agentService.getAgentLookup();
             return Ok(result);
         }
     }

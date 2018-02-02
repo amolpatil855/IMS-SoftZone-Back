@@ -159,6 +159,7 @@ namespace IMSWebApi.Services
             userToPut.userTypeId = user.userTypeId;
             userToPut.email = user.email;
             userToPut.phone = user.phone;
+            userToPut.isActive = user.isActive;
             userToPut.updatedOn = DateTime.Now;
             userToPut.updatedBy = _LoggedInuserId;
             repo.SaveChanges();
@@ -222,6 +223,5 @@ namespace IMSWebApi.Services
         {
             return repo.MstuserTypes.Where(c => c.userTypeName == "Customer").FirstOrDefault();
         }
-
     }
 }
