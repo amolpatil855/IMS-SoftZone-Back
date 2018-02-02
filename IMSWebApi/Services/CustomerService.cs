@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity;
 using IMSWebApi.Common;
 using System.Resources;
 using System.Reflection;
+using System.Transactions;
 
 namespace IMSWebApi.Services
 {
@@ -72,25 +73,29 @@ namespace IMSWebApi.Services
 
         public ResponseMessage postCustomer(VMCustomer customer)
         {
-            Nullable<long> userId = null;
-            if (customer.isWholesaleCustomer == true)
+            using (var transaction = new TransactionScope())
             {
-                userId = CreateUser(customer, userId);
+                Nullable<long> userId = null;
+                if (customer.isWholesaleCustomer == true)
+                {
+                    userId = CreateUser(customer, userId);
+                }
+                MstCustomer customerToPost = Mapper.Map<VMCustomer, MstCustomer>(customer);
+                customerToPost.userId = userId;
+                List<MstCustomerAddress> customerAddress = customerToPost.MstCustomerAddresses.ToList();
+                foreach (var caddress in customerAddress)
+                {
+                    caddress.createdOn = DateTime.Now;
+                    caddress.createdBy = _LoggedInuserId;
+                }
+                customerToPost.createdOn = DateTime.Now;
+                customerToPost.createdBy = _LoggedInuserId;
+                repo.MstCustomers.Add(customerToPost);
+                repo.SaveChanges();
+                transaction.Complete();
+                return new ResponseMessage(customerToPost.id, resourceManager.GetString("CustomerAdded"),
+                    ResponseType.Success);
             }
-            MstCustomer customerToPost = Mapper.Map<VMCustomer, MstCustomer>(customer);
-            customerToPost.userId = userId;
-            List<MstCustomerAddress> customerAddress = customerToPost.MstCustomerAddresses.ToList();
-            foreach (var caddress in customerAddress)
-            {
-                caddress.createdOn = DateTime.Now;
-                caddress.createdBy = _LoggedInuserId;
-            }
-            customerToPost.createdOn = DateTime.Now;
-            customerToPost.createdBy = _LoggedInuserId;
-            repo.MstCustomers.Add(customerToPost);
-            repo.SaveChanges();
-            return new ResponseMessage(customerToPost.id, resourceManager.GetString("CustomerAdded"), 
-                ResponseType.Success);
         }
 
         private long? CreateUser(VMCustomer customer, Nullable<long> userId)
@@ -115,39 +120,43 @@ namespace IMSWebApi.Services
 
         public ResponseMessage putCustomer(VMCustomer customer)
         {
-            
-            var customerAddressDetails = Mapper.Map<List<VMCustomerAddress>, 
-                List<MstCustomerAddress>>(customer.MstCustomerAddresses);
-            repo.MstCustomerAddresses.RemoveRange(repo.MstCustomerAddresses
-                .Where(s => s.customerId== customer.id));
-            repo.SaveChanges();
-
-            foreach (var caddress in customerAddressDetails)
+            using (var transaction = new TransactionScope())
             {
-                caddress.createdOn = DateTime.Now;
-                caddress.createdBy = _LoggedInuserId;
-            }
-            var customerToPut = repo.MstCustomers.Where(s => s.id == customer.id).FirstOrDefault();
-           
-            customerToPut = Mapper.Map<VMCustomer, MstCustomer>(customer, customerToPut);
-            customerToPut.updatedOn = DateTime.Now;
-            customerToPut.updatedBy = _LoggedInuserId;
-           
-            customerToPut.MstCustomerAddresses = customerAddressDetails;
-            repo.SaveChanges();
+                var customerAddressDetails = Mapper.Map<List<VMCustomerAddress>,
+                    List<MstCustomerAddress>>(customer.MstCustomerAddresses);
+                repo.MstCustomerAddresses.RemoveRange(repo.MstCustomerAddresses
+                    .Where(s => s.customerId == customer.id));
+                repo.SaveChanges();
 
-            return new ResponseMessage(customer.id, resourceManager.GetString("CustomerUpdated"), ResponseType.Success);
+                foreach (var caddress in customerAddressDetails)
+                {
+                    caddress.createdOn = DateTime.Now;
+                    caddress.createdBy = _LoggedInuserId;
+                }
+                var customerToPut = repo.MstCustomers.Where(s => s.id == customer.id).FirstOrDefault();
+
+                customerToPut = Mapper.Map<VMCustomer, MstCustomer>(customer, customerToPut);
+                customerToPut.updatedOn = DateTime.Now;
+                customerToPut.updatedBy = _LoggedInuserId;
+
+                customerToPut.MstCustomerAddresses = customerAddressDetails;
+                repo.SaveChanges();
+                transaction.Complete();
+                return new ResponseMessage(customer.id, resourceManager.GetString("CustomerUpdated"), ResponseType.Success);
+            }
         }
 
         public ResponseMessage deleteCustomer(Int64 id)
         {
-            repo.MstCustomerAddresses.RemoveRange(repo.MstCustomerAddresses.Where(s => s.customerId== id));
-            repo.SaveChanges();
-            MstCustomer customerToDelete = repo.MstCustomers.Where(c => c.id == id).FirstOrDefault();
-            repo.MstUsers.Remove(repo.MstUsers.Where(u => u.id == customerToDelete.userId).FirstOrDefault());
-            repo.MstCustomers.Remove(repo.MstCustomers.Where(s => s.id == id).FirstOrDefault());
-            repo.SaveChanges();
-            return new ResponseMessage(id, resourceManager.GetString("CustomerDeleted"), ResponseType.Success);
+            using (var transaction = new TransactionScope())
+            {
+                MstCustomer customerToDelete = repo.MstCustomers.Where(c => c.id == id).FirstOrDefault();
+                repo.MstUsers.Remove(repo.MstUsers.Where(u => u.id == customerToDelete.userId).FirstOrDefault());
+                repo.MstCustomers.Remove(repo.MstCustomers.Where(s => s.id == id).FirstOrDefault());
+                repo.SaveChanges();
+                transaction.Complete();
+                return new ResponseMessage(id, resourceManager.GetString("CustomerDeleted"), ResponseType.Success);
+            }
         }
 
     }

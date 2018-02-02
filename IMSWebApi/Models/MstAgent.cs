@@ -12,29 +12,21 @@ namespace IMSWebApi.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class MstUser
+    public partial class MstAgent
     {
-        public MstUser()
-        {
-            this.MstCustomers = new HashSet<MstCustomer>();
-        }
-    
         public long id { get; set; }
-        public long roleId { get; set; }
-        public long userTypeId { get; set; }
-        public string userName { get; set; }
-        public string password { get; set; }
-        public string email { get; set; }
+        public string name { get; set; }
         public string phone { get; set; }
-        public Nullable<System.DateTime> lastLogin { get; set; }
-        public bool isActive { get; set; }
+        public string email { get; set; }
+        public string address1 { get; set; }
+        public string address2 { get; set; }
+        public string city { get; set; }
+        public string state { get; set; }
+        public string pin { get; set; }
+        public int commision { get; set; }
         public System.DateTime createdOn { get; set; }
         public long createdBy { get; set; }
         public Nullable<System.DateTime> updatedOn { get; set; }
         public Nullable<long> updatedBy { get; set; }
-    
-        public virtual MstRole MstRole { get; set; }
-        public virtual MstuserType MstuserType { get; set; }
-        public virtual ICollection<MstCustomer> MstCustomers { get; set; }
     }
 }

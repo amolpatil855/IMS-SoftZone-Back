@@ -28,6 +28,7 @@ namespace IMSWebApi.Controllers
         private RoleService _roleService = null;
         private FomSizeService _fomSizeService = null;
         private UnitOfMeasureService _unitOfMeasureService = null;
+        private UserService _userService = null;
 
         public CommonController()
         {
@@ -47,6 +48,7 @@ namespace IMSWebApi.Controllers
             _roleService = new RoleService();
             _fomSizeService = new FomSizeService();
             _unitOfMeasureService = new UnitOfMeasureService();
+            _userService = new UserService();
         }
 
         [HttpGet]
@@ -65,6 +67,14 @@ namespace IMSWebApi.Controllers
             return Ok(result);
         }
 
+        // Get the type of User
+        [HttpGet]
+        [Route("api/Common/GetUserTypeLookup")]
+        public IHttpActionResult GetUserTypeLookup()
+        {
+            var result = _userService.getUserTypeLookup();
+            return Ok(result);
+        }
 
         [HttpGet]
         [Route("api/Common/GetFWRCategoryLookup")]

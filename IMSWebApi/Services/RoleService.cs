@@ -10,6 +10,8 @@ using IMSWebApi.Common;
 using Microsoft.AspNet.Identity;
 using System.Resources;
 using System.Reflection;
+using System.Transactions;
+
 namespace IMSWebApi.Services
 {
     public class RoleService
@@ -66,68 +68,74 @@ namespace IMSWebApi.Services
 
         public ResponseMessage insertRole(VMRole role)
         {
-            MstRole roleObj = Mapper.Map<VMRole, MstRole>(role);
-            List<CFGRoleMenu> lstCfg = roleObj.CFGRoleMenus.ToList();
-            roleObj.createdOn = DateTime.Now;
-            roleObj.createdBy = _LoggedInuserId;
-            roleObj.CFGRoleMenus = null;
-            repo.MstRoles.Add(roleObj);
-            repo.SaveChanges();
-            foreach (var item in lstCfg)
-            {
-                item.MstRole = null;
-                item.roleId = roleObj.id;
-                item.createdOn = DateTime.Now;
-                item.createdBy = _LoggedInuserId;
-                repo.CFGRoleMenus.Add(item);
-            }
-            repo.SaveChanges();
-            return new ResponseMessage(roleObj.id, resourceManager.GetString("RoleAdded"), ResponseType.Success);
+            using (var transaction = new TransactionScope())
+            {  
+                    MstRole roleObj = Mapper.Map<VMRole, MstRole>(role);
+                    List<CFGRoleMenu> lstCfg = roleObj.CFGRoleMenus.ToList();
+                    roleObj.createdOn = DateTime.Now;
+                    roleObj.createdBy = _LoggedInuserId;
+                    roleObj.CFGRoleMenus = null;
+                    repo.MstRoles.Add(roleObj);
+                    repo.SaveChanges();
+                    foreach (var item in lstCfg)
+                    {
+                        item.MstRole = null;
+                        item.roleId = roleObj.id;
+                        item.createdOn = DateTime.Now;
+                        item.createdBy = _LoggedInuserId;
+                        repo.CFGRoleMenus.Add(item);
+                    }
+                    repo.SaveChanges();
+                    transaction.Complete();
+                    return new ResponseMessage(roleObj.id, resourceManager.GetString("RoleAdded"), ResponseType.Success);
+            }       
         }
 
 
         public ResponseMessage updateRole(VMRole role)
         {
-
-            List<CFGRoleMenu> lstCfg = Mapper.Map<List<VMCFGRoleMenu>, List<CFGRoleMenu>>(role.CFGRoleMenus);
-            MstRole recordToUpdate = repo.MstRoles.FirstOrDefault(p => p.id == role.id);
-            recordToUpdate.updatedOn = DateTime.Now;
-            recordToUpdate.updatedBy = _LoggedInuserId;
-            recordToUpdate.roleName = role.roleName;
-            recordToUpdate.roleDescription = role.roleDescription;
-            var savedCfgRoleMenu = repo.CFGRoleMenus.Where(p => p.roleId == role.id).ToList();
-            foreach (var item in savedCfgRoleMenu)
+            using (var transaction = new TransactionScope())
             {
-                repo.CFGRoleMenus.Remove(item);
+                List<CFGRoleMenu> lstCfg = Mapper.Map<List<VMCFGRoleMenu>, List<CFGRoleMenu>>(role.CFGRoleMenus);
+                MstRole recordToUpdate = repo.MstRoles.FirstOrDefault(p => p.id == role.id);
+                recordToUpdate.updatedOn = DateTime.Now;
+                recordToUpdate.updatedBy = _LoggedInuserId;
+                recordToUpdate.roleName = role.roleName;
+                recordToUpdate.roleDescription = role.roleDescription;
+                var savedCfgRoleMenu = repo.CFGRoleMenus.Where(p => p.roleId == role.id).ToList();
+                foreach (var item in savedCfgRoleMenu)
+                {
+                    repo.CFGRoleMenus.Remove(item);
+                }
+                repo.SaveChanges();
+                foreach (var item in lstCfg)
+                {
+                    item.MstRole = null;
+                    item.roleId = role.id;
+                    item.createdOn = DateTime.Now;
+                    item.createdBy = _LoggedInuserId;
+                    repo.CFGRoleMenus.Add(item);
+                }
+                repo.SaveChanges();
+                transaction.Complete();
+                return new ResponseMessage(role.id, resourceManager.GetString("RoleUpdated"), ResponseType.Success);
             }
-            repo.SaveChanges();
-            foreach (var item in lstCfg)
-            {
-                item.MstRole = null;
-                item.roleId = role.id;
-                item.createdOn = DateTime.Now;
-                item.createdBy = _LoggedInuserId;
-                repo.CFGRoleMenus.Add(item);
-            }
-            repo.SaveChanges();
-            return new ResponseMessage(role.id, resourceManager.GetString("RoleUpdated") , ResponseType.Success);
         }
 
         public ResponseMessage deleteRole(Int64 roleId)
         {
-            MstRole recordToRemove = repo.MstRoles.FirstOrDefault(p => p.id == roleId);
-            if (recordToRemove.MstUsers.Count() > 0)
+            using (var transaction = new TransactionScope())
             {
-                return new ResponseMessage(roleId, resourceManager.GetString("RoleCannotBeDeleted"), ResponseType.Error);
+                MstRole recordToRemove = repo.MstRoles.FirstOrDefault(p => p.id == roleId);
+                if (recordToRemove.MstUsers.Count() > 0)
+                {
+                    return new ResponseMessage(roleId, resourceManager.GetString("RoleCannotBeDeleted"), ResponseType.Error);
+                }
+                repo.MstRoles.Remove(recordToRemove);
+                repo.SaveChanges();
+                transaction.Complete();
+                return new ResponseMessage(roleId, resourceManager.GetString("RoleDeleted"), ResponseType.Success);
             }
-            repo.MstRoles.Remove(recordToRemove);
-            var savedCfgRoleMenu = repo.CFGRoleMenus.Where(p => p.roleId == recordToRemove.id).ToList();
-            foreach (var item in savedCfgRoleMenu)
-            {
-                repo.CFGRoleMenus.Remove(item);
-            }
-            repo.SaveChanges();
-            return new ResponseMessage(roleId, resourceManager.GetString("RoleDeleted"), ResponseType.Success);
         }
 
         public MstRole getCustomerRole()
@@ -137,7 +145,7 @@ namespace IMSWebApi.Services
 
         public List<VMLookUpItem> getRoleLookUp()
         {
-            return repo.MstRoles
+            return repo.MstRoles.Where(s=>!s.roleName.Equals("Customer"))
                 .OrderBy(s => s.roleName)
                 .Select(s => new VMLookUpItem { value = s.id, label = s.roleName }).ToList();
         }

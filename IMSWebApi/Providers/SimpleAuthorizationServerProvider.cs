@@ -33,6 +33,11 @@ namespace IMSWebApi.Providers
                     context.SetError("invalid_grant", "The user name or password is incorrect.");
                     return;
                 }
+                else if (!user.isActive)
+                {
+                    context.SetError("invalid_grant", "User is Inactive. Please make User active");
+                    return; 
+                }
                 var identity = new ClaimsIdentity(context.Options.AuthenticationType);
                 identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.id.ToString()));
                 identity.AddClaim(new Claim(ClaimTypes.Name, user.userName));

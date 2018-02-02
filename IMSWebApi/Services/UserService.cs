@@ -92,11 +92,11 @@ namespace IMSWebApi.Services
             return permissions;
         }
 
-        public List<VMUserType> getUserType()
+        public List<VMLookUpItem> getUserTypeLookup()
         {
-            var result = repo.MstuserTypes.ToList();
-            List<VMUserType> userTypeViews = Mapper.Map<List<MstuserType>, List<VMUserType>>(result);
-            return userTypeViews;
+            return repo.MstuserTypes.Where(s => !s.userTypeName.Equals("Customer"))
+              .OrderBy(s => s.userTypeName)
+              .Select(s => new VMLookUpItem { value = s.id, label = s.userTypeName }).ToList();
         }
 
         public VMUser getUserById(Int64 id)
