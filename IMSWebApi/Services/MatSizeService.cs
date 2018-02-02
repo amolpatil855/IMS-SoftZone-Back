@@ -84,7 +84,7 @@ namespace IMSWebApi.Services
         {
             var matSizeToPut = repo.MstMatSizes.Where(q => q.id == matSize.id).FirstOrDefault();
 
-            matSizeToPut.categoryId = matSize.categoryId;
+            //matSizeToPut.categoryId = matSize.categoryId;
             matSizeToPut.collectionId = matSize.collectionId;
             matSizeToPut.qualityId = matSize.qualityId;
             matSizeToPut.thicknessId = matSize.thicknessId;

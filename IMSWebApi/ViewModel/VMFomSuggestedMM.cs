@@ -9,8 +9,8 @@ namespace IMSWebApi.ViewModel
     public class VMFomSuggestedMM
     {
         public long id { get; set; }
-        [Required]
-        public long categoryId { get; set; }
+        //[Required]
+        //public long categoryId { get; set; }
         [Required]
         public long collectionId { get; set; }
         [Required]

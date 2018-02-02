@@ -97,7 +97,7 @@ namespace IMSWebApi.Services
         public ResponseMessage putFomSize(VMFomSize fomSize)
         {
             var fomSizeToPut = repo.MstFomSizes.Where(q => q.id == fomSize.id).FirstOrDefault();
-            fomSizeToPut.categoryId = fomSize.categoryId;
+            //fomSizeToPut.categoryId = fomSize.categoryId;
             fomSizeToPut.collectionId = fomSize.collectionId;
             fomSizeToPut.qualityId = fomSize.qualityId;
             fomSizeToPut.fomDensityId = fomSize.fomDensityId;
