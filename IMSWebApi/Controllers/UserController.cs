@@ -43,15 +43,6 @@ namespace IMSWebApi.Controllers
             var result = _userService.getUserById(id);
             return Ok(result);
         }
-
-        // Get the type of User
-         [HttpGet]
-        [Route("api/User/GetUserType")]
-        public IHttpActionResult GetUserType()
-        {
-            var result = _userService.getUserType();
-            return Ok(result);
-        }
         
         //Get Currently Logged In User Details
         [HttpGet]

@@ -138,6 +138,7 @@
       <HintPath>..\packages\System.Spatial.5.8.3\lib\net40\System.Spatial.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Web.Cors, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Cors.5.2.3\lib\net45\System.Web.Cors.dll</HintPath>
       <Private>True</Private>
@@ -286,6 +287,9 @@
     <Compile Include="Models\CFGRoleMenu.cs">
       <DependentUpon>WebApiModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\MstAgent.cs">
+      <DependentUpon>WebApiModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\MstCategory.cs">
       <DependentUpon>WebApiModel.tt</DependentUpon>
     </Compile>
@@ -296,6 +300,9 @@
       <DependentUpon>WebApiModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\MstCompanyLocation.cs">
+      <DependentUpon>WebApiModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MstCourier.cs">
       <DependentUpon>WebApiModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\MstCustomer.cs">
@@ -394,6 +401,7 @@
     <Compile Include="Services\FWRShadeService.cs" />
     <Compile Include="Services\SupplierService.cs" />
     <Compile Include="Services\TrnProductStockService.cs" />
+    <Compile Include="Services\UnitOfMeasureService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Services\FomSizeService.cs" />
     <Compile Include="Startup.cs" />

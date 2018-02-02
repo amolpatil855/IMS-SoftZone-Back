@@ -502,11 +502,29 @@ namespace IMSWebApi.App_Data {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The user name or password is incorrect..
+        /// </summary>
+        public static string UserCredentialsInvalid {
+            get {
+                return ResourceManager.GetString("UserCredentialsInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to User Deleted Successfully.
         /// </summary>
         public static string UserDeleted {
             get {
                 return ResourceManager.GetString("UserDeleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This User is inactive. Please contact Administrator..
+        /// </summary>
+        public static string UserInactive {
+            get {
+                return ResourceManager.GetString("UserInactive", resourceCulture);
             }
         }
         

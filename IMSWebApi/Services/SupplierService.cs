@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity;
 using IMSWebApi.Common;
 using System.Resources;
 using System.Reflection;
+using System.Transactions;
 namespace IMSWebApi.Services
 {
     public class SupplierService
@@ -65,48 +66,53 @@ namespace IMSWebApi.Services
 
         public ResponseMessage postSupplier(VMSupplier supplier)
         {
-            MstSupplier supplierToPost = Mapper.Map<VMSupplier, MstSupplier>(supplier);
-            var supplierAddresses = supplierToPost.MstSupplierAddresses.ToList();
-            foreach (var saddress in supplierAddresses)
+            using (var transaction = new TransactionScope())
             {
-                saddress.createdOn = DateTime.Now;
-                saddress.createdBy = _LoggedInuserId;
-            }
-            supplierToPost.createdOn = DateTime.Now;
-            supplierToPost.createdBy = _LoggedInuserId;
+                MstSupplier supplierToPost = Mapper.Map<VMSupplier, MstSupplier>(supplier);
+                var supplierAddresses = supplierToPost.MstSupplierAddresses.ToList();
+                foreach (var saddress in supplierAddresses)
+                {
+                    saddress.createdOn = DateTime.Now;
+                    saddress.createdBy = _LoggedInuserId;
+                }
+                supplierToPost.createdOn = DateTime.Now;
+                supplierToPost.createdBy = _LoggedInuserId;
 
-            repo.MstSuppliers.Add(supplierToPost);
-            repo.SaveChanges();
-            return new ResponseMessage(supplierToPost.id, resourceManager.GetString("SupplierAdded"), ResponseType.Success);
+                repo.MstSuppliers.Add(supplierToPost);
+                repo.SaveChanges();
+                transaction.Complete();
+                return new ResponseMessage(supplierToPost.id, resourceManager.GetString("SupplierAdded"), ResponseType.Success);
+            }
         }
 
         public ResponseMessage putSupplier(VMSupplier supplier)
         {
-            var supplierAddressDetails = Mapper.Map<List<VMSupplierAddress>, 
-                List<MstSupplierAddress>>(supplier.MstSupplierAddresses);
-            repo.MstSupplierAddresses.RemoveRange(repo.MstSupplierAddresses
-                .Where(s => s.supplierId == supplier.id));
-            repo.SaveChanges();
-
-            foreach (var saddress in supplierAddressDetails)
+            using (var transaction = new TransactionScope())
             {
-                saddress.createdOn = DateTime.Now;
-                saddress.createdBy = _LoggedInuserId;
-            }
-            var supplierToPut = repo.MstSuppliers.Where(s => s.id == supplier.id).FirstOrDefault();
-            supplierToPut = Mapper.Map<VMSupplier, MstSupplier>(supplier, supplierToPut);
-            supplierToPut.updatedOn = DateTime.Now;
-            supplierToPut.updatedBy = _LoggedInuserId;
-            supplierToPut.MstSupplierAddresses = supplierAddressDetails;
-            repo.SaveChanges();
+                var supplierAddressDetails = Mapper.Map<List<VMSupplierAddress>,
+                    List<MstSupplierAddress>>(supplier.MstSupplierAddresses);
+                repo.MstSupplierAddresses.RemoveRange(repo.MstSupplierAddresses
+                    .Where(s => s.supplierId == supplier.id));
+                repo.SaveChanges();
 
-            return new ResponseMessage(supplier.id,  resourceManager.GetString("SupplierUpdated"), ResponseType.Success);
+                foreach (var saddress in supplierAddressDetails)
+                {
+                    saddress.createdOn = DateTime.Now;
+                    saddress.createdBy = _LoggedInuserId;
+                }
+                var supplierToPut = repo.MstSuppliers.Where(s => s.id == supplier.id).FirstOrDefault();
+                supplierToPut = Mapper.Map<VMSupplier, MstSupplier>(supplier, supplierToPut);
+                supplierToPut.updatedOn = DateTime.Now;
+                supplierToPut.updatedBy = _LoggedInuserId;
+                supplierToPut.MstSupplierAddresses = supplierAddressDetails;
+                repo.SaveChanges();
+                transaction.Complete();
+                return new ResponseMessage(supplier.id, resourceManager.GetString("SupplierUpdated"), ResponseType.Success);
+            }
         }
 
         public ResponseMessage deleteSupplier(Int64 id)
-        {
-            repo.MstSupplierAddresses.RemoveRange(repo.MstSupplierAddresses.Where(s => s.supplierId == id));
-            repo.SaveChanges();
+        {  
             repo.MstSuppliers.Remove(repo.MstSuppliers.Where(s => s.id == id).FirstOrDefault());
             repo.SaveChanges();
             return new ResponseMessage(id, resourceManager.GetString("SupplierDeleted"), ResponseType.Success);
