@@ -47,7 +47,7 @@ namespace IMSWebApi.Services
                     || c.phone.StartsWith(search) : true).ToList();
                 customerViews = Mapper.Map<List<MstCustomer>, List<VMCustomer>>(result);
             }
-
+            customerViews.ForEach(s => s.MstCustomerAddresses.RemoveAll(a => a.isPrimary == false));
             return new ListResult<VMCustomer>
                 {
                     Data = customerViews,

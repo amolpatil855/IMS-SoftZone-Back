@@ -30,6 +30,7 @@ namespace IMSWebApi.Controllers
         private UnitOfMeasureService _unitOfMeasureService = null;
         private UserService _userService = null;
         private AgentService _agentService = null;
+        private CourierService _courierService = null;
 
         public CommonController()
         {
@@ -51,6 +52,7 @@ namespace IMSWebApi.Controllers
             _unitOfMeasureService = new UnitOfMeasureService();
             _userService = new UserService();
             _agentService = new AgentService();
+            _courierService = new CourierService();
         }
 
         [HttpGet]
@@ -62,10 +64,10 @@ namespace IMSWebApi.Controllers
         }
 
         [HttpGet]
-        [Route("api/Common/GetRoleLookup")]
-        public IHttpActionResult GetRoleLookup()
+        [Route("api/Common/GetRoleLookupByUserTypeId")]
+        public IHttpActionResult GetRoleLookupByUserTypeId(long userTypeId)
         {
-            var result = _roleService.getRoleLookUp();
+            var result = _roleService.getRoleLookupByUserTypeId(userTypeId);
             return Ok(result);
         }
 
@@ -227,6 +229,14 @@ namespace IMSWebApi.Controllers
         public IHttpActionResult GetAgentLookup()
         {
             var result = _agentService.getAgentLookup();
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("api/Common/GetCourierLookup")]
+        public IHttpActionResult GetCourierLookup()
+        {
+            var result = _courierService.getCourierLookup();
             return Ok(result);
         }
     }

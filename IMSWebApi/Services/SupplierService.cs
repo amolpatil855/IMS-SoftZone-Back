@@ -40,7 +40,8 @@ namespace IMSWebApi.Services
                     s.code.StartsWith(search) || s.email.StartsWith(search) || s.phone.StartsWith(search) : true).ToList();
                 supplierView = Mapper.Map<List<MstSupplier>, List<VMSupplier>>(result);
             }
-
+            supplierView.ForEach(s => s.MstSupplierAddresses.RemoveAll(a => a.isPrimary == false));
+            
             return new ListResult<VMSupplier>
             {
                 Data = supplierView,
