@@ -80,6 +80,12 @@ namespace IMSWebApi.App_Start
 
             Mapper.CreateMap<MstCompanyLocation, VMCompanyLocation>();
             Mapper.CreateMap<VMCompanyLocation, MstCompanyLocation>();
+
+            Mapper.CreateMap<MstAgent, VMAgent>();
+            Mapper.CreateMap<VMAgent, MstAgent>();
+
+            Mapper.CreateMap<MstCourier, VMCourier>();
+            Mapper.CreateMap<VMCourier, MstCourier>();
         }
     }
 }

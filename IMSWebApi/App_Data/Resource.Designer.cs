@@ -61,6 +61,33 @@ namespace IMSWebApi.App_Data {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Agent details added Successfully.
+        /// </summary>
+        public static string AgentAdded {
+            get {
+                return ResourceManager.GetString("AgentAdded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Agent Deleted Successfully.
+        /// </summary>
+        public static string AgentDeleted {
+            get {
+                return ResourceManager.GetString("AgentDeleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Agent details updated Successfully.
+        /// </summary>
+        public static string AgentUpdated {
+            get {
+                return ResourceManager.GetString("AgentUpdated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Collection Added Successfully.
         /// </summary>
         public static string CollectionAdded {
@@ -102,6 +129,33 @@ namespace IMSWebApi.App_Data {
         public static string CompanyInfoUpdated {
             get {
                 return ResourceManager.GetString("CompanyInfoUpdated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Courier Details Added Successfully.
+        /// </summary>
+        public static string CourierAdded {
+            get {
+                return ResourceManager.GetString("CourierAdded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Courier Deleted Successfully.
+        /// </summary>
+        public static string CourierDeleted {
+            get {
+                return ResourceManager.GetString("CourierDeleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Courier Details Updated Successfully.
+        /// </summary>
+        public static string CourierUpdated {
+            get {
+                return ResourceManager.GetString("CourierUpdated", resourceCulture);
             }
         }
         

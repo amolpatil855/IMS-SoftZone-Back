@@ -279,4 +279,22 @@
   <data name="UserInactive" xml:space="preserve">
     <value>This User is inactive. Please contact Administrator.</value>
   </data>
+  <data name="AgentAdded" xml:space="preserve">
+    <value>Agent details added Successfully</value>
+  </data>
+  <data name="AgentDeleted" xml:space="preserve">
+    <value>Agent Deleted Successfully</value>
+  </data>
+  <data name="AgentUpdated" xml:space="preserve">
+    <value>Agent details updated Successfully</value>
+  </data>
+  <data name="CourierAdded" xml:space="preserve">
+    <value>Courier Details Added Successfully</value>
+  </data>
+  <data name="CourierDeleted" xml:space="preserve">
+    <value>Courier Deleted Successfully</value>
+  </data>
+  <data name="CourierUpdated" xml:space="preserve">
+    <value>Courier Details Updated Successfully</value>
+  </data>
 </root>
