@@ -273,4 +273,10 @@
   <data name="PasswordResetFailed" xml:space="preserve">
     <value>Email Id does not exist.</value>
   </data>
+  <data name="UserCredentialsInvalid" xml:space="preserve">
+    <value>The user name or password is incorrect.</value>
+  </data>
+  <data name="UserInactive" xml:space="preserve">
+    <value>This User is inactive. Please contact Administrator.</value>
+  </data>
 </root>

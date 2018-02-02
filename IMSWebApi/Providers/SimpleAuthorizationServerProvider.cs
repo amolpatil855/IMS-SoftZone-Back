@@ -8,11 +8,14 @@ using System.Threading.Tasks;
 using System.Web;
 using IMSWebApi.Models;
 using IMSWebApi.Services;
+using System.Resources;
+using System.Reflection;
 
 namespace IMSWebApi.Providers
 {
     public class SimpleAuthorizationServerProvider : OAuthAuthorizationServerProvider
     {
+        ResourceManager resourceManager = new ResourceManager("IMSWebApi.App_Data.Resource", Assembly.GetExecutingAssembly());
         public override async Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context)
         {
             context.Validated();
@@ -30,12 +33,12 @@ namespace IMSWebApi.Providers
 
                 if (user == null)
                 {
-                    context.SetError("invalid_grant", "The user name or password is incorrect.");
+                    context.SetError("invalid_grant", resourceManager.GetString("UserCredentialsInvalid"));
                     return;
                 }
                 else if (!user.isActive)
                 {
-                    context.SetError("invalid_grant", "User is Inactive. Please make User active");
+                    context.SetError("invalid_grant", resourceManager.GetString("UserInactive"));
                     return; 
                 }
                 var identity = new ClaimsIdentity(context.Options.AuthenticationType);
