@@ -93,7 +93,7 @@ namespace IMSWebApi.Services
         {
             var fomSuggestedMMToPut = repo.MstFomSuggestedMMs.Where(q => q.id == fomSuggestedMM.id).FirstOrDefault();
 
-            fomSuggestedMMToPut.categoryId = fomSuggestedMM.categoryId;
+            //fomSuggestedMMToPut.categoryId = fomSuggestedMM.categoryId;
             fomSuggestedMMToPut.collectionId = fomSuggestedMM.collectionId;
             fomSuggestedMMToPut.qualityId = fomSuggestedMM.qualityId;
             fomSuggestedMMToPut.fomDensityId = fomSuggestedMM.fomDensityId;

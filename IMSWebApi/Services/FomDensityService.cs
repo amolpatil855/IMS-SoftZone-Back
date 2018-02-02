@@ -89,7 +89,7 @@ namespace IMSWebApi.Services
         public ResponseMessage putFomDensity(VMFomDensity fomDensity)
         {
             var fomDensityToPut = repo.MstFomDensities.Where(q => q.id == fomDensity.id).FirstOrDefault();
-            fomDensityToPut.categoryId = fomDensity.categoryId;
+            //fomDensityToPut.categoryId = fomDensity.categoryId;
             fomDensityToPut.collectionId = fomDensity.collectionId;
             fomDensityToPut.qualityId = fomDensity.qualityId;
             fomDensityToPut.density = fomDensity.density;
