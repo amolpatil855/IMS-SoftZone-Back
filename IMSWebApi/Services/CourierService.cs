@@ -30,14 +30,16 @@ namespace IMSWebApi.Services
             if (pageSize > 0)
             {
                 var result = repo.MstCouriers.Where(a => !string.IsNullOrEmpty(search)
-                    ? a.name.StartsWith(search): true)
+                    ? a.name.StartsWith(search)
+                    || a.docketNumber.StartsWith(search): true)
                     .OrderBy(p => p.id).Skip(page * pageSize).Take(pageSize).ToList();
                 courierView = Mapper.Map<List<MstCourier>, List<VMCourier>>(result);
             }
             else
             {
                 var result = repo.MstCouriers.Where(a => !string.IsNullOrEmpty(search)
-                    ? a.name.StartsWith(search) : true).ToList();
+                    ? a.name.StartsWith(search)
+                    || a.docketNumber.StartsWith(search) : true).ToList();
                 courierView = Mapper.Map<List<MstCourier>, List<VMCourier>>(result);
             }
 
@@ -45,7 +47,8 @@ namespace IMSWebApi.Services
             {
                 Data = courierView,
                 TotalCount = repo.MstCouriers.Where(a => !string.IsNullOrEmpty(search)
-                    ? a.name.StartsWith(search) : true).Count(),
+                    ? a.name.StartsWith(search)
+                    || a.docketNumber.StartsWith(search) : true).Count(),
                 Page = page
             };
         }

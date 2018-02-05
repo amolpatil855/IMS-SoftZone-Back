@@ -49,7 +49,9 @@ namespace IMSWebApi.Services
             {
                 var result = repo.MstUsers.Where(c => !c.MstRole.roleName.Equals("Administrator") && (!string.IsNullOrEmpty(search)
                                     ? c.userName.StartsWith(search) ||
-                                    c.phone.StartsWith(search) : true))
+                                    c.phone.StartsWith(search) ||
+                                    c.MstRole.roleName.StartsWith(search) ||
+                                    c.email.StartsWith(search)  : true))
                                     .OrderBy(p => p.id).Skip(page * pageSize)
                                     .Take(pageSize).ToList();
                 userViews = Mapper.Map<List<MstUser>, List<VMUser>>(result);
@@ -58,7 +60,9 @@ namespace IMSWebApi.Services
             {
                 var result = repo.MstUsers.Where(c => !c.MstRole.roleName.Equals("Administrator") && (!string.IsNullOrEmpty(search)
                                             ? c.userName.StartsWith(search) ||
-                                            c.phone.StartsWith(search) : true)).ToList();
+                                            c.phone.StartsWith(search) ||
+                                            c.MstRole.roleName.StartsWith(search) ||
+                                            c.email.StartsWith(search) : true)).ToList();
                 userViews = Mapper.Map<List<MstUser>, List<VMUser>>(result);
             }
 
@@ -68,7 +72,9 @@ namespace IMSWebApi.Services
                 Data = userViews,
                 TotalCount = repo.MstUsers.Where(c => !c.MstRole.roleName.Equals("Administrator") && (!string.IsNullOrEmpty(search)
                                             ? c.userName.StartsWith(search) ||
-                                            c.phone.StartsWith(search) : true)).Count(),
+                                            c.phone.StartsWith(search) ||
+                                            c.MstRole.roleName.StartsWith(search) ||
+                                            c.email.StartsWith(search) : true)).Count(),
                 Page = page
             };
         }

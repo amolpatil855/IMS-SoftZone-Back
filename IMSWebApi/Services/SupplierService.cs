@@ -29,15 +29,23 @@ namespace IMSWebApi.Services
             List<VMSupplier> supplierView;
             if (pageSize > 0)
             {
-                var result = repo.MstSuppliers.Where(s => !string.IsNullOrEmpty(search) ? s.firmName.StartsWith(search) || 
-                    s.code.StartsWith(search) || s.email.StartsWith(search) || s.phone.StartsWith(search) : true)
+                var result = repo.MstSuppliers.Where(s => !string.IsNullOrEmpty(search) ? 
+                    s.name.StartsWith(search)
+                    || s.firmName.StartsWith(search) 
+                    || s.code.StartsWith(search) 
+                    || s.email.StartsWith(search) 
+                    || s.phone.StartsWith(search) : true)
                     .OrderBy(p => p.id).Skip(page * pageSize).Take(pageSize).ToList();
                 supplierView = Mapper.Map<List<MstSupplier>, List<VMSupplier>>(result);
             }
             else
             {
-                var result = repo.MstSuppliers.Where(s => !string.IsNullOrEmpty(search) ? s.firmName.StartsWith(search) || 
-                    s.code.StartsWith(search) || s.email.StartsWith(search) || s.phone.StartsWith(search) : true).ToList();
+                var result = repo.MstSuppliers.Where(s => !string.IsNullOrEmpty(search) ? 
+                    s.name.StartsWith(search)
+                    ||s.firmName.StartsWith(search) 
+                    || s.code.StartsWith(search) 
+                    || s.email.StartsWith(search) 
+                    || s.phone.StartsWith(search) : true).ToList();
                 supplierView = Mapper.Map<List<MstSupplier>, List<VMSupplier>>(result);
             }
             supplierView.ForEach(s => s.MstSupplierAddresses.RemoveAll(a => a.isPrimary == false));
@@ -45,8 +53,12 @@ namespace IMSWebApi.Services
             return new ListResult<VMSupplier>
             {
                 Data = supplierView,
-                TotalCount = repo.MstSuppliers.Where(s => !string.IsNullOrEmpty(search) ? s.firmName.StartsWith(search) || 
-                    s.code.StartsWith(search) || s.email.StartsWith(search) || s.phone.StartsWith(search) : true).Count(),
+                TotalCount = repo.MstSuppliers.Where(s => !string.IsNullOrEmpty(search) ?
+                    s.name.StartsWith(search)
+                    || s.firmName.StartsWith(search) 
+                    || s.code.StartsWith(search) 
+                    || s.email.StartsWith(search) 
+                    || s.phone.StartsWith(search) : true).Count(),
                 Page = page
             };
         }

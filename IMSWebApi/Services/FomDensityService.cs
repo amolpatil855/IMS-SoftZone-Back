@@ -35,7 +35,8 @@ namespace IMSWebApi.Services
                 var result = repo.MstFomDensities.Where(f => !string.IsNullOrEmpty(search)
                     ? f.MstCollection.collectionCode.StartsWith(search)
                     || f.MstQuality.qualityCode.StartsWith(search)
-                    || f.density.StartsWith(search) : true)
+                    || f.density.StartsWith(search)
+                    || f.description.StartsWith(search) : true)
                     .OrderBy(f => f.id).Skip(page * pageSize).Take(pageSize).ToList();
                 fomDensityView = Mapper.Map<List<MstFomDensity>, List<VMFomDensity>>(result);
             }
@@ -44,7 +45,8 @@ namespace IMSWebApi.Services
                 var result = repo.MstFomDensities.Where(f => !string.IsNullOrEmpty(search)
                     ? f.MstCollection.collectionCode.StartsWith(search)
                     || f.MstQuality.qualityCode.StartsWith(search)
-                    || f.density.StartsWith(search) : true).ToList();
+                    || f.density.StartsWith(search)
+                    || f.description.StartsWith(search) : true).ToList();
                 fomDensityView = Mapper.Map<List<MstFomDensity>, List<VMFomDensity>>(result);
             }
 
@@ -54,7 +56,8 @@ namespace IMSWebApi.Services
                 TotalCount = repo.MstFomDensities.Where(f => !string.IsNullOrEmpty(search)
                     ? f.MstCollection.collectionCode.StartsWith(search)
                     || f.MstQuality.qualityCode.StartsWith(search)
-                    || f.density.StartsWith(search) : true).Count(),
+                    || f.density.StartsWith(search)
+                    || f.description.StartsWith(search) : true).Count(),
                 Page = page
             };
         }

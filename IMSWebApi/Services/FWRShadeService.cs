@@ -35,7 +35,6 @@ namespace IMSWebApi.ServicesDesign
                     || q.MstQuality.qualityCode.StartsWith(search)
                     || q.MstFWRDesign.designCode.StartsWith(search)
                     || q.shadeCode.StartsWith(search)
-                    || q.serialNumber.ToString().StartsWith(search)
                     || q.shadeName.StartsWith(search) : true)
                     .OrderBy(q => q.id).Skip(page * pageSize).Take(pageSize).ToList();
                 shadeView = Mapper.Map<List<MstFWRShade>, List<VMFWRShade>>(result);
@@ -47,7 +46,6 @@ namespace IMSWebApi.ServicesDesign
                     || q.MstQuality.qualityCode.StartsWith(search)
                     || q.MstFWRDesign.designCode.StartsWith(search)
                     || q.shadeCode.StartsWith(search)
-                    || q.serialNumber.ToString().StartsWith(search)
                     || q.shadeName.StartsWith(search) : true).ToList();
                 shadeView = Mapper.Map<List<MstFWRShade>, List<VMFWRShade>>(result);
             }
@@ -60,7 +58,6 @@ namespace IMSWebApi.ServicesDesign
                     || q.MstQuality.qualityCode.StartsWith(search)
                     || q.MstFWRDesign.designCode.StartsWith(search)
                     || q.shadeCode.StartsWith(search)
-                    || q.serialNumber.ToString().StartsWith(search)
                     || q.shadeName.StartsWith(search) : true).Count(),
                 Page = page
             };

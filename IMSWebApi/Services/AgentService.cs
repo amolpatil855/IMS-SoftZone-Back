@@ -31,6 +31,7 @@ namespace IMSWebApi.Services
             {
                 var result = repo.MstAgents.Where(a => !string.IsNullOrEmpty(search)
                     ? a.email.StartsWith(search)
+                    || a.name.StartsWith(search)
                     || a.phone.StartsWith(search) : true)
                     .OrderBy(p => p.id).Skip(page * pageSize).Take(pageSize).ToList();
                 agentView = Mapper.Map<List<MstAgent>, List<VMAgent>>(result);
@@ -39,6 +40,7 @@ namespace IMSWebApi.Services
             {
                 var result = repo.MstAgents.Where(a => !string.IsNullOrEmpty(search)
                     ? a.email.StartsWith(search)
+                    || a.name.StartsWith(search)
                     || a.phone.StartsWith(search) : true).ToList();
                 agentView = Mapper.Map<List<MstAgent>, List<VMAgent>>(result);
             }
@@ -48,6 +50,7 @@ namespace IMSWebApi.Services
                 Data = agentView,
                 TotalCount = repo.MstAgents.Where(a => !string.IsNullOrEmpty(search)
                     ? a.email.StartsWith(search)
+                    || a.name.StartsWith(search)
                     || a.phone.StartsWith(search) : true).Count(),
                 Page = page
             };

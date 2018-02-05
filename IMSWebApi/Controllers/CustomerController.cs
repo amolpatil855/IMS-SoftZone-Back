@@ -55,7 +55,7 @@ namespace IMSWebApi.Controllers
         // PUT api/Customer/
         [ApiAuthorize(AccessLevel = "customer")]
         [HttpPut]
-        public IHttpActionResult PutCustome(VMCustomer customer)
+        public IHttpActionResult PutCustomer(VMCustomer customer)
         {
             if (!ModelState.IsValid)
             {

@@ -32,23 +32,32 @@ namespace IMSWebApi.Services
             List<VMMatSize> matSizeView;
             if (pageSize > 0)
             {
-                var result = repo.MstMatSizes.Where(m => !string.IsNullOrEmpty(search)
-                    ? m.sizeCode.StartsWith(search) : true)
+                var result = repo.MstMatSizes.Where(m => !string.IsNullOrEmpty(search) ?
+                    m.sizeCode.StartsWith(search) 
+                    || m.MstCollection.collectionCode.StartsWith(search)
+                    || m.MstQuality.qualityCode.StartsWith(search)
+                    || m.MstMatThickness.thicknessCode.StartsWith(search): true)
                     .OrderBy(m => m.id).Skip(page * pageSize).Take(pageSize).ToList();
                 matSizeView = Mapper.Map<List<MstMatSize>, List<VMMatSize>>(result);
             }
             else
             {
-                var result = repo.MstMatSizes.Where(m => !string.IsNullOrEmpty(search)
-                   ? m.sizeCode.StartsWith(search) : true).ToList();
+                var result = repo.MstMatSizes.Where(m => !string.IsNullOrEmpty(search) ?
+                    m.sizeCode.StartsWith(search)
+                    || m.MstCollection.collectionCode.StartsWith(search)
+                    || m.MstQuality.qualityCode.StartsWith(search)
+                    || m.MstMatThickness.thicknessCode.StartsWith(search) : true).ToList();
                 matSizeView = Mapper.Map<List<MstMatSize>, List<VMMatSize>>(result);
             }
 
             return new ListResult<VMMatSize>
             {
                 Data = matSizeView,
-                TotalCount = repo.MstMatSizes.Where(m => !string.IsNullOrEmpty(search)
-                     ? m.sizeCode.StartsWith(search) : true).Count(),
+                TotalCount = repo.MstMatSizes.Where(m => !string.IsNullOrEmpty(search) ?
+                    m.sizeCode.StartsWith(search)
+                    || m.MstCollection.collectionCode.StartsWith(search)
+                    || m.MstQuality.qualityCode.StartsWith(search)
+                    || m.MstMatThickness.thicknessCode.StartsWith(search) : true).Count(),
                 Page = page
             };
         }

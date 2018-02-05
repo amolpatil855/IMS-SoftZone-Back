@@ -35,7 +35,8 @@ namespace IMSWebApi.Services
                     || q.MstCollection.collectionCode.StartsWith(search)
                     || q.MstFWRShade.shadeCode.StartsWith(search)
                     || q.MstMatSize.sizeCode.StartsWith(search)
-                    || q.MstFomSize.sizeCode.StartsWith(search) : true)
+                    || q.MstFomSize.sizeCode.StartsWith(search) 
+                    || q.stock.ToString().StartsWith(search): true)
                     .OrderBy(q => q.id).Skip(page * pageSize).Take(pageSize).ToList();
                 trnProductStockView = Mapper.Map<List<TrnProductStock>, List<VMTrnProductStock>>(result);
             }
@@ -46,7 +47,8 @@ namespace IMSWebApi.Services
                     || q.MstCollection.collectionCode.StartsWith(search)
                     || q.MstFWRShade.shadeCode.StartsWith(search)
                     || q.MstMatSize.sizeCode.StartsWith(search)
-                    || q.MstFomSize.sizeCode.StartsWith(search) : true).ToList();
+                    || q.MstFomSize.sizeCode.StartsWith(search)
+                    || q.stock.ToString().StartsWith(search) : true).ToList();
                 trnProductStockView = Mapper.Map<List<TrnProductStock>, List<VMTrnProductStock>>(result);
             }
 
@@ -58,7 +60,8 @@ namespace IMSWebApi.Services
                     || q.MstCollection.collectionCode.StartsWith(search)
                     || q.MstFWRShade.shadeCode.StartsWith(search)
                     || q.MstMatSize.sizeCode.StartsWith(search)
-                    || q.MstFomSize.sizeCode.StartsWith(search) : true).Count(),
+                    || q.MstFomSize.sizeCode.StartsWith(search)
+                    || q.stock.ToString().StartsWith(search) : true).Count(),
                 Page = page
             };
         }
