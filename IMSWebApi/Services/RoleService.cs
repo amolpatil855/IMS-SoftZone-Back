@@ -143,11 +143,21 @@ namespace IMSWebApi.Services
             return repo.MstRoles.Where(c => c.roleName == "Customer").FirstOrDefault();
         }
 
-        public List<VMLookUpItem> getRoleLookUp()
+        public List<VMLookUpItem> getRoleLookupByUserTypeId(Int64 userTypeId)
         {
-            return repo.MstRoles.Where(s=>!s.roleName.Equals("Customer"))
+            if (userTypeId == 1)
+            {
+                return repo.MstRoles.Where(s=>s.roleName.Equals("Administrator"))
+                .OrderBy(s => s.roleName)
+                .Select(s => new VMLookUpItem { value = s.id, label = s.roleName }).ToList(); 
+            }
+            else
+            {
+                return repo.MstRoles.Where(s => !s.roleName.Equals("Customer") && !s.roleName.Equals("Administrator"))
                 .OrderBy(s => s.roleName)
                 .Select(s => new VMLookUpItem { value = s.id, label = s.roleName }).ToList();
+            }
+            
         }
 
     }
