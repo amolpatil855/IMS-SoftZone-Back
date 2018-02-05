@@ -33,12 +33,11 @@ namespace IMSWebApi.Services
             if (pageSize > 0)
             {
                 var result = repo.MstFomSizes.Where(q => !string.IsNullOrEmpty(search)
-                    ? q.MstCategory.code.StartsWith(search)
-                    || q.MstCollection.collectionCode.StartsWith(search)
+                    ? q.MstCollection.collectionCode.StartsWith(search)
                     || q.MstQuality.qualityCode.StartsWith(search)
                     || q.MstFomDensity.density.ToString().StartsWith(search)
-                    || q.width.ToString().StartsWith(search)
-                    || q.length.ToString().StartsWith(search): true)
+                    || q.MstFomSuggestedMM.suggestedMM.ToString().StartsWith(search)
+                    || q.sizeCode.StartsWith(search) : true)
                     .OrderBy(q => q.id).Skip(page * pageSize).Take(pageSize).ToList();
                 fomSizeView = Mapper.Map<List<MstFomSize>, List<VMFomSize>>(result);
             }
@@ -49,8 +48,8 @@ namespace IMSWebApi.Services
                     || q.MstCollection.collectionCode.StartsWith(search)
                     || q.MstQuality.qualityCode.StartsWith(search)
                     || q.MstFomDensity.density.ToString().StartsWith(search)
-                    || q.width.ToString().StartsWith(search)
-                    || q.length.ToString().StartsWith(search) : true).ToList();
+                    || q.MstFomSuggestedMM.suggestedMM.ToString().StartsWith(search)
+                    || q.sizeCode.StartsWith(search) : true).ToList();
                 fomSizeView = Mapper.Map<List<MstFomSize>, List<VMFomSize>>(result);
             }
 
@@ -62,8 +61,8 @@ namespace IMSWebApi.Services
                     || q.MstCollection.collectionCode.StartsWith(search)
                     || q.MstQuality.qualityCode.StartsWith(search)
                     || q.MstFomDensity.density.ToString().StartsWith(search)
-                    || q.width.ToString().StartsWith(search)
-                    || q.length.ToString().StartsWith(search) : true).Count(),
+                    || q.MstFomSuggestedMM.suggestedMM.ToString().StartsWith(search)
+                    || q.sizeCode.StartsWith(search) : true).Count(),
                 Page = page
             };
         }

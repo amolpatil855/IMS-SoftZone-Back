@@ -11,6 +11,7 @@ namespace IMSWebApi.ViewModel
         public long id { get; set; }
         [MaxLength(10)]
         public string thicknessCode { get; set; }
-        public Nullable<decimal> size { get; set; }
+        [Required] 
+        public decimal size { get; set; }
     }
 }

@@ -39,7 +39,8 @@ namespace IMSWebApi.Services
             else
             {
                 var result = repo.MstHsns.Where(h => !string.IsNullOrEmpty(search)
-                    ? h.hsnCode.StartsWith(search) : true).ToList();
+                    ? h.hsnCode.StartsWith(search)
+                    || h.gst.ToString().StartsWith(search) : true).ToList();
                 HsnView = Mapper.Map<List<MstHsn>, List<VMHsn>>(result);
             }
 
@@ -47,7 +48,8 @@ namespace IMSWebApi.Services
             {
                 Data = HsnView,
                 TotalCount = repo.MstHsns.Where(h => !string.IsNullOrEmpty(search)
-                     ? h.hsnCode.StartsWith(search) : true).ToList().Count(),
+                     ? h.hsnCode.StartsWith(search)
+                     || h.gst.ToString().StartsWith(search) : true).ToList().Count(),
                 Page = page
             };
         }

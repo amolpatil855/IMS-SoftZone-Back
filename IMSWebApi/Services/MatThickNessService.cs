@@ -30,23 +30,26 @@ namespace IMSWebApi.Services
             List<VMMatThickness> matThicknessView;
             if (pageSize > 0)
             {
-                var result = repo.MstMatThicknesses.Where(q => !string.IsNullOrEmpty(search)
-                    ? q.thicknessCode.StartsWith(search) : true)
+                var result = repo.MstMatThicknesses.Where(q => !string.IsNullOrEmpty(search) ?
+                    q.thicknessCode.StartsWith(search) 
+                    || q.size.ToString().StartsWith(search): true)
                     .OrderBy(q => q.id).Skip(page * pageSize).Take(pageSize).ToList();
                 matThicknessView = Mapper.Map<List<MstMatThickness>, List<VMMatThickness>>(result);
             }
             else
             {
-                var result = repo.MstMatThicknesses.Where(q => !string.IsNullOrEmpty(search)
-                   ? q.thicknessCode.StartsWith(search) : true).ToList();
+                var result = repo.MstMatThicknesses.Where(q => !string.IsNullOrEmpty(search) ?
+                    q.thicknessCode.StartsWith(search)
+                    || q.size.ToString().StartsWith(search) : true).ToList();
                 matThicknessView = Mapper.Map<List<MstMatThickness>, List<VMMatThickness>>(result);
             }
 
             return new ListResult<VMMatThickness>
             {
                 Data = matThicknessView,
-                TotalCount = repo.MstMatThicknesses.Where(q => !string.IsNullOrEmpty(search)
-                     ? q.thicknessCode.StartsWith(search) : true).Count(),
+                TotalCount = repo.MstMatThicknesses.Where(q => !string.IsNullOrEmpty(search) ?
+                    q.thicknessCode.StartsWith(search)
+                    || q.size.ToString().StartsWith(search) : true).Count(),
                 Page = page
             };
         }
