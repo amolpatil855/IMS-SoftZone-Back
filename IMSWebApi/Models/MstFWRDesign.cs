@@ -33,7 +33,7 @@ namespace IMSWebApi.Models
     
         public virtual MstCategory MstCategory { get; set; }
         public virtual MstCollection MstCollection { get; set; }
-        public virtual MstQuality MstQuality { get; set; }
         public virtual ICollection<MstFWRShade> MstFWRShades { get; set; }
+        public virtual MstQuality MstQuality { get; set; }
     }
 }

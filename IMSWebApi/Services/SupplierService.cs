@@ -101,20 +101,37 @@ namespace IMSWebApi.Services
         public ResponseMessage putSupplier(VMSupplier supplier)
         {
             using (var transaction = new TransactionScope())
-            {
-                var supplierAddressDetails = Mapper.Map<List<VMSupplierAddress>,
-                    List<MstSupplierAddress>>(supplier.MstSupplierAddresses);
+            {  
                 repo.MstSupplierAddresses.RemoveRange(repo.MstSupplierAddresses
                     .Where(s => s.supplierId == supplier.id));
                 repo.SaveChanges();
-
+                List<MstSupplierAddress> supplierAddressDetails = Mapper.Map<List<VMSupplierAddress>,
+                   List<MstSupplierAddress>>(supplier.MstSupplierAddresses);
+                
                 foreach (var saddress in supplierAddressDetails)
                 {
+                    saddress.isPrimary = saddress.isPrimary == null ? false : saddress.isPrimary;
+                    saddress.supplierId = supplier.id;
                     saddress.createdOn = DateTime.Now;
                     saddress.createdBy = _LoggedInuserId;
                 }
-                var supplierToPut = repo.MstSuppliers.Where(s => s.id == supplier.id).FirstOrDefault();
-                supplierToPut = Mapper.Map<VMSupplier, MstSupplier>(supplier, supplierToPut);
+
+                MstSupplier supplierToPut = repo.MstSuppliers.Where(s => s.id == supplier.id).FirstOrDefault();
+                supplierToPut.name = supplier.name;
+                supplierToPut.code = supplier.code;
+                supplierToPut.firmName = supplier.firmName;
+                supplierToPut.description = supplier.description;
+                supplierToPut.email = supplier.email;
+                supplierToPut.phone = supplier.phone;
+                supplierToPut.accountPersonName = supplier.accountPersonName;
+                supplierToPut.accountPersonEmail = supplier.accountPersonEmail;
+                supplierToPut.accountPersonPhone = supplier.accountPersonPhone;
+                supplierToPut.warehousePersonName = supplier.warehousePersonName;
+                supplierToPut.warehousePersonEmail = supplier.warehousePersonEmail;
+                supplierToPut.warehousePersonPhone = supplier.warehousePersonPhone;
+                supplierToPut.dispatchPersonName = supplier.dispatchPersonName;
+                supplierToPut.dispatchPersonEmail = supplier.dispatchPersonEmail;
+                supplierToPut.dispatchPersonPhone = supplier.dispatchPersonPhone;
                 supplierToPut.updatedOn = DateTime.Now;
                 supplierToPut.updatedBy = _LoggedInuserId;
                 supplierToPut.MstSupplierAddresses = supplierAddressDetails;
