@@ -132,28 +132,51 @@ namespace IMSWebApi.Services
         {
             using (var transaction = new TransactionScope())
             {
-                var customerAddressDetails = Mapper.Map<List<VMCustomerAddress>,
-                    List<MstCustomerAddress>>(customer.MstCustomerAddresses);
                 repo.MstCustomerAddresses.RemoveRange(repo.MstCustomerAddresses
                     .Where(s => s.customerId == customer.id));
                 repo.SaveChanges();
 
+                List<MstCustomerAddress> customerAddressDetails = Mapper.Map<List<VMCustomerAddress>,
+                    List<MstCustomerAddress>>(customer.MstCustomerAddresses);
                 foreach (var caddress in customerAddressDetails)
                 {
+                    caddress.isPrimary = caddress.isPrimary == null ? false : caddress.isPrimary;
+                    caddress.customerId = customer.id;
                     caddress.createdOn = DateTime.Now;
                     caddress.createdBy = _LoggedInuserId;
                 }
-                var customerToPut = repo.MstCustomers.Where(s => s.id == customer.id).FirstOrDefault();
 
-                customerToPut = Mapper.Map<VMCustomer, MstCustomer>(customer, customerToPut);
+                MstCustomer customerToPut = repo.MstCustomers.Where(c => c.id == customer.id).FirstOrDefault();
+                customerToPut.name = customer.name;
+                customerToPut.nickName = customer.nickName;
+                customerToPut.code = customer.code;
+                customerToPut.email = customer.email;
+                customerToPut.alternateEmail1 = customer.alternateEmail1;
+                customerToPut.alternateEmail2 = customer.alternateEmail2;
+                customerToPut.phone = customer.phone;
+                customerToPut.alternatePhone1 = customer.alternatePhone1;
+                customerToPut.alternatePhone2 = customer.alternatePhone2;
+                customerToPut.isWholesaleCustomer = customer.isWholesaleCustomer;
+                customerToPut.pan = customer.pan;
+                customerToPut.accountPersonName = customer.accountPersonName;
+                customerToPut.accountPersonEmail = customer.accountPersonEmail;
+                customerToPut.accountPersonPhone = customer.accountPersonPhone;
+                customerToPut.MstCustomerAddresses = customerAddressDetails;
                 customerToPut.updatedOn = DateTime.Now;
                 customerToPut.updatedBy = _LoggedInuserId;
-
-                customerToPut.MstCustomerAddresses = customerAddressDetails;
                 repo.SaveChanges();
+
+                if (customer.userId!=null)
+                {
+                    MstUser user = repo.MstUsers.Where(u => u.id == customer.userId).FirstOrDefault();
+                    user.email = customer.email;
+                    repo.SaveChanges();
+                }
+
                 transaction.Complete();
                 return new ResponseMessage(customer.id, resourceManager.GetString("CustomerUpdated"), ResponseType.Success);
             }
+          
         }
 
         public ResponseMessage deleteCustomer(Int64 id)

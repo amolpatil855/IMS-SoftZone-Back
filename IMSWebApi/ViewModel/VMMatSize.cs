@@ -27,7 +27,7 @@ namespace IMSWebApi.ViewModel
         [Required]
         public decimal rate { get; set; }
         [Required]
-        public int purchaseDiscount { get; set; }
+        public decimal purchaseDiscount { get; set; }
         [Required]
         public decimal purchaseRate { get; set; }
         [Required]

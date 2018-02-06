@@ -28,12 +28,12 @@ namespace IMSWebApi.ViewModel
         public Nullable<decimal> cutRate { get; set; }
         public Nullable<decimal> roleRate { get; set; }
         public Nullable<decimal> rrp { get; set; }
-        public Nullable<int> maxCutRateDisc { get; set; }
-        public Nullable<int> maxRoleRateDisc { get; set; }
+        public Nullable<decimal> maxCutRateDisc { get; set; }
+        public Nullable<decimal> maxRoleRateDisc { get; set; }
         public Nullable<decimal> flatRate { get; set; }
-        public Nullable<int> maxFlatRateDisc { get; set; }
+        public Nullable<decimal> maxFlatRateDisc { get; set; }
         public Nullable<decimal> custRatePerSqFeet { get; set; }
-        public Nullable<int> maxDiscout { get; set; }
+        public Nullable<decimal> maxDiscout { get; set; }
 
         public virtual VMCategory MstCategory { get; set; }
         public virtual VMCollection MstCollection { get; set; }

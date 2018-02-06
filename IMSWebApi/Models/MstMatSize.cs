@@ -28,7 +28,7 @@ namespace IMSWebApi.Models
         public int width { get; set; }
         public string sizeCode { get; set; }
         public decimal rate { get; set; }
-        public int purchaseDiscount { get; set; }
+        public decimal purchaseDiscount { get; set; }
         public decimal purchaseRate { get; set; }
         public int stockReorderLevel { get; set; }
         public System.DateTime createdOn { get; set; }
