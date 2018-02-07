@@ -33,7 +33,7 @@ namespace IMSWebApi.Services
                 var result = repo.TrnProductStocks.Where(q => !string.IsNullOrEmpty(search)
                     ? q.MstCategory.code.StartsWith(search)
                     || q.MstCollection.collectionCode.StartsWith(search)
-                    || q.MstFWRShade.shadeCode.StartsWith(search)
+                    || q.MstFWRShade.serialNumber.ToString().StartsWith(search)
                     || q.MstMatSize.sizeCode.StartsWith(search)
                     || q.MstFomSize.sizeCode.StartsWith(search) 
                     || q.stock.ToString().StartsWith(search): true)
@@ -45,7 +45,7 @@ namespace IMSWebApi.Services
                 var result = repo.TrnProductStocks.Where(q => !string.IsNullOrEmpty(search)
                     ? q.MstCategory.code.StartsWith(search)
                     || q.MstCollection.collectionCode.StartsWith(search)
-                    || q.MstFWRShade.shadeCode.StartsWith(search)
+                    || q.MstFWRShade.serialNumber.ToString().StartsWith(search)
                     || q.MstMatSize.sizeCode.StartsWith(search)
                     || q.MstFomSize.sizeCode.StartsWith(search)
                     || q.stock.ToString().StartsWith(search) : true).ToList();
@@ -58,7 +58,7 @@ namespace IMSWebApi.Services
                 TotalCount = repo.TrnProductStocks.Where(q => !string.IsNullOrEmpty(search)
                     ? q.MstCategory.code.StartsWith(search)
                     || q.MstCollection.collectionCode.StartsWith(search)
-                    || q.MstFWRShade.shadeCode.StartsWith(search)
+                    || q.MstFWRShade.serialNumber.ToString().StartsWith(search)
                     || q.MstMatSize.sizeCode.StartsWith(search)
                     || q.MstFomSize.sizeCode.StartsWith(search)
                     || q.stock.ToString().StartsWith(search) : true).Count(),

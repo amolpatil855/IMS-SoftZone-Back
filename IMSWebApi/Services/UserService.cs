@@ -48,10 +48,10 @@ namespace IMSWebApi.Services
             if (pageSize > 0)
             {
                 var result = repo.MstUsers.Where(c => !c.MstRole.roleName.Equals("Administrator") && (!string.IsNullOrEmpty(search)
-                                    ? c.userName.StartsWith(search) ||
-                                    c.phone.StartsWith(search) ||
-                                    c.MstRole.roleName.StartsWith(search) ||
-                                    c.email.StartsWith(search)  : true))
+                                    ? c.userName.StartsWith(search) 
+                                    || c.MstRole.roleName.StartsWith(search)
+                                    || c.phone.StartsWith(search) 
+                                    || c.email.StartsWith(search)  : true))
                                     .OrderBy(p => p.id).Skip(page * pageSize)
                                     .Take(pageSize).ToList();
                 userViews = Mapper.Map<List<MstUser>, List<VMUser>>(result);
@@ -59,10 +59,10 @@ namespace IMSWebApi.Services
             else
             {
                 var result = repo.MstUsers.Where(c => !c.MstRole.roleName.Equals("Administrator") && (!string.IsNullOrEmpty(search)
-                                            ? c.userName.StartsWith(search) ||
-                                            c.phone.StartsWith(search) ||
-                                            c.MstRole.roleName.StartsWith(search) ||
-                                            c.email.StartsWith(search) : true)).ToList();
+                                            ? c.userName.StartsWith(search)
+                                            || c.MstRole.roleName.StartsWith(search)
+                                            || c.phone.StartsWith(search)
+                                            || c.email.StartsWith(search) : true)).ToList();
                 userViews = Mapper.Map<List<MstUser>, List<VMUser>>(result);
             }
 
@@ -71,10 +71,10 @@ namespace IMSWebApi.Services
             {
                 Data = userViews,
                 TotalCount = repo.MstUsers.Where(c => !c.MstRole.roleName.Equals("Administrator") && (!string.IsNullOrEmpty(search)
-                                            ? c.userName.StartsWith(search) ||
-                                            c.phone.StartsWith(search) ||
-                                            c.MstRole.roleName.StartsWith(search) ||
-                                            c.email.StartsWith(search) : true)).Count(),
+                                            ? c.userName.StartsWith(search)
+                                            || c.MstRole.roleName.StartsWith(search)
+                                            || c.phone.StartsWith(search)
+                                            || c.email.StartsWith(search) : true)).Count(),
                 Page = page
             };
         }
