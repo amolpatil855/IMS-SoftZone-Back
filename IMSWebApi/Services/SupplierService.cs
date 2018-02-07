@@ -27,24 +27,33 @@ namespace IMSWebApi.Services
         public ListResult<VMSupplier> getSupplier(int pageSize, int page, string search)
         {
             List<VMSupplier> supplierView;
+           
+            var result = repo.MstSuppliers.ToList();
+            supplierView = Mapper.Map<List<MstSupplier>, List<VMSupplier>>(result);
+           
+            supplierView.ForEach(s => s.MstSupplierAddresses.RemoveAll(a => a.isPrimary == false));
             if (pageSize > 0)
             {
-                var result = repo.MstSuppliers.OrderBy(p => p.id).Skip(page * pageSize).Take(pageSize).ToList();
-                supplierView = Mapper.Map<List<MstSupplier>, List<VMSupplier>>(result);
+                supplierView = supplierView.Where(s => !string.IsNullOrEmpty(search) ?
+                    s.name.StartsWith(search)
+                    || s.firmName.StartsWith(search)
+                    || s.code.StartsWith(search)
+                    || s.email.StartsWith(search)
+                    || s.phone.StartsWith(search) 
+                    || (s.MstSupplierAddresses.Count() > 0 ? s.MstSupplierAddresses[0].gstin.StartsWith(search) : false) : true)
+                    .OrderBy(p => p.id).Skip(page * pageSize).Take(pageSize).ToList();
             }
             else
-            {
-                var result = repo.MstSuppliers.ToList();
-                supplierView = Mapper.Map<List<MstSupplier>, List<VMSupplier>>(result);
-            }
-            supplierView.ForEach(s => s.MstSupplierAddresses.RemoveAll(a => a.isPrimary == false));
+	        {
             supplierView = supplierView.Where(s => !string.IsNullOrEmpty(search) ?
                     s.name.StartsWith(search)
                     || s.firmName.StartsWith(search)
                     || s.code.StartsWith(search)
                     || s.email.StartsWith(search)
                     || s.phone.StartsWith(search) 
-                    || (s.MstSupplierAddresses.Count() > 0 ? s.MstSupplierAddresses[0].gstin.StartsWith(search) : false) : true).ToList();
+                    || (s.MstSupplierAddresses.Count() > 0 ? s.MstSupplierAddresses[0].gstin.StartsWith(search) : false) : true)
+                    .ToList();        
+	        }
             return new ListResult<VMSupplier>
             {
                 Data = supplierView,
