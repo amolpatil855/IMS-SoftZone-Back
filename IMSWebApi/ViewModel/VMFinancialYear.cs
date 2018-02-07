@@ -10,9 +10,9 @@ namespace IMSWebApi.ViewModel
     {
         public long id { get; set; }
         [Required]
-        public System.DateTime startDate { get; set; }
+        public DateTime startDate { get; set; }
         [Required]
-        public System.DateTime endDate { get; set; }
+        public DateTime endDate { get; set; }
         [Required]
         [MaxLength(10)]
         public string financialYear { get; set; }
