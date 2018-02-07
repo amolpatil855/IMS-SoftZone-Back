@@ -187,6 +187,33 @@ namespace IMSWebApi.App_Data {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Financial Year Added Successfully.
+        /// </summary>
+        public static string FinancialYearAdded {
+            get {
+                return ResourceManager.GetString("FinancialYearAdded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Financial Year Deleted Successfully.
+        /// </summary>
+        public static string FinancialYearDeleted {
+            get {
+                return ResourceManager.GetString("FinancialYearDeleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Financial Year Updated Successfully.
+        /// </summary>
+        public static string FinancialYearUpdated {
+            get {
+                return ResourceManager.GetString("FinancialYearUpdated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Foam Density Added Successfully.
         /// </summary>
         public static string FomDensityAdded {

@@ -262,6 +262,7 @@
     <Compile Include="Controllers\CompanyInfoController.cs" />
     <Compile Include="Controllers\CourierController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
+    <Compile Include="Controllers\FinancialYearController.cs" />
     <Compile Include="Controllers\FomDensityController.cs" />
     <Compile Include="Controllers\FomSizeController.cs" />
     <Compile Include="Controllers\FomSuggestedMMController.cs" />
@@ -311,6 +312,9 @@
       <DependentUpon>WebApiModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\MstCustomerAddress.cs">
+      <DependentUpon>WebApiModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MstFinancialYear.cs">
       <DependentUpon>WebApiModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\MstFomDensity.cs">
@@ -393,6 +397,7 @@
     <Compile Include="Services\CompanyLocationService.cs" />
     <Compile Include="Services\CourierService.cs" />
     <Compile Include="Services\CustomerService.cs" />
+    <Compile Include="Services\FinancialYearService.cs" />
     <Compile Include="Services\FomDensityService.cs" />
     <Compile Include="Services\FomSuggestedMMService.cs" />
     <Compile Include="Services\FWRDesignService.cs" />
@@ -415,6 +420,7 @@
     <Compile Include="ViewModel\VMCollection.cs" />
     <Compile Include="ViewModel\VMCompanyLocation.cs" />
     <Compile Include="ViewModel\VMCourier.cs" />
+    <Compile Include="ViewModel\VMFinancialYear.cs" />
     <Compile Include="ViewModel\VMFomDensity.cs" />
     <Compile Include="ViewModel\VMFomSize.cs" />
     <Compile Include="ViewModel\VMFomSuggestedMM.cs" />

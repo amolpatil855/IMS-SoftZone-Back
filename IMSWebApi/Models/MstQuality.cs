@@ -17,10 +17,10 @@ namespace IMSWebApi.Models
         public MstQuality()
         {
             this.MstFomDensities = new HashSet<MstFomDensity>();
-            this.MstFomSizes = new HashSet<MstFomSize>();
             this.MstFomSuggestedMMs = new HashSet<MstFomSuggestedMM>();
             this.MstFWRDesigns = new HashSet<MstFWRDesign>();
             this.MstFWRShades = new HashSet<MstFWRShade>();
+            this.MstFomSizes = new HashSet<MstFomSize>();
             this.MstMatSizes = new HashSet<MstMatSize>();
         }
     
@@ -39,6 +39,7 @@ namespace IMSWebApi.Models
         public Nullable<decimal> maxCutRateDisc { get; set; }
         public Nullable<decimal> maxRoleRateDisc { get; set; }
         public Nullable<decimal> flatRate { get; set; }
+        public Nullable<decimal> purchaseFlatRate { get; set; }
         public Nullable<decimal> maxFlatRateDisc { get; set; }
         public Nullable<decimal> custRatePerSqFeet { get; set; }
         public Nullable<decimal> maxDiscout { get; set; }
@@ -50,11 +51,11 @@ namespace IMSWebApi.Models
         public virtual MstCategory MstCategory { get; set; }
         public virtual MstCollection MstCollection { get; set; }
         public virtual ICollection<MstFomDensity> MstFomDensities { get; set; }
-        public virtual ICollection<MstFomSize> MstFomSizes { get; set; }
         public virtual ICollection<MstFomSuggestedMM> MstFomSuggestedMMs { get; set; }
         public virtual ICollection<MstFWRDesign> MstFWRDesigns { get; set; }
         public virtual ICollection<MstFWRShade> MstFWRShades { get; set; }
         public virtual MstHsn MstHsn { get; set; }
+        public virtual ICollection<MstFomSize> MstFomSizes { get; set; }
         public virtual ICollection<MstMatSize> MstMatSizes { get; set; }
     }
 }

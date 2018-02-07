@@ -31,6 +31,7 @@ namespace IMSWebApi.ViewModel
         public Nullable<decimal> maxCutRateDisc { get; set; }
         public Nullable<decimal> maxRoleRateDisc { get; set; }
         public Nullable<decimal> flatRate { get; set; }
+        public Nullable<decimal> purchaseFlatRate { get; set; }
         public Nullable<decimal> maxFlatRateDisc { get; set; }
         public Nullable<decimal> custRatePerSqFeet { get; set; }
         public Nullable<decimal> maxDiscout { get; set; }

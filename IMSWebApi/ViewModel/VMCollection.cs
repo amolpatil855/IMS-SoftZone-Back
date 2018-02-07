@@ -20,6 +20,7 @@ namespace IMSWebApi.ViewModel
         [Required]
         [MaxLength(100)]
         public string collectionName { get; set; }
+        public Nullable<decimal> purchaseDiscount { get; set; }
         [MaxLength(500)]
         public string description { get; set; }
         [MaxLength(100)]

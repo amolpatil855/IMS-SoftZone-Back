@@ -32,22 +32,22 @@ namespace IMSWebApi.Services
             if (pageSize > 0)
             {
                 var result = repo.MstCollections.Where(c => !string.IsNullOrEmpty(search) 
-                    ? c.collectionCode.StartsWith(search)
+                    ? c.MstCategory.code.StartsWith(search)
+                    || c.collectionCode.StartsWith(search)
                     || c.manufacturerName.StartsWith(search)
-                    ||c.MstCategory.code.StartsWith(search) 
-                    || c.collectionName.StartsWith(search) 
-                    || c.description.StartsWith(search): true)
+                    || c.MstSupplier.code.StartsWith(search) 
+                    || c.collectionName.StartsWith(search) : true)
                     .OrderBy(p => p.id).Skip(page * pageSize).Take(pageSize).ToList();
                 collectionView = Mapper.Map<List<MstCollection>, List<VMCollection>>(result);
             }
             else
             {
                 var result = repo.MstCollections.Where(c => !string.IsNullOrEmpty(search)
-                    ? c.collectionCode.StartsWith(search)
+                    ? c.MstCategory.code.StartsWith(search)
+                    || c.collectionCode.StartsWith(search)
                     || c.manufacturerName.StartsWith(search)
-                    || c.MstCategory.code.StartsWith(search)
-                    || c.collectionName.StartsWith(search)
-                    || c.description.StartsWith(search) : true).ToList();
+                    || c.MstSupplier.code.StartsWith(search)
+                    || c.collectionName.StartsWith(search) : true).ToList();
                 collectionView = Mapper.Map<List<MstCollection>, List<VMCollection>>(result);
             }
 
@@ -55,11 +55,11 @@ namespace IMSWebApi.Services
             {
                 Data = collectionView,
                 TotalCount = repo.MstCollections.Where(c => !string.IsNullOrEmpty(search)
-                    ?c.collectionCode.StartsWith(search)
+                    ? c.MstCategory.code.StartsWith(search)
+                    || c.collectionCode.StartsWith(search)
                     || c.manufacturerName.StartsWith(search)
-                    || c.MstCategory.code.StartsWith(search)
-                    || c.collectionName.StartsWith(search)
-                    || c.description.StartsWith(search) : true).Count(),
+                    || c.MstSupplier.code.StartsWith(search)
+                    || c.collectionName.StartsWith(search) : true).Count(),
                 Page = page
             };
         }
@@ -126,6 +126,7 @@ namespace IMSWebApi.Services
             collectionToPut.supplierId = collection.supplierId;
             collectionToPut.collectionCode = collection.collectionCode;
             collectionToPut.collectionName = collection.collectionName;
+            collectionToPut.purchaseDiscount = collection.purchaseDiscount;
             collectionToPut.description = collection.description;
             collectionToPut.manufacturerName = collection.manufacturerName;
             collectionToPut.updatedBy = _LoggedInuserId;

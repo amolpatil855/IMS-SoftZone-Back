@@ -34,7 +34,8 @@ namespace IMSWebApi.Services
                     ? q.MstCategory.code.StartsWith(search) 
                     || q.MstCollection.collectionCode.StartsWith(search) 
                     || q.qualityCode.StartsWith(search) 
-                    || q.qualityName.StartsWith(search) : true)
+                    || q.qualityName.StartsWith(search)
+                    || q.MstHsn.hsnCode.StartsWith(search) : true)
                     .OrderBy(q => q.id).Skip(page * pageSize).Take(pageSize).ToList();
                 qualityView = Mapper.Map<List<MstQuality>, List<VMQuality>>(result);
             }
@@ -44,7 +45,8 @@ namespace IMSWebApi.Services
                    ? q.MstCategory.code.StartsWith(search)
                     || q.MstCollection.collectionCode.StartsWith(search)
                     || q.qualityCode.StartsWith(search)
-                    || q.qualityName.StartsWith(search) : true).ToList();
+                    || q.qualityName.StartsWith(search)
+                    || q.MstHsn.hsnCode.StartsWith(search) : true).ToList();
                 qualityView = Mapper.Map<List<MstQuality>, List<VMQuality>>(result);
             }
 
@@ -55,7 +57,8 @@ namespace IMSWebApi.Services
                      ? q.MstCategory.code.StartsWith(search)
                     || q.MstCollection.collectionCode.StartsWith(search)
                     || q.qualityCode.StartsWith(search)
-                    || q.qualityName.StartsWith(search) : true).Count(),
+                    || q.qualityName.StartsWith(search)
+                    || q.MstHsn.hsnCode.StartsWith(search) : true).Count(),
                 Page = page
             };
         }
@@ -108,6 +111,7 @@ namespace IMSWebApi.Services
             qualityToPut.maxCutRateDisc = quality.maxCutRateDisc;
             qualityToPut.maxRoleRateDisc = quality.maxRoleRateDisc;
             qualityToPut.flatRate = quality.flatRate;
+            qualityToPut.purchaseFlatRate = quality.purchaseFlatRate;
             qualityToPut.maxFlatRateDisc = quality.maxFlatRateDisc;
             qualityToPut.custRatePerSqFeet = quality.custRatePerSqFeet;
             qualityToPut.maxDiscout = quality.maxDiscout;

@@ -28,17 +28,17 @@ namespace IMSWebApi.Models
         public decimal width { get; set; }
         public decimal length { get; set; }
         public string sizeCode { get; set; }
+        public int stockReorderLevel { get; set; }
         public System.DateTime createdOn { get; set; }
         public long createdBy { get; set; }
         public Nullable<System.DateTime> updatedOn { get; set; }
         public Nullable<long> updatedBy { get; set; }
-        public int stockReorderLevel { get; set; }
     
         public virtual MstCategory MstCategory { get; set; }
-        public virtual MstFomSuggestedMM MstFomSuggestedMM { get; set; }
-        public virtual ICollection<TrnProductStock> TrnProductStocks { get; set; }
         public virtual MstCollection MstCollection { get; set; }
         public virtual MstFomDensity MstFomDensity { get; set; }
+        public virtual MstFomSuggestedMM MstFomSuggestedMM { get; set; }
         public virtual MstQuality MstQuality { get; set; }
+        public virtual ICollection<TrnProductStock> TrnProductStocks { get; set; }
     }
 }

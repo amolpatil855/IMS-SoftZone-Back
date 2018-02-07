@@ -67,7 +67,7 @@ namespace IMSWebApi.Controllers
         // DELETE api/Collection/1
         [ApiAuthorize(AccessLevel = "collection")]
         [HttpDelete]
-        public IHttpActionResult DeleteSupplier(long id)
+        public IHttpActionResult DeleteCollection(long id)
         {
             var result = _collectionService.deleteCollection(id);
             return Ok(result);
