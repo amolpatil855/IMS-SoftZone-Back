@@ -170,6 +170,7 @@ namespace IMSWebApi.Services
                 {
                     MstUser user = repo.MstUsers.Where(u => u.id == customer.userId).FirstOrDefault();
                     user.email = customer.email;
+                    user.phone = customer.phone;
                     repo.SaveChanges();
                 }
 

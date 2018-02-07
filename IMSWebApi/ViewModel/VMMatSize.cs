@@ -18,11 +18,11 @@ namespace IMSWebApi.ViewModel
         [Required]
         public long thicknessId { get; set; }
         [Required]
-        public int length { get; set; }
+        public decimal length { get; set; }
         [Required]
-        public int width { get; set; }
+        public decimal width { get; set; }
         [Required]
-        [MaxLength(10)]
+        [MaxLength(20)]
         public string sizeCode { get; set; }
         [Required]
         public decimal rate { get; set; }

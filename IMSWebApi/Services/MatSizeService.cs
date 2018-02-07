@@ -32,32 +32,35 @@ namespace IMSWebApi.Services
             List<VMMatSize> matSizeView;
             if (pageSize > 0)
             {
-                var result = repo.MstMatSizes.Where(m => !string.IsNullOrEmpty(search) ?
-                    m.sizeCode.StartsWith(search) 
+                var result = repo.MstMatSizes.Where(m => !string.IsNullOrEmpty(search) 
+                    ? m.sizeCode.StartsWith(search) 
                     || m.MstCollection.collectionCode.StartsWith(search)
                     || m.MstQuality.qualityCode.StartsWith(search)
-                    || m.MstMatThickness.thicknessCode.StartsWith(search): true)
+                    || m.MstMatThickness.thicknessCode.StartsWith(search)
+                    || m.purchaseRate.ToString().StartsWith(search) : true)
                     .OrderBy(m => m.id).Skip(page * pageSize).Take(pageSize).ToList();
                 matSizeView = Mapper.Map<List<MstMatSize>, List<VMMatSize>>(result);
             }
             else
             {
-                var result = repo.MstMatSizes.Where(m => !string.IsNullOrEmpty(search) ?
-                    m.sizeCode.StartsWith(search)
+                var result = repo.MstMatSizes.Where(m => !string.IsNullOrEmpty(search) 
+                    ? m.sizeCode.StartsWith(search)
                     || m.MstCollection.collectionCode.StartsWith(search)
                     || m.MstQuality.qualityCode.StartsWith(search)
-                    || m.MstMatThickness.thicknessCode.StartsWith(search) : true).ToList();
+                    || m.MstMatThickness.thicknessCode.StartsWith(search)
+                    || m.purchaseRate.ToString().StartsWith(search) : true).ToList();
                 matSizeView = Mapper.Map<List<MstMatSize>, List<VMMatSize>>(result);
             }
 
             return new ListResult<VMMatSize>
             {
                 Data = matSizeView,
-                TotalCount = repo.MstMatSizes.Where(m => !string.IsNullOrEmpty(search) ?
-                    m.sizeCode.StartsWith(search)
+                TotalCount = repo.MstMatSizes.Where(m => !string.IsNullOrEmpty(search) 
+                    ? m.sizeCode.StartsWith(search) 
                     || m.MstCollection.collectionCode.StartsWith(search)
                     || m.MstQuality.qualityCode.StartsWith(search)
-                    || m.MstMatThickness.thicknessCode.StartsWith(search) : true).Count(),
+                    || m.MstMatThickness.thicknessCode.StartsWith(search)
+                    || m.purchaseRate.ToString().StartsWith(search) : true).Count(),
                 Page = page
             };
         }

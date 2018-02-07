@@ -31,7 +31,9 @@ namespace IMSWebApi.ServicesDesign
             if (pageSize > 0)
             {
                 var result = repo.MstFWRShades.Where(q => !string.IsNullOrEmpty(search)
-                    ? q.MstCollection.collectionCode.StartsWith(search)
+                    ? q.serialNumber.ToString().StartsWith(search)
+                    || q.MstCategory.code.StartsWith(search)
+                    || q.MstCollection.collectionCode.StartsWith(search)
                     || q.MstQuality.qualityCode.StartsWith(search)
                     || q.MstFWRDesign.designCode.StartsWith(search)
                     || q.shadeCode.StartsWith(search)
@@ -42,7 +44,9 @@ namespace IMSWebApi.ServicesDesign
             else
             {
                 var result = repo.MstFWRShades.Where(q => !string.IsNullOrEmpty(search)
-                   ? q.MstCollection.collectionCode.StartsWith(search)
+                   ? q.serialNumber.ToString().StartsWith(search)
+                    || q.MstCategory.code.StartsWith(search)
+                    || q.MstCollection.collectionCode.StartsWith(search)
                     || q.MstQuality.qualityCode.StartsWith(search)
                     || q.MstFWRDesign.designCode.StartsWith(search)
                     || q.shadeCode.StartsWith(search)
@@ -54,7 +58,9 @@ namespace IMSWebApi.ServicesDesign
             {
                 Data = shadeView,
                 TotalCount = repo.MstFWRShades.Where(q => !string.IsNullOrEmpty(search)
-                     ? q.MstCollection.collectionCode.StartsWith(search)
+                     ? q.serialNumber.ToString().StartsWith(search)
+                    || q.MstCategory.code.StartsWith(search)
+                    || q.MstCollection.collectionCode.StartsWith(search)
                     || q.MstQuality.qualityCode.StartsWith(search)
                     || q.MstFWRDesign.designCode.StartsWith(search)
                     || q.shadeCode.StartsWith(search)

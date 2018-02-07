@@ -31,7 +31,8 @@ namespace IMSWebApi.Services
             if (pageSize > 0)
             {
                 var result = repo.MstFWRDesigns.Where(q => !string.IsNullOrEmpty(search)
-                    ? q.MstCollection.collectionCode.StartsWith(search) 
+                    ? q.MstCategory.code.StartsWith(search)
+                    ||q.MstCollection.collectionCode.StartsWith(search) 
                     || q.MstQuality.qualityCode.StartsWith(search) 
                     || q.designCode.StartsWith(search) 
                     || q.designName.StartsWith(search) : true)
@@ -41,7 +42,8 @@ namespace IMSWebApi.Services
             else
             {
                 var result = repo.MstFWRDesigns.Where(q => !string.IsNullOrEmpty(search)
-                   ? q.MstCollection.collectionCode.StartsWith(search)
+                   ? q.MstCategory.code.StartsWith(search)
+                    || q.MstCollection.collectionCode.StartsWith(search)
                     || q.MstQuality.qualityCode.StartsWith(search)
                     || q.designCode.StartsWith(search)
                     || q.designName.StartsWith(search) : true).ToList();
@@ -52,7 +54,8 @@ namespace IMSWebApi.Services
             {
                 Data = designView,
                 TotalCount = repo.MstFWRDesigns.Where(q => !string.IsNullOrEmpty(search)
-                     ? q.MstCollection.collectionCode.StartsWith(search)
+                     ? q.MstCategory.code.StartsWith(search)
+                    || q.MstCollection.collectionCode.StartsWith(search)
                     || q.MstQuality.qualityCode.StartsWith(search)
                     || q.designCode.StartsWith(search)
                     || q.designName.StartsWith(search) : true).Count(),

@@ -16,8 +16,8 @@ namespace IMSWebApi.Models
     {
         public MstFomDensity()
         {
-            this.MstFomSizes = new HashSet<MstFomSize>();
             this.MstFomSuggestedMMs = new HashSet<MstFomSuggestedMM>();
+            this.MstFomSizes = new HashSet<MstFomSize>();
         }
     
         public long id { get; set; }
@@ -37,9 +37,9 @@ namespace IMSWebApi.Models
         public Nullable<long> updatedBy { get; set; }
     
         public virtual MstCategory MstCategory { get; set; }
-        public virtual MstCollection MstCollection { get; set; }
-        public virtual ICollection<MstFomSize> MstFomSizes { get; set; }
         public virtual ICollection<MstFomSuggestedMM> MstFomSuggestedMMs { get; set; }
+        public virtual MstCollection MstCollection { get; set; }
         public virtual MstQuality MstQuality { get; set; }
+        public virtual ICollection<MstFomSize> MstFomSizes { get; set; }
     }
 }

@@ -16,13 +16,13 @@ namespace IMSWebApi.Models
     {
         public MstCollection()
         {
-            this.MstFomSizes = new HashSet<MstFomSize>();
+            this.MstFWRDesigns = new HashSet<MstFWRDesign>();
+            this.MstFomDensities = new HashSet<MstFomDensity>();
             this.MstFomSuggestedMMs = new HashSet<MstFomSuggestedMM>();
             this.MstFWRShades = new HashSet<MstFWRShade>();
             this.TrnProductStocks = new HashSet<TrnProductStock>();
-            this.MstFWRDesigns = new HashSet<MstFWRDesign>();
-            this.MstFomDensities = new HashSet<MstFomDensity>();
             this.MstQualities = new HashSet<MstQuality>();
+            this.MstFomSizes = new HashSet<MstFomSize>();
             this.MstMatSizes = new HashSet<MstMatSize>();
         }
     
@@ -31,6 +31,7 @@ namespace IMSWebApi.Models
         public long supplierId { get; set; }
         public string collectionCode { get; set; }
         public string collectionName { get; set; }
+        public Nullable<decimal> purchaseDiscount { get; set; }
         public string description { get; set; }
         public string manufacturerName { get; set; }
         public System.DateTime createdOn { get; set; }
@@ -39,14 +40,14 @@ namespace IMSWebApi.Models
         public Nullable<long> updatedBy { get; set; }
     
         public virtual MstCategory MstCategory { get; set; }
-        public virtual ICollection<MstFomSize> MstFomSizes { get; set; }
+        public virtual MstSupplier MstSupplier { get; set; }
+        public virtual ICollection<MstFWRDesign> MstFWRDesigns { get; set; }
+        public virtual ICollection<MstFomDensity> MstFomDensities { get; set; }
         public virtual ICollection<MstFomSuggestedMM> MstFomSuggestedMMs { get; set; }
         public virtual ICollection<MstFWRShade> MstFWRShades { get; set; }
         public virtual ICollection<TrnProductStock> TrnProductStocks { get; set; }
-        public virtual ICollection<MstFWRDesign> MstFWRDesigns { get; set; }
-        public virtual ICollection<MstFomDensity> MstFomDensities { get; set; }
-        public virtual MstSupplier MstSupplier { get; set; }
         public virtual ICollection<MstQuality> MstQualities { get; set; }
+        public virtual ICollection<MstFomSize> MstFomSizes { get; set; }
         public virtual ICollection<MstMatSize> MstMatSizes { get; set; }
     }
 }

@@ -297,4 +297,13 @@
   <data name="CourierUpdated" xml:space="preserve">
     <value>Courier Details Updated Successfully</value>
   </data>
+  <data name="FinancialYearAdded" xml:space="preserve">
+    <value>Financial Year Added Successfully</value>
+  </data>
+  <data name="FinancialYearDeleted" xml:space="preserve">
+    <value>Financial Year Deleted Successfully</value>
+  </data>
+  <data name="FinancialYearUpdated" xml:space="preserve">
+    <value>Financial Year Updated Successfully</value>
+  </data>
 </root>

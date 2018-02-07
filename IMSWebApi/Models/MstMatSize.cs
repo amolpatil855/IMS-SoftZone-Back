@@ -24,8 +24,8 @@ namespace IMSWebApi.Models
         public long collectionId { get; set; }
         public long qualityId { get; set; }
         public long thicknessId { get; set; }
-        public int length { get; set; }
-        public int width { get; set; }
+        public decimal length { get; set; }
+        public decimal width { get; set; }
         public string sizeCode { get; set; }
         public decimal rate { get; set; }
         public decimal purchaseDiscount { get; set; }

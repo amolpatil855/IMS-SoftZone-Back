@@ -86,6 +86,9 @@ namespace IMSWebApi.App_Start
 
             Mapper.CreateMap<MstCourier, VMCourier>();
             Mapper.CreateMap<VMCourier, MstCourier>();
+
+            Mapper.CreateMap<MstFinancialYear, VMFinancialYear>();
+            Mapper.CreateMap<VMFinancialYear, MstFinancialYear>();
         }
     }
 }
