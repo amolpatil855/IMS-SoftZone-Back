@@ -277,7 +277,10 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\FWRShadeController.cs" />
     <Compile Include="Controllers\SupplierController.cs" />
+    <Compile Include="Controllers\TrnGoodReceiveNoteController.cs" />
     <Compile Include="Controllers\TrnProductStockController.cs" />
+    <Compile Include="Controllers\TrnPurchaseOrderController.cs" />
+    <Compile Include="Controllers\TrnSaleOrderController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="CustomAttributes\AuthorizeUserAttribute.cs" />
@@ -365,7 +368,25 @@
     <Compile Include="Models\MstuserType.cs">
       <DependentUpon>WebApiModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\TrnGoodReceiveNote.cs">
+      <DependentUpon>WebApiModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TrnGoodReceiveNoteItem.cs">
+      <DependentUpon>WebApiModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\TrnProductStock.cs">
+      <DependentUpon>WebApiModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TrnPurchaseOrder.cs">
+      <DependentUpon>WebApiModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TrnPurchaseOrderItem.cs">
+      <DependentUpon>WebApiModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TrnSaleOrder.cs">
+      <DependentUpon>WebApiModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TrnSaleOrderItem.cs">
       <DependentUpon>WebApiModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\WebApiModel.Context.cs">
@@ -439,7 +460,13 @@
     <Compile Include="ViewModel\VMMenu.cs" />
     <Compile Include="ViewModel\VMRole.cs" />
     <Compile Include="ViewModel\VMSupplierAddress.cs" />
+    <Compile Include="ViewModel\VMTrnGoodReceiveNote.cs" />
+    <Compile Include="ViewModel\VMTrnGoodReceiveNoteItem.cs" />
     <Compile Include="ViewModel\VMTrnProductStock.cs" />
+    <Compile Include="ViewModel\VMTrnPurchaseOrder.cs" />
+    <Compile Include="ViewModel\VMTrnPurchaseOrderItem.cs" />
+    <Compile Include="ViewModel\VMTrnSaleOrder.cs" />
+    <Compile Include="ViewModel\VMTrnSaleOrderItem.cs" />
     <Compile Include="ViewModel\VMUser.cs" />
     <Compile Include="ViewModel\VMUserType.cs" />
   </ItemGroup>

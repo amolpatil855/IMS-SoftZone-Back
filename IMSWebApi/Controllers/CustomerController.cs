@@ -74,6 +74,12 @@ namespace IMSWebApi.Controllers
             return Ok(result);
         }
 
-
+        [HttpGet]
+        [Route("api/Customer/GetCustomerAddressByCustomerId")]
+        public IHttpActionResult GetCustomerAddressByCustomerId(long customerId)
+        {
+            var result = _customerService.getCustomerAddressByCustomerId(customerId);
+            return Ok(result);
+        }
     }
 }
