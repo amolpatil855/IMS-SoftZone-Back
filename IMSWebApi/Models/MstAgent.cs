@@ -14,6 +14,11 @@ namespace IMSWebApi.Models
     
     public partial class MstAgent
     {
+        public MstAgent()
+        {
+            this.TrnSaleOrders = new HashSet<TrnSaleOrder>();
+        }
+    
         public long id { get; set; }
         public string name { get; set; }
         public string phone { get; set; }
@@ -28,5 +33,7 @@ namespace IMSWebApi.Models
         public long createdBy { get; set; }
         public Nullable<System.DateTime> updatedOn { get; set; }
         public Nullable<long> updatedBy { get; set; }
+    
+        public virtual ICollection<TrnSaleOrder> TrnSaleOrders { get; set; }
     }
 }
