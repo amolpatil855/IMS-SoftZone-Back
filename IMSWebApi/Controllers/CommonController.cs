@@ -209,6 +209,14 @@ namespace IMSWebApi.Controllers
         }
 
         [HttpGet]
+        [Route("api/Common/GetCompanyLocationById")]
+        public IHttpActionResult GetCompanyLocationById(long locationId)
+        {
+            var result = _companyLocationService.getCompanyLocationById(locationId);
+            return Ok(result);
+        }
+
+        [HttpGet]
         [Route("api/Common/GetFomSizeLookUpByCollection")]
         public IHttpActionResult GetFomSizeLookUpByCollection(long collectionId)
         {

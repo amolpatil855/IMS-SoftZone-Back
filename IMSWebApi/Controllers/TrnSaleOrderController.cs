@@ -1,4 +1,5 @@
 ﻿using IMSWebApi.CustomAttributes;
+using IMSWebApi.Services;
 using IMSWebApi.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -12,11 +13,11 @@ namespace IMSWebApi.Controllers
     [Authorize]
     public class TrnSaleOrderController : ApiController
     {
-
+        private TrnSaleOrderService _trnSaleOrderService = null;
 
         public TrnSaleOrderController()
         {
-
+            _trnSaleOrderService = new TrnSaleOrderService();
         }
 
         // GET api/TrnSaleOrder
@@ -24,7 +25,8 @@ namespace IMSWebApi.Controllers
         [HttpGet]
         public IHttpActionResult Get(int pageSize = 0, int page = 0, string search = null)
         {
-            return Ok();
+            var result = _trnSaleOrderService.getSaleOrder(pageSize, page, search);
+            return Ok(result);
         }
 
         // GET api/TrnSaleOrder/1
@@ -32,7 +34,8 @@ namespace IMSWebApi.Controllers
         [HttpGet]
         public IHttpActionResult Get(long id)
         {
-            return Ok();
+            var result = _trnSaleOrderService.getSaleOrderById(id);
+            return Ok(result);
         }
 
         // POST api/TrnSaleOrder

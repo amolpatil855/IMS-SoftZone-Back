@@ -28,6 +28,8 @@ namespace IMSWebApi.ViewModel
         public string orderType { get; set; }
         public Nullable<decimal> rate { get; set; }
         public Nullable<int> amount { get; set; }
+        [MaxLength(20)]
+        public string status { get; set; }
         
         public virtual VMCategory MstCategory { get; set; }
         public virtual VMCollection MstCollection { get; set; }

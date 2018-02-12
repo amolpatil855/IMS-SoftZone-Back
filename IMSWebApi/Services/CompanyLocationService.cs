@@ -1,4 +1,5 @@
-﻿using IMSWebApi.Models;
+﻿using AutoMapper;
+using IMSWebApi.Models;
 using IMSWebApi.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -17,5 +18,13 @@ namespace IMSWebApi.Services
                 .OrderBy(s => s.locationCode)
                 .Select(s => new VMLookUpItem { value = s.id, label = s.locationCode }).ToList();
         }
+
+        public VMCompanyLocation getCompanyLocationById(Int64 locationId)
+        {
+            var result = repo.MstCompanyLocations.Where(c => c.id == locationId).FirstOrDefault();
+            VMCompanyLocation companyLocationView = Mapper.Map<MstCompanyLocation,VMCompanyLocation>(result);
+            return companyLocationView;
+        }
+
     }
 }

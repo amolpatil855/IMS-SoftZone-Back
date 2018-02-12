@@ -430,7 +430,10 @@
     <Compile Include="Services\RoleService.cs" />
     <Compile Include="Services\FWRShadeService.cs" />
     <Compile Include="Services\SupplierService.cs" />
+    <Compile Include="Services\TrnGoodReceiveNoteService.cs" />
     <Compile Include="Services\TrnProductStockService.cs" />
+    <Compile Include="Services\TrnPurchaseOrderService.cs" />
+    <Compile Include="Services\TrnSaleOrderService.cs" />
     <Compile Include="Services\UnitOfMeasureService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Services\FomSizeService.cs" />
@@ -472,6 +475,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
+    <Content Include="EmailTemplate\ForgotPassword.html" />
     <Content Include="EmailTemplate\RegisterUser.html" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />

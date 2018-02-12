@@ -33,5 +33,8 @@ namespace IMSWebApi.ViewModel
         public virtual VMCompanyLocation MstCompanyLocation { get; set; }
         public virtual VMCourier MstCourier { get; set; }
         public virtual VMSupplier MstSupplier { get; set; }
+        public virtual List<VMTrnGoodReceiveNote> TrnGoodReceiveNotes { get; set; }
+        public virtual List<VMTrnPurchaseOrderItem> TrnPurchaseOrderItems { get; set; }
+        public virtual VMTrnSaleOrder TrnSaleOrder { get; set; }
     }
 }

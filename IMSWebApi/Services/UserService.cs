@@ -125,7 +125,7 @@ namespace IMSWebApi.Services
             userToPost.createdBy = _LoggedInuserId;
             repo.MstUsers.Add(userToPost);
             repo.SaveChanges();
-            sendEmail(userToPost.id, originalPassword, "RegisterUser");
+            sendEmail(userToPost.id, originalPassword, "RegisterUser",false);
             return new ResponseMessage(userToPost.id, resourceManager.GetString("UserAdded"), ResponseType.Success);
         }
 
@@ -210,7 +210,7 @@ namespace IMSWebApi.Services
                 var originalPassword = createRandomPassword(8);
                 user.password = encryption(originalPassword);
                 repo.SaveChanges();
-                sendEmail(user.id, originalPassword, "RegisterUser");
+                sendEmail(user.id, originalPassword, "ForgotPassword",true);
                 return new ResponseMessage(user.id, resourceManager.GetString("PasswordReset"), ResponseType.Success);
             }
             else
@@ -219,10 +219,10 @@ namespace IMSWebApi.Services
             }
         }
 
-        public void sendEmail(Int64 id, string originalPassword, string fileName)
+        public void sendEmail(Int64 id, string originalPassword, string fileName,bool isReset)
         {
             var result = repo.MstUsers.Where(u => u.id == id).FirstOrDefault();
-            Email.email(result, originalPassword, fileName);
+            Email.email(result, originalPassword, fileName,isReset);
         }
 
         public MstuserType getCustomerUserType()
