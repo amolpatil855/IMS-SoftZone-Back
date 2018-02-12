@@ -28,6 +28,7 @@ namespace IMSWebApi.Models
         public string orderType { get; set; }
         public Nullable<decimal> rate { get; set; }
         public Nullable<int> amount { get; set; }
+        public string status { get; set; }
         public System.DateTime createdOn { get; set; }
         public long createdBy { get; set; }
         public Nullable<System.DateTime> updatedOn { get; set; }
@@ -38,6 +39,5 @@ namespace IMSWebApi.Models
         public virtual MstFomSize MstFomSize { get; set; }
         public virtual MstFWRShade MstFWRShade { get; set; }
         public virtual MstMatSize MstMatSize { get; set; }
-        public virtual TrnSaleOrder TrnSaleOrder { get; set; }
     }
 }

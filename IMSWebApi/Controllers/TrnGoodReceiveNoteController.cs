@@ -1,4 +1,5 @@
 ﻿using IMSWebApi.CustomAttributes;
+using IMSWebApi.Services;
 using IMSWebApi.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -12,11 +13,11 @@ namespace IMSWebApi.Controllers
     [Authorize]
     public class TrnGoodReceiveNoteController : ApiController
     {
-
+        private TrnGoodReceiveNoteService _trnGoodReceiveNoteService = null;
 
         public TrnGoodReceiveNoteController()
         {
-
+            _trnGoodReceiveNoteService = new TrnGoodReceiveNoteService();
         }
 
         // GET api/TrnGoodReceiveNote
@@ -24,6 +25,7 @@ namespace IMSWebApi.Controllers
         [HttpGet]
         public IHttpActionResult Get(int pageSize = 0, int page = 0, string search = null)
         {
+            var result = _trnGoodReceiveNoteService.getGoodReceiveNote(pageSize, page, search);
             return Ok();
         }
 
@@ -32,6 +34,7 @@ namespace IMSWebApi.Controllers
         [HttpGet]
         public IHttpActionResult Get(long id)
         {
+            var result = _trnGoodReceiveNoteService.getGoodReceiveNoteById(id);
             return Ok();
         }
 
