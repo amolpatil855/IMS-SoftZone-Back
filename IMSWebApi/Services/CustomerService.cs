@@ -127,7 +127,7 @@ namespace IMSWebApi.Services
             userToPost.createdBy = _LoggedInuserId;
             repo.MstUsers.Add(userToPost);
             repo.SaveChanges();
-            _userService.sendEmail(userToPost.id, originalPassword,"RegisterUser");
+            _userService.sendEmail(userToPost.id, originalPassword,"RegisterUser",false);
             userId = userToPost.id;
             return userId;
         }
