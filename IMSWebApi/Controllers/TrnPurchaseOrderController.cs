@@ -23,6 +23,16 @@ namespace IMSWebApi.Controllers
         // GET api/TrnPurchaseOrder
         [ApiAuthorize(AccessLevel = "purchaseorder")]
         [HttpGet]
+        [Route("api/TrnPurchaseOrder/GetCollectionBySuppliernCategoryId")]
+        public IHttpActionResult GetCollectionBySuppliernCategoryId(long supplierId,long categoryId)
+        {
+            var result = _trnPurchaseOrderService.getCollectionBySuppliernCategoryId(supplierId,categoryId);
+            return Ok(result);
+        }
+
+        // GET api/TrnPurchaseOrder
+        [ApiAuthorize(AccessLevel = "purchaseorder")]
+        [HttpGet]
         public IHttpActionResult Get(int pageSize = 0, int page = 0, string search = null)
         {
             var result = _trnPurchaseOrderService.getPurchaseOrder(pageSize, page, search);
@@ -47,6 +57,7 @@ namespace IMSWebApi.Controllers
             {
                 return BadRequest(ModelState);
             }
+            var result = _trnPurchaseOrderService.postPurchaseOrder(purchaseOrder);
             return Ok();
         }
 

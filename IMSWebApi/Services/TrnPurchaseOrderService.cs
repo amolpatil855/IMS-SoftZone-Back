@@ -9,6 +9,8 @@ using Microsoft.AspNet.Identity;
 using IMSWebApi.Common;
 using IMSWebApi.ViewModel;
 using AutoMapper;
+using System.Transactions;
+using IMSWebApi.Enums;
 
 namespace IMSWebApi.Services
 {
@@ -21,6 +23,14 @@ namespace IMSWebApi.Services
         {
             _LoggedInuserId = Convert.ToInt64(HttpContext.Current.User.Identity.GetUserId());
             resourceManager = new ResourceManager("IMSWebApi.App_Data.Resource", Assembly.GetExecutingAssembly());
+        }
+
+        public List<VMLookUpItem> getCollectionBySuppliernCategoryId(Int64 supplierId,Int64 categoryId)
+        {
+            return repo.MstCollections.Where(c => c.categoryId == categoryId && c.supplierId == supplierId)
+                                        .OrderBy(o => o.collectionCode)
+                                        .Select(s => new VMLookUpItem { value = s.id, label = s.collectionCode })
+                                        .ToList();
         }
 
         public ListResult<VMTrnPurchaseOrder> getPurchaseOrder(int pageSize, int page, string search)
@@ -57,6 +67,30 @@ namespace IMSWebApi.Services
             var result = repo.TrnPurchaseOrders.Where(po => po.id == id).FirstOrDefault();
             VMTrnPurchaseOrder purchaseOrderView = Mapper.Map<TrnPurchaseOrder, VMTrnPurchaseOrder>(result);
             return purchaseOrderView;
+        }
+
+        public ResponseMessage postPurchaseOrder(VMTrnPurchaseOrder purchaseOrder)
+        {
+            using (var transaction = new TransactionScope())
+            {
+                TrnPurchaseOrder purchaseOrderToPost = Mapper.Map<VMTrnPurchaseOrder, TrnPurchaseOrder>(purchaseOrder);
+                var purchaseOrderItems = purchaseOrderToPost.TrnPurchaseOrderItems.ToList();
+                foreach (var poItems in purchaseOrderItems)
+                {
+                    poItems.createdOn = DateTime.Now;
+                    poItems.createdBy = _LoggedInuserId;
+                }
+                int startingPONumber = repo.MstFinancialYears.ToList().LastOrDefault().soNumber;
+                int currentSOCount = repo.TrnPurchaseOrders.Count();
+                purchaseOrderToPost.orderNumber = startingPONumber + currentSOCount;
+                purchaseOrderToPost.createdOn = DateTime.Now;
+                purchaseOrderToPost.createdBy = _LoggedInuserId;
+
+                repo.TrnPurchaseOrders.Add(purchaseOrderToPost);
+                repo.SaveChanges();
+                transaction.Complete();
+                return new ResponseMessage(purchaseOrderToPost.id, resourceManager.GetString("SupplierAdded"), ResponseType.Success);
+            }
         }
     }
 }
