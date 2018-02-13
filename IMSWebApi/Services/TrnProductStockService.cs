@@ -110,5 +110,45 @@ namespace IMSWebApi.Services
             repo.SaveChanges();
             return new ResponseMessage(trnProductStock.id, resourceManager.GetString("TrnProductStockUpdated"), ResponseType.Success);
         }
+
+        public decimal? getProductStockAvailablity(Int64 categoryId, Int64 collectionId, Int64 parameterId)
+        {
+            decimal? stockAvailabe = null;
+            string categoryName = repo.MstCategories.Where(c => c.id == categoryId).Select(a => a.code).FirstOrDefault();
+            if (categoryName.Equals("Fabric"))
+            {
+                stockAvailabe = repo.TrnProductStocks.Where(z => z.categoryId == categoryId
+                                                      && z.collectionId == collectionId
+                                                      && z.fwrShadeId == parameterId)
+                                                     .Select(c => c.stock)
+                                                    .DefaultIfEmpty(0)
+                                                    .Sum();
+                                                
+            }
+            if (categoryName.Equals("Foam"))
+            {
+                stockAvailabe = repo.TrnProductStocks.Where(z => z.categoryId == categoryId 
+                                                      && z.collectionId == collectionId
+                                                      && z.fomSizeId == parameterId)
+                                                .Select(c => c.stock)
+                                                    .DefaultIfEmpty(0)
+                                                    .Sum();
+            }
+            if (categoryName.Equals("Mattress"))
+            {
+                stockAvailabe = repo.TrnProductStocks.Where(z => z.categoryId == categoryId
+                                                        && z.collectionId == collectionId
+                                                        && z.matSizeId == parameterId)
+                                                .Select(c => c.stock)
+                                                    .DefaultIfEmpty(0)
+                                                    .Sum();
+            }
+            //List<VMTrnProductStock> stockQty = new List<VMTrnProductStock>(result);
+            //List<VMTrnProductStock> productStock = Mapper.Map<List<TrnProductStock>, List<VMTrnProductStock>>(result);
+            //decimal currentProductStock = productStock.Aggregate<VMTrnProductStock, decimal>(0, (productQty, p) => productQty += p.stock);
+            return stockAvailabe;
+        }
+
+        
     }
 }

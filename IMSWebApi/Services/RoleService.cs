@@ -31,7 +31,7 @@ namespace IMSWebApi.Services
             List<VMRole> roleViews;
             if (pageSize > 0)
             {
-                var result = repo.MstRoles.Where(p => !p.roleName.Equals("Administrator") &&(!string.IsNullOrEmpty(search)?
+                var result = repo.MstRoles.Where(p => !p.roleName.Equals("Administrator") && !p.roleName.Equals("Customer") && (!string.IsNullOrEmpty(search) ?
                     p.roleName.StartsWith(search)
                     || p.roleDescription.StartsWith(search):true))
                     .OrderBy(p=>p.id).Skip(page * pageSize).Take(pageSize).ToList();
@@ -39,7 +39,7 @@ namespace IMSWebApi.Services
             }
             else
             {
-                var result = repo.MstRoles.Where(p => !p.roleName.Equals("Administrator") &&(!string.IsNullOrEmpty(search)?
+                var result = repo.MstRoles.Where(p => !p.roleName.Equals("Administrator") && !p.roleName.Equals("Customer") && (!string.IsNullOrEmpty(search) ?
                     p.roleName.StartsWith(search)
                     || p.roleDescription.StartsWith(search):true))
                     .OrderBy(p=>p.id).Skip(page * pageSize).Take(pageSize).ToList();
@@ -50,7 +50,7 @@ namespace IMSWebApi.Services
             return new ListResult<VMRole>
             {
                 Data = roleViews,
-                TotalCount = repo.MstRoles.Where(p => !p.roleName.Equals("Administrator") && (!string.IsNullOrEmpty(search) ?
+                TotalCount = repo.MstRoles.Where(p => !p.roleName.Equals("Administrator") && !p.roleName.Equals("Customer") && (!string.IsNullOrEmpty(search) ?
                     p.roleName.StartsWith(search) 
                     || p.roleDescription.StartsWith(search) : true)).Count(),
                 Page = page

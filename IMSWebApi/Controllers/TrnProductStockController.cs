@@ -63,5 +63,16 @@ namespace IMSWebApi.Controllers
             var result = _trnProductStockService.putTrnProductStock(trnProductStock);
             return Ok(result);
         }
+
+        // GET api/TrnProductStock
+        [ApiAuthorize(AccessLevel = "stockmanagement")]
+        [HttpGet]
+        [Route("api/TrnProductStock/GetProductStock")]
+        public IHttpActionResult GetProductStock(long categoryId, long collectionId, long parameterId)
+        {
+            var result = _trnProductStockService.getProductStockAvailablity(categoryId,collectionId,parameterId);
+            return Ok(result);
+        }
+
     }
 }

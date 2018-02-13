@@ -89,6 +89,25 @@ namespace IMSWebApi.App_Start
 
             Mapper.CreateMap<MstFinancialYear, VMFinancialYear>();
             Mapper.CreateMap<VMFinancialYear, MstFinancialYear>();
+
+            Mapper.CreateMap<TrnPurchaseOrder, VMTrnPurchaseOrder>();
+            Mapper.CreateMap<VMTrnPurchaseOrder, TrnPurchaseOrder>();
+
+            Mapper.CreateMap<TrnPurchaseOrderItem, VMTrnPurchaseOrderItem>();
+            Mapper.CreateMap<VMTrnPurchaseOrderItem, TrnPurchaseOrderItem>();
+
+            Mapper.CreateMap<TrnSaleOrder, VMTrnSaleOrder>();
+            Mapper.CreateMap<VMTrnSaleOrder, TrnSaleOrder>();
+
+            Mapper.CreateMap<TrnSaleOrderItem, VMTrnSaleOrderItem>();
+            Mapper.CreateMap<VMTrnSaleOrderItem, TrnSaleOrderItem>();
+
+            Mapper.CreateMap<TrnGoodReceiveNote, VMTrnGoodReceiveNote>();
+            Mapper.CreateMap<VMTrnGoodReceiveNote, TrnGoodReceiveNote>();
+
+            Mapper.CreateMap<TrnGoodReceiveNoteItem, VMTrnGoodReceiveNoteItem>();
+            Mapper.CreateMap<VMTrnGoodReceiveNoteItem, TrnGoodReceiveNoteItem>();
+
         }
     }
 }
