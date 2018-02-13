@@ -306,4 +306,10 @@
   <data name="FinancialYearUpdated" xml:space="preserve">
     <value>Financial Year Updated Successfully</value>
   </data>
+  <data name="POAdded" xml:space="preserve">
+    <value>Purchase Order Generated Successfully</value>
+  </data>
+  <data name="POUpdated" xml:space="preserve">
+    <value>Purchase Order Updated Successfully</value>
+  </data>
 </root>
