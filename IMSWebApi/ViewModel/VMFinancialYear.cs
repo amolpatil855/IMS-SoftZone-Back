@@ -23,6 +23,16 @@ namespace IMSWebApi.ViewModel
         [Required]
         public int grnNumber { get; set; }
         [Required]
-        public int invoiceNumber { get; set; }
+        public int ginNumber { get; set; }
+        [Required]
+        public int poInvoiceNumber { get; set; }
+        [Required]
+        public int soInvoiceNumber { get; set; }
+        [Required]
+        public int materialQuotationNumber { get; set; }
+        [Required]
+        public int jobQuotationNumber { get; set; }
+        [Required]
+        public int jobCardNumber { get; set; }
     }
 }

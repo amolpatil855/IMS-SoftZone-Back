@@ -44,7 +44,6 @@
         <AssociationConnector Association="IMSModel.FK_MstCustomerAddressDetails_MstCustomer" />
         <AssociationConnector Association="IMSModel.FK_MstSupplierAddressDetails_MstSupplier" />
         <EntityTypeShape EntityType="IMSModel.MstCollection" Width="1.5" PointX="11" PointY="19.75" />
-        <EntityTypeShape EntityType="IMSModel.MstFinancialYear" Width="1.5" PointX="0.75" PointY="0.75" />
         <AssociationConnector Association="IMSModel.FK_MstCollection_MstCategory" />
         <AssociationConnector Association="IMSModel.FK_MstCollection_MstSupplier" />
         <AssociationConnector Association="IMSModel.FK_MstDesign_MstCollection" />
@@ -52,27 +51,12 @@
         <AssociationConnector Association="IMSModel.FK_MstFomSuggestdMM_MstCollection" />
         <AssociationConnector Association="IMSModel.FK_MstShade_MstCollection" />
         <AssociationConnector Association="IMSModel.FK_TrnProductStock_MstCollection" />
-        <EntityTypeShape EntityType="IMSModel.MstQuality" Width="1.5" PointX="13.25" PointY="20.375" />
-        <AssociationConnector Association="IMSModel.FK_MstQuality_MstCategory" />
-        <AssociationConnector Association="IMSModel.FK_MstQuality_MstCollection" />
-        <AssociationConnector Association="IMSModel.FK_MstFoamDensity_MstQuality" />
-        <AssociationConnector Association="IMSModel.FK_MstFomSuggestdMM_MstQuality" />
-        <AssociationConnector Association="IMSModel.FK_MstDesign_MstQuality" />
-        <AssociationConnector Association="IMSModel.FK_MstShade_MstQuality" />
-        <AssociationConnector Association="IMSModel.FK_MstQuality_MstHsn" />
         <EntityTypeShape EntityType="IMSModel.MstFomSize" Width="1.5" PointX="21.75" PointY="16" />
-        <EntityTypeShape EntityType="IMSModel.MstMatSize" Width="1.5" PointX="16.5" PointY="15.375" />
         <AssociationConnector Association="IMSModel.FK_MstFomSize_MstCategory" />
-        <AssociationConnector Association="IMSModel.FK_MstMattressSize_MstCategory" />
         <AssociationConnector Association="IMSModel.FK_MstFomSize_MstCollection" />
-        <AssociationConnector Association="IMSModel.FK_MstMattressSize_MstCollection" />
         <AssociationConnector Association="IMSModel.FK_MstFomSize_MstFomDensity" />
         <AssociationConnector Association="IMSModel.FK_MstFomSize_MstFomSuggestdMM" />
-        <AssociationConnector Association="IMSModel.FK_MstFomSize_MstQuality" />
         <AssociationConnector Association="IMSModel.FK_TrnProductStock_MstFomSize" />
-        <AssociationConnector Association="IMSModel.FK_MstMattressSize_MstMattressThickNess" />
-        <AssociationConnector Association="IMSModel.FK_MstMattressSize_MstQuality" />
-        <AssociationConnector Association="IMSModel.FK_TrnProductStock_MstMatSize" />
         <EntityTypeShape EntityType="IMSModel.TrnGoodReceiveNote" Width="1.5" PointX="24.75" PointY="23.75" />
         <EntityTypeShape EntityType="IMSModel.TrnGoodReceiveNoteItem" Width="1.5" PointX="27" PointY="17.125" />
         <AssociationConnector Association="IMSModel.FK_TrnGoodReceiveNoteItems_MstCategory" />
@@ -80,7 +64,6 @@
         <AssociationConnector Association="IMSModel.FK_TrnGoodReceiveNote_MstCompanyLocation" />
         <AssociationConnector Association="IMSModel.FK_TrnGoodReceiveNoteItems_MstFomSize" />
         <AssociationConnector Association="IMSModel.FK_TrnGoodReceiveNoteItems_MstFWRShade" />
-        <AssociationConnector Association="IMSModel.FK_TrnGoodReceiveNoteItems_MstMatSize" />
         <AssociationConnector Association="IMSModel.FK_TrnGoodReceiveNoteItems_TrnGoodReceiveNote" />
         <EntityTypeShape EntityType="IMSModel.TrnPurchaseOrderItem" Width="1.5" PointX="27.75" PointY="23.5" />
         <EntityTypeShape EntityType="IMSModel.TrnSaleOrderItem" Width="1.5" PointX="24" PointY="16" />
@@ -92,8 +75,6 @@
         <AssociationConnector Association="IMSModel.FK_TrnSaleOrderItem_MstFomSize" />
         <AssociationConnector Association="IMSModel.FK_TrnPurchaseOrderItems_MstFWRShade" />
         <AssociationConnector Association="IMSModel.FK_TrnSaleOrderItem_MstFWRShade" />
-        <AssociationConnector Association="IMSModel.FK_TrnPurchaseOrderItems_MstMatSize" />
-        <AssociationConnector Association="IMSModel.FK_TrnSaleOrderItem_MstMatSize" />
         <EntityTypeShape EntityType="IMSModel.TrnPurchaseOrder" Width="1.5" PointX="10.625" PointY="4" />
         <EntityTypeShape EntityType="IMSModel.TrnSaleOrder" Width="1.5" PointX="8.375" PointY="21.25" />
         <AssociationConnector Association="IMSModel.FK_TrnSaleOrder_MstAgent" />
@@ -105,6 +86,25 @@
         <AssociationConnector Association="IMSModel.FK_TrnGoodReceiveNote_TrnPurchaseOrder" />
         <AssociationConnector Association="IMSModel.FK_TrnPurchaseOrder_TrnSaleOrder" />
         <AssociationConnector Association="IMSModel.FK_TrnPurchaseOrderItems_TrnPurchaseOrder" />
+        <EntityTypeShape EntityType="IMSModel.MstMatSize" Width="1.5" PointX="16.25" PointY="14.25" />
+        <EntityTypeShape EntityType="IMSModel.MstQuality" Width="1.5" PointX="13.25" PointY="20.75" />
+        <AssociationConnector Association="IMSModel.FK_MstMattressSize_MstCategory" />
+        <AssociationConnector Association="IMSModel.FK_MstQuality_MstCategory" />
+        <AssociationConnector Association="IMSModel.FK_MstMattressSize_MstCollection" />
+        <AssociationConnector Association="IMSModel.FK_MstQuality_MstCollection" />
+        <AssociationConnector Association="IMSModel.FK_MstFoamDensity_MstQuality" />
+        <AssociationConnector Association="IMSModel.FK_MstFomSize_MstQuality" />
+        <AssociationConnector Association="IMSModel.FK_MstFomSuggestdMM_MstQuality" />
+        <AssociationConnector Association="IMSModel.FK_MstDesign_MstQuality" />
+        <AssociationConnector Association="IMSModel.FK_MstShade_MstQuality" />
+        <AssociationConnector Association="IMSModel.FK_MstQuality_MstHsn" />
+        <AssociationConnector Association="IMSModel.FK_MstMattressSize_MstMattressThickNess" />
+        <AssociationConnector Association="IMSModel.FK_MstMattressSize_MstQuality" />
+        <AssociationConnector Association="IMSModel.FK_TrnGoodReceiveNoteItems_MstMatSize" />
+        <AssociationConnector Association="IMSModel.FK_TrnProductStock_MstMatSize" />
+        <AssociationConnector Association="IMSModel.FK_TrnPurchaseOrderItems_MstMatSize" />
+        <AssociationConnector Association="IMSModel.FK_TrnSaleOrderItem_MstMatSize" />
+        <EntityTypeShape EntityType="IMSModel.MstFinancialYear" Width="1.5" PointX="0.75" PointY="0.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

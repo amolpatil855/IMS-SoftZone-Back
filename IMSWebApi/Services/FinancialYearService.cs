@@ -35,8 +35,7 @@ namespace IMSWebApi.Services
                     || f.endDate.ToString().StartsWith(search)
                     || f.soNumber.ToString().StartsWith(search)
                     || f.poNumber.ToString().StartsWith(search)
-                    || f.grnNumber.ToString().StartsWith(search)
-                    || f.invoiceNumber.ToString().StartsWith(search) : true)
+                    || f.grnNumber.ToString().StartsWith(search) : true)
                     .OrderBy(p => p.id).Skip(page * pageSize).Take(pageSize).ToList();
                 financialYearView = Mapper.Map<List<MstFinancialYear>, List<VMFinancialYear>>(result);
             }
@@ -48,8 +47,7 @@ namespace IMSWebApi.Services
                     || f.endDate.ToString().StartsWith(search)
                     || f.soNumber.ToString().StartsWith(search)
                     || f.poNumber.ToString().StartsWith(search)
-                    || f.grnNumber.ToString().StartsWith(search)
-                    || f.invoiceNumber.ToString().StartsWith(search) : true).ToList();
+                    || f.grnNumber.ToString().StartsWith(search) : true).ToList();
                 financialYearView = Mapper.Map<List<MstFinancialYear>, List<VMFinancialYear>>(result);
             }
 
@@ -62,8 +60,7 @@ namespace IMSWebApi.Services
                     || f.endDate.ToString().StartsWith(search)
                     || f.soNumber.ToString().StartsWith(search)
                     || f.poNumber.ToString().StartsWith(search)
-                    || f.grnNumber.ToString().StartsWith(search)
-                    || f.invoiceNumber.ToString().StartsWith(search) : true).Count(),
+                    || f.grnNumber.ToString().StartsWith(search) : true).Count(),
                 Page = page
             };
         }
@@ -96,7 +93,12 @@ namespace IMSWebApi.Services
             financialToPut.poNumber = financialYear.poNumber;
             financialToPut.soNumber = financialYear.soNumber;
             financialToPut.grnNumber = financialYear.grnNumber;
-            financialToPut.invoiceNumber = financialYear.invoiceNumber;
+            financialToPut.ginNumber = financialYear.ginNumber;
+            financialToPut.poInvoiceNumber = financialYear.poInvoiceNumber;
+            financialToPut.soInvoiceNumber= financialYear.soInvoiceNumber;
+            financialToPut.materialQuotationNumber = financialYear.materialQuotationNumber;
+            financialToPut.jobQuotationNumber = financialYear.jobQuotationNumber;
+            financialToPut.jobCardNumber = financialYear.jobCardNumber;
             financialToPut.updatedBy = _LoggedInuserId;
             financialToPut.updatedOn = DateTime.Now;
 

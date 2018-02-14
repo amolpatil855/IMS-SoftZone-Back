@@ -48,15 +48,15 @@ namespace IMSWebApi.Models
         public virtual DbSet<MstSupplier> MstSuppliers { get; set; }
         public virtual DbSet<MstSupplierAddress> MstSupplierAddresses { get; set; }
         public virtual DbSet<MstCollection> MstCollections { get; set; }
-        public virtual DbSet<MstFinancialYear> MstFinancialYears { get; set; }
-        public virtual DbSet<MstQuality> MstQualities { get; set; }
         public virtual DbSet<MstFomSize> MstFomSizes { get; set; }
-        public virtual DbSet<MstMatSize> MstMatSizes { get; set; }
         public virtual DbSet<TrnGoodReceiveNote> TrnGoodReceiveNotes { get; set; }
         public virtual DbSet<TrnGoodReceiveNoteItem> TrnGoodReceiveNoteItems { get; set; }
         public virtual DbSet<TrnPurchaseOrderItem> TrnPurchaseOrderItems { get; set; }
         public virtual DbSet<TrnSaleOrderItem> TrnSaleOrderItems { get; set; }
         public virtual DbSet<TrnPurchaseOrder> TrnPurchaseOrders { get; set; }
         public virtual DbSet<TrnSaleOrder> TrnSaleOrders { get; set; }
+        public virtual DbSet<MstMatSize> MstMatSizes { get; set; }
+        public virtual DbSet<MstQuality> MstQualities { get; set; }
+        public virtual DbSet<MstFinancialYear> MstFinancialYears { get; set; }
     }
 }

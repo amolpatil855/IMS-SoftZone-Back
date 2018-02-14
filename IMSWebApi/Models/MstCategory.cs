@@ -22,12 +22,12 @@ namespace IMSWebApi.Models
             this.MstFWRDesigns = new HashSet<MstFWRDesign>();
             this.MstFomDensities = new HashSet<MstFomDensity>();
             this.MstCollections = new HashSet<MstCollection>();
-            this.MstQualities = new HashSet<MstQuality>();
             this.MstFomSizes = new HashSet<MstFomSize>();
-            this.MstMatSizes = new HashSet<MstMatSize>();
             this.TrnGoodReceiveNoteItems = new HashSet<TrnGoodReceiveNoteItem>();
             this.TrnPurchaseOrderItems = new HashSet<TrnPurchaseOrderItem>();
             this.TrnSaleOrderItems = new HashSet<TrnSaleOrderItem>();
+            this.MstMatSizes = new HashSet<MstMatSize>();
+            this.MstQualities = new HashSet<MstQuality>();
         }
     
         public long id { get; set; }
@@ -44,11 +44,11 @@ namespace IMSWebApi.Models
         public virtual ICollection<MstFWRDesign> MstFWRDesigns { get; set; }
         public virtual ICollection<MstFomDensity> MstFomDensities { get; set; }
         public virtual ICollection<MstCollection> MstCollections { get; set; }
-        public virtual ICollection<MstQuality> MstQualities { get; set; }
         public virtual ICollection<MstFomSize> MstFomSizes { get; set; }
-        public virtual ICollection<MstMatSize> MstMatSizes { get; set; }
         public virtual ICollection<TrnGoodReceiveNoteItem> TrnGoodReceiveNoteItems { get; set; }
         public virtual ICollection<TrnPurchaseOrderItem> TrnPurchaseOrderItems { get; set; }
         public virtual ICollection<TrnSaleOrderItem> TrnSaleOrderItems { get; set; }
+        public virtual ICollection<MstMatSize> MstMatSizes { get; set; }
+        public virtual ICollection<MstQuality> MstQualities { get; set; }
     }
 }

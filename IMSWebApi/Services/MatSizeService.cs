@@ -104,7 +104,6 @@ namespace IMSWebApi.Services
             matSizeToPut.width = matSize.width;
             matSizeToPut.sizeCode = matSize.sizeCode;
             matSizeToPut.rate = matSize.rate;
-            matSizeToPut.purchaseDiscount = matSize.purchaseDiscount;
             matSizeToPut.purchaseRate = matSize.purchaseRate;
             matSizeToPut.stockReorderLevel = matSize.stockReorderLevel;
 

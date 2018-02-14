@@ -41,9 +41,9 @@ namespace IMSWebApi.Models
         public virtual ICollection<TrnProductStock> TrnProductStocks { get; set; }
         public virtual MstFWRDesign MstFWRDesign { get; set; }
         public virtual MstCollection MstCollection { get; set; }
-        public virtual MstQuality MstQuality { get; set; }
         public virtual ICollection<TrnGoodReceiveNoteItem> TrnGoodReceiveNoteItems { get; set; }
         public virtual ICollection<TrnPurchaseOrderItem> TrnPurchaseOrderItems { get; set; }
         public virtual ICollection<TrnSaleOrderItem> TrnSaleOrderItems { get; set; }
+        public virtual MstQuality MstQuality { get; set; }
     }
 }

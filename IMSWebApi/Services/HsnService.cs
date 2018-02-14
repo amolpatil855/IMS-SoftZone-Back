@@ -65,7 +65,11 @@ namespace IMSWebApi.Services
         {
             return repo.MstHsns
                 .OrderBy(h=>h.hsnCode)
-                .Select(h => new VMLookUpItem { value = h.id, label = h.hsnCode }).ToList();
+                .Select(h => new VMLookUpItem 
+                        { 
+                            value = h.id, 
+                            label = h.hsnCode + " ("+ h.gst + "%)" 
+                        }).ToList();
         }
 
         public ResponseMessage postHsn(VMHsn Hsn)

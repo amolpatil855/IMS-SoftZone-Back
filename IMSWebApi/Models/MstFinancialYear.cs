@@ -21,7 +21,12 @@ namespace IMSWebApi.Models
         public int poNumber { get; set; }
         public int soNumber { get; set; }
         public int grnNumber { get; set; }
-        public int invoiceNumber { get; set; }
+        public int ginNumber { get; set; }
+        public int poInvoiceNumber { get; set; }
+        public int soInvoiceNumber { get; set; }
+        public int materialQuotationNumber { get; set; }
+        public int jobQuotationNumber { get; set; }
+        public int jobCardNumber { get; set; }
         public System.DateTime createdOn { get; set; }
         public long createdBy { get; set; }
         public Nullable<System.DateTime> updatedOn { get; set; }

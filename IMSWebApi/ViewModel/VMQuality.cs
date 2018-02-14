@@ -34,7 +34,7 @@ namespace IMSWebApi.ViewModel
         public Nullable<decimal> purchaseFlatRate { get; set; }
         public Nullable<decimal> maxFlatRateDisc { get; set; }
         public Nullable<decimal> custRatePerSqFeet { get; set; }
-        public Nullable<decimal> maxDiscout { get; set; }
+        public Nullable<decimal> maxDiscount { get; set; }
 
         public virtual VMCategory MstCategory { get; set; }
         public virtual VMCollection MstCollection { get; set; }
