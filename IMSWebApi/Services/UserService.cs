@@ -163,6 +163,7 @@ namespace IMSWebApi.Services
             userToPut.userName = user.userName;
             userToPut.roleId = user.roleId;
             userToPut.userTypeId = user.userTypeId;
+            userToPut.locationId = user.locationId;
             userToPut.email = user.email;
             userToPut.phone = user.phone;
             userToPut.isActive = user.isActive;
