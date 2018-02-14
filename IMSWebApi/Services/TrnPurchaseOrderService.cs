@@ -20,6 +20,7 @@ namespace IMSWebApi.Services
         Int64 _LoggedInuserId;
         ResourceManager resourceManager = null;
         TrnProductStockService _trnProductStockService = null;
+        GenerateOrderNumber generateOrderNumber = new GenerateOrderNumber();
 
         public TrnPurchaseOrderService()
         {
@@ -117,13 +118,18 @@ namespace IMSWebApi.Services
                     poItems.createdOn = DateTime.Now;
                     poItems.createdBy = _LoggedInuserId;
                 }
-                int startingPONumber = repo.MstFinancialYears.ToList().LastOrDefault().soNumber;
-                int currentSOCount = repo.TrnPurchaseOrders.Count();
-                purchaseOrderToPost.orderNumber = startingPONumber + currentSOCount;
+                
+                var financialYear = repo.MstFinancialYears.Where(f=>f.startDate <= purchaseOrder.orderDate && f.endDate >= purchaseOrder.orderDate).FirstOrDefault();
+                string orderNo = generateOrderNumber.orderNumber(financialYear.startDate.ToString("yy"), financialYear.endDate.ToString("yy"), financialYear.poNumber);
+                purchaseOrderToPost.orderNumber = 1;
+                purchaseOrder.financialYear = financialYear.financialYear;
+                purchaseOrder.status = PurchaseOrderStatus.Generated.ToString();
                 purchaseOrderToPost.createdOn = DateTime.Now;
                 purchaseOrderToPost.createdBy = _LoggedInuserId;
 
                 repo.TrnPurchaseOrders.Add(purchaseOrderToPost);
+
+                financialYear.poNumber += 1; 
                 repo.SaveChanges();
                 transaction.Complete();
                 return new ResponseMessage(purchaseOrderToPost.id, resourceManager.GetString("POAdded"), ResponseType.Success);
@@ -144,6 +150,7 @@ namespace IMSWebApi.Services
                 purchaseOrderToPut.locationId = purchaseOrder.locationId;
                 purchaseOrderToPut.orderNumber = purchaseOrder.orderNumber;
                 purchaseOrderToPut.orderDate = purchaseOrder.orderDate;
+                purchaseOrderToPut.expectedDeliveryDate = purchaseOrder.expectedDeliveryDate;
                 purchaseOrderToPut.remark = purchaseOrder.remark;
                 purchaseOrderToPut.status = purchaseOrder.status;
                 purchaseOrderToPut.financialYear = purchaseOrder.financialYear;

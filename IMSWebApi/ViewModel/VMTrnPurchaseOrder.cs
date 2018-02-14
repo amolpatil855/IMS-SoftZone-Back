@@ -21,6 +21,7 @@ namespace IMSWebApi.ViewModel
         [Required]
         public int orderNumber { get; set; }
         public Nullable<DateTime> orderDate { get; set; }
+        public Nullable<DateTime> expectedDeliveryDate { get; set; }
         [Required]
         public long locationId { get; set; }
         [MaxLength(100)]

@@ -255,6 +255,7 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="AuthRepository.cs" />
     <Compile Include="Common\ListResult.cs" />
+    <Compile Include="Common\GenerateOrderNumber.cs" />
     <Compile Include="Common\SendEmail.cs" />
     <Compile Include="Controllers\AgentController.cs" />
     <Compile Include="Controllers\CollectionController.cs" />

@@ -22,6 +22,7 @@ namespace IMSWebApi.ViewModel
         public string courierMode { get; set; }
         public Nullable<long> referById { get; set; }
         public DateTime orderDate { get; set; }
+        public Nullable<DateTime> expectedDeliveryDate { get; set; }
         [MaxLength(100)]
         public string remark { get; set; }
         [Required]
