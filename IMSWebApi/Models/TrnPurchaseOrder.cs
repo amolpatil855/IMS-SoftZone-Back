@@ -26,9 +26,10 @@ namespace IMSWebApi.Models
         public Nullable<long> saleOrderId { get; set; }
         public Nullable<int> saleOrderNumber { get; set; }
         public long supplierId { get; set; }
+        public long locationId { get; set; }
         public int orderNumber { get; set; }
         public Nullable<System.DateTime> orderDate { get; set; }
-        public long locationId { get; set; }
+        public Nullable<System.DateTime> expectedDeliveryDate { get; set; }
         public string remark { get; set; }
         public string status { get; set; }
         public string financialYear { get; set; }

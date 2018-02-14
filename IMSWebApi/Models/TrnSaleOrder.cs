@@ -27,6 +27,7 @@ namespace IMSWebApi.Models
         public string courierMode { get; set; }
         public Nullable<long> referById { get; set; }
         public System.DateTime orderDate { get; set; }
+        public Nullable<System.DateTime> expectedDeliveryDate { get; set; }
         public string remark { get; set; }
         public string status { get; set; }
         public string financialYear { get; set; }

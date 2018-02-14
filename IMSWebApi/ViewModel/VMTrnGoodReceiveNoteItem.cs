@@ -32,6 +32,6 @@ namespace IMSWebApi.ViewModel
         public virtual VMFomSize MstFomSize { get; set; }
         public virtual VMFWRShade MstFWRShade { get; set; }
         public virtual VMMatSize MstMatSize { get; set; }
-        public virtual VMTrnGoodReceiveNote TrnGoodReceiveNote { get; set; }
+        //public virtual VMTrnGoodReceiveNote TrnGoodReceiveNote { get; set; }
     }
 }

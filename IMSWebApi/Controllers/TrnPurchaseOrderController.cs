@@ -33,6 +33,16 @@ namespace IMSWebApi.Controllers
         // GET api/TrnPurchaseOrder
         [ApiAuthorize(AccessLevel = "purchaseorder")]
         [HttpGet]
+        [Route("api/TrnPurchaseOrder/GetPOItemsBySOId")]
+        public IHttpActionResult getPOItemsBySOId(long saleOrderId, long supplierId)
+        {
+            var result = _trnPurchaseOrderService.getPOItemsBySOId(saleOrderId, supplierId);
+            return Ok(result);
+        }
+
+        // GET api/TrnPurchaseOrder
+        [ApiAuthorize(AccessLevel = "purchaseorder")]
+        [HttpGet]
         public IHttpActionResult Get(int pageSize = 0, int page = 0, string search = null)
         {
             var result = _trnPurchaseOrderService.getPurchaseOrder(pageSize, page, search);
@@ -58,7 +68,7 @@ namespace IMSWebApi.Controllers
                 return BadRequest(ModelState);
             }
             var result = _trnPurchaseOrderService.postPurchaseOrder(purchaseOrder);
-            return Ok();
+            return Ok(result);
         }
 
         // PUT api/TrnPurchaseOrder
@@ -70,7 +80,8 @@ namespace IMSWebApi.Controllers
             {
                 return BadRequest(ModelState);
             }
-            return Ok();
+            var result = _trnPurchaseOrderService.putPurchaseOrder(purchaseOrder);
+            return Ok(result);
         }
 
         // DELETE api/TrnPurchaseOrder/1
