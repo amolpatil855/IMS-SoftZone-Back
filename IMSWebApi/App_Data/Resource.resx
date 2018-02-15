@@ -312,4 +312,13 @@
   <data name="POUpdated" xml:space="preserve">
     <value>Purchase Order Updated Successfully</value>
   </data>
+  <data name="AccessoryAdded" xml:space="preserve">
+    <value>Accessory Added Successfully</value>
+  </data>
+  <data name="AccessoryDeleted" xml:space="preserve">
+    <value>Accessory Deleted Successfully</value>
+  </data>
+  <data name="AccessoryUpdated" xml:space="preserve">
+    <value>Accessory Updated Successfully</value>
+  </data>
 </root>

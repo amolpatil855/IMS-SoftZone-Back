@@ -9,6 +9,7 @@ using System.Web.Http;
 
 namespace IMSWebApi.Controllers
 {
+    [Authorize]
     public class TrnProductStockController : ApiController
     {
         private TrnProductStockService _trnProductStockService = null;
