@@ -114,7 +114,7 @@ namespace IMSWebApi.Services
             qualityToPut.purchaseFlatRate = quality.purchaseFlatRate;
             qualityToPut.maxFlatRateDisc = quality.maxFlatRateDisc;
             qualityToPut.custRatePerSqFeet = quality.custRatePerSqFeet;
-            qualityToPut.maxDiscout = quality.maxDiscout;
+            qualityToPut.maxDiscount = quality.maxDiscount;
             qualityToPut.updatedBy = _LoggedInuserId;
             qualityToPut.updatedOn = DateTime.Now;
 

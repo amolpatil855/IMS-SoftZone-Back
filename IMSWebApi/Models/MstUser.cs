@@ -22,6 +22,7 @@ namespace IMSWebApi.Models
         public long id { get; set; }
         public long roleId { get; set; }
         public long userTypeId { get; set; }
+        public Nullable<long> locationId { get; set; }
         public string userName { get; set; }
         public string password { get; set; }
         public string email { get; set; }
@@ -33,8 +34,9 @@ namespace IMSWebApi.Models
         public Nullable<System.DateTime> updatedOn { get; set; }
         public Nullable<long> updatedBy { get; set; }
     
+        public virtual MstCompanyLocation MstCompanyLocation { get; set; }
+        public virtual ICollection<MstCustomer> MstCustomers { get; set; }
         public virtual MstRole MstRole { get; set; }
         public virtual MstuserType MstuserType { get; set; }
-        public virtual ICollection<MstCustomer> MstCustomers { get; set; }
     }
 }

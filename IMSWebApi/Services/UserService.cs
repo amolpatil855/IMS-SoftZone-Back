@@ -34,6 +34,7 @@ namespace IMSWebApi.Services
             userView.id = result.id;
             userView.userName = result.userName;
             userView.email = result.email;
+            userView.MstCompanyLocation = Mapper.Map<MstCompanyLocation, VMCompanyLocation>(result.MstCompanyLocation);
             userView.MstRole = Mapper.Map<MstRole, VMRole>(result.MstRole);
             if (userView.MstRole != null)
             {
@@ -163,6 +164,7 @@ namespace IMSWebApi.Services
             userToPut.userName = user.userName;
             userToPut.roleId = user.roleId;
             userToPut.userTypeId = user.userTypeId;
+            userToPut.locationId = user.locationId;
             userToPut.email = user.email;
             userToPut.phone = user.phone;
             userToPut.isActive = user.isActive;

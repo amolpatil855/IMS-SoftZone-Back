@@ -16,8 +16,8 @@ namespace IMSWebApi.Models
     {
         public MstFWRShade()
         {
-            this.TrnProductStocks = new HashSet<TrnProductStock>();
             this.TrnGoodReceiveNoteItems = new HashSet<TrnGoodReceiveNoteItem>();
+            this.TrnProductStocks = new HashSet<TrnProductStock>();
             this.TrnPurchaseOrderItems = new HashSet<TrnPurchaseOrderItem>();
             this.TrnSaleOrderItems = new HashSet<TrnSaleOrderItem>();
         }
@@ -31,18 +31,18 @@ namespace IMSWebApi.Models
         public string shadeName { get; set; }
         public int serialNumber { get; set; }
         public string description { get; set; }
+        public int stockReorderLevel { get; set; }
         public System.DateTime createdOn { get; set; }
         public long createdBy { get; set; }
         public Nullable<System.DateTime> updatedOn { get; set; }
         public Nullable<long> updatedBy { get; set; }
-        public int stockReorderLevel { get; set; }
     
         public virtual MstCategory MstCategory { get; set; }
-        public virtual ICollection<TrnProductStock> TrnProductStocks { get; set; }
-        public virtual MstFWRDesign MstFWRDesign { get; set; }
         public virtual MstCollection MstCollection { get; set; }
+        public virtual MstFWRDesign MstFWRDesign { get; set; }
         public virtual MstQuality MstQuality { get; set; }
         public virtual ICollection<TrnGoodReceiveNoteItem> TrnGoodReceiveNoteItems { get; set; }
+        public virtual ICollection<TrnProductStock> TrnProductStocks { get; set; }
         public virtual ICollection<TrnPurchaseOrderItem> TrnPurchaseOrderItems { get; set; }
         public virtual ICollection<TrnSaleOrderItem> TrnSaleOrderItems { get; set; }
     }

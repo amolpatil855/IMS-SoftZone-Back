@@ -16,8 +16,8 @@ namespace IMSWebApi.Models
     {
         public MstFomSize()
         {
-            this.TrnProductStocks = new HashSet<TrnProductStock>();
             this.TrnGoodReceiveNoteItems = new HashSet<TrnGoodReceiveNoteItem>();
+            this.TrnProductStocks = new HashSet<TrnProductStock>();
             this.TrnPurchaseOrderItems = new HashSet<TrnPurchaseOrderItem>();
             this.TrnSaleOrderItems = new HashSet<TrnSaleOrderItem>();
         }
@@ -42,8 +42,8 @@ namespace IMSWebApi.Models
         public virtual MstFomDensity MstFomDensity { get; set; }
         public virtual MstFomSuggestedMM MstFomSuggestedMM { get; set; }
         public virtual MstQuality MstQuality { get; set; }
-        public virtual ICollection<TrnProductStock> TrnProductStocks { get; set; }
         public virtual ICollection<TrnGoodReceiveNoteItem> TrnGoodReceiveNoteItems { get; set; }
+        public virtual ICollection<TrnProductStock> TrnProductStocks { get; set; }
         public virtual ICollection<TrnPurchaseOrderItem> TrnPurchaseOrderItems { get; set; }
         public virtual ICollection<TrnSaleOrderItem> TrnSaleOrderItems { get; set; }
     }

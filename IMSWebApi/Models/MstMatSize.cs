@@ -16,8 +16,8 @@ namespace IMSWebApi.Models
     {
         public MstMatSize()
         {
-            this.TrnProductStocks = new HashSet<TrnProductStock>();
             this.TrnGoodReceiveNoteItems = new HashSet<TrnGoodReceiveNoteItem>();
+            this.TrnProductStocks = new HashSet<TrnProductStock>();
             this.TrnPurchaseOrderItems = new HashSet<TrnPurchaseOrderItem>();
             this.TrnSaleOrderItems = new HashSet<TrnSaleOrderItem>();
         }
@@ -31,7 +31,6 @@ namespace IMSWebApi.Models
         public decimal width { get; set; }
         public string sizeCode { get; set; }
         public decimal rate { get; set; }
-        public decimal purchaseDiscount { get; set; }
         public decimal purchaseRate { get; set; }
         public int stockReorderLevel { get; set; }
         public System.DateTime createdOn { get; set; }
@@ -43,8 +42,8 @@ namespace IMSWebApi.Models
         public virtual MstCollection MstCollection { get; set; }
         public virtual MstMatThickness MstMatThickness { get; set; }
         public virtual MstQuality MstQuality { get; set; }
-        public virtual ICollection<TrnProductStock> TrnProductStocks { get; set; }
         public virtual ICollection<TrnGoodReceiveNoteItem> TrnGoodReceiveNoteItems { get; set; }
+        public virtual ICollection<TrnProductStock> TrnProductStocks { get; set; }
         public virtual ICollection<TrnPurchaseOrderItem> TrnPurchaseOrderItems { get; set; }
         public virtual ICollection<TrnSaleOrderItem> TrnSaleOrderItems { get; set; }
     }
