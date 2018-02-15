@@ -17,6 +17,25 @@
           <Property Name="updatedOn" Type="datetime" />
           <Property Name="updatedBy" Type="bigint" />
         </EntityType>
+        <EntityType Name="MstAccessory">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="categoryId" Type="bigint" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="itemCode" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="hsnId" Type="bigint" Nullable="false" />
+          <Property Name="uomId" Type="bigint" Nullable="false" />
+          <Property Name="sellingRate" Type="decimal" Precision="7" Scale="2" Nullable="false" />
+          <Property Name="purchaseRate" Type="decimal" Precision="7" Scale="2" Nullable="false" />
+          <Property Name="size" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="description" Type="nchar" MaxLength="10" />
+          <Property Name="createdOn" Type="datetime" Nullable="false" />
+          <Property Name="createdBy" Type="bigint" Nullable="false" />
+          <Property Name="updatedOn" Type="datetime" />
+          <Property Name="updatedBy" Type="bigint" />
+        </EntityType>
         <EntityType Name="MstAgent">
           <Key>
             <PropertyRef Name="id" />
@@ -489,12 +508,32 @@
           <Key>
             <PropertyRef Name="id" />
           </Key>
+          <Property Name="id" Type="bigint" Nullable="false" />
+          <Property Name="categoryId" Type="bigint" Nullable="false" />
+          <Property Name="collectionId" Type="bigint" />
+          <Property Name="fwrShadeId" Type="bigint" />
+          <Property Name="matSizeId" Type="bigint" />
+          <Property Name="fomSizeId" Type="bigint" />
+          <Property Name="accessoryId" Type="bigint" />
+          <Property Name="stock" Type="decimal" Precision="7" Scale="2" Nullable="false" />
+          <Property Name="soQuanity" Type="decimal" Precision="7" Scale="2" Nullable="false" />
+          <Property Name="poQuantity" Type="decimal" Precision="7" Scale="2" />
+          <Property Name="createdOn" Type="datetime" Nullable="false" />
+          <Property Name="createdBy" Type="bigint" Nullable="false" />
+          <Property Name="updatedOn" Type="datetime" />
+          <Property Name="updatedBy" Type="bigint" />
+        </EntityType>
+        <EntityType Name="TrnProductStockDetails">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="categoryId" Type="bigint" Nullable="false" />
           <Property Name="collectionId" Type="bigint" />
           <Property Name="fwrShadeId" Type="bigint" />
           <Property Name="matSizeId" Type="bigint" />
           <Property Name="fomSizeId" Type="bigint" />
+          <Property Name="accessoryId" Type="bigint" />
           <Property Name="locationId" Type="bigint" Nullable="false" />
           <Property Name="stock" Type="decimal" Precision="5" Scale="2" Nullable="false" />
           <Property Name="createdOn" Type="datetime" Nullable="false" />
@@ -615,6 +654,42 @@
             </Principal>
             <Dependent Role="CFGRoleMenu">
               <PropertyRef Name="roleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MstAccessory_MstCategory">
+          <End Role="MstCategory" Type="Self.MstCategory" Multiplicity="1" />
+          <End Role="MstAccessory" Type="Self.MstAccessory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstCategory">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MstAccessory">
+              <PropertyRef Name="categoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MstAccessory_MstHsn">
+          <End Role="MstHsn" Type="Self.MstHsn" Multiplicity="1" />
+          <End Role="MstAccessory" Type="Self.MstAccessory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstHsn">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MstAccessory">
+              <PropertyRef Name="hsnId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MstAccessory_MstUnitOfMeasure">
+          <End Role="MstUnitOfMeasure" Type="Self.MstUnitOfMeasure" Multiplicity="1" />
+          <End Role="MstAccessory" Type="Self.MstAccessory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstUnitOfMeasure">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MstAccessory">
+              <PropertyRef Name="uomId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1126,7 +1201,31 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_TrnProductStock_MstAccessory">
+          <End Role="MstAccessory" Type="Self.MstAccessory" Multiplicity="0..1" />
+          <End Role="TrnProductStock" Type="Self.TrnProductStock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstAccessory">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnProductStock">
+              <PropertyRef Name="accessoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_TrnProductStock_MstCategory">
+          <End Role="MstCategory" Type="Self.MstCategory" Multiplicity="1" />
+          <End Role="TrnProductStockDetails" Type="Self.TrnProductStockDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstCategory">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnProductStockDetails">
+              <PropertyRef Name="categoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnProductStock_MstCategory1">
           <End Role="MstCategory" Type="Self.MstCategory" Multiplicity="1" />
           <End Role="TrnProductStock" Type="Self.TrnProductStock" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1140,6 +1239,18 @@
         </Association>
         <Association Name="FK_TrnProductStock_MstCollection">
           <End Role="MstCollection" Type="Self.MstCollection" Multiplicity="0..1" />
+          <End Role="TrnProductStockDetails" Type="Self.TrnProductStockDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstCollection">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnProductStockDetails">
+              <PropertyRef Name="collectionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnProductStock_MstCollection1">
+          <End Role="MstCollection" Type="Self.MstCollection" Multiplicity="0..1" />
           <End Role="TrnProductStock" Type="Self.TrnProductStock" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="MstCollection">
@@ -1152,17 +1263,29 @@
         </Association>
         <Association Name="FK_TrnProductStock_MstCompanyLocation">
           <End Role="MstCompanyLocation" Type="Self.MstCompanyLocation" Multiplicity="1" />
-          <End Role="TrnProductStock" Type="Self.TrnProductStock" Multiplicity="*" />
+          <End Role="TrnProductStockDetails" Type="Self.TrnProductStockDetails" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="MstCompanyLocation">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="TrnProductStock">
+            <Dependent Role="TrnProductStockDetails">
               <PropertyRef Name="locationId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_TrnProductStock_MstFomSize">
+          <End Role="MstFomSize" Type="Self.MstFomSize" Multiplicity="0..1" />
+          <End Role="TrnProductStockDetails" Type="Self.TrnProductStockDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstFomSize">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnProductStockDetails">
+              <PropertyRef Name="fomSizeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnProductStock_MstFomSize1">
           <End Role="MstFomSize" Type="Self.MstFomSize" Multiplicity="0..1" />
           <End Role="TrnProductStock" Type="Self.TrnProductStock" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1176,6 +1299,18 @@
         </Association>
         <Association Name="FK_TrnProductStock_MstFWRShade">
           <End Role="MstFWRShade" Type="Self.MstFWRShade" Multiplicity="0..1" />
+          <End Role="TrnProductStockDetails" Type="Self.TrnProductStockDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstFWRShade">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnProductStockDetails">
+              <PropertyRef Name="fwrShadeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnProductStock_MstFWRShade1">
+          <End Role="MstFWRShade" Type="Self.MstFWRShade" Multiplicity="0..1" />
           <End Role="TrnProductStock" Type="Self.TrnProductStock" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="MstFWRShade">
@@ -1188,6 +1323,18 @@
         </Association>
         <Association Name="FK_TrnProductStock_MstMatSize">
           <End Role="MstMatSize" Type="Self.MstMatSize" Multiplicity="0..1" />
+          <End Role="TrnProductStockDetails" Type="Self.TrnProductStockDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstMatSize">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnProductStockDetails">
+              <PropertyRef Name="matSizeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnProductStock_MstMatSize1">
+          <End Role="MstMatSize" Type="Self.MstMatSize" Multiplicity="0..1" />
           <End Role="TrnProductStock" Type="Self.TrnProductStock" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="MstMatSize">
@@ -1195,6 +1342,18 @@
             </Principal>
             <Dependent Role="TrnProductStock">
               <PropertyRef Name="matSizeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnProductStockDetails_MstAccessory">
+          <End Role="MstAccessory" Type="Self.MstAccessory" Multiplicity="0..1" />
+          <End Role="TrnProductStockDetails" Type="Self.TrnProductStockDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstAccessory">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnProductStockDetails">
+              <PropertyRef Name="accessoryId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1414,8 +1573,21 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_TrnSaleOrderItems_TrnSaleOrder">
+          <End Role="TrnSaleOrder" Type="Self.TrnSaleOrder" Multiplicity="1" />
+          <End Role="TrnSaleOrderItems" Type="Self.TrnSaleOrderItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TrnSaleOrder">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnSaleOrderItems">
+              <PropertyRef Name="saleOrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="IMSModelStoreContainer">
           <EntitySet Name="CFGRoleMenu" EntityType="Self.CFGRoleMenu" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MstAccessory" EntityType="Self.MstAccessory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MstAgent" EntityType="Self.MstAgent" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MstCategory" EntityType="Self.MstCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MstCollection" EntityType="Self.MstCollection" Schema="dbo" store:Type="Tables" />
@@ -1444,6 +1616,7 @@
           <EntitySet Name="TrnGoodReceiveNote" EntityType="Self.TrnGoodReceiveNote" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TrnGoodReceiveNoteItems" EntityType="Self.TrnGoodReceiveNoteItems" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TrnProductStock" EntityType="Self.TrnProductStock" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TrnProductStockDetails" EntityType="Self.TrnProductStockDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TrnPurchaseOrder" EntityType="Self.TrnPurchaseOrder" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TrnPurchaseOrderItems" EntityType="Self.TrnPurchaseOrderItems" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TrnSaleOrder" EntityType="Self.TrnSaleOrder" Schema="dbo" store:Type="Tables" />
@@ -1455,6 +1628,18 @@
           <AssociationSet Name="FK_CFGRoleMenu_MstRole" Association="Self.FK_CFGRoleMenu_MstRole">
             <End Role="MstRole" EntitySet="MstRole" />
             <End Role="CFGRoleMenu" EntitySet="CFGRoleMenu" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MstAccessory_MstCategory" Association="Self.FK_MstAccessory_MstCategory">
+            <End Role="MstCategory" EntitySet="MstCategory" />
+            <End Role="MstAccessory" EntitySet="MstAccessory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MstAccessory_MstHsn" Association="Self.FK_MstAccessory_MstHsn">
+            <End Role="MstHsn" EntitySet="MstHsn" />
+            <End Role="MstAccessory" EntitySet="MstAccessory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MstAccessory_MstUnitOfMeasure" Association="Self.FK_MstAccessory_MstUnitOfMeasure">
+            <End Role="MstUnitOfMeasure" EntitySet="MstUnitOfMeasure" />
+            <End Role="MstAccessory" EntitySet="MstAccessory" />
           </AssociationSet>
           <AssociationSet Name="FK_MstCollection_MstCategory" Association="Self.FK_MstCollection_MstCategory">
             <End Role="MstCategory" EntitySet="MstCategory" />
@@ -1624,29 +1809,57 @@
             <End Role="TrnGoodReceiveNote" EntitySet="TrnGoodReceiveNote" />
             <End Role="TrnGoodReceiveNoteItems" EntitySet="TrnGoodReceiveNoteItems" />
           </AssociationSet>
+          <AssociationSet Name="FK_TrnProductStock_MstAccessory" Association="Self.FK_TrnProductStock_MstAccessory">
+            <End Role="MstAccessory" EntitySet="MstAccessory" />
+            <End Role="TrnProductStock" EntitySet="TrnProductStock" />
+          </AssociationSet>
           <AssociationSet Name="FK_TrnProductStock_MstCategory" Association="Self.FK_TrnProductStock_MstCategory">
+            <End Role="MstCategory" EntitySet="MstCategory" />
+            <End Role="TrnProductStockDetails" EntitySet="TrnProductStockDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnProductStock_MstCategory1" Association="Self.FK_TrnProductStock_MstCategory1">
             <End Role="MstCategory" EntitySet="MstCategory" />
             <End Role="TrnProductStock" EntitySet="TrnProductStock" />
           </AssociationSet>
           <AssociationSet Name="FK_TrnProductStock_MstCollection" Association="Self.FK_TrnProductStock_MstCollection">
             <End Role="MstCollection" EntitySet="MstCollection" />
+            <End Role="TrnProductStockDetails" EntitySet="TrnProductStockDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnProductStock_MstCollection1" Association="Self.FK_TrnProductStock_MstCollection1">
+            <End Role="MstCollection" EntitySet="MstCollection" />
             <End Role="TrnProductStock" EntitySet="TrnProductStock" />
           </AssociationSet>
           <AssociationSet Name="FK_TrnProductStock_MstCompanyLocation" Association="Self.FK_TrnProductStock_MstCompanyLocation">
             <End Role="MstCompanyLocation" EntitySet="MstCompanyLocation" />
-            <End Role="TrnProductStock" EntitySet="TrnProductStock" />
+            <End Role="TrnProductStockDetails" EntitySet="TrnProductStockDetails" />
           </AssociationSet>
           <AssociationSet Name="FK_TrnProductStock_MstFomSize" Association="Self.FK_TrnProductStock_MstFomSize">
+            <End Role="MstFomSize" EntitySet="MstFomSize" />
+            <End Role="TrnProductStockDetails" EntitySet="TrnProductStockDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnProductStock_MstFomSize1" Association="Self.FK_TrnProductStock_MstFomSize1">
             <End Role="MstFomSize" EntitySet="MstFomSize" />
             <End Role="TrnProductStock" EntitySet="TrnProductStock" />
           </AssociationSet>
           <AssociationSet Name="FK_TrnProductStock_MstFWRShade" Association="Self.FK_TrnProductStock_MstFWRShade">
             <End Role="MstFWRShade" EntitySet="MstFWRShade" />
+            <End Role="TrnProductStockDetails" EntitySet="TrnProductStockDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnProductStock_MstFWRShade1" Association="Self.FK_TrnProductStock_MstFWRShade1">
+            <End Role="MstFWRShade" EntitySet="MstFWRShade" />
             <End Role="TrnProductStock" EntitySet="TrnProductStock" />
           </AssociationSet>
           <AssociationSet Name="FK_TrnProductStock_MstMatSize" Association="Self.FK_TrnProductStock_MstMatSize">
             <End Role="MstMatSize" EntitySet="MstMatSize" />
+            <End Role="TrnProductStockDetails" EntitySet="TrnProductStockDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnProductStock_MstMatSize1" Association="Self.FK_TrnProductStock_MstMatSize1">
+            <End Role="MstMatSize" EntitySet="MstMatSize" />
             <End Role="TrnProductStock" EntitySet="TrnProductStock" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnProductStockDetails_MstAccessory" Association="Self.FK_TrnProductStockDetails_MstAccessory">
+            <End Role="MstAccessory" EntitySet="MstAccessory" />
+            <End Role="TrnProductStockDetails" EntitySet="TrnProductStockDetails" />
           </AssociationSet>
           <AssociationSet Name="FK_TrnPurchaseOrder_MstCompanyLocation" Association="Self.FK_TrnPurchaseOrder_MstCompanyLocation">
             <End Role="MstCompanyLocation" EntitySet="MstCompanyLocation" />
@@ -1720,6 +1933,10 @@
             <End Role="MstMatSize" EntitySet="MstMatSize" />
             <End Role="TrnSaleOrderItems" EntitySet="TrnSaleOrderItems" />
           </AssociationSet>
+          <AssociationSet Name="FK_TrnSaleOrderItems_TrnSaleOrder" Association="Self.FK_TrnSaleOrderItems_TrnSaleOrder">
+            <End Role="TrnSaleOrder" EntitySet="TrnSaleOrder" />
+            <End Role="TrnSaleOrderItems" EntitySet="TrnSaleOrderItems" />
+          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -1727,6 +1944,7 @@
       <Schema Namespace="IMSModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="WebAPIdbEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="CFGRoleMenus" EntityType="IMSModel.CFGRoleMenu" />
+          <EntitySet Name="MstAccessories" EntityType="IMSModel.MstAccessory" />
           <EntitySet Name="MstAgents" EntityType="IMSModel.MstAgent" />
           <EntitySet Name="MstCategories" EntityType="IMSModel.MstCategory" />
           <EntitySet Name="MstCollections" EntityType="IMSModel.MstCollection" />
@@ -1755,6 +1973,7 @@
           <EntitySet Name="TrnGoodReceiveNotes" EntityType="IMSModel.TrnGoodReceiveNote" />
           <EntitySet Name="TrnGoodReceiveNoteItems" EntityType="IMSModel.TrnGoodReceiveNoteItem" />
           <EntitySet Name="TrnProductStocks" EntityType="IMSModel.TrnProductStock" />
+          <EntitySet Name="TrnProductStockDetails" EntityType="IMSModel.TrnProductStockDetail" />
           <EntitySet Name="TrnPurchaseOrders" EntityType="IMSModel.TrnPurchaseOrder" />
           <EntitySet Name="TrnPurchaseOrderItems" EntityType="IMSModel.TrnPurchaseOrderItem" />
           <EntitySet Name="TrnSaleOrders" EntityType="IMSModel.TrnSaleOrder" />
@@ -1766,6 +1985,26 @@
           <AssociationSet Name="FK_CFGRoleMenu_MstRole" Association="IMSModel.FK_CFGRoleMenu_MstRole">
             <End Role="MstRole" EntitySet="MstRoles" />
             <End Role="CFGRoleMenu" EntitySet="CFGRoleMenus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MstAccessory_MstCategory" Association="IMSModel.FK_MstAccessory_MstCategory">
+            <End Role="MstCategory" EntitySet="MstCategories" />
+            <End Role="MstAccessory" EntitySet="MstAccessories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MstAccessory_MstHsn" Association="IMSModel.FK_MstAccessory_MstHsn">
+            <End Role="MstHsn" EntitySet="MstHsns" />
+            <End Role="MstAccessory" EntitySet="MstAccessories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MstAccessory_MstUnitOfMeasure" Association="IMSModel.FK_MstAccessory_MstUnitOfMeasure">
+            <End Role="MstUnitOfMeasure" EntitySet="MstUnitOfMeasures" />
+            <End Role="MstAccessory" EntitySet="MstAccessories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnProductStock_MstAccessory" Association="IMSModel.FK_TrnProductStock_MstAccessory">
+            <End Role="MstAccessory" EntitySet="MstAccessories" />
+            <End Role="TrnProductStock" EntitySet="TrnProductStocks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnProductStockDetails_MstAccessory" Association="IMSModel.FK_TrnProductStockDetails_MstAccessory">
+            <End Role="MstAccessory" EntitySet="MstAccessories" />
+            <End Role="TrnProductStockDetail" EntitySet="TrnProductStockDetails" />
           </AssociationSet>
           <AssociationSet Name="FK_TrnSaleOrder_MstAgent" Association="IMSModel.FK_TrnSaleOrder_MstAgent">
             <End Role="MstAgent" EntitySet="MstAgents" />
@@ -1808,6 +2047,10 @@
             <End Role="TrnGoodReceiveNoteItem" EntitySet="TrnGoodReceiveNoteItems" />
           </AssociationSet>
           <AssociationSet Name="FK_TrnProductStock_MstCategory" Association="IMSModel.FK_TrnProductStock_MstCategory">
+            <End Role="MstCategory" EntitySet="MstCategories" />
+            <End Role="TrnProductStockDetail" EntitySet="TrnProductStockDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnProductStock_MstCategory1" Association="IMSModel.FK_TrnProductStock_MstCategory1">
             <End Role="MstCategory" EntitySet="MstCategories" />
             <End Role="TrnProductStock" EntitySet="TrnProductStocks" />
           </AssociationSet>
@@ -1857,6 +2100,10 @@
           </AssociationSet>
           <AssociationSet Name="FK_TrnProductStock_MstCollection" Association="IMSModel.FK_TrnProductStock_MstCollection">
             <End Role="MstCollection" EntitySet="MstCollections" />
+            <End Role="TrnProductStockDetail" EntitySet="TrnProductStockDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnProductStock_MstCollection1" Association="IMSModel.FK_TrnProductStock_MstCollection1">
+            <End Role="MstCollection" EntitySet="MstCollections" />
             <End Role="TrnProductStock" EntitySet="TrnProductStocks" />
           </AssociationSet>
           <AssociationSet Name="FK_TrnPurchaseOrderItems_MstCollection" Association="IMSModel.FK_TrnPurchaseOrderItems_MstCollection">
@@ -1877,7 +2124,7 @@
           </AssociationSet>
           <AssociationSet Name="FK_TrnProductStock_MstCompanyLocation" Association="IMSModel.FK_TrnProductStock_MstCompanyLocation">
             <End Role="MstCompanyLocation" EntitySet="MstCompanyLocations" />
-            <End Role="TrnProductStock" EntitySet="TrnProductStocks" />
+            <End Role="TrnProductStockDetail" EntitySet="TrnProductStockDetails" />
           </AssociationSet>
           <AssociationSet Name="FK_TrnPurchaseOrder_MstCompanyLocation" Association="IMSModel.FK_TrnPurchaseOrder_MstCompanyLocation">
             <End Role="MstCompanyLocation" EntitySet="MstCompanyLocations" />
@@ -1929,6 +2176,10 @@
           </AssociationSet>
           <AssociationSet Name="FK_TrnProductStock_MstFomSize" Association="IMSModel.FK_TrnProductStock_MstFomSize">
             <End Role="MstFomSize" EntitySet="MstFomSizes" />
+            <End Role="TrnProductStockDetail" EntitySet="TrnProductStockDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnProductStock_MstFomSize1" Association="IMSModel.FK_TrnProductStock_MstFomSize1">
+            <End Role="MstFomSize" EntitySet="MstFomSizes" />
             <End Role="TrnProductStock" EntitySet="TrnProductStocks" />
           </AssociationSet>
           <AssociationSet Name="FK_TrnPurchaseOrderItems_MstFomSize" Association="IMSModel.FK_TrnPurchaseOrderItems_MstFomSize">
@@ -1961,6 +2212,10 @@
           </AssociationSet>
           <AssociationSet Name="FK_TrnProductStock_MstFWRShade" Association="IMSModel.FK_TrnProductStock_MstFWRShade">
             <End Role="MstFWRShade" EntitySet="MstFWRShades" />
+            <End Role="TrnProductStockDetail" EntitySet="TrnProductStockDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnProductStock_MstFWRShade1" Association="IMSModel.FK_TrnProductStock_MstFWRShade1">
+            <End Role="MstFWRShade" EntitySet="MstFWRShades" />
             <End Role="TrnProductStock" EntitySet="TrnProductStocks" />
           </AssociationSet>
           <AssociationSet Name="FK_TrnPurchaseOrderItems_MstFWRShade" Association="IMSModel.FK_TrnPurchaseOrderItems_MstFWRShade">
@@ -1988,6 +2243,10 @@
             <End Role="TrnGoodReceiveNoteItem" EntitySet="TrnGoodReceiveNoteItems" />
           </AssociationSet>
           <AssociationSet Name="FK_TrnProductStock_MstMatSize" Association="IMSModel.FK_TrnProductStock_MstMatSize">
+            <End Role="MstMatSize" EntitySet="MstMatSizes" />
+            <End Role="TrnProductStockDetail" EntitySet="TrnProductStockDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnProductStock_MstMatSize1" Association="IMSModel.FK_TrnProductStock_MstMatSize1">
             <End Role="MstMatSize" EntitySet="MstMatSizes" />
             <End Role="TrnProductStock" EntitySet="TrnProductStocks" />
           </AssociationSet>
@@ -2031,6 +2290,10 @@
             <End Role="TrnPurchaseOrder" EntitySet="TrnPurchaseOrders" />
             <End Role="TrnPurchaseOrderItem" EntitySet="TrnPurchaseOrderItems" />
           </AssociationSet>
+          <AssociationSet Name="FK_TrnSaleOrderItems_TrnSaleOrder" Association="IMSModel.FK_TrnSaleOrderItems_TrnSaleOrder">
+            <End Role="TrnSaleOrder" EntitySet="TrnSaleOrders" />
+            <End Role="TrnSaleOrderItem" EntitySet="TrnSaleOrderItems" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="CFGRoleMenu">
           <Key>
@@ -2045,6 +2308,30 @@
           <Property Name="updatedBy" Type="Int64" />
           <NavigationProperty Name="MstMenu" Relationship="IMSModel.FK_CFGRoleMenu_MstMenu" FromRole="CFGRoleMenu" ToRole="MstMenu" />
           <NavigationProperty Name="MstRole" Relationship="IMSModel.FK_CFGRoleMenu_MstRole" FromRole="CFGRoleMenu" ToRole="MstRole" />
+        </EntityType>
+        <EntityType Name="MstAccessory">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="categoryId" Type="Int64" Nullable="false" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="itemCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="hsnId" Type="Int64" Nullable="false" />
+          <Property Name="uomId" Type="Int64" Nullable="false" />
+          <Property Name="sellingRate" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
+          <Property Name="purchaseRate" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
+          <Property Name="size" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="description" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="createdBy" Type="Int64" Nullable="false" />
+          <Property Name="updatedOn" Type="DateTime" Precision="3" />
+          <Property Name="updatedBy" Type="Int64" />
+          <NavigationProperty Name="MstCategory" Relationship="IMSModel.FK_MstAccessory_MstCategory" FromRole="MstAccessory" ToRole="MstCategory" />
+          <NavigationProperty Name="MstHsn" Relationship="IMSModel.FK_MstAccessory_MstHsn" FromRole="MstAccessory" ToRole="MstHsn" />
+          <NavigationProperty Name="MstUnitOfMeasure" Relationship="IMSModel.FK_MstAccessory_MstUnitOfMeasure" FromRole="MstAccessory" ToRole="MstUnitOfMeasure" />
+          <NavigationProperty Name="TrnProductStocks" Relationship="IMSModel.FK_TrnProductStock_MstAccessory" FromRole="MstAccessory" ToRole="TrnProductStock" />
+          <NavigationProperty Name="TrnProductStockDetails" Relationship="IMSModel.FK_TrnProductStockDetails_MstAccessory" FromRole="MstAccessory" ToRole="TrnProductStockDetail" />
         </EntityType>
         <EntityType Name="MstAgent">
           <Key>
@@ -2077,6 +2364,7 @@
           <Property Name="createdBy" Type="Int64" Nullable="false" />
           <Property Name="updatedOn" Type="DateTime" Precision="3" />
           <Property Name="updatedBy" Type="Int64" />
+          <NavigationProperty Name="MstAccessories" Relationship="IMSModel.FK_MstAccessory_MstCategory" FromRole="MstCategory" ToRole="MstAccessory" />
           <NavigationProperty Name="MstCollections" Relationship="IMSModel.FK_MstCollection_MstCategory" FromRole="MstCategory" ToRole="MstCollection" />
           <NavigationProperty Name="MstFWRDesigns" Relationship="IMSModel.FK_MstDesign_MstCategory" FromRole="MstCategory" ToRole="MstFWRDesign" />
           <NavigationProperty Name="MstFomDensities" Relationship="IMSModel.FK_MstFoamDensity_MstCategory" FromRole="MstCategory" ToRole="MstFomDensity" />
@@ -2086,7 +2374,8 @@
           <NavigationProperty Name="MstQualities" Relationship="IMSModel.FK_MstQuality_MstCategory" FromRole="MstCategory" ToRole="MstQuality" />
           <NavigationProperty Name="MstFWRShades" Relationship="IMSModel.FK_MstShade_MstCategory" FromRole="MstCategory" ToRole="MstFWRShade" />
           <NavigationProperty Name="TrnGoodReceiveNoteItems" Relationship="IMSModel.FK_TrnGoodReceiveNoteItems_MstCategory" FromRole="MstCategory" ToRole="TrnGoodReceiveNoteItem" />
-          <NavigationProperty Name="TrnProductStocks" Relationship="IMSModel.FK_TrnProductStock_MstCategory" FromRole="MstCategory" ToRole="TrnProductStock" />
+          <NavigationProperty Name="TrnProductStockDetails" Relationship="IMSModel.FK_TrnProductStock_MstCategory" FromRole="MstCategory" ToRole="TrnProductStockDetail" />
+          <NavigationProperty Name="TrnProductStocks" Relationship="IMSModel.FK_TrnProductStock_MstCategory1" FromRole="MstCategory" ToRole="TrnProductStock" />
           <NavigationProperty Name="TrnPurchaseOrderItems" Relationship="IMSModel.FK_TrnPurchaseOrderItems_MstCategory" FromRole="MstCategory" ToRole="TrnPurchaseOrderItem" />
           <NavigationProperty Name="TrnSaleOrderItems" Relationship="IMSModel.FK_TrnSaleOrderItem_MstCategory" FromRole="MstCategory" ToRole="TrnSaleOrderItem" />
         </EntityType>
@@ -2116,7 +2405,8 @@
           <NavigationProperty Name="MstQualities" Relationship="IMSModel.FK_MstQuality_MstCollection" FromRole="MstCollection" ToRole="MstQuality" />
           <NavigationProperty Name="MstFWRShades" Relationship="IMSModel.FK_MstShade_MstCollection" FromRole="MstCollection" ToRole="MstFWRShade" />
           <NavigationProperty Name="TrnGoodReceiveNoteItems" Relationship="IMSModel.FK_TrnGoodReceiveNoteItems_MstCollection" FromRole="MstCollection" ToRole="TrnGoodReceiveNoteItem" />
-          <NavigationProperty Name="TrnProductStocks" Relationship="IMSModel.FK_TrnProductStock_MstCollection" FromRole="MstCollection" ToRole="TrnProductStock" />
+          <NavigationProperty Name="TrnProductStockDetails" Relationship="IMSModel.FK_TrnProductStock_MstCollection" FromRole="MstCollection" ToRole="TrnProductStockDetail" />
+          <NavigationProperty Name="TrnProductStocks" Relationship="IMSModel.FK_TrnProductStock_MstCollection1" FromRole="MstCollection" ToRole="TrnProductStock" />
           <NavigationProperty Name="TrnPurchaseOrderItems" Relationship="IMSModel.FK_TrnPurchaseOrderItems_MstCollection" FromRole="MstCollection" ToRole="TrnPurchaseOrderItem" />
           <NavigationProperty Name="TrnSaleOrderItems" Relationship="IMSModel.FK_TrnSaleOrderItem_MstCollection" FromRole="MstCollection" ToRole="TrnSaleOrderItem" />
         </EntityType>
@@ -2153,7 +2443,7 @@
           <Property Name="phone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="MstUsers" Relationship="IMSModel.FK_MstUser_MstCompanyLocation" FromRole="MstCompanyLocation" ToRole="MstUser" />
           <NavigationProperty Name="TrnGoodReceiveNotes" Relationship="IMSModel.FK_TrnGoodReceiveNote_MstCompanyLocation" FromRole="MstCompanyLocation" ToRole="TrnGoodReceiveNote" />
-          <NavigationProperty Name="TrnProductStocks" Relationship="IMSModel.FK_TrnProductStock_MstCompanyLocation" FromRole="MstCompanyLocation" ToRole="TrnProductStock" />
+          <NavigationProperty Name="TrnProductStockDetails" Relationship="IMSModel.FK_TrnProductStock_MstCompanyLocation" FromRole="MstCompanyLocation" ToRole="TrnProductStockDetail" />
           <NavigationProperty Name="TrnPurchaseOrders" Relationship="IMSModel.FK_TrnPurchaseOrder_MstCompanyLocation" FromRole="MstCompanyLocation" ToRole="TrnPurchaseOrder" />
         </EntityType>
         <EntityType Name="MstCourier">
@@ -2289,7 +2579,8 @@
           <NavigationProperty Name="MstFomSuggestedMM" Relationship="IMSModel.FK_MstFomSize_MstFomSuggestdMM" FromRole="MstFomSize" ToRole="MstFomSuggestedMM" />
           <NavigationProperty Name="MstQuality" Relationship="IMSModel.FK_MstFomSize_MstQuality" FromRole="MstFomSize" ToRole="MstQuality" />
           <NavigationProperty Name="TrnGoodReceiveNoteItems" Relationship="IMSModel.FK_TrnGoodReceiveNoteItems_MstFomSize" FromRole="MstFomSize" ToRole="TrnGoodReceiveNoteItem" />
-          <NavigationProperty Name="TrnProductStocks" Relationship="IMSModel.FK_TrnProductStock_MstFomSize" FromRole="MstFomSize" ToRole="TrnProductStock" />
+          <NavigationProperty Name="TrnProductStockDetails" Relationship="IMSModel.FK_TrnProductStock_MstFomSize" FromRole="MstFomSize" ToRole="TrnProductStockDetail" />
+          <NavigationProperty Name="TrnProductStocks" Relationship="IMSModel.FK_TrnProductStock_MstFomSize1" FromRole="MstFomSize" ToRole="TrnProductStock" />
           <NavigationProperty Name="TrnPurchaseOrderItems" Relationship="IMSModel.FK_TrnPurchaseOrderItems_MstFomSize" FromRole="MstFomSize" ToRole="TrnPurchaseOrderItem" />
           <NavigationProperty Name="TrnSaleOrderItems" Relationship="IMSModel.FK_TrnSaleOrderItem_MstFomSize" FromRole="MstFomSize" ToRole="TrnSaleOrderItem" />
         </EntityType>
@@ -2356,7 +2647,8 @@
           <NavigationProperty Name="MstFWRDesign" Relationship="IMSModel.FK_MstShade_MstDesign" FromRole="MstFWRShade" ToRole="MstFWRDesign" />
           <NavigationProperty Name="MstQuality" Relationship="IMSModel.FK_MstShade_MstQuality" FromRole="MstFWRShade" ToRole="MstQuality" />
           <NavigationProperty Name="TrnGoodReceiveNoteItems" Relationship="IMSModel.FK_TrnGoodReceiveNoteItems_MstFWRShade" FromRole="MstFWRShade" ToRole="TrnGoodReceiveNoteItem" />
-          <NavigationProperty Name="TrnProductStocks" Relationship="IMSModel.FK_TrnProductStock_MstFWRShade" FromRole="MstFWRShade" ToRole="TrnProductStock" />
+          <NavigationProperty Name="TrnProductStockDetails" Relationship="IMSModel.FK_TrnProductStock_MstFWRShade" FromRole="MstFWRShade" ToRole="TrnProductStockDetail" />
+          <NavigationProperty Name="TrnProductStocks" Relationship="IMSModel.FK_TrnProductStock_MstFWRShade1" FromRole="MstFWRShade" ToRole="TrnProductStock" />
           <NavigationProperty Name="TrnPurchaseOrderItems" Relationship="IMSModel.FK_TrnPurchaseOrderItems_MstFWRShade" FromRole="MstFWRShade" ToRole="TrnPurchaseOrderItem" />
           <NavigationProperty Name="TrnSaleOrderItems" Relationship="IMSModel.FK_TrnSaleOrderItem_MstFWRShade" FromRole="MstFWRShade" ToRole="TrnSaleOrderItem" />
         </EntityType>
@@ -2371,6 +2663,7 @@
           <Property Name="createdBy" Type="Int64" Nullable="false" />
           <Property Name="updatedOn" Type="DateTime" Precision="3" />
           <Property Name="updatedBy" Type="Int64" />
+          <NavigationProperty Name="MstAccessories" Relationship="IMSModel.FK_MstAccessory_MstHsn" FromRole="MstHsn" ToRole="MstAccessory" />
           <NavigationProperty Name="MstQualities" Relationship="IMSModel.FK_MstQuality_MstHsn" FromRole="MstHsn" ToRole="MstQuality" />
         </EntityType>
         <EntityType Name="MstMatSize">
@@ -2397,7 +2690,8 @@
           <NavigationProperty Name="MstMatThickness" Relationship="IMSModel.FK_MstMattressSize_MstMattressThickNess" FromRole="MstMatSize" ToRole="MstMatThickness" />
           <NavigationProperty Name="MstQuality" Relationship="IMSModel.FK_MstMattressSize_MstQuality" FromRole="MstMatSize" ToRole="MstQuality" />
           <NavigationProperty Name="TrnGoodReceiveNoteItems" Relationship="IMSModel.FK_TrnGoodReceiveNoteItems_MstMatSize" FromRole="MstMatSize" ToRole="TrnGoodReceiveNoteItem" />
-          <NavigationProperty Name="TrnProductStocks" Relationship="IMSModel.FK_TrnProductStock_MstMatSize" FromRole="MstMatSize" ToRole="TrnProductStock" />
+          <NavigationProperty Name="TrnProductStockDetails" Relationship="IMSModel.FK_TrnProductStock_MstMatSize" FromRole="MstMatSize" ToRole="TrnProductStockDetail" />
+          <NavigationProperty Name="TrnProductStocks" Relationship="IMSModel.FK_TrnProductStock_MstMatSize1" FromRole="MstMatSize" ToRole="TrnProductStock" />
           <NavigationProperty Name="TrnPurchaseOrderItems" Relationship="IMSModel.FK_TrnPurchaseOrderItems_MstMatSize" FromRole="MstMatSize" ToRole="TrnPurchaseOrderItem" />
           <NavigationProperty Name="TrnSaleOrderItems" Relationship="IMSModel.FK_TrnSaleOrderItem_MstMatSize" FromRole="MstMatSize" ToRole="TrnSaleOrderItem" />
         </EntityType>
@@ -2538,6 +2832,7 @@
           <Property Name="createdBy" Type="Int64" Nullable="false" />
           <Property Name="updatedOn" Type="DateTime" Precision="3" />
           <Property Name="updatedBy" Type="Int64" />
+          <NavigationProperty Name="MstAccessories" Relationship="IMSModel.FK_MstAccessory_MstUnitOfMeasure" FromRole="MstUnitOfMeasure" ToRole="MstAccessory" />
         </EntityType>
         <EntityType Name="MstUser">
           <Key>
@@ -2625,24 +2920,51 @@
           <Key>
             <PropertyRef Name="id" />
           </Key>
+          <Property Name="id" Type="Int64" Nullable="false" />
+          <Property Name="categoryId" Type="Int64" Nullable="false" />
+          <Property Name="collectionId" Type="Int64" />
+          <Property Name="fwrShadeId" Type="Int64" />
+          <Property Name="matSizeId" Type="Int64" />
+          <Property Name="fomSizeId" Type="Int64" />
+          <Property Name="accessoryId" Type="Int64" />
+          <Property Name="stock" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
+          <Property Name="soQuanity" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
+          <Property Name="poQuantity" Type="Decimal" Precision="7" Scale="2" />
+          <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="createdBy" Type="Int64" Nullable="false" />
+          <Property Name="updatedOn" Type="DateTime" Precision="3" />
+          <Property Name="updatedBy" Type="Int64" />
+          <NavigationProperty Name="MstAccessory" Relationship="IMSModel.FK_TrnProductStock_MstAccessory" FromRole="TrnProductStock" ToRole="MstAccessory" />
+          <NavigationProperty Name="MstCategory" Relationship="IMSModel.FK_TrnProductStock_MstCategory1" FromRole="TrnProductStock" ToRole="MstCategory" />
+          <NavigationProperty Name="MstCollection" Relationship="IMSModel.FK_TrnProductStock_MstCollection1" FromRole="TrnProductStock" ToRole="MstCollection" />
+          <NavigationProperty Name="MstFomSize" Relationship="IMSModel.FK_TrnProductStock_MstFomSize1" FromRole="TrnProductStock" ToRole="MstFomSize" />
+          <NavigationProperty Name="MstFWRShade" Relationship="IMSModel.FK_TrnProductStock_MstFWRShade1" FromRole="TrnProductStock" ToRole="MstFWRShade" />
+          <NavigationProperty Name="MstMatSize" Relationship="IMSModel.FK_TrnProductStock_MstMatSize1" FromRole="TrnProductStock" ToRole="MstMatSize" />
+        </EntityType>
+        <EntityType Name="TrnProductStockDetail">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="categoryId" Type="Int64" Nullable="false" />
           <Property Name="collectionId" Type="Int64" />
           <Property Name="fwrShadeId" Type="Int64" />
           <Property Name="matSizeId" Type="Int64" />
           <Property Name="fomSizeId" Type="Int64" />
+          <Property Name="accessoryId" Type="Int64" />
           <Property Name="locationId" Type="Int64" Nullable="false" />
           <Property Name="stock" Type="Decimal" Nullable="false" Precision="5" Scale="2" />
           <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="createdBy" Type="Int64" Nullable="false" />
           <Property Name="updatedOn" Type="DateTime" Precision="3" />
           <Property Name="updatedBy" Type="Int64" />
-          <NavigationProperty Name="MstCategory" Relationship="IMSModel.FK_TrnProductStock_MstCategory" FromRole="TrnProductStock" ToRole="MstCategory" />
-          <NavigationProperty Name="MstCollection" Relationship="IMSModel.FK_TrnProductStock_MstCollection" FromRole="TrnProductStock" ToRole="MstCollection" />
-          <NavigationProperty Name="MstCompanyLocation" Relationship="IMSModel.FK_TrnProductStock_MstCompanyLocation" FromRole="TrnProductStock" ToRole="MstCompanyLocation" />
-          <NavigationProperty Name="MstFomSize" Relationship="IMSModel.FK_TrnProductStock_MstFomSize" FromRole="TrnProductStock" ToRole="MstFomSize" />
-          <NavigationProperty Name="MstFWRShade" Relationship="IMSModel.FK_TrnProductStock_MstFWRShade" FromRole="TrnProductStock" ToRole="MstFWRShade" />
-          <NavigationProperty Name="MstMatSize" Relationship="IMSModel.FK_TrnProductStock_MstMatSize" FromRole="TrnProductStock" ToRole="MstMatSize" />
+          <NavigationProperty Name="MstAccessory" Relationship="IMSModel.FK_TrnProductStockDetails_MstAccessory" FromRole="TrnProductStockDetail" ToRole="MstAccessory" />
+          <NavigationProperty Name="MstCategory" Relationship="IMSModel.FK_TrnProductStock_MstCategory" FromRole="TrnProductStockDetail" ToRole="MstCategory" />
+          <NavigationProperty Name="MstCollection" Relationship="IMSModel.FK_TrnProductStock_MstCollection" FromRole="TrnProductStockDetail" ToRole="MstCollection" />
+          <NavigationProperty Name="MstCompanyLocation" Relationship="IMSModel.FK_TrnProductStock_MstCompanyLocation" FromRole="TrnProductStockDetail" ToRole="MstCompanyLocation" />
+          <NavigationProperty Name="MstFomSize" Relationship="IMSModel.FK_TrnProductStock_MstFomSize" FromRole="TrnProductStockDetail" ToRole="MstFomSize" />
+          <NavigationProperty Name="MstFWRShade" Relationship="IMSModel.FK_TrnProductStock_MstFWRShade" FromRole="TrnProductStockDetail" ToRole="MstFWRShade" />
+          <NavigationProperty Name="MstMatSize" Relationship="IMSModel.FK_TrnProductStock_MstMatSize" FromRole="TrnProductStockDetail" ToRole="MstMatSize" />
         </EntityType>
         <EntityType Name="TrnPurchaseOrder">
           <Key>
@@ -2725,6 +3047,7 @@
           <NavigationProperty Name="MstCourier" Relationship="IMSModel.FK_TrnSaleOrder_MstCourier" FromRole="TrnSaleOrder" ToRole="MstCourier" />
           <NavigationProperty Name="MstCustomer" Relationship="IMSModel.FK_TrnSaleOrder_MstCustomer" FromRole="TrnSaleOrder" ToRole="MstCustomer" />
           <NavigationProperty Name="TrnPurchaseOrders" Relationship="IMSModel.FK_TrnPurchaseOrder_TrnSaleOrder" FromRole="TrnSaleOrder" ToRole="TrnPurchaseOrder" />
+          <NavigationProperty Name="TrnSaleOrderItems" Relationship="IMSModel.FK_TrnSaleOrderItems_TrnSaleOrder" FromRole="TrnSaleOrder" ToRole="TrnSaleOrderItem" />
         </EntityType>
         <EntityType Name="TrnSaleOrderItem">
           <Key>
@@ -2754,6 +3077,7 @@
           <NavigationProperty Name="MstFomSize" Relationship="IMSModel.FK_TrnSaleOrderItem_MstFomSize" FromRole="TrnSaleOrderItem" ToRole="MstFomSize" />
           <NavigationProperty Name="MstFWRShade" Relationship="IMSModel.FK_TrnSaleOrderItem_MstFWRShade" FromRole="TrnSaleOrderItem" ToRole="MstFWRShade" />
           <NavigationProperty Name="MstMatSize" Relationship="IMSModel.FK_TrnSaleOrderItem_MstMatSize" FromRole="TrnSaleOrderItem" ToRole="MstMatSize" />
+          <NavigationProperty Name="TrnSaleOrder" Relationship="IMSModel.FK_TrnSaleOrderItems_TrnSaleOrder" FromRole="TrnSaleOrderItem" ToRole="TrnSaleOrder" />
         </EntityType>
         <Association Name="FK_CFGRoleMenu_MstMenu">
           <End Type="IMSModel.MstMenu" Role="MstMenu" Multiplicity="1" />
@@ -2778,6 +3102,66 @@
             </Principal>
             <Dependent Role="CFGRoleMenu">
               <PropertyRef Name="roleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MstAccessory_MstCategory">
+          <End Type="IMSModel.MstCategory" Role="MstCategory" Multiplicity="1" />
+          <End Type="IMSModel.MstAccessory" Role="MstAccessory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstCategory">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MstAccessory">
+              <PropertyRef Name="categoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MstAccessory_MstHsn">
+          <End Type="IMSModel.MstHsn" Role="MstHsn" Multiplicity="1" />
+          <End Type="IMSModel.MstAccessory" Role="MstAccessory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstHsn">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MstAccessory">
+              <PropertyRef Name="hsnId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MstAccessory_MstUnitOfMeasure">
+          <End Type="IMSModel.MstUnitOfMeasure" Role="MstUnitOfMeasure" Multiplicity="1" />
+          <End Type="IMSModel.MstAccessory" Role="MstAccessory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstUnitOfMeasure">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MstAccessory">
+              <PropertyRef Name="uomId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnProductStock_MstAccessory">
+          <End Type="IMSModel.MstAccessory" Role="MstAccessory" Multiplicity="0..1" />
+          <End Type="IMSModel.TrnProductStock" Role="TrnProductStock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstAccessory">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnProductStock">
+              <PropertyRef Name="accessoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnProductStockDetails_MstAccessory">
+          <End Type="IMSModel.MstAccessory" Role="MstAccessory" Multiplicity="0..1" />
+          <End Type="IMSModel.TrnProductStockDetail" Role="TrnProductStockDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstAccessory">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnProductStockDetail">
+              <PropertyRef Name="accessoryId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2902,6 +3286,18 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_TrnProductStock_MstCategory">
+          <End Type="IMSModel.MstCategory" Role="MstCategory" Multiplicity="1" />
+          <End Type="IMSModel.TrnProductStockDetail" Role="TrnProductStockDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstCategory">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnProductStockDetail">
+              <PropertyRef Name="categoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnProductStock_MstCategory1">
           <End Type="IMSModel.MstCategory" Role="MstCategory" Multiplicity="1" />
           <End Type="IMSModel.TrnProductStock" Role="TrnProductStock" Multiplicity="*" />
           <ReferentialConstraint>
@@ -3047,6 +3443,18 @@
         </Association>
         <Association Name="FK_TrnProductStock_MstCollection">
           <End Type="IMSModel.MstCollection" Role="MstCollection" Multiplicity="0..1" />
+          <End Type="IMSModel.TrnProductStockDetail" Role="TrnProductStockDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstCollection">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnProductStockDetail">
+              <PropertyRef Name="collectionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnProductStock_MstCollection1">
+          <End Type="IMSModel.MstCollection" Role="MstCollection" Multiplicity="0..1" />
           <End Type="IMSModel.TrnProductStock" Role="TrnProductStock" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="MstCollection">
@@ -3107,12 +3515,12 @@
         </Association>
         <Association Name="FK_TrnProductStock_MstCompanyLocation">
           <End Type="IMSModel.MstCompanyLocation" Role="MstCompanyLocation" Multiplicity="1" />
-          <End Type="IMSModel.TrnProductStock" Role="TrnProductStock" Multiplicity="*" />
+          <End Type="IMSModel.TrnProductStockDetail" Role="TrnProductStockDetail" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="MstCompanyLocation">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="TrnProductStock">
+            <Dependent Role="TrnProductStockDetail">
               <PropertyRef Name="locationId" />
             </Dependent>
           </ReferentialConstraint>
@@ -3265,6 +3673,18 @@
         </Association>
         <Association Name="FK_TrnProductStock_MstFomSize">
           <End Type="IMSModel.MstFomSize" Role="MstFomSize" Multiplicity="0..1" />
+          <End Type="IMSModel.TrnProductStockDetail" Role="TrnProductStockDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstFomSize">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnProductStockDetail">
+              <PropertyRef Name="fomSizeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnProductStock_MstFomSize1">
+          <End Type="IMSModel.MstFomSize" Role="MstFomSize" Multiplicity="0..1" />
           <End Type="IMSModel.TrnProductStock" Role="TrnProductStock" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="MstFomSize">
@@ -3361,6 +3781,18 @@
         </Association>
         <Association Name="FK_TrnProductStock_MstFWRShade">
           <End Type="IMSModel.MstFWRShade" Role="MstFWRShade" Multiplicity="0..1" />
+          <End Type="IMSModel.TrnProductStockDetail" Role="TrnProductStockDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstFWRShade">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnProductStockDetail">
+              <PropertyRef Name="fwrShadeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnProductStock_MstFWRShade1">
+          <End Type="IMSModel.MstFWRShade" Role="MstFWRShade" Multiplicity="0..1" />
           <End Type="IMSModel.TrnProductStock" Role="TrnProductStock" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="MstFWRShade">
@@ -3444,6 +3876,18 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_TrnProductStock_MstMatSize">
+          <End Type="IMSModel.MstMatSize" Role="MstMatSize" Multiplicity="0..1" />
+          <End Type="IMSModel.TrnProductStockDetail" Role="TrnProductStockDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstMatSize">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnProductStockDetail">
+              <PropertyRef Name="matSizeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnProductStock_MstMatSize1">
           <End Type="IMSModel.MstMatSize" Role="MstMatSize" Multiplicity="0..1" />
           <End Type="IMSModel.TrnProductStock" Role="TrnProductStock" Multiplicity="*" />
           <ReferentialConstraint>
@@ -3577,6 +4021,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_TrnSaleOrderItems_TrnSaleOrder">
+          <End Type="IMSModel.TrnSaleOrder" Role="TrnSaleOrder" Multiplicity="1" />
+          <End Type="IMSModel.TrnSaleOrderItem" Role="TrnSaleOrderItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TrnSaleOrder">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnSaleOrderItem">
+              <PropertyRef Name="saleOrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3592,6 +4048,26 @@
                 <ScalarProperty Name="createdOn" ColumnName="createdOn" />
                 <ScalarProperty Name="menuId" ColumnName="menuId" />
                 <ScalarProperty Name="roleId" ColumnName="roleId" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MstAccessories">
+            <EntityTypeMapping TypeName="IMSModel.MstAccessory">
+              <MappingFragment StoreEntitySet="MstAccessory">
+                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
+                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="size" ColumnName="size" />
+                <ScalarProperty Name="purchaseRate" ColumnName="purchaseRate" />
+                <ScalarProperty Name="sellingRate" ColumnName="sellingRate" />
+                <ScalarProperty Name="uomId" ColumnName="uomId" />
+                <ScalarProperty Name="hsnId" ColumnName="hsnId" />
+                <ScalarProperty Name="itemCode" ColumnName="itemCode" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="categoryId" ColumnName="categoryId" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -4098,8 +4574,29 @@
                 <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
                 <ScalarProperty Name="createdBy" ColumnName="createdBy" />
                 <ScalarProperty Name="createdOn" ColumnName="createdOn" />
+                <ScalarProperty Name="poQuantity" ColumnName="poQuantity" />
+                <ScalarProperty Name="soQuanity" ColumnName="soQuanity" />
+                <ScalarProperty Name="stock" ColumnName="stock" />
+                <ScalarProperty Name="accessoryId" ColumnName="accessoryId" />
+                <ScalarProperty Name="fomSizeId" ColumnName="fomSizeId" />
+                <ScalarProperty Name="matSizeId" ColumnName="matSizeId" />
+                <ScalarProperty Name="fwrShadeId" ColumnName="fwrShadeId" />
+                <ScalarProperty Name="collectionId" ColumnName="collectionId" />
+                <ScalarProperty Name="categoryId" ColumnName="categoryId" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TrnProductStockDetails">
+            <EntityTypeMapping TypeName="IMSModel.TrnProductStockDetail">
+              <MappingFragment StoreEntitySet="TrnProductStockDetails">
+                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
+                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
                 <ScalarProperty Name="stock" ColumnName="stock" />
                 <ScalarProperty Name="locationId" ColumnName="locationId" />
+                <ScalarProperty Name="accessoryId" ColumnName="accessoryId" />
                 <ScalarProperty Name="fomSizeId" ColumnName="fomSizeId" />
                 <ScalarProperty Name="matSizeId" ColumnName="matSizeId" />
                 <ScalarProperty Name="fwrShadeId" ColumnName="fwrShadeId" />

@@ -12,28 +12,33 @@ namespace IMSWebApi.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class TrnProductStock
+    public partial class MstAccessory
     {
+        public MstAccessory()
+        {
+            this.TrnProductStocks = new HashSet<TrnProductStock>();
+            this.TrnProductStockDetails = new HashSet<TrnProductStockDetail>();
+        }
+    
         public long id { get; set; }
         public long categoryId { get; set; }
-        public Nullable<long> collectionId { get; set; }
-        public Nullable<long> fwrShadeId { get; set; }
-        public Nullable<long> matSizeId { get; set; }
-        public Nullable<long> fomSizeId { get; set; }
-        public Nullable<long> accessoryId { get; set; }
-        public decimal stock { get; set; }
-        public decimal soQuanity { get; set; }
-        public Nullable<decimal> poQuantity { get; set; }
+        public string name { get; set; }
+        public string itemCode { get; set; }
+        public long hsnId { get; set; }
+        public long uomId { get; set; }
+        public decimal sellingRate { get; set; }
+        public decimal purchaseRate { get; set; }
+        public string size { get; set; }
+        public string description { get; set; }
         public System.DateTime createdOn { get; set; }
         public long createdBy { get; set; }
         public Nullable<System.DateTime> updatedOn { get; set; }
         public Nullable<long> updatedBy { get; set; }
     
-        public virtual MstAccessory MstAccessory { get; set; }
         public virtual MstCategory MstCategory { get; set; }
-        public virtual MstCollection MstCollection { get; set; }
-        public virtual MstFomSize MstFomSize { get; set; }
-        public virtual MstFWRShade MstFWRShade { get; set; }
-        public virtual MstMatSize MstMatSize { get; set; }
+        public virtual MstHsn MstHsn { get; set; }
+        public virtual MstUnitOfMeasure MstUnitOfMeasure { get; set; }
+        public virtual ICollection<TrnProductStock> TrnProductStocks { get; set; }
+        public virtual ICollection<TrnProductStockDetail> TrnProductStockDetails { get; set; }
     }
 }

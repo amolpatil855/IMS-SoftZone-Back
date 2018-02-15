@@ -21,7 +21,7 @@ namespace IMSWebApi.Services
         public List<VMLookUpItem> getFWRCategoryLookUp()
         {
             return repo.MstCategories
-                .Where(s=>s.code!="Mattress" && s.code!="Foam" && s.code!="Accessories" )
+                .Where(s => s.code != "Mattress" && s.code != "Foam" && s.code != "Accessories")
                 .OrderBy(s => s.code)
                 .Select(s => new VMLookUpItem { value = s.id, label = s.code }).ToList();
         }

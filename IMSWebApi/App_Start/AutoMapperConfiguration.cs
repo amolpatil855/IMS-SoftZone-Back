@@ -25,7 +25,8 @@ namespace IMSWebApi.App_Start
             Mapper.CreateMap<VMUser, MstUser>();
             
             Mapper.CreateMap<MstuserType, VMUserType>();
-            
+            Mapper.CreateMap<VMUserType, MstuserType>();
+
             Mapper.CreateMap<MstCompanyInfo, VMCompanyInfo>();
             Mapper.CreateMap<VMCompanyInfo, MstCompanyInfo>();
             
@@ -78,6 +79,9 @@ namespace IMSWebApi.App_Start
             Mapper.CreateMap<TrnProductStock, VMTrnProductStock>();
             Mapper.CreateMap<VMTrnProductStock, TrnProductStock>();
 
+            Mapper.CreateMap<TrnProductStockDetail, VMTrnProductStockDetail>();
+            Mapper.CreateMap<VMTrnProductStockDetail, TrnProductStockDetail>();
+
             Mapper.CreateMap<MstCompanyLocation, VMCompanyLocation>();
             Mapper.CreateMap<VMCompanyLocation, MstCompanyLocation>();
 
@@ -89,6 +93,12 @@ namespace IMSWebApi.App_Start
 
             Mapper.CreateMap<MstFinancialYear, VMFinancialYear>();
             Mapper.CreateMap<VMFinancialYear, MstFinancialYear>();
+
+            Mapper.CreateMap<MstAccessory, VMAccessory>();
+            Mapper.CreateMap<VMAccessory, MstAccessory>();
+
+            Mapper.CreateMap<MstUnitOfMeasure, VMUnitOfMeasure>();
+            Mapper.CreateMap<VMUnitOfMeasure, MstUnitOfMeasure>();
 
             Mapper.CreateMap<TrnPurchaseOrder, VMTrnPurchaseOrder>();
             Mapper.CreateMap<VMTrnPurchaseOrder, TrnPurchaseOrder>();

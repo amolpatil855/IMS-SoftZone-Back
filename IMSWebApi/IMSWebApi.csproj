@@ -257,6 +257,7 @@
     <Compile Include="Common\ListResult.cs" />
     <Compile Include="Common\GenerateOrderNumber.cs" />
     <Compile Include="Common\SendEmail.cs" />
+    <Compile Include="Controllers\AccessoryController.cs" />
     <Compile Include="Controllers\AgentController.cs" />
     <Compile Include="Controllers\CollectionController.cs" />
     <Compile Include="Controllers\CommonController.cs" />
@@ -280,6 +281,7 @@
     <Compile Include="Controllers\SupplierController.cs" />
     <Compile Include="Controllers\TrnGoodReceiveNoteController.cs" />
     <Compile Include="Controllers\TrnProductStockController.cs" />
+    <Compile Include="Controllers\TrnProductStockDetailController.cs" />
     <Compile Include="Controllers\TrnPurchaseOrderController.cs" />
     <Compile Include="Controllers\TrnSaleOrderController.cs" />
     <Compile Include="Controllers\UserController.cs" />
@@ -292,6 +294,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\CFGRoleMenu.cs">
+      <DependentUpon>WebApiModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MstAccessory.cs">
       <DependentUpon>WebApiModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\MstAgent.cs">
@@ -378,6 +383,9 @@
     <Compile Include="Models\TrnProductStock.cs">
       <DependentUpon>WebApiModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\TrnProductStockDetail.cs">
+      <DependentUpon>WebApiModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\TrnPurchaseOrder.cs">
       <DependentUpon>WebApiModel.tt</DependentUpon>
     </Compile>
@@ -412,6 +420,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resource.resx</DependentUpon>
     </Compile>
+    <Compile Include="Services\AccessoryService.cs" />
     <Compile Include="Services\AgentService.cs" />
     <Compile Include="Services\CategoryService.cs" />
     <Compile Include="Services\CollectionService.cs" />
@@ -427,12 +436,13 @@
     <Compile Include="Services\MatSizeService.cs" />
     <Compile Include="Services\MatThicknessService.cs" />
     <Compile Include="Services\MenuService.cs" />
+    <Compile Include="Services\TrnProductStockService.cs" />
     <Compile Include="Services\QualityService.cs" />
     <Compile Include="Services\RoleService.cs" />
     <Compile Include="Services\FWRShadeService.cs" />
     <Compile Include="Services\SupplierService.cs" />
     <Compile Include="Services\TrnGoodReceiveNoteService.cs" />
-    <Compile Include="Services\TrnProductStockService.cs" />
+    <Compile Include="Services\TrnProductStockDetailService.cs" />
     <Compile Include="Services\TrnPurchaseOrderService.cs" />
     <Compile Include="Services\TrnSaleOrderService.cs" />
     <Compile Include="Services\UnitOfMeasureService.cs" />
@@ -440,6 +450,7 @@
     <Compile Include="Services\FomSizeService.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModel\ResponseMessage.cs" />
+    <Compile Include="ViewModel\VMAccessory.cs" />
     <Compile Include="ViewModel\VMAgent.cs" />
     <Compile Include="ViewModel\VMCategory.cs" />
     <Compile Include="ViewModel\VMCollection.cs" />
@@ -454,6 +465,7 @@
     <Compile Include="ViewModel\VMLookUpItem.cs" />
     <Compile Include="ViewModel\VMMatSize.cs" />
     <Compile Include="ViewModel\VMMatThickness.cs" />
+    <Compile Include="ViewModel\VMTrnProductStock.cs" />
     <Compile Include="ViewModel\VMQuality.cs" />
     <Compile Include="ViewModel\VMFWRShade.cs" />
     <Compile Include="ViewModel\VMSupplier.cs" />
@@ -466,11 +478,12 @@
     <Compile Include="ViewModel\VMSupplierAddress.cs" />
     <Compile Include="ViewModel\VMTrnGoodReceiveNote.cs" />
     <Compile Include="ViewModel\VMTrnGoodReceiveNoteItem.cs" />
-    <Compile Include="ViewModel\VMTrnProductStock.cs" />
+    <Compile Include="ViewModel\VMTrnProductStockDetail.cs" />
     <Compile Include="ViewModel\VMTrnPurchaseOrder.cs" />
     <Compile Include="ViewModel\VMTrnPurchaseOrderItem.cs" />
     <Compile Include="ViewModel\VMTrnSaleOrder.cs" />
     <Compile Include="ViewModel\VMTrnSaleOrderItem.cs" />
+    <Compile Include="ViewModel\VMUnitOfMeasure.cs" />
     <Compile Include="ViewModel\VMUser.cs" />
     <Compile Include="ViewModel\VMUserType.cs" />
   </ItemGroup>
