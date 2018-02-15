@@ -14,6 +14,11 @@ namespace IMSWebApi.Models
     
     public partial class MstUnitOfMeasure
     {
+        public MstUnitOfMeasure()
+        {
+            this.MstAccessories = new HashSet<MstAccessory>();
+        }
+    
         public long id { get; set; }
         public string uomCode { get; set; }
         public string uomName { get; set; }
@@ -21,5 +26,7 @@ namespace IMSWebApi.Models
         public long createdBy { get; set; }
         public Nullable<System.DateTime> updatedOn { get; set; }
         public Nullable<long> updatedBy { get; set; }
+    
+        public virtual ICollection<MstAccessory> MstAccessories { get; set; }
     }
 }

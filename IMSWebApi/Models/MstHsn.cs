@@ -16,6 +16,7 @@ namespace IMSWebApi.Models
     {
         public MstHsn()
         {
+            this.MstAccessories = new HashSet<MstAccessory>();
             this.MstQualities = new HashSet<MstQuality>();
         }
     
@@ -27,6 +28,7 @@ namespace IMSWebApi.Models
         public Nullable<System.DateTime> updatedOn { get; set; }
         public Nullable<long> updatedBy { get; set; }
     
+        public virtual ICollection<MstAccessory> MstAccessories { get; set; }
         public virtual ICollection<MstQuality> MstQualities { get; set; }
     }
 }
