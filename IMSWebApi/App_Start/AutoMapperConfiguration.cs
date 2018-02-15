@@ -25,7 +25,8 @@ namespace IMSWebApi.App_Start
             Mapper.CreateMap<VMUser, MstUser>();
             
             Mapper.CreateMap<MstuserType, VMUserType>();
-            
+            Mapper.CreateMap<VMUserType, MstuserType>();
+
             Mapper.CreateMap<MstCompanyInfo, VMCompanyInfo>();
             Mapper.CreateMap<VMCompanyInfo, MstCompanyInfo>();
             
