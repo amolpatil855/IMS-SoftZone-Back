@@ -104,6 +104,7 @@ namespace IMSWebApi.Services
             fomSizeToPut.width = fomSize.width;
             fomSizeToPut.length = fomSize.length;
             fomSizeToPut.sizeCode = fomSize.sizeCode;
+            fomSizeToPut.itemCode = fomSize.itemCode;
             fomSizeToPut.stockReorderLevel = fomSize.stockReorderLevel;
 
             fomSizeToPut.updatedBy = _LoggedInuserId;

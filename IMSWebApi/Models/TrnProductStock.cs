@@ -23,7 +23,7 @@ namespace IMSWebApi.Models
         public Nullable<long> accessoryId { get; set; }
         public decimal stock { get; set; }
         public decimal soQuanity { get; set; }
-        public Nullable<decimal> poQuantity { get; set; }
+        public decimal poQuantity { get; set; }
         public System.DateTime createdOn { get; set; }
         public long createdBy { get; set; }
         public Nullable<System.DateTime> updatedOn { get; set; }
@@ -32,8 +32,8 @@ namespace IMSWebApi.Models
         public virtual MstAccessory MstAccessory { get; set; }
         public virtual MstCategory MstCategory { get; set; }
         public virtual MstCollection MstCollection { get; set; }
-        public virtual MstFomSize MstFomSize { get; set; }
         public virtual MstFWRShade MstFWRShade { get; set; }
         public virtual MstMatSize MstMatSize { get; set; }
+        public virtual MstFomSize MstFomSize { get; set; }
     }
 }

@@ -31,14 +31,14 @@ namespace IMSWebApi.Controllers
         }
 
         // GET api/TrnPurchaseOrder
-        [ApiAuthorize(AccessLevel = "purchaseorder")]
-        [HttpGet]
-        [Route("api/TrnPurchaseOrder/GetPOItemsBySOId")]
-        public IHttpActionResult getPOItemsBySOId(long saleOrderId, long supplierId)
-        {
-            var result = _trnPurchaseOrderService.getPOItemsBySOId(saleOrderId, supplierId);
-            return Ok(result);
-        }
+        //[ApiAuthorize(AccessLevel = "purchaseorder")]
+        //[HttpGet]
+        //[Route("api/TrnPurchaseOrder/GetPOItemsBySOId")]
+        //public IHttpActionResult getPOItemsBySOId(long saleOrderId, long supplierId)
+        //{
+        //    var result = _trnPurchaseOrderService.getPOItemsBySOId(saleOrderId, supplierId);
+        //    return Ok(result);
+        //}
 
         // GET api/TrnPurchaseOrder
         [ApiAuthorize(AccessLevel = "purchaseorder")]

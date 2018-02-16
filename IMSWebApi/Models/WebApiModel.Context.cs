@@ -37,7 +37,6 @@ namespace IMSWebApi.Models
         public virtual DbSet<MstCustomerAddress> MstCustomerAddresses { get; set; }
         public virtual DbSet<MstFinancialYear> MstFinancialYears { get; set; }
         public virtual DbSet<MstFomDensity> MstFomDensities { get; set; }
-        public virtual DbSet<MstFomSize> MstFomSizes { get; set; }
         public virtual DbSet<MstFomSuggestedMM> MstFomSuggestedMMs { get; set; }
         public virtual DbSet<MstFWRDesign> MstFWRDesigns { get; set; }
         public virtual DbSet<MstFWRShade> MstFWRShades { get; set; }
@@ -60,5 +59,6 @@ namespace IMSWebApi.Models
         public virtual DbSet<TrnPurchaseOrderItem> TrnPurchaseOrderItems { get; set; }
         public virtual DbSet<TrnSaleOrder> TrnSaleOrders { get; set; }
         public virtual DbSet<TrnSaleOrderItem> TrnSaleOrderItems { get; set; }
+        public virtual DbSet<MstFomSize> MstFomSizes { get; set; }
     }
 }

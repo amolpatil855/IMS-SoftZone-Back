@@ -446,7 +446,6 @@
     <Compile Include="Services\TrnPurchaseOrderService.cs" />
     <Compile Include="Services\TrnSaleOrderService.cs" />
     <Compile Include="Services\UnitOfMeasureService.cs" />
-    <Compile Include="Services\UOMService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Services\FomSizeService.cs" />
     <Compile Include="Startup.cs" />
@@ -466,6 +465,7 @@
     <Compile Include="ViewModel\VMLookUpItem.cs" />
     <Compile Include="ViewModel\VMMatSize.cs" />
     <Compile Include="ViewModel\VMMatThickness.cs" />
+    <Compile Include="ViewModel\VMProductDetails.cs" />
     <Compile Include="ViewModel\VMTrnProductStock.cs" />
     <Compile Include="ViewModel\VMQuality.cs" />
     <Compile Include="ViewModel\VMFWRShade.cs" />

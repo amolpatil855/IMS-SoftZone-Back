@@ -19,12 +19,43 @@ namespace IMSWebApi.Controllers
             _trnProductStockService = new TrnProductStockService();
         }
 
-        // GET api/TrnProductStockDetail
+        // GET api/TrnProductStock
         [ApiAuthorize(AccessLevel = "productstock")]
         [HttpGet]
-        public IHttpActionResult Get(int pageSize = 0, int page = 0, string search = null)
+        [Route("api/TrnProductStock/GetFWRProductStock")]
+        public IHttpActionResult GetFWRProductStock(int pageSize = 0, int page = 0, string search = null)
         {
-            var result = _trnProductStockService.getTrnProductStock(pageSize, page, search);
+            var result = _trnProductStockService.getFWRProductStock(pageSize, page, search);
+            return Ok(result);
+        }
+
+        // GET api/TrnProductStock
+        [ApiAuthorize(AccessLevel = "productstock")]
+        [HttpGet]
+        [Route("api/TrnProductStock/GetMatProductStock")]
+        public IHttpActionResult GetMatProductStock(int pageSize = 0, int page = 0, string search = null)
+        {
+            var result = _trnProductStockService.getMatProductStock(pageSize, page, search);
+            return Ok(result);
+        }
+
+        // GET api/TrnProductStock
+        [ApiAuthorize(AccessLevel = "productstock")]
+        [HttpGet]
+        [Route("api/TrnProductStock/GetFomProductStock")]
+        public IHttpActionResult GetFomProductStock(int pageSize = 0, int page = 0, string search = null)
+        {
+            var result = _trnProductStockService.getFomProductStock(pageSize, page, search);
+            return Ok(result);
+        }
+
+        // GET api/TrnProductStock
+        [ApiAuthorize(AccessLevel = "productstock")]
+        [HttpGet]
+        [Route("api/TrnProductStock/GetAccessoryProductStock")]
+        public IHttpActionResult GetAccessoryProductStock(int pageSize = 0, int page = 0, string search = null)
+        {
+            var result = _trnProductStockService.getAccessoryProductStock(pageSize, page, search);
             return Ok(result);
         }
 
@@ -32,9 +63,9 @@ namespace IMSWebApi.Controllers
         //[ApiAuthorize(AccessLevel = "productstock")]
         [HttpGet]
         [Route("api/TrnProductStock/GetProductStockAvailabilty")]
-        public IHttpActionResult GetProductStockAvailabilty(long categoryId, long collectionId, long parameterId)
+        public IHttpActionResult GetProductStockAvailabilty(long categoryId, long collectionId, long? parameterId,long? qualityId)
         {
-            var result = _trnProductStockService.getProductStockAvailablity(categoryId, collectionId, parameterId);
+            var result = _trnProductStockService.getProductStockAvailablity(categoryId, collectionId, parameterId, qualityId);
             return Ok(result);
         }
     }

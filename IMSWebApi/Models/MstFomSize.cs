@@ -32,6 +32,7 @@ namespace IMSWebApi.Models
         public decimal width { get; set; }
         public decimal length { get; set; }
         public string sizeCode { get; set; }
+        public string itemCode { get; set; }
         public int stockReorderLevel { get; set; }
         public System.DateTime createdOn { get; set; }
         public long createdBy { get; set; }
