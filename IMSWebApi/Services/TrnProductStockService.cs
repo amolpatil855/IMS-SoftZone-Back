@@ -184,7 +184,7 @@ namespace IMSWebApi.Services
                 productDetails.flatRate = TrnProductStock.MstFWRShade.MstQuality.flatRate;
                 productDetails.purchaseFlatRate = TrnProductStock.MstFWRShade.MstQuality.purchaseFlatRate;
                 productDetails.maxFlatRateDisc = TrnProductStock.MstFWRShade.MstQuality.maxFlatRateDisc;
-                productDetails.stock = TrnProductStock.stock;
+                productDetails.stock = TrnProductStock.stock + TrnProductStock.poQuantity - TrnProductStock.soQuanity;
                 productDetails.gst = TrnProductStock.MstFWRShade.MstQuality.MstHsn.gst;
             }
             if (categoryCode != null && categoryCode.Equals("Foam"))
@@ -203,7 +203,7 @@ namespace IMSWebApi.Services
                 productDetails.length = TrnProductStock.MstFomSize.length;
                 productDetails.width = TrnProductStock.MstFomSize.width;
                 productDetails.gst = TrnProductStock.MstFomSize.MstQuality.MstHsn.gst;
-                productDetails.stock = TrnProductStock.stock;
+                productDetails.stock = TrnProductStock.stock + TrnProductStock.poQuantity - TrnProductStock.soQuanity;
             }
             if (categoryCode != null && categoryCode.Equals("Mattress"))
             {
@@ -215,7 +215,7 @@ namespace IMSWebApi.Services
                     productDetails.rate = TrnProductStock.MstMatSize.rate;
                     productDetails.purchaseRate = TrnProductStock.MstMatSize.purchaseRate;
                     productDetails.gst = TrnProductStock.MstMatSize.MstQuality.MstHsn.gst;
-                    productDetails.stock = TrnProductStock.stock;
+                    productDetails.stock = TrnProductStock.stock + TrnProductStock.poQuantity - TrnProductStock.soQuanity;
                 }
                 else if(qualityId!=null)
                 {
@@ -237,6 +237,7 @@ namespace IMSWebApi.Services
                 productDetails.sellingRate = TrnProductStock.MstAccessory.sellingRate;
                 productDetails.purchaseRate = TrnProductStock.MstAccessory.purchaseRate;
                 productDetails.gst = TrnProductStock.MstAccessory.MstHsn.gst;
+                productDetails.stock = TrnProductStock.stock + TrnProductStock.poQuantity - TrnProductStock.soQuanity;
             }
             //VMProductStock = Mapper.Map<TrnProductStock, VMTrnProductStock>(TrnProductStock);
             //VMProductStock.MstCollection.MstCategory = null;
