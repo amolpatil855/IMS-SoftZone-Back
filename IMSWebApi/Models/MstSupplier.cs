@@ -37,6 +37,7 @@ namespace IMSWebApi.Models
         public string dispatchPersonName { get; set; }
         public string dispatchPersonEmail { get; set; }
         public string dispatchPersonPhone { get; set; }
+        public Nullable<int> creditPeriodDays { get; set; }
         public System.DateTime createdOn { get; set; }
         public long createdBy { get; set; }
         public Nullable<System.DateTime> updatedOn { get; set; }

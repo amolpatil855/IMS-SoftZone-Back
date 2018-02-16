@@ -131,6 +131,7 @@ namespace IMSWebApi.Services
                 supplierToPut.dispatchPersonName = supplier.dispatchPersonName;
                 supplierToPut.dispatchPersonEmail = supplier.dispatchPersonEmail;
                 supplierToPut.dispatchPersonPhone = supplier.dispatchPersonPhone;
+                supplierToPut.creditPeriodDays = supplier.creditPeriodDays;
                 supplierToPut.updatedOn = DateTime.Now;
                 supplierToPut.updatedBy = _LoggedInuserId;
                 supplierToPut.MstSupplierAddresses = supplierAddressDetails;

@@ -35,8 +35,8 @@ namespace IMSWebApi.Models
         public Nullable<long> updatedBy { get; set; }
     
         public virtual MstCompanyLocation MstCompanyLocation { get; set; }
-        public virtual ICollection<MstCustomer> MstCustomers { get; set; }
         public virtual MstRole MstRole { get; set; }
         public virtual MstuserType MstuserType { get; set; }
+        public virtual ICollection<MstCustomer> MstCustomers { get; set; }
     }
 }
