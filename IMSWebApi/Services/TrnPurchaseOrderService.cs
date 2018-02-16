@@ -115,6 +115,7 @@ namespace IMSWebApi.Services
                 var purchaseOrderItems = purchaseOrderToPost.TrnPurchaseOrderItems.ToList();
                 foreach (var poItems in purchaseOrderItems)
                 {
+                    poItems.matSizeId=poItems.matSizeId == -1 ? null : poItems.matSizeId;
                     poItems.createdOn = DateTime.Now;
                     poItems.createdBy = _LoggedInuserId;
                 }
