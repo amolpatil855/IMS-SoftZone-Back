@@ -199,6 +199,7 @@ namespace IMSWebApi.Services
                 productDetails.suggestedMM = TrnProductStock.MstFomSize.MstFomSuggestedMM.suggestedMM;
                 productDetails.purchaseRatePerMM = TrnProductStock.MstFomSize.MstFomDensity.purchaseRatePerMM;
                 productDetails.purchaseRatePerKG = TrnProductStock.MstFomSize.MstFomDensity.purchaseRatePerKG;
+                productDetails.maxDiscount = TrnProductStock.MstFomSize.MstQuality.maxDiscount;
                 productDetails.length = TrnProductStock.MstFomSize.length;
                 productDetails.width = TrnProductStock.MstFomSize.width;
                 productDetails.gst = TrnProductStock.MstFomSize.MstQuality.MstHsn.gst;
