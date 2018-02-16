@@ -31,6 +31,8 @@ namespace IMSWebApi.Controllers
         private UserService _userService = null;
         private AgentService _agentService = null;
         private CourierService _courierService = null;
+        private UOMService _uomService = null;
+        private AccessoryService _accessoryService = null;
 
         public CommonController()
         {
@@ -53,6 +55,8 @@ namespace IMSWebApi.Controllers
             _userService = new UserService();
             _agentService = new AgentService();
             _courierService = new CourierService();
+            _uomService = new UOMService();
+            _accessoryService = new AccessoryService();
         }
 
         [HttpGet]
@@ -145,10 +149,26 @@ namespace IMSWebApi.Controllers
         }
 
         [HttpGet]
+        [Route("api/Common/GetAccessoryLookUp")]
+        public IHttpActionResult GetAccessoryLookUp()
+        {
+            var result = _accessoryService.getAccessoryLookUp();
+            return Ok(result);
+        }
+
+        [HttpGet]
         [Route("api/Common/GetHsnLookUp")]
         public IHttpActionResult GetHsnLookUp()
         {
             var result = _hsnService.getHsnLookUp();
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("api/Common/GetUOMLookUp")]
+        public IHttpActionResult GetUOMLookUp()
+        {
+            var result = _uomService.getUOMLookUp();
             return Ok(result);
         }
 

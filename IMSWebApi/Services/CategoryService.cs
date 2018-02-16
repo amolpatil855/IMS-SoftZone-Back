@@ -35,5 +35,10 @@ namespace IMSWebApi.Services
         {
             return repo.MstCategories.Where(c => c.code == "Foam").FirstOrDefault();
         }
+
+        public MstCategory getAccessoryCategory()
+        {
+            return repo.MstCategories.Where(c => c.code == "Accessories").FirstOrDefault();
+        }
     }
 }

@@ -61,6 +61,33 @@ namespace IMSWebApi.App_Data {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Accessory Added Successfully.
+        /// </summary>
+        public static string AccessoryAdded {
+            get {
+                return ResourceManager.GetString("AccessoryAdded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Accessory Deleted Successfully.
+        /// </summary>
+        public static string AccessoryDeleted {
+            get {
+                return ResourceManager.GetString("AccessoryDeleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Accessory Updated Successfully.
+        /// </summary>
+        public static string AccessoryUpdated {
+            get {
+                return ResourceManager.GetString("AccessoryUpdated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Agent details added Successfully.
         /// </summary>
         public static string AgentAdded {
