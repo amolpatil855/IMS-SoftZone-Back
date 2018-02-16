@@ -22,6 +22,15 @@ namespace IMSWebApi.Controllers
         // GET api/TrnProductStock
         [ApiAuthorize(AccessLevel = "productstock")]
         [HttpGet]
+        public IHttpActionResult Get(int pageSize = 0, int page = 0, string search = null)
+        {
+            var result = _trnProductStockService.getTrnProductStock(pageSize, page, search);
+            return Ok(result);
+        }
+
+        // GET api/TrnProductStock
+        [ApiAuthorize(AccessLevel = "productstock")]
+        [HttpGet]
         [Route("api/TrnProductStock/GetFWRProductStock")]
         public IHttpActionResult GetFWRProductStock(int pageSize = 0, int page = 0, string search = null)
         {
