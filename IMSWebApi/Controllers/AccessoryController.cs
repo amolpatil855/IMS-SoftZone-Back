@@ -21,7 +21,7 @@ namespace IMSWebApi.Controllers
         }
 
         // GET api/Accessory   
-        [ApiAuthorize(AccessLevel = "accessory")]
+        [ApiAuthorize(AccessLevel = "accessories")]
         [HttpGet]
         public IHttpActionResult Get(int pageSize = 0, int page = 0, string search = null)
         {
@@ -30,7 +30,7 @@ namespace IMSWebApi.Controllers
         }
 
         // GET api/Accessory/1
-        [ApiAuthorize(AccessLevel = "accessory")]
+        [ApiAuthorize(AccessLevel = "accessories")]
         [HttpGet]
         public IHttpActionResult Get(long id)
         {
@@ -39,7 +39,7 @@ namespace IMSWebApi.Controllers
         }
 
         // POST api/Accessory
-        [ApiAuthorize(AccessLevel = "accessory")]
+        [ApiAuthorize(AccessLevel = "accessories")]
         [HttpPost]
         public IHttpActionResult PostAccessory(VMAccessory accessory)
         {
@@ -52,7 +52,7 @@ namespace IMSWebApi.Controllers
         }
 
         // PUT api/Accessory
-        [ApiAuthorize(AccessLevel = "accessory")]
+        [ApiAuthorize(AccessLevel = "accessories")]
         [HttpPut]
         public IHttpActionResult PutAccessory(VMAccessory accessory)
         {
@@ -65,7 +65,7 @@ namespace IMSWebApi.Controllers
         }
 
         // DELETE api/Accessory/1
-        [ApiAuthorize(AccessLevel = "accessory")]
+        [ApiAuthorize(AccessLevel = "accessories")]
         [HttpDelete]
         public IHttpActionResult DeleteAccessory(long id)
         {

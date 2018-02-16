@@ -9,7 +9,7 @@ namespace IMSWebApi.ViewModel
     public class VMAccessory
     {
         public long id { get; set; }
-        public long categoryId { get; set; }
+        //public long categoryId { get; set; }
         [Required]
         [MaxLength(50)]
         public string name { get; set; }
