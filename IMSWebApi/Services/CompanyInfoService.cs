@@ -30,6 +30,12 @@ namespace IMSWebApi.Services
             return companyInfoView;
         }
 
+        public string getCompanyLogo()
+        {
+            return repo.MstCompanyInfoes.FirstOrDefault().companyLogo;
+             
+        }
+
         public VMCompanyInfo getCompanyInfoById(Int64 id)
         {
             var result = repo.MstCompanyInfoes.Where(c => c.id == id).FirstOrDefault();

@@ -32,6 +32,15 @@ namespace IMSWebApi.Controllers
             return Ok(result);
         }
 
+        [AllowAnonymous]
+        [Route("api/CompanyInfo/GetCompanyLogo")]
+        [HttpGet]
+        public IHttpActionResult GetCompanyLogo()
+        {
+            var result = _companyInfoService.getCompanyLogo();
+            return Ok(result);
+        }
+
         // Get api/CompanyInfo
         [ApiAuthorize(AccessLevel = "companyinfo")]
         [HttpGet]
