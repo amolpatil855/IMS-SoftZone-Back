@@ -26,6 +26,8 @@ namespace IMSWebApi.ViewModel
         [Required]
         [MaxLength(20)]
         public string sizeCode { get; set; }
+        [MaxLength(50)]
+        public string itemCode { get; set; }
         [Required]
         public int stockReorderLevel { get; set; }
        

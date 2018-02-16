@@ -37,39 +37,39 @@ namespace IMSWebApi.Services
                                         .ToList();
         }
 
-        public List<VMTrnPurchaseOrderItem> getPOItemsBySOId(Int64 saleOrderId,Int64 supplierId)
-        {
-            List<VMTrnPurchaseOrderItem> poItems = new List<VMTrnPurchaseOrderItem>();
-            var soItems = repo.TrnSaleOrderItems.Where(i => i.saleOrderId == saleOrderId && i.MstCollection.supplierId == supplierId).ToList();
-            soItems.ForEach(x=> {
-                string categoryCode = repo.MstCategories.Where(c => c.id == x.categoryId).Select(a => a.code).FirstOrDefault();
-                long parameterId = Convert.ToInt64(categoryCode.Equals("Fabric") ? x.shadeId : categoryCode.Equals("Mattress") ? x.matSizeId : x.fomSizeId);
-                decimal? stockQty = _trnProductStockService.getProductStockAvailablity(x.categoryId, x.collectionId,parameterId);
-                if (x.orderQuantity > stockQty)
-	            {
-                    VMTrnPurchaseOrderItem poItem = new VMTrnPurchaseOrderItem();
-                    poItem.categoryId = x.categoryId;
-                    poItem.collectionId = x.collectionId;
-                    poItem.shadeId = x.shadeId != null ? x.shadeId : null;
-                    poItem.fomSizeId = x.fomSizeId!= null ? x.fomSizeId: null;
-                    poItem.matSizeId = x.matSizeId != null ? x.matSizeId : null;
-                    poItem.sizeCode = x.sizeCode;
-                    poItem.orderQuantity = x.orderQuantity;
-                    poItem.balanceQuantity = Convert.ToInt64(x.balanceQuantity);
-                    poItem.orderType = x.orderType;
-                    poItem.rate = x.rate;
-                    poItem.amount = x.amount;
-                    poItem.status = x.status;
-                    poItem.MstCategory = Mapper.Map<MstCategory, VMCategory>(x.MstCategory);
-                    poItem.MstCollection = Mapper.Map<MstCollection, VMCollection>(x.MstCollection);
-                    poItem.MstFWRShade = Mapper.Map<MstFWRShade, VMFWRShade>(x.MstFWRShade);
-                    poItem.MstFomSize = Mapper.Map<MstFomSize, VMFomSize>(x.MstFomSize);
-                    poItem.MstMatSize = Mapper.Map<MstMatSize, VMMatSize>(x.MstMatSize);
-                    poItems.Add(poItem);
-	            }   
-            });
-            return poItems;
-        }
+        //public List<VMTrnPurchaseOrderItem> getPOItemsBySOId(Int64 saleOrderId,Int64 supplierId)
+        //{
+        //    List<VMTrnPurchaseOrderItem> poItems = new List<VMTrnPurchaseOrderItem>();
+        //    var soItems = repo.TrnSaleOrderItems.Where(i => i.saleOrderId == saleOrderId && i.MstCollection.supplierId == supplierId).ToList();
+        //    soItems.ForEach(x=> {
+        //        string categoryCode = repo.MstCategories.Where(c => c.id == x.categoryId).Select(a => a.code).FirstOrDefault();
+        //        long parameterId = Convert.ToInt64(categoryCode.Equals("Fabric") ? x.shadeId : categoryCode.Equals("Mattress") ? x.matSizeId : x.fomSizeId);
+        //        decimal? stockQty = _trnProductStockService.getProductStockAvailablity(x.categoryId, x.collectionId,parameterId);
+        //        if (x.orderQuantity > stockQty)
+        //        {
+        //            VMTrnPurchaseOrderItem poItem = new VMTrnPurchaseOrderItem();
+        //            poItem.categoryId = x.categoryId;
+        //            poItem.collectionId = x.collectionId;
+        //            poItem.shadeId = x.shadeId != null ? x.shadeId : null;
+        //            poItem.fomSizeId = x.fomSizeId!= null ? x.fomSizeId: null;
+        //            poItem.matSizeId = x.matSizeId != null ? x.matSizeId : null;
+        //            poItem.sizeCode = x.sizeCode;
+        //            poItem.orderQuantity = x.orderQuantity;
+        //            poItem.balanceQuantity = Convert.ToInt64(x.balanceQuantity);
+        //            poItem.orderType = x.orderType;
+        //            poItem.rate = x.rate;
+        //            poItem.amount = x.amount;
+        //            poItem.status = x.status;
+        //            poItem.MstCategory = Mapper.Map<MstCategory, VMCategory>(x.MstCategory);
+        //            poItem.MstCollection = Mapper.Map<MstCollection, VMCollection>(x.MstCollection);
+        //            poItem.MstFWRShade = Mapper.Map<MstFWRShade, VMFWRShade>(x.MstFWRShade);
+        //            poItem.MstFomSize = Mapper.Map<MstFomSize, VMFomSize>(x.MstFomSize);
+        //            poItem.MstMatSize = Mapper.Map<MstMatSize, VMMatSize>(x.MstMatSize);
+        //            poItems.Add(poItem);
+        //        }   
+        //    });
+        //    return poItems;
+        //}
 
         public ListResult<VMTrnPurchaseOrder> getPurchaseOrder(int pageSize, int page, string search)
         {
@@ -180,10 +180,7 @@ namespace IMSWebApi.Services
                 else
                     itemsToRemove.Add(poItem);
 	        }
-            //idsToRemove.ForEach(x =>
-            //{
-            //    repo.TrnPurchaseOrderItems.Remove(repo.TrnPurchaseOrderItems.Where(po => po.id == x).FirstOrDefault());
-            //});
+            
             repo.TrnPurchaseOrderItems.RemoveRange(itemsToRemove);
             repo.SaveChanges();
 

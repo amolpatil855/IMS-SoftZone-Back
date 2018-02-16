@@ -10,6 +10,7 @@ using IMSWebApi.Common;
 using IMSWebApi.ViewModel;
 using AutoMapper;
 using IMSWebApi.Enums;
+using System.Transactions;
 
 namespace IMSWebApi.Services
 {
@@ -18,10 +19,12 @@ namespace IMSWebApi.Services
         WebAPIdbEntities repo = new WebAPIdbEntities();
         Int64 _LoggedInuserId;
         ResourceManager resourceManager = null;
+        TrnProductStockService _trnProductStockService = null;
 
         public TrnProductStockDetailService()
         {
             _LoggedInuserId = Convert.ToInt64(HttpContext.Current.User.Identity.GetUserId());
+            _trnProductStockService = new TrnProductStockService();
             resourceManager = new ResourceManager("IMSWebApi.App_Data.Resource", Assembly.GetExecutingAssembly());
         }
 
@@ -74,28 +77,26 @@ namespace IMSWebApi.Services
         }
 
         public ResponseMessage postTrnProductStockDetail(VMTrnProductStockDetail trnProductStockDetail)
-        {
-            trnProductStockDetail.fwrShadeId = trnProductStockDetail.fwrShadeId == 0 ? null : trnProductStockDetail.fwrShadeId;
-            trnProductStockDetail.fomSizeId = trnProductStockDetail.fomSizeId == 0 ? null : trnProductStockDetail.fomSizeId;
-            trnProductStockDetail.matSizeId = trnProductStockDetail.matSizeId == 0 ? null : trnProductStockDetail.matSizeId;
-            trnProductStockDetail.accessoryId = trnProductStockDetail.accessoryId == 0 ? null : trnProductStockDetail.accessoryId;
+        {  
+            using (var transaction = new TransactionScope())
+            {
+                TrnProductStockDetail trnProductStockDetailToPost = Mapper.Map<VMTrnProductStockDetail, TrnProductStockDetail>(trnProductStockDetail);
+                trnProductStockDetailToPost.createdOn = DateTime.Now;
+                trnProductStockDetailToPost.createdBy = _LoggedInuserId;
 
-            TrnProductStockDetail trnProductStockDetailToPost = Mapper.Map<VMTrnProductStockDetail, TrnProductStockDetail>(trnProductStockDetail);
-            trnProductStockDetailToPost.createdOn = DateTime.Now;
-            trnProductStockDetailToPost.createdBy = _LoggedInuserId;
+                repo.TrnProductStockDetails.Add(trnProductStockDetailToPost);
 
-            repo.TrnProductStockDetails.Add(trnProductStockDetailToPost);
-            repo.SaveChanges();
-            return new ResponseMessage(trnProductStockDetailToPost.id, resourceManager.GetString("TrnProductStockAdded"), ResponseType.Success);
+                _trnProductStockService.AddProductInStock(trnProductStockDetail, false,0);
+
+                repo.SaveChanges();
+                transaction.Complete();
+                return new ResponseMessage(trnProductStockDetailToPost.id, resourceManager.GetString("TrnProductStockAdded"), ResponseType.Success);
+            }
         }
 
         public ResponseMessage putTrnProductStockDetail(VMTrnProductStockDetail trnProductStockDetail)
         {
-            trnProductStockDetail.fwrShadeId = trnProductStockDetail.fwrShadeId == 0 ? null : trnProductStockDetail.fwrShadeId;
-            trnProductStockDetail.fomSizeId = trnProductStockDetail.fomSizeId == 0 ? null : trnProductStockDetail.fomSizeId;
-            trnProductStockDetail.matSizeId = trnProductStockDetail.matSizeId == 0 ? null : trnProductStockDetail.matSizeId;
-            trnProductStockDetail.accessoryId = trnProductStockDetail.accessoryId == 0 ? null : trnProductStockDetail.accessoryId;
-
+            decimal qty = 0;
             var trnProductStockDetailToPut = repo.TrnProductStockDetails.Where(q => q.id == trnProductStockDetail.id).FirstOrDefault();
 
             trnProductStockDetailToPut.categoryId = trnProductStockDetail.categoryId;
@@ -105,11 +106,15 @@ namespace IMSWebApi.Services
             trnProductStockDetailToPut.matSizeId = trnProductStockDetail.matSizeId;
             trnProductStockDetailToPut.accessoryId = trnProductStockDetail.accessoryId;
 
+            qty = trnProductStockDetail.stock - trnProductStockDetailToPut.stock;
             //trnProductStockToPut.locationId = trnProductStock.locationId;
             trnProductStockDetailToPut.stock = trnProductStockDetail.stock;
 
             trnProductStockDetailToPut.updatedBy = _LoggedInuserId;
             trnProductStockDetailToPut.updatedOn = DateTime.Now;
+            
+            _trnProductStockService.AddProductInStock(trnProductStockDetail, true, qty);
+
 
             repo.SaveChanges();
             return new ResponseMessage(trnProductStockDetail.id, resourceManager.GetString("TrnProductStockUpdated"), ResponseType.Success);
