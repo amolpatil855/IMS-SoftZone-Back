@@ -179,6 +179,14 @@ namespace IMSWebApi.Controllers
         }
 
         [HttpGet]
+        [Route("api/Common/GetMatThicknessLookUpForCustomMat")]
+        public IHttpActionResult GetMatThicknessLookUpForCustomMat()
+        {
+            var result = _matThicknessService.getMatThicknessLookUpForCustomMat();
+            return Ok(result);
+        } 
+
+        [HttpGet]
         [Route("api/Common/GetSupplierLookUp")]
         public IHttpActionResult GetSupplierLookUp()
         {
