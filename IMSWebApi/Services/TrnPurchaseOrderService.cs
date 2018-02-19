@@ -130,6 +130,11 @@ namespace IMSWebApi.Services
 
                 repo.TrnPurchaseOrders.Add(purchaseOrderToPost);
 
+                foreach (var poItem in purchaseOrderToPost.TrnPurchaseOrderItems)
+                {
+                    _trnProductStockService.AddpoIteminStock(poItem, false, 0);
+                }
+                
                 financialYear.poNumber += 1; 
                 repo.SaveChanges();
                 transaction.Complete();
@@ -157,7 +162,7 @@ namespace IMSWebApi.Services
                 purchaseOrderToPut.financialYear = purchaseOrder.financialYear;
 
                 updatePOItems(purchaseOrder);
-
+                
                 purchaseOrderToPut.updatedOn = DateTime.Now;
                 purchaseOrderToPut.updatedBy = _LoggedInuserId;
                 repo.SaveChanges();
@@ -170,6 +175,7 @@ namespace IMSWebApi.Services
         public void updatePOItems(VMTrnPurchaseOrder purchaseOrder)
         {
             var purchaseOrderToPut = repo.TrnPurchaseOrders.Where(q => q.id == purchaseOrder.id).FirstOrDefault();
+            decimal qty = 0;
             List<TrnPurchaseOrderItem> itemsToRemove = new List<TrnPurchaseOrderItem>();
             foreach (var poItem in purchaseOrderToPut.TrnPurchaseOrderItems)
 	        {
@@ -178,7 +184,11 @@ namespace IMSWebApi.Services
                     continue;
                 }
                 else
+                {
                     itemsToRemove.Add(poItem);
+                    qty = -poItem.orderQuantity;
+                    _trnProductStockService.AddpoIteminStock(poItem, true, qty);
+                }
 	        }
             
             repo.TrnPurchaseOrderItems.RemoveRange(itemsToRemove);
@@ -189,6 +199,7 @@ namespace IMSWebApi.Services
                 if (purchaseOrderToPut.TrnPurchaseOrderItems.Any(y => y.id == x.id))
                 {
                     var poItemToPut = repo.TrnPurchaseOrderItems.Where(p => p.id == x.id).FirstOrDefault();
+                    qty = x.orderQuantity - poItemToPut.orderQuantity;
                     poItemToPut.categoryId = x.categoryId;
                     poItemToPut.collectionId = x.collectionId;
                     poItemToPut.shadeId = x.shadeId;
@@ -205,6 +216,8 @@ namespace IMSWebApi.Services
                     poItemToPut.updatedBy = _LoggedInuserId;
                     repo.SaveChanges();
 
+                    _trnProductStockService.AddpoIteminStock(poItemToPut, true, qty);
+
                 }
                 else
                 {
@@ -213,6 +226,7 @@ namespace IMSWebApi.Services
                     poItem.createdBy = _LoggedInuserId;
                     poItem.createdOn = DateTime.Now;
                     repo.TrnPurchaseOrderItems.Add(poItem);
+                    _trnProductStockService.AddpoIteminStock(poItem, false, 0);
                     repo.SaveChanges();
                 }
             });
