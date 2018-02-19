@@ -115,22 +115,23 @@ namespace IMSWebApi.Services
                 var purchaseOrderItems = purchaseOrderToPost.TrnPurchaseOrderItems.ToList();
                 foreach (var poItems in purchaseOrderItems)
                 {
+                    poItems.balanceQuantity = poItems.orderQuantity;
                     poItems.createdOn = DateTime.Now;
                     poItems.createdBy = _LoggedInuserId;
                 }
                 
                 var financialYear = repo.MstFinancialYears.Where(f=>f.startDate <= purchaseOrder.orderDate && f.endDate >= purchaseOrder.orderDate).FirstOrDefault();
                 string orderNo = generateOrderNumber.orderNumber(financialYear.startDate.ToString("yy"), financialYear.endDate.ToString("yy"), financialYear.poNumber);
-                purchaseOrderToPost.orderNumber = 1;
-                purchaseOrder.financialYear = financialYear.financialYear;
-                purchaseOrder.status = PurchaseOrderStatus.Generated.ToString();
+                purchaseOrderToPost.orderNumber = orderNo;
+                purchaseOrderToPost.financialYear = financialYear.financialYear;
+                purchaseOrderToPost.status = PurchaseOrderStatus.Generated.ToString();
                 purchaseOrderToPost.createdOn = DateTime.Now;
                 purchaseOrderToPost.createdBy = _LoggedInuserId;
-
+                
                 repo.TrnPurchaseOrders.Add(purchaseOrderToPost);
 
                 foreach (var poItem in purchaseOrderToPost.TrnPurchaseOrderItems)
-                {
+                {   
                     _trnProductStockService.AddpoIteminStock(poItem, false, 0);
                 }
                 
@@ -156,6 +157,7 @@ namespace IMSWebApi.Services
                 purchaseOrderToPut.orderNumber = purchaseOrder.orderNumber;
                 purchaseOrderToPut.orderDate = purchaseOrder.orderDate;
                 purchaseOrderToPut.expectedDeliveryDate = purchaseOrder.expectedDeliveryDate;
+                purchaseOrderToPut.totalAmount = purchaseOrder.totalAmount;
                 purchaseOrderToPut.remark = purchaseOrder.remark;
                 purchaseOrderToPut.status = purchaseOrder.status;
                 purchaseOrderToPut.financialYear = purchaseOrder.financialYear;
@@ -203,13 +205,19 @@ namespace IMSWebApi.Services
                     poItemToPut.collectionId = x.collectionId;
                     poItemToPut.shadeId = x.shadeId;
                     poItemToPut.fomSizeId = x.fomSizeId;
+                    poItemToPut.accessoryId = x.accessoryId;
                     poItemToPut.matSizeId = x.matSizeId;
-                    poItemToPut.sizeCode = x.sizeCode;
+                    poItemToPut.matQualityId = x.matQualityId;
+                    poItemToPut.matThicknessId = x.matThicknessId;
+                    poItemToPut.matSizeCode = x.matSizeCode;
                     poItemToPut.orderQuantity = x.orderQuantity;
                     poItemToPut.balanceQuantity = x.balanceQuantity;
                     poItemToPut.orderType = x.orderType;
                     poItemToPut.rate = x.rate;
+                    poItemToPut.rateWithGST = x.rateWithGST;
                     poItemToPut.amount = x.amount;
+                    poItemToPut.amountWithGST = x.amountWithGST;
+                    poItemToPut.gst = x.gst;
                     poItemToPut.status = x.status;
                     poItemToPut.updatedOn = DateTime.Now;
                     poItemToPut.updatedBy = _LoggedInuserId;

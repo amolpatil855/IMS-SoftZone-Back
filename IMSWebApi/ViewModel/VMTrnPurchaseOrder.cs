@@ -19,11 +19,12 @@ namespace IMSWebApi.ViewModel
         [Required]
         public long supplierId { get; set; }
         [Required]
-        public int orderNumber { get; set; }
+        public long locationId { get; set; }
+        [MaxLength(50)]
+        public string orderNumber { get; set; }
         public Nullable<DateTime> orderDate { get; set; }
         public Nullable<DateTime> expectedDeliveryDate { get; set; }
-        [Required]
-        public long locationId { get; set; }
+        public Nullable<int> totalAmount { get; set; }
         [MaxLength(100)]
         public string remark { get; set; }
         [MaxLength(20)]

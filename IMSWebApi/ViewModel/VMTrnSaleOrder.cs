@@ -10,7 +10,7 @@ namespace IMSWebApi.ViewModel
     {
         public long id { get; set; }
         [Required]
-        [MaxLength(10)]
+        [MaxLength(50)]
         public string orderNumber { get; set; }
         [Required]
         public long customerId { get; set; }
@@ -23,6 +23,7 @@ namespace IMSWebApi.ViewModel
         public Nullable<long> referById { get; set; }
         public DateTime orderDate { get; set; }
         public Nullable<DateTime> expectedDeliveryDate { get; set; }
+        public Nullable<int> totalAmount { get; set; }
         [MaxLength(100)]
         public string remark { get; set; }
         [Required]

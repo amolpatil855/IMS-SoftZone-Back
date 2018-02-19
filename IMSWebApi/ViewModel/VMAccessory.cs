@@ -25,8 +25,7 @@ namespace IMSWebApi.ViewModel
         [Required]
         [MaxLength(20)]
         public string size { get; set; }
-        [Required]
-        [MaxLength(10)]
+        [MaxLength(500)]
         public string description { get; set; }
         
         public virtual VMCategory MstCategory { get; set; }
