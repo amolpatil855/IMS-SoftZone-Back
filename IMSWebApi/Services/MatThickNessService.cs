@@ -68,6 +68,13 @@ namespace IMSWebApi.Services
                 .Select(q => new VMLookUpItem { value = q.id, label = q.thicknessCode }).ToList();
         }
 
+        public List<VMLookUpItem> getMatThicknessLookUpForCustomMat()
+        {
+            return repo.MstMatThicknesses
+                .OrderBy(s => s.thicknessCode)
+                .Select(q => new VMLookUpItem { value = q.id, label = q.thicknessCode + " (" +q.size+")"}).ToList();
+        }
+
         public ResponseMessage postMatThickness(VMMatThickness matThickness)
         {
             MstMatThickness matThicknessToPost = Mapper.Map<VMMatThickness, MstMatThickness>(matThickness);

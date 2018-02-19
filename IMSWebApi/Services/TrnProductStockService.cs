@@ -319,5 +319,33 @@ namespace IMSWebApi.Services
                 repo.SaveChanges();
             }
         }
+
+        public void AddpoIteminStock(TrnPurchaseOrderItem purchaseOrderItem,bool isUpdate,decimal qty)
+        {
+            TrnProductStock product = repo.TrnProductStocks.Where(z => z.categoryId == purchaseOrderItem.categoryId
+                                                      && z.collectionId == purchaseOrderItem.collectionId
+                                                      && z.fwrShadeId == purchaseOrderItem.shadeId
+                                                      && z.fomSizeId == purchaseOrderItem.fomSizeId
+                                                      && z.matSizeId == purchaseOrderItem.matSizeId
+                                                      && z.accessoryId == purchaseOrderItem.matSizeId).FirstOrDefault();
+                if (product != null)
+                {
+                    product.poQuantity = isUpdate ? product.poQuantity + qty : product.poQuantity + purchaseOrderItem.orderQuantity;
+                    repo.SaveChanges();
+                }
+                else
+                {
+                    TrnProductStock productStockToAdd = new TrnProductStock();
+                    productStockToAdd.categoryId = purchaseOrderItem.categoryId;
+                    productStockToAdd.collectionId = purchaseOrderItem.collectionId;
+                    productStockToAdd.fwrShadeId = purchaseOrderItem.shadeId;
+                    productStockToAdd.fomSizeId = purchaseOrderItem.fomSizeId;
+                    productStockToAdd.matSizeId = purchaseOrderItem.matSizeId;
+                    productStockToAdd.poQuantity = purchaseOrderItem.orderQuantity;
+                    productStockToAdd.stock = productStockToAdd.soQuanity = 0;
+                    repo.TrnProductStocks.Add(productStockToAdd);
+                    repo.SaveChanges();
+                }
+        }
     }
 }
