@@ -19,9 +19,7 @@ namespace IMSWebApi.ViewModel
         public long locationId { get; set; }
         [Required]
         public int totalAmount { get; set; }
-        public Nullable<int> amountPaid { get; set; }
-        public Nullable<int> balanceAmount { get; set; }
-
+        
         public virtual VMCompanyLocation MstCompanyLocation { get; set; }
         public virtual VMTrnPurchaseOrder TrnPurchaseOrder { get; set; }
         public virtual List<VMTrnGoodReceiveNoteItem> TrnGoodReceiveNoteItems { get; set; }
