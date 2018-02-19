@@ -43,6 +43,7 @@ namespace IMSWebApi.ViewModel
         [MaxLength(20)]
         public string accountPersonPhone { get; set; }
         public Nullable<long> userId { get; set; }
+        public Nullable<int> creditPeriodDays { get; set; }
         public string userName { get; set; }
         
         public virtual VMUser MstUser { get; set; }

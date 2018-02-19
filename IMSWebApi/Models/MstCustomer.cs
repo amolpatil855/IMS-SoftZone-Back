@@ -36,6 +36,7 @@ namespace IMSWebApi.Models
         public string accountPersonEmail { get; set; }
         public string accountPersonPhone { get; set; }
         public Nullable<long> userId { get; set; }
+        public Nullable<int> creditPeriodDays { get; set; }
         public System.DateTime createdOn { get; set; }
         public long createdBy { get; set; }
         public Nullable<System.DateTime> updatedOn { get; set; }

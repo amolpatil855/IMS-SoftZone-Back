@@ -44,8 +44,7 @@ namespace IMSWebApi.ViewModel
         public string dispatchPersonEmail { get; set; }
         [MaxLength(20)]
         public string dispatchPersonPhone { get; set; }
-
-
+        public Nullable<int> creditPeriodDays { get; set; }
 
         public virtual List<VMSupplierAddress> MstSupplierAddresses { get; set; }
     }

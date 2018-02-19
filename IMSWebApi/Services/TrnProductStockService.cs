@@ -24,6 +24,46 @@ namespace IMSWebApi.Services
             resourceManager = new ResourceManager("IMSWebApi.App_Data.Resource", Assembly.GetExecutingAssembly());
         }
 
+        public ListResult<VMTrnProductStock> getTrnProductStock(int pageSize, int page, string search)
+         {	        
+		 List<VMTrnProductStock> trnProductStockView;
+             if (pageSize > 0)	           
+             {	            
+                 var result = repo.TrnProductStocks.Where(q => !string.IsNullOrEmpty(search)	             
+                     ? q.MstCategory.code.StartsWith(search)	                   
+                     || q.MstCollection.collectionCode.StartsWith(search)	       
+                     || q.MstFWRShade.serialNumber.ToString().StartsWith(search)	
+                     || q.MstMatSize.sizeCode.StartsWith(search)
+                     || q.MstFomSize.sizeCode.StartsWith(search)
+					 || q.stock.ToString().StartsWith(search): true)
+                     .OrderBy(q => q.id).Skip(page * pageSize).Take(pageSize).ToList();	            
+                 trnProductStockView = Mapper.Map<List<TrnProductStock>, List<VMTrnProductStock>>(result);	
+             }	            
+			 else
+             {	             
+                 var result = repo.TrnProductStocks.Where(q => !string.IsNullOrEmpty(search)	              
+                     ? q.MstCategory.code.StartsWith(search)	                 
+                     || q.MstCollection.collectionCode.StartsWith(search)	     
+                     || q.MstFWRShade.serialNumber.ToString().StartsWith(search)
+                     || q.MstMatSize.sizeCode.StartsWith(search)	            
+                     || q.MstFomSize.sizeCode.StartsWith(search)	            
+                     || q.stock.ToString().StartsWith(search) : true).ToList();	
+                 trnProductStockView = Mapper.Map<List<TrnProductStock>, List<VMTrnProductStock>>(result);	                
+             }	             
+             return new ListResult<VMTrnProductStock>	       
+             {	             
+			 Data = trnProductStockView,
+                 TotalCount = repo.TrnProductStocks.Where(q => !string.IsNullOrEmpty(search)	             
+                     ? q.MstCategory.code.StartsWith(search)	                   
+					 || q.MstCollection.collectionCode.StartsWith(search)
+                     || q.MstFWRShade.serialNumber.ToString().StartsWith(search)	                  
+                     || q.MstMatSize.sizeCode.StartsWith(search)	                    
+                     || q.MstFomSize.sizeCode.StartsWith(search)	                    
+                     || q.stock.ToString().StartsWith(search) : true).Count(),	        
+                 Page = page	              
+             };	          
+         }	         
+
         public ListResult<VMTrnProductStock> getFWRProductStock(int pageSize, int page, string search)
         {
             List<VMTrnProductStock> FWRProductStockView;
@@ -184,7 +224,7 @@ namespace IMSWebApi.Services
                 productDetails.flatRate = TrnProductStock.MstFWRShade.MstQuality.flatRate;
                 productDetails.purchaseFlatRate = TrnProductStock.MstFWRShade.MstQuality.purchaseFlatRate;
                 productDetails.maxFlatRateDisc = TrnProductStock.MstFWRShade.MstQuality.maxFlatRateDisc;
-                productDetails.stock = TrnProductStock.stock;
+                productDetails.stock = TrnProductStock.stock + TrnProductStock.poQuantity - TrnProductStock.soQuanity;
                 productDetails.gst = TrnProductStock.MstFWRShade.MstQuality.MstHsn.gst;
             }
             if (categoryCode != null && categoryCode.Equals("Foam"))
@@ -199,10 +239,11 @@ namespace IMSWebApi.Services
                 productDetails.suggestedMM = TrnProductStock.MstFomSize.MstFomSuggestedMM.suggestedMM;
                 productDetails.purchaseRatePerMM = TrnProductStock.MstFomSize.MstFomDensity.purchaseRatePerMM;
                 productDetails.purchaseRatePerKG = TrnProductStock.MstFomSize.MstFomDensity.purchaseRatePerKG;
+                productDetails.maxDiscount = TrnProductStock.MstFomSize.MstQuality.maxDiscount;
                 productDetails.length = TrnProductStock.MstFomSize.length;
                 productDetails.width = TrnProductStock.MstFomSize.width;
                 productDetails.gst = TrnProductStock.MstFomSize.MstQuality.MstHsn.gst;
-                productDetails.stock = TrnProductStock.stock;
+                productDetails.stock = TrnProductStock.stock + TrnProductStock.poQuantity - TrnProductStock.soQuanity;
             }
             if (categoryCode != null && categoryCode.Equals("Mattress"))
             {
@@ -214,7 +255,7 @@ namespace IMSWebApi.Services
                     productDetails.rate = TrnProductStock.MstMatSize.rate;
                     productDetails.purchaseRate = TrnProductStock.MstMatSize.purchaseRate;
                     productDetails.gst = TrnProductStock.MstMatSize.MstQuality.MstHsn.gst;
-                    productDetails.stock = TrnProductStock.stock;
+                    productDetails.stock = TrnProductStock.stock + TrnProductStock.poQuantity - TrnProductStock.soQuanity;
                 }
                 else if(qualityId!=null)
                 {
@@ -236,6 +277,7 @@ namespace IMSWebApi.Services
                 productDetails.sellingRate = TrnProductStock.MstAccessory.sellingRate;
                 productDetails.purchaseRate = TrnProductStock.MstAccessory.purchaseRate;
                 productDetails.gst = TrnProductStock.MstAccessory.MstHsn.gst;
+                productDetails.stock = TrnProductStock.stock + TrnProductStock.poQuantity - TrnProductStock.soQuanity;
             }
             //VMProductStock = Mapper.Map<TrnProductStock, VMTrnProductStock>(TrnProductStock);
             //VMProductStock.MstCollection.MstCategory = null;

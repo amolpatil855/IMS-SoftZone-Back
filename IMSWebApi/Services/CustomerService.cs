@@ -165,6 +165,7 @@ namespace IMSWebApi.Services
                 customerToPut.accountPersonName = customer.accountPersonName;
                 customerToPut.accountPersonEmail = customer.accountPersonEmail;
                 customerToPut.accountPersonPhone = customer.accountPersonPhone;
+                customerToPut.creditPeriodDays = customer.creditPeriodDays;
                 customerToPut.MstCustomerAddresses = customerAddressDetails;
                 customerToPut.updatedOn = DateTime.Now;
                 customerToPut.updatedBy = _LoggedInuserId;
