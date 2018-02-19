@@ -24,12 +24,12 @@ namespace IMSWebApi.Models
             this.MstMatSizes = new HashSet<MstMatSize>();
             this.MstQualities = new HashSet<MstQuality>();
             this.MstFWRShades = new HashSet<MstFWRShade>();
-            this.TrnGoodReceiveNoteItems = new HashSet<TrnGoodReceiveNoteItem>();
             this.TrnProductStockDetails = new HashSet<TrnProductStockDetail>();
             this.TrnProductStocks = new HashSet<TrnProductStock>();
-            this.TrnPurchaseOrderItems = new HashSet<TrnPurchaseOrderItem>();
-            this.TrnSaleOrderItems = new HashSet<TrnSaleOrderItem>();
             this.MstFomSizes = new HashSet<MstFomSize>();
+            this.TrnGoodReceiveNoteItems = new HashSet<TrnGoodReceiveNoteItem>();
+            this.TrnSaleOrderItems = new HashSet<TrnSaleOrderItem>();
+            this.TrnPurchaseOrderItems = new HashSet<TrnPurchaseOrderItem>();
         }
     
         public long id { get; set; }
@@ -48,11 +48,11 @@ namespace IMSWebApi.Models
         public virtual ICollection<MstMatSize> MstMatSizes { get; set; }
         public virtual ICollection<MstQuality> MstQualities { get; set; }
         public virtual ICollection<MstFWRShade> MstFWRShades { get; set; }
-        public virtual ICollection<TrnGoodReceiveNoteItem> TrnGoodReceiveNoteItems { get; set; }
         public virtual ICollection<TrnProductStockDetail> TrnProductStockDetails { get; set; }
         public virtual ICollection<TrnProductStock> TrnProductStocks { get; set; }
-        public virtual ICollection<TrnPurchaseOrderItem> TrnPurchaseOrderItems { get; set; }
-        public virtual ICollection<TrnSaleOrderItem> TrnSaleOrderItems { get; set; }
         public virtual ICollection<MstFomSize> MstFomSizes { get; set; }
+        public virtual ICollection<TrnGoodReceiveNoteItem> TrnGoodReceiveNoteItems { get; set; }
+        public virtual ICollection<TrnSaleOrderItem> TrnSaleOrderItems { get; set; }
+        public virtual ICollection<TrnPurchaseOrderItem> TrnPurchaseOrderItems { get; set; }
     }
 }

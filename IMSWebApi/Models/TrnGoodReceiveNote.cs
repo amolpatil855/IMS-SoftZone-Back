@@ -20,13 +20,11 @@ namespace IMSWebApi.Models
         }
     
         public long id { get; set; }
-        public int grnNumber { get; set; }
+        public string grnNumber { get; set; }
         public Nullable<System.DateTime> grnDate { get; set; }
         public long purchaseOrderId { get; set; }
         public long locationId { get; set; }
         public int totalAmount { get; set; }
-        public Nullable<int> amountPaid { get; set; }
-        public Nullable<int> balanceAmount { get; set; }
         public System.DateTime createdOn { get; set; }
         public long createdBy { get; set; }
         public Nullable<System.DateTime> updatedOn { get; set; }

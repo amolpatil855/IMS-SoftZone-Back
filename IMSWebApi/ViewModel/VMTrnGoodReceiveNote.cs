@@ -10,7 +10,8 @@ namespace IMSWebApi.ViewModel
     {
         public long id { get; set; }
         [Required]
-        public int grnNumber { get; set; }
+        [MaxLength(50)]
+        public string grnNumber { get; set; }
         public Nullable<DateTime> grnDate { get; set; }
         [Required]
         public long purchaseOrderId { get; set; }

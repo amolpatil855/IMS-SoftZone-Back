@@ -27,9 +27,10 @@ namespace IMSWebApi.Models
         public Nullable<int> saleOrderNumber { get; set; }
         public long supplierId { get; set; }
         public long locationId { get; set; }
-        public int orderNumber { get; set; }
+        public string orderNumber { get; set; }
         public Nullable<System.DateTime> orderDate { get; set; }
         public Nullable<System.DateTime> expectedDeliveryDate { get; set; }
+        public Nullable<int> totalAmount { get; set; }
         public string remark { get; set; }
         public string status { get; set; }
         public string financialYear { get; set; }
@@ -40,9 +41,9 @@ namespace IMSWebApi.Models
     
         public virtual MstCompanyLocation MstCompanyLocation { get; set; }
         public virtual MstCourier MstCourier { get; set; }
+        public virtual MstSupplier MstSupplier { get; set; }
         public virtual ICollection<TrnGoodReceiveNote> TrnGoodReceiveNotes { get; set; }
         public virtual TrnSaleOrder TrnSaleOrder { get; set; }
         public virtual ICollection<TrnPurchaseOrderItem> TrnPurchaseOrderItems { get; set; }
-        public virtual MstSupplier MstSupplier { get; set; }
     }
 }
