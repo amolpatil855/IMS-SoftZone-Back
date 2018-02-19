@@ -91,5 +91,15 @@ namespace IMSWebApi.Controllers
         {
             return Ok();
         }
+
+        // GET api/TrnPurchaseOrder/1
+        [ApiAuthorize(Roles = "Administrator")]
+        [HttpPut]
+        [Route("api/TrnPurchaseOrder/ApprovePO/{id}")]
+        public IHttpActionResult ApprovePO(long id)
+        {
+            var result = _trnPurchaseOrderService.approvePO(id);
+            return Ok(result);
+        }
     }
 }

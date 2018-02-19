@@ -324,7 +324,7 @@ namespace IMSWebApi.Services
             }
         }
 
-        public void AddpoIteminStock(TrnPurchaseOrderItem purchaseOrderItem,bool isUpdate,decimal qty)
+        public void AddpoIteminStock(TrnPurchaseOrderItem purchaseOrderItem)
         {
             TrnProductStock product = repo.TrnProductStocks.Where(z => z.categoryId == purchaseOrderItem.categoryId
                                                       && z.collectionId == purchaseOrderItem.collectionId
@@ -334,7 +334,7 @@ namespace IMSWebApi.Services
                                                       && z.accessoryId == purchaseOrderItem.matSizeId).FirstOrDefault();
                 if (product != null)
                 {
-                    product.poQuantity = isUpdate ? product.poQuantity + qty : product.poQuantity + purchaseOrderItem.orderQuantity;
+                    product.poQuantity = product.poQuantity + purchaseOrderItem.orderQuantity;
                     product.updatedOn = DateTime.Now;
                     product.updatedBy = _LoggedInuserId;
                     repo.SaveChanges();
