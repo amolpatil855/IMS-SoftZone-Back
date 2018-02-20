@@ -31,6 +31,10 @@ namespace IMSWebApi.ViewModel
         public string status { get; set; }
         [MaxLength(10)]
         public string financialYear { get; set; }
+
+        public string courierName { get; set; }
+        public string supplierName { get; set; }
+        public string shippingAddress { get; set; }
         
         public virtual VMCompanyLocation MstCompanyLocation { get; set; }
         public virtual VMCourier MstCourier { get; set; }
