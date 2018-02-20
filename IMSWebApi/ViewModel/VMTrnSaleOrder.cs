@@ -29,7 +29,6 @@ namespace IMSWebApi.ViewModel
         [Required]
         [MaxLength(20)]
         public string status { get; set; }
-        [Required]
         [MaxLength(10)]
         public string financialYear { get; set; }
         

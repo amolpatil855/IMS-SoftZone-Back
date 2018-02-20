@@ -324,4 +324,7 @@
   <data name="POApproved" xml:space="preserve">
     <value>Purchase Order is Approved</value>
   </data>
+  <data name="SOAdded" xml:space="preserve">
+    <value>Sale Order Generated Successfully</value>
+  </data>
 </root>

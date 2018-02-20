@@ -41,13 +41,14 @@ namespace IMSWebApi.Controllers
         // POST api/TrnSaleOrder
         [ApiAuthorize(AccessLevel = "salesorder")]
         [HttpPost]
-        public IHttpActionResult PostTrnSaleOrder(VMTrnSaleOrder salesorder)
+        public IHttpActionResult PostTrnSaleOrder(VMTrnSaleOrder saleorder)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            return Ok();
+            var result = _trnSaleOrderService.postSaleOrder(saleorder);
+            return Ok(result);
         }
 
         // PUT api/TrnSaleOrder

@@ -583,6 +583,15 @@ namespace IMSWebApi.App_Data {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sale Order Generated Successfully.
+        /// </summary>
+        public static string SOAdded {
+            get {
+                return ResourceManager.GetString("SOAdded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Supplier Added Successfully.
         /// </summary>
         public static string SupplierAdded {
