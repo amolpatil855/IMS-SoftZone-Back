@@ -20,6 +20,8 @@ namespace IMSWebApi.ViewModel
         public long locationId { get; set; }
         [Required]
         public decimal stock { get; set; }
+        public Nullable<decimal> stockInKg { get; set; }
+        public Nullable<decimal> kgPerUnit { get; set; }
 
         public virtual VMAccessory MstAccessory { get; set; }
         public virtual VMCategory MstCategory { get; set; }

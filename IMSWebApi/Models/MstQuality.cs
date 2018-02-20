@@ -22,8 +22,8 @@ namespace IMSWebApi.Models
             this.MstFWRShades = new HashSet<MstFWRShade>();
             this.MstMatSizes = new HashSet<MstMatSize>();
             this.MstFomSizes = new HashSet<MstFomSize>();
-            this.TrnGoodReceiveNoteItems = new HashSet<TrnGoodReceiveNoteItem>();
             this.TrnPurchaseOrderItems = new HashSet<TrnPurchaseOrderItem>();
+            this.TrnGoodReceiveNoteItems = new HashSet<TrnGoodReceiveNoteItem>();
         }
     
         public long id { get; set; }
@@ -58,8 +58,8 @@ namespace IMSWebApi.Models
         public virtual MstHsn MstHsn { get; set; }
         public virtual ICollection<MstMatSize> MstMatSizes { get; set; }
         public virtual ICollection<MstFomSize> MstFomSizes { get; set; }
-        public virtual ICollection<TrnGoodReceiveNoteItem> TrnGoodReceiveNoteItems { get; set; }
         public virtual ICollection<TrnPurchaseOrderItem> TrnPurchaseOrderItems { get; set; }
         public virtual MstCategory MstCategory { get; set; }
+        public virtual ICollection<TrnGoodReceiveNoteItem> TrnGoodReceiveNoteItems { get; set; }
     }
 }

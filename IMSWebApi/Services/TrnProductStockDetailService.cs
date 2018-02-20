@@ -81,12 +81,13 @@ namespace IMSWebApi.Services
             using (var transaction = new TransactionScope())
             {
                 TrnProductStockDetail trnProductStockDetailToPost = Mapper.Map<VMTrnProductStockDetail, TrnProductStockDetail>(trnProductStockDetail);
+                trnProductStockDetailToPost.kgPerUnit = trnProductStockDetail.stockInKg!=null ? trnProductStockDetailToPost.stockInKg / trnProductStockDetailToPost.stock : null;
                 trnProductStockDetailToPost.createdOn = DateTime.Now;
                 trnProductStockDetailToPost.createdBy = _LoggedInuserId;
 
                 repo.TrnProductStockDetails.Add(trnProductStockDetailToPost);
 
-                _trnProductStockService.AddProductInStock(trnProductStockDetail, false,0);
+                _trnProductStockService.AddProductInStock(trnProductStockDetail, false,0,null);
 
                 repo.SaveChanges();
                 transaction.Complete();
@@ -96,7 +97,8 @@ namespace IMSWebApi.Services
 
         public ResponseMessage putTrnProductStockDetail(VMTrnProductStockDetail trnProductStockDetail)
         {
-            decimal qty = 0;
+            decimal stock = 0;
+            decimal? stockInKg = null;
             var trnProductStockDetailToPut = repo.TrnProductStockDetails.Where(q => q.id == trnProductStockDetail.id).FirstOrDefault();
 
             trnProductStockDetailToPut.categoryId = trnProductStockDetail.categoryId;
@@ -106,14 +108,15 @@ namespace IMSWebApi.Services
             trnProductStockDetailToPut.matSizeId = trnProductStockDetail.matSizeId;
             trnProductStockDetailToPut.accessoryId = trnProductStockDetail.accessoryId;
 
-            qty = trnProductStockDetail.stock - trnProductStockDetailToPut.stock;
+            stock = trnProductStockDetail.stock - trnProductStockDetailToPut.stock;
+            stockInKg = trnProductStockDetail.stockInKg - trnProductStockDetailToPut.stockInKg;
             //trnProductStockToPut.locationId = trnProductStock.locationId;
             trnProductStockDetailToPut.stock = trnProductStockDetail.stock;
 
             trnProductStockDetailToPut.updatedBy = _LoggedInuserId;
             trnProductStockDetailToPut.updatedOn = DateTime.Now;
-            
-            _trnProductStockService.AddProductInStock(trnProductStockDetail, true, qty);
+
+            _trnProductStockService.AddProductInStock(trnProductStockDetail, true, stock, stockInKg);
 
 
             repo.SaveChanges();
