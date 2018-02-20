@@ -279,7 +279,7 @@ namespace IMSWebApi.Services
 
                     productDetails.custRatePerSqFeet = customSizeMat.custRatePerSqFeet;
                     productDetails.maxDiscount = customSizeMat.maxDiscount;
-                    
+                    productDetails.purchaseDiscount = customSizeMat.MstCollection.purchaseDiscount;
                     productDetails.gst = customSizeMat.MstHsn.gst;
                 }
             }

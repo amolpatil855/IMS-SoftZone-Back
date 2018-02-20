@@ -112,6 +112,8 @@ namespace IMSWebApi.Services
             stockInKg = trnProductStockDetail.stockInKg - trnProductStockDetailToPut.stockInKg;
             //trnProductStockToPut.locationId = trnProductStock.locationId;
             trnProductStockDetailToPut.stock = trnProductStockDetail.stock;
+            trnProductStockDetailToPut.stockInKg = trnProductStockDetail.stockInKg;
+            trnProductStockDetailToPut.kgPerUnit = trnProductStockDetailToPut.stockInKg / trnProductStockDetailToPut.stock;
 
             trnProductStockDetailToPut.updatedBy = _LoggedInuserId;
             trnProductStockDetailToPut.updatedOn = DateTime.Now;

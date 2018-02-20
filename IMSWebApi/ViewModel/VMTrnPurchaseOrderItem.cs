@@ -36,7 +36,7 @@ namespace IMSWebApi.ViewModel
         [MaxLength(20)]
         public string status { get; set; }
 
-        public string categotryName { get; set; }
+        public string categoryName { get; set; }
         public string collectionName { get; set; }
         public string serialno { get; set; }
         public string size { get; set; }

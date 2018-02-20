@@ -66,9 +66,9 @@ namespace IMSWebApi.Common
             {
                 //string serialOrSize = poItem.shadeId != null ? poItem.serialno : poItem.fomSizeId != null ? poItem.size : poItem.matSizeId != null ? poItem.size : poItem.accessoryId;
                 string serialOrSize = poItem.shadeId != null ? poItem.serialno : poItem.size;
-                rows += "<tr><td>" + poItem.categotryName + "</td><td> " + poItem.collectionName + "</td><td> " + serialOrSize + "</td><td> " 
+                rows += "<tr><td>" + poItem.categoryName + "</td><td> " + poItem.collectionName + "</td><td> " + serialOrSize + "</td><td> " 
                     + poItem.orderQuantity + "</td><td> " + poItem.orderType+
-                        "</td><td> " + poItem.rate + "</td><td> " + poItem.amount + "</td> </tr>";  
+                        "</td><td> " + poItem.rate + "</td><td> " + poItem.amountWithGST + "</td> </tr>";  
             }  
             sbEmailDetails = sbEmailDetails.Replace("@rows",rows );
 

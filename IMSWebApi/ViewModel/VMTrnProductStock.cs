@@ -21,7 +21,8 @@ namespace IMSWebApi.ViewModel
         public Nullable<decimal> stockInKg { get; set; }
         [Required]
         public decimal soQuanity { get; set; }
-        public Nullable<decimal> poQuantity { get; set; }
+        [Required]
+        public decimal poQuantity { get; set; }
         
         public virtual VMAccessory MstAccessory { get; set; }
         public virtual VMCategory MstCategory { get; set; }
