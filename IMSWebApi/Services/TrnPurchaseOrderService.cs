@@ -21,6 +21,7 @@ namespace IMSWebApi.Services
         ResourceManager resourceManager = null;
         TrnProductStockService _trnProductStockService = null;
         GenerateOrderNumber generateOrderNumber = new GenerateOrderNumber();
+        SendEmail emailNotification = new SendEmail();
 
         public TrnPurchaseOrderService()
         {
@@ -113,6 +114,7 @@ namespace IMSWebApi.Services
             {
                 TrnPurchaseOrder purchaseOrderToPost = Mapper.Map<VMTrnPurchaseOrder, TrnPurchaseOrder>(purchaseOrder);
                 var purchaseOrderItems = purchaseOrderToPost.TrnPurchaseOrderItems.ToList();
+               
                 foreach (var poItems in purchaseOrderItems)
                 {
                     poItems.status = PurchaseOrderStatus.Generated.ToString();
@@ -133,6 +135,11 @@ namespace IMSWebApi.Services
 
                 financialYear.poNumber += 1; 
                 repo.SaveChanges();
+                MstUser loggedInUser = repo.MstUsers.Where(u=>u.id == _LoggedInuserId).FirstOrDefault();
+                string adminEmail = repo.MstUsers.Where(u=>u.userName.Equals("Administrator")).FirstOrDefault().email;
+
+                emailNotification.notificationForPO(purchaseOrder, "NotificationForPO", loggedInUser, adminEmail);
+
                 transaction.Complete();
                 return new ResponseMessage(purchaseOrderToPost.id, resourceManager.GetString("POAdded"), ResponseType.Success);
             }

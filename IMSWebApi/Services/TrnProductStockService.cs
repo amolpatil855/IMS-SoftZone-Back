@@ -207,6 +207,10 @@ namespace IMSWebApi.Services
         public VMProductDetails getProductStockAvailablity(Int64 categoryId, Int64 collectionId, Int64? parameterId,Int64? qualityId)
         {
             TrnProductStock TrnProductStock = null;
+            MstFWRShade fwrShade = null;
+            MstFomSize fomSize = null;
+            MstMatSize matSize = null;
+            MstAccessory accessory = null;
             VMProductDetails productDetails = new VMProductDetails();
             string categoryCode = repo.MstCategories.Where(c => c.id == categoryId).Select(a => a.code).FirstOrDefault();
             
@@ -216,34 +220,38 @@ namespace IMSWebApi.Services
                                                       && z.collectionId == collectionId
                                                       && z.fwrShadeId == parameterId).FirstOrDefault();
 
-                productDetails.cutRate = TrnProductStock.MstFWRShade.MstQuality.cutRate;
-                productDetails.roleRate = TrnProductStock.MstFWRShade.MstQuality.roleRate;
-                productDetails.rrp = TrnProductStock.MstFWRShade.MstQuality.rrp;
-                productDetails.maxCutRateDisc = TrnProductStock.MstFWRShade.MstQuality.maxCutRateDisc;
-                productDetails.maxRoleRateDisc = TrnProductStock.MstFWRShade.MstQuality.maxRoleRateDisc;
-                productDetails.flatRate = TrnProductStock.MstFWRShade.MstQuality.flatRate;
-                productDetails.purchaseFlatRate = TrnProductStock.MstFWRShade.MstQuality.purchaseFlatRate;
-                productDetails.maxFlatRateDisc = TrnProductStock.MstFWRShade.MstQuality.maxFlatRateDisc;
-                productDetails.stock = TrnProductStock.stock + TrnProductStock.poQuantity - TrnProductStock.soQuanity;
-                productDetails.gst = TrnProductStock.MstFWRShade.MstQuality.MstHsn.gst;
+                fwrShade = repo.MstFWRShades.Where(s => s.id == parameterId).FirstOrDefault();
+
+                productDetails.cutRate = fwrShade.MstQuality.cutRate;
+                productDetails.roleRate = fwrShade.MstQuality.roleRate;
+                productDetails.rrp = fwrShade.MstQuality.rrp;
+                productDetails.maxCutRateDisc = fwrShade.MstQuality.maxCutRateDisc;
+                productDetails.maxRoleRateDisc = fwrShade.MstQuality.maxRoleRateDisc;
+                productDetails.flatRate = fwrShade.MstQuality.flatRate;
+                productDetails.purchaseFlatRate = fwrShade.MstQuality.purchaseFlatRate;
+                productDetails.maxFlatRateDisc = fwrShade.MstQuality.maxFlatRateDisc;
+                productDetails.stock = TrnProductStock!=null ? TrnProductStock.stock + TrnProductStock.poQuantity - TrnProductStock.soQuanity : 0;
+                productDetails.gst = fwrShade.MstQuality.MstHsn.gst;
             }
             if (categoryCode != null && categoryCode.Equals("Foam"))
             {
                 TrnProductStock = repo.TrnProductStocks.Where(z => z.categoryId == categoryId
                                                       && z.collectionId == collectionId
                                                       && z.fomSizeId == parameterId).FirstOrDefault();
-                
-                productDetails.sellingRatePerMM = TrnProductStock.MstFomSize.MstFomDensity.sellingRatePerMM;
-                productDetails.sellingRatePerKG = TrnProductStock.MstFomSize.MstFomDensity.sellingRatePerKG;
-                productDetails.sellingRatePercentage = TrnProductStock.MstFomSize.MstFomDensity.sellingRatePercentage;
-                productDetails.suggestedMM = TrnProductStock.MstFomSize.MstFomSuggestedMM.suggestedMM;
-                productDetails.purchaseRatePerMM = TrnProductStock.MstFomSize.MstFomDensity.purchaseRatePerMM;
-                productDetails.purchaseRatePerKG = TrnProductStock.MstFomSize.MstFomDensity.purchaseRatePerKG;
-                productDetails.maxDiscount = TrnProductStock.MstFomSize.MstQuality.maxDiscount;
-                productDetails.length = TrnProductStock.MstFomSize.length;
-                productDetails.width = TrnProductStock.MstFomSize.width;
-                productDetails.gst = TrnProductStock.MstFomSize.MstQuality.MstHsn.gst;
-                productDetails.stock = TrnProductStock.stock + TrnProductStock.poQuantity - TrnProductStock.soQuanity;
+
+                fomSize = repo.MstFomSizes.Where(f => f.id == parameterId).FirstOrDefault();
+
+                productDetails.sellingRatePerMM = fomSize.MstFomDensity.sellingRatePerMM;
+                productDetails.sellingRatePerKG = fomSize.MstFomDensity.sellingRatePerKG;
+                productDetails.sellingRatePercentage = fomSize.MstFomDensity.sellingRatePercentage;
+                productDetails.suggestedMM = fomSize.MstFomSuggestedMM.suggestedMM;
+                productDetails.purchaseRatePerMM = fomSize.MstFomDensity.purchaseRatePerMM;
+                productDetails.purchaseRatePerKG = fomSize.MstFomDensity.purchaseRatePerKG;
+                productDetails.maxDiscount = fomSize.MstQuality.maxDiscount;
+                productDetails.length = fomSize.length;
+                productDetails.width = fomSize.width;
+                productDetails.gst = fomSize.MstQuality.MstHsn.gst;
+                productDetails.stock = TrnProductStock!=null ? TrnProductStock.stock + TrnProductStock.poQuantity - TrnProductStock.soQuanity : 0;
             }
             if (categoryCode != null && categoryCode.Equals("Mattress"))
             {
@@ -252,10 +260,13 @@ namespace IMSWebApi.Services
                     TrnProductStock = repo.TrnProductStocks.Where(z => z.categoryId == categoryId
                                                         && z.collectionId == collectionId
                                                         && z.matSizeId == parameterId).FirstOrDefault();
-                    productDetails.rate = TrnProductStock.MstMatSize.rate;
-                    productDetails.purchaseRate = TrnProductStock.MstMatSize.purchaseRate;
-                    productDetails.gst = TrnProductStock.MstMatSize.MstQuality.MstHsn.gst;
-                    productDetails.stock = TrnProductStock.stock + TrnProductStock.poQuantity - TrnProductStock.soQuanity;
+
+                    matSize = repo.MstMatSizes.Where(m => m.id == parameterId).FirstOrDefault();
+
+                    productDetails.rate = matSize.rate;
+                    productDetails.purchaseRate = matSize.purchaseRate;
+                    productDetails.gst = matSize.MstQuality.MstHsn.gst;
+                    productDetails.stock = TrnProductStock!=null ? TrnProductStock.stock + TrnProductStock.poQuantity - TrnProductStock.soQuanity : 0;
                 }
                 else if(qualityId!=null)
                 {
@@ -274,19 +285,15 @@ namespace IMSWebApi.Services
                 TrnProductStock = repo.TrnProductStocks.Where(z => z.categoryId == categoryId
                                                         && z.collectionId == collectionId
                                                         && z.accessoryId == parameterId).FirstOrDefault();
-                productDetails.sellingRate = TrnProductStock.MstAccessory.sellingRate;
-                productDetails.purchaseRate = TrnProductStock.MstAccessory.purchaseRate;
-                productDetails.gst = TrnProductStock.MstAccessory.MstHsn.gst;
-                productDetails.stock = TrnProductStock.stock + TrnProductStock.poQuantity - TrnProductStock.soQuanity;
-            }
-            //VMProductStock = Mapper.Map<TrnProductStock, VMTrnProductStock>(TrnProductStock);
-            //VMProductStock.MstCollection.MstCategory = null;
-            //stockAvailabe = ProductStock != null ? ProductStock.stock : 0;
-            //List<VMTrnProductStock> stockQty = new List<VMTrnProductStock>(result);
-            //List<VMTrnProductStock> productStock = Mapper.Map<List<TrnProductStock>, List<VMTrnProductStock>>(result);
-            //decimal currentProductStock = productStock.Aggregate<VMTrnProductStock, decimal>(0, (productQty, p) => productQty += p.stock);
-             
 
+                accessory = repo.MstAccessories.Where(a => a.id == parameterId).FirstOrDefault();
+
+                productDetails.sellingRate = accessory.sellingRate;
+                productDetails.purchaseRate = accessory.purchaseRate;
+                productDetails.gst = accessory.MstHsn.gst;
+                productDetails.stock = TrnProductStock!=null ? TrnProductStock.stock + TrnProductStock.poQuantity - TrnProductStock.soQuanity : 0;
+            }
+            
             return productDetails;
         }
 
