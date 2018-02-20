@@ -9,6 +9,7 @@ namespace IMSWebApi.ViewModel
     {
         public decimal stock { get; set; }
         public int gst { get; set; }
+        public Nullable<decimal> purchaseDiscount { get; set; }
         
         //FOM
         public Nullable<decimal> purchaseRatePerMM { get; set; }

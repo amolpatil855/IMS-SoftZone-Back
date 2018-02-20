@@ -232,6 +232,7 @@ namespace IMSWebApi.Services
                 productDetails.maxFlatRateDisc = fwrShade.MstQuality.maxFlatRateDisc;
                 productDetails.stock = TrnProductStock!=null ? TrnProductStock.stock + TrnProductStock.poQuantity - TrnProductStock.soQuanity : 0;
                 productDetails.gst = fwrShade.MstQuality.MstHsn.gst;
+                productDetails.purchaseDiscount = fwrShade.MstCollection.purchaseDiscount;
             }
             if (categoryCode != null && categoryCode.Equals("Foam"))
             {
@@ -252,6 +253,7 @@ namespace IMSWebApi.Services
                 productDetails.width = fomSize.width;
                 productDetails.gst = fomSize.MstQuality.MstHsn.gst;
                 productDetails.stock = TrnProductStock!=null ? TrnProductStock.stock + TrnProductStock.poQuantity - TrnProductStock.soQuanity : 0;
+                productDetails.purchaseDiscount = fomSize.MstCollection.purchaseDiscount;
             }
             if (categoryCode != null && categoryCode.Equals("Mattress"))
             {
@@ -267,6 +269,7 @@ namespace IMSWebApi.Services
                     productDetails.purchaseRate = matSize.purchaseRate;
                     productDetails.gst = matSize.MstQuality.MstHsn.gst;
                     productDetails.stock = TrnProductStock!=null ? TrnProductStock.stock + TrnProductStock.poQuantity - TrnProductStock.soQuanity : 0;
+                    productDetails.purchaseDiscount = matSize.MstCollection.purchaseDiscount;
                 }
                 else if(qualityId!=null)
                 {

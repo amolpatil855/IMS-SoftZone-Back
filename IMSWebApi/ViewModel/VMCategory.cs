@@ -17,5 +17,7 @@ namespace IMSWebApi.ViewModel
         [Required]
         [MaxLength(50)]
         public string name { get; set; }
+
+        public Nullable<long> uomId { get; set; }
     }
 }
