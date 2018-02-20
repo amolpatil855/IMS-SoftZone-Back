@@ -321,4 +321,7 @@
   <data name="AccessoryUpdated" xml:space="preserve">
     <value>Accessory Updated Successfully</value>
   </data>
+  <data name="POApproved" xml:space="preserve">
+    <value>Purchase Order is Approved</value>
+  </data>
 </root>

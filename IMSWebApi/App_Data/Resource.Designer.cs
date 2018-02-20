@@ -475,6 +475,15 @@ namespace IMSWebApi.App_Data {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Purchase Order is Approved.
+        /// </summary>
+        public static string POApproved {
+            get {
+                return ResourceManager.GetString("POApproved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Purchase Order Updated Successfully.
         /// </summary>
         public static string POUpdated {
