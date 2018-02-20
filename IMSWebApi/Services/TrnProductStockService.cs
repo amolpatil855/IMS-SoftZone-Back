@@ -17,7 +17,7 @@ namespace IMSWebApi.Services
         WebAPIdbEntities repo = new WebAPIdbEntities();
         Int64 _LoggedInuserId;
         ResourceManager resourceManager = null;
-
+       
         public TrnProductStockService()
         {
             _LoggedInuserId = Convert.ToInt64(HttpContext.Current.User.Identity.GetUserId());
@@ -299,18 +299,19 @@ namespace IMSWebApi.Services
             return productDetails;
         }
 
-        public void AddProductInStock(VMTrnProductStockDetail trnProductStockDetail,bool isUpdate,decimal qty)
+        public void AddProductInStock(VMTrnProductStockDetail trnProductStockDetail,bool isUpdate,decimal stock,decimal? stockInKg )
         {
             TrnProductStock product = repo.TrnProductStocks.Where(z => z.categoryId == trnProductStockDetail.categoryId
                                                       && z.collectionId == trnProductStockDetail.collectionId
                                                       && z.fwrShadeId == trnProductStockDetail.fwrShadeId
                                                       && z.fomSizeId == trnProductStockDetail.fomSizeId
                                                       && z.matSizeId == trnProductStockDetail.matSizeId
-                                                      && z.accessoryId == trnProductStockDetail.matSizeId).FirstOrDefault();
+                                                      && z.accessoryId == trnProductStockDetail.accessoryId).FirstOrDefault();
 
             if (product!=null)
-            {
-                product.stock = isUpdate ? product.stock + qty : product.stock + trnProductStockDetail.stock;
+            {   
+                product.stock = isUpdate ? product.stock + stock : product.stock + trnProductStockDetail.stock;
+                product.stockInKg = isUpdate ? product.stockInKg + stock : product.stockInKg + trnProductStockDetail.stockInKg;  
                 product.updatedOn = DateTime.Now;
                 product.updatedBy = _LoggedInuserId;
                 repo.SaveChanges();
@@ -325,6 +326,7 @@ namespace IMSWebApi.Services
                 productStockToAdd.matSizeId = trnProductStockDetail.matSizeId;
                 productStockToAdd.accessoryId = trnProductStockDetail.accessoryId;
                 productStockToAdd.stock = trnProductStockDetail.stock;
+                productStockToAdd.stockInKg = trnProductStockDetail.stockInKg;
                 productStockToAdd.poQuantity = productStockToAdd.soQuanity = 0;
                 productStockToAdd.createdOn = DateTime.Now;
                 productStockToAdd.createdBy = _LoggedInuserId;

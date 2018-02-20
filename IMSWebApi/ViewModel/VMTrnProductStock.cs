@@ -18,6 +18,7 @@ namespace IMSWebApi.ViewModel
         public Nullable<long> accessoryId { get; set; }
         [Required]
         public decimal stock { get; set; }
+        public Nullable<decimal> stockInKg { get; set; }
         [Required]
         public decimal soQuanity { get; set; }
         public Nullable<decimal> poQuantity { get; set; }

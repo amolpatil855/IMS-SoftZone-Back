@@ -24,6 +24,7 @@ namespace IMSWebApi.ViewModel
         public Nullable<long> accessoryId { get; set; }
         public Nullable<decimal> orderQuantity { get; set; }
         public Nullable<decimal> receivedQuantity { get; set; }
+        public Nullable<decimal> fomQuantityInKG { get; set; }
         [Required]
         public decimal rate { get; set; }
         [Required]
