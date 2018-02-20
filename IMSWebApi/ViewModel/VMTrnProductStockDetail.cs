@@ -11,8 +11,7 @@ namespace IMSWebApi.ViewModel
         public long id { get; set; }
         [Required]
         public long categoryId { get; set; }
-        [Required]
-        public long collectionId { get; set; }
+        public Nullable<long> collectionId { get; set; }
         public Nullable<long> fwrShadeId { get; set; }
         public Nullable<long> matSizeId { get; set; }
         public Nullable<long> fomSizeId { get; set; }

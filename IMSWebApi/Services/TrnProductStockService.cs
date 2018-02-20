@@ -204,7 +204,7 @@ namespace IMSWebApi.Services
             };
         }
 
-        public VMProductDetails getProductStockAvailablity(Int64 categoryId, Int64 collectionId, Int64? parameterId,Int64? qualityId)
+        public VMProductDetails getProductStockAvailablity(Int64 categoryId, Int64? collectionId, Int64? parameterId,Int64? qualityId)
         {
             TrnProductStock TrnProductStock = null;
             MstFWRShade fwrShade = null;
@@ -286,7 +286,6 @@ namespace IMSWebApi.Services
             if (categoryCode != null && categoryCode.Equals("Accessories"))
             {
                 TrnProductStock = repo.TrnProductStocks.Where(z => z.categoryId == categoryId
-                                                        && z.collectionId == collectionId
                                                         && z.accessoryId == parameterId).FirstOrDefault();
 
                 accessory = repo.MstAccessories.Where(a => a.id == parameterId).FirstOrDefault();
