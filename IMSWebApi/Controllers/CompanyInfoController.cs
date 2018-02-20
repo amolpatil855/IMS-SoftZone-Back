@@ -24,7 +24,8 @@ namespace IMSWebApi.Controllers
         }
 
         // Get api/CompanyInfo
-        [ApiAuthorize(AccessLevel = "companyinfo")]
+        //[ApiAuthorize(AccessLevel = "companyinfo")]
+        [AllowAnonymous]
         [HttpGet]
         public IHttpActionResult Get()
         {

@@ -16,7 +16,6 @@ namespace IMSWebApi.Models
     {
         public MstCategory()
         {
-            this.MstAccessories = new HashSet<MstAccessory>();
             this.MstCollections = new HashSet<MstCollection>();
             this.MstFWRDesigns = new HashSet<MstFWRDesign>();
             this.MstFomDensities = new HashSet<MstFomDensity>();
@@ -24,12 +23,13 @@ namespace IMSWebApi.Models
             this.MstMatSizes = new HashSet<MstMatSize>();
             this.MstQualities = new HashSet<MstQuality>();
             this.MstFWRShades = new HashSet<MstFWRShade>();
-            this.TrnGoodReceiveNoteItems = new HashSet<TrnGoodReceiveNoteItem>();
             this.TrnProductStockDetails = new HashSet<TrnProductStockDetail>();
             this.TrnProductStocks = new HashSet<TrnProductStock>();
-            this.TrnPurchaseOrderItems = new HashSet<TrnPurchaseOrderItem>();
-            this.TrnSaleOrderItems = new HashSet<TrnSaleOrderItem>();
             this.MstFomSizes = new HashSet<MstFomSize>();
+            this.TrnGoodReceiveNoteItems = new HashSet<TrnGoodReceiveNoteItem>();
+            this.TrnSaleOrderItems = new HashSet<TrnSaleOrderItem>();
+            this.TrnPurchaseOrderItems = new HashSet<TrnPurchaseOrderItem>();
+            this.MstAccessories = new HashSet<MstAccessory>();
         }
     
         public long id { get; set; }
@@ -40,7 +40,6 @@ namespace IMSWebApi.Models
         public Nullable<System.DateTime> updatedOn { get; set; }
         public Nullable<long> updatedBy { get; set; }
     
-        public virtual ICollection<MstAccessory> MstAccessories { get; set; }
         public virtual ICollection<MstCollection> MstCollections { get; set; }
         public virtual ICollection<MstFWRDesign> MstFWRDesigns { get; set; }
         public virtual ICollection<MstFomDensity> MstFomDensities { get; set; }
@@ -48,11 +47,12 @@ namespace IMSWebApi.Models
         public virtual ICollection<MstMatSize> MstMatSizes { get; set; }
         public virtual ICollection<MstQuality> MstQualities { get; set; }
         public virtual ICollection<MstFWRShade> MstFWRShades { get; set; }
-        public virtual ICollection<TrnGoodReceiveNoteItem> TrnGoodReceiveNoteItems { get; set; }
         public virtual ICollection<TrnProductStockDetail> TrnProductStockDetails { get; set; }
         public virtual ICollection<TrnProductStock> TrnProductStocks { get; set; }
-        public virtual ICollection<TrnPurchaseOrderItem> TrnPurchaseOrderItems { get; set; }
-        public virtual ICollection<TrnSaleOrderItem> TrnSaleOrderItems { get; set; }
         public virtual ICollection<MstFomSize> MstFomSizes { get; set; }
+        public virtual ICollection<TrnGoodReceiveNoteItem> TrnGoodReceiveNoteItems { get; set; }
+        public virtual ICollection<TrnSaleOrderItem> TrnSaleOrderItems { get; set; }
+        public virtual ICollection<TrnPurchaseOrderItem> TrnPurchaseOrderItems { get; set; }
+        public virtual ICollection<MstAccessory> MstAccessories { get; set; }
     }
 }

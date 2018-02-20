@@ -302,6 +302,8 @@ namespace IMSWebApi.Services
             if (product!=null)
             {
                 product.stock = isUpdate ? product.stock + qty : product.stock + trnProductStockDetail.stock;
+                product.updatedOn = DateTime.Now;
+                product.updatedBy = _LoggedInuserId;
                 repo.SaveChanges();
             }    
             else
@@ -315,12 +317,14 @@ namespace IMSWebApi.Services
                 productStockToAdd.accessoryId = trnProductStockDetail.accessoryId;
                 productStockToAdd.stock = trnProductStockDetail.stock;
                 productStockToAdd.poQuantity = productStockToAdd.soQuanity = 0;
+                productStockToAdd.createdOn = DateTime.Now;
+                productStockToAdd.createdBy = _LoggedInuserId;
                 repo.TrnProductStocks.Add(productStockToAdd);
                 repo.SaveChanges();
             }
         }
 
-        public void AddpoIteminStock(TrnPurchaseOrderItem purchaseOrderItem,bool isUpdate,decimal qty)
+        public void AddpoIteminStock(TrnPurchaseOrderItem purchaseOrderItem)
         {
             TrnProductStock product = repo.TrnProductStocks.Where(z => z.categoryId == purchaseOrderItem.categoryId
                                                       && z.collectionId == purchaseOrderItem.collectionId
@@ -330,7 +334,9 @@ namespace IMSWebApi.Services
                                                       && z.accessoryId == purchaseOrderItem.matSizeId).FirstOrDefault();
                 if (product != null)
                 {
-                    product.poQuantity = isUpdate ? product.poQuantity + qty : product.poQuantity + purchaseOrderItem.orderQuantity;
+                    product.poQuantity = product.poQuantity + purchaseOrderItem.orderQuantity;
+                    product.updatedOn = DateTime.Now;
+                    product.updatedBy = _LoggedInuserId;
                     repo.SaveChanges();
                 }
                 else
@@ -343,6 +349,8 @@ namespace IMSWebApi.Services
                     productStockToAdd.matSizeId = purchaseOrderItem.matSizeId;
                     productStockToAdd.poQuantity = purchaseOrderItem.orderQuantity;
                     productStockToAdd.stock = productStockToAdd.soQuanity = 0;
+                    productStockToAdd.createdOn = DateTime.Now;
+                    productStockToAdd.createdBy = _LoggedInuserId;
                     repo.TrnProductStocks.Add(productStockToAdd);
                     repo.SaveChanges();
                 }

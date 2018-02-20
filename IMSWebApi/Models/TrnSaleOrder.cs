@@ -29,6 +29,7 @@ namespace IMSWebApi.Models
         public Nullable<long> referById { get; set; }
         public System.DateTime orderDate { get; set; }
         public Nullable<System.DateTime> expectedDeliveryDate { get; set; }
+        public Nullable<int> totalAmount { get; set; }
         public string remark { get; set; }
         public string status { get; set; }
         public string financialYear { get; set; }
@@ -39,8 +40,8 @@ namespace IMSWebApi.Models
     
         public virtual MstAgent MstAgent { get; set; }
         public virtual MstCourier MstCourier { get; set; }
+        public virtual MstCustomer MstCustomer { get; set; }
         public virtual ICollection<TrnPurchaseOrder> TrnPurchaseOrders { get; set; }
         public virtual ICollection<TrnSaleOrderItem> TrnSaleOrderItems { get; set; }
-        public virtual MstCustomer MstCustomer { get; set; }
     }
 }

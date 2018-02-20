@@ -16,8 +16,11 @@ namespace IMSWebApi.Models
     {
         public MstAccessory()
         {
+            this.TrnGoodReceiveNoteItems = new HashSet<TrnGoodReceiveNoteItem>();
             this.TrnProductStocks = new HashSet<TrnProductStock>();
             this.TrnProductStockDetails = new HashSet<TrnProductStockDetail>();
+            this.TrnPurchaseOrderItems = new HashSet<TrnPurchaseOrderItem>();
+            this.TrnSaleOrderItems = new HashSet<TrnSaleOrderItem>();
         }
     
         public long id { get; set; }
@@ -38,7 +41,10 @@ namespace IMSWebApi.Models
         public virtual MstCategory MstCategory { get; set; }
         public virtual MstHsn MstHsn { get; set; }
         public virtual MstUnitOfMeasure MstUnitOfMeasure { get; set; }
+        public virtual ICollection<TrnGoodReceiveNoteItem> TrnGoodReceiveNoteItems { get; set; }
         public virtual ICollection<TrnProductStock> TrnProductStocks { get; set; }
         public virtual ICollection<TrnProductStockDetail> TrnProductStockDetails { get; set; }
+        public virtual ICollection<TrnPurchaseOrderItem> TrnPurchaseOrderItems { get; set; }
+        public virtual ICollection<TrnSaleOrderItem> TrnSaleOrderItems { get; set; }
     }
 }
