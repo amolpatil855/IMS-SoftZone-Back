@@ -66,6 +66,14 @@ namespace IMSWebApi.Controllers
         }
 
         [HttpGet]
+        [Route("api/Common/GetCategoryWithoutAccessory")]
+        public IHttpActionResult GetCategoryWithoutAccessory()
+        {
+            var result = _categoryService.getCategoryWithoutAccessory();
+            return Ok(result);
+        }
+
+        [HttpGet]
         [Route("api/Common/GetRoleLookupByUserTypeId")]
         public IHttpActionResult GetRoleLookupByUserTypeId(long userTypeId)
         {

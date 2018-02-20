@@ -40,5 +40,13 @@ namespace IMSWebApi.Services
         {
             return repo.MstCategories.Where(c => c.code == "Accessories").FirstOrDefault();
         }
+
+        public List<VMLookUpItem> getCategoryWithoutAccessory()
+        {
+            return repo.MstCategories.Where(c => c.code != "Accessories")
+                .OrderBy(c => c.code)
+                .Select(c => new VMLookUpItem { value = c.id, label = c.code }).ToList();
+        }
+
     }
 }
