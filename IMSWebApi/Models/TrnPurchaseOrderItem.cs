@@ -39,7 +39,6 @@ namespace IMSWebApi.Models
         public Nullable<System.DateTime> updatedOn { get; set; }
         public Nullable<long> updatedBy { get; set; }
     
-        public virtual MstCategory MstCategory { get; set; }
         public virtual MstCollection MstCollection { get; set; }
         public virtual MstFomSize MstFomSize { get; set; }
         public virtual MstFWRShade MstFWRShade { get; set; }
@@ -48,5 +47,6 @@ namespace IMSWebApi.Models
         public virtual MstQuality MstQuality { get; set; }
         public virtual TrnPurchaseOrder TrnPurchaseOrder { get; set; }
         public virtual MstAccessory MstAccessory { get; set; }
+        public virtual MstCategory MstCategory { get; set; }
     }
 }

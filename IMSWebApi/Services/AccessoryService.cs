@@ -50,7 +50,6 @@ namespace IMSWebApi.Services
                     || a.size.StartsWith(search) : true).ToList();
                 accessoryView = Mapper.Map<List<MstAccessory>, List<VMAccessory>>(result);
             }
-            accessoryView.ForEach(a => a.MstUnitOfMeasure.MstAccessories = null);
             return new ListResult<VMAccessory>
             {
                 Data = accessoryView,
@@ -68,7 +67,6 @@ namespace IMSWebApi.Services
         {
             var result = repo.MstAccessories.Where(s => s.id == id).FirstOrDefault();
             VMAccessory accessoryView = Mapper.Map<MstAccessory, VMAccessory>(result);
-            accessoryView.MstUnitOfMeasure.MstAccessories = null;
             return accessoryView;
         }
 

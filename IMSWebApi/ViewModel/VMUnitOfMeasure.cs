@@ -16,6 +16,5 @@ namespace IMSWebApi.ViewModel
         [MaxLength(50)]
         public string uomName { get; set; }
         
-        public virtual List<VMAccessory> MstAccessories { get; set; }
     }
 }
