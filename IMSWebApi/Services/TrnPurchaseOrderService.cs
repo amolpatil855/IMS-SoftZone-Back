@@ -72,14 +72,16 @@ namespace IMSWebApi.Services
         //    return poItems;
         //}
 
-        public ListResult<VMTrnPurchaseOrder> getPurchaseOrder(int pageSize, int page, string search)
+        public ListResult<VMTrnPurchaseOrder> getPurchaseOrders(int pageSize, int page, string search)
         {
             List<VMTrnPurchaseOrder> purchaseOrderView;
             if (pageSize > 0)
             {
                 var result = repo.TrnPurchaseOrders.Where(po => !string.IsNullOrEmpty(search)
                     ? po.orderNumber.ToString().StartsWith(search)
-                    || po.orderDate.ToString().StartsWith(search) : true)
+                    || po.MstSupplier.name.ToString().StartsWith(search)
+                    || po.MstCourier.name.StartsWith(search)
+                    || po.courierMode.StartsWith(search) : true)
                     .OrderBy(p => p.id).Skip(page * pageSize).Take(pageSize).ToList();
                 purchaseOrderView = Mapper.Map<List<TrnPurchaseOrder>, List<VMTrnPurchaseOrder>>(result);
             }
@@ -87,7 +89,9 @@ namespace IMSWebApi.Services
             {
                 var result = repo.TrnPurchaseOrders.Where(po => !string.IsNullOrEmpty(search)
                     ? po.orderNumber.ToString().StartsWith(search)
-                    || po.orderDate.ToString().StartsWith(search) : true).ToList();
+                    || po.MstSupplier.name.ToString().StartsWith(search)
+                    || po.MstCourier.name.StartsWith(search)
+                    || po.courierMode.StartsWith(search) : true).ToList();
                 purchaseOrderView = Mapper.Map<List<TrnPurchaseOrder>, List<VMTrnPurchaseOrder>>(result);
             }
 
@@ -96,7 +100,9 @@ namespace IMSWebApi.Services
                 Data = purchaseOrderView,
                 TotalCount = repo.TrnPurchaseOrders.Where(po => !string.IsNullOrEmpty(search)
                     ? po.orderNumber.ToString().StartsWith(search)
-                    || po.orderDate.ToString().StartsWith(search) : true).Count(),
+                    || po.MstSupplier.name.ToString().StartsWith(search)
+                    || po.MstCourier.name.StartsWith(search)
+                    || po.courierMode.StartsWith(search) : true).Count(),
                 Page = page
             };
         }
@@ -110,15 +116,15 @@ namespace IMSWebApi.Services
             purchaseOrderView.shippingAddress = result.MstCompanyLocation.addressLine1 + " " + result.MstCompanyLocation.addressLine2 +
                                                    "," + result.MstCompanyLocation.city + ", " + result.MstCompanyLocation.state + " PINCODE - "
                                                    + result.MstCompanyLocation.pin;
-
-            foreach (var poItem in purchaseOrderView.TrnPurchaseOrderItems)
+            purchaseOrderView.TrnPurchaseOrderItems.ForEach(poItem =>
             {
                 poItem.categoryName = poItem.MstCategory.name;
                 poItem.collectionName = poItem.MstCollection.collectionName;
                 poItem.serialno = poItem.MstCategory.code.Equals("Fabric") || poItem.MstCategory.code.Equals("Rug") || poItem.MstCategory.code.Equals("Wallpaper") ? poItem.MstFWRShade.serialNumber + "(" + poItem.MstFWRShade.shadeCode + ")" : null;
-                poItem.size = poItem.MstMatSize != null ? poItem.MstMatSize.sizeCode : poItem.MstFomSize!=null ? poItem.MstFomSize.sizeCode : null;
-	        }
-           
+                poItem.size = poItem.MstMatSize != null ? poItem.MstMatSize.sizeCode + " (" + poItem.MstMatSize.MstMatThickNess.thicknessCode + "-" + poItem.MstMatSize.MstQuality.qualityCode + ")" : 
+                                poItem.MstFomSize != null ? poItem.MstFomSize.itemCode : null;
+            });
+
             return purchaseOrderView;
         }
 

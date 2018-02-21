@@ -72,13 +72,18 @@ namespace IMSWebApi.Services
             saleOrderView.courierName = result.MstCourier.name;
             saleOrderView.customerName = result.MstCustomer.name;
 
-            foreach (var soItem in saleOrderView.TrnSaleOrderItems)
+            saleOrderView.TrnSaleOrderItems.ForEach(soItem =>
             {
                 soItem.categoryName = soItem.MstCategory.name;
                 soItem.collectionName = soItem.MstCollection.collectionName;
-                soItem.serialno = soItem.MstCategory.code.Equals("Fabric") || soItem.MstCategory.code.Equals("Rug") || soItem.MstCategory.code.Equals("Wallpaper") ? soItem.MstFWRShade.serialNumber + "(" + soItem.MstFWRShade.shadeCode + ")" : null;
-                soItem.size = soItem.MstMatSize != null ? soItem.MstMatSize.sizeCode : soItem.MstFomSize != null ? soItem.MstFomSize.sizeCode : null;
-            }
+                soItem.serialno = soItem.MstCategory.code.Equals("Fabric")
+                                || soItem.MstCategory.code.Equals("Rug")
+                                || soItem.MstCategory.code.Equals("Wallpaper")
+                                ? soItem.MstFWRShade.serialNumber + "(" + soItem.MstFWRShade.shadeCode + ")" : null;
+                soItem.size = soItem.MstMatSize != null ? soItem.MstMatSize.sizeCode + " (" + soItem.MstMatSize.MstMatThickNess.thicknessCode + "-" + soItem.MstMatSize.MstQuality.qualityCode + ")" :
+                            soItem.MstFomSize != null ? soItem.MstFomSize.itemCode : null;
+            });
+
             return saleOrderView;
         }
 

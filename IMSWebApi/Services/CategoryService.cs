@@ -50,7 +50,7 @@ namespace IMSWebApi.Services
 
         public List<VMLookUpItem> getCategoryLookupForSO()
         {
-            return repo.MstCategories.Where(c => c.code != "Mattress")
+            return repo.MstCategories.Where(c => c.code != "Mattress" && c.code != "Rug" && c.code != "Wallpaper")
                 .OrderBy(c => c.code)
                 .Select(c => new VMLookUpItem { value = c.id, label = c.code }).ToList();
         }
