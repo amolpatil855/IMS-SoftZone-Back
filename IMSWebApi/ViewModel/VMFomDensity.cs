@@ -25,8 +25,6 @@ namespace IMSWebApi.ViewModel
         [Required]
         public decimal purchaseRatePerKG { get; set; }
         [Required]
-        public decimal sellingRatePercentage { get; set; }
-        [Required]
         public decimal sellingRatePerMM { get; set; }
         [Required]
         public decimal sellingRatePerKG { get; set; }
