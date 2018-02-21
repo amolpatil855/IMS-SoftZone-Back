@@ -23,6 +23,11 @@ namespace IMSWebApi.ViewModel
         public Nullable<decimal> stockInKg { get; set; }
         public Nullable<decimal> kgPerUnit { get; set; }
 
+        public string serialno { get; set; }
+        public string fomItem { get; set; }
+        public string matSize { get; set; }
+        public string accessoryCode { get; set; }
+
         public virtual VMAccessory MstAccessory { get; set; }
         public virtual VMCategory MstCategory { get; set; }
         public virtual VMCollection MstCollection { get; set; }

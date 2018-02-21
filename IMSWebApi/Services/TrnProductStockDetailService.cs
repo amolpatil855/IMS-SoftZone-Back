@@ -54,7 +54,19 @@ namespace IMSWebApi.Services
                     || q.stock.ToString().StartsWith(search) : true).ToList();
                 trnProductStockDetailView = Mapper.Map<List<TrnProductStockDetail>, List<VMTrnProductStockDetail>>(result);
             }
-
+            foreach (var productStock in trnProductStockDetailView)
+            {
+                productStock.accessoryCode = productStock.MstCategory.code.Equals("Accessories") ? productStock.MstAccessory.itemCode : null;
+                productStock.serialno = productStock.MstCategory.code.Equals("Fabric")
+                                       || productStock.MstCategory.code.Equals("Rug")
+                                       || productStock.MstCategory.code.Equals("Wallpaper")
+                                       ? productStock.MstFWRShade.serialNumber + " (" + productStock.MstFWRShade.shadeCode + "-" +
+                                       productStock.MstFWRShade.MstFWRDesign.designCode + ")" : null;
+                productStock.fomItem = productStock.MstCategory.code.Equals("Foam") ? productStock.MstFomSize.itemCode : null;
+                productStock.matSize = productStock.MstCategory.code.Equals("Mattress") ?
+                                       productStock.MstMatSize.sizeCode + " (" + productStock.MstMatSize.MstMatThickNess.thicknessCode +
+                                       "-" + productStock.MstMatSize.MstQuality.qualityCode + ")" : null;
+            }
             return new ListResult<VMTrnProductStockDetail>
             {
                 Data = trnProductStockDetailView,
@@ -112,6 +124,8 @@ namespace IMSWebApi.Services
             stockInKg = trnProductStockDetail.stockInKg - trnProductStockDetailToPut.stockInKg;
             //trnProductStockToPut.locationId = trnProductStock.locationId;
             trnProductStockDetailToPut.stock = trnProductStockDetail.stock;
+            trnProductStockDetailToPut.stockInKg = trnProductStockDetail.stockInKg;
+            trnProductStockDetailToPut.kgPerUnit = trnProductStockDetailToPut.stockInKg / trnProductStockDetailToPut.stock;
 
             trnProductStockDetailToPut.updatedBy = _LoggedInuserId;
             trnProductStockDetailToPut.updatedOn = DateTime.Now;

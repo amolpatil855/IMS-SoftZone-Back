@@ -492,6 +492,7 @@
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="EmailTemplate\ForgotPassword.html" />
     <Content Include="EmailTemplate\NotificationForPO.html" />
+    <Content Include="EmailTemplate\NotificationForSO.html" />
     <Content Include="EmailTemplate\RegisterUser.html" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />

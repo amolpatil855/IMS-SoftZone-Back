@@ -29,9 +29,11 @@ namespace IMSWebApi.ViewModel
         [Required]
         [MaxLength(20)]
         public string status { get; set; }
-        [Required]
         [MaxLength(10)]
         public string financialYear { get; set; }
+
+        public string courierName { get; set; }
+        public string customerName { get; set; }
         
         public virtual VMAgent MstAgent { get; set; }
         public virtual VMCourier MstCourier { get; set; }

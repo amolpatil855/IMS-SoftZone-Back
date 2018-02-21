@@ -25,7 +25,7 @@ namespace IMSWebApi.Controllers
         [HttpGet]
         public IHttpActionResult Get(int pageSize = 0, int page = 0, string search = null)
         {
-            var result = _trnSaleOrderService.getSaleOrder(pageSize, page, search);
+            var result = _trnSaleOrderService.getSaleOrders(pageSize, page, search);
             return Ok(result);
         }
 
@@ -41,25 +41,27 @@ namespace IMSWebApi.Controllers
         // POST api/TrnSaleOrder
         [ApiAuthorize(AccessLevel = "salesorder")]
         [HttpPost]
-        public IHttpActionResult PostTrnSaleOrder(VMTrnSaleOrder salesorder)
+        public IHttpActionResult PostTrnSaleOrder(VMTrnSaleOrder saleorder)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            return Ok();
+            var result = _trnSaleOrderService.postSaleOrder(saleorder);
+            return Ok(result);
         }
 
         // PUT api/TrnSaleOrder
         [ApiAuthorize(AccessLevel = "salesorder")]
         [HttpPut]
-        public IHttpActionResult PutTrnSaleOrder(VMTrnSaleOrder salesorder)
+        public IHttpActionResult PutTrnSaleOrder(VMTrnSaleOrder saleorder)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            return Ok();
+            var result = _trnSaleOrderService.putSaleOrder(saleorder);
+            return Ok(result);
         }
 
         // DELETE api/TrnSaleOrder/1

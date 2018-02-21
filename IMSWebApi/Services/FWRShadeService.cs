@@ -96,7 +96,7 @@ namespace IMSWebApi.ServicesDesign
                 {
                     value = q.id,
                     label = q.serialNumber.ToString()
-                        + " (" + q.shadeCode + ")"
+                        + " (" + q.shadeCode + "-" + q.MstFWRDesign.designCode+")"
                 }).ToList();
         }
 

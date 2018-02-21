@@ -105,6 +105,20 @@ namespace IMSWebApi.Services
         {
             var result = repo.TrnPurchaseOrders.Where(po => po.id == id).FirstOrDefault();
             VMTrnPurchaseOrder purchaseOrderView = Mapper.Map<TrnPurchaseOrder, VMTrnPurchaseOrder>(result);
+            purchaseOrderView.courierName = result.MstCourier.name;
+            purchaseOrderView.supplierName = result.MstSupplier.name;
+            purchaseOrderView.shippingAddress = result.MstCompanyLocation.addressLine1 + " " + result.MstCompanyLocation.addressLine2 +
+                                                   "," + result.MstCompanyLocation.city + ", " + result.MstCompanyLocation.state + " PINCODE - "
+                                                   + result.MstCompanyLocation.pin;
+
+            foreach (var poItem in purchaseOrderView.TrnPurchaseOrderItems)
+            {
+                poItem.categoryName = poItem.MstCategory.name;
+                poItem.collectionName = poItem.MstCollection.collectionName;
+                poItem.serialno = poItem.MstCategory.code.Equals("Fabric") || poItem.MstCategory.code.Equals("Rug") || poItem.MstCategory.code.Equals("Wallpaper") ? poItem.MstFWRShade.serialNumber + "(" + poItem.MstFWRShade.shadeCode + ")" : null;
+                poItem.size = poItem.MstMatSize != null ? poItem.MstMatSize.sizeCode : poItem.MstFomSize!=null ? poItem.MstFomSize.sizeCode : null;
+	        }
+           
             return purchaseOrderView;
         }
 
@@ -229,6 +243,8 @@ namespace IMSWebApi.Services
                 {
                     TrnPurchaseOrderItem poItem = Mapper.Map<VMTrnPurchaseOrderItem, TrnPurchaseOrderItem>(x);
                     poItem.purchaseOrderId = purchaseOrder.id;
+                    poItem.status = PurchaseOrderStatus.Generated.ToString();
+                    poItem.balanceQuantity = poItem.orderQuantity;
                     poItem.createdBy = _LoggedInuserId;
                     poItem.createdOn = DateTime.Now;
                     repo.TrnPurchaseOrderItems.Add(poItem);
