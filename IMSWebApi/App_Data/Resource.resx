@@ -327,4 +327,10 @@
   <data name="SOAdded" xml:space="preserve">
     <value>Sale Order Generated Successfully</value>
   </data>
+  <data name="SOUpdated" xml:space="preserve">
+    <value>Sale Order Generated Successfully</value>
+  </data>
+  <data name="SOApproved" xml:space="preserve">
+    <value>Sale Order Approved Successfully</value>
+  </data>
 </root>

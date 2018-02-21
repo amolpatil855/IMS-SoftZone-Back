@@ -74,6 +74,14 @@ namespace IMSWebApi.Controllers
         }
 
         [HttpGet]
+        [Route("api/Common/GetCategoryLookupForSO")]
+        public IHttpActionResult GetCategoryLookupForSO()
+        {
+            var result = _categoryService.getCategoryLookupForSO();
+            return Ok(result);
+        }
+
+        [HttpGet]
         [Route("api/Common/GetRoleLookupByUserTypeId")]
         public IHttpActionResult GetRoleLookupByUserTypeId(long userTypeId)
         {
