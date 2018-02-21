@@ -30,7 +30,7 @@ namespace IMSWebApi.Services
             emailNotification = new SendEmail();
         }
 
-        public ListResult<VMTrnSaleOrder> getSaleOrder(int pageSize, int page, string search)
+        public ListResult<VMTrnSaleOrder> getSaleOrders(int pageSize, int page, string search)
         {
             List<VMTrnSaleOrder> saleOrderView;
             if (pageSize > 0)
@@ -93,6 +93,11 @@ namespace IMSWebApi.Services
                 repo.TrnSaleOrders.Add(saleOrderToPost);
                 financialYear.soNumber += 1;
                 repo.SaveChanges();
+
+                MstUser loggedInUser = repo.MstUsers.Where(u => u.id == _LoggedInuserId).FirstOrDefault();
+                string adminEmail = repo.MstUsers.Where(u => u.userName.Equals("Administrator")).FirstOrDefault().email;
+
+                emailNotification.notificationForSO(saleOrder, "NotificationForSO", loggedInUser, adminEmail);
 
                 transaction.Complete();
                 return new ResponseMessage(saleOrderToPost.id, resourceManager.GetString("SOAdded"), ResponseType.Success);

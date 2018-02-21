@@ -84,5 +84,40 @@ namespace IMSWebApi.Common
             objEmail.EnableSSL = true;
             ReusableEmailComponent.DAOFactoryProvider.GetEmailDao().sendMail(objEmail);
         }
+
+        public void notificationForSO(VMTrnSaleOrder saleOrder, string fileName, MstUser loggedInUser, string adminEmail)
+        {
+            StringBuilder sbEmailDetails = new StringBuilder();
+            sbEmailDetails.AppendLine(System.IO.File.ReadAllText(HttpContext.Current.Server.MapPath(@"~\EmailTemplate\" + fileName + ".html")));
+
+            sbEmailDetails = sbEmailDetails.Replace("@user", loggedInUser.userName);
+            sbEmailDetails = sbEmailDetails.Replace("@courierMode", saleOrder.courierMode);
+            sbEmailDetails = sbEmailDetails.Replace("@customerName", saleOrder.customerName);
+            sbEmailDetails = sbEmailDetails.Replace("@shippingAddress", saleOrder.shippingAddress);
+            sbEmailDetails = sbEmailDetails.Replace("@courierName", saleOrder.courierName);
+
+            string rows = "";
+
+            foreach (var soItem in saleOrder.TrnSaleOrderItems)
+            {
+                string serialOrSize = soItem.shadeId != null ? soItem.serialno : soItem.size;
+                rows += "<tr><td>" + soItem.categoryName + "</td><td> " + soItem.collectionName + "</td><td> " + serialOrSize
+                    + "</td><td> " + soItem.orderQuantity + "</td><td> " + soItem.orderType
+                    + "</td><td> " + soItem.rate + "</td><td> " + soItem.amountWithGST + "</td> </tr>";
+            }
+            sbEmailDetails = sbEmailDetails.Replace("@rows", rows);
+
+            EmailProperties objEmail = new EmailProperties();
+            objEmail.SmtpAddress = _smtpAddress;
+            objEmail.EmailFrom = _emailFrom;
+            objEmail.Password = _password;
+            objEmail.EmailTo.Add(adminEmail);
+            objEmail.Subject = "Sale Order Generated";
+            objEmail.EnableSSL = true;
+            objEmail.Body = sbEmailDetails.ToString();
+            objEmail.isBodyHtml = true;
+            objEmail.EnableSSL = true;
+            ReusableEmailComponent.DAOFactoryProvider.GetEmailDao().sendMail(objEmail);
+        }
     }
 }
