@@ -37,7 +37,9 @@ namespace IMSWebApi.Services
             {
                 var result = repo.TrnSaleOrders.Where(so => !string.IsNullOrEmpty(search)
                     ? so.orderNumber.StartsWith(search)
-                    || so.orderDate.ToString().StartsWith(search) : true)
+                    || so.MstCustomer.name.StartsWith(search)
+                    || so.MstCourier.name.StartsWith(search) 
+                    || so.status.StartsWith(search) : true)
                     .OrderBy(p => p.id).Skip(page * pageSize).Take(pageSize).ToList();
                 saleOrderView = Mapper.Map<List<TrnSaleOrder>, List<VMTrnSaleOrder>>(result);
             }
@@ -45,7 +47,9 @@ namespace IMSWebApi.Services
             {
                 var result = repo.TrnSaleOrders.Where(so => !string.IsNullOrEmpty(search)
                     ? so.orderNumber.StartsWith(search)
-                    || so.orderDate.ToString().StartsWith(search) : true).ToList();
+                    || so.MstCustomer.name.StartsWith(search)
+                    || so.MstCourier.name.StartsWith(search)
+                    || so.status.StartsWith(search) : true).ToList();
                 saleOrderView = Mapper.Map<List<TrnSaleOrder>, List<VMTrnSaleOrder>>(result);
             }
 
@@ -54,7 +58,9 @@ namespace IMSWebApi.Services
                 Data = saleOrderView,
                 TotalCount = repo.TrnSaleOrders.Where(so => !string.IsNullOrEmpty(search)
                     ? so.orderNumber.StartsWith(search)
-                    || so.orderDate.ToString().StartsWith(search) : true).Count(),
+                    || so.MstCustomer.name.StartsWith(search)
+                    || so.MstCourier.name.StartsWith(search)
+                    || so.status.StartsWith(search) : true).Count(),
                 Page = page
             };
         }
@@ -63,6 +69,21 @@ namespace IMSWebApi.Services
         {
             var result = repo.TrnSaleOrders.Where(so => so.id == id).FirstOrDefault();
             VMTrnSaleOrder saleOrderView = Mapper.Map<TrnSaleOrder, VMTrnSaleOrder>(result);
+            saleOrderView.courierName = result.MstCourier.name;
+            saleOrderView.customerName = result.MstCustomer.name;
+
+            saleOrderView.TrnSaleOrderItems.ForEach(soItem =>
+            {
+                soItem.categoryName = soItem.MstCategory.name;
+                soItem.collectionName = soItem.MstCollection.collectionName;
+                soItem.serialno = soItem.MstCategory.code.Equals("Fabric")
+                                || soItem.MstCategory.code.Equals("Rug")
+                                || soItem.MstCategory.code.Equals("Wallpaper")
+                                ? soItem.MstFWRShade.serialNumber + "(" + soItem.MstFWRShade.shadeCode + ")" : null;
+                soItem.size = soItem.MstMatSize != null ? soItem.MstMatSize.sizeCode + " (" + soItem.MstMatSize.MstMatThickNess.thicknessCode + "-" + soItem.MstMatSize.MstQuality.qualityCode + ")" :
+                            soItem.MstFomSize != null ? soItem.MstFomSize.itemCode : null;
+            });
+
             return saleOrderView;
         }
 
@@ -128,7 +149,7 @@ namespace IMSWebApi.Services
                 repo.SaveChanges();
 
                 transaction.Complete();
-                return new ResponseMessage(saleOrder.id, resourceManager.GetString("POUpdated"), ResponseType.Success);
+                return new ResponseMessage(saleOrder.id, resourceManager.GetString("SOUpdated"), ResponseType.Success);
             }
         }
 
@@ -194,6 +215,22 @@ namespace IMSWebApi.Services
                 }
             });
 
+        }
+
+        public ResponseMessage approveSO(Int64 id)
+        {
+            using (var transaction = new TransactionScope())
+            {
+                var saleOrder = repo.TrnSaleOrders.Where(so => so.id == id).FirstOrDefault();
+                saleOrder.status = SaleOrderStatus.Approve.ToString();
+                foreach (var soItem in saleOrder.TrnSaleOrderItems)
+                {
+                    soItem.status = SaleOrderStatus.Approve.ToString();
+                }
+                repo.SaveChanges();
+                transaction.Complete();
+                return new ResponseMessage(id, resourceManager.GetString("SOApproved"), ResponseType.Success);
+            }
         }
     }
 }

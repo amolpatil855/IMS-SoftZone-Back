@@ -74,6 +74,14 @@ namespace IMSWebApi.Controllers
         }
 
         [HttpGet]
+        [Route("api/Common/GetCategoryLookupForSO")]
+        public IHttpActionResult GetCategoryLookupForSO()
+        {
+            var result = _categoryService.getCategoryLookupForSO();
+            return Ok(result);
+        }
+
+        [HttpGet]
         [Route("api/Common/GetRoleLookupByUserTypeId")]
         public IHttpActionResult GetRoleLookupByUserTypeId(long userTypeId)
         {
@@ -105,7 +113,15 @@ namespace IMSWebApi.Controllers
             var result = _collectionService.getCollectionLookUpByCategoryId(categoryId);
             return Ok(result);
         }
-                
+
+        [HttpGet]
+        [Route("api/Common/GetCollectionLookUpForSO")]
+        public IHttpActionResult GetCollectionLookUpForSO(long categoryId)
+        {
+            var result = _collectionService.getCollectionLookUpForSO(categoryId);
+            return Ok(result);
+        }
+
         [HttpGet]
         [Route("api/Common/GetMatCollectionLookUp")]
         public IHttpActionResult GetMatCollectionLookUp()
@@ -151,6 +167,14 @@ namespace IMSWebApi.Controllers
         public IHttpActionResult GetSerialNumberLookUpByCollection(long collectionId)
         {
             var result = _shadeService.getSerialNumberLookUpByCollection(collectionId);
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("api/Common/GetSerialNumberLookUpForSO")]
+        public IHttpActionResult GetSerialNumberLookUpForSO(long collectionId)
+        {
+            var result = _shadeService.getSerialNumberLookUpForSO(collectionId);
             return Ok(result);
         }
 

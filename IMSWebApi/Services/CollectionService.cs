@@ -79,7 +79,20 @@ namespace IMSWebApi.Services
                     s.MstSupplier.code +")"
                 }).ToList();
         }
-        
+
+        public List<VMLookUpItem> getCollectionLookUpForSO(Int64 categoryId)
+        {
+            List<Int64> collectionIds = repo.MstQualities.Where(q=>q.flatRate!=null).Select(c=>c.collectionId).Distinct().ToList();
+            return repo.MstCollections.Where(c => c.categoryId == categoryId && collectionIds.Contains(c.id))
+                .OrderBy(s => s.collectionCode)
+                .Select(s => new VMLookUpItem
+                {
+                    value = s.id,
+                    label = s.collectionCode + " (" +
+                        s.MstSupplier.code + ")"
+                }).ToList();
+        }
+
         public List<VMLookUpItem> getMatCollectionLookUp()
         {
             var matCategoryId = _categoryService.getMatressCategory().id;

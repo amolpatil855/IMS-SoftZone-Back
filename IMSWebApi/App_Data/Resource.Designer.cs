@@ -592,6 +592,24 @@ namespace IMSWebApi.App_Data {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sale Order Approved Successfully.
+        /// </summary>
+        public static string SOApproved {
+            get {
+                return ResourceManager.GetString("SOApproved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sale Order Generated Successfully.
+        /// </summary>
+        public static string SOUpdated {
+            get {
+                return ResourceManager.GetString("SOUpdated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Supplier Added Successfully.
         /// </summary>
         public static string SupplierAdded {
