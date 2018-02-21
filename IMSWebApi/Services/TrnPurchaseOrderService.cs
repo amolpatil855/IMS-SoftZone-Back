@@ -243,6 +243,8 @@ namespace IMSWebApi.Services
                 {
                     TrnPurchaseOrderItem poItem = Mapper.Map<VMTrnPurchaseOrderItem, TrnPurchaseOrderItem>(x);
                     poItem.purchaseOrderId = purchaseOrder.id;
+                    poItem.status = PurchaseOrderStatus.Generated.ToString();
+                    poItem.balanceQuantity = poItem.orderQuantity;
                     poItem.createdBy = _LoggedInuserId;
                     poItem.createdOn = DateTime.Now;
                     repo.TrnPurchaseOrderItems.Add(poItem);
