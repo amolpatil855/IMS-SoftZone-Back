@@ -120,8 +120,8 @@ namespace IMSWebApi.Services
                 saleOrderToPut.remark = saleOrder.remark;
                 saleOrderToPut.status = saleOrder.status;
                 saleOrderToPut.financialYear = saleOrder.financialYear;
-                
-                //updatePOItems(purchaseOrder);
+
+                updateSOItems(saleOrder);
 
                 saleOrderToPut.updatedOn = DateTime.Now;
                 saleOrderToPut.updatedBy = _LoggedInuserId;

@@ -259,7 +259,6 @@ namespace IMSWebApi.Services
 
                 productDetails.sellingRatePerMM = fomSize.MstFomDensity.sellingRatePerMM;
                 productDetails.sellingRatePerKG = fomSize.MstFomDensity.sellingRatePerKG;
-                productDetails.sellingRatePercentage = fomSize.MstFomDensity.sellingRatePercentage;
                 productDetails.suggestedMM = fomSize.MstFomSuggestedMM.suggestedMM;
                 productDetails.purchaseRatePerMM = fomSize.MstFomDensity.purchaseRatePerMM;
                 productDetails.purchaseRatePerKG = fomSize.MstFomDensity.purchaseRatePerKG;

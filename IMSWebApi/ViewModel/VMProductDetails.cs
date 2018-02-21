@@ -14,7 +14,6 @@ namespace IMSWebApi.ViewModel
         //FOM
         public Nullable<decimal> purchaseRatePerMM { get; set; }
         public Nullable<decimal> purchaseRatePerKG { get; set; }
-        public Nullable<decimal> sellingRatePercentage { get; set; }
         public Nullable<decimal> sellingRatePerMM { get; set; }
         public Nullable<decimal> sellingRatePerKG { get; set; }
         public Nullable<decimal> suggestedMM { get; set; }

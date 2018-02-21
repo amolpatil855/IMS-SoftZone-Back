@@ -16,11 +16,11 @@ namespace IMSWebApi.Models
     {
         public MstFomSize()
         {
-            this.TrnSaleOrderItems = new HashSet<TrnSaleOrderItem>();
-            this.TrnPurchaseOrderItems = new HashSet<TrnPurchaseOrderItem>();
-            this.TrnGoodReceiveNoteItems = new HashSet<TrnGoodReceiveNoteItem>();
             this.TrnProductStockDetails = new HashSet<TrnProductStockDetail>();
             this.TrnProductStocks = new HashSet<TrnProductStock>();
+            this.TrnPurchaseOrderItems = new HashSet<TrnPurchaseOrderItem>();
+            this.TrnSaleOrderItems = new HashSet<TrnSaleOrderItem>();
+            this.TrnGoodReceiveNoteItems = new HashSet<TrnGoodReceiveNoteItem>();
         }
     
         public long id { get; set; }
@@ -39,15 +39,15 @@ namespace IMSWebApi.Models
         public Nullable<System.DateTime> updatedOn { get; set; }
         public Nullable<long> updatedBy { get; set; }
     
+        public virtual MstCategory MstCategory { get; set; }
         public virtual MstCollection MstCollection { get; set; }
         public virtual MstFomDensity MstFomDensity { get; set; }
         public virtual MstFomSuggestedMM MstFomSuggestedMM { get; set; }
         public virtual MstQuality MstQuality { get; set; }
-        public virtual ICollection<TrnSaleOrderItem> TrnSaleOrderItems { get; set; }
-        public virtual ICollection<TrnPurchaseOrderItem> TrnPurchaseOrderItems { get; set; }
-        public virtual MstCategory MstCategory { get; set; }
-        public virtual ICollection<TrnGoodReceiveNoteItem> TrnGoodReceiveNoteItems { get; set; }
         public virtual ICollection<TrnProductStockDetail> TrnProductStockDetails { get; set; }
         public virtual ICollection<TrnProductStock> TrnProductStocks { get; set; }
+        public virtual ICollection<TrnPurchaseOrderItem> TrnPurchaseOrderItems { get; set; }
+        public virtual ICollection<TrnSaleOrderItem> TrnSaleOrderItems { get; set; }
+        public virtual ICollection<TrnGoodReceiveNoteItem> TrnGoodReceiveNoteItems { get; set; }
     }
 }

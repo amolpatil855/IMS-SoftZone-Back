@@ -37,8 +37,7 @@ namespace IMSWebApi.Services
                     || f.MstQuality.qualityCode.StartsWith(search)
                     || f.density.StartsWith(search)
                     || f.purchaseRatePerMM.ToString().StartsWith(search)
-                    || f.purchaseRatePerKG.ToString().StartsWith(search)
-                    || f.sellingRatePercentage.ToString().StartsWith(search) : true)
+                    || f.purchaseRatePerKG.ToString().StartsWith(search) : true)
                     .OrderBy(f => f.id).Skip(page * pageSize).Take(pageSize).ToList();
                 fomDensityView = Mapper.Map<List<MstFomDensity>, List<VMFomDensity>>(result);
             }
@@ -49,8 +48,7 @@ namespace IMSWebApi.Services
                     || f.MstQuality.qualityCode.StartsWith(search)
                     || f.density.StartsWith(search)
                     || f.purchaseRatePerMM.ToString().StartsWith(search)
-                    || f.purchaseRatePerKG.ToString().StartsWith(search)
-                    || f.sellingRatePercentage.ToString().StartsWith(search) : true).ToList();
+                    || f.purchaseRatePerKG.ToString().StartsWith(search) : true).ToList();
                 fomDensityView = Mapper.Map<List<MstFomDensity>, List<VMFomDensity>>(result);
             }
 
@@ -62,8 +60,7 @@ namespace IMSWebApi.Services
                     || f.MstQuality.qualityCode.StartsWith(search)
                     || f.density.StartsWith(search)
                     || f.purchaseRatePerMM.ToString().StartsWith(search)
-                    || f.purchaseRatePerKG.ToString().StartsWith(search)
-                    || f.sellingRatePercentage.ToString().StartsWith(search) : true).Count(),
+                    || f.purchaseRatePerKG.ToString().StartsWith(search) : true).Count(),
                 Page = page
             };
         }
@@ -105,7 +102,6 @@ namespace IMSWebApi.Services
             fomDensityToPut.description = fomDensity.description;
             fomDensityToPut.purchaseRatePerMM = fomDensity.purchaseRatePerMM;
             fomDensityToPut.purchaseRatePerKG = fomDensity.purchaseRatePerKG;
-            fomDensityToPut.sellingRatePercentage = fomDensity.sellingRatePercentage;
             fomDensityToPut.sellingRatePerMM = fomDensity.sellingRatePerMM;
             fomDensityToPut.sellingRatePerKG = fomDensity.sellingRatePerKG;
 

@@ -17,11 +17,11 @@ namespace IMSWebApi.Models
         public MstQuality()
         {
             this.MstFomDensities = new HashSet<MstFomDensity>();
+            this.MstFomSizes = new HashSet<MstFomSize>();
             this.MstFomSuggestedMMs = new HashSet<MstFomSuggestedMM>();
             this.MstFWRDesigns = new HashSet<MstFWRDesign>();
             this.MstFWRShades = new HashSet<MstFWRShade>();
             this.MstMatSizes = new HashSet<MstMatSize>();
-            this.MstFomSizes = new HashSet<MstFomSize>();
             this.TrnPurchaseOrderItems = new HashSet<TrnPurchaseOrderItem>();
             this.TrnGoodReceiveNoteItems = new HashSet<TrnGoodReceiveNoteItem>();
         }
@@ -50,16 +50,16 @@ namespace IMSWebApi.Models
         public Nullable<System.DateTime> updatedOn { get; set; }
         public Nullable<long> updatedBy { get; set; }
     
+        public virtual MstCategory MstCategory { get; set; }
         public virtual MstCollection MstCollection { get; set; }
         public virtual ICollection<MstFomDensity> MstFomDensities { get; set; }
+        public virtual ICollection<MstFomSize> MstFomSizes { get; set; }
         public virtual ICollection<MstFomSuggestedMM> MstFomSuggestedMMs { get; set; }
         public virtual ICollection<MstFWRDesign> MstFWRDesigns { get; set; }
         public virtual ICollection<MstFWRShade> MstFWRShades { get; set; }
         public virtual MstHsn MstHsn { get; set; }
         public virtual ICollection<MstMatSize> MstMatSizes { get; set; }
-        public virtual ICollection<MstFomSize> MstFomSizes { get; set; }
         public virtual ICollection<TrnPurchaseOrderItem> TrnPurchaseOrderItems { get; set; }
-        public virtual MstCategory MstCategory { get; set; }
         public virtual ICollection<TrnGoodReceiveNoteItem> TrnGoodReceiveNoteItems { get; set; }
     }
 }
