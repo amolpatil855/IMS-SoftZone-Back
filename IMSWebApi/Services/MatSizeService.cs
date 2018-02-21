@@ -77,7 +77,8 @@ namespace IMSWebApi.Services
         {
             return repo.MstMatSizes.Where(m=>m.collectionId == collectionId)
                 .OrderBy(m=>m.sizeCode)
-                .Select(q => new VMLookUpItem { value = q.id, label = q.sizeCode }).ToList();
+                .Select(q => new VMLookUpItem { value = q.id, 
+                    label = q.sizeCode + " (" + q.MstMatThickness.thicknessCode +"-"+ q.MstQuality.qualityCode+")"}).ToList();
         }
 
         public ResponseMessage postMatSize(VMMatSize matSize)

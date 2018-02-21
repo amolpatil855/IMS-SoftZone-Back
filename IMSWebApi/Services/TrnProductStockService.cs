@@ -49,7 +49,22 @@ namespace IMSWebApi.Services
                      || q.MstFomSize.sizeCode.StartsWith(search)	            
                      || q.stock.ToString().StartsWith(search) : true).ToList();	
                  trnProductStockView = Mapper.Map<List<TrnProductStock>, List<VMTrnProductStock>>(result);	                
-             }	             
+             }
+             foreach (var productStock in trnProductStockView)
+             {
+                 productStock.accessoryCode = productStock.MstCategory.code.Equals("Accessories") ? productStock.MstAccessory.itemCode : null;
+                 productStock.serialno = productStock.MstCategory.code.Equals("Fabric") 
+                                        || productStock.MstCategory.code.Equals("Rug") 
+                                        || productStock.MstCategory.code.Equals("Wallpaper") 
+                                        ? productStock.MstFWRShade.serialNumber + " ("+productStock.MstFWRShade.shadeCode+"-"+
+                                        productStock.MstFWRShade.MstFWRDesign.designCode+")" : null;
+                 productStock.fomItem = productStock.MstCategory.code.Equals("Foam") ? productStock.MstFomSize.itemCode : null;
+                 productStock.matSize = productStock.MstCategory.code.Equals("Mattress") ? 
+                                        productStock.MstMatSize.sizeCode + " ("+productStock.MstMatSize.MstMatThickNess.thicknessCode+
+                                        "-"+productStock.MstMatSize.MstQuality.qualityCode+")" : null;
+             }
+
+
              return new ListResult<VMTrnProductStock>	       
              {	             
 			 Data = trnProductStockView,
@@ -213,8 +228,8 @@ namespace IMSWebApi.Services
             MstAccessory accessory = null;
             VMProductDetails productDetails = new VMProductDetails();
             string categoryCode = repo.MstCategories.Where(c => c.id == categoryId).Select(a => a.code).FirstOrDefault();
-            
-            if (categoryCode!=null && categoryCode.Equals("Fabric"))
+
+            if (categoryCode != null && (categoryCode.Equals("Fabric") || categoryCode.Equals("Rug") || categoryCode.Equals("Wallpaper")))
             {
                 TrnProductStock = repo.TrnProductStocks.Where(z => z.categoryId == categoryId
                                                       && z.collectionId == collectionId
