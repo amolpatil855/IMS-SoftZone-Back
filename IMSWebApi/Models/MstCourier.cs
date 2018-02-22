@@ -22,7 +22,11 @@ namespace IMSWebApi.Models
     
         public long id { get; set; }
         public string name { get; set; }
-        public string docketNumber { get; set; }
+        public string phone { get; set; }
+        public string mobile { get; set; }
+        public string email { get; set; }
+        public string address { get; set; }
+        public string pin { get; set; }
         public System.DateTime createdOn { get; set; }
         public long createdBy { get; set; }
         public Nullable<System.DateTime> updatedOn { get; set; }

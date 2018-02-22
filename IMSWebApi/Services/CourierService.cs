@@ -31,7 +31,11 @@ namespace IMSWebApi.Services
             {
                 var result = repo.MstCouriers.Where(a => !string.IsNullOrEmpty(search)
                     ? a.name.StartsWith(search)
-                    || a.docketNumber.StartsWith(search): true)
+                    || a.phone.StartsWith(search)
+                    || a.mobile.StartsWith(search)
+                    || a.email.StartsWith(search)
+                    || a.address.StartsWith(search)
+                    || a.pin.StartsWith(search) : true)
                     .OrderBy(p => p.id).Skip(page * pageSize).Take(pageSize).ToList();
                 courierView = Mapper.Map<List<MstCourier>, List<VMCourier>>(result);
             }
@@ -39,7 +43,11 @@ namespace IMSWebApi.Services
             {
                 var result = repo.MstCouriers.Where(a => !string.IsNullOrEmpty(search)
                     ? a.name.StartsWith(search)
-                    || a.docketNumber.StartsWith(search) : true).ToList();
+                    || a.phone.StartsWith(search)
+                    || a.mobile.StartsWith(search)
+                    || a.email.StartsWith(search)
+                    || a.address.StartsWith(search)
+                    || a.pin.StartsWith(search) : true).ToList();
                 courierView = Mapper.Map<List<MstCourier>, List<VMCourier>>(result);
             }
 
@@ -48,7 +56,11 @@ namespace IMSWebApi.Services
                 Data = courierView,
                 TotalCount = repo.MstCouriers.Where(a => !string.IsNullOrEmpty(search)
                     ? a.name.StartsWith(search)
-                    || a.docketNumber.StartsWith(search) : true).Count(),
+                    || a.phone.StartsWith(search)
+                    || a.mobile.StartsWith(search)
+                    || a.email.StartsWith(search)
+                    || a.address.StartsWith(search)
+                    || a.pin.StartsWith(search) : true).Count(),
                 Page = page
             };
         }
@@ -86,7 +98,12 @@ namespace IMSWebApi.Services
         {
             var courierToPut = repo.MstCouriers.Where(s => s.id == courier.id).FirstOrDefault();
             courierToPut.name = courier.name;
-            courierToPut.docketNumber = courier.docketNumber;
+            courierToPut.phone = courier.phone;
+            courierToPut.mobile = courier.mobile;
+            courierToPut.email = courier.email;
+            courierToPut.address = courier.address;
+            courierToPut.pin = courier.pin;
+
             courierToPut.updatedBy = _LoggedInuserId;
             courierToPut.updatedOn = DateTime.Now;
 
