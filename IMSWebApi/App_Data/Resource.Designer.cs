@@ -655,6 +655,15 @@ namespace IMSWebApi.App_Data {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to User is Activated Successfully.
+        /// </summary>
+        public static string UserActivate {
+            get {
+                return ResourceManager.GetString("UserActivate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to User Added Successfully.
         /// </summary>
         public static string UserAdded {
@@ -669,6 +678,15 @@ namespace IMSWebApi.App_Data {
         public static string UserCredentialsInvalid {
             get {
                 return ResourceManager.GetString("UserCredentialsInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User is De-Activated Successfully.
+        /// </summary>
+        public static string UserDeActivate {
+            get {
+                return ResourceManager.GetString("UserDeActivate", resourceCulture);
             }
         }
         

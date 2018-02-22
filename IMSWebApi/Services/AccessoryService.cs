@@ -95,6 +95,7 @@ namespace IMSWebApi.Services
             var accessoryToPut = repo.MstAccessories.Where(s => s.id == accessory.id).FirstOrDefault();
             accessoryToPut.name = accessory.name;
             accessoryToPut.itemCode = accessory.itemCode;
+            accessoryToPut.supplierId = accessory.supplierId;
             accessoryToPut.hsnId = accessory.hsnId;
             accessoryToPut.uomId = accessory.uomId;
             accessoryToPut.sellingRate = accessory.sellingRate;

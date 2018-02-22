@@ -6,7 +6,6 @@
     <edmx:Diagrams>
       <Diagram DiagramId="b93ccf94511548a08944c7935c3877fe" Name="Diagram1" ZoomLevel="64">
         <EntityTypeShape EntityType="IMSModel.CFGRoleMenu" Width="1.5" PointX="3" PointY="23.875" />
-        <EntityTypeShape EntityType="IMSModel.MstAccessory" Width="1.5" PointX="6" PointY="38.625" />
         <EntityTypeShape EntityType="IMSModel.MstAgent" Width="1.5" PointX="5.25" PointY="13.125" />
         <EntityTypeShape EntityType="IMSModel.MstCategory" Width="1.5" PointX="3.75" PointY="40.875" />
         <EntityTypeShape EntityType="IMSModel.MstCollection" Width="1.5" PointX="9" PointY="40.5" />
@@ -39,13 +38,6 @@
         <EntityTypeShape EntityType="IMSModel.TrnSaleOrderItem" Width="1.5" PointX="17.25" PointY="46.125" />
         <AssociationConnector Association="IMSModel.FK_CFGRoleMenu_MstMenu" />
         <AssociationConnector Association="IMSModel.FK_CFGRoleMenu_MstRole" />
-        <AssociationConnector Association="IMSModel.FK_MstAccessory_MstCategory" />
-        <AssociationConnector Association="IMSModel.FK_MstAccessory_MstHsn" />
-        <AssociationConnector Association="IMSModel.FK_MstAccessory_MstUnitOfMeasure" />
-        <AssociationConnector Association="IMSModel.FK_TrnProductStock_MstAccessory" />
-        <AssociationConnector Association="IMSModel.FK_TrnProductStockDetails_MstAccessory" />
-        <AssociationConnector Association="IMSModel.FK_TrnPurchaseOrderItems_MstAccessory" />
-        <AssociationConnector Association="IMSModel.FK_TrnSaleOrderItems_MstAccessory" />
         <AssociationConnector Association="IMSModel.FK_TrnSaleOrder_MstAgent" />
         <AssociationConnector Association="IMSModel.FK_MstCategory_MstUnitOfMeasure" />
         <AssociationConnector Association="IMSModel.FK_MstCollection_MstCategory" />
@@ -113,7 +105,6 @@
         <AssociationConnector Association="IMSModel.FK_TrnSaleOrderItems_TrnSaleOrder" />
         <EntityTypeShape EntityType="IMSModel.TrnGoodReceiveNote" Width="1.5" PointX="14" PointY="37.5" />
         <EntityTypeShape EntityType="IMSModel.TrnGoodReceiveNoteItem" Width="1.5" PointX="27" PointY="33" />
-        <AssociationConnector Association="IMSModel.FK_TrnGoodReceiveNoteItems_MstAccessory" />
         <AssociationConnector Association="IMSModel.FK_TrnGoodReceiveNoteItems_MstCategory" />
         <AssociationConnector Association="IMSModel.FK_TrnGoodReceiveNoteItems_MstCollection" />
         <AssociationConnector Association="IMSModel.FK_TrnGoodReceiveNote_MstCompanyLocation" />
@@ -128,6 +119,16 @@
         <EntityTypeShape EntityType="IMSModel.MstCourier" Width="1.5" PointX="0.75" PointY="5" />
         <AssociationConnector Association="IMSModel.FK_TrnPurchaseOrder_MstCourier" />
         <AssociationConnector Association="IMSModel.FK_TrnSaleOrder_MstCourier" />
+        <EntityTypeShape EntityType="IMSModel.MstAccessory" Width="1.5" PointX="9" PointY="33.625" />
+        <AssociationConnector Association="IMSModel.FK_MstAccessory_MstCategory" />
+        <AssociationConnector Association="IMSModel.FK_MstAccessory_MstHsn" />
+        <AssociationConnector Association="IMSModel.FK_MstAccessory_MstSupplier" />
+        <AssociationConnector Association="IMSModel.FK_MstAccessory_MstUnitOfMeasure" />
+        <AssociationConnector Association="IMSModel.FK_TrnGoodReceiveNoteItems_MstAccessory" />
+        <AssociationConnector Association="IMSModel.FK_TrnProductStock_MstAccessory" />
+        <AssociationConnector Association="IMSModel.FK_TrnProductStockDetails_MstAccessory" />
+        <AssociationConnector Association="IMSModel.FK_TrnPurchaseOrderItems_MstAccessory" />
+        <AssociationConnector Association="IMSModel.FK_TrnSaleOrderItems_MstAccessory" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

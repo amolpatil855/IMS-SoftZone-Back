@@ -25,7 +25,7 @@ namespace IMSWebApi.Controllers
         [HttpGet]
         public IHttpActionResult Get(int pageSize = 0, int page = 0, string search = null)
         {
-            var result = _courierService.getCourier(pageSize, page, search);
+            var result = _courierService.getCouriers(pageSize, page, search);
             return Ok(result);
         }
 

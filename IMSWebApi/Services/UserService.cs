@@ -43,7 +43,7 @@ namespace IMSWebApi.Services
             return userView;
         }
 
-        public ListResult<VMUser> getUser(int pageSize, int page, string search)
+        public ListResult<VMUser> getUsers(int pageSize, int page, string search)
         {
             List<VMUser> userViews;
             if (pageSize > 0)
@@ -230,6 +230,25 @@ namespace IMSWebApi.Services
         public MstuserType getCustomerUserType()
         {
             return repo.MstuserTypes.Where(c => c.userTypeName == "Customer").FirstOrDefault();
+        }
+
+        public ResponseMessage activateDeActivateUser(Int64 id,bool isActive)
+        {
+            MstUser user = repo.MstUsers.Where(u => u.id == id).FirstOrDefault();
+            user.isActive = isActive;
+            user.updatedBy = _LoggedInuserId;
+            user.updatedOn = DateTime.Now;
+
+            repo.SaveChanges();
+            if (isActive)
+            {
+                return new ResponseMessage(user.id, resourceManager.GetString("UserActivate"), ResponseType.Success);
+            }
+            else
+            {
+                return new ResponseMessage(user.id, resourceManager.GetString("UserDeActivate"), ResponseType.Success);
+            }
+            
         }
     }
 }
