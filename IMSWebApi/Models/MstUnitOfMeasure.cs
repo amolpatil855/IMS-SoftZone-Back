@@ -16,8 +16,8 @@ namespace IMSWebApi.Models
     {
         public MstUnitOfMeasure()
         {
-            this.MstAccessories = new HashSet<MstAccessory>();
             this.MstCategories = new HashSet<MstCategory>();
+            this.MstAccessories = new HashSet<MstAccessory>();
         }
     
         public long id { get; set; }
@@ -28,7 +28,7 @@ namespace IMSWebApi.Models
         public Nullable<System.DateTime> updatedOn { get; set; }
         public Nullable<long> updatedBy { get; set; }
     
-        public virtual ICollection<MstAccessory> MstAccessories { get; set; }
         public virtual ICollection<MstCategory> MstCategories { get; set; }
+        public virtual ICollection<MstAccessory> MstAccessories { get; set; }
     }
 }

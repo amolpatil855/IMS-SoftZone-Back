@@ -31,7 +31,7 @@ namespace IMSWebApi.Controllers
         [HttpGet]
         public IHttpActionResult Get(int pageSize = 0, int page = 0, string search = null)
         {
-            var result = _userService.getUser(pageSize, page, search);
+            var result = _userService.getUsers(pageSize, page, search);
             return Ok(result);
         }
 
@@ -137,6 +137,20 @@ namespace IMSWebApi.Controllers
             {
             return Ok(result);
             }
+        }
+
+        // PUT api/User/5
+        [ApiAuthorize(Roles = "Administrator")]
+        [HttpPut]
+        [Route("api/User/ActivateDeActivateUser/{id}")]
+        public IHttpActionResult ActivateDeActivateUser(long id,bool isActive)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var result = _userService.activateDeActivateUser(id,isActive);
+            return Ok(result);
         }
 
     }

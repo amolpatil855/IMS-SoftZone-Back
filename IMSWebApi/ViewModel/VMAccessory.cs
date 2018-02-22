@@ -16,6 +16,8 @@ namespace IMSWebApi.ViewModel
         [Required]
         [MaxLength(50)]
         public string itemCode { get; set; }
+        [Required]
+        public long supplierId { get; set; }
         public long hsnId { get; set; }
         public long uomId { get; set; }
         [Required]
@@ -31,5 +33,6 @@ namespace IMSWebApi.ViewModel
         public virtual VMCategory MstCategory { get; set; }
         public virtual VMHsn MstHsn { get; set; }
         public virtual VMUnitOfMeasure MstUnitOfMeasure { get; set; }
+        public virtual VMSupplier MstSupplier { get; set; }
     }
 }

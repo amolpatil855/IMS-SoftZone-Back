@@ -26,7 +26,6 @@ namespace IMSWebApi.Models
         }
     
         public virtual DbSet<CFGRoleMenu> CFGRoleMenus { get; set; }
-        public virtual DbSet<MstAccessory> MstAccessories { get; set; }
         public virtual DbSet<MstAgent> MstAgents { get; set; }
         public virtual DbSet<MstCategory> MstCategories { get; set; }
         public virtual DbSet<MstCollection> MstCollections { get; set; }
@@ -60,5 +59,6 @@ namespace IMSWebApi.Models
         public virtual DbSet<TrnGoodReceiveNote> TrnGoodReceiveNotes { get; set; }
         public virtual DbSet<TrnGoodReceiveNoteItem> TrnGoodReceiveNoteItems { get; set; }
         public virtual DbSet<MstCourier> MstCouriers { get; set; }
+        public virtual DbSet<MstAccessory> MstAccessories { get; set; }
     }
 }

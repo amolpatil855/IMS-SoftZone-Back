@@ -24,7 +24,7 @@ namespace IMSWebApi.Services
             resourceManager = new ResourceManager("IMSWebApi.App_Data.Resource", Assembly.GetExecutingAssembly());
         }
 
-        public ListResult<VMCourier> getCourier(int pageSize, int page, string search)
+        public ListResult<VMCourier> getCouriers(int pageSize, int page, string search)
         {
             List<VMCourier> courierView;
             if (pageSize > 0)
@@ -34,7 +34,6 @@ namespace IMSWebApi.Services
                     || a.phone.StartsWith(search)
                     || a.mobile.StartsWith(search)
                     || a.email.StartsWith(search)
-                    || a.address.StartsWith(search)
                     || a.pin.StartsWith(search) : true)
                     .OrderBy(p => p.id).Skip(page * pageSize).Take(pageSize).ToList();
                 courierView = Mapper.Map<List<MstCourier>, List<VMCourier>>(result);
@@ -46,7 +45,6 @@ namespace IMSWebApi.Services
                     || a.phone.StartsWith(search)
                     || a.mobile.StartsWith(search)
                     || a.email.StartsWith(search)
-                    || a.address.StartsWith(search)
                     || a.pin.StartsWith(search) : true).ToList();
                 courierView = Mapper.Map<List<MstCourier>, List<VMCourier>>(result);
             }
@@ -59,7 +57,6 @@ namespace IMSWebApi.Services
                     || a.phone.StartsWith(search)
                     || a.mobile.StartsWith(search)
                     || a.email.StartsWith(search)
-                    || a.address.StartsWith(search)
                     || a.pin.StartsWith(search) : true).Count(),
                 Page = page
             };

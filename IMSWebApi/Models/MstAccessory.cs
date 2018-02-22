@@ -16,17 +16,18 @@ namespace IMSWebApi.Models
     {
         public MstAccessory()
         {
+            this.TrnGoodReceiveNoteItems = new HashSet<TrnGoodReceiveNoteItem>();
             this.TrnProductStocks = new HashSet<TrnProductStock>();
             this.TrnProductStockDetails = new HashSet<TrnProductStockDetail>();
             this.TrnPurchaseOrderItems = new HashSet<TrnPurchaseOrderItem>();
             this.TrnSaleOrderItems = new HashSet<TrnSaleOrderItem>();
-            this.TrnGoodReceiveNoteItems = new HashSet<TrnGoodReceiveNoteItem>();
         }
     
         public long id { get; set; }
         public long categoryId { get; set; }
         public string itemCode { get; set; }
         public string name { get; set; }
+        public long supplierId { get; set; }
         public long hsnId { get; set; }
         public long uomId { get; set; }
         public decimal sellingRate { get; set; }
@@ -40,11 +41,12 @@ namespace IMSWebApi.Models
     
         public virtual MstCategory MstCategory { get; set; }
         public virtual MstHsn MstHsn { get; set; }
+        public virtual MstSupplier MstSupplier { get; set; }
         public virtual MstUnitOfMeasure MstUnitOfMeasure { get; set; }
+        public virtual ICollection<TrnGoodReceiveNoteItem> TrnGoodReceiveNoteItems { get; set; }
         public virtual ICollection<TrnProductStock> TrnProductStocks { get; set; }
         public virtual ICollection<TrnProductStockDetail> TrnProductStockDetails { get; set; }
         public virtual ICollection<TrnPurchaseOrderItem> TrnPurchaseOrderItems { get; set; }
         public virtual ICollection<TrnSaleOrderItem> TrnSaleOrderItems { get; set; }
-        public virtual ICollection<TrnGoodReceiveNoteItem> TrnGoodReceiveNoteItems { get; set; }
     }
 }

@@ -333,4 +333,10 @@
   <data name="SOApproved" xml:space="preserve">
     <value>Sale Order Approved Successfully</value>
   </data>
+  <data name="UserActivate" xml:space="preserve">
+    <value>User is Activated Successfully</value>
+  </data>
+  <data name="UserDeActivate" xml:space="preserve">
+    <value>User is De-Activated Successfully</value>
+  </data>
 </root>
