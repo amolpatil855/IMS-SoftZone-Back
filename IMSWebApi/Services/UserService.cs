@@ -167,7 +167,6 @@ namespace IMSWebApi.Services
             userToPut.locationId = user.locationId;
             userToPut.email = user.email;
             userToPut.phone = user.phone;
-            userToPut.isActive = user.isActive;
             userToPut.updatedOn = DateTime.Now;
             userToPut.updatedBy = _LoggedInuserId;
             repo.SaveChanges();
