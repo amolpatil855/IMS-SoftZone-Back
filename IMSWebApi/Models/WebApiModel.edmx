@@ -123,7 +123,11 @@
           </Key>
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="name" Type="varchar" MaxLength="100" Nullable="false" />
-          <Property Name="docketNumber" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="phone" Type="varchar" MaxLength="20" />
+          <Property Name="mobile" Type="varchar" MaxLength="20" />
+          <Property Name="email" Type="varchar" MaxLength="254" />
+          <Property Name="address" Type="varchar" MaxLength="500" />
+          <Property Name="pin" Type="varchar" MaxLength="10" />
           <Property Name="createdOn" Type="datetime" Nullable="false" />
           <Property Name="createdBy" Type="bigint" Nullable="false" />
           <Property Name="updatedOn" Type="datetime" />
@@ -476,7 +480,7 @@
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="grnNumber" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="grnDate" Type="datetime" />
-          <Property Name="purchaseOrderId" Type="bigint" Nullable="false" />
+          <Property Name="supplierId" Type="bigint" Nullable="false" />
           <Property Name="locationId" Type="bigint" Nullable="false" />
           <Property Name="totalAmount" Type="int" Nullable="false" />
           <Property Name="createdOn" Type="datetime" Nullable="false" />
@@ -499,6 +503,7 @@
           <Property Name="matThicknessId" Type="bigint" />
           <Property Name="matSizeCode" Type="varchar" MaxLength="20" />
           <Property Name="accessoryId" Type="bigint" />
+          <Property Name="purchaseOrderId" Type="bigint" Nullable="false" />
           <Property Name="orderQuantity" Type="decimal" Precision="7" Scale="2" />
           <Property Name="receivedQuantity" Type="decimal" Precision="7" Scale="2" />
           <Property Name="fomQuantityInKG" Type="decimal" Precision="5" Scale="3" />
@@ -1152,15 +1157,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_TrnGoodReceiveNote_TrnPurchaseOrder">
-          <End Role="TrnPurchaseOrder" Type="Self.TrnPurchaseOrder" Multiplicity="1" />
+        <Association Name="FK_TrnGoodReceiveNote_MstSupplier">
+          <End Role="MstSupplier" Type="Self.MstSupplier" Multiplicity="1" />
           <End Role="TrnGoodReceiveNote" Type="Self.TrnGoodReceiveNote" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="TrnPurchaseOrder">
+            <Principal Role="MstSupplier">
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="TrnGoodReceiveNote">
-              <PropertyRef Name="purchaseOrderId" />
+              <PropertyRef Name="supplierId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1269,6 +1274,18 @@
             </Principal>
             <Dependent Role="TrnGoodReceiveNoteItems">
               <PropertyRef Name="grnId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnGoodReceiveNoteItems_TrnPurchaseOrder">
+          <End Role="TrnPurchaseOrder" Type="Self.TrnPurchaseOrder" Multiplicity="1" />
+          <End Role="TrnGoodReceiveNoteItems" Type="Self.TrnGoodReceiveNoteItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TrnPurchaseOrder">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnGoodReceiveNoteItems">
+              <PropertyRef Name="purchaseOrderId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1904,8 +1921,8 @@
             <End Role="MstCompanyLocation" EntitySet="MstCompanyLocation" />
             <End Role="TrnGoodReceiveNote" EntitySet="TrnGoodReceiveNote" />
           </AssociationSet>
-          <AssociationSet Name="FK_TrnGoodReceiveNote_TrnPurchaseOrder" Association="Self.FK_TrnGoodReceiveNote_TrnPurchaseOrder">
-            <End Role="TrnPurchaseOrder" EntitySet="TrnPurchaseOrder" />
+          <AssociationSet Name="FK_TrnGoodReceiveNote_MstSupplier" Association="Self.FK_TrnGoodReceiveNote_MstSupplier">
+            <End Role="MstSupplier" EntitySet="MstSupplier" />
             <End Role="TrnGoodReceiveNote" EntitySet="TrnGoodReceiveNote" />
           </AssociationSet>
           <AssociationSet Name="FK_TrnGoodReceiveNoteItems_MstAccessory" Association="Self.FK_TrnGoodReceiveNoteItems_MstAccessory">
@@ -1942,6 +1959,10 @@
           </AssociationSet>
           <AssociationSet Name="FK_TrnGoodReceiveNoteItems_TrnGoodReceiveNote" Association="Self.FK_TrnGoodReceiveNoteItems_TrnGoodReceiveNote">
             <End Role="TrnGoodReceiveNote" EntitySet="TrnGoodReceiveNote" />
+            <End Role="TrnGoodReceiveNoteItems" EntitySet="TrnGoodReceiveNoteItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnGoodReceiveNoteItems_TrnPurchaseOrder" Association="Self.FK_TrnGoodReceiveNoteItems_TrnPurchaseOrder">
+            <End Role="TrnPurchaseOrder" EntitySet="TrnPurchaseOrder" />
             <End Role="TrnGoodReceiveNoteItems" EntitySet="TrnGoodReceiveNoteItems" />
           </AssociationSet>
           <AssociationSet Name="FK_TrnProductStock_MstAccessory" Association="Self.FK_TrnProductStock_MstAccessory">
@@ -2101,7 +2122,6 @@
           <EntitySet Name="MstCollections" EntityType="IMSModel.MstCollection" />
           <EntitySet Name="MstCompanyInfoes" EntityType="IMSModel.MstCompanyInfo" />
           <EntitySet Name="MstCompanyLocations" EntityType="IMSModel.MstCompanyLocation" />
-          <EntitySet Name="MstCouriers" EntityType="IMSModel.MstCourier" />
           <EntitySet Name="MstCustomers" EntityType="IMSModel.MstCustomer" />
           <EntitySet Name="MstCustomerAddresses" EntityType="IMSModel.MstCustomerAddress" />
           <EntitySet Name="MstFinancialYears" EntityType="IMSModel.MstFinancialYear" />
@@ -2121,7 +2141,6 @@
           <EntitySet Name="MstUnitOfMeasures" EntityType="IMSModel.MstUnitOfMeasure" />
           <EntitySet Name="MstUsers" EntityType="IMSModel.MstUser" />
           <EntitySet Name="MstuserTypes" EntityType="IMSModel.MstuserType" />
-          <EntitySet Name="TrnGoodReceiveNotes" EntityType="IMSModel.TrnGoodReceiveNote" />
           <EntitySet Name="TrnProductStocks" EntityType="IMSModel.TrnProductStock" />
           <EntitySet Name="TrnProductStockDetails" EntityType="IMSModel.TrnProductStockDetail" />
           <EntitySet Name="TrnPurchaseOrders" EntityType="IMSModel.TrnPurchaseOrder" />
@@ -2272,10 +2291,6 @@
             <End Role="MstCompanyLocation" EntitySet="MstCompanyLocations" />
             <End Role="MstUser" EntitySet="MstUsers" />
           </AssociationSet>
-          <AssociationSet Name="FK_TrnGoodReceiveNote_MstCompanyLocation" Association="IMSModel.FK_TrnGoodReceiveNote_MstCompanyLocation">
-            <End Role="MstCompanyLocation" EntitySet="MstCompanyLocations" />
-            <End Role="TrnGoodReceiveNote" EntitySet="TrnGoodReceiveNotes" />
-          </AssociationSet>
           <AssociationSet Name="FK_TrnProductStock_MstCompanyLocation" Association="IMSModel.FK_TrnProductStock_MstCompanyLocation">
             <End Role="MstCompanyLocation" EntitySet="MstCompanyLocations" />
             <End Role="TrnProductStockDetail" EntitySet="TrnProductStockDetails" />
@@ -2283,14 +2298,6 @@
           <AssociationSet Name="FK_TrnPurchaseOrder_MstCompanyLocation" Association="IMSModel.FK_TrnPurchaseOrder_MstCompanyLocation">
             <End Role="MstCompanyLocation" EntitySet="MstCompanyLocations" />
             <End Role="TrnPurchaseOrder" EntitySet="TrnPurchaseOrders" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TrnPurchaseOrder_MstCourier" Association="IMSModel.FK_TrnPurchaseOrder_MstCourier">
-            <End Role="MstCourier" EntitySet="MstCouriers" />
-            <End Role="TrnPurchaseOrder" EntitySet="TrnPurchaseOrders" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TrnSaleOrder_MstCourier" Association="IMSModel.FK_TrnSaleOrder_MstCourier">
-            <End Role="MstCourier" EntitySet="MstCouriers" />
-            <End Role="TrnSaleOrder" EntitySet="TrnSaleOrders" />
           </AssociationSet>
           <AssociationSet Name="FK_MstCustomer_MstUser" Association="IMSModel.FK_MstCustomer_MstUser">
             <End Role="MstUser" EntitySet="MstUsers" />
@@ -2424,10 +2431,6 @@
             <End Role="MstuserType" EntitySet="MstuserTypes" />
             <End Role="MstUser" EntitySet="MstUsers" />
           </AssociationSet>
-          <AssociationSet Name="FK_TrnGoodReceiveNote_TrnPurchaseOrder" Association="IMSModel.FK_TrnGoodReceiveNote_TrnPurchaseOrder">
-            <End Role="TrnPurchaseOrder" EntitySet="TrnPurchaseOrders" />
-            <End Role="TrnGoodReceiveNote" EntitySet="TrnGoodReceiveNotes" />
-          </AssociationSet>
           <AssociationSet Name="FK_TrnPurchaseOrder_TrnSaleOrder" Association="IMSModel.FK_TrnPurchaseOrder_TrnSaleOrder">
             <End Role="TrnSaleOrder" EntitySet="TrnSaleOrders" />
             <End Role="TrnPurchaseOrder" EntitySet="TrnPurchaseOrders" />
@@ -2440,6 +2443,7 @@
             <End Role="TrnSaleOrder" EntitySet="TrnSaleOrders" />
             <End Role="TrnSaleOrderItem" EntitySet="TrnSaleOrderItems" />
           </AssociationSet>
+          <EntitySet Name="TrnGoodReceiveNotes" EntityType="IMSModel.TrnGoodReceiveNote" />
           <EntitySet Name="TrnGoodReceiveNoteItems" EntityType="IMSModel.TrnGoodReceiveNoteItem" />
           <AssociationSet Name="FK_TrnGoodReceiveNoteItems_MstAccessory" Association="IMSModel.FK_TrnGoodReceiveNoteItems_MstAccessory">
             <End Role="MstAccessory" EntitySet="MstAccessories" />
@@ -2452,6 +2456,10 @@
           <AssociationSet Name="FK_TrnGoodReceiveNoteItems_MstCollection" Association="IMSModel.FK_TrnGoodReceiveNoteItems_MstCollection">
             <End Role="MstCollection" EntitySet="MstCollections" />
             <End Role="TrnGoodReceiveNoteItem" EntitySet="TrnGoodReceiveNoteItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnGoodReceiveNote_MstCompanyLocation" Association="IMSModel.FK_TrnGoodReceiveNote_MstCompanyLocation">
+            <End Role="MstCompanyLocation" EntitySet="MstCompanyLocations" />
+            <End Role="TrnGoodReceiveNote" EntitySet="TrnGoodReceiveNotes" />
           </AssociationSet>
           <AssociationSet Name="FK_TrnGoodReceiveNoteItems_MstFomSize" Association="IMSModel.FK_TrnGoodReceiveNoteItems_MstFomSize">
             <End Role="MstFomSize" EntitySet="MstFomSizes" />
@@ -2473,11 +2481,28 @@
             <End Role="MstQuality" EntitySet="MstQualities" />
             <End Role="TrnGoodReceiveNoteItem" EntitySet="TrnGoodReceiveNoteItems" />
           </AssociationSet>
+          <AssociationSet Name="FK_TrnGoodReceiveNote_MstSupplier" Association="IMSModel.FK_TrnGoodReceiveNote_MstSupplier">
+            <End Role="MstSupplier" EntitySet="MstSuppliers" />
+            <End Role="TrnGoodReceiveNote" EntitySet="TrnGoodReceiveNotes" />
+          </AssociationSet>
           <AssociationSet Name="FK_TrnGoodReceiveNoteItems_TrnGoodReceiveNote" Association="IMSModel.FK_TrnGoodReceiveNoteItems_TrnGoodReceiveNote">
             <End Role="TrnGoodReceiveNote" EntitySet="TrnGoodReceiveNotes" />
             <End Role="TrnGoodReceiveNoteItem" EntitySet="TrnGoodReceiveNoteItems" />
           </AssociationSet>
-        </EntityContainer>
+          <AssociationSet Name="FK_TrnGoodReceiveNoteItems_TrnPurchaseOrder" Association="IMSModel.FK_TrnGoodReceiveNoteItems_TrnPurchaseOrder">
+            <End Role="TrnPurchaseOrder" EntitySet="TrnPurchaseOrders" />
+            <End Role="TrnGoodReceiveNoteItem" EntitySet="TrnGoodReceiveNoteItems" />
+          </AssociationSet>
+          <EntitySet Name="MstCouriers" EntityType="IMSModel.MstCourier" />
+          <AssociationSet Name="FK_TrnPurchaseOrder_MstCourier" Association="IMSModel.FK_TrnPurchaseOrder_MstCourier">
+            <End Role="MstCourier" EntitySet="MstCouriers" />
+            <End Role="TrnPurchaseOrder" EntitySet="TrnPurchaseOrders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnSaleOrder_MstCourier" Association="IMSModel.FK_TrnSaleOrder_MstCourier">
+            <End Role="MstCourier" EntitySet="MstCouriers" />
+            <End Role="TrnSaleOrder" EntitySet="TrnSaleOrders" />
+          </AssociationSet>
+          </EntityContainer>
         <EntityType Name="CFGRoleMenu">
           <Key>
             <PropertyRef Name="id" />
@@ -2630,23 +2655,9 @@
           <Property Name="updatedBy" Type="Int64" />
           <Property Name="phone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="MstUsers" Relationship="IMSModel.FK_MstUser_MstCompanyLocation" FromRole="MstCompanyLocation" ToRole="MstUser" />
-          <NavigationProperty Name="TrnGoodReceiveNotes" Relationship="IMSModel.FK_TrnGoodReceiveNote_MstCompanyLocation" FromRole="MstCompanyLocation" ToRole="TrnGoodReceiveNote" />
           <NavigationProperty Name="TrnProductStockDetails" Relationship="IMSModel.FK_TrnProductStock_MstCompanyLocation" FromRole="MstCompanyLocation" ToRole="TrnProductStockDetail" />
           <NavigationProperty Name="TrnPurchaseOrders" Relationship="IMSModel.FK_TrnPurchaseOrder_MstCompanyLocation" FromRole="MstCompanyLocation" ToRole="TrnPurchaseOrder" />
-        </EntityType>
-        <EntityType Name="MstCourier">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="docketNumber" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="createdBy" Type="Int64" Nullable="false" />
-          <Property Name="updatedOn" Type="DateTime" Precision="3" />
-          <Property Name="updatedBy" Type="Int64" />
-          <NavigationProperty Name="TrnPurchaseOrders" Relationship="IMSModel.FK_TrnPurchaseOrder_MstCourier" FromRole="MstCourier" ToRole="TrnPurchaseOrder" />
-          <NavigationProperty Name="TrnSaleOrders" Relationship="IMSModel.FK_TrnSaleOrder_MstCourier" FromRole="MstCourier" ToRole="TrnSaleOrder" />
+          <NavigationProperty Name="TrnGoodReceiveNotes" Relationship="IMSModel.FK_TrnGoodReceiveNote_MstCompanyLocation" FromRole="MstCompanyLocation" ToRole="TrnGoodReceiveNote" />
         </EntityType>
         <EntityType Name="MstCustomer">
           <Key>
@@ -2994,6 +3005,7 @@
           <NavigationProperty Name="MstCollections" Relationship="IMSModel.FK_MstCollection_MstSupplier" FromRole="MstSupplier" ToRole="MstCollection" />
           <NavigationProperty Name="MstSupplierAddresses" Relationship="IMSModel.FK_MstSupplierAddressDetails_MstSupplier" FromRole="MstSupplier" ToRole="MstSupplierAddress" />
           <NavigationProperty Name="TrnPurchaseOrders" Relationship="IMSModel.FK_TrnPurchaseOrder_MstSupplier" FromRole="MstSupplier" ToRole="TrnPurchaseOrder" />
+          <NavigationProperty Name="TrnGoodReceiveNotes" Relationship="IMSModel.FK_TrnGoodReceiveNote_MstSupplier" FromRole="MstSupplier" ToRole="TrnGoodReceiveNote" />
         </EntityType>
         <EntityType Name="MstSupplierAddress">
           <Key>
@@ -3063,24 +3075,6 @@
           <Property Name="updatedOn" Type="DateTime" Precision="3" />
           <Property Name="updatedBy" Type="Int64" />
           <NavigationProperty Name="MstUsers" Relationship="IMSModel.FK_MstUser_MstUserType" FromRole="MstuserType" ToRole="MstUser" />
-        </EntityType>
-        <EntityType Name="TrnGoodReceiveNote">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="grnNumber" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="grnDate" Type="DateTime" Precision="3" />
-          <Property Name="purchaseOrderId" Type="Int64" Nullable="false" />
-          <Property Name="locationId" Type="Int64" Nullable="false" />
-          <Property Name="totalAmount" Type="Int32" Nullable="false" />
-          <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="createdBy" Type="Int64" Nullable="false" />
-          <Property Name="updatedOn" Type="DateTime" Precision="3" />
-          <Property Name="updatedBy" Type="Int64" />
-          <NavigationProperty Name="MstCompanyLocation" Relationship="IMSModel.FK_TrnGoodReceiveNote_MstCompanyLocation" FromRole="TrnGoodReceiveNote" ToRole="MstCompanyLocation" />
-          <NavigationProperty Name="TrnPurchaseOrder" Relationship="IMSModel.FK_TrnGoodReceiveNote_TrnPurchaseOrder" FromRole="TrnGoodReceiveNote" ToRole="TrnPurchaseOrder" />
-          <NavigationProperty Name="TrnGoodReceiveNoteItems" Relationship="IMSModel.FK_TrnGoodReceiveNoteItems_TrnGoodReceiveNote" FromRole="TrnGoodReceiveNote" ToRole="TrnGoodReceiveNoteItem" />
         </EntityType>
         <EntityType Name="TrnProductStock">
           <Key>
@@ -3158,11 +3152,11 @@
           <Property Name="updatedOn" Type="DateTime" Precision="3" />
           <Property Name="updatedBy" Type="Int64" />
           <NavigationProperty Name="MstCompanyLocation" Relationship="IMSModel.FK_TrnPurchaseOrder_MstCompanyLocation" FromRole="TrnPurchaseOrder" ToRole="MstCompanyLocation" />
-          <NavigationProperty Name="MstCourier" Relationship="IMSModel.FK_TrnPurchaseOrder_MstCourier" FromRole="TrnPurchaseOrder" ToRole="MstCourier" />
           <NavigationProperty Name="MstSupplier" Relationship="IMSModel.FK_TrnPurchaseOrder_MstSupplier" FromRole="TrnPurchaseOrder" ToRole="MstSupplier" />
-          <NavigationProperty Name="TrnGoodReceiveNotes" Relationship="IMSModel.FK_TrnGoodReceiveNote_TrnPurchaseOrder" FromRole="TrnPurchaseOrder" ToRole="TrnGoodReceiveNote" />
           <NavigationProperty Name="TrnSaleOrder" Relationship="IMSModel.FK_TrnPurchaseOrder_TrnSaleOrder" FromRole="TrnPurchaseOrder" ToRole="TrnSaleOrder" />
           <NavigationProperty Name="TrnPurchaseOrderItems" Relationship="IMSModel.FK_TrnPurchaseOrderItems_TrnPurchaseOrder" FromRole="TrnPurchaseOrder" ToRole="TrnPurchaseOrderItem" />
+          <NavigationProperty Name="TrnGoodReceiveNoteItems" Relationship="IMSModel.FK_TrnGoodReceiveNoteItems_TrnPurchaseOrder" FromRole="TrnPurchaseOrder" ToRole="TrnGoodReceiveNoteItem" />
+          <NavigationProperty Name="MstCourier" Relationship="IMSModel.FK_TrnPurchaseOrder_MstCourier" FromRole="TrnPurchaseOrder" ToRole="MstCourier" />
         </EntityType>
         <EntityType Name="TrnPurchaseOrderItem">
           <Key>
@@ -3224,10 +3218,10 @@
           <Property Name="updatedOn" Type="DateTime" Precision="3" />
           <Property Name="updatedBy" Type="Int64" />
           <NavigationProperty Name="MstAgent" Relationship="IMSModel.FK_TrnSaleOrder_MstAgent" FromRole="TrnSaleOrder" ToRole="MstAgent" />
-          <NavigationProperty Name="MstCourier" Relationship="IMSModel.FK_TrnSaleOrder_MstCourier" FromRole="TrnSaleOrder" ToRole="MstCourier" />
           <NavigationProperty Name="MstCustomer" Relationship="IMSModel.FK_TrnSaleOrder_MstCustomer" FromRole="TrnSaleOrder" ToRole="MstCustomer" />
           <NavigationProperty Name="TrnPurchaseOrders" Relationship="IMSModel.FK_TrnPurchaseOrder_TrnSaleOrder" FromRole="TrnSaleOrder" ToRole="TrnPurchaseOrder" />
           <NavigationProperty Name="TrnSaleOrderItems" Relationship="IMSModel.FK_TrnSaleOrderItems_TrnSaleOrder" FromRole="TrnSaleOrder" ToRole="TrnSaleOrderItem" />
+          <NavigationProperty Name="MstCourier" Relationship="IMSModel.FK_TrnSaleOrder_MstCourier" FromRole="TrnSaleOrder" ToRole="MstCourier" />
         </EntityType>
         <EntityType Name="TrnSaleOrderItem">
           <Key>
@@ -3698,18 +3692,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_TrnGoodReceiveNote_MstCompanyLocation">
-          <End Type="IMSModel.MstCompanyLocation" Role="MstCompanyLocation" Multiplicity="1" />
-          <End Type="IMSModel.TrnGoodReceiveNote" Role="TrnGoodReceiveNote" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MstCompanyLocation">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="TrnGoodReceiveNote">
-              <PropertyRef Name="locationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_TrnProductStock_MstCompanyLocation">
           <End Type="IMSModel.MstCompanyLocation" Role="MstCompanyLocation" Multiplicity="1" />
           <End Type="IMSModel.TrnProductStockDetail" Role="TrnProductStockDetail" Multiplicity="*" />
@@ -3731,30 +3713,6 @@
             </Principal>
             <Dependent Role="TrnPurchaseOrder">
               <PropertyRef Name="locationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TrnPurchaseOrder_MstCourier">
-          <End Type="IMSModel.MstCourier" Role="MstCourier" Multiplicity="1" />
-          <End Type="IMSModel.TrnPurchaseOrder" Role="TrnPurchaseOrder" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MstCourier">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="TrnPurchaseOrder">
-              <PropertyRef Name="courierId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TrnSaleOrder_MstCourier">
-          <End Type="IMSModel.MstCourier" Role="MstCourier" Multiplicity="0..1" />
-          <End Type="IMSModel.TrnSaleOrder" Role="TrnSaleOrder" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MstCourier">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="TrnSaleOrder">
-              <PropertyRef Name="courierId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -4158,18 +4116,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_TrnGoodReceiveNote_TrnPurchaseOrder">
-          <End Type="IMSModel.TrnPurchaseOrder" Role="TrnPurchaseOrder" Multiplicity="1" />
-          <End Type="IMSModel.TrnGoodReceiveNote" Role="TrnGoodReceiveNote" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TrnPurchaseOrder">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="TrnGoodReceiveNote">
-              <PropertyRef Name="purchaseOrderId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_TrnPurchaseOrder_TrnSaleOrder">
           <End Type="IMSModel.TrnSaleOrder" Role="TrnSaleOrder" Multiplicity="0..1" />
           <End Type="IMSModel.TrnPurchaseOrder" Role="TrnPurchaseOrder" Multiplicity="*" />
@@ -4206,6 +4152,24 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="TrnGoodReceiveNote">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="grnNumber" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="grnDate" Type="DateTime" Precision="3" />
+          <Property Name="supplierId" Type="Int64" Nullable="false" />
+          <Property Name="locationId" Type="Int64" Nullable="false" />
+          <Property Name="totalAmount" Type="Int32" Nullable="false" />
+          <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="createdBy" Type="Int64" Nullable="false" />
+          <Property Name="updatedOn" Type="DateTime" Precision="3" />
+          <Property Name="updatedBy" Type="Int64" />
+          <NavigationProperty Name="MstCompanyLocation" Relationship="IMSModel.FK_TrnGoodReceiveNote_MstCompanyLocation" FromRole="TrnGoodReceiveNote" ToRole="MstCompanyLocation" />
+          <NavigationProperty Name="MstSupplier" Relationship="IMSModel.FK_TrnGoodReceiveNote_MstSupplier" FromRole="TrnGoodReceiveNote" ToRole="MstSupplier" />
+          <NavigationProperty Name="TrnGoodReceiveNoteItems" Relationship="IMSModel.FK_TrnGoodReceiveNoteItems_TrnGoodReceiveNote" FromRole="TrnGoodReceiveNote" ToRole="TrnGoodReceiveNoteItem" />
+        </EntityType>
         <EntityType Name="TrnGoodReceiveNoteItem">
           <Key>
             <PropertyRef Name="id" />
@@ -4221,6 +4185,7 @@
           <Property Name="matThicknessId" Type="Int64" />
           <Property Name="matSizeCode" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="accessoryId" Type="Int64" />
+          <Property Name="purchaseOrderId" Type="Int64" Nullable="false" />
           <Property Name="orderQuantity" Type="Decimal" Precision="7" Scale="2" />
           <Property Name="receivedQuantity" Type="Decimal" Precision="7" Scale="2" />
           <Property Name="fomQuantityInKG" Type="Decimal" Precision="5" Scale="3" />
@@ -4242,6 +4207,7 @@
           <NavigationProperty Name="MstMatThickness" Relationship="IMSModel.FK_TrnGoodReceiveNoteItems_MstMatThickness" FromRole="TrnGoodReceiveNoteItem" ToRole="MstMatThickness" />
           <NavigationProperty Name="MstQuality" Relationship="IMSModel.FK_TrnGoodReceiveNoteItems_MstQuality" FromRole="TrnGoodReceiveNoteItem" ToRole="MstQuality" />
           <NavigationProperty Name="TrnGoodReceiveNote" Relationship="IMSModel.FK_TrnGoodReceiveNoteItems_TrnGoodReceiveNote" FromRole="TrnGoodReceiveNoteItem" ToRole="TrnGoodReceiveNote" />
+          <NavigationProperty Name="TrnPurchaseOrder" Relationship="IMSModel.FK_TrnGoodReceiveNoteItems_TrnPurchaseOrder" FromRole="TrnGoodReceiveNoteItem" ToRole="TrnPurchaseOrder" />
         </EntityType>
         <Association Name="FK_TrnGoodReceiveNoteItems_MstAccessory">
           <End Type="IMSModel.MstAccessory" Role="MstAccessory" Multiplicity="0..1" />
@@ -4276,6 +4242,18 @@
             </Principal>
             <Dependent Role="TrnGoodReceiveNoteItem">
               <PropertyRef Name="collectionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnGoodReceiveNote_MstCompanyLocation">
+          <End Type="IMSModel.MstCompanyLocation" Role="MstCompanyLocation" Multiplicity="1" />
+          <End Type="IMSModel.TrnGoodReceiveNote" Role="TrnGoodReceiveNote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstCompanyLocation">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnGoodReceiveNote">
+              <PropertyRef Name="locationId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -4339,6 +4317,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_TrnGoodReceiveNote_MstSupplier">
+          <End Type="IMSModel.MstSupplier" Role="MstSupplier" Multiplicity="1" />
+          <End Type="IMSModel.TrnGoodReceiveNote" Role="TrnGoodReceiveNote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstSupplier">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnGoodReceiveNote">
+              <PropertyRef Name="supplierId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_TrnGoodReceiveNoteItems_TrnGoodReceiveNote">
           <End Type="IMSModel.TrnGoodReceiveNote" Role="TrnGoodReceiveNote" Multiplicity="1" />
           <End Type="IMSModel.TrnGoodReceiveNoteItem" Role="TrnGoodReceiveNoteItem" Multiplicity="*" />
@@ -4348,6 +4338,60 @@
             </Principal>
             <Dependent Role="TrnGoodReceiveNoteItem">
               <PropertyRef Name="grnId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnGoodReceiveNoteItems_TrnPurchaseOrder">
+          <End Type="IMSModel.TrnPurchaseOrder" Role="TrnPurchaseOrder" Multiplicity="1" />
+          <End Type="IMSModel.TrnGoodReceiveNoteItem" Role="TrnGoodReceiveNoteItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TrnPurchaseOrder">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnGoodReceiveNoteItem">
+              <PropertyRef Name="purchaseOrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="MstCourier">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="phone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="mobile" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" MaxLength="254" FixedLength="false" Unicode="false" />
+          <Property Name="address" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="pin" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="createdBy" Type="Int64" Nullable="false" />
+          <Property Name="updatedOn" Type="DateTime" Precision="3" />
+          <Property Name="updatedBy" Type="Int64" />
+          <NavigationProperty Name="TrnPurchaseOrders" Relationship="IMSModel.FK_TrnPurchaseOrder_MstCourier" FromRole="MstCourier" ToRole="TrnPurchaseOrder" />
+          <NavigationProperty Name="TrnSaleOrders" Relationship="IMSModel.FK_TrnSaleOrder_MstCourier" FromRole="MstCourier" ToRole="TrnSaleOrder" />
+        </EntityType>
+        <Association Name="FK_TrnPurchaseOrder_MstCourier">
+          <End Type="IMSModel.MstCourier" Role="MstCourier" Multiplicity="1" />
+          <End Type="IMSModel.TrnPurchaseOrder" Role="TrnPurchaseOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstCourier">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnPurchaseOrder">
+              <PropertyRef Name="courierId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnSaleOrder_MstCourier">
+          <End Type="IMSModel.MstCourier" Role="MstCourier" Multiplicity="0..1" />
+          <End Type="IMSModel.TrnSaleOrder" Role="TrnSaleOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstCourier">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnSaleOrder">
+              <PropertyRef Name="courierId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -4472,19 +4516,6 @@
                 <ScalarProperty Name="addressLine2" ColumnName="addressLine2" />
                 <ScalarProperty Name="addressLine1" ColumnName="addressLine1" />
                 <ScalarProperty Name="locationCode" ColumnName="locationCode" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="MstCouriers">
-            <EntityTypeMapping TypeName="IMSModel.MstCourier">
-              <MappingFragment StoreEntitySet="MstCourier">
-                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
-                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
-                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
-                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
-                <ScalarProperty Name="docketNumber" ColumnName="docketNumber" />
-                <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -4848,22 +4879,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="TrnGoodReceiveNotes">
-            <EntityTypeMapping TypeName="IMSModel.TrnGoodReceiveNote">
-              <MappingFragment StoreEntitySet="TrnGoodReceiveNote">
-                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
-                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
-                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
-                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
-                <ScalarProperty Name="totalAmount" ColumnName="totalAmount" />
-                <ScalarProperty Name="locationId" ColumnName="locationId" />
-                <ScalarProperty Name="purchaseOrderId" ColumnName="purchaseOrderId" />
-                <ScalarProperty Name="grnDate" ColumnName="grnDate" />
-                <ScalarProperty Name="grnNumber" ColumnName="grnNumber" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="TrnProductStocks">
             <EntityTypeMapping TypeName="IMSModel.TrnProductStock">
               <MappingFragment StoreEntitySet="TrnProductStock">
@@ -5012,6 +5027,22 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="TrnGoodReceiveNotes">
+            <EntityTypeMapping TypeName="IMSModel.TrnGoodReceiveNote">
+              <MappingFragment StoreEntitySet="TrnGoodReceiveNote">
+                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
+                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
+                <ScalarProperty Name="totalAmount" ColumnName="totalAmount" />
+                <ScalarProperty Name="locationId" ColumnName="locationId" />
+                <ScalarProperty Name="supplierId" ColumnName="supplierId" />
+                <ScalarProperty Name="grnDate" ColumnName="grnDate" />
+                <ScalarProperty Name="grnNumber" ColumnName="grnNumber" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="TrnGoodReceiveNoteItems">
             <EntityTypeMapping TypeName="IMSModel.TrnGoodReceiveNoteItem">
               <MappingFragment StoreEntitySet="TrnGoodReceiveNoteItems">
@@ -5027,6 +5058,7 @@
                 <ScalarProperty Name="fomQuantityInKG" ColumnName="fomQuantityInKG" />
                 <ScalarProperty Name="receivedQuantity" ColumnName="receivedQuantity" />
                 <ScalarProperty Name="orderQuantity" ColumnName="orderQuantity" />
+                <ScalarProperty Name="purchaseOrderId" ColumnName="purchaseOrderId" />
                 <ScalarProperty Name="accessoryId" ColumnName="accessoryId" />
                 <ScalarProperty Name="matSizeCode" ColumnName="matSizeCode" />
                 <ScalarProperty Name="matThicknessId" ColumnName="matThicknessId" />
@@ -5037,6 +5069,23 @@
                 <ScalarProperty Name="collectionId" ColumnName="collectionId" />
                 <ScalarProperty Name="categoryId" ColumnName="categoryId" />
                 <ScalarProperty Name="grnId" ColumnName="grnId" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MstCouriers">
+            <EntityTypeMapping TypeName="IMSModel.MstCourier">
+              <MappingFragment StoreEntitySet="MstCourier">
+                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
+                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
+                <ScalarProperty Name="pin" ColumnName="pin" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="mobile" ColumnName="mobile" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

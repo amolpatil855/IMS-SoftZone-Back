@@ -14,14 +14,14 @@ namespace IMSWebApi.ViewModel
         public string grnNumber { get; set; }
         public Nullable<DateTime> grnDate { get; set; }
         [Required]
-        public long purchaseOrderId { get; set; }
+        public long supplierId { get; set; }
         [Required]
         public long locationId { get; set; }
         [Required]
         public int totalAmount { get; set; }
         
         public virtual VMCompanyLocation MstCompanyLocation { get; set; }
-        public virtual VMTrnPurchaseOrder TrnPurchaseOrder { get; set; }
+        public virtual VMSupplier MstSupplier { get; set; }
         public virtual List<VMTrnGoodReceiveNoteItem> TrnGoodReceiveNoteItems { get; set; }
     }
 }

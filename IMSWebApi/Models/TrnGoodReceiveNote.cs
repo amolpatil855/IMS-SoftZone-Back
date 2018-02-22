@@ -22,7 +22,7 @@ namespace IMSWebApi.Models
         public long id { get; set; }
         public string grnNumber { get; set; }
         public Nullable<System.DateTime> grnDate { get; set; }
-        public long purchaseOrderId { get; set; }
+        public long supplierId { get; set; }
         public long locationId { get; set; }
         public int totalAmount { get; set; }
         public System.DateTime createdOn { get; set; }
@@ -31,7 +31,7 @@ namespace IMSWebApi.Models
         public Nullable<long> updatedBy { get; set; }
     
         public virtual MstCompanyLocation MstCompanyLocation { get; set; }
-        public virtual TrnPurchaseOrder TrnPurchaseOrder { get; set; }
+        public virtual MstSupplier MstSupplier { get; set; }
         public virtual ICollection<TrnGoodReceiveNoteItem> TrnGoodReceiveNoteItems { get; set; }
     }
 }

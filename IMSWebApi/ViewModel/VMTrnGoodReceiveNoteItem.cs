@@ -22,6 +22,7 @@ namespace IMSWebApi.ViewModel
         [MaxLength(20)]
         public string matSizeCode { get; set; }
         public Nullable<long> accessoryId { get; set; }
+        public long purchaseOrderId { get; set; }
         public Nullable<decimal> orderQuantity { get; set; }
         public Nullable<decimal> receivedQuantity { get; set; }
         public Nullable<decimal> fomQuantityInKG { get; set; }
@@ -41,6 +42,7 @@ namespace IMSWebApi.ViewModel
         public virtual VMMatSize MstMatSize { get; set; }
         public virtual VMMatThickness MstMatThickness { get; set; }
         public virtual VMQuality MstQuality { get; set; }
+        public virtual VMTrnPurchaseOrder TrnPurchaseOrder { get; set; }
         //public virtual VMTrnGoodReceiveNote TrnGoodReceiveNote { get; set; }
     }
 }

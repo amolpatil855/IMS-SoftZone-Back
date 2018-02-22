@@ -25,6 +25,7 @@ namespace IMSWebApi.Models
         public Nullable<long> matThicknessId { get; set; }
         public string matSizeCode { get; set; }
         public Nullable<long> accessoryId { get; set; }
+        public long purchaseOrderId { get; set; }
         public Nullable<decimal> orderQuantity { get; set; }
         public Nullable<decimal> receivedQuantity { get; set; }
         public Nullable<decimal> fomQuantityInKG { get; set; }
@@ -47,5 +48,6 @@ namespace IMSWebApi.Models
         public virtual MstMatThickness MstMatThickness { get; set; }
         public virtual MstQuality MstQuality { get; set; }
         public virtual TrnGoodReceiveNote TrnGoodReceiveNote { get; set; }
+        public virtual TrnPurchaseOrder TrnPurchaseOrder { get; set; }
     }
 }
