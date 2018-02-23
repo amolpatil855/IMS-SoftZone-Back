@@ -96,7 +96,7 @@ namespace IMSWebApi.Services
 
                 foreach (var soItems in saleOrderItems)
                 {
-                    soItems.status = SaleOrderStatus.Generated.ToString();
+                    soItems.status = SaleOrderStatus.Created.ToString();
                     soItems.balanceQuantity = soItems.orderQuantity;
                     soItems.deliverQuantity = 0;
                     soItems.createdOn = DateTime.Now;
@@ -107,7 +107,7 @@ namespace IMSWebApi.Services
                 string orderNo = generateOrderNumber.orderNumber(financialYear.startDate.ToString("yy"), financialYear.endDate.ToString("yy"), financialYear.soNumber);
                 saleOrderToPost.orderNumber = orderNo;
                 saleOrderToPost.financialYear = financialYear.financialYear;
-                saleOrderToPost.status = PurchaseOrderStatus.Generated.ToString();
+                saleOrderToPost.status = PurchaseOrderStatus.Created.ToString();
                 saleOrderToPost.createdOn = DateTime.Now;
                 saleOrderToPost.createdBy = _LoggedInuserId;
 
@@ -205,7 +205,7 @@ namespace IMSWebApi.Services
                 {
                     TrnSaleOrderItem soItem = Mapper.Map<VMTrnSaleOrderItem, TrnSaleOrderItem>(x);
                     soItem.saleOrderId = saleOrder.id;
-                    soItem.status = SaleOrderStatus.Generated.ToString();
+                    soItem.status = SaleOrderStatus.Created.ToString();
                     soItem.balanceQuantity = soItem.orderQuantity;
                     soItem.deliverQuantity = 0;
                     soItem.createdBy = _LoggedInuserId;
@@ -222,10 +222,10 @@ namespace IMSWebApi.Services
             using (var transaction = new TransactionScope())
             {
                 var saleOrder = repo.TrnSaleOrders.Where(so => so.id == id).FirstOrDefault();
-                saleOrder.status = SaleOrderStatus.Approve.ToString();
+                saleOrder.status = SaleOrderStatus.Approved.ToString();
                 foreach (var soItem in saleOrder.TrnSaleOrderItems)
                 {
-                    soItem.status = SaleOrderStatus.Approve.ToString();
+                    soItem.status = SaleOrderStatus.Approved.ToString();
                 }
                 repo.SaveChanges();
                 transaction.Complete();
