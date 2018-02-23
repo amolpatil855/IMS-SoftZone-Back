@@ -9,7 +9,6 @@ namespace IMSWebApi.ViewModel
     public class VMTrnGoodReceiveNoteItem
     {
         public long id { get; set; }
-        [Required]
         public long grnId { get; set; }
         [Required]
         public long categoryId { get; set; }

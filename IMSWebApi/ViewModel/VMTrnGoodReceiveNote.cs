@@ -9,7 +9,6 @@ namespace IMSWebApi.ViewModel
     public class VMTrnGoodReceiveNote
     {
         public long id { get; set; }
-        [Required]
         [MaxLength(50)]
         public string grnNumber { get; set; }
         public Nullable<DateTime> grnDate { get; set; }

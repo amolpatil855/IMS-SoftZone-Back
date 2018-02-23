@@ -9,7 +9,6 @@ namespace IMSWebApi.ViewModel
     public class VMTrnSaleOrderItem
     {
         public long id { get; set; }
-        [Required]
         public long saleOrderId { get; set; }
         [Required]
         public long categoryId { get; set; }
