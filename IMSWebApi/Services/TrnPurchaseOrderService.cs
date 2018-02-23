@@ -20,7 +20,7 @@ namespace IMSWebApi.Services
         Int64 _LoggedInuserId;
         ResourceManager resourceManager = null;
         TrnProductStockService _trnProductStockService = null;
-        GenerateOrderNumber generateOrderNumber = new GenerateOrderNumber();
+        GenerateOrderNumber generateOrderNumber = null;
         SendEmail emailNotification = new SendEmail();
 
         public TrnPurchaseOrderService()
@@ -28,6 +28,7 @@ namespace IMSWebApi.Services
             _trnProductStockService = new TrnProductStockService();
             _LoggedInuserId = Convert.ToInt64(HttpContext.Current.User.Identity.GetUserId());
             resourceManager = new ResourceManager("IMSWebApi.App_Data.Resource", Assembly.GetExecutingAssembly());
+            generateOrderNumber = new GenerateOrderNumber();
         }
 
         public List<VMLookUpItem> getCollectionBySuppliernCategoryId(Int64 supplierId,Int64 categoryId)
@@ -116,15 +117,16 @@ namespace IMSWebApi.Services
             purchaseOrderView.shippingAddress = result.MstCompanyLocation.addressLine1 + " " + result.MstCompanyLocation.addressLine2 +
                                                    "," + result.MstCompanyLocation.city + ", " + result.MstCompanyLocation.state + " PINCODE - "
                                                    + result.MstCompanyLocation.pin;
+           
             purchaseOrderView.TrnPurchaseOrderItems.ForEach(poItem =>
             {
                 poItem.categoryName = poItem.MstCategory.name;
                 poItem.collectionName = poItem.MstCollection.collectionName;
                 poItem.serialno = poItem.MstCategory.code.Equals("Fabric") || poItem.MstCategory.code.Equals("Rug") || poItem.MstCategory.code.Equals("Wallpaper") ? poItem.MstFWRShade.serialNumber + "(" + poItem.MstFWRShade.shadeCode + ")" : null;
                 poItem.size = poItem.MstMatSize != null ? poItem.MstMatSize.sizeCode + " (" + poItem.MstMatSize.MstMatThickNess.thicknessCode + "-" + poItem.MstMatSize.MstQuality.qualityCode + ")" : 
-                                poItem.MstFomSize != null ? poItem.MstFomSize.itemCode : null;
+                                poItem.MstFomSize != null ? poItem.MstFomSize.itemCode : poItem.matSizeCode;
             });
-
+           
             return purchaseOrderView;
         }
 
@@ -137,7 +139,8 @@ namespace IMSWebApi.Services
                
                 foreach (var poItems in purchaseOrderItems)
                 {
-                    poItems.status = PurchaseOrderStatus.Generated.ToString();
+                    poItems.matSizeId = poItems.matSizeId == -1 ? null : poItems.matSizeId;     //set null for custom matSize
+                    poItems.status = PurchaseOrderStatus.Created.ToString();
                     poItems.balanceQuantity = poItems.orderQuantity;
                     poItems.createdOn = DateTime.Now;
                     poItems.createdBy = _LoggedInuserId;
@@ -147,7 +150,7 @@ namespace IMSWebApi.Services
                 string orderNo = generateOrderNumber.orderNumber(financialYear.startDate.ToString("yy"), financialYear.endDate.ToString("yy"), financialYear.poNumber);
                 purchaseOrderToPost.orderNumber = orderNo;
                 purchaseOrderToPost.financialYear = financialYear.financialYear;
-                purchaseOrderToPost.status = PurchaseOrderStatus.Generated.ToString();
+                purchaseOrderToPost.status = PurchaseOrderStatus.Created.ToString();
                 purchaseOrderToPost.createdOn = DateTime.Now;
                 purchaseOrderToPost.createdBy = _LoggedInuserId;
                 
@@ -249,7 +252,7 @@ namespace IMSWebApi.Services
                 {
                     TrnPurchaseOrderItem poItem = Mapper.Map<VMTrnPurchaseOrderItem, TrnPurchaseOrderItem>(x);
                     poItem.purchaseOrderId = purchaseOrder.id;
-                    poItem.status = PurchaseOrderStatus.Generated.ToString();
+                    poItem.status = PurchaseOrderStatus.Created.ToString();
                     poItem.balanceQuantity = poItem.orderQuantity;
                     poItem.createdBy = _LoggedInuserId;
                     poItem.createdOn = DateTime.Now;
@@ -265,16 +268,23 @@ namespace IMSWebApi.Services
             using (var transaction = new TransactionScope())
             {
                 var purchaseOrder = repo.TrnPurchaseOrders.Where(po => po.id == id).FirstOrDefault();
-                purchaseOrder.status = PurchaseOrderStatus.Approve.ToString();
+                purchaseOrder.status = PurchaseOrderStatus.Approved.ToString();
                 foreach (var poItem in purchaseOrder.TrnPurchaseOrderItems)
                 {
-                    poItem.status = PurchaseOrderStatus.Approve.ToString();
+                    poItem.status = PurchaseOrderStatus.Approved.ToString();
                     _trnProductStockService.AddpoIteminStock(poItem);
                 }
                 repo.SaveChanges();
+                VMTrnPurchaseOrder VMPurchaseOrder = Mapper.Map<TrnPurchaseOrder, VMTrnPurchaseOrder>(purchaseOrder);
+                MstUser loggedInUser = repo.MstUsers.Where(u => u.id == _LoggedInuserId).FirstOrDefault();
+                string supplierEmail = VMPurchaseOrder.MstSupplier.email;
+
+                emailNotification.notifySupplierForPO(VMPurchaseOrder, "NotifySupplierForPO", supplierEmail);
+
                 transaction.Complete();
                 return new ResponseMessage(id, resourceManager.GetString("POApproved"), ResponseType.Success);
             }
         }
+
     }
 }
