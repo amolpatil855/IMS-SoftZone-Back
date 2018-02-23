@@ -207,13 +207,17 @@ namespace IMSWebApi.Services
         public ResponseMessage forgetPassword(string emailId)
         {
             var user = repo.MstUsers.Where(u => u.email.Equals(emailId)).FirstOrDefault();
-            if (user!=null)
+            if (user!=null && user.isActive)
             {
                 var originalPassword = createRandomPassword(8);
                 user.password = encryption(originalPassword);
                 repo.SaveChanges();
                 sendEmail(user.id, originalPassword, "ForgotPassword",true);
                 return new ResponseMessage(user.id, resourceManager.GetString("PasswordReset"), ResponseType.Success);
+            }
+            else if (user != null && user.isActive == false)
+            {
+                return new ResponseMessage(user.id, resourceManager.GetString("PasswordResetForDeActiveUser"), ResponseType.Error);
             }
             else
             {
