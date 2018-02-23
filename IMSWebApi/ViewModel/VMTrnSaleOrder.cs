@@ -9,7 +9,6 @@ namespace IMSWebApi.ViewModel
     public class VMTrnSaleOrder
     {
         public long id { get; set; }
-        [Required]
         [MaxLength(50)]
         public string orderNumber { get; set; }
         [Required]
@@ -26,7 +25,6 @@ namespace IMSWebApi.ViewModel
         public Nullable<int> totalAmount { get; set; }
         [MaxLength(100)]
         public string remark { get; set; }
-        [Required]
         [MaxLength(20)]
         public string status { get; set; }
         [MaxLength(10)]

@@ -339,4 +339,7 @@
   <data name="UserDeActivate" xml:space="preserve">
     <value>User is De-Activated Successfully</value>
   </data>
+  <data name="PasswordResetForDeActiveUser" xml:space="preserve">
+    <value>User is De-Active. Password cannot be reset.</value>
+  </data>
 </root>

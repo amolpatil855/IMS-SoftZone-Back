@@ -197,6 +197,8 @@ namespace IMSWebApi.Services
             if (userToPut != null)
             {
                 userToPut.password = encryption(user.password);
+                userToPut.updatedOn = DateTime.Now;
+                userToPut.updatedBy = _LoggedInuserId;
                 repo.SaveChanges();
                 return new ResponseMessage(userToPut.id, resourceManager.GetString("PasswordUpdated"), ResponseType.Success);
             }
@@ -207,13 +209,19 @@ namespace IMSWebApi.Services
         public ResponseMessage forgetPassword(string emailId)
         {
             var user = repo.MstUsers.Where(u => u.email.Equals(emailId)).FirstOrDefault();
-            if (user!=null)
+            if (user!=null && user.isActive)
             {
                 var originalPassword = createRandomPassword(8);
                 user.password = encryption(originalPassword);
+                user.updatedBy = 1;
+                user.updatedOn = DateTime.Now;
                 repo.SaveChanges();
                 sendEmail(user.id, originalPassword, "ForgotPassword",true);
                 return new ResponseMessage(user.id, resourceManager.GetString("PasswordReset"), ResponseType.Success);
+            }
+            else if (user != null && user.isActive == false)
+            {
+                return new ResponseMessage(user.id, resourceManager.GetString("PasswordResetForDeActiveUser"), ResponseType.Error);
             }
             else
             {

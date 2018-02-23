@@ -9,7 +9,6 @@ namespace IMSWebApi.ViewModel
     public class VMTrnGoodReceiveNoteItem
     {
         public long id { get; set; }
-        [Required]
         public long grnId { get; set; }
         [Required]
         public long categoryId { get; set; }
@@ -23,8 +22,8 @@ namespace IMSWebApi.ViewModel
         public string matSizeCode { get; set; }
         public Nullable<long> accessoryId { get; set; }
         public long purchaseOrderId { get; set; }
-        public Nullable<decimal> orderQuantity { get; set; }
-        public Nullable<decimal> receivedQuantity { get; set; }
+        public decimal orderQuantity { get; set; }
+        public decimal receivedQuantity { get; set; }
         public Nullable<decimal> fomQuantityInKG { get; set; }
         [Required]
         public decimal rate { get; set; }
@@ -33,6 +32,8 @@ namespace IMSWebApi.ViewModel
         public Nullable<decimal> rateWithGST { get; set; }
         public Nullable<int> amountWithGST { get; set; }
         public Nullable<int> gst { get; set; }
+
+        public string purchaseOrderNumber { get; set; }
 
         public virtual VMAccessory MstAccessory { get; set; }
         public virtual VMCategory MstCategory { get; set; }
