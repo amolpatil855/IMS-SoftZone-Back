@@ -272,7 +272,10 @@ namespace IMSWebApi.Services
                 foreach (var poItem in purchaseOrder.TrnPurchaseOrderItems)
                 {
                     poItem.status = PurchaseOrderStatus.Approved.ToString();
-                    _trnProductStockService.AddpoIteminStock(poItem);
+                    if (!(poItem.categoryId == 4 && poItem.matSizeId==null))
+                    {
+                        _trnProductStockService.AddpoIteminStock(poItem);
+                    }
                 }
                 repo.SaveChanges();
                 VMTrnPurchaseOrder VMPurchaseOrder = Mapper.Map<TrnPurchaseOrder, VMTrnPurchaseOrder>(purchaseOrder);

@@ -380,5 +380,25 @@ namespace IMSWebApi.Services
                     repo.SaveChanges();
                 }
         }
+
+        public void updatePOItemInStockForGRN(TrnGoodReceiveNoteItem grnItem)
+        {
+            TrnProductStock product = repo.TrnProductStocks.Where(z => z.categoryId == grnItem.categoryId
+                                                      && z.collectionId == grnItem.collectionId
+                                                      && z.fwrShadeId == grnItem.shadeId
+                                                      && z.fomSizeId == grnItem.fomSizeId
+                                                      && z.matSizeId == grnItem.matSizeId
+                                                      && z.accessoryId == grnItem.matSizeId).FirstOrDefault();
+
+            if (product!=null)
+            {
+                product.poQuantity = product.poQuantity - grnItem.receivedQuantity;
+                product.stock = product.stock + grnItem.receivedQuantity;
+                product.stockInKg = grnItem.receivedQuantity!=null ? product.stockInKg + grnItem.fomQuantityInKG : product.stockInKg;
+                product.updatedOn = DateTime.Now;
+                product.updatedBy = _LoggedInuserId;
+                repo.SaveChanges();
+            }
+        }
     }
 }
