@@ -19,6 +19,7 @@ namespace IMSWebApi.Enums
         Completed = 5
     }
 
+
     public enum SaleOrderStatus
     {
         Created = 1,
