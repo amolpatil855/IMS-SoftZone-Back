@@ -26,8 +26,8 @@ namespace IMSWebApi.Models
         public string matSizeCode { get; set; }
         public Nullable<long> accessoryId { get; set; }
         public long purchaseOrderId { get; set; }
-        public Nullable<decimal> orderQuantity { get; set; }
-        public Nullable<decimal> receivedQuantity { get; set; }
+        public decimal orderQuantity { get; set; }
+        public decimal receivedQuantity { get; set; }
         public Nullable<decimal> fomQuantityInKG { get; set; }
         public decimal rate { get; set; }
         public int amount { get; set; }
@@ -39,6 +39,7 @@ namespace IMSWebApi.Models
         public Nullable<System.DateTime> updatedOn { get; set; }
         public Nullable<long> updatedBy { get; set; }
     
+        public virtual MstAccessory MstAccessory { get; set; }
         public virtual MstCategory MstCategory { get; set; }
         public virtual MstCollection MstCollection { get; set; }
         public virtual MstFomSize MstFomSize { get; set; }
@@ -48,6 +49,5 @@ namespace IMSWebApi.Models
         public virtual MstQuality MstQuality { get; set; }
         public virtual TrnGoodReceiveNote TrnGoodReceiveNote { get; set; }
         public virtual TrnPurchaseOrder TrnPurchaseOrder { get; set; }
-        public virtual MstAccessory MstAccessory { get; set; }
     }
 }

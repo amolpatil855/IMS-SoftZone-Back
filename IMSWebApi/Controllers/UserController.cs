@@ -120,7 +120,7 @@ namespace IMSWebApi.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost]
+        [HttpPut]
         [Route("api/User/ForgetPassword")]
         public IHttpActionResult ForgetPassword(string email)
         {

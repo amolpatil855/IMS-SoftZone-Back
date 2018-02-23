@@ -12,19 +12,19 @@ namespace IMSWebApi.Enums
 
     public enum PurchaseOrderStatus
     {
-        Generated = 1,
-        Approve = 2,
-        PartialPending = 3,
-        Cancel = 4,
-        Complete = 5
+        Created = 1,
+        Approved = 2,
+        PartialCompleted = 3,
+        Closed = 4,
+        Completed = 5
     }
 
     public enum SaleOrderStatus
     {
-        Generated = 1,
-        Approve = 2,
-        PartialPending = 3,
-        Cancel = 4,
-        Complete = 5
+        Created = 1,
+        Approved = 2,
+        PartialCompleted = 3,
+        Closed = 4,
+        Completed = 5
     }
 }

@@ -43,7 +43,7 @@ namespace IMSWebApi.Models
         public virtual MstSupplier MstSupplier { get; set; }
         public virtual TrnSaleOrder TrnSaleOrder { get; set; }
         public virtual ICollection<TrnPurchaseOrderItem> TrnPurchaseOrderItems { get; set; }
-        public virtual ICollection<TrnGoodReceiveNoteItem> TrnGoodReceiveNoteItems { get; set; }
         public virtual MstCourier MstCourier { get; set; }
+        public virtual ICollection<TrnGoodReceiveNoteItem> TrnGoodReceiveNoteItems { get; set; }
     }
 }
