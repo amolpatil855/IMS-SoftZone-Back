@@ -26,6 +26,7 @@ namespace IMSWebApi.ViewModel
         [MaxLength(20)]
         public string orderType { get; set; }
         public Nullable<decimal> rate { get; set; }
+        public Nullable<decimal> discountPercentage { get; set; }
         public Nullable<int> amount { get; set; }
         public Nullable<decimal> rateWithGST { get; set; }
         public Nullable<int> amountWithGST { get; set; }
@@ -37,6 +38,7 @@ namespace IMSWebApi.ViewModel
         public string collectionName { get; set; }
         public string serialno { get; set; }
         public string size { get; set; }
+        public string accessoryName { get; set; }
 
         public virtual VMAccessory MstAccessory { get; set; }
         public virtual VMCategory MstCategory { get; set; }

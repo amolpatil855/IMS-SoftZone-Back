@@ -21,6 +21,7 @@ namespace IMSWebApi.Services
         ResourceManager resourceManager = null;
         GenerateOrderNumber generateOrderNumber = null;
         SendEmail emailNotification = null;
+        TrnProductStockService _trnProductStockService = null;
 
         public TrnSaleOrderService()
         {
@@ -28,6 +29,7 @@ namespace IMSWebApi.Services
             resourceManager = new ResourceManager("IMSWebApi.App_Data.Resource", Assembly.GetExecutingAssembly());
             generateOrderNumber = new GenerateOrderNumber();
             emailNotification = new SendEmail();
+            _trnProductStockService = new TrnProductStockService();
         }
 
         public ListResult<VMTrnSaleOrder> getSaleOrders(int pageSize, int page, string search)
@@ -75,13 +77,14 @@ namespace IMSWebApi.Services
             saleOrderView.TrnSaleOrderItems.ForEach(soItem =>
             {
                 soItem.categoryName = soItem.MstCategory.name;
-                soItem.collectionName = soItem.MstCollection.collectionName;
+                soItem.collectionName = soItem.collectionId!=null ? soItem.MstCollection.collectionName : null;
                 soItem.serialno = soItem.MstCategory.code.Equals("Fabric")
                                 || soItem.MstCategory.code.Equals("Rug")
                                 || soItem.MstCategory.code.Equals("Wallpaper")
                                 ? soItem.MstFWRShade.serialNumber + "(" + soItem.MstFWRShade.shadeCode + ")" : null;
                 soItem.size = soItem.MstMatSize != null ? soItem.MstMatSize.sizeCode + " (" + soItem.MstMatSize.MstMatThickNess.thicknessCode + "-" + soItem.MstMatSize.MstQuality.qualityCode + ")" :
                             soItem.MstFomSize != null ? soItem.MstFomSize.itemCode : null;
+                soItem.accessoryName = soItem.accessoryId != null ? soItem.MstAccessory.name : null;
             });
 
             return saleOrderView;
@@ -191,6 +194,7 @@ namespace IMSWebApi.Services
                     soItemToPut.balanceQuantity = x.balanceQuantity;
                     soItemToPut.orderType = x.orderType;
                     soItemToPut.rate = x.rate;
+                    soItemToPut.discountPercentage = x.discountPercentage;
                     soItemToPut.rateWithGST = x.rateWithGST;
                     soItemToPut.amount = x.amount;
                     soItemToPut.amountWithGST = x.amountWithGST;
@@ -226,6 +230,7 @@ namespace IMSWebApi.Services
                 foreach (var soItem in saleOrder.TrnSaleOrderItems)
                 {
                     soItem.status = SaleOrderStatus.Approved.ToString();
+                    _trnProductStockService.AddsoIteminStock(soItem);
                 }
                 repo.SaveChanges();
                 transaction.Complete();

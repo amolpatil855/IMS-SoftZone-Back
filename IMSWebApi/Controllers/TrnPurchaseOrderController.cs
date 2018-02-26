@@ -101,5 +101,16 @@ namespace IMSWebApi.Controllers
             var result = _trnPurchaseOrderService.approvePO(id);
             return Ok(result);
         }
+
+        // GET api/TrnPurchaseOrder
+        [ApiAuthorize(AccessLevel = "purchaseorder")]
+        [HttpGet]
+        [Route("api/TrnPurchaseOrder/GetSupplierListForPO")]
+        public IHttpActionResult GetSupplierListForPO()
+        {
+            var result = _trnPurchaseOrderService.getSupplierListForPO();
+            return Ok(result);
+        }
+
     }
 }
