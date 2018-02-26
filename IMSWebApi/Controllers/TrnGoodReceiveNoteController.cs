@@ -47,7 +47,8 @@ namespace IMSWebApi.Controllers
             {
                 return BadRequest(ModelState);
             }
-            return Ok();
+            var result = _trnGoodReceiveNoteService.postGRN(goodReceiveNote);
+            return Ok(result);
         }
 
         // PUT api/TrnGoodReceiveNote
@@ -69,5 +70,24 @@ namespace IMSWebApi.Controllers
         {
             return Ok();
         }
+
+        [ApiAuthorize(AccessLevel = "grn")]
+        [HttpGet]
+        [Route("api/TrnGoodReceiveNote/GetSupplierLookupForPOIncomplete")]
+        public IHttpActionResult GetSupplierLookupForPOIncomplete()
+        {
+            var result = _trnGoodReceiveNoteService.getSupplierForPOIncomplete();
+            return Ok(result);
+        }
+
+        [ApiAuthorize(AccessLevel = "grn")]
+        [HttpGet]
+        [Route("api/TrnGoodReceiveNote/GetPOListForSelectedItem")]
+        public IHttpActionResult GetPOListForSelectedItem(long categoryId, long? collectionId, long? parameterId, string matSizeCode)
+        {
+            var result = _trnGoodReceiveNoteService.getPOListForSelectedItem(categoryId, collectionId, parameterId, matSizeCode);
+            return Ok(result);
+        }
+        
     }
 }
