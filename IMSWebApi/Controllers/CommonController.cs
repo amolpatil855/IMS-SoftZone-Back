@@ -32,6 +32,7 @@ namespace IMSWebApi.Controllers
         private AgentService _agentService = null;
         private CourierService _courierService = null;
         private AccessoryService _accessoryService = null;
+        private TrnGoodReceiveNoteService _trnGoodReceiveNoteService = null;
 
         public CommonController()
         {
@@ -55,6 +56,7 @@ namespace IMSWebApi.Controllers
             _agentService = new AgentService();
             _courierService = new CourierService();
             _accessoryService = new AccessoryService();
+            _trnGoodReceiveNoteService = new TrnGoodReceiveNoteService();
         }
 
         [HttpGet]
@@ -139,6 +141,14 @@ namespace IMSWebApi.Controllers
         }
 
         [HttpGet]
+        [Route("api/Common/GetCollectionForGRNByCategorynSupplierId")]
+        public IHttpActionResult GetCollectionForGRNByCategorynSupplierId(long categoryId, long? supplierId)
+        {
+            var result = _collectionService.getCollectionForGRNByCategorynSupplierId(categoryId,supplierId);
+            return Ok(result);
+        }
+
+        [HttpGet]
         [Route("api/Common/GetCustomerLookUp")]
         public IHttpActionResult GetCustomerLookUp()
         {
@@ -179,10 +189,26 @@ namespace IMSWebApi.Controllers
         }
 
         [HttpGet]
+        [Route("api/Common/GetSerialNumberLookUpForGRN")]
+        public IHttpActionResult GetSerialNumberLookUpForGRN(long collectionId)
+        {
+            var result = _shadeService.getSerialNumberLookUpForGRN(collectionId);
+            return Ok(result);
+        }
+
+        [HttpGet]
         [Route("api/Common/GetAccessoryLookUp")]
         public IHttpActionResult GetAccessoryLookUp()
         {
             var result = _accessoryService.getAccessoryLookUp();
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("api/Common/GetAccessoryLookUpForGRN")]
+        public IHttpActionResult GetAccessoryLookUpForGRN()
+        {
+            var result = _accessoryService.getAccessoryLookUpForGRN();
             return Ok(result);
         }
 
@@ -199,6 +225,14 @@ namespace IMSWebApi.Controllers
         public IHttpActionResult GetMatSizeLookUp(long collectionId)
         {
             var result = _matSizeService.getMatSizeLookUpByCollectionId(collectionId);
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("api/Common/GetMatSizeLookUpForGRN")]
+        public IHttpActionResult GetMatSizeLookUpForGRN(long collectionId)
+        {
+            var result = _matSizeService.getMatSizeLookUpForGRN(collectionId);
             return Ok(result);
         }
 
@@ -223,6 +257,14 @@ namespace IMSWebApi.Controllers
         public IHttpActionResult GetSupplierLookUp()
         {
             var result = _supplierService.getSupplierLookUp();
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("api/TrnGoodReceiveNote/GetSupplierLookupForGRN")]
+        public IHttpActionResult GetSupplierLookupForGRN()
+        {
+            var result = _trnGoodReceiveNoteService.getSupplierForGRN();
             return Ok(result);
         }
 
@@ -273,6 +315,15 @@ namespace IMSWebApi.Controllers
             var result = _fomSizeService.getFomSizeLookUpByCollection(collectionId);
             return Ok(result);
         }
+
+        [HttpGet]
+        [Route("api/Common/GetFomSizeLookUpForGRN")]
+        public IHttpActionResult GetFomSizeLookUpForGRN(long collectionId)
+        {
+            var result = _fomSizeService.getFomSizeLookUpForGRN(collectionId);
+            return Ok(result);
+        }
+
 
         [HttpGet]
         [Route("api/Common/GetUnitOfMeasureLookup")]

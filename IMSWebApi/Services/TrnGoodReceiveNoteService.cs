@@ -63,12 +63,26 @@ namespace IMSWebApi.Services
         {
             var result = repo.TrnGoodReceiveNotes.Where(grn => grn.id == id).FirstOrDefault();
             VMTrnGoodReceiveNote goodReceiveNoteView = Mapper.Map<TrnGoodReceiveNote, VMTrnGoodReceiveNote>(result);
+            goodReceiveNoteView.supplierName = result.MstSupplier.name;
+            goodReceiveNoteView.shippingAddress = result.MstCompanyLocation.addressLine1 + " " + result.MstCompanyLocation.addressLine2 +
+                                                   "," + result.MstCompanyLocation.city + ", " + result.MstCompanyLocation.state + " PINCODE - "
+                                                   + result.MstCompanyLocation.pin;
+
+            goodReceiveNoteView.TrnGoodReceiveNoteItems.ForEach(grnItem =>
+            {
+                grnItem.categoryName = grnItem.MstCategory.name;
+                grnItem.collectionName = grnItem.collectionId != null ? grnItem.MstCollection.collectionName : null;
+                grnItem.serialno = grnItem.MstCategory.code.Equals("Fabric") || grnItem.MstCategory.code.Equals("Rug") || grnItem.MstCategory.code.Equals("Wallpaper") ? grnItem.MstFWRShade.serialNumber + "(" + grnItem.MstFWRShade.shadeCode + ")" : null;
+                grnItem.size = grnItem.MstMatSize != null ? grnItem.MstMatSize.sizeCode + " (" + grnItem.MstMatSize.MstMatThickNess.thicknessCode + "-" + grnItem.MstMatSize.MstQuality.qualityCode + ")" :
+                                grnItem.MstFomSize != null ? grnItem.MstFomSize.itemCode : grnItem.matSizeCode;
+                grnItem.accessoryName = grnItem.accessoryId != null ? grnItem.MstAccessory.name : null;
+            });
             return goodReceiveNoteView;
         }
 
-        public List<VMLookUpItem> getSupplierForPOIncomplete()
+        public List<VMLookUpItem> getSupplierForGRN()
         {
-            return repo.TrnPurchaseOrders.Where(po => !po.status.Equals("Completed") && !po.status.Equals("Closed"))
+            return repo.TrnPurchaseOrders.Where(po => po.status.Equals("Approved") && po.status.Equals("PartialCompleted"))
                             .OrderBy(s=>s.MstSupplier.name)
                             .Select(s => new VMLookUpItem {
                             value = s.MstSupplier.id,

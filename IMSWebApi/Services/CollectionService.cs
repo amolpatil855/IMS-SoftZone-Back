@@ -119,7 +119,18 @@ namespace IMSWebApi.Services
                 }).ToList();
         }
 
-       
+        public List<VMLookUpItem> getCollectionForGRNByCategorynSupplierId(Int64 categoryId,Int64? supplierId)
+        {
+            return repo.TrnPurchaseOrderItems.Where(p => p.categoryId == categoryId 
+                                                    && p.MstCollection.supplierId == supplierId 
+                                                    && (p.status.Equals("Approved") || p.status.Equals("PartialCompleted")))
+                .Select(s => new VMLookUpItem
+                {
+                    value = s.MstCollection.id,
+                    label = s.MstCollection.collectionCode + " (" +
+                        s.MstCollection.MstSupplier.code + ")"
+                }).Distinct().ToList();
+        }
 
         public ResponseMessage postCollection(VMCollection collection)
         {

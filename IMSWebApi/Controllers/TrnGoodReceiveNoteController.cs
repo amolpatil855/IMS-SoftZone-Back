@@ -71,15 +71,7 @@ namespace IMSWebApi.Controllers
             return Ok();
         }
 
-        [ApiAuthorize(AccessLevel = "grn")]
-        [HttpGet]
-        [Route("api/TrnGoodReceiveNote/GetSupplierLookupForPOIncomplete")]
-        public IHttpActionResult GetSupplierLookupForPOIncomplete()
-        {
-            var result = _trnGoodReceiveNoteService.getSupplierForPOIncomplete();
-            return Ok(result);
-        }
-
+  
         [ApiAuthorize(AccessLevel = "grn")]
         [HttpGet]
         [Route("api/TrnGoodReceiveNote/GetPOListForSelectedItem")]

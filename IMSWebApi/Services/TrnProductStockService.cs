@@ -326,7 +326,7 @@ namespace IMSWebApi.Services
             if (product!=null)
             {   
                 product.stock = isUpdate ? product.stock + stock : product.stock + trnProductStockDetail.stock;
-                product.stockInKg = isUpdate ? product.stockInKg + stock : product.stockInKg + trnProductStockDetail.stockInKg;  
+                product.stockInKg = isUpdate ? Convert.ToDecimal(product.stockInKg) + stockInKg : Convert.ToDecimal(product.stockInKg) + trnProductStockDetail.stockInKg;  
                 product.updatedOn = DateTime.Now;
                 product.updatedBy = _LoggedInuserId;
                 repo.SaveChanges();
@@ -398,7 +398,7 @@ namespace IMSWebApi.Services
             {
                 product.poQuantity = product.poQuantity - grnItem.receivedQuantity;
                 product.stock = product.stock + grnItem.receivedQuantity;
-                product.stockInKg = grnItem.receivedQuantity!=null ? product.stockInKg + grnItem.fomQuantityInKG : product.stockInKg;
+                product.stockInKg = grnItem.fomQuantityInKG!=null ? Convert.ToDecimal(product.stockInKg) + grnItem.fomQuantityInKG : product.stockInKg;
                 product.updatedOn = DateTime.Now;
                 product.updatedBy = _LoggedInuserId;
                 repo.SaveChanges();
