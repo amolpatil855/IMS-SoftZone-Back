@@ -35,7 +35,6 @@
         <EntityTypeShape EntityType="IMSModel.TrnPurchaseOrder" Width="1.5" PointX="9.75" PointY="17.375" />
         <EntityTypeShape EntityType="IMSModel.TrnPurchaseOrderItem" Width="1.5" PointX="11.25" PointY="38.875" />
         <EntityTypeShape EntityType="IMSModel.TrnSaleOrder" Width="1.5" PointX="7.5" PointY="15.75" />
-        <EntityTypeShape EntityType="IMSModel.TrnSaleOrderItem" Width="1.5" PointX="17.25" PointY="46.125" />
         <AssociationConnector Association="IMSModel.FK_CFGRoleMenu_MstMenu" />
         <AssociationConnector Association="IMSModel.FK_CFGRoleMenu_MstRole" />
         <AssociationConnector Association="IMSModel.FK_TrnSaleOrder_MstAgent" />
@@ -51,7 +50,6 @@
         <AssociationConnector Association="IMSModel.FK_TrnProductStock_MstCategory" />
         <AssociationConnector Association="IMSModel.FK_TrnProductStock_MstCategory1" />
         <AssociationConnector Association="IMSModel.FK_TrnPurchaseOrderItems_MstCategory" />
-        <AssociationConnector Association="IMSModel.FK_TrnSaleOrderItem_MstCategory" />
         <AssociationConnector Association="IMSModel.FK_MstCollection_MstSupplier" />
         <AssociationConnector Association="IMSModel.FK_MstDesign_MstCollection" />
         <AssociationConnector Association="IMSModel.FK_MstFoamDensity_MstCollection" />
@@ -63,7 +61,6 @@
         <AssociationConnector Association="IMSModel.FK_TrnProductStock_MstCollection" />
         <AssociationConnector Association="IMSModel.FK_TrnProductStock_MstCollection1" />
         <AssociationConnector Association="IMSModel.FK_TrnPurchaseOrderItems_MstCollection" />
-        <AssociationConnector Association="IMSModel.FK_TrnSaleOrderItem_MstCollection" />
         <AssociationConnector Association="IMSModel.FK_MstUser_MstCompanyLocation" />
         <AssociationConnector Association="IMSModel.FK_TrnProductStock_MstCompanyLocation" />
         <AssociationConnector Association="IMSModel.FK_TrnPurchaseOrder_MstCompanyLocation" />
@@ -78,7 +75,6 @@
         <AssociationConnector Association="IMSModel.FK_TrnProductStock_MstFomSize" />
         <AssociationConnector Association="IMSModel.FK_TrnProductStock_MstFomSize1" />
         <AssociationConnector Association="IMSModel.FK_TrnPurchaseOrderItems_MstFomSize" />
-        <AssociationConnector Association="IMSModel.FK_TrnSaleOrderItem_MstFomSize" />
         <AssociationConnector Association="IMSModel.FK_MstFomSuggestdMM_MstQuality" />
         <AssociationConnector Association="IMSModel.FK_MstDesign_MstQuality" />
         <AssociationConnector Association="IMSModel.FK_MstShade_MstDesign" />
@@ -86,14 +82,12 @@
         <AssociationConnector Association="IMSModel.FK_TrnProductStock_MstFWRShade" />
         <AssociationConnector Association="IMSModel.FK_TrnProductStock_MstFWRShade1" />
         <AssociationConnector Association="IMSModel.FK_TrnPurchaseOrderItems_MstFWRShade" />
-        <AssociationConnector Association="IMSModel.FK_TrnSaleOrderItem_MstFWRShade" />
         <AssociationConnector Association="IMSModel.FK_MstQuality_MstHsn" />
         <AssociationConnector Association="IMSModel.FK_MstMattressSize_MstMattressThickNess" />
         <AssociationConnector Association="IMSModel.FK_MstMattressSize_MstQuality" />
         <AssociationConnector Association="IMSModel.FK_TrnProductStock_MstMatSize" />
         <AssociationConnector Association="IMSModel.FK_TrnProductStock_MstMatSize1" />
         <AssociationConnector Association="IMSModel.FK_TrnPurchaseOrderItems_MstMatSize" />
-        <AssociationConnector Association="IMSModel.FK_TrnSaleOrderItem_MstMatSize" />
         <AssociationConnector Association="IMSModel.FK_TrnPurchaseOrderItems_MstMatThickness" />
         <AssociationConnector Association="IMSModel.FK_TrnPurchaseOrderItems_MstQuality" />
         <AssociationConnector Association="IMSModel.FK_MstUser_MstRole" />
@@ -102,7 +96,6 @@
         <AssociationConnector Association="IMSModel.FK_MstUser_MstUserType" />
         <AssociationConnector Association="IMSModel.FK_TrnPurchaseOrder_TrnSaleOrder" />
         <AssociationConnector Association="IMSModel.FK_TrnPurchaseOrderItems_TrnPurchaseOrder" />
-        <AssociationConnector Association="IMSModel.FK_TrnSaleOrderItems_TrnSaleOrder" />
         <EntityTypeShape EntityType="IMSModel.TrnGoodReceiveNote" Width="1.5" PointX="14" PointY="37.5" />
         <AssociationConnector Association="IMSModel.FK_TrnGoodReceiveNote_MstCompanyLocation" />
         <AssociationConnector Association="IMSModel.FK_TrnGoodReceiveNote_MstSupplier" />
@@ -117,7 +110,6 @@
         <AssociationConnector Association="IMSModel.FK_TrnProductStock_MstAccessory" />
         <AssociationConnector Association="IMSModel.FK_TrnProductStockDetails_MstAccessory" />
         <AssociationConnector Association="IMSModel.FK_TrnPurchaseOrderItems_MstAccessory" />
-        <AssociationConnector Association="IMSModel.FK_TrnSaleOrderItems_MstAccessory" />
         <EntityTypeShape EntityType="IMSModel.TrnGoodReceiveNoteItem" Width="1.5" PointX="27" PointY="33" />
         <AssociationConnector Association="IMSModel.FK_TrnGoodReceiveNoteItems_MstAccessory" />
         <AssociationConnector Association="IMSModel.FK_TrnGoodReceiveNoteItems_MstCategory" />
@@ -129,6 +121,14 @@
         <AssociationConnector Association="IMSModel.FK_TrnGoodReceiveNoteItems_MstQuality" />
         <AssociationConnector Association="IMSModel.FK_TrnGoodReceiveNoteItems_TrnGoodReceiveNote" />
         <AssociationConnector Association="IMSModel.FK_TrnGoodReceiveNoteItems_TrnPurchaseOrder" />
+        <EntityTypeShape EntityType="IMSModel.TrnSaleOrderItem" Width="1.5" PointX="30" PointY="34.125" />
+        <AssociationConnector Association="IMSModel.FK_TrnSaleOrderItems_MstAccessory" />
+        <AssociationConnector Association="IMSModel.FK_TrnSaleOrderItem_MstCategory" />
+        <AssociationConnector Association="IMSModel.FK_TrnSaleOrderItem_MstCollection" />
+        <AssociationConnector Association="IMSModel.FK_TrnSaleOrderItem_MstFomSize" />
+        <AssociationConnector Association="IMSModel.FK_TrnSaleOrderItem_MstFWRShade" />
+        <AssociationConnector Association="IMSModel.FK_TrnSaleOrderItem_MstMatSize" />
+        <AssociationConnector Association="IMSModel.FK_TrnSaleOrderItems_TrnSaleOrder" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

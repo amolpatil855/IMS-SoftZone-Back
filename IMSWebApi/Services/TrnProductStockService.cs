@@ -313,6 +313,7 @@ namespace IMSWebApi.Services
             return productDetails;
         }
 
+        //When Product Added in ProductStockDetail, add/update in ProductStock
         public void AddProductInStock(VMTrnProductStockDetail trnProductStockDetail,bool isUpdate,decimal stock,decimal? stockInKg )
         {
             TrnProductStock product = repo.TrnProductStocks.Where(z => z.categoryId == trnProductStockDetail.categoryId
@@ -349,6 +350,7 @@ namespace IMSWebApi.Services
             }
         }
 
+        //When PO is approved, add/update poQuantity for poItems in ProductStock 
         public void AddpoIteminStock(TrnPurchaseOrderItem purchaseOrderItem)
         {
             TrnProductStock product = repo.TrnProductStocks.Where(z => z.categoryId == purchaseOrderItem.categoryId
@@ -356,7 +358,7 @@ namespace IMSWebApi.Services
                                                       && z.fwrShadeId == purchaseOrderItem.shadeId
                                                       && z.fomSizeId == purchaseOrderItem.fomSizeId
                                                       && z.matSizeId == purchaseOrderItem.matSizeId
-                                                      && z.accessoryId == purchaseOrderItem.matSizeId).FirstOrDefault();
+                                                      && z.accessoryId == purchaseOrderItem.accessoryId).FirstOrDefault();
                 if (product != null)
                 {
                     product.poQuantity = product.poQuantity + purchaseOrderItem.orderQuantity;
@@ -372,6 +374,7 @@ namespace IMSWebApi.Services
                     productStockToAdd.fwrShadeId = purchaseOrderItem.shadeId;
                     productStockToAdd.fomSizeId = purchaseOrderItem.fomSizeId;
                     productStockToAdd.matSizeId = purchaseOrderItem.matSizeId;
+                    productStockToAdd.accessoryId = purchaseOrderItem.accessoryId;
                     productStockToAdd.poQuantity = purchaseOrderItem.orderQuantity;
                     productStockToAdd.stock = productStockToAdd.soQuanity = 0;
                     productStockToAdd.createdOn = DateTime.Now;
@@ -381,6 +384,7 @@ namespace IMSWebApi.Services
                 }
         }
 
+        //When GRN is generated for poItem,update poQuantity, stock in ProductStock
         public void updatePOItemInStockForGRN(TrnGoodReceiveNoteItem grnItem)
         {
             TrnProductStock product = repo.TrnProductStocks.Where(z => z.categoryId == grnItem.categoryId
@@ -397,6 +401,40 @@ namespace IMSWebApi.Services
                 product.stockInKg = grnItem.receivedQuantity!=null ? product.stockInKg + grnItem.fomQuantityInKG : product.stockInKg;
                 product.updatedOn = DateTime.Now;
                 product.updatedBy = _LoggedInuserId;
+                repo.SaveChanges();
+            }
+        }
+
+        //When SO is approved, add/update soQuantity for soItems in ProductStock 
+        public void AddsoIteminStock(TrnSaleOrderItem saleOrderItem)
+        {
+            TrnProductStock product = repo.TrnProductStocks.Where(z => z.categoryId == saleOrderItem.categoryId
+                                                      && z.collectionId == saleOrderItem.collectionId
+                                                      && z.fwrShadeId == saleOrderItem.shadeId
+                                                      && z.fomSizeId == saleOrderItem.fomSizeId
+                                                      && z.matSizeId == saleOrderItem.matSizeId
+                                                      && z.accessoryId == saleOrderItem.accessoryId).FirstOrDefault();
+            if (product != null)
+            {
+                product.soQuanity = product.soQuanity + saleOrderItem.orderQuantity;
+                product.updatedOn = DateTime.Now;
+                product.updatedBy = _LoggedInuserId;
+                repo.SaveChanges();
+            }
+            else
+            {
+                TrnProductStock productStockToAdd = new TrnProductStock();
+                productStockToAdd.categoryId = saleOrderItem.categoryId;
+                productStockToAdd.collectionId = saleOrderItem.collectionId;
+                productStockToAdd.fwrShadeId = saleOrderItem.shadeId;
+                productStockToAdd.fomSizeId = saleOrderItem.fomSizeId;
+                productStockToAdd.matSizeId = saleOrderItem.matSizeId;
+                productStockToAdd.accessoryId = saleOrderItem.accessoryId;
+                productStockToAdd.soQuanity = saleOrderItem.orderQuantity;
+                productStockToAdd.stock = productStockToAdd.poQuantity = 0;
+                productStockToAdd.createdOn = DateTime.Now;
+                productStockToAdd.createdBy = _LoggedInuserId;
+                repo.TrnProductStocks.Add(productStockToAdd);
                 repo.SaveChanges();
             }
         }

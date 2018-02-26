@@ -121,10 +121,11 @@ namespace IMSWebApi.Services
             purchaseOrderView.TrnPurchaseOrderItems.ForEach(poItem =>
             {
                 poItem.categoryName = poItem.MstCategory.name;
-                poItem.collectionName = poItem.MstCollection.collectionName;
+                poItem.collectionName = poItem.collectionId != null?  poItem.MstCollection.collectionName : null;
                 poItem.serialno = poItem.MstCategory.code.Equals("Fabric") || poItem.MstCategory.code.Equals("Rug") || poItem.MstCategory.code.Equals("Wallpaper") ? poItem.MstFWRShade.serialNumber + "(" + poItem.MstFWRShade.shadeCode + ")" : null;
                 poItem.size = poItem.MstMatSize != null ? poItem.MstMatSize.sizeCode + " (" + poItem.MstMatSize.MstMatThickNess.thicknessCode + "-" + poItem.MstMatSize.MstQuality.qualityCode + ")" : 
                                 poItem.MstFomSize != null ? poItem.MstFomSize.itemCode : poItem.matSizeCode;
+                poItem.accessoryName = poItem.accessoryId != null ? poItem.MstAccessory.name : null;
             });
            
             return purchaseOrderView;
@@ -289,5 +290,34 @@ namespace IMSWebApi.Services
             }
         }
 
+        public List<VMLookUpItem> getSupplierListForPO()
+        {
+            List<Int64?> collectionIds = new List<Int64?>();
+            var soItems = repo.TrnSaleOrderItems.Where(s => !s.status.Equals("Completed") && !s.status.Equals("Closed")).ToList();
+            soItems.ForEach(so =>
+            {
+                decimal stockAvailable = repo.TrnProductStocks.Where(t=>t.categoryId == so.categoryId 
+                                                                       && t.collectionId == so.collectionId
+                                                                       && t.fwrShadeId == so.shadeId
+                                                                       && t.fomSizeId == so.fomSizeId
+                                                                       && t.matSizeId == so.matSizeId
+                                                                       && t.accessoryId == so.accessoryId)
+                                                               .Select(s=>s.stock + s.poQuantity - s.soQuanity).FirstOrDefault();
+                if (so.orderQuantity > stockAvailable)
+                {
+                    collectionIds.Add(so.collectionId); 
+                }
+
+            });
+            collectionIds = collectionIds.Distinct().ToList();
+            //collectionIds = repo.TrnSaleOrderItems.Where(so => so.orderQuantity < _trnProductStockService.getProductStockAvailablity(so.categoryId, so.collectionId, so.shadeId, null).stock)
+            //                .Select(c => c.collectionId).Distinct().ToList();
+            return repo.MstCollections.Where(c => collectionIds.Contains(c.id))
+                    .Select(s => new VMLookUpItem
+                    {
+                        value = s.MstSupplier.id,
+                        label = s.MstSupplier.name
+                    }).ToList();
+        }
     }
 }
