@@ -112,6 +112,19 @@ namespace IMSWebApi.ServicesDesign
                 }).ToList();
         }
 
+        public List<VMLookUpItem> getSerialNumberLookUpForGRN(Int64 collectionId)
+        {
+            return repo.TrnPurchaseOrderItems.Where(q => q.collectionId == collectionId
+                                                 && (q.status.Equals("Approved") || q.status.Equals("PartialCompleted")))
+                            .OrderBy(s => s.MstFWRShade.serialNumber).ThenBy(s => s.MstFWRShade.shadeCode)
+                            .Select(q => new VMLookUpItem
+                            {
+                                value = q.MstFWRShade.id,
+                                label = q.MstFWRShade.serialNumber.ToString()
+                                    + " (" + q.MstFWRShade.shadeCode + "-" + q.MstFWRShade.MstFWRDesign.designCode + ")"
+                            }).Distinct().ToList();
+        }
+
         public ResponseMessage postShade(VMFWRShade shade)
         {
             var shadeToPost = Mapper.Map<VMFWRShade, MstFWRShade>(shade);

@@ -82,6 +82,18 @@ namespace IMSWebApi.Services
                     label = q.itemCode }).ToList();
         }
 
+        public List<VMLookUpItem> getFomSizeLookUpForGRN(Int64 collectionId)
+        {
+            return repo.TrnPurchaseOrderItems.Where(m => m.collectionId == collectionId
+                                           && (m.status.Equals("Approved") || m.status.Equals("PartialCompleted")))
+                .OrderBy(m => m.MstFomSize.sizeCode)
+                .Select(q => new VMLookUpItem
+                {
+                    value = q.MstFomSize.id,
+                    label = q.MstFomSize.itemCode
+                }).Distinct().ToList();
+        }
+
         public ResponseMessage postFomSize(VMFomSize fomSize)
         {
             MstFomSize fomSizeToPost = Mapper.Map<VMFomSize, MstFomSize>(fomSize);

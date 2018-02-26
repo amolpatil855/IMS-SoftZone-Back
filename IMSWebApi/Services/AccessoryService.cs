@@ -77,6 +77,13 @@ namespace IMSWebApi.Services
                 .Select(q => new VMLookUpItem { value = q.id, label = q.itemCode}).ToList();
         }
 
+        public List<VMLookUpItem> getAccessoryLookUpForGRN()
+        {
+            return repo.TrnPurchaseOrderItems.Where(p => p.categoryId == 7 && (p.status.Equals("Approved") || p.status.Equals("PartialCompleted")))
+                .OrderBy(m => m.MstAccessory.itemCode)
+                .Select(q => new VMLookUpItem { value = q.MstAccessory.id, label = q.MstAccessory.itemCode }).Distinct().ToList();
+        }
+
         public ResponseMessage postAccessory(VMAccessory accessory)
         {
             MstAccessory accessoryToPost = Mapper.Map<VMAccessory, MstAccessory>(accessory);

@@ -80,9 +80,9 @@ namespace IMSWebApi.Services
             return goodReceiveNoteView;
         }
 
-        public List<VMLookUpItem> getSupplierForPOIncomplete()
+        public List<VMLookUpItem> getSupplierForGRN()
         {
-            return repo.TrnPurchaseOrders.Where(po => !po.status.Equals("Completed") && !po.status.Equals("Closed"))
+            return repo.TrnPurchaseOrders.Where(po => po.status.Equals("Approved") && po.status.Equals("PartialCompleted"))
                             .OrderBy(s=>s.MstSupplier.name)
                             .Select(s => new VMLookUpItem {
                             value = s.MstSupplier.id,
