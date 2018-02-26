@@ -18,6 +18,9 @@ namespace IMSWebApi.ViewModel
         public long locationId { get; set; }
         [Required]
         public int totalAmount { get; set; }
+
+        public string supplierName { get; set; }
+        public string shippingAddress { get; set; }
         
         public virtual VMCompanyLocation MstCompanyLocation { get; set; }
         public virtual VMSupplier MstSupplier { get; set; }
