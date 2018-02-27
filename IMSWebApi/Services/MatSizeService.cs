@@ -27,7 +27,7 @@ namespace IMSWebApi.Services
             resourceManager = new ResourceManager("IMSWebApi.App_Data.Resource", Assembly.GetExecutingAssembly());
         }
 
-        public ListResult<VMMatSize> getMatSize(int pageSize, int page, string search)
+        public ListResult<VMMatSize> getMatSizes(int pageSize, int page, string search)
         {
             List<VMMatSize> matSizeView;
             if (pageSize > 0)
@@ -38,7 +38,8 @@ namespace IMSWebApi.Services
                     || m.MstQuality.qualityCode.StartsWith(search)
                     || m.MstMatThickness.thicknessCode.StartsWith(search)
                     || m.purchaseRate.ToString().StartsWith(search) : true)
-                    .OrderBy(m => m.id).Skip(page * pageSize).Take(pageSize).ToList();
+                    .OrderBy(m => m.MstCollection.collectionCode)
+                    .Skip(page * pageSize).Take(pageSize).ToList();
                 matSizeView = Mapper.Map<List<MstMatSize>, List<VMMatSize>>(result);
             }
             else

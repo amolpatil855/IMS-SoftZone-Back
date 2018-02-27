@@ -27,7 +27,7 @@ namespace IMSWebApi.Services
             resourceManager = new ResourceManager("IMSWebApi.App_Data.Resource", Assembly.GetExecutingAssembly());
         }
 
-        public ListResult<VMFomSize> getFomSize(int pageSize, int page, string search)
+        public ListResult<VMFomSize> getFomSizes(int pageSize, int page, string search)
         {
             List<VMFomSize> fomSizeView;
             if (pageSize > 0)
@@ -38,7 +38,8 @@ namespace IMSWebApi.Services
                     || q.MstFomDensity.density.ToString().StartsWith(search)
                     || q.MstFomSuggestedMM.suggestedMM.ToString().StartsWith(search)
                     || q.sizeCode.StartsWith(search) : true)
-                    .OrderBy(q => q.id).Skip(page * pageSize).Take(pageSize).ToList();
+                    .OrderBy(q => q.MstCollection.collectionCode)
+                    .Skip(page * pageSize).Take(pageSize).ToList();
                 fomSizeView = Mapper.Map<List<MstFomSize>, List<VMFomSize>>(result);
             }
             else

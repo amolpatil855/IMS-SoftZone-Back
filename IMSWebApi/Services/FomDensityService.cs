@@ -38,7 +38,8 @@ namespace IMSWebApi.Services
                     || f.density.StartsWith(search)
                     || f.purchaseRatePerMM.ToString().StartsWith(search)
                     || f.purchaseRatePerKG.ToString().StartsWith(search) : true)
-                    .OrderBy(f => f.id).Skip(page * pageSize).Take(pageSize).ToList();
+                    .OrderBy(f => f.MstCollection.collectionCode)
+                    .Skip(page * pageSize).Take(pageSize).ToList();
                 fomDensityView = Mapper.Map<List<MstFomDensity>, List<VMFomDensity>>(result);
             }
             else

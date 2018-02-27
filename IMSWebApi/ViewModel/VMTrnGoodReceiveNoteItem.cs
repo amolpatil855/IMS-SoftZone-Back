@@ -34,6 +34,7 @@ namespace IMSWebApi.ViewModel
         public Nullable<int> gst { get; set; }
 
         public string purchaseOrderNumber { get; set; }
+        public string orderType { get; set; }
         public string categoryName { get; set; }
         public string collectionName { get; set; }
         public string serialno { get; set; }

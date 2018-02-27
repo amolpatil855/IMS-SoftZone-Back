@@ -36,7 +36,8 @@ namespace IMSWebApi.Services
                     || q.qualityCode.StartsWith(search) 
                     || q.qualityName.StartsWith(search)
                     || q.MstHsn.hsnCode.StartsWith(search) : true)
-                    .OrderBy(q => q.id).Skip(page * pageSize).Take(pageSize).ToList();
+                    .OrderBy(q => q.MstCategory.id).ThenBy(q=>q.MstCollection.collectionCode)
+                    .Skip(page * pageSize).Take(pageSize).ToList();
                 qualityView = Mapper.Map<List<MstQuality>, List<VMQuality>>(result);
             }
             else

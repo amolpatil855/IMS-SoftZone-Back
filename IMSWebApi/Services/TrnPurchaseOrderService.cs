@@ -293,6 +293,7 @@ namespace IMSWebApi.Services
         public List<VMLookUpItem> getSupplierListForPO()
         {
             List<Int64?> collectionIds = new List<Int64?>();
+            List<VMLookUpItem> supplierForAccesory = new List<VMLookUpItem>();
             var soItems = repo.TrnSaleOrderItems.Where(s => !s.status.Equals("Completed") && !s.status.Equals("Closed")).ToList();
             soItems.ForEach(so =>
             {
@@ -303,21 +304,28 @@ namespace IMSWebApi.Services
                                                                        && t.matSizeId == so.matSizeId
                                                                        && t.accessoryId == so.accessoryId)
                                                                .Select(s=>s.stock + s.poQuantity - s.soQuanity).FirstOrDefault();
-                if (so.orderQuantity > stockAvailable)
+                if (so.orderQuantity > stockAvailable && so.collectionId!=null)
                 {
                     collectionIds.Add(so.collectionId); 
                 }
+                else if (so.orderQuantity > stockAvailable && so.accessoryId != null)
+                {
+                    supplierForAccesory.Add(new VMLookUpItem { label = so.MstAccessory.MstSupplier.name, value = so.MstAccessory.MstSupplier.id });
+                }
 
             });
-            collectionIds = collectionIds.Distinct().ToList();
-            //collectionIds = repo.TrnSaleOrderItems.Where(so => so.orderQuantity < _trnProductStockService.getProductStockAvailablity(so.categoryId, so.collectionId, so.shadeId, null).stock)
-            //                .Select(c => c.collectionId).Distinct().ToList();
-            return repo.MstCollections.Where(c => collectionIds.Contains(c.id))
+            var result = repo.MstCollections.Where(c => collectionIds.Contains(c.id))
                     .Select(s => new VMLookUpItem
                     {
                         value = s.MstSupplier.id,
                         label = s.MstSupplier.name
                     }).ToList();
+            if (supplierForAccesory.Count > 0)
+            {
+                result.AddRange(supplierForAccesory);
+            }
+            result = result.Distinct().ToList();
+            return result;
         }
     }
 }

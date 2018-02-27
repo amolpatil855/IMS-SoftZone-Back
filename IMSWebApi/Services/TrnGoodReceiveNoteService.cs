@@ -107,6 +107,7 @@ namespace IMSWebApi.Services
                                                             orderQuantity = s.balanceQuantity,
                                                             rate = (decimal)s.rate,
                                                             rateWithGST = s.rateWithGST,
+                                                            orderType = s.orderType,
                                                             gst = s.gst,
                                                             purchaseOrderNumber = s.TrnPurchaseOrder.orderNumber
                                                           }).ToList();
@@ -123,6 +124,7 @@ namespace IMSWebApi.Services
                                                               orderQuantity = s.balanceQuantity,
                                                               rate = (decimal)s.rate,
                                                               rateWithGST = s.rateWithGST,
+                                                              orderType = s.orderType,
                                                               gst = s.gst,
                                                               purchaseOrderNumber = s.TrnPurchaseOrder.orderNumber
                                                           }).ToList();
@@ -141,6 +143,7 @@ namespace IMSWebApi.Services
                                                               orderQuantity = s.balanceQuantity,
                                                               rate = (decimal)s.rate,
                                                               rateWithGST = s.rateWithGST,
+                                                              orderType = s.orderType,
                                                               gst = s.gst,
                                                               purchaseOrderNumber = s.TrnPurchaseOrder.orderNumber
                                                           }).ToList();
@@ -157,6 +160,7 @@ namespace IMSWebApi.Services
                                                               orderQuantity = s.balanceQuantity,
                                                               rate = (decimal)s.rate,
                                                               rateWithGST = s.rateWithGST,
+                                                              orderType = s.orderType,
                                                               gst = s.gst,
                                                               purchaseOrderNumber = s.TrnPurchaseOrder.orderNumber
                                                           }).ToList();
@@ -174,6 +178,7 @@ namespace IMSWebApi.Services
                                                               orderQuantity = s.balanceQuantity,
                                                               rate = (decimal)s.rate,
                                                               rateWithGST = s.rateWithGST,
+                                                              orderType = s.orderType,
                                                               gst = s.gst,
                                                               purchaseOrderNumber = s.TrnPurchaseOrder.orderNumber
                                                           }).ToList();

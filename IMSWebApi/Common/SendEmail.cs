@@ -65,9 +65,10 @@ namespace IMSWebApi.Common
             foreach (var poItem in purchaseOrder.TrnPurchaseOrderItems)
             {
                 //string serialOrSize = poItem.shadeId != null ? poItem.serialno : poItem.fomSizeId != null ? poItem.size : poItem.matSizeId != null ? poItem.size : poItem.accessoryId;
-                string serialOrSize = poItem.shadeId != null ? poItem.serialno : poItem.accessoryId!=null ? poItem.accessoryName : poItem.size;
+                string serialOrSize = poItem.shadeId != null ? poItem.serialno : poItem.size;
+                string accessoryCode = poItem.accessoryId != null ? poItem.accessoryName : "";
                 string collectionName = poItem.collectionId != null ? poItem.collectionName : "";
-                rows += "<tr><td>" + poItem.categoryName + "</td><td> " + collectionName + "</td><td> " + serialOrSize + "</td><td> " 
+                rows += "<tr><td>" + poItem.categoryName + "</td><td> " + collectionName + "</td><td> " + serialOrSize + "</td><td> " + "</td><td>" + accessoryCode + "</td><td>"
                     + poItem.orderQuantity + "</td><td> " + poItem.orderType+
                         "</td><td> " + poItem.rateWithGST + "</td><td> " + poItem.amountWithGST + "</td> </tr>";  
             }  
@@ -102,7 +103,9 @@ namespace IMSWebApi.Common
             foreach (var soItem in saleOrder.TrnSaleOrderItems)
             {
                 string serialOrSize = soItem.shadeId != null ? soItem.serialno : soItem.size;
-                rows += "<tr><td>" + soItem.categoryName + "</td><td> " + soItem.collectionName + "</td><td> " + serialOrSize
+                string accessoryCode = soItem.accessoryId != null ? soItem.accessoryName : "";
+                rows += "<tr><td>" + soItem.categoryName + "</td><td> " + soItem.collectionName + "</td><td> " + serialOrSize +
+                    "</td><td> " + accessoryCode + "</td><td> "
                     + "</td><td> " + soItem.orderQuantity + "</td><td> " + soItem.orderType
                     + "</td><td> " + soItem.rate + "</td><td> " + soItem.amountWithGST + "</td> </tr>";
             }
@@ -141,10 +144,11 @@ namespace IMSWebApi.Common
             {
                 string serialOrSize = poItem.shadeId != null ? poItem.MstFWRShade.serialNumber + "(" + poItem.MstFWRShade.shadeCode + ")" : 
                     poItem.matSizeId!= null ? poItem.MstMatSize.sizeCode + " (" + poItem.MstMatSize.MstMatThickNess.thicknessCode + "-" + poItem.MstMatSize.MstQuality.qualityCode + ")" :
-                    poItem.fomSizeId != null ? poItem.MstFomSize.itemCode :
-                    poItem.accessoryId!=null ? poItem.MstAccessory.itemCode : poItem.matSizeCode;
+                    poItem.fomSizeId != null ? poItem.MstFomSize.itemCode : poItem.matSizeCode;
+                string accessoryCode = poItem.accessoryId!=null ? poItem.MstAccessory.itemCode : "";
                 string collectionName = poItem.accessoryId != null ? "" : poItem.MstCollection.collectionName;
                 rows += "<tr><td>" + poItem.MstCategory.name + "</td><td> " + collectionName  +"</td><td> " + serialOrSize + "</td><td> "
+                    + "</td><td> " + accessoryCode + "</td><td> " +
                     + poItem.orderQuantity + "</td><td> " + poItem.orderType +
                         "</td><td> " + poItem.rateWithGST + "</td><td> " + poItem.amountWithGST + "</td> </tr>";
             }
