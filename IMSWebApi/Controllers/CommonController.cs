@@ -261,7 +261,7 @@ namespace IMSWebApi.Controllers
         }
 
         [HttpGet]
-        [Route("api/TrnGoodReceiveNote/GetSupplierLookupForGRN")]
+        [Route("api/Common/GetSupplierLookupForGRN")]
         public IHttpActionResult GetSupplierLookupForGRN()
         {
             var result = _trnGoodReceiveNoteService.getSupplierForGRN();
