@@ -82,7 +82,7 @@ namespace IMSWebApi.Services
 
         public List<VMLookUpItem> getSupplierForGRN()
         {
-            return repo.TrnPurchaseOrders.Where(po => po.status.Equals("Approved") && po.status.Equals("PartialCompleted"))
+            return repo.TrnPurchaseOrders.Where(po => po.status.Equals("Approved") || po.status.Equals("PartialCompleted"))
                             .OrderBy(s=>s.MstSupplier.name)
                             .Select(s => new VMLookUpItem {
                             value = s.MstSupplier.id,

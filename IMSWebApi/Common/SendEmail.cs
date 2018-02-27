@@ -65,8 +65,9 @@ namespace IMSWebApi.Common
             foreach (var poItem in purchaseOrder.TrnPurchaseOrderItems)
             {
                 //string serialOrSize = poItem.shadeId != null ? poItem.serialno : poItem.fomSizeId != null ? poItem.size : poItem.matSizeId != null ? poItem.size : poItem.accessoryId;
-                string serialOrSize = poItem.shadeId != null ? poItem.serialno : poItem.size;
-                rows += "<tr><td>" + poItem.categoryName + "</td><td> " + poItem.collectionName + "</td><td> " + serialOrSize + "</td><td> " 
+                string serialOrSize = poItem.shadeId != null ? poItem.serialno : poItem.accessoryId!=null ? poItem.accessoryName : poItem.size;
+                string collectionName = poItem.collectionId != null ? poItem.collectionName : "";
+                rows += "<tr><td>" + poItem.categoryName + "</td><td> " + collectionName + "</td><td> " + serialOrSize + "</td><td> " 
                     + poItem.orderQuantity + "</td><td> " + poItem.orderType+
                         "</td><td> " + poItem.rateWithGST + "</td><td> " + poItem.amountWithGST + "</td> </tr>";  
             }  
@@ -140,8 +141,10 @@ namespace IMSWebApi.Common
             {
                 string serialOrSize = poItem.shadeId != null ? poItem.MstFWRShade.serialNumber + "(" + poItem.MstFWRShade.shadeCode + ")" : 
                     poItem.matSizeId!= null ? poItem.MstMatSize.sizeCode + " (" + poItem.MstMatSize.MstMatThickNess.thicknessCode + "-" + poItem.MstMatSize.MstQuality.qualityCode + ")" :
-                    poItem.fomSizeId != null ? poItem.MstFomSize.itemCode : poItem.matSizeCode;
-                rows += "<tr><td>" + poItem.MstCategory.name + "</td><td> " + poItem.MstCollection.collectionName + "</td><td> " + serialOrSize + "</td><td> "
+                    poItem.fomSizeId != null ? poItem.MstFomSize.itemCode :
+                    poItem.accessoryId!=null ? poItem.MstAccessory.itemCode : poItem.matSizeCode;
+                string collectionName = poItem.accessoryId != null ? "" : poItem.MstCollection.collectionName;
+                rows += "<tr><td>" + poItem.MstCategory.name + "</td><td> " + collectionName  +"</td><td> " + serialOrSize + "</td><td> "
                     + poItem.orderQuantity + "</td><td> " + poItem.orderType +
                         "</td><td> " + poItem.rateWithGST + "</td><td> " + poItem.amountWithGST + "</td> </tr>";
             }
