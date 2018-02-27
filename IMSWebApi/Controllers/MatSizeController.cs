@@ -25,7 +25,7 @@ namespace IMSWebApi.Controllers
         [HttpGet]
         public IHttpActionResult Get(int pageSize = 0, int page = 0, string search = null)
         {
-            var result = _matSizeService.getMatSize(pageSize, page, search);
+            var result = _matSizeService.getMatSizes(pageSize, page, search);
             return Ok(result);
         }
 

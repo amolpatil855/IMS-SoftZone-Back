@@ -36,7 +36,8 @@ namespace IMSWebApi.Services
                     || q.MstQuality.qualityCode.StartsWith(search) 
                     || q.designCode.StartsWith(search) 
                     || q.designName.StartsWith(search) : true)
-                    .OrderBy(q => q.id).Skip(page * pageSize).Take(pageSize).ToList();
+                    .OrderBy(q => q.MstCategory.id).ThenBy(q=>q.MstCollection.collectionCode)
+                    .Skip(page * pageSize).Take(pageSize).ToList();
                 designView = Mapper.Map<List<MstFWRDesign>, List<VMFWRDesign>>(result);
             }
             else

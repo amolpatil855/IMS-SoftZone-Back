@@ -37,7 +37,8 @@ namespace IMSWebApi.Services
                     || q.MstCollection.collectionCode.StartsWith(search)
                     || q.MstQuality.qualityCode.StartsWith(search) 
                     || q.suggestedMM.ToString().StartsWith(search): true)
-                    .OrderBy(q => q.id).Skip(page * pageSize).Take(pageSize).ToList();
+                    .OrderBy(q => q.MstCollection.collectionCode)
+                    .Skip(page * pageSize).Take(pageSize).ToList();
                 fomSuggestedMMView = Mapper.Map<List<MstFomSuggestedMM>, List<VMFomSuggestedMM>>(result);
             }
             else

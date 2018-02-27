@@ -38,7 +38,8 @@ namespace IMSWebApi.ServicesDesign
                     || q.MstFWRDesign.designCode.StartsWith(search)
                     || q.shadeCode.StartsWith(search)
                     || q.shadeName.StartsWith(search) : true)
-                    .OrderBy(q => q.id).Skip(page * pageSize).Take(pageSize).ToList();
+                    .OrderBy(q => q.MstCategory.id).ThenBy(q => q.MstCollection.collectionCode)
+                    .Skip(page * pageSize).Take(pageSize).ToList();
                 shadeView = Mapper.Map<List<MstFWRShade>, List<VMFWRShade>>(result);
             }
             else
