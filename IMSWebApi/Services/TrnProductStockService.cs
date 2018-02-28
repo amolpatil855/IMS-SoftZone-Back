@@ -392,7 +392,7 @@ namespace IMSWebApi.Services
                                                       && z.fwrShadeId == grnItem.shadeId
                                                       && z.fomSizeId == grnItem.fomSizeId
                                                       && z.matSizeId == grnItem.matSizeId
-                                                      && z.accessoryId == grnItem.matSizeId).FirstOrDefault();
+                                                      && z.accessoryId == grnItem.accessoryId).FirstOrDefault();
 
             if (product!=null)
             {
@@ -435,6 +435,84 @@ namespace IMSWebApi.Services
                 productStockToAdd.createdOn = DateTime.Now;
                 productStockToAdd.createdBy = _LoggedInuserId;
                 repo.TrnProductStocks.Add(productStockToAdd);
+                repo.SaveChanges();
+            }
+        }
+
+        //When GIN is generated for soItem,update soQuantity, stock in ProductStock
+        public void updateSOItemInStockForGIN(TrnGoodIssueNoteItem ginItem,decimal kgToBeSubtracted)
+        {
+            TrnProductStock product = repo.TrnProductStocks.Where(z => z.categoryId == ginItem.categoryId
+                                                      && z.collectionId == ginItem.collectionId
+                                                      && z.fwrShadeId == ginItem.shadeId
+                                                      && z.fomSizeId == ginItem.fomSizeId
+                                                      && z.matSizeId == ginItem.matSizeId
+                                                      && z.accessoryId == ginItem.accessoryId).FirstOrDefault();
+
+            if (product != null)
+            {
+                product.soQuanity = product.soQuanity - Convert.ToDecimal(ginItem.issuedQuantity);
+                product.stock = product.stock - Convert.ToDecimal(ginItem.issuedQuantity);
+                product.stockInKg = ginItem.categoryId == 7 ? product.stockInKg - kgToBeSubtracted : product.stockInKg;
+                product.updatedOn = DateTime.Now;
+                product.updatedBy = _LoggedInuserId;
+                repo.SaveChanges();
+            }
+        }
+
+        //Subtract issued Qty from Available Qty on FCFS basis present in Stock Details
+        public void SubtractItemQtyFromStockDetailsForGIN(TrnGoodIssueNoteItem ginItem)
+        {
+            List<TrnProductStockDetail> items = repo.TrnProductStockDetails.Where(z => z.categoryId == ginItem.categoryId
+                                                                            && z.collectionId == ginItem.collectionId
+                                                                            && z.fwrShadeId == ginItem.shadeId
+                                                                            && z.fomSizeId == ginItem.fomSizeId
+                                                                            && z.matSizeId == ginItem.matSizeId
+                                                                            && z.accessoryId == ginItem.accessoryId
+                                                                            && z.stock!=0)
+                                                                         .OrderBy(o=>o.id)
+                                                                         .ToList();
+
+            decimal balQty = Convert.ToDecimal(ginItem.issuedQuantity);
+            int i = 0;
+            decimal kgToBeSubtracted = 0;
+            while(balQty>0)
+            {
+                if (balQty > items[i].stock)
+	            {  
+                    balQty = balQty - items[i].stock;
+                    kgToBeSubtracted += items[i].categoryId == 7 ? Convert.ToDecimal(items[i].stockInKg) : 0;
+                    items[i].stock = 0;
+                    items[i].stockInKg = items[i].kgPerUnit = 0;
+	            }
+                else
+                {
+                    items[i].stock = items[i].stock - balQty;
+                    kgToBeSubtracted += items[i].categoryId == 7 ? Convert.ToDecimal(items[i].kgPerUnit) * balQty : 0;
+                    items[i].stockInKg = items[i].kgPerUnit * items[i].stock;
+                    balQty = 0;
+                }
+                i++;
+            }
+            repo.SaveChanges();
+
+            updateSOItemInStockForGIN(ginItem, kgToBeSubtracted);
+        }
+
+        //When SO is Cancelled, subtract soQuantity for each soItem in ProductStock
+        public void SubSOItemFromStock(TrnSaleOrderItem saleOrderItem)
+        {
+            TrnProductStock product = repo.TrnProductStocks.Where(z => z.categoryId == saleOrderItem.categoryId
+                                                      && z.collectionId == saleOrderItem.collectionId
+                                                      && z.fwrShadeId == saleOrderItem.shadeId
+                                                      && z.fomSizeId == saleOrderItem.fomSizeId
+                                                      && z.matSizeId == saleOrderItem.matSizeId
+                                                      && z.accessoryId == saleOrderItem.accessoryId).FirstOrDefault();
+            if (product != null)
+            {
+                product.soQuanity = product.soQuanity - saleOrderItem.orderQuantity;
+                product.updatedOn = DateTime.Now;
+                product.updatedBy = _LoggedInuserId;
                 repo.SaveChanges();
             }
         }

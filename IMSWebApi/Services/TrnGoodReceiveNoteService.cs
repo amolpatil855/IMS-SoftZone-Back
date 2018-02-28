@@ -238,6 +238,17 @@ namespace IMSWebApi.Services
             poItem.updatedBy = _LoggedInuserId;
             poItem.updatedOn = DateTime.Now;
             repo.SaveChanges();
+
+            //Set PO status Completed, if all its item's status is completed or closed
+            int poItemCount = repo.TrnPurchaseOrderItems.Where(po => po.purchaseOrderId == grnItem.purchaseOrderId).Count();
+            int completePOItemCount = repo.TrnPurchaseOrderItems.Where(po => po.purchaseOrderId == grnItem.purchaseOrderId && (po.status.Equals("Completed") || po.status.Equals("Closed"))).Count();
+            if (poItemCount == completePOItemCount)
+            {
+                poItem.TrnPurchaseOrder.status = PurchaseOrderStatus.Completed.ToString();
+            }
+            repo.SaveChanges();
+
+
         }
 
         public void addItemInProductDetails(TrnGoodReceiveNoteItem grnItem,Int64 locationId)

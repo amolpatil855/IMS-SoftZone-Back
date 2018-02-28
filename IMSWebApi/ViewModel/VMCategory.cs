@@ -19,5 +19,7 @@ namespace IMSWebApi.ViewModel
         public string name { get; set; }
 
         public Nullable<long> uomId { get; set; }
+
+        public virtual VMUnitOfMeasure MstUnitOfMeasure { get; set; }
     }
 }

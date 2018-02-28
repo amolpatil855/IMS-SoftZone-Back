@@ -18,18 +18,24 @@ namespace IMSWebApi.Services
     {
         WebAPIdbEntities repo = new WebAPIdbEntities();
         Int64 _LoggedInuserId;
+        bool _IsCustomer;
+        bool _IsAdministrator;
         ResourceManager resourceManager = null;
         GenerateOrderNumber generateOrderNumber = null;
         SendEmail emailNotification = null;
         TrnProductStockService _trnProductStockService = null;
-
+        TrnGoodIssueNoteService _trnGoodIssueNoteServie = null;
+        
         public TrnSaleOrderService()
         {
             _LoggedInuserId = Convert.ToInt64(HttpContext.Current.User.Identity.GetUserId());
+            _IsCustomer = HttpContext.Current.User.IsInRole("Customer");
+            _IsAdministrator = HttpContext.Current.User.IsInRole("Administrator");
             resourceManager = new ResourceManager("IMSWebApi.App_Data.Resource", Assembly.GetExecutingAssembly());
             generateOrderNumber = new GenerateOrderNumber();
             emailNotification = new SendEmail();
             _trnProductStockService = new TrnProductStockService();
+            _trnGoodIssueNoteServie = new TrnGoodIssueNoteService();
         }
 
         public ListResult<VMTrnSaleOrder> getSaleOrders(int pageSize, int page, string search)
@@ -99,18 +105,22 @@ namespace IMSWebApi.Services
 
                 foreach (var soItems in saleOrderItems)
                 {
-                    soItems.status = SaleOrderStatus.Created.ToString();
+                    soItems.status = _IsCustomer ? SaleOrderStatus.Created.ToString() : SaleOrderStatus.Approved.ToString();
                     soItems.balanceQuantity = soItems.orderQuantity;
                     soItems.deliverQuantity = 0;
                     soItems.createdOn = DateTime.Now;
                     soItems.createdBy = _LoggedInuserId;
+                    if (!_IsCustomer)
+                    {
+                        _trnProductStockService.AddsoIteminStock(soItems);
+                    }
                 }
 
                 var financialYear = repo.MstFinancialYears.Where(f => f.startDate <= saleOrder.orderDate && f.endDate >= saleOrder.orderDate).FirstOrDefault();
                 string orderNo = generateOrderNumber.orderNumber(financialYear.startDate.ToString("yy"), financialYear.endDate.ToString("yy"), financialYear.soNumber);
                 saleOrderToPost.orderNumber = orderNo;
                 saleOrderToPost.financialYear = financialYear.financialYear;
-                saleOrderToPost.status = PurchaseOrderStatus.Created.ToString();
+                saleOrderToPost.status = _IsCustomer ? SaleOrderStatus.Created.ToString() : SaleOrderStatus.Approved.ToString();
                 saleOrderToPost.createdOn = DateTime.Now;
                 saleOrderToPost.createdBy = _LoggedInuserId;
 
@@ -122,6 +132,12 @@ namespace IMSWebApi.Services
                 string adminEmail = repo.MstUsers.Where(u => u.userName.Equals("Administrator")).FirstOrDefault().email;
 
                 emailNotification.notificationForSO(saleOrder, "NotificationForSO", loggedInUser, adminEmail);
+
+                if (!_IsCustomer)
+                {
+                    VMTrnSaleOrder VMSaleOrderToPost = Mapper.Map<TrnSaleOrder, VMTrnSaleOrder>(saleOrderToPost);
+                    _trnGoodIssueNoteServie.postGoodIssueNote(VMSaleOrderToPost);
+                }
 
                 transaction.Complete();
                 return new ResponseMessage(saleOrderToPost.id, resourceManager.GetString("SOAdded"), ResponseType.Success);
@@ -233,9 +249,74 @@ namespace IMSWebApi.Services
                     _trnProductStockService.AddsoIteminStock(soItem);
                 }
                 repo.SaveChanges();
+                VMTrnSaleOrder VMSaleOrder = Mapper.Map<TrnSaleOrder, VMTrnSaleOrder>(saleOrder);
+                _trnGoodIssueNoteServie.postGoodIssueNote(VMSaleOrder);
                 transaction.Complete();
                 return new ResponseMessage(id, resourceManager.GetString("SOApproved"), ResponseType.Success);
             }
         }
+
+        public ResponseMessage cancelSO(Int64 id)
+        {
+            String messageToDisplay;
+            ResponseType type;
+            using (var transaction = new TransactionScope())
+            {
+                var saleOrder = repo.TrnSaleOrders.Where(so => so.id == id).FirstOrDefault();
+                if (saleOrder.status.Equals("Created"))
+                {
+                    saleOrder.status = SaleOrderStatus.Cancelled.ToString();
+                    foreach (var soItem in saleOrder.TrnSaleOrderItems)
+                    {
+                        soItem.status = SaleOrderStatus.Cancelled.ToString();
+                    }
+                    messageToDisplay = "SOCancelled";
+                    type = ResponseType.Success;
+                }
+                else if (saleOrder.status.Equals("Approved") && _IsAdministrator)
+                {
+                    int itemCountWithOrderQtyNotEqualBalQty = saleOrder.TrnSaleOrderItems.Where(soItem=>soItem.orderQuantity != soItem.balanceQuantity).Count();
+                    if (itemCountWithOrderQtyNotEqualBalQty == 0)
+                    {
+                        saleOrder.status = SaleOrderStatus.Cancelled.ToString();
+                        foreach (var soItem in saleOrder.TrnSaleOrderItems)
+                        {
+                            soItem.status = SaleOrderStatus.Cancelled.ToString();
+                            _trnProductStockService.SubSOItemFromStock(soItem);
+                        }
+                        var ginToUpdate = repo.TrnGoodIssueNotes.Where(gin => gin.salesOrderId == saleOrder.id && gin.status.Equals("Created"))
+                                    .FirstOrDefault();
+                        ginToUpdate.status  = GINStatus.Cancelled.ToString();
+
+                        foreach (var ginItem in ginToUpdate.TrnGoodIssueNoteItems)
+                        {
+                            ginItem.status = GINStatus.Cancelled.ToString();
+                            ginItem.statusChangeDate = DateTime.Now;
+                            ginItem.updatedOn = DateTime.Now;
+                            ginItem.updatedBy = _LoggedInuserId;
+                        }
+
+                        messageToDisplay = "SOCancelled";
+                        type = ResponseType.Success;
+                    }
+                    else
+                    {
+                        messageToDisplay = "GINExists";
+                        type = ResponseType.Error;
+                    }
+                }
+                else
+                {
+                    messageToDisplay = "SOApprovedByAdmin";
+                    type = ResponseType.Error;
+                }
+                
+                repo.SaveChanges();
+                
+                transaction.Complete();
+                return new ResponseMessage(id, resourceManager.GetString(messageToDisplay), type);
+            }
+        }
+
     }
 }

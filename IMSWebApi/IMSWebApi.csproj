@@ -279,6 +279,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\FWRShadeController.cs" />
     <Compile Include="Controllers\SupplierController.cs" />
+    <Compile Include="Controllers\TrnGoodIssueNoteController.cs" />
     <Compile Include="Controllers\TrnGoodReceiveNoteController.cs" />
     <Compile Include="Controllers\TrnProductStockController.cs" />
     <Compile Include="Controllers\TrnProductStockDetailController.cs" />
@@ -374,6 +375,12 @@
     <Compile Include="Models\MstuserType.cs">
       <DependentUpon>WebApiModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\TrnGoodIssueNote.cs">
+      <DependentUpon>WebApiModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TrnGoodIssueNoteItem.cs">
+      <DependentUpon>WebApiModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\TrnGoodReceiveNote.cs">
       <DependentUpon>WebApiModel.tt</DependentUpon>
     </Compile>
@@ -396,6 +403,12 @@
       <DependentUpon>WebApiModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TrnSaleOrderItem.cs">
+      <DependentUpon>WebApiModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TrnSalesInvoice.cs">
+      <DependentUpon>WebApiModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TrnSalesInvoiceItem.cs">
       <DependentUpon>WebApiModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\WebApiModel.Context.cs">
@@ -436,6 +449,7 @@
     <Compile Include="Services\MatSizeService.cs" />
     <Compile Include="Services\MatThicknessService.cs" />
     <Compile Include="Services\MenuService.cs" />
+    <Compile Include="Services\TrnGoodIssueNoteService.cs" />
     <Compile Include="Services\TrnProductStockService.cs" />
     <Compile Include="Services\QualityService.cs" />
     <Compile Include="Services\RoleService.cs" />
@@ -445,6 +459,7 @@
     <Compile Include="Services\TrnProductStockDetailService.cs" />
     <Compile Include="Services\TrnPurchaseOrderService.cs" />
     <Compile Include="Services\TrnSaleOrderService.cs" />
+    <Compile Include="Services\TrnSalesInvoiceService.cs" />
     <Compile Include="Services\UnitOfMeasureService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Services\FomSizeService.cs" />
@@ -466,6 +481,8 @@
     <Compile Include="ViewModel\VMMatSize.cs" />
     <Compile Include="ViewModel\VMMatThickness.cs" />
     <Compile Include="ViewModel\VMProductDetails.cs" />
+    <Compile Include="ViewModel\VMTrnGoodIssueNote.cs" />
+    <Compile Include="ViewModel\VMTrnGoodIssueNoteItem.cs" />
     <Compile Include="ViewModel\VMTrnProductStock.cs" />
     <Compile Include="ViewModel\VMQuality.cs" />
     <Compile Include="ViewModel\VMFWRShade.cs" />
@@ -484,6 +501,8 @@
     <Compile Include="ViewModel\VMTrnPurchaseOrderItem.cs" />
     <Compile Include="ViewModel\VMTrnSaleOrder.cs" />
     <Compile Include="ViewModel\VMTrnSaleOrderItem.cs" />
+    <Compile Include="ViewModel\VMTrnSalesInvoice.cs" />
+    <Compile Include="ViewModel\VMTrnSalesInvoiceItem.cs" />
     <Compile Include="ViewModel\VMUnitOfMeasure.cs" />
     <Compile Include="ViewModel\VMUser.cs" />
     <Compile Include="ViewModel\VMUserType.cs" />

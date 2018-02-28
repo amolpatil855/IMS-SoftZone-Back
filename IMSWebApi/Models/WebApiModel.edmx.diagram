@@ -129,6 +129,28 @@
         <AssociationConnector Association="IMSModel.FK_TrnSaleOrderItem_MstFWRShade" />
         <AssociationConnector Association="IMSModel.FK_TrnSaleOrderItem_MstMatSize" />
         <AssociationConnector Association="IMSModel.FK_TrnSaleOrderItems_TrnSaleOrder" />
+        <EntityTypeShape EntityType="IMSModel.TrnGoodIssueNote" Width="1.5" PointX="12.75" PointY="17.875" />
+        <AssociationConnector Association="IMSModel.FK_TrnGoodIssueNote_MstCustomer" />
+        <AssociationConnector Association="IMSModel.FK_TrnGoodIssueNote_TrnSaleOrder" />
+        <EntityTypeShape EntityType="IMSModel.TrnSalesInvoice" Width="1.5" PointX="15" PointY="16.75" />
+        <AssociationConnector Association="IMSModel.FK_TrnSalesInvoice_TrnGoodIssueNote" />
+        <AssociationConnector Association="IMSModel.FK_TrnSalesInvoice_TrnSaleOrder" />
+        <EntityTypeShape EntityType="IMSModel.TrnGoodIssueNoteItem" Width="1.5" PointX="33" PointY="35.75" />
+        <AssociationConnector Association="IMSModel.FK_TrnGoodIssueNoteItems_MstAccessory" />
+        <AssociationConnector Association="IMSModel.FK_TrnGoodIssueNoteItems_MstCategory" />
+        <AssociationConnector Association="IMSModel.FK_TrnGoodIssueNoteItems_MstCollection" />
+        <AssociationConnector Association="IMSModel.FK_TrnGoodIssueNoteItems_MstFomSize" />
+        <AssociationConnector Association="IMSModel.FK_TrnGoodIssueNoteItems_MstFWRShade" />
+        <AssociationConnector Association="IMSModel.FK_TrnGoodIssueNoteItems_MstMatSize" />
+        <AssociationConnector Association="IMSModel.FK_TrnGoodIssueNoteItems_TrnGoodIssueNote" />
+        <EntityTypeShape EntityType="IMSModel.TrnSalesInvoiceItem" Width="1.5" PointX="30" PointY="26" />
+        <AssociationConnector Association="IMSModel.FK_TrnSalesInvoiceItems_MstAccessory" />
+        <AssociationConnector Association="IMSModel.FK_TrnSalesInvoiceItems_MstCategory" />
+        <AssociationConnector Association="IMSModel.FK_TrnSalesInvoiceItems_MstCollection" />
+        <AssociationConnector Association="IMSModel.FK_TrnSalesInvoiceItems_MstFomSize" />
+        <AssociationConnector Association="IMSModel.FK_TrnSalesInvoiceItems_MstFWRShade" />
+        <AssociationConnector Association="IMSModel.FK_TrnSalesInvoiceItems_MstMatSize" />
+        <AssociationConnector Association="IMSModel.FK_TrnSalesInvoiceItems_TrnSalesInvoice" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
