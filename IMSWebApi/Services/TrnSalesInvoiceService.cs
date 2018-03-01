@@ -9,6 +9,7 @@ using System.Web;
 using Microsoft.AspNet.Identity;
 using IMSWebApi.ViewModel;
 using IMSWebApi.Enums;
+using AutoMapper;
 
 namespace IMSWebApi.Services
 {
@@ -27,6 +28,49 @@ namespace IMSWebApi.Services
             resourceManager = new ResourceManager("IMSWebApi.App_Data.Resource", Assembly.GetExecutingAssembly());
             generateOrderNumber = new GenerateOrderNumber();
             _trnProductStockService = new TrnProductStockService();
+        }
+
+        public ListResult<VMTrnSalesInvoice> getSalesInvoices(int pageSize, int page, string search)
+        {
+            List<VMTrnSalesInvoice> salesInvoiceView;
+            if (pageSize > 0)
+            {
+                var result = repo.TrnSalesInvoices.Where(s => !string.IsNullOrEmpty(search)
+                    ? s.TrnGoodIssueNote.ginNumber.StartsWith(search)
+                    || s.invoiceNumber.StartsWith(search)
+                    || s.TrnSaleOrder.orderNumber.StartsWith(search)
+                    || s.status.StartsWith(search) : true)
+                    .OrderBy(p => p.id).Skip(page * pageSize).Take(pageSize).ToList();
+                salesInvoiceView = Mapper.Map<List<TrnSalesInvoice>, List<VMTrnSalesInvoice>>(result);
+            }
+            else
+            {
+                var result = repo.TrnSalesInvoices.Where(s => !string.IsNullOrEmpty(search)
+                    ? s.TrnGoodIssueNote.ginNumber.StartsWith(search)
+                    || s.invoiceNumber.StartsWith(search)
+                    || s.TrnSaleOrder.orderNumber.StartsWith(search)
+                    || s.status.StartsWith(search) : true).ToList();
+                salesInvoiceView = Mapper.Map<List<TrnSalesInvoice>, List<VMTrnSalesInvoice>>(result);
+            }
+            salesInvoiceView.ForEach(s => s.TrnGoodIssueNote.TrnGoodIssueNoteItems.ForEach(ginItems => ginItems.TrnGoodIssueNote = null));
+            return new ListResult<VMTrnSalesInvoice>
+            {
+                Data = salesInvoiceView,
+                TotalCount = repo.TrnSalesInvoices.Where(s => !string.IsNullOrEmpty(search)
+                    ? s.TrnGoodIssueNote.ginNumber.StartsWith(search)
+                    || s.invoiceNumber.StartsWith(search)
+                    || s.TrnSaleOrder.orderNumber.StartsWith(search)
+                    || s.status.StartsWith(search) : true).Count(),
+                Page = page
+            };
+        }
+
+        public VMTrnSalesInvoice getSalesInvoiceById(Int64 id)
+        {
+            var result = repo.TrnSalesInvoices.Where(s => s.id == id).FirstOrDefault();
+            VMTrnSalesInvoice salesInvoiceView = Mapper.Map<TrnSalesInvoice, VMTrnSalesInvoice>(result);
+            salesInvoiceView.TrnGoodIssueNote.TrnGoodIssueNoteItems.ForEach(ginItems => ginItems.TrnGoodIssueNote = null);
+            return salesInvoiceView;
         }
 
         public void createInvoiceForGIN(VMTrnGoodIssueNote goodIssueNote)
