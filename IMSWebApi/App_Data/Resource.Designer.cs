@@ -511,6 +511,24 @@ namespace IMSWebApi.App_Data {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Purchase Order is Cancelled Successfully.
+        /// </summary>
+        public static string POCancelled {
+            get {
+                return ResourceManager.GetString("POCancelled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Purchase Order can&apos;t be Cancelled.
+        /// </summary>
+        public static string PONotCancelled {
+            get {
+                return ResourceManager.GetString("PONotCancelled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Purchase Order Updated Successfully.
         /// </summary>
         public static string POUpdated {

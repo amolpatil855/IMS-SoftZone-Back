@@ -360,4 +360,10 @@
   <data name="SOForcefullyComplete" xml:space="preserve">
     <value>Sales Order Status changed to Completed Forcefully</value>
   </data>
+  <data name="POCancelled" xml:space="preserve">
+    <value>Purchase Order is Cancelled Successfully</value>
+  </data>
+  <data name="PONotCancelled" xml:space="preserve">
+    <value>Purchase Order can't be Cancelled</value>
+  </data>
 </root>

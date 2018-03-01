@@ -112,5 +112,14 @@ namespace IMSWebApi.Controllers
             return Ok(result);
         }
 
+        // GET api/TrnPurchaseOrder/1
+        [ApiAuthorize(Roles = "Administrator")]
+        [HttpPut]
+        [Route("api/TrnPurchaseOrder/CancelPO/{id}")]
+        public IHttpActionResult CancelPO(long id)
+        {
+            var result = _trnPurchaseOrderService.cancelPO(id);
+            return Ok(result);
+        }
     }
 }
