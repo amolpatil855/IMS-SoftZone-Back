@@ -342,4 +342,16 @@
   <data name="PasswordResetForDeActiveUser" xml:space="preserve">
     <value>User is De-Active. Password cannot be reset.</value>
   </data>
+  <data name="InvoiceCreated" xml:space="preserve">
+    <value>Invoice is Created for this GIN</value>
+  </data>
+  <data name="GINExists" xml:space="preserve">
+    <value>Can't Cancel, as some items already delivered</value>
+  </data>
+  <data name="SOApprovedByAdmin" xml:space="preserve">
+    <value>Can't Cancel, as it is already Approved By Admin</value>
+  </data>
+  <data name="SOCancelled" xml:space="preserve">
+    <value>Sales Order Cancelled Successfully</value>
+  </data>
 </root>

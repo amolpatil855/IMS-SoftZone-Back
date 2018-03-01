@@ -349,6 +349,15 @@ namespace IMSWebApi.App_Data {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Can&apos;t Cancel, as some items already delivered.
+        /// </summary>
+        public static string GINExists {
+            get {
+                return ResourceManager.GetString("GINExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Hsn Added Successfully.
         /// </summary>
         public static string HsnAdded {
@@ -372,6 +381,15 @@ namespace IMSWebApi.App_Data {
         public static string HsnUpdated {
             get {
                 return ResourceManager.GetString("HsnUpdated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invoice is Created for this GIN.
+        /// </summary>
+        public static string InvoiceCreated {
+            get {
+                return ResourceManager.GetString("InvoiceCreated", resourceCulture);
             }
         }
         
@@ -606,6 +624,24 @@ namespace IMSWebApi.App_Data {
         public static string SOApproved {
             get {
                 return ResourceManager.GetString("SOApproved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Can&apos;t Cancel, as it is already Approved By Admin.
+        /// </summary>
+        public static string SOApprovedByAdmin {
+            get {
+                return ResourceManager.GetString("SOApprovedByAdmin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sales Order Cancelled Successfully.
+        /// </summary>
+        public static string SOCancelled {
+            get {
+                return ResourceManager.GetString("SOCancelled", resourceCulture);
             }
         }
         

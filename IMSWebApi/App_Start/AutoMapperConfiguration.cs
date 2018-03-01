@@ -118,6 +118,19 @@ namespace IMSWebApi.App_Start
             Mapper.CreateMap<TrnGoodReceiveNoteItem, VMTrnGoodReceiveNoteItem>();
             Mapper.CreateMap<VMTrnGoodReceiveNoteItem, TrnGoodReceiveNoteItem>();
 
+            Mapper.CreateMap<TrnGoodIssueNote, VMTrnGoodIssueNote>();
+            Mapper.CreateMap<VMTrnGoodIssueNote, TrnGoodIssueNote>();
+
+            Mapper.CreateMap<TrnGoodIssueNoteItem, VMTrnGoodIssueNoteItem>();
+            Mapper.CreateMap<VMTrnGoodIssueNoteItem, TrnGoodIssueNoteItem>();
+
+            Mapper.CreateMap<TrnSalesInvoice, VMTrnSalesInvoice>();
+            Mapper.CreateMap<VMTrnSalesInvoice, TrnSalesInvoice>();
+
+            Mapper.CreateMap<TrnSalesInvoiceItem, VMTrnSalesInvoiceItem>();
+            Mapper.CreateMap<VMTrnSalesInvoiceItem, TrnSalesInvoiceItem>();
+
+
         }
     }
 }
