@@ -91,5 +91,15 @@ namespace IMSWebApi.Controllers
             var result = _trnSaleOrderService.cancelSO(id);
             return Ok(result);
         }
+
+        // PUT api/TrnSaleOrder/1
+        [ApiAuthorize(Roles = "Administrator")]
+        [HttpPut]
+        [Route("api/TrnSaleOrder/CompleteSO/{id}")]
+        public IHttpActionResult CompleteSO(long id)
+        {
+            var result = _trnSaleOrderService.completeSO(id);
+            return Ok(result);
+        }
     }
 }

@@ -499,7 +499,7 @@ namespace IMSWebApi.Services
             updateSOItemInStockForGIN(ginItem, kgToBeSubtracted);
         }
 
-        //When SO is Cancelled, subtract soQuantity for each soItem in ProductStock
+        //When SO is Cancelled/ Forcefully completed, subtract balanceQuantity from soQuantity for each soItem in ProductStock
         public void SubSOItemFromStock(TrnSaleOrderItem saleOrderItem)
         {
             TrnProductStock product = repo.TrnProductStocks.Where(z => z.categoryId == saleOrderItem.categoryId
@@ -510,7 +510,7 @@ namespace IMSWebApi.Services
                                                       && z.accessoryId == saleOrderItem.accessoryId).FirstOrDefault();
             if (product != null)
             {
-                product.soQuanity = product.soQuanity - saleOrderItem.orderQuantity;
+                product.soQuanity = product.soQuanity - Convert.ToDecimal(saleOrderItem.balanceQuantity);
                 product.updatedOn = DateTime.Now;
                 product.updatedBy = _LoggedInuserId;
                 repo.SaveChanges();
