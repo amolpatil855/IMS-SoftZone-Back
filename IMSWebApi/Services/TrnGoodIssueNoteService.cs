@@ -196,7 +196,7 @@ namespace IMSWebApi.Services
                                                                           && so.saleOrderId == ginItem.TrnGoodIssueNote.salesOrderId).FirstOrDefault();
 
             soItem.balanceQuantity = ginItem.issuedQuantity > soItem.balanceQuantity ? 0 : soItem.balanceQuantity - ginItem.issuedQuantity;
-            soItem.deliverQuantity = ginItem.issuedQuantity;
+            soItem.deliverQuantity += ginItem.issuedQuantity;
             soItem.status = soItem.balanceQuantity == 0 ? SaleOrderStatus.Completed.ToString() : soItem.status;
             soItem.updatedBy = _LoggedInuserId;
             soItem.updatedOn = DateTime.Now;
