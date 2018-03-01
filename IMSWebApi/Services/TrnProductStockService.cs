@@ -453,7 +453,7 @@ namespace IMSWebApi.Services
             {
                 product.soQuanity = product.soQuanity - Convert.ToDecimal(ginItem.issuedQuantity);
                 product.stock = product.stock - Convert.ToDecimal(ginItem.issuedQuantity);
-                product.stockInKg = ginItem.categoryId == 7 ? product.stockInKg - kgToBeSubtracted : product.stockInKg;
+                product.stockInKg = ginItem.MstCategory.code.Equals("Foam") ? product.stockInKg - kgToBeSubtracted : product.stockInKg;
                 product.updatedOn = DateTime.Now;
                 product.updatedBy = _LoggedInuserId;
                 repo.SaveChanges();
@@ -481,14 +481,14 @@ namespace IMSWebApi.Services
                 if (balQty > items[i].stock)
 	            {  
                     balQty = balQty - items[i].stock;
-                    kgToBeSubtracted += items[i].categoryId == 7 ? Convert.ToDecimal(items[i].stockInKg) : 0;
+                    kgToBeSubtracted += items[i].categoryId == 2 ? Convert.ToDecimal(items[i].stockInKg) : 0;
                     items[i].stock = 0;
                     items[i].stockInKg = items[i].kgPerUnit = 0;
 	            }
                 else
                 {
                     items[i].stock = items[i].stock - balQty;
-                    kgToBeSubtracted += items[i].categoryId == 7 ? Convert.ToDecimal(items[i].kgPerUnit) * balQty : 0;
+                    kgToBeSubtracted += items[i].categoryId == 2 ? Convert.ToDecimal(items[i].kgPerUnit) * balQty : 0;
                     items[i].stockInKg = items[i].kgPerUnit * items[i].stock;
                     balQty = 0;
                 }
