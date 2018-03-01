@@ -77,7 +77,7 @@ namespace IMSWebApi.Services
         {
             var result = repo.TrnSaleOrders.Where(so => so.id == id).FirstOrDefault();
             VMTrnSaleOrder saleOrderView = Mapper.Map<TrnSaleOrder, VMTrnSaleOrder>(result);
-            saleOrderView.courierName = result.MstCourier.name;
+            saleOrderView.courierName = result.courierId != null ? result.MstCourier.name : null;
             saleOrderView.customerName = result.MstCustomer.name;
 
             saleOrderView.TrnSaleOrderItems.ForEach(soItem =>
@@ -318,5 +318,34 @@ namespace IMSWebApi.Services
             }
         }
 
+        public ResponseMessage completeSO(Int64 id)
+        {
+           using (var transaction = new TransactionScope())
+            {
+                var saleOrder = repo.TrnSaleOrders.Where(so => so.id == id).FirstOrDefault();
+
+                saleOrder.status = SaleOrderStatus.Completed.ToString();
+                foreach (var soItem in saleOrder.TrnSaleOrderItems)
+                {
+                    soItem.status = SaleOrderStatus.Completed.ToString();
+                    _trnProductStockService.SubSOItemFromStock(soItem);
+                }
+                repo.SaveChanges();
+                var ginToUpdate = repo.TrnGoodIssueNotes.Where(gin => gin.salesOrderId == id && gin.status.Equals("Created"))
+                                    .FirstOrDefault();
+                ginToUpdate.status = GINStatus.Cancelled.ToString();
+
+                foreach (var ginItem in ginToUpdate.TrnGoodIssueNoteItems)
+                {
+                    ginItem.status = GINStatus.Cancelled.ToString();
+                    ginItem.statusChangeDate = DateTime.Now;
+                    ginItem.updatedOn = DateTime.Now;
+                    ginItem.updatedBy = _LoggedInuserId;
+                }
+                repo.SaveChanges();
+                transaction.Complete();
+                return new ResponseMessage(id, resourceManager.GetString("SOForcefullyComplete"), ResponseType.Success);
+            }
+        }
     }
 }

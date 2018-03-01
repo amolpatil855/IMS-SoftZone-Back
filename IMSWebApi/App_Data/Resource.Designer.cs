@@ -655,6 +655,15 @@ namespace IMSWebApi.App_Data {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sales Order Status changed to Completed Forcefully.
+        /// </summary>
+        public static string SOForcefullyComplete {
+            get {
+                return ResourceManager.GetString("SOForcefullyComplete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sale Order Generated Successfully.
         /// </summary>
         public static string SOUpdated {

@@ -357,4 +357,7 @@
   <data name="SalesInvoiceUpdated" xml:space="preserve">
     <value>Sales Invoice Updated Successfully</value>
   </data>
+  <data name="SOForcefullyComplete" xml:space="preserve">
+    <value>Sales Order Status changed to Completed Forcefully</value>
+  </data>
 </root>
