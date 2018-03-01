@@ -354,4 +354,7 @@
   <data name="SOCancelled" xml:space="preserve">
     <value>Sales Order Cancelled Successfully</value>
   </data>
+  <data name="SalesInvoiceUpdated" xml:space="preserve">
+    <value>Sales Invoice Updated Successfully</value>
+  </data>
 </root>

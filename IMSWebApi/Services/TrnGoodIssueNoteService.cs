@@ -73,6 +73,21 @@ namespace IMSWebApi.Services
             var result = repo.TrnGoodIssueNotes.Where(gin => gin.id == id).FirstOrDefault();
             VMTrnGoodIssueNote goodIssueNoteView = Mapper.Map<TrnGoodIssueNote, VMTrnGoodIssueNote>(result);
             goodIssueNoteView.TrnGoodIssueNoteItems.ForEach(ginItems => ginItems.TrnGoodIssueNote = null);
+
+            goodIssueNoteView.TrnGoodIssueNoteItems.ForEach(ginItem =>
+            {
+                ginItem.categoryName = ginItem.MstCategory.name;
+                ginItem.collectionName = ginItem.collectionId != null ? ginItem.MstCollection.collectionName : null;
+                ginItem.serialno = ginItem.MstCategory.code.Equals("Fabric")
+                                || ginItem.MstCategory.code.Equals("Rug")
+                                || ginItem.MstCategory.code.Equals("Wallpaper")
+                                ? ginItem.MstFWRShade.serialNumber + "(" + ginItem.MstFWRShade.shadeCode + ")" : null;
+                ginItem.size = ginItem.MstMatSize != null ? ginItem.MstMatSize.sizeCode + " (" + ginItem.MstMatSize.MstMatThickNess.thicknessCode + "-" + ginItem.MstMatSize.MstQuality.qualityCode + ")" :
+                            ginItem.MstFomSize != null ? ginItem.MstFomSize.itemCode : null;
+                ginItem.accessoryName = ginItem.accessoryId != null ? ginItem.MstAccessory.name : null;
+            });
+
+
             return goodIssueNoteView;
         }
 

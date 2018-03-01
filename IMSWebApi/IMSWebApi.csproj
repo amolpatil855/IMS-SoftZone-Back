@@ -285,6 +285,7 @@
     <Compile Include="Controllers\TrnProductStockDetailController.cs" />
     <Compile Include="Controllers\TrnPurchaseOrderController.cs" />
     <Compile Include="Controllers\TrnSaleOrderController.cs" />
+    <Compile Include="Controllers\TrnSalesInvoiceController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="CustomAttributes\AuthorizeUserAttribute.cs" />
