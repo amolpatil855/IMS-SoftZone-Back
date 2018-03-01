@@ -278,6 +278,8 @@ namespace IMSWebApi.Services
                         _trnProductStockService.AddpoIteminStock(poItem);
                     }
                 }
+                purchaseOrder.updatedOn = DateTime.Now;
+                purchaseOrder.updatedBy = _LoggedInuserId;
                 repo.SaveChanges();
                 VMTrnPurchaseOrder VMPurchaseOrder = Mapper.Map<TrnPurchaseOrder, VMTrnPurchaseOrder>(purchaseOrder);
                 MstUser loggedInUser = repo.MstUsers.Where(u => u.id == _LoggedInuserId).FirstOrDefault();
@@ -326,6 +328,38 @@ namespace IMSWebApi.Services
             }
             result = result.Distinct().ToList();
             return result;
+        }
+
+        public ResponseMessage cancelPO(Int64 id)
+        {
+            String messageToDisplay;
+            ResponseType type;
+            using (var transaction = new TransactionScope())
+            {
+                var purchaseOrder = repo.TrnPurchaseOrders.Where(so => so.id == id).FirstOrDefault();
+                if (purchaseOrder.status.Equals("Created"))
+                {
+                    purchaseOrder.status = PurchaseOrderStatus.Cancelled.ToString();
+
+                    foreach (var poItem in purchaseOrder.TrnPurchaseOrderItems)
+                    {
+                        poItem.status = PurchaseOrderStatus.Cancelled.ToString();
+                    }
+                    purchaseOrder.updatedOn = DateTime.Now;
+                    purchaseOrder.updatedBy = _LoggedInuserId;
+                    messageToDisplay = "POCancelled";
+                    type = ResponseType.Success;
+                }
+                else
+                {
+                    messageToDisplay = "PONotCancelled";
+                    type = ResponseType.Error;
+                }
+                repo.SaveChanges();
+
+                transaction.Complete();
+                return new ResponseMessage(id, resourceManager.GetString(messageToDisplay), type);
+            }
         }
     }
 }

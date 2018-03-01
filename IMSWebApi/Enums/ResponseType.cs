@@ -16,7 +16,8 @@ namespace IMSWebApi.Enums
         Approved = 2,
         PartialCompleted = 3,
         Closed = 4,
-        Completed = 5
+        Completed = 5,
+        Cancelled = 6
     }
 
 
