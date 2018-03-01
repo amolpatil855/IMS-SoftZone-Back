@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity;
 using IMSWebApi.ViewModel;
 using IMSWebApi.Enums;
 using AutoMapper;
+using System.Transactions;
 
 namespace IMSWebApi.Services
 {
@@ -53,6 +54,7 @@ namespace IMSWebApi.Services
                 salesInvoiceView = Mapper.Map<List<TrnSalesInvoice>, List<VMTrnSalesInvoice>>(result);
             }
             salesInvoiceView.ForEach(s => s.TrnGoodIssueNote.TrnGoodIssueNoteItems.ForEach(ginItems => ginItems.TrnGoodIssueNote = null));
+            salesInvoiceView.ForEach(s => s.TrnSalesInvoiceItems.ForEach(salesInvoiceItems => salesInvoiceItems.TrnSalesInvoice = null));
             return new ListResult<VMTrnSalesInvoice>
             {
                 Data = salesInvoiceView,
@@ -70,6 +72,21 @@ namespace IMSWebApi.Services
             var result = repo.TrnSalesInvoices.Where(s => s.id == id).FirstOrDefault();
             VMTrnSalesInvoice salesInvoiceView = Mapper.Map<TrnSalesInvoice, VMTrnSalesInvoice>(result);
             salesInvoiceView.TrnGoodIssueNote.TrnGoodIssueNoteItems.ForEach(ginItems => ginItems.TrnGoodIssueNote = null);
+            salesInvoiceView.TrnSalesInvoiceItems.ForEach(salesInvoiceItems => salesInvoiceItems.TrnSalesInvoice = null);
+
+            salesInvoiceView.TrnSalesInvoiceItems.ForEach(salesInvoiceItem =>
+            {
+                salesInvoiceItem.categoryName = salesInvoiceItem.MstCategory.name;
+                salesInvoiceItem.collectionName = salesInvoiceItem.collectionId != null ? salesInvoiceItem.MstCollection.collectionName : null;
+                salesInvoiceItem.serialno = salesInvoiceItem.MstCategory.code.Equals("Fabric")
+                                || salesInvoiceItem.MstCategory.code.Equals("Rug")
+                                || salesInvoiceItem.MstCategory.code.Equals("Wallpaper")
+                                ? salesInvoiceItem.MstFWRShade.serialNumber + "(" + salesInvoiceItem.MstFWRShade.shadeCode + ")" : null;
+                salesInvoiceItem.size = salesInvoiceItem.MstMatSize != null ? salesInvoiceItem.MstMatSize.sizeCode + " (" + salesInvoiceItem.MstMatSize.MstMatThickNess.thicknessCode + "-" + salesInvoiceItem.MstMatSize.MstQuality.qualityCode + ")" :
+                            salesInvoiceItem.MstFomSize != null ? salesInvoiceItem.MstFomSize.itemCode : null;
+                salesInvoiceItem.accessoryName = salesInvoiceItem.accessoryId != null ? salesInvoiceItem.MstAccessory.name : null;
+            });
+
             return salesInvoiceView;
         }
 
@@ -125,6 +142,47 @@ namespace IMSWebApi.Services
 
             financialYear.soInvoiceNumber += 1;
             repo.SaveChanges();
+        }
+
+        public ResponseMessage putSalesInvoice(VMTrnSalesInvoice salesInvoice)
+        {
+            using (var transaction = new TransactionScope())
+            {
+                var salesInvoiceToPut = repo.TrnSalesInvoices.Where(q => q.id == salesInvoice.id).FirstOrDefault();
+
+                salesInvoiceToPut.totalAmount = salesInvoice.totalAmount;
+                salesInvoiceToPut.amountPaid = salesInvoice.amountPaid;
+                salesInvoiceToPut.courierDockYardNumber = salesInvoice.courierDockYardNumber;
+
+                updateSalesInvoiceItems(salesInvoice);
+
+                salesInvoiceToPut.updatedOn = DateTime.Now;
+                salesInvoiceToPut.updatedBy = _LoggedInuserId;
+                repo.SaveChanges();
+
+                transaction.Complete();
+                return new ResponseMessage(salesInvoice.id, resourceManager.GetString("SalesInvoiceUpdated"), ResponseType.Success);
+            }
+        }
+
+        public void updateSalesInvoiceItems(VMTrnSalesInvoice salesInvoice)
+        {
+            var salesInvoiceToPut = repo.TrnSalesInvoices.Where(so => so.id == salesInvoice.id).FirstOrDefault();
+
+            salesInvoice.TrnSalesInvoiceItems.ForEach(x =>
+            {
+                if (salesInvoiceToPut.TrnSalesInvoiceItems.Any(y => y.id == x.id))
+                {
+                    var salesInvoiceItemToPut = repo.TrnSalesInvoiceItems.Where(p => p.id == x.id).FirstOrDefault();
+
+                    salesInvoiceItemToPut.rateWithGST = x.rateWithGST;
+                    salesInvoiceItemToPut.amountWithGST = x.amountWithGST;
+                    salesInvoiceItemToPut.updatedOn = DateTime.Now;
+                    salesInvoiceItemToPut.updatedBy = _LoggedInuserId;
+                    repo.SaveChanges();
+                }
+            });
+
         }
     }
 }

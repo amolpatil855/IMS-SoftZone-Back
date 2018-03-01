@@ -19,5 +19,6 @@ namespace IMSWebApi.ViewModel
         
         public virtual VMTrnGoodIssueNote TrnGoodIssueNote { get; set; }
         public virtual VMTrnSaleOrder TrnSaleOrder { get; set; }
+        public virtual List<VMTrnSalesInvoiceItem> TrnSalesInvoiceItems { get; set; }
     }
 }

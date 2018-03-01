@@ -20,7 +20,7 @@ namespace IMSWebApi.Controllers
         }
 
         // GET api/TrnGoodIssueNote
-        //[ApiAuthorize(AccessLevel = "gin")]
+        [ApiAuthorize(AccessLevel = "gin")]
         [HttpGet]
         public IHttpActionResult Get(int pageSize = 0, int page = 0, string search = null)
         {
@@ -29,7 +29,7 @@ namespace IMSWebApi.Controllers
         }
 
         // GET api/TrnGoodIssueNote/1
-        //[ApiAuthorize(AccessLevel = "gin")]
+        [ApiAuthorize(AccessLevel = "gin")]
         [HttpGet]
         public IHttpActionResult Get(long id)
         {
@@ -38,7 +38,7 @@ namespace IMSWebApi.Controllers
         }
 
         // PUT api/TrnGoodIssueNote
-        //[ApiAuthorize(AccessLevel = "gin")]
+        [ApiAuthorize(AccessLevel = "gin")]
         [HttpPut]
         public IHttpActionResult PutTrnGoodIssueNote(VMTrnGoodIssueNote goodIssueNote)
         {

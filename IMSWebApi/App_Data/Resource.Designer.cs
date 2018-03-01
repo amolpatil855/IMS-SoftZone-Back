@@ -583,6 +583,15 @@ namespace IMSWebApi.App_Data {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sales Invoice Updated Successfully.
+        /// </summary>
+        public static string SalesInvoiceUpdated {
+            get {
+                return ResourceManager.GetString("SalesInvoiceUpdated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Shade Added Successfully.
         /// </summary>
         public static string ShadeAdded {

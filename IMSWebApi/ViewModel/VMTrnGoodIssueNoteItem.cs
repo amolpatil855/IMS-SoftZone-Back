@@ -25,6 +25,12 @@ namespace IMSWebApi.ViewModel
         public int amount { get; set; }
         public string status { get; set; }
         public Nullable<System.DateTime> statusChangeDate { get; set; }
+
+        public string categoryName { get; set; }
+        public string collectionName { get; set; }
+        public string serialno { get; set; }
+        public string size { get; set; }
+        public string accessoryName { get; set; }
        
         public virtual VMAccessory MstAccessory { get; set; }
         public virtual VMCategory MstCategory { get; set; }
