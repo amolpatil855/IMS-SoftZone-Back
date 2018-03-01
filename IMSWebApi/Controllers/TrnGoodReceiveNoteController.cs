@@ -26,7 +26,7 @@ namespace IMSWebApi.Controllers
         public IHttpActionResult Get(int pageSize = 0, int page = 0, string search = null)
         {
             var result = _trnGoodReceiveNoteService.getGoodReceiveNote(pageSize, page, search);
-            return Ok();
+            return Ok(result);
         }
 
         // GET api/TrnGoodReceiveNote/1
@@ -35,7 +35,7 @@ namespace IMSWebApi.Controllers
         public IHttpActionResult Get(long id)
         {
             var result = _trnGoodReceiveNoteService.getGoodReceiveNoteById(id);
-            return Ok();
+            return Ok(result);
         }
 
         // POST api/TrnGoodReceiveNote
