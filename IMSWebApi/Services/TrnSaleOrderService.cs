@@ -251,6 +251,9 @@ namespace IMSWebApi.Services
                 repo.SaveChanges();
                 VMTrnSaleOrder VMSaleOrder = Mapper.Map<TrnSaleOrder, VMTrnSaleOrder>(saleOrder);
                 _trnGoodIssueNoteServie.postGoodIssueNote(VMSaleOrder);
+
+                emailNotification.approvedSONotificationForCustomer(VMSaleOrder, "ApprovedSONotificationForCustomer");
+
                 transaction.Complete();
                 return new ResponseMessage(id, resourceManager.GetString("SOApproved"), ResponseType.Success);
             }
@@ -272,6 +275,9 @@ namespace IMSWebApi.Services
                     }
                     messageToDisplay = "SOCancelled";
                     type = ResponseType.Success;
+
+                    VMTrnSaleOrder VMsaleOrder = Mapper.Map<TrnSaleOrder, VMTrnSaleOrder>(saleOrder);
+                    emailNotification.cancelledSONotificationForCustomer(VMsaleOrder, "CancelledSONotificationForCustomer");
                 }
                 else if (saleOrder.status.Equals("Approved") && _IsAdministrator)
                 {
@@ -298,6 +304,9 @@ namespace IMSWebApi.Services
 
                         messageToDisplay = "SOCancelled";
                         type = ResponseType.Success;
+
+                        VMTrnSaleOrder VMsaleOrder = Mapper.Map<TrnSaleOrder, VMTrnSaleOrder>(saleOrder);
+                        emailNotification.cancelledSONotificationForCustomer(VMsaleOrder, "CancelledSONotificationForCustomer");
                     }
                     else
                     {

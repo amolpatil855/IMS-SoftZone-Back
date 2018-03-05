@@ -18,6 +18,7 @@ namespace IMSWebApi.Services
     {
         WebAPIdbEntities repo = new WebAPIdbEntities();
         Int64 _LoggedInuserId;
+        bool _IsAdministrator;
         ResourceManager resourceManager = null;
         TrnProductStockService _trnProductStockService = null;
         GenerateOrderNumber generateOrderNumber = null;
@@ -27,6 +28,7 @@ namespace IMSWebApi.Services
         {
             _trnProductStockService = new TrnProductStockService();
             _LoggedInuserId = Convert.ToInt64(HttpContext.Current.User.Identity.GetUserId());
+            _IsAdministrator = HttpContext.Current.User.IsInRole("Administrator");
             resourceManager = new ResourceManager("IMSWebApi.App_Data.Resource", Assembly.GetExecutingAssembly());
             generateOrderNumber = new GenerateOrderNumber();
         }
@@ -141,17 +143,21 @@ namespace IMSWebApi.Services
                 foreach (var poItems in purchaseOrderItems)
                 {
                     poItems.matSizeId = poItems.matSizeId == -1 ? null : poItems.matSizeId;     //set null for custom matSize
-                    poItems.status = PurchaseOrderStatus.Created.ToString();
+                    poItems.status = _IsAdministrator ? PurchaseOrderStatus.Approved.ToString() : PurchaseOrderStatus.Created.ToString();
                     poItems.balanceQuantity = poItems.orderQuantity;
                     poItems.createdOn = DateTime.Now;
                     poItems.createdBy = _LoggedInuserId;
+                    if (!(poItems.categoryId == 4 && poItems.matSizeId == null))
+                    {
+                        _trnProductStockService.AddpoIteminStock(poItems);
+                    }
                 }
                 
                 var financialYear = repo.MstFinancialYears.Where(f=>f.startDate <= purchaseOrder.orderDate && f.endDate >= purchaseOrder.orderDate).FirstOrDefault();
                 string orderNo = generateOrderNumber.orderNumber(financialYear.startDate.ToString("yy"), financialYear.endDate.ToString("yy"), financialYear.poNumber);
                 purchaseOrderToPost.orderNumber = orderNo;
                 purchaseOrderToPost.financialYear = financialYear.financialYear;
-                purchaseOrderToPost.status = PurchaseOrderStatus.Created.ToString();
+                purchaseOrderToPost.status = _IsAdministrator ? PurchaseOrderStatus.Approved.ToString() : PurchaseOrderStatus.Created.ToString();
                 purchaseOrderToPost.createdOn = DateTime.Now;
                 purchaseOrderToPost.createdBy = _LoggedInuserId;
                 
@@ -161,8 +167,16 @@ namespace IMSWebApi.Services
                 repo.SaveChanges();
                 MstUser loggedInUser = repo.MstUsers.Where(u=>u.id == _LoggedInuserId).FirstOrDefault();
                 string adminEmail = repo.MstUsers.Where(u=>u.userName.Equals("Administrator")).FirstOrDefault().email;
+                string supplierEmail = repo.MstSuppliers.Where(s=>s.id == purchaseOrder.supplierId).FirstOrDefault().email;
 
-                emailNotification.notificationForPO(purchaseOrder, "NotificationForPO", loggedInUser, adminEmail);
+                if (_IsAdministrator)
+                {
+                    emailNotification.notifySupplierForPO(purchaseOrder, "NotifySupplierForPO", supplierEmail);
+                }
+                else
+                {
+                    emailNotification.notificationForPO(purchaseOrder, "NotificationForPO", loggedInUser, adminEmail);
+                }
 
                 transaction.Complete();
                 return new ResponseMessage(purchaseOrderToPost.id, resourceManager.GetString("POAdded"), ResponseType.Success);
