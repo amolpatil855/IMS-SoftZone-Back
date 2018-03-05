@@ -240,11 +240,16 @@ namespace IMSWebApi.Services
             repo.SaveChanges();
 
             //Set PO status Completed, if all its item's status is completed or closed
+            //else set PO status PartialCompleted
             int poItemCount = repo.TrnPurchaseOrderItems.Where(po => po.purchaseOrderId == grnItem.purchaseOrderId).Count();
             int completePOItemCount = repo.TrnPurchaseOrderItems.Where(po => po.purchaseOrderId == grnItem.purchaseOrderId && (po.status.Equals("Completed") || po.status.Equals("Closed"))).Count();
             if (poItemCount == completePOItemCount)
             {
                 poItem.TrnPurchaseOrder.status = PurchaseOrderStatus.Completed.ToString();
+            }
+            else
+            {
+                poItem.TrnPurchaseOrder.status = PurchaseOrderStatus.PartialCompleted.ToString();
             }
             repo.SaveChanges();
 
