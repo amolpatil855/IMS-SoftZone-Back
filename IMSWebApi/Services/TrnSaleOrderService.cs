@@ -130,13 +130,17 @@ namespace IMSWebApi.Services
 
                 MstUser loggedInUser = repo.MstUsers.Where(u => u.id == _LoggedInuserId).FirstOrDefault();
                 string adminEmail = repo.MstUsers.Where(u => u.userName.Equals("Administrator")).FirstOrDefault().email;
-
-                emailNotification.notificationForSO(saleOrder, "NotificationForSO", loggedInUser, adminEmail);
+                string customerEmail = repo.MstCustomers.Where(c => c.id == saleOrder.customerId).FirstOrDefault().email;
 
                 if (!_IsCustomer)
                 {
                     VMTrnSaleOrder VMSaleOrderToPost = Mapper.Map<TrnSaleOrder, VMTrnSaleOrder>(saleOrderToPost);
                     _trnGoodIssueNoteServie.postGoodIssueNote(VMSaleOrderToPost);
+                    emailNotification.approvedSONotificationForCustomer(saleOrder, "ApprovedSONotificationForCustomer",customerEmail);
+                }
+                else
+                {
+                    emailNotification.notificationForSO(saleOrder, "NotificationForSO", loggedInUser, adminEmail);
                 }
 
                 transaction.Complete();
@@ -219,7 +223,6 @@ namespace IMSWebApi.Services
                     soItemToPut.updatedOn = DateTime.Now;
                     soItemToPut.updatedBy = _LoggedInuserId;
                     repo.SaveChanges();
-
                 }
                 else
                 {
@@ -252,7 +255,9 @@ namespace IMSWebApi.Services
                 VMTrnSaleOrder VMSaleOrder = Mapper.Map<TrnSaleOrder, VMTrnSaleOrder>(saleOrder);
                 _trnGoodIssueNoteServie.postGoodIssueNote(VMSaleOrder);
 
-                emailNotification.approvedSONotificationForCustomer(VMSaleOrder, "ApprovedSONotificationForCustomer");
+                string customerEmail = saleOrder.MstCustomer.email;
+
+                emailNotification.approvedSONotificationForCustomer(VMSaleOrder, "ApprovedSONotificationForCustomer",customerEmail);
 
                 transaction.Complete();
                 return new ResponseMessage(id, resourceManager.GetString("SOApproved"), ResponseType.Success);

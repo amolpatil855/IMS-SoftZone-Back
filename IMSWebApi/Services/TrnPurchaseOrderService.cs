@@ -147,7 +147,7 @@ namespace IMSWebApi.Services
                     poItems.balanceQuantity = poItems.orderQuantity;
                     poItems.createdOn = DateTime.Now;
                     poItems.createdBy = _LoggedInuserId;
-                    if (!(poItems.categoryId == 4 && poItems.matSizeId == null))
+                    if (!(poItems.categoryId == 4 && poItems.matSizeId == null) && _IsAdministrator)
                     {
                         _trnProductStockService.AddpoIteminStock(poItems);
                     }
@@ -261,7 +261,6 @@ namespace IMSWebApi.Services
                     poItemToPut.updatedOn = DateTime.Now;
                     poItemToPut.updatedBy = _LoggedInuserId;
                     repo.SaveChanges();
-
                 }
                 else
                 {
