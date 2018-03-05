@@ -169,11 +169,13 @@ namespace IMSWebApi.Services
                 string adminEmail = repo.MstUsers.Where(u=>u.userName.Equals("Administrator")).FirstOrDefault().email;
                 string supplierEmail = repo.MstSuppliers.Where(s=>s.id == purchaseOrder.supplierId).FirstOrDefault().email;
 
-                emailNotification.notificationForPO(purchaseOrder, "NotificationForPO", loggedInUser, adminEmail);
-
                 if (_IsAdministrator)
                 {
                     emailNotification.notifySupplierForPO(purchaseOrder, "NotifySupplierForPO", supplierEmail);
+                }
+                else
+                {
+                    emailNotification.notificationForPO(purchaseOrder, "NotificationForPO", loggedInUser, adminEmail);
                 }
 
                 transaction.Complete();
