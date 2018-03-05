@@ -144,6 +144,10 @@
         <AssociationConnector Association="IMSModel.FK_TrnGoodIssueNoteItems_MstMatSize" />
         <AssociationConnector Association="IMSModel.FK_TrnGoodIssueNoteItems_TrnGoodIssueNote" />
         <EntityTypeShape EntityType="IMSModel.TrnSalesInvoiceItem" Width="1.5" PointX="30" PointY="26" />
+        <EntityTypeShape EntityType="IMSModel.vwAccessory" Width="1.5" PointX="6.375" PointY="0.75" />
+        <EntityTypeShape EntityType="IMSModel.vwFoam" Width="1.5" PointX="3.375" PointY="6.75" />
+        <EntityTypeShape EntityType="IMSModel.vwFWR" Width="1.5" PointX="6.375" PointY="4.75" />
+        <EntityTypeShape EntityType="IMSModel.vwMattress" Width="1.5" PointX="8.375" PointY="0.75" />
         <AssociationConnector Association="IMSModel.FK_TrnSalesInvoiceItems_MstAccessory" />
         <AssociationConnector Association="IMSModel.FK_TrnSalesInvoiceItems_MstCategory" />
         <AssociationConnector Association="IMSModel.FK_TrnSalesInvoiceItems_MstCollection" />

@@ -18,7 +18,7 @@ namespace IMSWebApi.ViewModel
         public Nullable<long> accessoryId { get; set; }
         public decimal quantity { get; set; }
         public decimal rate { get; set; }
-        public Nullable<decimal> discountPrecentage { get; set; }
+        public Nullable<decimal> discountPercentage { get; set; }
         public int amount { get; set; }
         public Nullable<decimal> rateWithGST { get; set; }
         public Nullable<int> amountWithGST { get; set; }

@@ -117,7 +117,7 @@ namespace IMSWebApi.Services
                     salesInvoiceItem.accessoryId = ginItem.accessoryId;
                     salesInvoiceItem.quantity = Convert.ToDecimal(ginItem.issuedQuantity);
                     salesInvoiceItem.rate = ginItem.rate;
-                    salesInvoiceItem.discountPrecentage = ginItem.discountPercentage;
+                    salesInvoiceItem.discountPercentage = ginItem.discountPercentage;
                     salesInvoiceItem.amount = ginItem.amount;
                     salesInvoiceItem.gst = ginItem.shadeId != null ? ginItem.MstFWRShade.MstQuality.MstHsn.gst :
                         ginItem.fomSizeId != null ? ginItem.MstFomSize.MstQuality.MstHsn.gst :
