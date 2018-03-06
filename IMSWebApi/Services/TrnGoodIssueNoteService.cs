@@ -141,24 +141,31 @@ namespace IMSWebApi.Services
 
         public ResponseMessage putGoodIssueNote(VMTrnGoodIssueNote goodIssueNote)
         {
-            using (var transaction = new TransactionScope())
+            if (goodIssueNote.TrnGoodIssueNoteItems.Where(ginItems=>ginItems.issuedQuantity > 0).Count() > 0)
             {
-                var goodIssueNoteToPut = repo.TrnGoodIssueNotes.Where(q => q.id == goodIssueNote.id).FirstOrDefault();
+                using (var transaction = new TransactionScope())
+                {
+                    var goodIssueNoteToPut = repo.TrnGoodIssueNotes.Where(q => q.id == goodIssueNote.id).FirstOrDefault();
 
-                goodIssueNoteToPut.status = GINStatus.Completed.ToString();
+                    goodIssueNoteToPut.status = GINStatus.Completed.ToString();
 
-                updateGINItems(goodIssueNote);
+                    updateGINItems(goodIssueNote);
 
-                goodIssueNoteToPut.updatedOn = DateTime.Now;
-                goodIssueNoteToPut.updatedBy = _LoggedInuserId;
-                repo.SaveChanges();
+                    goodIssueNoteToPut.updatedOn = DateTime.Now;
+                    goodIssueNoteToPut.updatedBy = _LoggedInuserId;
+                    repo.SaveChanges();
 
-                _trnSalesInvoiceService.createInvoiceForGIN(goodIssueNote);
+                    _trnSalesInvoiceService.createInvoiceForGIN(goodIssueNote);
 
-                createGINForRemainingItems(goodIssueNote.salesOrderId);
+                    createGINForRemainingItems(goodIssueNote.salesOrderId);
 
-                transaction.Complete();
-                return new ResponseMessage(goodIssueNote.id, resourceManager.GetString("InvoiceCreated"), ResponseType.Success);
+                    transaction.Complete();
+                    return new ResponseMessage(goodIssueNote.id, resourceManager.GetString("InvoiceCreated"), ResponseType.Success);
+                }
+            }
+            else
+            {
+                return new ResponseMessage(goodIssueNote.id, "Please enter issued quantity for atleast one item", ResponseType.Error);
             }
         }
 
@@ -224,6 +231,32 @@ namespace IMSWebApi.Services
                 VMTrnSaleOrder VMSaleOrder = Mapper.Map<TrnSaleOrder,VMTrnSaleOrder>(saleOrder);
                 postGoodIssueNote(VMSaleOrder);
             }
+        }
+
+        //List of GIN Items whose physical stock is available
+        public List<VMLookUpItem> getGINLookupForItemsWithStockAvailable()
+        {
+            List<VMLookUpItem> ginForItemswithAvailableStock = new List<VMLookUpItem>();
+
+            var ginItemWithStatusCreated = repo.TrnGoodIssueNoteItems.Where(ginItems => ginItems.status.Equals(SaleOrderStatus.Created.ToString())).ToList();
+
+            ginItemWithStatusCreated.ForEach(ginItem =>
+            {
+                decimal stockAvailable = repo.TrnProductStocks.Where(p => p.categoryId == ginItem.categoryId
+                                                                     && p.collectionId == ginItem.collectionId
+                                                                     && p.fwrShadeId == ginItem.shadeId
+                                                                     && p.fomSizeId == ginItem.fomSizeId
+                                                                     && p.matSizeId == ginItem.matSizeId
+                                                                     && p.accessoryId == ginItem.accessoryId).FirstOrDefault().stock;
+                if (stockAvailable > ginItem.orderQuantity)
+                {
+                    ginForItemswithAvailableStock.Add(new VMLookUpItem { label = ginItem.TrnGoodIssueNote.ginNumber, value = ginItem.goodIssueNoteId });
+                }
+            });
+
+            ginForItemswithAvailableStock = ginForItemswithAvailableStock.Distinct(new VMLookUpItem()).ToList();
+
+            return ginForItemswithAvailableStock;
         }
     }
 }
