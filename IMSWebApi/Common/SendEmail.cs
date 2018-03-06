@@ -188,26 +188,32 @@ namespace IMSWebApi.Common
             ReusableEmailComponent.DAOFactoryProvider.GetEmailDao().sendMail(objEmail);
         }
 
-        public void approvedSONotificationForCustomer(VMTrnSaleOrder saleOrder, string fileName)
+        public void approvedSONotificationForCustomer(VMTrnSaleOrder saleOrder, string fileName,string customerEmail)
         {
             StringBuilder sbEmailDetails = new StringBuilder();
             sbEmailDetails.AppendLine(System.IO.File.ReadAllText(HttpContext.Current.Server.MapPath(@"~\EmailTemplate\" + fileName + ".html")));
 
             sbEmailDetails = sbEmailDetails.Replace("@courierMode", saleOrder.courierMode);
-            sbEmailDetails = sbEmailDetails.Replace("@customerName", saleOrder.MstCustomer.name);
+            sbEmailDetails = sbEmailDetails.Replace("@customerName", saleOrder.customerName!=null ? saleOrder.customerName : saleOrder.MstCustomer.name);
             sbEmailDetails = sbEmailDetails.Replace("@shippingAddress", saleOrder.shippingAddress);
-            sbEmailDetails = sbEmailDetails.Replace("@courierName", saleOrder.MstCourier.name);
+            sbEmailDetails = sbEmailDetails.Replace("@courierName", saleOrder.courierName!=null ? saleOrder.courierName : saleOrder.MstCourier.name);
 
             string rows = "";
 
             foreach (var soItem in saleOrder.TrnSaleOrderItems)
             {
-                string serialOrSize = soItem.shadeId != null ? soItem.MstFWRShade.serialNumber + "(" + soItem.MstFWRShade.shadeCode + ")" :
+                string serialOrSize = soItem.serialno != null && soItem.serialno != "" ? soItem.serialno :
+                    soItem.size != null && soItem.size != "" ? soItem.size :
+                   soItem.shadeId != null ? soItem.MstFWRShade.serialNumber + "(" + soItem.MstFWRShade.shadeCode + ")" :
                    soItem.matSizeId != null ? soItem.MstMatSize.sizeCode + " (" + soItem.MstMatSize.MstMatThickNess.thicknessCode + "-" + soItem.MstMatSize.MstQuality.qualityCode + ")" :
-                   soItem.fomSizeId != null ? soItem.MstFomSize.itemCode : "";
-                string accessoryCode = soItem.accessoryId != null ? soItem.MstAccessory.itemCode : "";
-                string collectionName = soItem.accessoryId != null ? "" : soItem.MstCollection.collectionName;
-                rows += "<tr><td>" + soItem.MstCategory.code 
+                   soItem.fomSizeId != null ? soItem.MstFomSize.itemCode : soItem.sizeCode;
+                string accessoryCode = soItem.accessoryName != null && soItem.accessoryName != ""? soItem.accessoryName : 
+                    soItem.accessoryId != null ? soItem.MstAccessory.itemCode : "";
+                string categoryName = soItem.categoryName != null && soItem.categoryName != "" ? soItem.categoryName : 
+                    soItem.categoryId !=null ? soItem.MstCategory.code : "";
+                string collectionName = soItem.collectionName != null && soItem.collectionName != "" ? soItem.collectionName :
+                    soItem.collectionId != null ? soItem.MstCollection.collectionName : "";
+                rows += "<tr><td>" + categoryName 
                     + "</td><td> " + collectionName 
                     + "</td><td> " + serialOrSize 
                     + "</td><td> " + accessoryCode 
@@ -223,7 +229,7 @@ namespace IMSWebApi.Common
             objEmail.SmtpAddress = _smtpAddress;
             objEmail.EmailFrom = _emailFrom;
             objEmail.Password = _password;
-            objEmail.EmailTo.Add(saleOrder.MstCustomer.email);
+            objEmail.EmailTo.Add(customerEmail);
             objEmail.Subject = "Sale Order Approved";
             objEmail.EnableSSL = true;
             objEmail.Body = sbEmailDetails.ToString();

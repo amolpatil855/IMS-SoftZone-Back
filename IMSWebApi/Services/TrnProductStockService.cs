@@ -31,10 +31,11 @@ namespace IMSWebApi.Services
              {	            
                  var result = repo.TrnProductStocks.Where(q => !string.IsNullOrEmpty(search)	             
                      ? q.MstCategory.code.StartsWith(search)	                   
-                     || q.MstCollection.collectionCode.StartsWith(search)	       
+                     || q.MstCollection.collectionCode.StartsWith(search)	
+                     || q.MstAccessory.itemCode.StartsWith(search)
                      || q.MstFWRShade.serialNumber.ToString().StartsWith(search)	
                      || q.MstMatSize.sizeCode.StartsWith(search)
-                     || q.MstFomSize.sizeCode.StartsWith(search)
+                     || q.MstFomSize.itemCode.StartsWith(search)
 					 || q.stock.ToString().StartsWith(search): true)
                      .OrderBy(q => q.id).Skip(page * pageSize).Take(pageSize).ToList();	            
                  trnProductStockView = Mapper.Map<List<TrnProductStock>, List<VMTrnProductStock>>(result);	
@@ -43,10 +44,11 @@ namespace IMSWebApi.Services
              {	             
                  var result = repo.TrnProductStocks.Where(q => !string.IsNullOrEmpty(search)	              
                      ? q.MstCategory.code.StartsWith(search)	                 
-                     || q.MstCollection.collectionCode.StartsWith(search)	     
+                     || q.MstCollection.collectionCode.StartsWith(search)
+                     || q.MstAccessory.itemCode.StartsWith(search)
                      || q.MstFWRShade.serialNumber.ToString().StartsWith(search)
-                     || q.MstMatSize.sizeCode.StartsWith(search)	            
-                     || q.MstFomSize.sizeCode.StartsWith(search)	            
+                     || q.MstMatSize.sizeCode.StartsWith(search)
+                     || q.MstFomSize.itemCode.StartsWith(search)	            
                      || q.stock.ToString().StartsWith(search) : true).ToList();	
                  trnProductStockView = Mapper.Map<List<TrnProductStock>, List<VMTrnProductStock>>(result);	                
              }
@@ -71,9 +73,10 @@ namespace IMSWebApi.Services
                  TotalCount = repo.TrnProductStocks.Where(q => !string.IsNullOrEmpty(search)	             
                      ? q.MstCategory.code.StartsWith(search)	                   
 					 || q.MstCollection.collectionCode.StartsWith(search)
+                     || q.MstAccessory.itemCode.StartsWith(search)
                      || q.MstFWRShade.serialNumber.ToString().StartsWith(search)	                  
-                     || q.MstMatSize.sizeCode.StartsWith(search)	                    
-                     || q.MstFomSize.sizeCode.StartsWith(search)	                    
+                     || q.MstMatSize.sizeCode.StartsWith(search)
+                     || q.MstFomSize.itemCode.StartsWith(search)	                    
                      || q.stock.ToString().StartsWith(search) : true).Count(),	        
                  Page = page	              
              };	          
@@ -469,7 +472,7 @@ namespace IMSWebApi.Services
                                                                             && z.fomSizeId == ginItem.fomSizeId
                                                                             && z.matSizeId == ginItem.matSizeId
                                                                             && z.accessoryId == ginItem.accessoryId
-                                                                            && z.stock!=0)
+                                                                            && z.stock > 0)
                                                                          .OrderBy(o=>o.id)
                                                                          .ToList();
 
