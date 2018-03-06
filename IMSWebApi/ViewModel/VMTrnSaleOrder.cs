@@ -23,6 +23,15 @@ namespace IMSWebApi.ViewModel
         public DateTime orderDate { get; set; }
         public Nullable<DateTime> expectedDeliveryDate { get; set; }
         public Nullable<int> totalAmount { get; set; }
+        [MaxLength(20)]
+        public string paymentMode { get; set; }
+        [MaxLength(20)]
+        public string chequeNumber { get; set; }
+        public Nullable<System.DateTime> chequeDate { get; set; }
+        [MaxLength(50)]
+        public string bankName { get; set; }
+        [MaxLength(20)]
+        public string bankBranch { get; set; }
         [MaxLength(100)]
         public string remark { get; set; }
         [MaxLength(20)]

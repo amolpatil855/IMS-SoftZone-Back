@@ -161,6 +161,11 @@ namespace IMSWebApi.Services
                 saleOrderToPut.orderDate = saleOrder.orderDate;
                 saleOrderToPut.expectedDeliveryDate = saleOrder.expectedDeliveryDate;
                 saleOrderToPut.totalAmount = saleOrder.totalAmount;
+                saleOrderToPut.paymentMode = saleOrder.paymentMode;
+                saleOrderToPut.chequeNumber = saleOrder.chequeNumber;
+                saleOrderToPut.chequeDate = saleOrder.chequeDate;
+                saleOrderToPut.bankName = saleOrder.bankName;
+                saleOrderToPut.bankBranch = saleOrder.bankBranch;
                 saleOrderToPut.remark = saleOrder.remark;
                 saleOrderToPut.status = saleOrder.status;
                 saleOrderToPut.financialYear = saleOrder.financialYear;
