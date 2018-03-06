@@ -37,7 +37,10 @@ namespace IMSWebApi.Services
             {
                 var result = repo.TrnGoodReceiveNotes.Where(grn => !string.IsNullOrEmpty(search)
                     ? grn.grnNumber.ToString().StartsWith(search)
-                    || grn.grnDate.ToString().StartsWith(search) : true)
+                    || grn.grnDate.ToString().StartsWith(search)
+                    || grn.MstSupplier.code.StartsWith(search)
+                    || grn.MstCompanyLocation.locationCode.StartsWith(search)
+                    || grn.totalAmount.ToString().StartsWith(search): true)
                     .OrderBy(p => p.id).Skip(page * pageSize).Take(pageSize).ToList();
                 goodReceiveNoteView = Mapper.Map<List<TrnGoodReceiveNote>, List<VMTrnGoodReceiveNote>>(result);
             }
@@ -45,7 +48,10 @@ namespace IMSWebApi.Services
             {
                 var result = repo.TrnGoodReceiveNotes.Where(grn => !string.IsNullOrEmpty(search)
                     ? grn.grnNumber.ToString().StartsWith(search)
-                    || grn.grnDate.ToString().StartsWith(search) : true).ToList();
+                    || grn.grnDate.ToString().StartsWith(search)
+                    || grn.MstSupplier.code.StartsWith(search)
+                    || grn.MstCompanyLocation.locationCode.StartsWith(search)
+                    || grn.totalAmount.ToString().StartsWith(search) : true).ToList();
                 goodReceiveNoteView = Mapper.Map<List<TrnGoodReceiveNote>, List<VMTrnGoodReceiveNote>>(result);
             }
 
@@ -54,7 +60,10 @@ namespace IMSWebApi.Services
                 Data = goodReceiveNoteView,
                 TotalCount = repo.TrnGoodReceiveNotes.Where(grn => !string.IsNullOrEmpty(search)
                     ? grn.grnNumber.ToString().StartsWith(search)
-                    || grn.grnDate.ToString().StartsWith(search) : true).Count(),
+                    || grn.grnDate.ToString().StartsWith(search)
+                    || grn.MstSupplier.code.StartsWith(search)
+                    || grn.MstCompanyLocation.locationCode.StartsWith(search)
+                    || grn.totalAmount.ToString().StartsWith(search) : true).Count(),
                 Page = page
             };
         }
