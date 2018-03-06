@@ -9,7 +9,6 @@
         <EntityTypeShape EntityType="IMSModel.MstAgent" Width="1.5" PointX="5.25" PointY="13.125" />
         <EntityTypeShape EntityType="IMSModel.MstCategory" Width="1.5" PointX="3.75" PointY="40.875" />
         <EntityTypeShape EntityType="IMSModel.MstCollection" Width="1.5" PointX="9" PointY="40.5" />
-        <EntityTypeShape EntityType="IMSModel.MstCompanyInfo" Width="1.5" PointX="1.5" PointY="0.75" />
         <EntityTypeShape EntityType="IMSModel.MstCompanyLocation" Width="1.5" PointX="9.75" PointY="27.875" />
         <EntityTypeShape EntityType="IMSModel.MstCustomer" Width="1.5" PointX="5.25" PointY="17.875" />
         <EntityTypeShape EntityType="IMSModel.MstCustomerAddress" Width="1.5" PointX="7.5" PointY="10.75" />
@@ -143,11 +142,12 @@
         <AssociationConnector Association="IMSModel.FK_TrnGoodIssueNoteItems_MstFWRShade" />
         <AssociationConnector Association="IMSModel.FK_TrnGoodIssueNoteItems_MstMatSize" />
         <AssociationConnector Association="IMSModel.FK_TrnGoodIssueNoteItems_TrnGoodIssueNote" />
-        <EntityTypeShape EntityType="IMSModel.TrnSalesInvoiceItem" Width="1.5" PointX="30" PointY="26" />
         <EntityTypeShape EntityType="IMSModel.vwAccessory" Width="1.5" PointX="6.375" PointY="0.75" />
         <EntityTypeShape EntityType="IMSModel.vwFoam" Width="1.5" PointX="3.375" PointY="6.75" />
         <EntityTypeShape EntityType="IMSModel.vwFWR" Width="1.5" PointX="6.375" PointY="4.75" />
         <EntityTypeShape EntityType="IMSModel.vwMattress" Width="1.5" PointX="8.375" PointY="0.75" />
+        <EntityTypeShape EntityType="IMSModel.MstCompanyInfo" Width="1.5" PointX="8.375" PointY="5.75" />
+        <EntityTypeShape EntityType="IMSModel.TrnSalesInvoiceItem" Width="1.5" PointX="30" PointY="26" />
         <AssociationConnector Association="IMSModel.FK_TrnSalesInvoiceItems_MstAccessory" />
         <AssociationConnector Association="IMSModel.FK_TrnSalesInvoiceItems_MstCategory" />
         <AssociationConnector Association="IMSModel.FK_TrnSalesInvoiceItems_MstCollection" />

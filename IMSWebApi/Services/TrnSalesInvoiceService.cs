@@ -87,7 +87,6 @@ namespace IMSWebApi.Services
                 salesInvoiceItem.accessoryName = salesInvoiceItem.accessoryId != null ? salesInvoiceItem.MstAccessory.name : null;
             });
             salesInvoiceView.MstCompanyInfo = Mapper.Map<MstCompanyInfo, VMCompanyInfo>(repo.MstCompanyInfoes.FirstOrDefault());
-            salesInvoiceView.MstCompanyLocation = Mapper.Map<List<MstCompanyLocation>, List<VMCompanyLocation>>(repo.MstCompanyLocations.ToList());
             return salesInvoiceView;
         }
 
