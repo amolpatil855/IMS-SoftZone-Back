@@ -17,6 +17,8 @@ namespace IMSWebApi.ViewModel
         public string status { get; set; }
         public string courierDockYardNumber { get; set; }
         
+        public virtual VMCompanyInfo MstCompanyInfo { get; set; }
+        public virtual List<VMCompanyLocation> MstCompanyLocation { get; set; }
         public virtual VMTrnGoodIssueNote TrnGoodIssueNote { get; set; }
         public virtual VMTrnSaleOrder TrnSaleOrder { get; set; }
         public virtual List<VMTrnSalesInvoiceItem> TrnSalesInvoiceItems { get; set; }

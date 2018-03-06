@@ -213,6 +213,14 @@ namespace IMSWebApi.Controllers
         }
 
         [HttpGet]
+        [Route("api/Common/GetAccessoryLookUpBySupplierId")]
+        public IHttpActionResult getAccessoryLookUpBySupplierId(long supplierId)
+        {
+            var result = _accessoryService.getAccessoryLookUpBySupplierId(supplierId);
+            return Ok(result);
+        }
+
+        [HttpGet]
         [Route("api/Common/GetHsnLookUp")]
         public IHttpActionResult GetHsnLookUp()
         {
