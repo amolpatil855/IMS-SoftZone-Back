@@ -339,7 +339,7 @@ namespace IMSWebApi.Services
             {
                 result.AddRange(supplierForAccesory);
             }
-            result = result.Distinct().ToList();
+            result = result.Distinct(new VMLookUpItem()).ToList();
             return result;
         }
 

@@ -25,6 +25,10 @@ namespace IMSWebApi.Models
         public string address2 { get; set; }
         public string gstin { get; set; }
         public string companyLogo { get; set; }
+        public string bankName { get; set; }
+        public string accountNumber { get; set; }
+        public string branch { get; set; }
+        public string ifscCode { get; set; }
         public System.DateTime createdOn { get; set; }
         public long createdBy { get; set; }
         public Nullable<System.DateTime> updatedOn { get; set; }

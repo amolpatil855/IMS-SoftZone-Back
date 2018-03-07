@@ -31,7 +31,8 @@ namespace IMSWebApi.ViewModel
         public string serialno { get; set; }
         public string size { get; set; }
         public string accessoryName { get; set; }
-       
+        public decimal availableStock { get; set; }
+
         public virtual VMAccessory MstAccessory { get; set; }
         public virtual VMCategory MstCategory { get; set; }
         public virtual VMCollection MstCollection { get; set; }

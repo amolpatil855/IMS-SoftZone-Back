@@ -16,9 +16,9 @@ namespace IMSWebApi.Models
     {
         public TrnSaleOrder()
         {
+            this.TrnGoodIssueNotes = new HashSet<TrnGoodIssueNote>();
             this.TrnPurchaseOrders = new HashSet<TrnPurchaseOrder>();
             this.TrnSaleOrderItems = new HashSet<TrnSaleOrderItem>();
-            this.TrnGoodIssueNotes = new HashSet<TrnGoodIssueNote>();
             this.TrnSalesInvoices = new HashSet<TrnSalesInvoice>();
         }
     
@@ -32,6 +32,11 @@ namespace IMSWebApi.Models
         public System.DateTime orderDate { get; set; }
         public Nullable<System.DateTime> expectedDeliveryDate { get; set; }
         public Nullable<int> totalAmount { get; set; }
+        public string paymentMode { get; set; }
+        public string chequeNumber { get; set; }
+        public Nullable<System.DateTime> chequeDate { get; set; }
+        public string bankName { get; set; }
+        public string bankBranch { get; set; }
         public string remark { get; set; }
         public string status { get; set; }
         public string financialYear { get; set; }
@@ -41,11 +46,11 @@ namespace IMSWebApi.Models
         public Nullable<long> updatedBy { get; set; }
     
         public virtual MstAgent MstAgent { get; set; }
-        public virtual MstCustomer MstCustomer { get; set; }
-        public virtual ICollection<TrnPurchaseOrder> TrnPurchaseOrders { get; set; }
         public virtual MstCourier MstCourier { get; set; }
-        public virtual ICollection<TrnSaleOrderItem> TrnSaleOrderItems { get; set; }
+        public virtual MstCustomer MstCustomer { get; set; }
         public virtual ICollection<TrnGoodIssueNote> TrnGoodIssueNotes { get; set; }
+        public virtual ICollection<TrnPurchaseOrder> TrnPurchaseOrders { get; set; }
+        public virtual ICollection<TrnSaleOrderItem> TrnSaleOrderItems { get; set; }
         public virtual ICollection<TrnSalesInvoice> TrnSalesInvoices { get; set; }
     }
 }

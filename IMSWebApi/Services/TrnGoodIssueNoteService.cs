@@ -123,7 +123,7 @@ namespace IMSWebApi.Services
                         ginItem.issuedQuantity = 0;
                         ginItem.rate = Convert.ToDecimal(soItem.rate);
                         ginItem.discountPercentage = soItem.discountPercentage;
-                        ginItem.amount = Convert.ToInt32(soItem.amount);
+                        ginItem.amount = 0;
                         ginItem.status = GINStatus.Created.ToString();
                         ginItem.createdOn = DateTime.Now;
                         ginItem.createdBy = _LoggedInuserId;
@@ -141,45 +141,61 @@ namespace IMSWebApi.Services
 
         public ResponseMessage putGoodIssueNote(VMTrnGoodIssueNote goodIssueNote)
         {
-            using (var transaction = new TransactionScope())
+            if (goodIssueNote.TrnGoodIssueNoteItems.Where(ginItems=>ginItems.issuedQuantity > 0).Count() > 0)
             {
-                var goodIssueNoteToPut = repo.TrnGoodIssueNotes.Where(q => q.id == goodIssueNote.id).FirstOrDefault();
+                using (var transaction = new TransactionScope())
+                {
+                    var goodIssueNoteToPut = repo.TrnGoodIssueNotes.Where(q => q.id == goodIssueNote.id).FirstOrDefault();
 
-                goodIssueNoteToPut.status = GINStatus.Completed.ToString();
+                    goodIssueNoteToPut.status = GINStatus.Completed.ToString();
 
-                updateGINItems(goodIssueNote);
+                    updateGINItems(goodIssueNote);
 
-                goodIssueNoteToPut.updatedOn = DateTime.Now;
-                goodIssueNoteToPut.updatedBy = _LoggedInuserId;
-                repo.SaveChanges();
+                    goodIssueNoteToPut.updatedOn = DateTime.Now;
+                    goodIssueNoteToPut.updatedBy = _LoggedInuserId;
+                    repo.SaveChanges();
 
-                _trnSalesInvoiceService.createInvoiceForGIN(goodIssueNote);
+                    _trnSalesInvoiceService.createInvoiceForGIN(goodIssueNote);
 
-                createGINForRemainingItems(goodIssueNote.salesOrderId);
+                    createGINForRemainingItems(goodIssueNote.salesOrderId);
 
-                transaction.Complete();
-                return new ResponseMessage(goodIssueNote.id, resourceManager.GetString("InvoiceCreated"), ResponseType.Success);
+                    transaction.Complete();
+                    return new ResponseMessage(goodIssueNote.id, resourceManager.GetString("InvoiceCreated"), ResponseType.Success);
+                }
+            }
+            else
+            {
+                return new ResponseMessage(goodIssueNote.id, "Please enter issued quantity for atleast one item", ResponseType.Error);
             }
         }
 
         public void updateGINItems(VMTrnGoodIssueNote goodIssueNote)
         {
-            var goodIssueNoteToPut = repo.TrnGoodIssueNotes.Where(q => q.id == goodIssueNote.id).FirstOrDefault();
-
+            //var goodIssueNoteToPut = repo.TrnGoodIssueNotes.Where(q => q.id == goodIssueNote.id).FirstOrDefault();
+            
             goodIssueNote.TrnGoodIssueNoteItems.ForEach(x =>
             {
-                var ginItemToPut = repo.TrnGoodIssueNoteItems.Where(p => p.id == x.id).FirstOrDefault();
+                if (x.issuedQuantity == 0)
+                {
+                    repo.TrnGoodIssueNoteItems.Remove(repo.TrnGoodIssueNoteItems.Where(g => g.id == x.id).FirstOrDefault());
+                    repo.SaveChanges();
+                }
+                else
+                {
+                    var ginItemToPut = repo.TrnGoodIssueNoteItems.Where(p => p.id == x.id).FirstOrDefault();
 
-                ginItemToPut.issuedQuantity = x.issuedQuantity;
-                ginItemToPut.amount = x.amount;
-                ginItemToPut.status = GINStatus.Completed.ToString();
-                ginItemToPut.statusChangeDate = DateTime.Now;
-                ginItemToPut.updatedOn = DateTime.Now;
-                ginItemToPut.updatedBy = _LoggedInuserId;
-                repo.SaveChanges();
+                    ginItemToPut.issuedQuantity = x.issuedQuantity;
+                    ginItemToPut.amount = Convert.ToInt32(Math.Round((x.rate - (x.rate*((decimal)x.discountPercentage/100)))*(decimal)x.issuedQuantity));
+                    ginItemToPut.status = GINStatus.Completed.ToString();
+                    ginItemToPut.statusChangeDate = DateTime.Now;
+                    ginItemToPut.updatedOn = DateTime.Now;
+                    ginItemToPut.updatedBy = _LoggedInuserId;
 
-                updateStatusAndBalQtyForSOItem(ginItemToPut);
-                _trnProductStockService.SubtractItemQtyFromStockDetailsForGIN(ginItemToPut);
+                    repo.SaveChanges();
+
+                    updateStatusAndBalQtyForSOItem(ginItemToPut);
+                    _trnProductStockService.SubtractItemQtyFromStockDetailsForGIN(ginItemToPut);
+                }
             });
 
         }
@@ -224,6 +240,66 @@ namespace IMSWebApi.Services
                 VMTrnSaleOrder VMSaleOrder = Mapper.Map<TrnSaleOrder,VMTrnSaleOrder>(saleOrder);
                 postGoodIssueNote(VMSaleOrder);
             }
+        }
+
+        //List of GINs whose items physical stock is available/greater than orderQuantity
+        public List<VMLookUpItem> getGINLookupForItemsWithStockAvailable()
+        {
+            List<VMLookUpItem> ginForItemswithAvailableStock = new List<VMLookUpItem>();
+
+            var ginItemWithStatusCreated = repo.TrnGoodIssueNoteItems.Where(ginItems => ginItems.status.Equals(SaleOrderStatus.Created.ToString())).ToList();
+
+            ginItemWithStatusCreated.ForEach(ginItem =>
+            {
+                decimal stockAvailable = repo.TrnProductStocks.Where(p => p.categoryId == ginItem.categoryId
+                                                                     && p.collectionId == ginItem.collectionId
+                                                                     && p.fwrShadeId == ginItem.shadeId
+                                                                     && p.fomSizeId == ginItem.fomSizeId
+                                                                     && p.matSizeId == ginItem.matSizeId
+                                                                     && p.accessoryId == ginItem.accessoryId).FirstOrDefault().stock;
+                if (stockAvailable >= ginItem.orderQuantity)
+                {
+                    ginForItemswithAvailableStock.Add(new VMLookUpItem { label = ginItem.TrnGoodIssueNote.ginNumber, value = ginItem.goodIssueNoteId });
+                }
+            });
+
+            ginForItemswithAvailableStock = ginForItemswithAvailableStock.Distinct(new VMLookUpItem()).ToList();
+
+            return ginForItemswithAvailableStock;
+        }
+
+        //List of GIN items whose physical stock is available / greater than orderQuantity
+        public List<VMTrnGoodIssueNoteItem> getGINItemsWithAvailableInStockByginId(Int64 ginId)
+        {
+            var gin = repo.TrnGoodIssueNotes.Where(g => g.id == ginId).FirstOrDefault();
+
+            List<VMTrnGoodIssueNoteItem> ginItemsWithAvailableInStock = new List<VMTrnGoodIssueNoteItem>();
+            foreach (var ginItem in gin.TrnGoodIssueNoteItems)
+            {
+                decimal stockAvailable = repo.TrnProductStocks.Where(p => p.categoryId == ginItem.categoryId
+                                                                     && p.collectionId == ginItem.collectionId
+                                                                     && p.fwrShadeId == ginItem.shadeId
+                                                                     && p.fomSizeId == ginItem.fomSizeId
+                                                                     && p.matSizeId == ginItem.matSizeId
+                                                                     && p.accessoryId == ginItem.accessoryId).FirstOrDefault().stock;
+                if (stockAvailable >= ginItem.orderQuantity)
+                {
+                    VMTrnGoodIssueNoteItem VMGinItem = Mapper.Map<TrnGoodIssueNoteItem, VMTrnGoodIssueNoteItem>(ginItem);
+                    VMGinItem.availableStock = stockAvailable;
+                    VMGinItem.categoryName = VMGinItem.MstCategory.name;
+                    VMGinItem.collectionName = VMGinItem.collectionId != null ? VMGinItem.MstCollection.collectionName : null;
+                    VMGinItem.serialno = VMGinItem.MstCategory.code.Equals("Fabric")
+                                    || VMGinItem.MstCategory.code.Equals("Rug")
+                                    || VMGinItem.MstCategory.code.Equals("Wallpaper")
+                                    ? VMGinItem.MstFWRShade.serialNumber + "(" + VMGinItem.MstFWRShade.shadeCode + ")" : null;
+                    VMGinItem.size = VMGinItem.MstMatSize != null ? VMGinItem.MstMatSize.sizeCode + " (" + VMGinItem.MstMatSize.MstMatThickNess.thicknessCode + "-" + VMGinItem.MstMatSize.MstQuality.qualityCode + ")" :
+                                VMGinItem.MstFomSize != null ? VMGinItem.MstFomSize.itemCode : null;
+                    VMGinItem.accessoryName = VMGinItem.accessoryId != null ? VMGinItem.MstAccessory.name : null;
+                    VMGinItem.TrnGoodIssueNote.TrnGoodIssueNoteItems = null;
+                    ginItemsWithAvailableInStock.Add(VMGinItem);
+                }
+            }
+            return ginItemsWithAvailableInStock;
         }
     }
 }
