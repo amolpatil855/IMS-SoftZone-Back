@@ -32,7 +32,6 @@ namespace IMSWebApi.Models
         public virtual DbSet<MstCompanyLocation> MstCompanyLocations { get; set; }
         public virtual DbSet<MstCustomer> MstCustomers { get; set; }
         public virtual DbSet<MstCustomerAddress> MstCustomerAddresses { get; set; }
-        public virtual DbSet<MstFinancialYear> MstFinancialYears { get; set; }
         public virtual DbSet<MstFomDensity> MstFomDensities { get; set; }
         public virtual DbSet<MstFomSize> MstFomSizes { get; set; }
         public virtual DbSet<MstFomSuggestedMM> MstFomSuggestedMMs { get; set; }
@@ -59,7 +58,6 @@ namespace IMSWebApi.Models
         public virtual DbSet<TrnGoodReceiveNoteItem> TrnGoodReceiveNoteItems { get; set; }
         public virtual DbSet<TrnSaleOrderItem> TrnSaleOrderItems { get; set; }
         public virtual DbSet<TrnGoodIssueNote> TrnGoodIssueNotes { get; set; }
-        public virtual DbSet<TrnSalesInvoice> TrnSalesInvoices { get; set; }
         public virtual DbSet<TrnGoodIssueNoteItem> TrnGoodIssueNoteItems { get; set; }
         public virtual DbSet<vwAccessory> vwAccessories { get; set; }
         public virtual DbSet<vwFoam> vwFoams { get; set; }
@@ -68,5 +66,7 @@ namespace IMSWebApi.Models
         public virtual DbSet<TrnSalesInvoiceItem> TrnSalesInvoiceItems { get; set; }
         public virtual DbSet<MstCompanyInfo> MstCompanyInfoes { get; set; }
         public virtual DbSet<TrnSaleOrder> TrnSaleOrders { get; set; }
+        public virtual DbSet<TrnSalesInvoice> TrnSalesInvoices { get; set; }
+        public virtual DbSet<MstFinancialYear> MstFinancialYears { get; set; }
     }
 }
