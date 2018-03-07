@@ -94,6 +94,11 @@
           <Property Name="companyName" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="email" Type="nvarchar" MaxLength="254" Nullable="false" />
           <Property Name="phone" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="mobile" Type="nvarchar" MaxLength="20" />
+          <Property Name="fax" Type="nvarchar" MaxLength="20" />
+          <Property Name="webSite" Type="nvarchar" MaxLength="50" />
+          <Property Name="address1" Type="nvarchar" MaxLength="100" />
+          <Property Name="address2" Type="nvarchar" MaxLength="50" />
           <Property Name="gstin" Type="nvarchar" MaxLength="20" Nullable="false" />
           <Property Name="companyLogo" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="createdOn" Type="datetime" Nullable="false" />
@@ -2706,7 +2711,6 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <EntitySet Name="MstAgents" EntityType="IMSModel.MstAgent" />
           <EntitySet Name="MstCategories" EntityType="IMSModel.MstCategory" />
           <EntitySet Name="MstCollections" EntityType="IMSModel.MstCollection" />
-          <EntitySet Name="MstCompanyInfoes" EntityType="IMSModel.MstCompanyInfo" />
           <EntitySet Name="MstCompanyLocations" EntityType="IMSModel.MstCompanyLocation" />
           <EntitySet Name="MstCustomers" EntityType="IMSModel.MstCustomer" />
           <EntitySet Name="MstCustomerAddresses" EntityType="IMSModel.MstCustomerAddress" />
@@ -3140,11 +3144,12 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
             <End Role="TrnGoodIssueNote" EntitySet="TrnGoodIssueNotes" />
             <End Role="TrnGoodIssueNoteItem" EntitySet="TrnGoodIssueNoteItems" />
           </AssociationSet>
-          <EntitySet Name="TrnSalesInvoiceItems" EntityType="IMSModel.TrnSalesInvoiceItem" />
           <EntitySet Name="vwAccessories" EntityType="IMSModel.vwAccessory" />
           <EntitySet Name="vwFoams" EntityType="IMSModel.vwFoam" />
           <EntitySet Name="vwFWRs" EntityType="IMSModel.vwFWR" />
           <EntitySet Name="vwMattresses" EntityType="IMSModel.vwMattress" />
+          <EntitySet Name="MstCompanyInfoes" EntityType="IMSModel.MstCompanyInfo" />
+          <EntitySet Name="TrnSalesInvoiceItems" EntityType="IMSModel.TrnSalesInvoiceItem" />
           <AssociationSet Name="FK_TrnSalesInvoiceItems_MstAccessory" Association="IMSModel.FK_TrnSalesInvoiceItems_MstAccessory">
             <End Role="MstAccessory" EntitySet="MstAccessories" />
             <End Role="TrnSalesInvoiceItem" EntitySet="TrnSalesInvoiceItems" />
@@ -3270,21 +3275,6 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <NavigationProperty Name="TrnSaleOrderItems" Relationship="IMSModel.FK_TrnSaleOrderItem_MstCollection" FromRole="MstCollection" ToRole="TrnSaleOrderItem" />
           <NavigationProperty Name="TrnGoodIssueNoteItems" Relationship="IMSModel.FK_TrnGoodIssueNoteItems_MstCollection" FromRole="MstCollection" ToRole="TrnGoodIssueNoteItem" />
           <NavigationProperty Name="TrnSalesInvoiceItems" Relationship="IMSModel.FK_TrnSalesInvoiceItems_MstCollection" FromRole="MstCollection" ToRole="TrnSalesInvoiceItem" />
-        </EntityType>
-        <EntityType Name="MstCompanyInfo">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="companyName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="email" Type="String" Nullable="false" MaxLength="254" FixedLength="false" Unicode="true" />
-          <Property Name="phone" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="gstin" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="companyLogo" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="createdBy" Type="Int64" Nullable="false" />
-          <Property Name="updatedOn" Type="DateTime" Precision="3" />
-          <Property Name="updatedBy" Type="Int64" />
         </EntityType>
         <EntityType Name="MstCompanyLocation">
           <Key>
@@ -5302,40 +5292,6 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="TrnSalesInvoiceItem">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="salesInvoiceId" Type="Int64" Nullable="false" />
-          <Property Name="categoryId" Type="Int64" Nullable="false" />
-          <Property Name="collectionId" Type="Int64" />
-          <Property Name="shadeId" Type="Int64" />
-          <Property Name="fomSizeId" Type="Int64" />
-          <Property Name="matSizeId" Type="Int64" />
-          <Property Name="sizeCode" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="accessoryId" Type="Int64" />
-          <Property Name="quantity" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
-          <Property Name="rate" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
-          <Property Name="discountPercentage" Type="Decimal" Precision="4" Scale="2" />
-          <Property Name="amount" Type="Int32" Nullable="false" />
-          <Property Name="rateWithGST" Type="Decimal" Precision="7" Scale="2" />
-          <Property Name="amountWithGST" Type="Int32" />
-          <Property Name="gst" Type="Int32" />
-          <Property Name="uom" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="hsnCode" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="createdBy" Type="Int64" Nullable="false" />
-          <Property Name="updatedOn" Type="DateTime" Precision="3" />
-          <Property Name="updatedBy" Type="Int64" />
-          <NavigationProperty Name="MstAccessory" Relationship="IMSModel.FK_TrnSalesInvoiceItems_MstAccessory" FromRole="TrnSalesInvoiceItem" ToRole="MstAccessory" />
-          <NavigationProperty Name="MstCategory" Relationship="IMSModel.FK_TrnSalesInvoiceItems_MstCategory" FromRole="TrnSalesInvoiceItem" ToRole="MstCategory" />
-          <NavigationProperty Name="MstCollection" Relationship="IMSModel.FK_TrnSalesInvoiceItems_MstCollection" FromRole="TrnSalesInvoiceItem" ToRole="MstCollection" />
-          <NavigationProperty Name="MstFomSize" Relationship="IMSModel.FK_TrnSalesInvoiceItems_MstFomSize" FromRole="TrnSalesInvoiceItem" ToRole="MstFomSize" />
-          <NavigationProperty Name="MstFWRShade" Relationship="IMSModel.FK_TrnSalesInvoiceItems_MstFWRShade" FromRole="TrnSalesInvoiceItem" ToRole="MstFWRShade" />
-          <NavigationProperty Name="MstMatSize" Relationship="IMSModel.FK_TrnSalesInvoiceItems_MstMatSize" FromRole="TrnSalesInvoiceItem" ToRole="MstMatSize" />
-          <NavigationProperty Name="TrnSalesInvoice" Relationship="IMSModel.FK_TrnSalesInvoiceItems_TrnSalesInvoice" FromRole="TrnSalesInvoiceItem" ToRole="TrnSalesInvoice" />
-        </EntityType>
         <EntityType Name="vwAccessory">
           <Key>
             <PropertyRef Name="Category" />
@@ -5442,6 +5398,60 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <Property Name="purchaseRateWithGst" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
           <Property Name="customRatePerSqFeet" Type="Decimal" Precision="7" Scale="2" />
           <Property Name="availableStock" Type="Decimal" Precision="9" Scale="2" />
+        </EntityType>
+        <EntityType Name="MstCompanyInfo">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="companyName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="email" Type="String" Nullable="false" MaxLength="254" FixedLength="false" Unicode="true" />
+          <Property Name="phone" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="mobile" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="fax" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="webSite" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="address1" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="address2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="gstin" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="companyLogo" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="createdBy" Type="Int64" Nullable="false" />
+          <Property Name="updatedOn" Type="DateTime" Precision="3" />
+          <Property Name="updatedBy" Type="Int64" />
+        </EntityType>
+        <EntityType Name="TrnSalesInvoiceItem">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="salesInvoiceId" Type="Int64" Nullable="false" />
+          <Property Name="categoryId" Type="Int64" Nullable="false" />
+          <Property Name="collectionId" Type="Int64" />
+          <Property Name="shadeId" Type="Int64" />
+          <Property Name="fomSizeId" Type="Int64" />
+          <Property Name="matSizeId" Type="Int64" />
+          <Property Name="sizeCode" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="accessoryId" Type="Int64" />
+          <Property Name="quantity" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
+          <Property Name="rate" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
+          <Property Name="discountPercentage" Type="Decimal" Precision="4" Scale="2" />
+          <Property Name="amount" Type="Int32" Nullable="false" />
+          <Property Name="rateWithGST" Type="Decimal" Precision="7" Scale="2" />
+          <Property Name="amountWithGST" Type="Int32" />
+          <Property Name="gst" Type="Int32" />
+          <Property Name="uom" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="hsnCode" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="createdBy" Type="Int64" Nullable="false" />
+          <Property Name="updatedOn" Type="DateTime" Precision="3" />
+          <Property Name="updatedBy" Type="Int64" />
+          <NavigationProperty Name="MstAccessory" Relationship="IMSModel.FK_TrnSalesInvoiceItems_MstAccessory" FromRole="TrnSalesInvoiceItem" ToRole="MstAccessory" />
+          <NavigationProperty Name="MstCategory" Relationship="IMSModel.FK_TrnSalesInvoiceItems_MstCategory" FromRole="TrnSalesInvoiceItem" ToRole="MstCategory" />
+          <NavigationProperty Name="MstCollection" Relationship="IMSModel.FK_TrnSalesInvoiceItems_MstCollection" FromRole="TrnSalesInvoiceItem" ToRole="MstCollection" />
+          <NavigationProperty Name="MstFomSize" Relationship="IMSModel.FK_TrnSalesInvoiceItems_MstFomSize" FromRole="TrnSalesInvoiceItem" ToRole="MstFomSize" />
+          <NavigationProperty Name="MstFWRShade" Relationship="IMSModel.FK_TrnSalesInvoiceItems_MstFWRShade" FromRole="TrnSalesInvoiceItem" ToRole="MstFWRShade" />
+          <NavigationProperty Name="MstMatSize" Relationship="IMSModel.FK_TrnSalesInvoiceItems_MstMatSize" FromRole="TrnSalesInvoiceItem" ToRole="MstMatSize" />
+          <NavigationProperty Name="TrnSalesInvoice" Relationship="IMSModel.FK_TrnSalesInvoiceItems_TrnSalesInvoice" FromRole="TrnSalesInvoiceItem" ToRole="TrnSalesInvoice" />
         </EntityType>
         <Association Name="FK_TrnSalesInvoiceItems_MstAccessory">
           <End Type="IMSModel.MstAccessory" Role="MstAccessory" Multiplicity="0..1" />
@@ -5594,22 +5604,6 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
                 <ScalarProperty Name="collectionCode" ColumnName="collectionCode" />
                 <ScalarProperty Name="supplierId" ColumnName="supplierId" />
                 <ScalarProperty Name="categoryId" ColumnName="categoryId" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="MstCompanyInfoes">
-            <EntityTypeMapping TypeName="IMSModel.MstCompanyInfo">
-              <MappingFragment StoreEntitySet="MstCompanyInfo">
-                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
-                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
-                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
-                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
-                <ScalarProperty Name="companyLogo" ColumnName="companyLogo" />
-                <ScalarProperty Name="gstin" ColumnName="gstin" />
-                <ScalarProperty Name="phone" ColumnName="phone" />
-                <ScalarProperty Name="email" ColumnName="email" />
-                <ScalarProperty Name="companyName" ColumnName="companyName" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -6286,34 +6280,6 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="TrnSalesInvoiceItems">
-            <EntityTypeMapping TypeName="IMSModel.TrnSalesInvoiceItem">
-              <MappingFragment StoreEntitySet="TrnSalesInvoiceItems">
-                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
-                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
-                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
-                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
-                <ScalarProperty Name="hsnCode" ColumnName="hsnCode" />
-                <ScalarProperty Name="uom" ColumnName="uom" />
-                <ScalarProperty Name="gst" ColumnName="gst" />
-                <ScalarProperty Name="amountWithGST" ColumnName="amountWithGST" />
-                <ScalarProperty Name="rateWithGST" ColumnName="rateWithGST" />
-                <ScalarProperty Name="amount" ColumnName="amount" />
-                <ScalarProperty Name="discountPercentage" ColumnName="discountPercentage" />
-                <ScalarProperty Name="rate" ColumnName="rate" />
-                <ScalarProperty Name="quantity" ColumnName="quantity" />
-                <ScalarProperty Name="accessoryId" ColumnName="accessoryId" />
-                <ScalarProperty Name="sizeCode" ColumnName="sizeCode" />
-                <ScalarProperty Name="matSizeId" ColumnName="matSizeId" />
-                <ScalarProperty Name="fomSizeId" ColumnName="fomSizeId" />
-                <ScalarProperty Name="shadeId" ColumnName="shadeId" />
-                <ScalarProperty Name="collectionId" ColumnName="collectionId" />
-                <ScalarProperty Name="categoryId" ColumnName="categoryId" />
-                <ScalarProperty Name="salesInvoiceId" ColumnName="salesInvoiceId" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="vwAccessories">
             <EntityTypeMapping TypeName="IMSModel.vwAccessory">
               <MappingFragment StoreEntitySet="vwAccessory">
@@ -6395,6 +6361,55 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
                 <ScalarProperty Name="qualityCode" ColumnName="qualityCode" />
                 <ScalarProperty Name="Collection" ColumnName="Collection" />
                 <ScalarProperty Name="Category" ColumnName="Category" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MstCompanyInfoes">
+            <EntityTypeMapping TypeName="IMSModel.MstCompanyInfo">
+              <MappingFragment StoreEntitySet="MstCompanyInfo">
+                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
+                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
+                <ScalarProperty Name="companyLogo" ColumnName="companyLogo" />
+                <ScalarProperty Name="gstin" ColumnName="gstin" />
+                <ScalarProperty Name="address2" ColumnName="address2" />
+                <ScalarProperty Name="address1" ColumnName="address1" />
+                <ScalarProperty Name="webSite" ColumnName="webSite" />
+                <ScalarProperty Name="fax" ColumnName="fax" />
+                <ScalarProperty Name="mobile" ColumnName="mobile" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="companyName" ColumnName="companyName" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TrnSalesInvoiceItems">
+            <EntityTypeMapping TypeName="IMSModel.TrnSalesInvoiceItem">
+              <MappingFragment StoreEntitySet="TrnSalesInvoiceItems">
+                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
+                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
+                <ScalarProperty Name="hsnCode" ColumnName="hsnCode" />
+                <ScalarProperty Name="uom" ColumnName="uom" />
+                <ScalarProperty Name="gst" ColumnName="gst" />
+                <ScalarProperty Name="amountWithGST" ColumnName="amountWithGST" />
+                <ScalarProperty Name="rateWithGST" ColumnName="rateWithGST" />
+                <ScalarProperty Name="amount" ColumnName="amount" />
+                <ScalarProperty Name="discountPercentage" ColumnName="discountPercentage" />
+                <ScalarProperty Name="rate" ColumnName="rate" />
+                <ScalarProperty Name="quantity" ColumnName="quantity" />
+                <ScalarProperty Name="accessoryId" ColumnName="accessoryId" />
+                <ScalarProperty Name="sizeCode" ColumnName="sizeCode" />
+                <ScalarProperty Name="matSizeId" ColumnName="matSizeId" />
+                <ScalarProperty Name="fomSizeId" ColumnName="fomSizeId" />
+                <ScalarProperty Name="shadeId" ColumnName="shadeId" />
+                <ScalarProperty Name="collectionId" ColumnName="collectionId" />
+                <ScalarProperty Name="categoryId" ColumnName="categoryId" />
+                <ScalarProperty Name="salesInvoiceId" ColumnName="salesInvoiceId" />
+                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

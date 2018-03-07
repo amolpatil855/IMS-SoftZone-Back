@@ -18,6 +18,11 @@ namespace IMSWebApi.Models
         public string companyName { get; set; }
         public string email { get; set; }
         public string phone { get; set; }
+        public string mobile { get; set; }
+        public string fax { get; set; }
+        public string webSite { get; set; }
+        public string address1 { get; set; }
+        public string address2 { get; set; }
         public string gstin { get; set; }
         public string companyLogo { get; set; }
         public System.DateTime createdOn { get; set; }
