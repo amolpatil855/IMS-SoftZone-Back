@@ -16,8 +16,8 @@ namespace IMSWebApi.Models
     {
         public TrnGoodIssueNote()
         {
-            this.TrnSalesInvoices = new HashSet<TrnSalesInvoice>();
             this.TrnGoodIssueNoteItems = new HashSet<TrnGoodIssueNoteItem>();
+            this.TrnSalesInvoices = new HashSet<TrnSalesInvoice>();
         }
     
         public long id { get; set; }
@@ -33,8 +33,8 @@ namespace IMSWebApi.Models
         public Nullable<long> updatedBy { get; set; }
     
         public virtual MstCustomer MstCustomer { get; set; }
-        public virtual ICollection<TrnSalesInvoice> TrnSalesInvoices { get; set; }
         public virtual ICollection<TrnGoodIssueNoteItem> TrnGoodIssueNoteItems { get; set; }
         public virtual TrnSaleOrder TrnSaleOrder { get; set; }
+        public virtual ICollection<TrnSalesInvoice> TrnSalesInvoices { get; set; }
     }
 }

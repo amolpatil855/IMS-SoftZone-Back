@@ -12,7 +12,6 @@
         <EntityTypeShape EntityType="IMSModel.MstCompanyLocation" Width="1.5" PointX="9.75" PointY="27.875" />
         <EntityTypeShape EntityType="IMSModel.MstCustomer" Width="1.5" PointX="5.25" PointY="17.875" />
         <EntityTypeShape EntityType="IMSModel.MstCustomerAddress" Width="1.5" PointX="7.5" PointY="10.75" />
-        <EntityTypeShape EntityType="IMSModel.MstFinancialYear" Width="1.5" PointX="3.5" PointY="0.75" />
         <EntityTypeShape EntityType="IMSModel.MstFomDensity" Width="1.5" PointX="11.25" PointY="33.25" />
         <EntityTypeShape EntityType="IMSModel.MstFomSize" Width="1.5" PointX="24.75" PointY="37.375" />
         <EntityTypeShape EntityType="IMSModel.MstFomSuggestedMM" Width="1.5" PointX="22.5" PointY="38.25" />
@@ -124,8 +123,6 @@
         <AssociationConnector Association="IMSModel.FK_TrnSaleOrderItem_MstMatSize" />
         <EntityTypeShape EntityType="IMSModel.TrnGoodIssueNote" Width="1.5" PointX="12.75" PointY="17.875" />
         <AssociationConnector Association="IMSModel.FK_TrnGoodIssueNote_MstCustomer" />
-        <EntityTypeShape EntityType="IMSModel.TrnSalesInvoice" Width="1.5" PointX="15" PointY="16.75" />
-        <AssociationConnector Association="IMSModel.FK_TrnSalesInvoice_TrnGoodIssueNote" />
         <EntityTypeShape EntityType="IMSModel.TrnGoodIssueNoteItem" Width="1.5" PointX="33" PointY="35.75" />
         <AssociationConnector Association="IMSModel.FK_TrnGoodIssueNoteItems_MstAccessory" />
         <AssociationConnector Association="IMSModel.FK_TrnGoodIssueNoteItems_MstCategory" />
@@ -145,7 +142,6 @@
         <AssociationConnector Association="IMSModel.FK_TrnSalesInvoiceItems_MstFomSize" />
         <AssociationConnector Association="IMSModel.FK_TrnSalesInvoiceItems_MstFWRShade" />
         <AssociationConnector Association="IMSModel.FK_TrnSalesInvoiceItems_MstMatSize" />
-        <AssociationConnector Association="IMSModel.FK_TrnSalesInvoiceItems_TrnSalesInvoice" />
         <EntityTypeShape EntityType="IMSModel.MstCompanyInfo" Width="1.5" PointX="0.75" PointY="9.75" />
         <EntityTypeShape EntityType="IMSModel.TrnSaleOrder" Width="1.5" PointX="10.875" PointY="10" />
         <AssociationConnector Association="IMSModel.FK_TrnSaleOrder_MstAgent" />
@@ -154,7 +150,11 @@
         <AssociationConnector Association="IMSModel.FK_TrnGoodIssueNote_TrnSaleOrder" />
         <AssociationConnector Association="IMSModel.FK_TrnPurchaseOrder_TrnSaleOrder" />
         <AssociationConnector Association="IMSModel.FK_TrnSaleOrderItems_TrnSaleOrder" />
+        <EntityTypeShape EntityType="IMSModel.TrnSalesInvoice" Width="1.5" PointX="15" PointY="13.75" />
+        <AssociationConnector Association="IMSModel.FK_TrnSalesInvoice_TrnGoodIssueNote" />
         <AssociationConnector Association="IMSModel.FK_TrnSalesInvoice_TrnSaleOrder" />
+        <AssociationConnector Association="IMSModel.FK_TrnSalesInvoiceItems_TrnSalesInvoice" />
+        <EntityTypeShape EntityType="IMSModel.MstFinancialYear" Width="1.5" PointX="3.375" PointY="0.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

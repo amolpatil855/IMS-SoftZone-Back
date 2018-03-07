@@ -24,8 +24,10 @@ namespace IMSWebApi.Models
         public int ginNumber { get; set; }
         public int poInvoiceNumber { get; set; }
         public int soInvoiceNumber { get; set; }
+        public int materialSelectionNumber { get; set; }
         public int materialQuotationNumber { get; set; }
-        public int jobQuotationNumber { get; set; }
+        public int curtainSelectionNumber { get; set; }
+        public int curtainQuotationNumber { get; set; }
         public int jobCardNumber { get; set; }
         public System.DateTime createdOn { get; set; }
         public long createdBy { get; set; }

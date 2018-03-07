@@ -96,9 +96,12 @@ namespace IMSWebApi.Services
             financialToPut.ginNumber = financialYear.ginNumber;
             financialToPut.poInvoiceNumber = financialYear.poInvoiceNumber;
             financialToPut.soInvoiceNumber= financialYear.soInvoiceNumber;
+            financialToPut.materialSelectionNumber = financialYear.materialSelectionNumber;
             financialToPut.materialQuotationNumber = financialYear.materialQuotationNumber;
-            financialToPut.jobQuotationNumber = financialYear.jobQuotationNumber;
+            financialToPut.curtainSelectionNumber= financialYear.curtainSelectionNumber;
+            financialToPut.curtainQuotationNumber = financialYear.curtainQuotationNumber;
             financialToPut.jobCardNumber = financialYear.jobCardNumber;
+            
             financialToPut.updatedBy = _LoggedInuserId;
             financialToPut.updatedOn = DateTime.Now;
 
