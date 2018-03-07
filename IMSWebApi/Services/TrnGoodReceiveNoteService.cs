@@ -95,7 +95,7 @@ namespace IMSWebApi.Services
                             .OrderBy(s=>s.MstSupplier.name)
                             .Select(s => new VMLookUpItem {
                             value = s.MstSupplier.id,
-                            label = s.MstSupplier.name
+                            label = s.MstSupplier.code
                             }).Distinct()
                             .ToList();
         }

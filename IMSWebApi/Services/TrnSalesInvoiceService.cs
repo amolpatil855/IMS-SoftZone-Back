@@ -102,6 +102,7 @@ namespace IMSWebApi.Services
 
             salesInvoice.invoiceDate = DateTime.Now;
             salesInvoice.status = InvoiceStatus.Created.ToString();
+            salesInvoice.expectedDeliveryDate = salesInvoice.invoiceDate.AddDays(goodIssueNote.customerId != 0 ? Convert.ToDouble(goodIssueNote.MstCustomer.creditPeriodDays) : 0);
 
             goodIssueNote.TrnGoodIssueNoteItems.ForEach(ginItem =>
             {
@@ -118,7 +119,7 @@ namespace IMSWebApi.Services
                     salesInvoiceItem.quantity = Convert.ToDecimal(ginItem.issuedQuantity);
                     salesInvoiceItem.rate = ginItem.rate;
                     salesInvoiceItem.discountPercentage = ginItem.discountPercentage;
-                    salesInvoiceItem.amount = Convert.ToInt32(Math.Round((ginItem.rate - (ginItem.rate * ((decimal)ginItem.discountPercentage / 100))) * (decimal)ginItem.issuedQuantity)); ;
+                    salesInvoiceItem.amount = Convert.ToInt32(Math.Round((ginItem.rate - (ginItem.rate * Convert.ToDecimal(ginItem.discountPercentage) ) / 100) * Convert.ToDecimal(ginItem.issuedQuantity))); 
                     salesInvoiceItem.gst = ginItem.shadeId != null ? ginItem.MstFWRShade.MstQuality.MstHsn.gst :
                         ginItem.fomSizeId != null ? ginItem.MstFomSize.MstQuality.MstHsn.gst :
                         ginItem.matSizeId != null ? ginItem.MstMatSize.MstQuality.MstHsn.gst :
@@ -129,12 +130,15 @@ namespace IMSWebApi.Services
                         ginItem.matSizeId != null ? ginItem.MstMatSize.MstQuality.MstHsn.hsnCode :
                         ginItem.MstAccessory.MstHsn.hsnCode;
 
+                    salesInvoiceItem.rateWithGST = salesInvoiceItem.rate + (salesInvoiceItem.rate * salesInvoiceItem.gst )/ 100;
+                    salesInvoiceItem.amountWithGST = Convert.ToInt32(Math.Round((Convert.ToDecimal(salesInvoiceItem.rateWithGST) - (Convert.ToDecimal(salesInvoiceItem.rateWithGST) * Convert.ToDecimal(ginItem.discountPercentage)) / 100) * Convert.ToDecimal(ginItem.issuedQuantity))); 
                     salesInvoiceItem.createdOn = DateTime.Now;
                     salesInvoiceItem.createdBy = _LoggedInuserId;
                     salesInvoice.TrnSalesInvoiceItems.Add(salesInvoiceItem);
                 }
             });
 
+            salesInvoice.totalAmount = Convert.ToInt32(salesInvoice.TrnSalesInvoiceItems.Select(salesInvoiceItem => salesInvoiceItem.amountWithGST).Sum());
             salesInvoice.createdOn = DateTime.Now;
             salesInvoice.createdBy = _LoggedInuserId;
 

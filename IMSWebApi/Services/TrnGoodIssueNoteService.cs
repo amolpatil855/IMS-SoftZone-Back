@@ -85,6 +85,15 @@ namespace IMSWebApi.Services
                 ginItem.size = ginItem.MstMatSize != null ? ginItem.MstMatSize.sizeCode + " (" + ginItem.MstMatSize.MstMatThickNess.thicknessCode + "-" + ginItem.MstMatSize.MstQuality.qualityCode + ")" :
                             ginItem.MstFomSize != null ? ginItem.MstFomSize.itemCode : null;
                 ginItem.accessoryName = ginItem.accessoryId != null ? ginItem.MstAccessory.name : null;
+
+                decimal stockAvailable = repo.TrnProductStocks.Where(p => p.categoryId == ginItem.categoryId
+                                                                     && p.collectionId == ginItem.collectionId
+                                                                     && p.fwrShadeId == ginItem.shadeId
+                                                                     && p.fomSizeId == ginItem.fomSizeId
+                                                                     && p.matSizeId == ginItem.matSizeId
+                                                                     && p.accessoryId == ginItem.accessoryId).FirstOrDefault().stock;
+
+                ginItem.availableStock = stockAvailable;
             });
 
 
@@ -185,7 +194,7 @@ namespace IMSWebApi.Services
                     var ginItemToPut = repo.TrnGoodIssueNoteItems.Where(p => p.id == x.id).FirstOrDefault();
 
                     ginItemToPut.issuedQuantity = x.issuedQuantity;
-                    ginItemToPut.amount = Convert.ToInt32(Math.Round((x.rate - (x.rate*((decimal)x.discountPercentage/100)))*(decimal)x.issuedQuantity));
+                    ginItemToPut.amount = Convert.ToInt32(Math.Round((x.rate - (x.rate*(Convert.ToDecimal(x.discountPercentage)/100)))*(decimal)x.issuedQuantity));
                     ginItemToPut.status = GINStatus.Completed.ToString();
                     ginItemToPut.statusChangeDate = DateTime.Now;
                     ginItemToPut.updatedOn = DateTime.Now;

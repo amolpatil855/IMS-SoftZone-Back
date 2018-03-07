@@ -249,6 +249,7 @@ namespace IMSWebApi.Services
                 productDetails.purchaseFlatRate = fwrShade.MstQuality.purchaseFlatRate;
                 productDetails.maxFlatRateDisc = fwrShade.MstQuality.maxFlatRateDisc;
                 productDetails.stock = TrnProductStock!=null ? TrnProductStock.stock + TrnProductStock.poQuantity - TrnProductStock.soQuanity : 0;
+                productDetails.stock = productDetails.stock < 0 ? 0 : productDetails.stock;
                 productDetails.gst = fwrShade.MstQuality.MstHsn.gst;
                 productDetails.purchaseDiscount = fwrShade.MstCollection.purchaseDiscount;
             }
@@ -270,6 +271,7 @@ namespace IMSWebApi.Services
                 productDetails.width = fomSize.width;
                 productDetails.gst = fomSize.MstQuality.MstHsn.gst;
                 productDetails.stock = TrnProductStock!=null ? TrnProductStock.stock + TrnProductStock.poQuantity - TrnProductStock.soQuanity : 0;
+                productDetails.stock = productDetails.stock < 0 ? 0 : productDetails.stock;
                 productDetails.purchaseDiscount = fomSize.MstCollection.purchaseDiscount;
             }
             if (categoryCode != null && categoryCode.Equals("Mattress"))
@@ -286,6 +288,7 @@ namespace IMSWebApi.Services
                     productDetails.purchaseRate = matSize.purchaseRate;
                     productDetails.gst = matSize.MstQuality.MstHsn.gst;
                     productDetails.stock = TrnProductStock!=null ? TrnProductStock.stock + TrnProductStock.poQuantity - TrnProductStock.soQuanity : 0;
+                    productDetails.stock = productDetails.stock < 0 ? 0 : productDetails.stock;
                     productDetails.purchaseDiscount = matSize.MstCollection.purchaseDiscount;
                 }
                 else if(qualityId!=null)
@@ -311,6 +314,7 @@ namespace IMSWebApi.Services
                 productDetails.purchaseRate = accessory.purchaseRate;
                 productDetails.gst = accessory.MstHsn.gst;
                 productDetails.stock = TrnProductStock!=null ? TrnProductStock.stock + TrnProductStock.poQuantity - TrnProductStock.soQuanity : 0;
+                productDetails.stock = productDetails.stock < 0 ? 0 : productDetails.stock;
             }
             
             return productDetails;
