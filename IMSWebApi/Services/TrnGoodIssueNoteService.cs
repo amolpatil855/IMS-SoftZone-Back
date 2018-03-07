@@ -252,10 +252,10 @@ namespace IMSWebApi.Services
         }
 
         //List of GINs whose items physical stock is available/greater than orderQuantity
-        public List<VMLookUpItem> getGINLookupForItemsWithStockAvailable()
+        public List<VMTrnGoodIssueNote> getGINsForItemsWithStockAvailable()
         {
-            List<VMLookUpItem> ginForItemswithAvailableStock = new List<VMLookUpItem>();
-
+            List<Int64> ginIdsForItemswithAvailableStock = new List<Int64>();
+            List<TrnGoodIssueNote> ginsWitStockAvailable = new List<TrnGoodIssueNote>();
             var ginItemWithStatusCreated = repo.TrnGoodIssueNoteItems.Where(ginItems => ginItems.status.Equals(SaleOrderStatus.Created.ToString())).ToList();
 
             ginItemWithStatusCreated.ForEach(ginItem =>
@@ -268,13 +268,16 @@ namespace IMSWebApi.Services
                                                                      && p.accessoryId == ginItem.accessoryId).FirstOrDefault().stock;
                 if (stockAvailable >= ginItem.orderQuantity)
                 {
-                    ginForItemswithAvailableStock.Add(new VMLookUpItem { label = ginItem.TrnGoodIssueNote.ginNumber, value = ginItem.goodIssueNoteId });
+                    ginIdsForItemswithAvailableStock.Add(ginItem.TrnGoodIssueNote.id);
                 }
             });
 
-            ginForItemswithAvailableStock = ginForItemswithAvailableStock.Distinct(new VMLookUpItem()).ToList();
-
-            return ginForItemswithAvailableStock;
+            ginIdsForItemswithAvailableStock = ginIdsForItemswithAvailableStock.Distinct().ToList();
+            ginsWitStockAvailable = repo.TrnGoodIssueNotes.Where(gin => ginIdsForItemswithAvailableStock.Contains(gin.id)).ToList();
+            List<VMTrnGoodIssueNote> VMginsWitStockAvailable = new List<VMTrnGoodIssueNote>();
+            VMginsWitStockAvailable = Mapper.Map<List<TrnGoodIssueNote>, List<VMTrnGoodIssueNote>>(ginsWitStockAvailable);
+            VMginsWitStockAvailable.ForEach(gin => gin.TrnGoodIssueNoteItems.ForEach(ginItems => ginItems.TrnGoodIssueNote = null));
+            return VMginsWitStockAvailable;
         }
 
         //List of GIN items whose physical stock is available / greater than orderQuantity
