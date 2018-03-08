@@ -91,6 +91,14 @@ namespace IMSWebApi.Services
                 soItem.size = soItem.MstMatSize != null ? soItem.MstMatSize.sizeCode + " (" + soItem.MstMatSize.MstMatThickNess.thicknessCode + "-" + soItem.MstMatSize.MstQuality.qualityCode + ")" :
                             soItem.MstFomSize != null ? soItem.MstFomSize.itemCode : null;
                 soItem.accessoryName = soItem.accessoryId != null ? soItem.MstAccessory.name : null;
+
+                decimal stockAvailable = repo.TrnProductStocks.Where(p => p.categoryId == soItem.categoryId
+                                                                     && p.collectionId == soItem.collectionId
+                                                                     && p.fwrShadeId == soItem.shadeId
+                                                                     && p.fomSizeId == soItem.fomSizeId
+                                                                     && p.matSizeId == soItem.matSizeId
+                                                                     && p.accessoryId == soItem.accessoryId).FirstOrDefault().stock;
+                soItem.availableStock = stockAvailable;
             });
 
             return saleOrderView;
