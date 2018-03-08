@@ -194,7 +194,9 @@ namespace IMSWebApi.Services
                     var ginItemToPut = repo.TrnGoodIssueNoteItems.Where(p => p.id == x.id).FirstOrDefault();
 
                     ginItemToPut.issuedQuantity = x.issuedQuantity;
-                    ginItemToPut.amount = Convert.ToInt32(Math.Round((x.rate - (x.rate*(Convert.ToDecimal(x.discountPercentage)/100)))*(decimal)x.issuedQuantity));
+                    //ginItemToPut.amount = Convert.ToInt32(Math.Round((x.rate - (x.rate * (Convert.ToDecimal(x.discountPercentage) / 100))) * (decimal)x.issuedQuantity));
+                    decimal discountAmt = (x.rate * Convert.ToDecimal(x.issuedQuantity)) - ((x.rate * Convert.ToDecimal(x.issuedQuantity) * Convert.ToDecimal(x.discountPercentage)) / 100);
+                    ginItemToPut.amount = Convert.ToInt32(Math.Round(discountAmt));
                     ginItemToPut.status = GINStatus.Completed.ToString();
                     ginItemToPut.statusChangeDate = DateTime.Now;
                     ginItemToPut.updatedOn = DateTime.Now;
