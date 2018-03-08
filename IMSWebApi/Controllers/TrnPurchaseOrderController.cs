@@ -121,5 +121,15 @@ namespace IMSWebApi.Controllers
             var result = _trnPurchaseOrderService.cancelPO(id);
             return Ok(result);
         }
+
+        // GET api/TrnPurchaseOrder
+        [ApiAuthorize(AccessLevel = "purchaseorder")]
+        [HttpGet]
+        [Route("api/TrnPurchaseOrder/GetItemsWithStockInsufficient")]
+        public IHttpActionResult GetItemsWithStockInsufficient()
+        {
+            var result = _trnPurchaseOrderService.getItemsWithStockInsufficient();
+            return Ok(result);
+        }
     }
 }

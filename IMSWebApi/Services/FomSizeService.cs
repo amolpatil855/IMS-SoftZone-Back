@@ -37,7 +37,8 @@ namespace IMSWebApi.Services
                     || q.MstQuality.qualityCode.StartsWith(search)
                     || q.MstFomDensity.density.ToString().StartsWith(search)
                     || q.MstFomSuggestedMM.suggestedMM.ToString().StartsWith(search)
-                    || q.sizeCode.StartsWith(search) : true)
+                    || q.sizeCode.StartsWith(search)
+                    || q.itemCode.StartsWith(search): true)
                     .OrderBy(q => q.MstCollection.collectionCode)
                     .Skip(page * pageSize).Take(pageSize).ToList();
                 fomSizeView = Mapper.Map<List<MstFomSize>, List<VMFomSize>>(result);
@@ -50,7 +51,8 @@ namespace IMSWebApi.Services
                     || q.MstQuality.qualityCode.StartsWith(search)
                     || q.MstFomDensity.density.ToString().StartsWith(search)
                     || q.MstFomSuggestedMM.suggestedMM.ToString().StartsWith(search)
-                    || q.sizeCode.StartsWith(search) : true).ToList();
+                    || q.sizeCode.StartsWith(search)
+                    || q.itemCode.StartsWith(search) : true).ToList();
                 fomSizeView = Mapper.Map<List<MstFomSize>, List<VMFomSize>>(result);
             }
 
@@ -63,7 +65,8 @@ namespace IMSWebApi.Services
                     || q.MstQuality.qualityCode.StartsWith(search)
                     || q.MstFomDensity.density.ToString().StartsWith(search)
                     || q.MstFomSuggestedMM.suggestedMM.ToString().StartsWith(search)
-                    || q.sizeCode.StartsWith(search) : true).Count(),
+                    || q.sizeCode.StartsWith(search)
+                    || q.itemCode.StartsWith(search) : true).Count(),
                 Page = page
             };
         }
