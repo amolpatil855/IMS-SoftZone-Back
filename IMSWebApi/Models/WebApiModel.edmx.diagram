@@ -150,11 +150,11 @@
         <AssociationConnector Association="IMSModel.FK_TrnGoodIssueNote_TrnSaleOrder" />
         <AssociationConnector Association="IMSModel.FK_TrnPurchaseOrder_TrnSaleOrder" />
         <AssociationConnector Association="IMSModel.FK_TrnSaleOrderItems_TrnSaleOrder" />
-        <EntityTypeShape EntityType="IMSModel.TrnSalesInvoice" Width="1.5" PointX="15" PointY="13.75" />
+        <EntityTypeShape EntityType="IMSModel.MstFinancialYear" Width="1.5" PointX="3.375" PointY="0.75" />
+        <EntityTypeShape EntityType="IMSModel.TrnSalesInvoice" Width="1.5" PointX="15" PointY="13.625" />
         <AssociationConnector Association="IMSModel.FK_TrnSalesInvoice_TrnGoodIssueNote" />
         <AssociationConnector Association="IMSModel.FK_TrnSalesInvoice_TrnSaleOrder" />
         <AssociationConnector Association="IMSModel.FK_TrnSalesInvoiceItems_TrnSalesInvoice" />
-        <EntityTypeShape EntityType="IMSModel.MstFinancialYear" Width="1.5" PointX="3.375" PointY="0.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

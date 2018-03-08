@@ -24,6 +24,7 @@ namespace IMSWebApi.Models
         public long salesOrderId { get; set; }
         public string invoiceNumber { get; set; }
         public System.DateTime invoiceDate { get; set; }
+        public string buyersOrderNumber { get; set; }
         public Nullable<System.DateTime> expectedDeliveryDate { get; set; }
         public int totalAmount { get; set; }
         public int amountPaid { get; set; }

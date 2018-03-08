@@ -66,7 +66,7 @@ namespace IMSWebApi.Models
         public virtual DbSet<TrnSalesInvoiceItem> TrnSalesInvoiceItems { get; set; }
         public virtual DbSet<MstCompanyInfo> MstCompanyInfoes { get; set; }
         public virtual DbSet<TrnSaleOrder> TrnSaleOrders { get; set; }
-        public virtual DbSet<TrnSalesInvoice> TrnSalesInvoices { get; set; }
         public virtual DbSet<MstFinancialYear> MstFinancialYears { get; set; }
+        public virtual DbSet<TrnSalesInvoice> TrnSalesInvoices { get; set; }
     }
 }
