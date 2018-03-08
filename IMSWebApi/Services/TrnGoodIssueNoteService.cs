@@ -252,10 +252,10 @@ namespace IMSWebApi.Services
         }
 
         //List of GINs whose items physical stock is available/greater than orderQuantity
-        public List<VMTrnGoodIssueNote> getGINsForItemsWithStockAvailable()
+        public ListResult<VMTrnGoodIssueNote> getGINsForItemsWithStockAvailable(int pageSize, int page, string search)
         {
             List<Int64> ginIdsForItemswithAvailableStock = new List<Int64>();
-            List<TrnGoodIssueNote> ginsWitStockAvailable = new List<TrnGoodIssueNote>();
+            List<VMTrnGoodIssueNote> ginsWitStockAvailable;
             var ginItemWithStatusCreated = repo.TrnGoodIssueNoteItems.Where(ginItems => ginItems.status.Equals(SaleOrderStatus.Created.ToString())).ToList();
 
             ginItemWithStatusCreated.ForEach(ginItem =>
@@ -273,11 +273,35 @@ namespace IMSWebApi.Services
             });
 
             ginIdsForItemswithAvailableStock = ginIdsForItemswithAvailableStock.Distinct().ToList();
-            ginsWitStockAvailable = repo.TrnGoodIssueNotes.Where(gin => ginIdsForItemswithAvailableStock.Contains(gin.id)).ToList();
-            List<VMTrnGoodIssueNote> VMginsWitStockAvailable = new List<VMTrnGoodIssueNote>();
-            VMginsWitStockAvailable = Mapper.Map<List<TrnGoodIssueNote>, List<VMTrnGoodIssueNote>>(ginsWitStockAvailable);
-            VMginsWitStockAvailable.ForEach(gin => gin.TrnGoodIssueNoteItems.ForEach(ginItems => ginItems.TrnGoodIssueNote = null));
-            return VMginsWitStockAvailable;
+            if (pageSize > 0)
+            {
+                var result = repo.TrnGoodIssueNotes.Where(gin => !string.IsNullOrEmpty(search)
+                                                            ? gin.ginNumber.StartsWith(search)
+                                                            || gin.MstCustomer.name.StartsWith(search)
+                                                            || gin.salesOrderNumber.StartsWith(search)
+                                                            || gin.status.StartsWith(search) : true 
+                                                            && ginIdsForItemswithAvailableStock.Contains(gin.id))
+                                                            .OrderBy(p => p.id).Skip(page * pageSize).Take(pageSize).ToList();
+                ginsWitStockAvailable = Mapper.Map<List<TrnGoodIssueNote>, List<VMTrnGoodIssueNote>>(result);
+            }
+            else
+            {
+                 var result = repo.TrnGoodIssueNotes.Where(gin => !string.IsNullOrEmpty(search)
+                                                            ? gin.ginNumber.StartsWith(search)
+                                                            || gin.MstCustomer.name.StartsWith(search)
+                                                            || gin.salesOrderNumber.StartsWith(search)
+                                                            || gin.status.StartsWith(search) : true 
+                                                            && ginIdsForItemswithAvailableStock.Contains(gin.id)).ToList();
+                ginsWitStockAvailable = Mapper.Map<List<TrnGoodIssueNote>, List<VMTrnGoodIssueNote>>(result);
+            }
+
+            ginsWitStockAvailable.ForEach(gin => gin.TrnGoodIssueNoteItems.ForEach(ginItems => ginItems.TrnGoodIssueNote = null));
+            return new ListResult<VMTrnGoodIssueNote>
+            {
+                Data = ginsWitStockAvailable,
+                TotalCount = ginsWitStockAvailable.Count(),
+                Page = page
+            };
         }
 
         //List of GIN items whose physical stock is available / greater than orderQuantity

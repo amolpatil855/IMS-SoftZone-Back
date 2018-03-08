@@ -54,9 +54,9 @@ namespace IMSWebApi.Controllers
         [ApiAuthorize(AccessLevel = "gin")]
         [HttpGet]
         [Route("api/TrnGoodIssueNote/GetGINsForItemsWithStockAvailable")]
-        public IHttpActionResult GetGINsForItemsWithStockAvailable()
+        public IHttpActionResult GetGINsForItemsWithStockAvailable(int pageSize = 0, int page = 0, string search = null)
         {
-            var result = _trnGoodIssueNoteService.getGINsForItemsWithStockAvailable();
+            var result = _trnGoodIssueNoteService.getGINsForItemsWithStockAvailable(pageSize, page, search);
             return Ok(result);
         }
 
