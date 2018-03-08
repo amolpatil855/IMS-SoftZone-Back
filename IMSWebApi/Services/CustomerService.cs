@@ -19,9 +19,9 @@ namespace IMSWebApi.Services
         WebAPIdbEntities repo = new WebAPIdbEntities();
         RoleService _roleService = new RoleService();
         UserService _userService = new UserService();
-         Int64 _LoggedInuserId;
-         ResourceManager resourceManager = null;
-         public CustomerService()
+        Int64 _LoggedInuserId;
+        ResourceManager resourceManager = null;
+        public CustomerService()
         {
             _LoggedInuserId = Convert.ToInt64(HttpContext.Current.User.Identity.GetUserId());
             _roleService = new RoleService();
@@ -57,30 +57,30 @@ namespace IMSWebApi.Services
                || (c.MstCustomerAddresses.Count() > 0 ? c.MstCustomerAddresses[0].gstin.StartsWith(search) : false) : true).ToList();
             }
             return new ListResult<VMCustomer>
-                {
-                    Data = customerViews,
-                    TotalCount = customerViews.Count(),
-                    Page = page
-                };
+            {
+                Data = customerViews,
+                TotalCount = customerViews.Count(),
+                Page = page
+            };
         }
 
         public VMCustomer getCustomerById(Int64 id)
         {
-            var result = repo.MstCustomers.Where(c=>c.id == id).FirstOrDefault();
-            VMCustomer customerViews = Mapper.Map<MstCustomer,VMCustomer>(result);
+            var result = repo.MstCustomers.Where(c => c.id == id).FirstOrDefault();
+            VMCustomer customerViews = Mapper.Map<MstCustomer, VMCustomer>(result);
             return customerViews;
         }
 
         public List<VMLookUpItem> getCustomerLookUp()
         {
             return repo.MstCustomers
-                .OrderBy(s=>s.code)
+                .OrderBy(s => s.code)
                 .Select(s => new VMLookUpItem { value = s.id, label = s.name }).ToList();
         }
 
         public List<VMCustomerAddress> getCustomerAddressByCustomerId(Int64 customerId)
         {
-            var result = repo.MstCustomerAddresses.Where(ca=>ca.customerId == customerId).ToList();
+            var result = repo.MstCustomerAddresses.Where(ca => ca.customerId == customerId).ToList();
             List<VMCustomerAddress> customerAddressViews = Mapper.Map<List<MstCustomerAddress>, List<VMCustomerAddress>>(result);
             return customerAddressViews;
         }
@@ -127,7 +127,7 @@ namespace IMSWebApi.Services
             userToPost.createdBy = _LoggedInuserId;
             repo.MstUsers.Add(userToPost);
             repo.SaveChanges();
-            _userService.sendEmail(userToPost.id, originalPassword,"RegisterUser",false);
+            _userService.sendEmail(userToPost.id, originalPassword, "RegisterUser", false);
             userId = userToPost.id;
             return userId;
         }
@@ -171,7 +171,7 @@ namespace IMSWebApi.Services
                 customerToPut.updatedBy = _LoggedInuserId;
                 repo.SaveChanges();
 
-                if (customer.userId!=null)
+                if (customer.userId != null)
                 {
                     MstUser user = repo.MstUsers.Where(u => u.id == customer.userId).FirstOrDefault();
                     user.email = customer.email;
@@ -182,7 +182,7 @@ namespace IMSWebApi.Services
                 transaction.Complete();
                 return new ResponseMessage(customer.id, resourceManager.GetString("CustomerUpdated"), ResponseType.Success);
             }
-          
+
         }
 
         public ResponseMessage deleteCustomer(Int64 id)
@@ -190,7 +190,8 @@ namespace IMSWebApi.Services
             using (var transaction = new TransactionScope())
             {
                 MstCustomer customerToDelete = repo.MstCustomers.Where(c => c.id == id).FirstOrDefault();
-                repo.MstUsers.Remove(repo.MstUsers.Where(u => u.id == customerToDelete.userId).FirstOrDefault());
+                if (customerToDelete.userId != null)
+                    repo.MstUsers.Remove(repo.MstUsers.Where(u => u.id == customerToDelete.userId).FirstOrDefault());
                 repo.MstCustomers.Remove(repo.MstCustomers.Where(s => s.id == id).FirstOrDefault());
                 repo.SaveChanges();
                 transaction.Complete();
