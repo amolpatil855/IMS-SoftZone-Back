@@ -118,7 +118,11 @@ namespace IMSWebApi.Services
                                                             rateWithGST = s.rateWithGST,
                                                             orderType = s.orderType,
                                                             gst = s.gst,
-                                                            purchaseOrderNumber = s.TrnPurchaseOrder.orderNumber
+                                                            purchaseOrderNumber = s.TrnPurchaseOrder.orderNumber,
+                                                            purchaseDiscount = s.MstCollection.purchaseDiscount,
+                                                            cutRate = s.MstFWRShade.MstQuality.cutRate,
+                                                            roleRate = s.MstFWRShade.MstQuality.roleRate,
+                                                            purchaseFlatRate = s.MstFWRShade.MstQuality.purchaseFlatRate
                                                           }).ToList();
             }
             if (categoryCode != null && categoryCode.Equals("Foam"))
@@ -135,7 +139,8 @@ namespace IMSWebApi.Services
                                                               rateWithGST = s.rateWithGST,
                                                               orderType = s.orderType,
                                                               gst = s.gst,
-                                                              purchaseOrderNumber = s.TrnPurchaseOrder.orderNumber
+                                                              purchaseOrderNumber = s.TrnPurchaseOrder.orderNumber,
+                                                              purchaseDiscount = s.MstCollection.purchaseDiscount
                                                           }).ToList();
             }
             if (categoryCode != null && categoryCode.Equals("Mattress"))
@@ -154,7 +159,8 @@ namespace IMSWebApi.Services
                                                               rateWithGST = s.rateWithGST,
                                                               orderType = s.orderType,
                                                               gst = s.gst,
-                                                              purchaseOrderNumber = s.TrnPurchaseOrder.orderNumber
+                                                              purchaseOrderNumber = s.TrnPurchaseOrder.orderNumber,
+                                                              purchaseDiscount = s.MstCollection.purchaseDiscount
                                                           }).ToList();
                 }
                 else if (matSizeCode!=null)
@@ -171,7 +177,8 @@ namespace IMSWebApi.Services
                                                               rateWithGST = s.rateWithGST,
                                                               orderType = s.orderType,
                                                               gst = s.gst,
-                                                              purchaseOrderNumber = s.TrnPurchaseOrder.orderNumber
+                                                              purchaseOrderNumber = s.TrnPurchaseOrder.orderNumber,
+                                                              purchaseDiscount = s.MstCollection.purchaseDiscount
                                                           }).ToList();
                 }
             }

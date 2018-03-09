@@ -610,6 +610,15 @@ namespace IMSWebApi.App_Data {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sales Invoice is Approved Successfully..
+        /// </summary>
+        public static string SalesInvoiceApproved {
+            get {
+                return ResourceManager.GetString("SalesInvoiceApproved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sales Invoice Updated Successfully.
         /// </summary>
         public static string SalesInvoiceUpdated {

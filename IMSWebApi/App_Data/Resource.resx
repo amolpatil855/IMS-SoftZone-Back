@@ -369,4 +369,7 @@
   <data name="CustomerNotDeleted" xml:space="preserve">
     <value>This Customer has associated Sales Order.So can't be deleted.</value>
   </data>
+  <data name="SalesInvoiceApproved" xml:space="preserve">
+    <value>Sales Invoice is Approved Successfully.</value>
+  </data>
 </root>

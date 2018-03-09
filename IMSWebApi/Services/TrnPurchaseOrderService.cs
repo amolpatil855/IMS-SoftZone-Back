@@ -124,10 +124,10 @@ namespace IMSWebApi.Services
             {
                 poItem.categoryName = poItem.MstCategory.name;
                 poItem.collectionName = poItem.collectionId != null?  poItem.MstCollection.collectionName : null;
-                poItem.serialno = poItem.MstCategory.code.Equals("Fabric") || poItem.MstCategory.code.Equals("Rug") || poItem.MstCategory.code.Equals("Wallpaper") ? poItem.MstFWRShade.serialNumber + "(" + poItem.MstFWRShade.shadeCode + ")" : null;
+                poItem.serialno = poItem.MstCategory.code.Equals("Fabric") || poItem.MstCategory.code.Equals("Rug") || poItem.MstCategory.code.Equals("Wallpaper") ? poItem.MstFWRShade.serialNumber + "(" + poItem.MstFWRShade.shadeCode +"-" + poItem.MstFWRShade.MstFWRDesign.designCode + ")" : null;
                 poItem.size = poItem.MstMatSize != null ? poItem.MstMatSize.sizeCode + " (" + poItem.MstMatSize.MstMatThickNess.thicknessCode + "-" + poItem.MstMatSize.MstQuality.qualityCode + ")" : 
                                 poItem.MstFomSize != null ? poItem.MstFomSize.itemCode : poItem.matSizeCode;
-                poItem.accessoryName = poItem.accessoryId != null ? poItem.MstAccessory.name : null;
+                poItem.accessoryName = poItem.accessoryId != null ? poItem.MstAccessory.itemCode : null;
             });
            
             return purchaseOrderView;
