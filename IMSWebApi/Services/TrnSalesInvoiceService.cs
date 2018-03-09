@@ -120,7 +120,7 @@ namespace IMSWebApi.Services
                     salesInvoiceItem.rate = ginItem.rate;
                     salesInvoiceItem.discountPercentage = ginItem.discountPercentage;
                     decimal discountAmt = (ginItem.rate * Convert.ToDecimal(ginItem.issuedQuantity)) - ((ginItem.rate * Convert.ToDecimal(ginItem.issuedQuantity) * Convert.ToDecimal(ginItem.discountPercentage)) / 100);
-                    salesInvoiceItem.amount = Convert.ToInt32(Math.Round(discountAmt));
+                    salesInvoiceItem.amount = Convert.ToInt32(Math.Round(discountAmt,MidpointRounding.AwayFromZero));
                     //salesInvoiceItem.amount = Convert.ToInt32(Math.Round((ginItem.rate - (ginItem.rate * Convert.ToDecimal(ginItem.discountPercentage) ) / 100) * Convert.ToDecimal(ginItem.issuedQuantity))); 
                     salesInvoiceItem.gst = ginItem.shadeId != null ? ginItem.MstFWRShade.MstQuality.MstHsn.gst :
                         ginItem.fomSizeId != null ? ginItem.MstFomSize.MstQuality.MstHsn.gst :
@@ -135,7 +135,8 @@ namespace IMSWebApi.Services
                     salesInvoiceItem.rateWithGST = salesInvoiceItem.rate + (salesInvoiceItem.rate * salesInvoiceItem.gst )/ 100;
                     //salesInvoiceItem.amountWithGST = Convert.ToInt32(Math.Round((Convert.ToDecimal(salesInvoiceItem.rateWithGST) - (Convert.ToDecimal(salesInvoiceItem.rateWithGST) * Convert.ToDecimal(ginItem.discountPercentage)) / 100) * Convert.ToDecimal(ginItem.issuedQuantity))); 
 
-                    salesInvoiceItem.amountWithGST = Convert.ToInt32(Math.Round(Convert.ToDecimal(discountAmt + ((discountAmt * salesInvoiceItem.gst) / 100))));
+                    //salesInvoiceItem.amountWithGST = Convert.ToInt32(Math.Round(Convert.ToDecimal(discountAmt + ((discountAmt * salesInvoiceItem.gst) / 100)),MidpointRounding.AwayFromZero));
+                    salesInvoiceItem.amountWithGST = Convert.ToInt32(Math.Round(Convert.ToDecimal(salesInvoiceItem.amount + ((salesInvoiceItem.amount * salesInvoiceItem.gst) / 100)), MidpointRounding.AwayFromZero));
                     salesInvoiceItem.createdOn = DateTime.Now;
                     salesInvoiceItem.createdBy = _LoggedInuserId;
                     salesInvoice.TrnSalesInvoiceItems.Add(salesInvoiceItem);
