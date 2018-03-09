@@ -305,44 +305,6 @@ namespace IMSWebApi.Services
             }
         }
 
-        public List<VMLookUpItem> getSupplierListForPO()
-        {
-            List<Int64?> collectionIds = new List<Int64?>();
-            List<VMLookUpItem> supplierForAccesory = new List<VMLookUpItem>();
-            var soItems = repo.TrnSaleOrderItems.Where(s => !s.status.Equals("Completed") && !s.status.Equals("Closed")).ToList();
-            soItems.ForEach(so =>
-            {
-                decimal stockAvailable = repo.TrnProductStocks.Where(t=>t.categoryId == so.categoryId 
-                                                                       && t.collectionId == so.collectionId
-                                                                       && t.fwrShadeId == so.shadeId
-                                                                       && t.fomSizeId == so.fomSizeId
-                                                                       && t.matSizeId == so.matSizeId
-                                                                       && t.accessoryId == so.accessoryId)
-                                                               .Select(s=>s.stock + s.poQuantity - s.soQuanity).FirstOrDefault();
-                if (so.orderQuantity > stockAvailable && so.collectionId!=null)
-                {
-                    collectionIds.Add(so.collectionId); 
-                }
-                else if (so.orderQuantity > stockAvailable && so.accessoryId != null)
-                {
-                    supplierForAccesory.Add(new VMLookUpItem { label = so.MstAccessory.MstSupplier.name, value = so.MstAccessory.MstSupplier.id });
-                }
-
-            });
-            var result = repo.MstCollections.Where(c => collectionIds.Contains(c.id))
-                    .Select(s => new VMLookUpItem
-                    {
-                        value = s.MstSupplier.id,
-                        label = s.MstSupplier.name
-                    }).ToList();
-            if (supplierForAccesory.Count > 0)
-            {
-                result.AddRange(supplierForAccesory);
-            }
-            result = result.Distinct(new VMLookUpItem()).ToList();
-            return result;
-        }
-
         public ResponseMessage cancelPO(Int64 id)
         {
             String messageToDisplay;
@@ -373,6 +335,195 @@ namespace IMSWebApi.Services
                 transaction.Complete();
                 return new ResponseMessage(id, resourceManager.GetString(messageToDisplay), type);
             }
+        }
+
+        public List<VMLookUpItem> getSupplierListForPO()
+        {
+            #region Old Code
+            //List<Int64?> collectionIds = new List<Int64?>();
+            //List<VMLookUpItem> supplierForAccesory = new List<VMLookUpItem>();
+            //var soItems = repo.TrnSaleOrderItems.Where(s => s.status.Equals("Approved") && !s.status.Equals("PartialCompleted")).ToList();
+            //soItems.ForEach(so =>
+            //{
+            //    decimal stockAvailable = repo.TrnProductStocks.Where(t => t.categoryId == so.categoryId
+            //                                                           && t.collectionId == so.collectionId
+            //                                                           && t.fwrShadeId == so.shadeId
+            //                                                           && t.fomSizeId == so.fomSizeId
+            //                                                           && t.matSizeId == so.matSizeId
+            //                                                           && t.accessoryId == so.accessoryId)
+            //                                                   .Select(s => s.stock + s.poQuantity - s.soQuanity).FirstOrDefault();
+            //    if (so.orderQuantity > stockAvailable && so.collectionId != null)
+            //    {
+            //        collectionIds.Add(so.collectionId);
+            //    }
+            //    else if (so.orderQuantity > stockAvailable && so.accessoryId != null)
+            //    {
+            //        supplierForAccesory.Add(new VMLookUpItem { label = so.MstAccessory.MstSupplier.name, value = so.MstAccessory.MstSupplier.id });
+            //    }
+
+            //});
+            //var result = repo.MstCollections.Where(c => collectionIds.Contains(c.id))
+            //        .Select(s => new VMLookUpItem
+            //        {
+            //            value = s.MstSupplier.id,
+            //            label = s.MstSupplier.name
+            //        }).ToList();
+            //if (supplierForAccesory.Count > 0)
+            //{
+            //    result.AddRange(supplierForAccesory);
+            //}
+            //result = result.Distinct(new VMLookUpItem()).ToList();
+            //return result; 
+            #endregion
+
+            return repo.TrnProductStocks.Where(stk => (stk.stock + stk.poQuantity) < stk.soQuanity)
+                .Select(s=> new VMLookUpItem
+                {
+                    label = s.collectionId!= null ? s.MstCollection.MstSupplier.name : s.MstAccessory.MstSupplier.name,
+                    value = s.collectionId != null ? s.MstCollection.MstSupplier.id : s.MstAccessory.supplierId
+                }).ToList();
+        }
+
+        //public List<VMPOagainstSO> getSOitemsWithStockInsufficient()
+        //{
+        //    List<VMPOagainstSO> poItemListAgainstSO = new List<VMPOagainstSO>();
+        //    var soItems = repo.TrnSaleOrderItems.Where(s => s.status.Equals("Approved") && !s.status.Equals("PartialCompleted")).ToList();
+        //    soItems.ForEach(so =>
+        //    {
+        //        VMPOagainstSO poItemAgainstSO = new VMPOagainstSO();
+        //        decimal stockAvailable = repo.TrnProductStocks.Where(t => t.categoryId == so.categoryId
+        //                                                               && t.collectionId == so.collectionId
+        //                                                               && t.fwrShadeId == so.shadeId
+        //                                                               && t.fomSizeId == so.fomSizeId
+        //                                                               && t.matSizeId == so.matSizeId
+        //                                                               && t.accessoryId == so.accessoryId)
+        //                                                       .Select(s => s.stock + s.poQuantity).FirstOrDefault();
+        //        stockAvailable = stockAvailable < 0 ? 0 : stockAvailable;
+        //        if (so.balanceQuantity > stockAvailable && so.collectionId != null)       //For Fabrics with Flat rate and Foam
+        //        {
+        //            var result = poItemListAgainstSO.Where(poItem => so.shadeId != null ? poItem.shadeId == so.shadeId : poItem.fomSizeId == so.fomSizeId).FirstOrDefault();
+        //            if (result != null)   //if shade/fom item already exist , add required qty only
+        //            {
+        //                result.requiredQuantity = result.requiredQuantity + Convert.ToDecimal(so.balanceQuantity + stockAvailable);
+        //            }
+        //            else
+        //            {
+        //                poItemAgainstSO.supplierId = so.MstCollection.supplierId;
+        //                poItemAgainstSO.categoryId = so.categoryId;
+        //                poItemAgainstSO.categoryName = so.MstCategory.name;
+        //                poItemAgainstSO.collectionId = so.collectionId;
+        //                poItemAgainstSO.collectionName = so.MstCollection.collectionName;
+        //                poItemAgainstSO.shadeId = so.shadeId;
+        //                poItemAgainstSO.serialno = so.shadeId != null ? so.MstFWRShade.serialNumber + "(" + so.MstFWRShade.shadeCode + ")" : null;
+        //                poItemAgainstSO.fomSizeId = so.fomSizeId;
+        //                poItemAgainstSO.sizeForListing = so.fomSizeId != null ? so.MstFomSize.itemCode : null;
+        //                //values for calculation of rate for fabrics
+        //                poItemAgainstSO.cutRate = so.shadeId != null ? so.MstFWRShade.MstQuality.cutRate : null;
+        //                poItemAgainstSO.roleRate = so.shadeId != null ? so.MstFWRShade.MstQuality.roleRate : null;
+        //                poItemAgainstSO.rrp = so.shadeId != null ? so.MstFWRShade.MstQuality.rrp : null;
+        //                poItemAgainstSO.maxCutRateDisc = so.shadeId != null ? so.MstFWRShade.MstQuality.maxCutRateDisc : null;
+        //                poItemAgainstSO.maxRoleRateDisc = so.shadeId != null ? so.MstFWRShade.MstQuality.maxRoleRateDisc : null;
+        //                poItemAgainstSO.flatRate = so.shadeId != null ? so.MstFWRShade.MstQuality.flatRate : null;
+        //                poItemAgainstSO.purchaseFlatRate = so.shadeId != null ? so.MstFWRShade.MstQuality.purchaseFlatRate : null;
+        //                poItemAgainstSO.maxFlatRateDisc = so.shadeId != null ? so.MstFWRShade.MstQuality.maxFlatRateDisc : null;
+        //                poItemAgainstSO.purchaseDiscount = so.shadeId != null ? so.MstFWRShade.MstCollection.purchaseDiscount : null;
+
+        //                //values for calculation of rate for fom
+        //                poItemAgainstSO.sellingRatePerMM = so.fomSizeId != null ? so.MstFomSize.MstFomDensity.sellingRatePerMM : (decimal?)null;
+        //                poItemAgainstSO.sellingRatePerKG = so.fomSizeId != null ? so.MstFomSize.MstFomDensity.sellingRatePerKG : (decimal?)null;
+        //                poItemAgainstSO.suggestedMM = so.fomSizeId != null ? so.MstFomSize.MstFomSuggestedMM.suggestedMM : (decimal?)null;
+        //                poItemAgainstSO.purchaseRatePerMM = so.fomSizeId != null ? so.MstFomSize.MstFomDensity.purchaseRatePerMM : (decimal?)null;
+        //                poItemAgainstSO.purchaseRatePerKG = so.fomSizeId != null ? so.MstFomSize.MstFomDensity.purchaseRatePerKG : (decimal?)null;
+        //                poItemAgainstSO.maxDiscount = so.fomSizeId != null ? so.MstFomSize.MstQuality.maxDiscount : null;
+        //                poItemAgainstSO.length = so.fomSizeId != null ? so.MstFomSize.length : (decimal?)null;
+        //                poItemAgainstSO.width = so.fomSizeId != null ? so.MstFomSize.width : (decimal?)null;
+        //                poItemAgainstSO.purchaseDiscount = so.fomSizeId != null ? so.MstFomSize.MstCollection.purchaseDiscount : null;
+
+        //                poItemListAgainstSO.Add(poItemAgainstSO);
+        //            }
+        //        }
+        //        else if (so.balanceQuantity > stockAvailable && so.accessoryId != null)   //For Accessories
+        //        {
+        //            var result = poItemListAgainstSO.Where(poItem => poItem.accessoryId == so.accessoryId).FirstOrDefault();
+
+        //            if (result != null) //if accessory item already exist , add required qty only
+        //            {
+        //                result.requiredQuantity = result.requiredQuantity + Convert.ToDecimal(so.balanceQuantity - stockAvailable);
+        //            }
+        //            else
+        //            {
+        //                poItemAgainstSO.supplierId = so.MstAccessory.supplierId;
+        //                poItemAgainstSO.categoryId = so.categoryId;
+        //                poItemAgainstSO.categoryName = so.MstCategory.name;
+        //                poItemAgainstSO.accessoryId = so.accessoryId;
+        //                poItemAgainstSO.accessoryName = so.MstAccessory.name;
+        //                poItemAgainstSO.requiredQuantity = Convert.ToDecimal(so.balanceQuantity - stockAvailable);
+        //                poItemAgainstSO.gst = so.MstAccessory.MstHsn.gst;
+
+        //                poItemAgainstSO.sellingRate = so.MstAccessory.sellingRate;
+        //                poItemAgainstSO.purchaseRate = so.MstAccessory.purchaseRate;
+        //                poItemListAgainstSO.Add(poItemAgainstSO);
+        //            }
+        //        }
+
+        //    });
+        //    return poItemListAgainstSO;
+        //}
+
+        public List<VMPOagainstSO> getItemsWithStockInsufficient()
+        {
+            List<VMPOagainstSO> poItemListAgainstSO = new List<VMPOagainstSO>();
+            var itemsToBeOrdered = repo.TrnProductStocks.Where(stk => (stk.stock + stk.poQuantity) < stk.soQuanity).ToList();
+
+            itemsToBeOrdered.ForEach(item => {
+                VMPOagainstSO poItemAgainstSO = new VMPOagainstSO();
+
+                poItemAgainstSO.supplierId = item.collectionId != null ? item.MstCollection.supplierId : item.MstAccessory.supplierId;
+                poItemAgainstSO.categoryId = item.categoryId;
+                poItemAgainstSO.categoryName = item.MstCategory.name;
+                poItemAgainstSO.collectionId = item.collectionId != null ? item.collectionId : null;
+                poItemAgainstSO.collectionName = item.collectionId != null ? item.MstCollection.collectionName : null;
+                poItemAgainstSO.shadeId = item.fwrShadeId != null ? item.fwrShadeId : null;
+                poItemAgainstSO.serialno = item.fwrShadeId != null ? item.MstFWRShade.serialNumber + "(" + item.MstFWRShade.shadeCode + ")" : null;
+                poItemAgainstSO.fomSizeId = item.fomSizeId != null ? item.fomSizeId : null;
+                poItemAgainstSO.sizeForListing = item.fomSizeId != null ? item.MstFomSize.itemCode : null;
+                //values for calculation of rate for fabrics
+                poItemAgainstSO.cutRate = item.fwrShadeId != null ? item.MstFWRShade.MstQuality.cutRate : null;
+                poItemAgainstSO.roleRate = item.fwrShadeId != null ? item.MstFWRShade.MstQuality.roleRate : null;
+                poItemAgainstSO.rrp = item.fwrShadeId != null ? item.MstFWRShade.MstQuality.rrp : null;
+                poItemAgainstSO.maxCutRateDisc = item.fwrShadeId != null ? item.MstFWRShade.MstQuality.maxCutRateDisc : null;
+                poItemAgainstSO.maxRoleRateDisc = item.fwrShadeId != null ? item.MstFWRShade.MstQuality.maxRoleRateDisc : null;
+                poItemAgainstSO.flatRate = item.fwrShadeId != null ? item.MstFWRShade.MstQuality.flatRate : null;
+                poItemAgainstSO.purchaseFlatRate = item.fwrShadeId != null ? item.MstFWRShade.MstQuality.purchaseFlatRate : null;
+                poItemAgainstSO.maxFlatRateDisc = item.fwrShadeId != null ? item.MstFWRShade.MstQuality.maxFlatRateDisc : null;
+                poItemAgainstSO.purchaseDiscount = item.fwrShadeId != null ? item.MstFWRShade.MstCollection.purchaseDiscount : 
+                    item.fomSizeId != null ? item.MstFomSize.MstCollection.purchaseDiscount : null;
+
+                //values for calculation of rate for fom
+                poItemAgainstSO.sellingRatePerMM = item.fomSizeId != null ? item.MstFomSize.MstFomDensity.sellingRatePerMM : (decimal?)null;
+                poItemAgainstSO.sellingRatePerKG = item.fomSizeId != null ? item.MstFomSize.MstFomDensity.sellingRatePerKG : (decimal?)null;
+                poItemAgainstSO.suggestedMM = item.fomSizeId != null ? item.MstFomSize.MstFomSuggestedMM.suggestedMM : (decimal?)null;
+                poItemAgainstSO.purchaseRatePerMM = item.fomSizeId != null ? item.MstFomSize.MstFomDensity.purchaseRatePerMM : (decimal?)null;
+                poItemAgainstSO.purchaseRatePerKG = item.fomSizeId != null ? item.MstFomSize.MstFomDensity.purchaseRatePerKG : (decimal?)null;
+                poItemAgainstSO.maxDiscount = item.fomSizeId != null ? item.MstFomSize.MstQuality.maxDiscount : null;
+                poItemAgainstSO.length = item.fomSizeId != null ? item.MstFomSize.length : (decimal?)null;
+                poItemAgainstSO.width = item.fomSizeId != null ? item.MstFomSize.width : (decimal?)null;
+                
+                //values for accessory
+                poItemAgainstSO.accessoryId = item.accessoryId != null ? item.accessoryId : null;
+                poItemAgainstSO.accessoryName = item.accessoryId != null ? item.MstAccessory.name : null;
+                poItemAgainstSO.sellingRate = item.accessoryId != null ? item.MstAccessory.sellingRate : (decimal?)null;
+                poItemAgainstSO.purchaseRate = item.accessoryId != null ? item.MstAccessory.purchaseRate : (decimal?)null;
+
+                poItemAgainstSO.gst = item.fomSizeId != null ? item.MstFomSize.MstQuality.MstHsn.gst :
+                    item.fwrShadeId != null ? item.MstFWRShade.MstQuality.MstHsn.gst : 
+                    item.matSizeId != null ? item.MstMatSize.MstQuality.MstHsn.gst : item.MstAccessory.MstHsn.gst;
+
+                poItemAgainstSO.requiredQuantity = -Convert.ToDecimal(item.stock + item.poQuantity - item.soQuanity);
+                poItemListAgainstSO.Add(poItemAgainstSO);
+
+            });
+            return poItemListAgainstSO;
         }
     }
 }

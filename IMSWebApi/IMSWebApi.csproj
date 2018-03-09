@@ -493,6 +493,7 @@
     <Compile Include="ViewModel\VMLookUpItem.cs" />
     <Compile Include="ViewModel\VMMatSize.cs" />
     <Compile Include="ViewModel\VMMatThickness.cs" />
+    <Compile Include="ViewModel\VMPOagainstSO.cs" />
     <Compile Include="ViewModel\VMProductDetails.cs" />
     <Compile Include="ViewModel\VMTrnGoodIssueNote.cs" />
     <Compile Include="ViewModel\VMTrnGoodIssueNoteItem.cs" />
