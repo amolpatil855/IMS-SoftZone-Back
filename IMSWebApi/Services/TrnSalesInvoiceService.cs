@@ -193,5 +193,20 @@ namespace IMSWebApi.Services
             });
 
         }
+
+        public ResponseMessage approveSalesInvoice(Int64 id)
+        {
+            using (var transaction = new TransactionScope())
+            {
+                var salesInvoice = repo.TrnSalesInvoices.Where(po => po.id == id).FirstOrDefault();
+                salesInvoice.status = InvoiceStatus.Approved.ToString();
+
+                salesInvoice.updatedBy = _LoggedInuserId;
+                salesInvoice.updatedOn = DateTime.Now;
+
+                transaction.Complete();
+                return new ResponseMessage(id, resourceManager.GetString("SalesInvoiceApproved"), ResponseType.Success);
+            }
+        }
     }
 }

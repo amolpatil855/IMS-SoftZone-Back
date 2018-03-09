@@ -205,6 +205,15 @@ namespace IMSWebApi.App_Data {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This Customer has associated Sales Order.So can&apos;t be deleted..
+        /// </summary>
+        public static string CustomerNotDeleted {
+            get {
+                return ResourceManager.GetString("CustomerNotDeleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Customer Updated Successfully.
         /// </summary>
         public static string CustomerUpdated {
@@ -597,6 +606,15 @@ namespace IMSWebApi.App_Data {
         public static string RoleUpdated {
             get {
                 return ResourceManager.GetString("RoleUpdated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sales Invoice is Approved Successfully..
+        /// </summary>
+        public static string SalesInvoiceApproved {
+            get {
+                return ResourceManager.GetString("SalesInvoiceApproved", resourceCulture);
             }
         }
         

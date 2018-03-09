@@ -20,10 +20,12 @@ namespace IMSWebApi.Services
         RoleService _roleService = new RoleService();
         UserService _userService = new UserService();
         Int64 _LoggedInuserId;
+        bool _IsAdministrator;
         ResourceManager resourceManager = null;
         public CustomerService()
         {
             _LoggedInuserId = Convert.ToInt64(HttpContext.Current.User.Identity.GetUserId());
+            _IsAdministrator = HttpContext.Current.User.IsInRole("Administrator");
             _roleService = new RoleService();
             _userService = new UserService();
             resourceManager = new ResourceManager("IMSWebApi.App_Data.Resource", Assembly.GetExecutingAssembly());
@@ -134,6 +136,7 @@ namespace IMSWebApi.Services
 
         public ResponseMessage putCustomer(VMCustomer customer)
         {
+            Nullable<long> userId = null;
             using (var transaction = new TransactionScope())
             {
                 repo.MstCustomerAddresses.RemoveRange(repo.MstCustomerAddresses
@@ -176,9 +179,13 @@ namespace IMSWebApi.Services
                     MstUser user = repo.MstUsers.Where(u => u.id == customer.userId).FirstOrDefault();
                     user.email = customer.email;
                     user.phone = customer.phone;
-                    repo.SaveChanges();
                 }
-
+                if (customer.isWholesaleCustomer == true && _IsAdministrator && customer.userId == null)
+                {
+                    userId = CreateUser(customer, userId);
+                    customerToPut.userId = userId;
+                }
+                repo.SaveChanges();
                 transaction.Complete();
                 return new ResponseMessage(customer.id, resourceManager.GetString("CustomerUpdated"), ResponseType.Success);
             }
@@ -192,6 +199,11 @@ namespace IMSWebApi.Services
                 MstCustomer customerToDelete = repo.MstCustomers.Where(c => c.id == id).FirstOrDefault();
                 if (customerToDelete.userId != null)
                     repo.MstUsers.Remove(repo.MstUsers.Where(u => u.id == customerToDelete.userId).FirstOrDefault());
+                if (repo.TrnSaleOrders.Where(so=>so.customerId == id).Count() > 0)
+                {
+                    transaction.Complete();
+                    return new ResponseMessage(id, resourceManager.GetString("CustomerNotDeleted"), ResponseType.Error);
+                }
                 repo.MstCustomers.Remove(repo.MstCustomers.Where(s => s.id == id).FirstOrDefault());
                 repo.SaveChanges();
                 transaction.Complete();

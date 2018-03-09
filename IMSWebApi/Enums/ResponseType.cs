@@ -40,6 +40,7 @@ namespace IMSWebApi.Enums
 
     public enum InvoiceStatus
     {
-        Created = 1
+        Created = 1,
+        Approved = 2
     }
 }

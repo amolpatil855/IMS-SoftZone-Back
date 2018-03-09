@@ -49,5 +49,15 @@ namespace IMSWebApi.Controllers
             var result = _trnSalesInvoiceService.putSalesInvoice(salesInvoice);
             return Ok(result);
         }
+
+        // GET api/TrnSalesInvoice/1
+        [ApiAuthorize(Roles = "Administrator")]
+        [HttpPut]
+        [Route("api/TrnSalesInvoice/ApproveSalesInvoice/{id}")]
+        public IHttpActionResult ApproveSalesInvoice(long id)
+        {
+            var result = _trnSalesInvoiceService.approveSalesInvoice(id);
+            return Ok(result);
+        }
     }
 }
