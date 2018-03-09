@@ -381,7 +381,7 @@ namespace IMSWebApi.Services
                 {
                     label = s.collectionId!= null ? s.MstCollection.MstSupplier.name : s.MstAccessory.MstSupplier.name,
                     value = s.collectionId != null ? s.MstCollection.MstSupplier.id : s.MstAccessory.supplierId
-                }).ToList();
+                }).Distinct().ToList();
         }
 
         //public List<VMPOagainstSO> getSOitemsWithStockInsufficient()
