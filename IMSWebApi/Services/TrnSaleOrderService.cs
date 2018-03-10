@@ -25,7 +25,7 @@ namespace IMSWebApi.Services
         SendEmail emailNotification = null;
         TrnProductStockService _trnProductStockService = null;
         TrnGoodIssueNoteService _trnGoodIssueNoteServie = null;
-        
+
         public TrnSaleOrderService()
         {
             _LoggedInuserId = Convert.ToInt64(HttpContext.Current.User.Identity.GetUserId());
@@ -46,7 +46,7 @@ namespace IMSWebApi.Services
                 var result = repo.TrnSaleOrders.Where(so => !string.IsNullOrEmpty(search)
                     ? so.orderNumber.StartsWith(search)
                     || so.MstCustomer.name.StartsWith(search)
-                    || so.MstCourier.name.StartsWith(search) 
+                    || so.MstCourier.name.StartsWith(search)
                     || so.status.StartsWith(search) : true)
                     .OrderBy(p => p.id).Skip(page * pageSize).Take(pageSize).ToList();
                 saleOrderView = Mapper.Map<List<TrnSaleOrder>, List<VMTrnSaleOrder>>(result);
@@ -83,11 +83,11 @@ namespace IMSWebApi.Services
             saleOrderView.TrnSaleOrderItems.ForEach(soItem =>
             {
                 soItem.categoryName = soItem.MstCategory.name;
-                soItem.collectionName = soItem.collectionId!=null ? soItem.MstCollection.collectionName : null;
+                soItem.collectionName = soItem.collectionId != null ? soItem.MstCollection.collectionName : null;
                 soItem.serialno = soItem.MstCategory.code.Equals("Fabric")
                                 || soItem.MstCategory.code.Equals("Rug")
                                 || soItem.MstCategory.code.Equals("Wallpaper")
-                                ? soItem.MstFWRShade.serialNumber + "(" + soItem.MstFWRShade.shadeCode + ")" : null;
+                                ? soItem.MstFWRShade.serialNumber + "(" + soItem.MstFWRShade.shadeCode + "-" + soItem.MstFWRShade.MstFWRDesign.designCode + ")" : null;
                 soItem.size = soItem.MstMatSize != null ? soItem.MstMatSize.sizeCode + " (" + soItem.MstMatSize.MstMatThickNess.thicknessCode + "-" + soItem.MstMatSize.MstQuality.qualityCode + ")" :
                             soItem.MstFomSize != null ? soItem.MstFomSize.itemCode : null;
                 soItem.accessoryName = soItem.accessoryId != null ? soItem.MstAccessory.name : null;
@@ -144,7 +144,7 @@ namespace IMSWebApi.Services
                 {
                     VMTrnSaleOrder VMSaleOrderToPost = Mapper.Map<TrnSaleOrder, VMTrnSaleOrder>(saleOrderToPost);
                     _trnGoodIssueNoteServie.postGoodIssueNote(VMSaleOrderToPost);
-                    emailNotification.approvedSONotificationForCustomer(saleOrder, "ApprovedSONotificationForCustomer",customerEmail);
+                    emailNotification.approvedSONotificationForCustomer(saleOrder, "ApprovedSONotificationForCustomer", customerEmail);
                 }
                 else
                 {
@@ -220,7 +220,7 @@ namespace IMSWebApi.Services
                     soItemToPut.shadeId = x.shadeId;
                     soItemToPut.fomSizeId = x.fomSizeId;
                     soItemToPut.matSizeId = x.matSizeId;
-                    soItemToPut.sizeCode= x.sizeCode;
+                    soItemToPut.sizeCode = x.sizeCode;
                     soItemToPut.accessoryId = x.accessoryId;
                     soItemToPut.orderQuantity = x.orderQuantity;
                     soItemToPut.deliverQuantity = x.deliverQuantity;
@@ -270,7 +270,7 @@ namespace IMSWebApi.Services
 
                 string customerEmail = saleOrder.MstCustomer.email;
 
-                emailNotification.approvedSONotificationForCustomer(VMSaleOrder, "ApprovedSONotificationForCustomer",customerEmail);
+                emailNotification.approvedSONotificationForCustomer(VMSaleOrder, "ApprovedSONotificationForCustomer", customerEmail);
 
                 transaction.Complete();
                 return new ResponseMessage(id, resourceManager.GetString("SOApproved"), ResponseType.Success);
@@ -299,7 +299,7 @@ namespace IMSWebApi.Services
                 }
                 else if (saleOrder.status.Equals("Approved") && _IsAdministrator)
                 {
-                    int itemCountWithOrderQtyNotEqualBalQty = saleOrder.TrnSaleOrderItems.Where(soItem=>soItem.orderQuantity != soItem.balanceQuantity).Count();
+                    int itemCountWithOrderQtyNotEqualBalQty = saleOrder.TrnSaleOrderItems.Where(soItem => soItem.orderQuantity != soItem.balanceQuantity).Count();
                     if (itemCountWithOrderQtyNotEqualBalQty == 0)
                     {
                         saleOrder.status = SaleOrderStatus.Cancelled.ToString();
@@ -310,7 +310,7 @@ namespace IMSWebApi.Services
                         }
                         var ginToUpdate = repo.TrnGoodIssueNotes.Where(gin => gin.salesOrderId == saleOrder.id && gin.status.Equals("Created"))
                                     .FirstOrDefault();
-                        ginToUpdate.status  = GINStatus.Cancelled.ToString();
+                        ginToUpdate.status = GINStatus.Cancelled.ToString();
 
                         foreach (var ginItem in ginToUpdate.TrnGoodIssueNoteItems)
                         {
@@ -337,9 +337,9 @@ namespace IMSWebApi.Services
                     messageToDisplay = "SOApprovedByAdmin";
                     type = ResponseType.Error;
                 }
-                
+
                 repo.SaveChanges();
-                
+
                 transaction.Complete();
                 return new ResponseMessage(id, resourceManager.GetString(messageToDisplay), type);
             }
@@ -347,7 +347,7 @@ namespace IMSWebApi.Services
 
         public ResponseMessage completeSO(Int64 id)
         {
-           using (var transaction = new TransactionScope())
+            using (var transaction = new TransactionScope())
             {
                 var saleOrder = repo.TrnSaleOrders.Where(so => so.id == id).FirstOrDefault();
 

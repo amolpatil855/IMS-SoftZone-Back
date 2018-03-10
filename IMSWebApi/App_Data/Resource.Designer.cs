@@ -367,6 +367,15 @@ namespace IMSWebApi.App_Data {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please enter issued quantity for atleast one item.
+        /// </summary>
+        public static string GINnotUpdated {
+            get {
+                return ResourceManager.GetString("GINnotUpdated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Hsn Added Successfully.
         /// </summary>
         public static string HsnAdded {
