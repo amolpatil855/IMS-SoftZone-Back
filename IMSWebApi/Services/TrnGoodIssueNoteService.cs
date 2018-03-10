@@ -150,7 +150,7 @@ namespace IMSWebApi.Services
 
         public ResponseMessage putGoodIssueNote(VMTrnGoodIssueNote goodIssueNote)
         {
-            if (goodIssueNote.TrnGoodIssueNoteItems.Where(ginItems=>ginItems.issuedQuantity > 0).Count() > 0)
+            if (goodIssueNote.TrnGoodIssueNoteItems.Where(ginItems => ginItems.issuedQuantity > 0).Count() > 0)
             {
                 using (var transaction = new TransactionScope())
                 {
@@ -174,17 +174,17 @@ namespace IMSWebApi.Services
             }
             else
             {
-                return new ResponseMessage(goodIssueNote.id, "Please enter issued quantity for atleast one item", ResponseType.Error);
+                return new ResponseMessage(goodIssueNote.id, resourceManager.GetString("GINnotUpdated"), ResponseType.Error);
             }
         }
 
         public void updateGINItems(VMTrnGoodIssueNote goodIssueNote)
         {
             //var goodIssueNoteToPut = repo.TrnGoodIssueNotes.Where(q => q.id == goodIssueNote.id).FirstOrDefault();
-            
+
             goodIssueNote.TrnGoodIssueNoteItems.ForEach(x =>
             {
-                if (x.issuedQuantity == 0)
+                if (x.issuedQuantity == 0 || x.issuedQuantity == null)
                 {
                     repo.TrnGoodIssueNoteItems.Remove(repo.TrnGoodIssueNoteItems.Where(g => g.id == x.id).FirstOrDefault());
                     repo.SaveChanges();
@@ -196,7 +196,7 @@ namespace IMSWebApi.Services
                     ginItemToPut.issuedQuantity = x.issuedQuantity;
                     //ginItemToPut.amount = Convert.ToInt32(Math.Round((x.rate - (x.rate * (Convert.ToDecimal(x.discountPercentage) / 100))) * (decimal)x.issuedQuantity));
                     decimal discountAmt = (x.rate * Convert.ToDecimal(x.issuedQuantity)) - ((x.rate * Convert.ToDecimal(x.issuedQuantity) * Convert.ToDecimal(x.discountPercentage)) / 100);
-                    ginItemToPut.amount = Convert.ToInt32(Math.Round(discountAmt));
+                    ginItemToPut.amount = Convert.ToInt32(Math.Round(discountAmt, MidpointRounding.AwayFromZero));
                     ginItemToPut.status = GINStatus.Completed.ToString();
                     ginItemToPut.statusChangeDate = DateTime.Now;
                     ginItemToPut.updatedOn = DateTime.Now;
@@ -208,7 +208,6 @@ namespace IMSWebApi.Services
                     _trnProductStockService.SubtractItemQtyFromStockDetailsForGIN(ginItemToPut);
                 }
             });
-
         }
 
         public void updateStatusAndBalQtyForSOItem(TrnGoodIssueNoteItem ginItem)
@@ -248,7 +247,7 @@ namespace IMSWebApi.Services
             if (saleOrder != null)
             {
                 //int itemsWithBalQty = saleOrder.TrnSaleOrderItems.Where(soItems => soItems.balanceQuantity != 0).Count();
-                VMTrnSaleOrder VMSaleOrder = Mapper.Map<TrnSaleOrder,VMTrnSaleOrder>(saleOrder);
+                VMTrnSaleOrder VMSaleOrder = Mapper.Map<TrnSaleOrder, VMTrnSaleOrder>(saleOrder);
                 postGoodIssueNote(VMSaleOrder);
             }
         }
@@ -281,19 +280,19 @@ namespace IMSWebApi.Services
                                                             ? gin.ginNumber.StartsWith(search)
                                                             || gin.MstCustomer.name.StartsWith(search)
                                                             || gin.salesOrderNumber.StartsWith(search)
-                                                            || gin.status.StartsWith(search) : true 
+                                                            || gin.status.StartsWith(search) : true
                                                             && ginIdsForItemswithAvailableStock.Contains(gin.id))
                                                             .OrderBy(p => p.id).Skip(page * pageSize).Take(pageSize).ToList();
                 ginsWitStockAvailable = Mapper.Map<List<TrnGoodIssueNote>, List<VMTrnGoodIssueNote>>(result);
             }
             else
             {
-                 var result = repo.TrnGoodIssueNotes.Where(gin => !string.IsNullOrEmpty(search)
-                                                            ? gin.ginNumber.StartsWith(search)
-                                                            || gin.MstCustomer.name.StartsWith(search)
-                                                            || gin.salesOrderNumber.StartsWith(search)
-                                                            || gin.status.StartsWith(search) : true 
-                                                            && ginIdsForItemswithAvailableStock.Contains(gin.id)).ToList();
+                var result = repo.TrnGoodIssueNotes.Where(gin => !string.IsNullOrEmpty(search)
+                                                           ? gin.ginNumber.StartsWith(search)
+                                                           || gin.MstCustomer.name.StartsWith(search)
+                                                           || gin.salesOrderNumber.StartsWith(search)
+                                                           || gin.status.StartsWith(search) : true
+                                                           && ginIdsForItemswithAvailableStock.Contains(gin.id)).ToList();
                 ginsWitStockAvailable = Mapper.Map<List<TrnGoodIssueNote>, List<VMTrnGoodIssueNote>>(result);
             }
 
@@ -329,7 +328,7 @@ namespace IMSWebApi.Services
                     VMGinItem.serialno = VMGinItem.MstCategory.code.Equals("Fabric")
                                     || VMGinItem.MstCategory.code.Equals("Rug")
                                     || VMGinItem.MstCategory.code.Equals("Wallpaper")
-                                    ? VMGinItem.MstFWRShade.serialNumber + "(" + VMGinItem.MstFWRShade.shadeCode + ")" : null;
+                                    ? VMGinItem.MstFWRShade.serialNumber + "(" + VMGinItem.MstFWRShade.shadeCode + "-" + VMGinItem.MstFWRShade.MstFWRDesign.designCode + ")" : null;
                     VMGinItem.size = VMGinItem.MstMatSize != null ? VMGinItem.MstMatSize.sizeCode + " (" + VMGinItem.MstMatSize.MstMatThickNess.thicknessCode + "-" + VMGinItem.MstMatSize.MstQuality.qualityCode + ")" :
                                 VMGinItem.MstFomSize != null ? VMGinItem.MstFomSize.itemCode : null;
                     VMGinItem.accessoryName = VMGinItem.accessoryId != null ? VMGinItem.MstAccessory.name : null;

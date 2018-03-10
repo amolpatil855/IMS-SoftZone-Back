@@ -40,7 +40,7 @@ namespace IMSWebApi.Services
                     || grn.grnDate.ToString().StartsWith(search)
                     || grn.MstSupplier.code.StartsWith(search)
                     || grn.MstCompanyLocation.locationCode.StartsWith(search)
-                    || grn.totalAmount.ToString().StartsWith(search): true)
+                    || grn.totalAmount.ToString().StartsWith(search) : true)
                     .OrderBy(p => p.id).Skip(page * pageSize).Take(pageSize).ToList();
                 goodReceiveNoteView = Mapper.Map<List<TrnGoodReceiveNote>, List<VMTrnGoodReceiveNote>>(result);
             }
@@ -81,7 +81,7 @@ namespace IMSWebApi.Services
             {
                 grnItem.categoryName = grnItem.MstCategory.name;
                 grnItem.collectionName = grnItem.collectionId != null ? grnItem.MstCollection.collectionName : null;
-                grnItem.serialno = grnItem.MstCategory.code.Equals("Fabric") || grnItem.MstCategory.code.Equals("Rug") || grnItem.MstCategory.code.Equals("Wallpaper") ? grnItem.MstFWRShade.serialNumber + "(" + grnItem.MstFWRShade.shadeCode + ")" : null;
+                grnItem.serialno = grnItem.MstCategory.code.Equals("Fabric") || grnItem.MstCategory.code.Equals("Rug") || grnItem.MstCategory.code.Equals("Wallpaper") ? grnItem.MstFWRShade.serialNumber + "(" + grnItem.MstFWRShade.shadeCode + "-" + grnItem.MstFWRShade.MstFWRDesign.designCode + ")" : null;
                 grnItem.size = grnItem.MstMatSize != null ? grnItem.MstMatSize.sizeCode + " (" + grnItem.MstMatSize.MstMatThickNess.thicknessCode + "-" + grnItem.MstMatSize.MstQuality.qualityCode + ")" :
                                 grnItem.MstFomSize != null ? grnItem.MstFomSize.itemCode : grnItem.matSizeCode;
                 grnItem.accessoryName = grnItem.accessoryId != null ? grnItem.MstAccessory.name : null;
@@ -92,10 +92,11 @@ namespace IMSWebApi.Services
         public List<VMLookUpItem> getSupplierForGRN()
         {
             return repo.TrnPurchaseOrders.Where(po => po.status.Equals("Approved") || po.status.Equals("PartialCompleted"))
-                            .OrderBy(s=>s.MstSupplier.name)
-                            .Select(s => new VMLookUpItem {
-                            value = s.MstSupplier.id,
-                            label = s.MstSupplier.code
+                            .OrderBy(s => s.MstSupplier.name)
+                            .Select(s => new VMLookUpItem
+                            {
+                                value = s.MstSupplier.id,
+                                label = s.MstSupplier.code
                             }).Distinct()
                             .ToList();
         }
@@ -111,18 +112,19 @@ namespace IMSWebApi.Services
                                                                   && po.collectionId == collectionId
                                                                   && po.shadeId == parameterId
                                                                   && po.status.Equals("Approved") || po.status.Equals("PartialCompleted"))
-                                                          .Select(s => new VMTrnGoodReceiveNoteItem { 
-                                                            purchaseOrderId = s.TrnPurchaseOrder.id,
-                                                            orderQuantity = s.balanceQuantity,
-                                                            rate = (decimal)s.rate,
-                                                            rateWithGST = s.rateWithGST,
-                                                            orderType = s.orderType,
-                                                            gst = s.gst,
-                                                            purchaseOrderNumber = s.TrnPurchaseOrder.orderNumber,
-                                                            purchaseDiscount = s.MstCollection.purchaseDiscount,
-                                                            cutRate = s.MstFWRShade.MstQuality.cutRate,
-                                                            roleRate = s.MstFWRShade.MstQuality.roleRate,
-                                                            purchaseFlatRate = s.MstFWRShade.MstQuality.purchaseFlatRate
+                                                          .Select(s => new VMTrnGoodReceiveNoteItem
+                                                          {
+                                                              purchaseOrderId = s.TrnPurchaseOrder.id,
+                                                              orderQuantity = s.balanceQuantity,
+                                                              rate = (decimal)s.rate,
+                                                              rateWithGST = s.rateWithGST,
+                                                              orderType = s.orderType,
+                                                              gst = s.gst,
+                                                              purchaseOrderNumber = s.TrnPurchaseOrder.orderNumber,
+                                                              purchaseDiscount = s.MstCollection.purchaseDiscount,
+                                                              cutRate = s.MstFWRShade.MstQuality.cutRate,
+                                                              roleRate = s.MstFWRShade.MstQuality.roleRate,
+                                                              purchaseFlatRate = s.MstFWRShade.MstQuality.purchaseFlatRate
                                                           }).ToList();
             }
             if (categoryCode != null && categoryCode.Equals("Foam"))
@@ -163,7 +165,7 @@ namespace IMSWebApi.Services
                                                               purchaseDiscount = s.MstCollection.purchaseDiscount
                                                           }).ToList();
                 }
-                else if (matSizeCode!=null)
+                else if (matSizeCode != null)
                 {
                     poItemDetails = repo.TrnPurchaseOrderItems.Where(po => po.categoryId == categoryId
                                                                   && po.collectionId == collectionId
@@ -217,7 +219,7 @@ namespace IMSWebApi.Services
                     updateStatusAndBalQtyForPOItem(grnItems);
                     if (!(grnItems.categoryId == 4 && grnItems.matSizeId == null))
                     {
-                        addItemInProductDetails(grnItems, goodReceiveNoteToPost.locationId);    
+                        addItemInProductDetails(grnItems, goodReceiveNoteToPost.locationId);
                     }
                 });
 
@@ -248,7 +250,7 @@ namespace IMSWebApi.Services
                                                                           && po.matSizeCode.Equals(grnItem.matSizeCode)
                                                                           && po.purchaseOrderId == grnItem.purchaseOrderId).FirstOrDefault();
 
-            poItem.balanceQuantity = grnItem.receivedQuantity > poItem.balanceQuantity ? 0 :  poItem.balanceQuantity - grnItem.receivedQuantity;
+            poItem.balanceQuantity = grnItem.receivedQuantity > poItem.balanceQuantity ? 0 : poItem.balanceQuantity - grnItem.receivedQuantity;
             poItem.status = poItem.balanceQuantity > 0 && poItem.balanceQuantity < poItem.orderQuantity ?
                                 PurchaseOrderStatus.PartialCompleted.ToString() : PurchaseOrderStatus.Completed.ToString();
             poItem.updatedBy = _LoggedInuserId;
@@ -272,7 +274,7 @@ namespace IMSWebApi.Services
 
         }
 
-        public void addItemInProductDetails(TrnGoodReceiveNoteItem grnItem,Int64 locationId)
+        public void addItemInProductDetails(TrnGoodReceiveNoteItem grnItem, Int64 locationId)
         {
             TrnProductStockDetail productStockDetail = new TrnProductStockDetail();
             productStockDetail.categoryId = grnItem.categoryId;

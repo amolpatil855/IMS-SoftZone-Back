@@ -33,7 +33,7 @@ namespace IMSWebApi.Services
             generateOrderNumber = new GenerateOrderNumber();
         }
 
-        public List<VMLookUpItem> getCollectionBySuppliernCategoryId(Int64 supplierId,Int64 categoryId)
+        public List<VMLookUpItem> getCollectionBySuppliernCategoryId(Int64 supplierId, Int64 categoryId)
         {
             return repo.MstCollections.Where(c => c.categoryId == categoryId && c.supplierId == supplierId)
                                         .OrderBy(o => o.collectionCode)
@@ -119,17 +119,17 @@ namespace IMSWebApi.Services
             purchaseOrderView.shippingAddress = result.MstCompanyLocation.addressLine1 + " " + result.MstCompanyLocation.addressLine2 +
                                                    "," + result.MstCompanyLocation.city + ", " + result.MstCompanyLocation.state + " PINCODE - "
                                                    + result.MstCompanyLocation.pin;
-           
+
             purchaseOrderView.TrnPurchaseOrderItems.ForEach(poItem =>
             {
                 poItem.categoryName = poItem.MstCategory.name;
-                poItem.collectionName = poItem.collectionId != null?  poItem.MstCollection.collectionName : null;
-                poItem.serialno = poItem.MstCategory.code.Equals("Fabric") || poItem.MstCategory.code.Equals("Rug") || poItem.MstCategory.code.Equals("Wallpaper") ? poItem.MstFWRShade.serialNumber + "(" + poItem.MstFWRShade.shadeCode +"-" + poItem.MstFWRShade.MstFWRDesign.designCode + ")" : null;
-                poItem.size = poItem.MstMatSize != null ? poItem.MstMatSize.sizeCode + " (" + poItem.MstMatSize.MstMatThickNess.thicknessCode + "-" + poItem.MstMatSize.MstQuality.qualityCode + ")" : 
+                poItem.collectionName = poItem.collectionId != null ? poItem.MstCollection.collectionName : null;
+                poItem.serialno = poItem.MstCategory.code.Equals("Fabric") || poItem.MstCategory.code.Equals("Rug") || poItem.MstCategory.code.Equals("Wallpaper") ? poItem.MstFWRShade.serialNumber + "(" + poItem.MstFWRShade.shadeCode + "-" + poItem.MstFWRShade.MstFWRDesign.designCode + ")" : null;
+                poItem.size = poItem.MstMatSize != null ? poItem.MstMatSize.sizeCode + " (" + poItem.MstMatSize.MstMatThickNess.thicknessCode + "-" + poItem.MstMatSize.MstQuality.qualityCode + ")" :
                                 poItem.MstFomSize != null ? poItem.MstFomSize.itemCode : poItem.matSizeCode;
                 poItem.accessoryName = poItem.accessoryId != null ? poItem.MstAccessory.itemCode : null;
             });
-           
+
             return purchaseOrderView;
         }
 
@@ -139,7 +139,7 @@ namespace IMSWebApi.Services
             {
                 TrnPurchaseOrder purchaseOrderToPost = Mapper.Map<VMTrnPurchaseOrder, TrnPurchaseOrder>(purchaseOrder);
                 var purchaseOrderItems = purchaseOrderToPost.TrnPurchaseOrderItems.ToList();
-               
+
                 foreach (var poItems in purchaseOrderItems)
                 {
                     poItems.matSizeId = poItems.matSizeId == -1 ? null : poItems.matSizeId;     //set null for custom matSize
@@ -152,22 +152,22 @@ namespace IMSWebApi.Services
                         _trnProductStockService.AddpoIteminStock(poItems);
                     }
                 }
-                
-                var financialYear = repo.MstFinancialYears.Where(f=>f.startDate <= purchaseOrder.orderDate && f.endDate >= purchaseOrder.orderDate).FirstOrDefault();
+
+                var financialYear = repo.MstFinancialYears.Where(f => f.startDate <= purchaseOrder.orderDate && f.endDate >= purchaseOrder.orderDate).FirstOrDefault();
                 string orderNo = generateOrderNumber.orderNumber(financialYear.startDate.ToString("yy"), financialYear.endDate.ToString("yy"), financialYear.poNumber);
                 purchaseOrderToPost.orderNumber = orderNo;
                 purchaseOrderToPost.financialYear = financialYear.financialYear;
                 purchaseOrderToPost.status = _IsAdministrator ? PurchaseOrderStatus.Approved.ToString() : PurchaseOrderStatus.Created.ToString();
                 purchaseOrderToPost.createdOn = DateTime.Now;
                 purchaseOrderToPost.createdBy = _LoggedInuserId;
-                
+
                 repo.TrnPurchaseOrders.Add(purchaseOrderToPost);
 
-                financialYear.poNumber += 1; 
+                financialYear.poNumber += 1;
                 repo.SaveChanges();
-                MstUser loggedInUser = repo.MstUsers.Where(u=>u.id == _LoggedInuserId).FirstOrDefault();
-                string adminEmail = repo.MstUsers.Where(u=>u.userName.Equals("Administrator")).FirstOrDefault().email;
-                string supplierEmail = repo.MstSuppliers.Where(s=>s.id == purchaseOrder.supplierId).FirstOrDefault().email;
+                MstUser loggedInUser = repo.MstUsers.Where(u => u.id == _LoggedInuserId).FirstOrDefault();
+                string adminEmail = repo.MstUsers.Where(u => u.userName.Equals("Administrator")).FirstOrDefault().email;
+                string supplierEmail = repo.MstSuppliers.Where(s => s.id == purchaseOrder.supplierId).FirstOrDefault().email;
 
                 if (_IsAdministrator)
                 {
@@ -204,11 +204,11 @@ namespace IMSWebApi.Services
                 purchaseOrderToPut.financialYear = purchaseOrder.financialYear;
 
                 updatePOItems(purchaseOrder);
-                
+
                 purchaseOrderToPut.updatedOn = DateTime.Now;
                 purchaseOrderToPut.updatedBy = _LoggedInuserId;
                 repo.SaveChanges();
-                
+
                 transaction.Complete();
                 return new ResponseMessage(purchaseOrder.id, resourceManager.GetString("POUpdated"), ResponseType.Success);
             }
@@ -217,10 +217,10 @@ namespace IMSWebApi.Services
         public void updatePOItems(VMTrnPurchaseOrder purchaseOrder)
         {
             var purchaseOrderToPut = repo.TrnPurchaseOrders.Where(q => q.id == purchaseOrder.id).FirstOrDefault();
-            
+
             List<TrnPurchaseOrderItem> itemsToRemove = new List<TrnPurchaseOrderItem>();
             foreach (var poItem in purchaseOrderToPut.TrnPurchaseOrderItems)
-	        {
+            {
                 if (purchaseOrder.TrnPurchaseOrderItems.Any(y => y.id == poItem.id))
                 {
                     continue;
@@ -229,8 +229,8 @@ namespace IMSWebApi.Services
                 {
                     itemsToRemove.Add(poItem);
                 }
-	        }
-            
+            }
+
             repo.TrnPurchaseOrderItems.RemoveRange(itemsToRemove);
             repo.SaveChanges();
 
@@ -239,7 +239,7 @@ namespace IMSWebApi.Services
                 if (purchaseOrderToPut.TrnPurchaseOrderItems.Any(y => y.id == x.id))
                 {
                     var poItemToPut = repo.TrnPurchaseOrderItems.Where(p => p.id == x.id).FirstOrDefault();
-                    
+
                     poItemToPut.categoryId = x.categoryId;
                     poItemToPut.collectionId = x.collectionId;
                     poItemToPut.shadeId = x.shadeId;
@@ -286,7 +286,7 @@ namespace IMSWebApi.Services
                 foreach (var poItem in purchaseOrder.TrnPurchaseOrderItems)
                 {
                     poItem.status = PurchaseOrderStatus.Approved.ToString();
-                    if (!(poItem.categoryId == 4 && poItem.matSizeId==null))
+                    if (!(poItem.categoryId == 4 && poItem.matSizeId == null))
                     {
                         _trnProductStockService.AddpoIteminStock(poItem);
                     }
@@ -377,9 +377,9 @@ namespace IMSWebApi.Services
             #endregion
 
             return repo.TrnProductStocks.Where(stk => (stk.stock + stk.poQuantity) < stk.soQuanity)
-                .Select(s=> new VMLookUpItem
+                .Select(s => new VMLookUpItem
                 {
-                    label = s.collectionId!= null ? s.MstCollection.MstSupplier.name : s.MstAccessory.MstSupplier.code,
+                    label = s.collectionId != null ? s.MstCollection.MstSupplier.name : s.MstAccessory.MstSupplier.code,
                     value = s.collectionId != null ? s.MstCollection.MstSupplier.id : s.MstAccessory.supplierId
                 }).Distinct().ToList();
         }
@@ -475,7 +475,8 @@ namespace IMSWebApi.Services
             List<VMPOagainstSO> poItemListAgainstSO = new List<VMPOagainstSO>();
             var itemsToBeOrdered = repo.TrnProductStocks.Where(stk => (stk.stock + stk.poQuantity) < stk.soQuanity).ToList();
 
-            itemsToBeOrdered.ForEach(item => {
+            itemsToBeOrdered.ForEach(item =>
+            {
                 VMPOagainstSO poItemAgainstSO = new VMPOagainstSO();
 
                 poItemAgainstSO.supplierId = item.collectionId != null ? item.MstCollection.supplierId : item.MstAccessory.supplierId;
@@ -496,7 +497,7 @@ namespace IMSWebApi.Services
                 poItemAgainstSO.flatRate = item.fwrShadeId != null ? item.MstFWRShade.MstQuality.flatRate : null;
                 poItemAgainstSO.purchaseFlatRate = item.fwrShadeId != null ? item.MstFWRShade.MstQuality.purchaseFlatRate : null;
                 poItemAgainstSO.maxFlatRateDisc = item.fwrShadeId != null ? item.MstFWRShade.MstQuality.maxFlatRateDisc : null;
-                poItemAgainstSO.purchaseDiscount = item.fwrShadeId != null ? item.MstFWRShade.MstCollection.purchaseDiscount : 
+                poItemAgainstSO.purchaseDiscount = item.fwrShadeId != null ? item.MstFWRShade.MstCollection.purchaseDiscount :
                     item.fomSizeId != null ? item.MstFomSize.MstCollection.purchaseDiscount : null;
 
                 //values for calculation of rate for fom
@@ -508,7 +509,7 @@ namespace IMSWebApi.Services
                 poItemAgainstSO.maxDiscount = item.fomSizeId != null ? item.MstFomSize.MstQuality.maxDiscount : null;
                 poItemAgainstSO.length = item.fomSizeId != null ? item.MstFomSize.length : (decimal?)null;
                 poItemAgainstSO.width = item.fomSizeId != null ? item.MstFomSize.width : (decimal?)null;
-                
+
                 //values for accessory
                 poItemAgainstSO.accessoryId = item.accessoryId != null ? item.accessoryId : null;
                 poItemAgainstSO.accessoryName = item.accessoryId != null ? item.MstAccessory.name : null;
@@ -516,7 +517,7 @@ namespace IMSWebApi.Services
                 poItemAgainstSO.purchaseRate = item.accessoryId != null ? item.MstAccessory.purchaseRate : (decimal?)null;
 
                 poItemAgainstSO.gst = item.fomSizeId != null ? item.MstFomSize.MstQuality.MstHsn.gst :
-                    item.fwrShadeId != null ? item.MstFWRShade.MstQuality.MstHsn.gst : 
+                    item.fwrShadeId != null ? item.MstFWRShade.MstQuality.MstHsn.gst :
                     item.matSizeId != null ? item.MstMatSize.MstQuality.MstHsn.gst : item.MstAccessory.MstHsn.gst;
 
                 poItemAgainstSO.requiredQuantity = -Convert.ToDecimal(item.stock + item.poQuantity - item.soQuanity);

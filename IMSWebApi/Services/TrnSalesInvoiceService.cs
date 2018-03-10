@@ -81,7 +81,7 @@ namespace IMSWebApi.Services
                 salesInvoiceItem.serialno = salesInvoiceItem.MstCategory.code.Equals("Fabric")
                                 || salesInvoiceItem.MstCategory.code.Equals("Rug")
                                 || salesInvoiceItem.MstCategory.code.Equals("Wallpaper")
-                                ? salesInvoiceItem.MstFWRShade.serialNumber + "(" + salesInvoiceItem.MstFWRShade.shadeCode + ")" : null;
+                                ? salesInvoiceItem.MstFWRShade.serialNumber + "(" + salesInvoiceItem.MstFWRShade.shadeCode + "-" + salesInvoiceItem.MstFWRShade.MstFWRDesign.designCode + ")" : null;
                 salesInvoiceItem.size = salesInvoiceItem.MstMatSize != null ? salesInvoiceItem.MstMatSize.sizeCode + " (" + salesInvoiceItem.MstMatSize.MstMatThickNess.thicknessCode + "-" + salesInvoiceItem.MstMatSize.MstQuality.qualityCode + ")" :
                             salesInvoiceItem.MstFomSize != null ? salesInvoiceItem.MstFomSize.itemCode : null;
                 salesInvoiceItem.accessoryName = salesInvoiceItem.accessoryId != null ? salesInvoiceItem.MstAccessory.name : null;
@@ -120,19 +120,19 @@ namespace IMSWebApi.Services
                     salesInvoiceItem.rate = ginItem.rate;
                     salesInvoiceItem.discountPercentage = ginItem.discountPercentage;
                     decimal discountAmt = (ginItem.rate * Convert.ToDecimal(ginItem.issuedQuantity)) - ((ginItem.rate * Convert.ToDecimal(ginItem.issuedQuantity) * Convert.ToDecimal(ginItem.discountPercentage)) / 100);
-                    salesInvoiceItem.amount = Convert.ToInt32(Math.Round(discountAmt,MidpointRounding.AwayFromZero));
+                    salesInvoiceItem.amount = Convert.ToInt32(Math.Round(discountAmt, MidpointRounding.AwayFromZero));
                     //salesInvoiceItem.amount = Convert.ToInt32(Math.Round((ginItem.rate - (ginItem.rate * Convert.ToDecimal(ginItem.discountPercentage) ) / 100) * Convert.ToDecimal(ginItem.issuedQuantity))); 
                     salesInvoiceItem.gst = ginItem.shadeId != null ? ginItem.MstFWRShade.MstQuality.MstHsn.gst :
                         ginItem.fomSizeId != null ? ginItem.MstFomSize.MstQuality.MstHsn.gst :
                         ginItem.matSizeId != null ? ginItem.MstMatSize.MstQuality.MstHsn.gst :
                         ginItem.MstAccessory.MstHsn.gst;
-                    salesInvoiceItem.uom = ginItem.categoryId != 7 ?  ginItem.MstCategory.MstUnitOfMeasure.uomCode : null;
+                    salesInvoiceItem.uom = ginItem.categoryId != 7 ? ginItem.MstCategory.MstUnitOfMeasure.uomCode : null;
                     salesInvoiceItem.hsnCode = ginItem.shadeId != null ? ginItem.MstFWRShade.MstQuality.MstHsn.hsnCode :
                         ginItem.fomSizeId != null ? ginItem.MstFomSize.MstQuality.MstHsn.hsnCode :
                         ginItem.matSizeId != null ? ginItem.MstMatSize.MstQuality.MstHsn.hsnCode :
                         ginItem.MstAccessory.MstHsn.hsnCode;
 
-                    salesInvoiceItem.rateWithGST = salesInvoiceItem.rate + (salesInvoiceItem.rate * salesInvoiceItem.gst )/ 100;
+                    salesInvoiceItem.rateWithGST = salesInvoiceItem.rate + (salesInvoiceItem.rate * salesInvoiceItem.gst) / 100;
                     //salesInvoiceItem.amountWithGST = Convert.ToInt32(Math.Round((Convert.ToDecimal(salesInvoiceItem.rateWithGST) - (Convert.ToDecimal(salesInvoiceItem.rateWithGST) * Convert.ToDecimal(ginItem.discountPercentage)) / 100) * Convert.ToDecimal(ginItem.issuedQuantity))); 
 
                     //salesInvoiceItem.amountWithGST = Convert.ToInt32(Math.Round(Convert.ToDecimal(discountAmt + ((discountAmt * salesInvoiceItem.gst) / 100)),MidpointRounding.AwayFromZero));

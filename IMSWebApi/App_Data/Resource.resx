@@ -372,4 +372,7 @@
   <data name="SalesInvoiceApproved" xml:space="preserve">
     <value>Sales Invoice is Approved Successfully.</value>
   </data>
+  <data name="GINnotUpdated" xml:space="preserve">
+    <value>Please enter issued quantity for atleast one item</value>
+  </data>
 </root>
