@@ -110,7 +110,7 @@ namespace IMSWebApi.Services
                 poItemDetails = repo.TrnPurchaseOrderItems.Where(po => po.categoryId == categoryId
                                                                   && po.collectionId == collectionId
                                                                   && po.shadeId == parameterId
-                                                                  && po.status.Equals("Approved") && !po.status.Equals("PartialCompleted"))
+                                                                  && po.status.Equals("Approved") || po.status.Equals("PartialCompleted"))
                                                           .Select(s => new VMTrnGoodReceiveNoteItem { 
                                                             purchaseOrderId = s.TrnPurchaseOrder.id,
                                                             orderQuantity = s.balanceQuantity,
@@ -130,7 +130,7 @@ namespace IMSWebApi.Services
                 poItemDetails = repo.TrnPurchaseOrderItems.Where(po => po.categoryId == categoryId
                                                                   && po.collectionId == collectionId
                                                                   && po.fomSizeId == parameterId
-                                                                  && po.status.Equals("Approved") && !po.status.Equals("PartialCompleted"))
+                                                                  && po.status.Equals("Approved") || po.status.Equals("PartialCompleted"))
                                                           .Select(s => new VMTrnGoodReceiveNoteItem
                                                           {
                                                               purchaseOrderId = s.TrnPurchaseOrder.id,
@@ -150,7 +150,7 @@ namespace IMSWebApi.Services
                     poItemDetails = repo.TrnPurchaseOrderItems.Where(po => po.categoryId == categoryId
                                                                   && po.collectionId == collectionId
                                                                   && po.matSizeId == parameterId
-                                                                  && po.status.Equals("Approved") && !po.status.Equals("PartialCompleted"))
+                                                                  && po.status.Equals("Approved") || po.status.Equals("PartialCompleted"))
                                                           .Select(s => new VMTrnGoodReceiveNoteItem
                                                           {
                                                               purchaseOrderId = s.TrnPurchaseOrder.id,
@@ -168,7 +168,7 @@ namespace IMSWebApi.Services
                     poItemDetails = repo.TrnPurchaseOrderItems.Where(po => po.categoryId == categoryId
                                                                   && po.collectionId == collectionId
                                                                   && po.matSizeCode.Equals(matSizeCode)
-                                                                  && po.status.Equals("Approved") && !po.status.Equals("PartialCompleted"))
+                                                                  && po.status.Equals("Approved") || po.status.Equals("PartialCompleted"))
                                                           .Select(s => new VMTrnGoodReceiveNoteItem
                                                           {
                                                               purchaseOrderId = s.TrnPurchaseOrder.id,
@@ -187,7 +187,7 @@ namespace IMSWebApi.Services
                 poItemDetails = repo.TrnPurchaseOrderItems.Where(po => po.categoryId == categoryId
                                                                   && po.collectionId == collectionId
                                                                   && po.accessoryId == parameterId
-                                                                  && po.status.Equals("Approved") && !po.status.Equals("PartialCompleted"))
+                                                                  && po.status.Equals("Approved") || po.status.Equals("PartialCompleted"))
                                                           .Select(s => new VMTrnGoodReceiveNoteItem
                                                           {
                                                               purchaseOrderId = s.TrnPurchaseOrder.id,
