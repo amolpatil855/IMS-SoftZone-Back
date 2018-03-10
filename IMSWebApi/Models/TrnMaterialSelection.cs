@@ -12,29 +12,28 @@ namespace IMSWebApi.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class MstMatThickness
+    public partial class TrnMaterialSelection
     {
-        public MstMatThickness()
+        public TrnMaterialSelection()
         {
-            this.MstMatSizes = new HashSet<MstMatSize>();
-            this.TrnPurchaseOrderItems = new HashSet<TrnPurchaseOrderItem>();
-            this.TrnGoodReceiveNoteItems = new HashSet<TrnGoodReceiveNoteItem>();
-            this.TrnMaterialQuotationItems = new HashSet<TrnMaterialQuotationItem>();
+            this.TrnMaterialQuotations = new HashSet<TrnMaterialQuotation>();
             this.TrnMaterialSelectionItems = new HashSet<TrnMaterialSelectionItem>();
         }
     
         public long id { get; set; }
-        public string thicknessCode { get; set; }
-        public decimal size { get; set; }
+        public long customerId { get; set; }
+        public string materialSelectionNumber { get; set; }
+        public long referById { get; set; }
+        public System.DateTime materialSelectionDate { get; set; }
+        public long isQuotationCreated { get; set; }
         public System.DateTime createdOn { get; set; }
         public long createdBy { get; set; }
         public Nullable<System.DateTime> updatedOn { get; set; }
         public Nullable<long> updatedBy { get; set; }
     
-        public virtual ICollection<MstMatSize> MstMatSizes { get; set; }
-        public virtual ICollection<TrnPurchaseOrderItem> TrnPurchaseOrderItems { get; set; }
-        public virtual ICollection<TrnGoodReceiveNoteItem> TrnGoodReceiveNoteItems { get; set; }
-        public virtual ICollection<TrnMaterialQuotationItem> TrnMaterialQuotationItems { get; set; }
+        public virtual MstAgent MstAgent { get; set; }
+        public virtual MstCustomer MstCustomer { get; set; }
+        public virtual ICollection<TrnMaterialQuotation> TrnMaterialQuotations { get; set; }
         public virtual ICollection<TrnMaterialSelectionItem> TrnMaterialSelectionItems { get; set; }
     }
 }

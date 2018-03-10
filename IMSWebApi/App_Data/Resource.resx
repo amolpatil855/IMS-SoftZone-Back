@@ -375,4 +375,10 @@
   <data name="GINnotUpdated" xml:space="preserve">
     <value>Please enter issued quantity for atleast one item</value>
   </data>
+  <data name="GRNAdded" xml:space="preserve">
+    <value>GRN Added Successfully</value>
+  </data>
+  <data name="MSAdded" xml:space="preserve">
+    <value>Material Selection Added Successfully</value>
+  </data>
 </root>

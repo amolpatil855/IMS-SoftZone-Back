@@ -570,6 +570,87 @@
           <Property Name="updatedOn" Type="datetime" />
           <Property Name="updatedBy" Type="bigint" />
         </EntityType>
+        <EntityType Name="TrnMaterialQuotation">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="materialSelectionId" Type="bigint" Nullable="false" />
+          <Property Name="materialQuotationNumber" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="materialQuotationDate" Type="datetime" Nullable="false" />
+          <Property Name="customerId" Type="bigint" Nullable="false" />
+          <Property Name="referById" Type="bigint" />
+          <Property Name="status" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="createdOn" Type="datetime" Nullable="false" />
+          <Property Name="createdBy" Type="bigint" Nullable="false" />
+          <Property Name="updatedOn" Type="datetime" />
+          <Property Name="updatedBy" Type="bigint" />
+        </EntityType>
+        <EntityType Name="TrnMaterialQuotationItems">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="materialQuotationId" Type="bigint" Nullable="false" />
+          <Property Name="selectionType" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="area" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="categoryId" Type="bigint" Nullable="false" />
+          <Property Name="collectionId" Type="bigint" Nullable="false" />
+          <Property Name="shadeId" Type="bigint" />
+          <Property Name="matThickNessId" Type="bigint" />
+          <Property Name="matSizeId" Type="bigint" />
+          <Property Name="matHeight" Type="decimal" Precision="5" Scale="2" />
+          <Property Name="matWidth" Type="decimal" Precision="5" Scale="2" />
+          <Property Name="orderQuantity" Type="decimal" Precision="7" Scale="2" Nullable="false" />
+          <Property Name="deliverQuantity" Type="decimal" Precision="7" Scale="2" Nullable="false" />
+          <Property Name="balanceQuantity" Type="decimal" Precision="7" Scale="2" Nullable="false" />
+          <Property Name="rate" Type="decimal" Precision="7" Scale="2" Nullable="false" />
+          <Property Name="discountPercentage" Type="decimal" Precision="4" Scale="2" Nullable="false" />
+          <Property Name="amount" Type="int" Nullable="false" />
+          <Property Name="rateWithSGT" Type="decimal" Precision="7" Scale="2" Nullable="false" />
+          <Property Name="amountWithGST" Type="decimal" Precision="7" Scale="2" Nullable="false" />
+          <Property Name="gst" Type="int" />
+          <Property Name="status" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="createdOn" Type="datetime" Nullable="false" />
+          <Property Name="createdBy" Type="bigint" Nullable="false" />
+          <Property Name="updatedOn" Type="datetime" />
+          <Property Name="updatedBy" Type="bigint" />
+        </EntityType>
+        <EntityType Name="TrnMaterialSelection">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="customerId" Type="bigint" Nullable="false" />
+          <Property Name="materialSelectionNumber" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="referById" Type="bigint" Nullable="false" />
+          <Property Name="materialSelectionDate" Type="datetime" Nullable="false" />
+          <Property Name="isQuotationCreated" Type="bigint" Nullable="false" />
+          <Property Name="createdOn" Type="datetime" Nullable="false" />
+          <Property Name="createdBy" Type="bigint" Nullable="false" />
+          <Property Name="updatedOn" Type="datetime" />
+          <Property Name="updatedBy" Type="bigint" />
+        </EntityType>
+        <EntityType Name="TrnMaterialSelectionItems">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="materialSelectionId" Type="bigint" Nullable="false" />
+          <Property Name="selectionType" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="area" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="categoryId" Type="bigint" Nullable="false" />
+          <Property Name="collectionId" Type="bigint" Nullable="false" />
+          <Property Name="shadeId" Type="bigint" />
+          <Property Name="matThicknessId" Type="bigint" />
+          <Property Name="matSizeId" Type="bigint" />
+          <Property Name="matHeight" Type="decimal" Precision="5" Scale="2" />
+          <Property Name="matWidth" Type="decimal" Precision="5" Scale="2" />
+          <Property Name="createdOn" Type="datetime" Nullable="false" />
+          <Property Name="createdBy" Type="bigint" Nullable="false" />
+          <Property Name="updatedOn" Type="datetime" />
+          <Property Name="updatedBy" Type="bigint" />
+        </EntityType>
         <EntityType Name="TrnProductStock">
           <Key>
             <PropertyRef Name="id" />
@@ -1630,6 +1711,198 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_TrnMaterialQuotation_MstAgent">
+          <End Role="MstAgent" Type="Self.MstAgent" Multiplicity="0..1" />
+          <End Role="TrnMaterialQuotation" Type="Self.TrnMaterialQuotation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstAgent">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnMaterialQuotation">
+              <PropertyRef Name="referById" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnMaterialQuotation_TrnMaterialSelection">
+          <End Role="TrnMaterialSelection" Type="Self.TrnMaterialSelection" Multiplicity="1" />
+          <End Role="TrnMaterialQuotation" Type="Self.TrnMaterialQuotation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TrnMaterialSelection">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnMaterialQuotation">
+              <PropertyRef Name="materialSelectionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnMaterialQuotationItems_MstCategory">
+          <End Role="MstCategory" Type="Self.MstCategory" Multiplicity="1" />
+          <End Role="TrnMaterialQuotationItems" Type="Self.TrnMaterialQuotationItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstCategory">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnMaterialQuotationItems">
+              <PropertyRef Name="categoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnMaterialQuotationItems_MstCollection">
+          <End Role="MstCollection" Type="Self.MstCollection" Multiplicity="1" />
+          <End Role="TrnMaterialQuotationItems" Type="Self.TrnMaterialQuotationItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstCollection">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnMaterialQuotationItems">
+              <PropertyRef Name="collectionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnMaterialQuotationItems_MstFWRShade">
+          <End Role="MstFWRShade" Type="Self.MstFWRShade" Multiplicity="0..1" />
+          <End Role="TrnMaterialQuotationItems" Type="Self.TrnMaterialQuotationItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstFWRShade">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnMaterialQuotationItems">
+              <PropertyRef Name="shadeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnMaterialQuotationItems_MstMatSize">
+          <End Role="MstMatSize" Type="Self.MstMatSize" Multiplicity="0..1" />
+          <End Role="TrnMaterialQuotationItems" Type="Self.TrnMaterialQuotationItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstMatSize">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnMaterialQuotationItems">
+              <PropertyRef Name="matSizeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnMaterialQuotationItems_MstMatThickness">
+          <End Role="MstMatThickness" Type="Self.MstMatThickness" Multiplicity="0..1" />
+          <End Role="TrnMaterialQuotationItems" Type="Self.TrnMaterialQuotationItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstMatThickness">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnMaterialQuotationItems">
+              <PropertyRef Name="matThickNessId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnMaterialQuotationItems_TrnMaterialQuotation">
+          <End Role="TrnMaterialQuotation" Type="Self.TrnMaterialQuotation" Multiplicity="1" />
+          <End Role="TrnMaterialQuotationItems" Type="Self.TrnMaterialQuotationItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TrnMaterialQuotation">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnMaterialQuotationItems">
+              <PropertyRef Name="materialQuotationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnMaterialSelection_MstAgent">
+          <End Role="MstAgent" Type="Self.MstAgent" Multiplicity="1" />
+          <End Role="TrnMaterialSelection" Type="Self.TrnMaterialSelection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstAgent">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnMaterialSelection">
+              <PropertyRef Name="referById" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnMaterialSelection_MstCustomer">
+          <End Role="MstCustomer" Type="Self.MstCustomer" Multiplicity="1" />
+          <End Role="TrnMaterialSelection" Type="Self.TrnMaterialSelection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstCustomer">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnMaterialSelection">
+              <PropertyRef Name="customerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnMaterialSelectionItems_MstCategory">
+          <End Role="MstCategory" Type="Self.MstCategory" Multiplicity="1" />
+          <End Role="TrnMaterialSelectionItems" Type="Self.TrnMaterialSelectionItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstCategory">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnMaterialSelectionItems">
+              <PropertyRef Name="categoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnMaterialSelectionItems_MstCollection">
+          <End Role="MstCollection" Type="Self.MstCollection" Multiplicity="1" />
+          <End Role="TrnMaterialSelectionItems" Type="Self.TrnMaterialSelectionItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstCollection">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnMaterialSelectionItems">
+              <PropertyRef Name="collectionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnMaterialSelectionItems_MstFWRShade">
+          <End Role="MstFWRShade" Type="Self.MstFWRShade" Multiplicity="0..1" />
+          <End Role="TrnMaterialSelectionItems" Type="Self.TrnMaterialSelectionItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstFWRShade">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnMaterialSelectionItems">
+              <PropertyRef Name="shadeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnMaterialSelectionItems_MstMatSize">
+          <End Role="MstMatSize" Type="Self.MstMatSize" Multiplicity="0..1" />
+          <End Role="TrnMaterialSelectionItems" Type="Self.TrnMaterialSelectionItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstMatSize">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnMaterialSelectionItems">
+              <PropertyRef Name="matSizeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnMaterialSelectionItems_MstMatThickness">
+          <End Role="MstMatThickness" Type="Self.MstMatThickness" Multiplicity="0..1" />
+          <End Role="TrnMaterialSelectionItems" Type="Self.TrnMaterialSelectionItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstMatThickness">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnMaterialSelectionItems">
+              <PropertyRef Name="matThicknessId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnMaterialSelectionItems_TrnMaterialSelection">
+          <End Role="TrnMaterialSelection" Type="Self.TrnMaterialSelection" Multiplicity="1" />
+          <End Role="TrnMaterialSelectionItems" Type="Self.TrnMaterialSelectionItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TrnMaterialSelection">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnMaterialSelectionItems">
+              <PropertyRef Name="materialSelectionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_TrnProductStock_MstAccessory">
           <End Role="MstAccessory" Type="Self.MstAccessory" Multiplicity="0..1" />
           <End Role="TrnProductStock" Type="Self.TrnProductStock" Multiplicity="*" />
@@ -2202,6 +2475,10 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <EntitySet Name="TrnGoodIssueNoteItems" EntityType="Self.TrnGoodIssueNoteItems" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TrnGoodReceiveNote" EntityType="Self.TrnGoodReceiveNote" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TrnGoodReceiveNoteItems" EntityType="Self.TrnGoodReceiveNoteItems" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TrnMaterialQuotation" EntityType="Self.TrnMaterialQuotation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TrnMaterialQuotationItems" EntityType="Self.TrnMaterialQuotationItems" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TrnMaterialSelection" EntityType="Self.TrnMaterialSelection" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TrnMaterialSelectionItems" EntityType="Self.TrnMaterialSelectionItems" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TrnProductStock" EntityType="Self.TrnProductStock" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TrnProductStockDetails" EntityType="Self.TrnProductStockDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TrnPurchaseOrder" EntityType="Self.TrnPurchaseOrder" Schema="dbo" store:Type="Tables" />
@@ -2533,6 +2810,70 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <AssociationSet Name="FK_TrnGoodReceiveNoteItems_TrnPurchaseOrder" Association="Self.FK_TrnGoodReceiveNoteItems_TrnPurchaseOrder">
             <End Role="TrnPurchaseOrder" EntitySet="TrnPurchaseOrder" />
             <End Role="TrnGoodReceiveNoteItems" EntitySet="TrnGoodReceiveNoteItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnMaterialQuotation_MstAgent" Association="Self.FK_TrnMaterialQuotation_MstAgent">
+            <End Role="MstAgent" EntitySet="MstAgent" />
+            <End Role="TrnMaterialQuotation" EntitySet="TrnMaterialQuotation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnMaterialQuotation_TrnMaterialSelection" Association="Self.FK_TrnMaterialQuotation_TrnMaterialSelection">
+            <End Role="TrnMaterialSelection" EntitySet="TrnMaterialSelection" />
+            <End Role="TrnMaterialQuotation" EntitySet="TrnMaterialQuotation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnMaterialQuotationItems_MstCategory" Association="Self.FK_TrnMaterialQuotationItems_MstCategory">
+            <End Role="MstCategory" EntitySet="MstCategory" />
+            <End Role="TrnMaterialQuotationItems" EntitySet="TrnMaterialQuotationItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnMaterialQuotationItems_MstCollection" Association="Self.FK_TrnMaterialQuotationItems_MstCollection">
+            <End Role="MstCollection" EntitySet="MstCollection" />
+            <End Role="TrnMaterialQuotationItems" EntitySet="TrnMaterialQuotationItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnMaterialQuotationItems_MstFWRShade" Association="Self.FK_TrnMaterialQuotationItems_MstFWRShade">
+            <End Role="MstFWRShade" EntitySet="MstFWRShade" />
+            <End Role="TrnMaterialQuotationItems" EntitySet="TrnMaterialQuotationItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnMaterialQuotationItems_MstMatSize" Association="Self.FK_TrnMaterialQuotationItems_MstMatSize">
+            <End Role="MstMatSize" EntitySet="MstMatSize" />
+            <End Role="TrnMaterialQuotationItems" EntitySet="TrnMaterialQuotationItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnMaterialQuotationItems_MstMatThickness" Association="Self.FK_TrnMaterialQuotationItems_MstMatThickness">
+            <End Role="MstMatThickness" EntitySet="MstMatThickness" />
+            <End Role="TrnMaterialQuotationItems" EntitySet="TrnMaterialQuotationItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnMaterialQuotationItems_TrnMaterialQuotation" Association="Self.FK_TrnMaterialQuotationItems_TrnMaterialQuotation">
+            <End Role="TrnMaterialQuotation" EntitySet="TrnMaterialQuotation" />
+            <End Role="TrnMaterialQuotationItems" EntitySet="TrnMaterialQuotationItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnMaterialSelection_MstAgent" Association="Self.FK_TrnMaterialSelection_MstAgent">
+            <End Role="MstAgent" EntitySet="MstAgent" />
+            <End Role="TrnMaterialSelection" EntitySet="TrnMaterialSelection" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnMaterialSelection_MstCustomer" Association="Self.FK_TrnMaterialSelection_MstCustomer">
+            <End Role="MstCustomer" EntitySet="MstCustomer" />
+            <End Role="TrnMaterialSelection" EntitySet="TrnMaterialSelection" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnMaterialSelectionItems_MstCategory" Association="Self.FK_TrnMaterialSelectionItems_MstCategory">
+            <End Role="MstCategory" EntitySet="MstCategory" />
+            <End Role="TrnMaterialSelectionItems" EntitySet="TrnMaterialSelectionItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnMaterialSelectionItems_MstCollection" Association="Self.FK_TrnMaterialSelectionItems_MstCollection">
+            <End Role="MstCollection" EntitySet="MstCollection" />
+            <End Role="TrnMaterialSelectionItems" EntitySet="TrnMaterialSelectionItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnMaterialSelectionItems_MstFWRShade" Association="Self.FK_TrnMaterialSelectionItems_MstFWRShade">
+            <End Role="MstFWRShade" EntitySet="MstFWRShade" />
+            <End Role="TrnMaterialSelectionItems" EntitySet="TrnMaterialSelectionItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnMaterialSelectionItems_MstMatSize" Association="Self.FK_TrnMaterialSelectionItems_MstMatSize">
+            <End Role="MstMatSize" EntitySet="MstMatSize" />
+            <End Role="TrnMaterialSelectionItems" EntitySet="TrnMaterialSelectionItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnMaterialSelectionItems_MstMatThickness" Association="Self.FK_TrnMaterialSelectionItems_MstMatThickness">
+            <End Role="MstMatThickness" EntitySet="MstMatThickness" />
+            <End Role="TrnMaterialSelectionItems" EntitySet="TrnMaterialSelectionItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnMaterialSelectionItems_TrnMaterialSelection" Association="Self.FK_TrnMaterialSelectionItems_TrnMaterialSelection">
+            <End Role="TrnMaterialSelection" EntitySet="TrnMaterialSelection" />
+            <End Role="TrnMaterialSelectionItems" EntitySet="TrnMaterialSelectionItems" />
           </AssociationSet>
           <AssociationSet Name="FK_TrnProductStock_MstAccessory" Association="Self.FK_TrnProductStock_MstAccessory">
             <End Role="MstAccessory" EntitySet="MstAccessory" />
@@ -3191,6 +3532,74 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
             <End Role="TrnSalesInvoice" EntitySet="TrnSalesInvoices" />
             <End Role="TrnSalesInvoiceItem" EntitySet="TrnSalesInvoiceItems" />
           </AssociationSet>
+          <EntitySet Name="TrnMaterialQuotations" EntityType="IMSModel.TrnMaterialQuotation" />
+          <EntitySet Name="TrnMaterialQuotationItems" EntityType="IMSModel.TrnMaterialQuotationItem" />
+          <AssociationSet Name="FK_TrnMaterialQuotation_MstAgent" Association="IMSModel.FK_TrnMaterialQuotation_MstAgent">
+            <End Role="MstAgent" EntitySet="MstAgents" />
+            <End Role="TrnMaterialQuotation" EntitySet="TrnMaterialQuotations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnMaterialQuotationItems_MstCategory" Association="IMSModel.FK_TrnMaterialQuotationItems_MstCategory">
+            <End Role="MstCategory" EntitySet="MstCategories" />
+            <End Role="TrnMaterialQuotationItem" EntitySet="TrnMaterialQuotationItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnMaterialQuotationItems_MstCollection" Association="IMSModel.FK_TrnMaterialQuotationItems_MstCollection">
+            <End Role="MstCollection" EntitySet="MstCollections" />
+            <End Role="TrnMaterialQuotationItem" EntitySet="TrnMaterialQuotationItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnMaterialQuotationItems_MstFWRShade" Association="IMSModel.FK_TrnMaterialQuotationItems_MstFWRShade">
+            <End Role="MstFWRShade" EntitySet="MstFWRShades" />
+            <End Role="TrnMaterialQuotationItem" EntitySet="TrnMaterialQuotationItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnMaterialQuotationItems_MstMatSize" Association="IMSModel.FK_TrnMaterialQuotationItems_MstMatSize">
+            <End Role="MstMatSize" EntitySet="MstMatSizes" />
+            <End Role="TrnMaterialQuotationItem" EntitySet="TrnMaterialQuotationItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnMaterialQuotationItems_MstMatThickness" Association="IMSModel.FK_TrnMaterialQuotationItems_MstMatThickness">
+            <End Role="MstMatThickness" EntitySet="MstMatThicknesses" />
+            <End Role="TrnMaterialQuotationItem" EntitySet="TrnMaterialQuotationItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnMaterialQuotationItems_TrnMaterialQuotation" Association="IMSModel.FK_TrnMaterialQuotationItems_TrnMaterialQuotation">
+            <End Role="TrnMaterialQuotation" EntitySet="TrnMaterialQuotations" />
+            <End Role="TrnMaterialQuotationItem" EntitySet="TrnMaterialQuotationItems" />
+          </AssociationSet>
+          <EntitySet Name="TrnMaterialSelections" EntityType="IMSModel.TrnMaterialSelection" />
+          <EntitySet Name="TrnMaterialSelectionItems" EntityType="IMSModel.TrnMaterialSelectionItem" />
+          <AssociationSet Name="FK_TrnMaterialSelection_MstAgent" Association="IMSModel.FK_TrnMaterialSelection_MstAgent">
+            <End Role="MstAgent" EntitySet="MstAgents" />
+            <End Role="TrnMaterialSelection" EntitySet="TrnMaterialSelections" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnMaterialSelectionItems_MstCategory" Association="IMSModel.FK_TrnMaterialSelectionItems_MstCategory">
+            <End Role="MstCategory" EntitySet="MstCategories" />
+            <End Role="TrnMaterialSelectionItem" EntitySet="TrnMaterialSelectionItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnMaterialSelectionItems_MstCollection" Association="IMSModel.FK_TrnMaterialSelectionItems_MstCollection">
+            <End Role="MstCollection" EntitySet="MstCollections" />
+            <End Role="TrnMaterialSelectionItem" EntitySet="TrnMaterialSelectionItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnMaterialSelection_MstCustomer" Association="IMSModel.FK_TrnMaterialSelection_MstCustomer">
+            <End Role="MstCustomer" EntitySet="MstCustomers" />
+            <End Role="TrnMaterialSelection" EntitySet="TrnMaterialSelections" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnMaterialSelectionItems_MstFWRShade" Association="IMSModel.FK_TrnMaterialSelectionItems_MstFWRShade">
+            <End Role="MstFWRShade" EntitySet="MstFWRShades" />
+            <End Role="TrnMaterialSelectionItem" EntitySet="TrnMaterialSelectionItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnMaterialSelectionItems_MstMatSize" Association="IMSModel.FK_TrnMaterialSelectionItems_MstMatSize">
+            <End Role="MstMatSize" EntitySet="MstMatSizes" />
+            <End Role="TrnMaterialSelectionItem" EntitySet="TrnMaterialSelectionItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnMaterialSelectionItems_MstMatThickness" Association="IMSModel.FK_TrnMaterialSelectionItems_MstMatThickness">
+            <End Role="MstMatThickness" EntitySet="MstMatThicknesses" />
+            <End Role="TrnMaterialSelectionItem" EntitySet="TrnMaterialSelectionItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnMaterialQuotation_TrnMaterialSelection" Association="IMSModel.FK_TrnMaterialQuotation_TrnMaterialSelection">
+            <End Role="TrnMaterialSelection" EntitySet="TrnMaterialSelections" />
+            <End Role="TrnMaterialQuotation" EntitySet="TrnMaterialQuotations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnMaterialSelectionItems_TrnMaterialSelection" Association="IMSModel.FK_TrnMaterialSelectionItems_TrnMaterialSelection">
+            <End Role="TrnMaterialSelection" EntitySet="TrnMaterialSelections" />
+            <End Role="TrnMaterialSelectionItem" EntitySet="TrnMaterialSelectionItems" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="CFGRoleMenu">
           <Key>
@@ -3225,6 +3634,8 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <Property Name="updatedOn" Type="DateTime" Precision="3" />
           <Property Name="updatedBy" Type="Int64" />
           <NavigationProperty Name="TrnSaleOrders" Relationship="IMSModel.FK_TrnSaleOrder_MstAgent" FromRole="MstAgent" ToRole="TrnSaleOrder" />
+          <NavigationProperty Name="TrnMaterialQuotations" Relationship="IMSModel.FK_TrnMaterialQuotation_MstAgent" FromRole="MstAgent" ToRole="TrnMaterialQuotation" />
+          <NavigationProperty Name="TrnMaterialSelections" Relationship="IMSModel.FK_TrnMaterialSelection_MstAgent" FromRole="MstAgent" ToRole="TrnMaterialSelection" />
         </EntityType>
         <EntityType Name="MstCategory">
           <Key>
@@ -3255,6 +3666,8 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <NavigationProperty Name="TrnSaleOrderItems" Relationship="IMSModel.FK_TrnSaleOrderItem_MstCategory" FromRole="MstCategory" ToRole="TrnSaleOrderItem" />
           <NavigationProperty Name="TrnGoodIssueNoteItems" Relationship="IMSModel.FK_TrnGoodIssueNoteItems_MstCategory" FromRole="MstCategory" ToRole="TrnGoodIssueNoteItem" />
           <NavigationProperty Name="TrnSalesInvoiceItems" Relationship="IMSModel.FK_TrnSalesInvoiceItems_MstCategory" FromRole="MstCategory" ToRole="TrnSalesInvoiceItem" />
+          <NavigationProperty Name="TrnMaterialQuotationItems" Relationship="IMSModel.FK_TrnMaterialQuotationItems_MstCategory" FromRole="MstCategory" ToRole="TrnMaterialQuotationItem" />
+          <NavigationProperty Name="TrnMaterialSelectionItems" Relationship="IMSModel.FK_TrnMaterialSelectionItems_MstCategory" FromRole="MstCategory" ToRole="TrnMaterialSelectionItem" />
         </EntityType>
         <EntityType Name="MstCollection">
           <Key>
@@ -3288,6 +3701,8 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <NavigationProperty Name="TrnSaleOrderItems" Relationship="IMSModel.FK_TrnSaleOrderItem_MstCollection" FromRole="MstCollection" ToRole="TrnSaleOrderItem" />
           <NavigationProperty Name="TrnGoodIssueNoteItems" Relationship="IMSModel.FK_TrnGoodIssueNoteItems_MstCollection" FromRole="MstCollection" ToRole="TrnGoodIssueNoteItem" />
           <NavigationProperty Name="TrnSalesInvoiceItems" Relationship="IMSModel.FK_TrnSalesInvoiceItems_MstCollection" FromRole="MstCollection" ToRole="TrnSalesInvoiceItem" />
+          <NavigationProperty Name="TrnMaterialQuotationItems" Relationship="IMSModel.FK_TrnMaterialQuotationItems_MstCollection" FromRole="MstCollection" ToRole="TrnMaterialQuotationItem" />
+          <NavigationProperty Name="TrnMaterialSelectionItems" Relationship="IMSModel.FK_TrnMaterialSelectionItems_MstCollection" FromRole="MstCollection" ToRole="TrnMaterialSelectionItem" />
         </EntityType>
         <EntityType Name="MstCompanyLocation">
           <Key>
@@ -3339,6 +3754,7 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <NavigationProperty Name="MstCustomerAddresses" Relationship="IMSModel.FK_MstCustomerAddressDetails_MstCustomer" FromRole="MstCustomer" ToRole="MstCustomerAddress" />
           <NavigationProperty Name="TrnGoodIssueNotes" Relationship="IMSModel.FK_TrnGoodIssueNote_MstCustomer" FromRole="MstCustomer" ToRole="TrnGoodIssueNote" />
           <NavigationProperty Name="TrnSaleOrders" Relationship="IMSModel.FK_TrnSaleOrder_MstCustomer" FromRole="MstCustomer" ToRole="TrnSaleOrder" />
+          <NavigationProperty Name="TrnMaterialSelections" Relationship="IMSModel.FK_TrnMaterialSelection_MstCustomer" FromRole="MstCustomer" ToRole="TrnMaterialSelection" />
         </EntityType>
         <EntityType Name="MstCustomerAddress">
           <Key>
@@ -3485,6 +3901,8 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <NavigationProperty Name="TrnSaleOrderItems" Relationship="IMSModel.FK_TrnSaleOrderItem_MstFWRShade" FromRole="MstFWRShade" ToRole="TrnSaleOrderItem" />
           <NavigationProperty Name="TrnGoodIssueNoteItems" Relationship="IMSModel.FK_TrnGoodIssueNoteItems_MstFWRShade" FromRole="MstFWRShade" ToRole="TrnGoodIssueNoteItem" />
           <NavigationProperty Name="TrnSalesInvoiceItems" Relationship="IMSModel.FK_TrnSalesInvoiceItems_MstFWRShade" FromRole="MstFWRShade" ToRole="TrnSalesInvoiceItem" />
+          <NavigationProperty Name="TrnMaterialQuotationItems" Relationship="IMSModel.FK_TrnMaterialQuotationItems_MstFWRShade" FromRole="MstFWRShade" ToRole="TrnMaterialQuotationItem" />
+          <NavigationProperty Name="TrnMaterialSelectionItems" Relationship="IMSModel.FK_TrnMaterialSelectionItems_MstFWRShade" FromRole="MstFWRShade" ToRole="TrnMaterialSelectionItem" />
         </EntityType>
         <EntityType Name="MstHsn">
           <Key>
@@ -3530,6 +3948,8 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <NavigationProperty Name="TrnSaleOrderItems" Relationship="IMSModel.FK_TrnSaleOrderItem_MstMatSize" FromRole="MstMatSize" ToRole="TrnSaleOrderItem" />
           <NavigationProperty Name="TrnGoodIssueNoteItems" Relationship="IMSModel.FK_TrnGoodIssueNoteItems_MstMatSize" FromRole="MstMatSize" ToRole="TrnGoodIssueNoteItem" />
           <NavigationProperty Name="TrnSalesInvoiceItems" Relationship="IMSModel.FK_TrnSalesInvoiceItems_MstMatSize" FromRole="MstMatSize" ToRole="TrnSalesInvoiceItem" />
+          <NavigationProperty Name="TrnMaterialQuotationItems" Relationship="IMSModel.FK_TrnMaterialQuotationItems_MstMatSize" FromRole="MstMatSize" ToRole="TrnMaterialQuotationItem" />
+          <NavigationProperty Name="TrnMaterialSelectionItems" Relationship="IMSModel.FK_TrnMaterialSelectionItems_MstMatSize" FromRole="MstMatSize" ToRole="TrnMaterialSelectionItem" />
         </EntityType>
         <EntityType Name="MstMatThickness">
           <Key>
@@ -3545,6 +3965,8 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <NavigationProperty Name="MstMatSizes" Relationship="IMSModel.FK_MstMattressSize_MstMattressThickNess" FromRole="MstMatThickness" ToRole="MstMatSize" />
           <NavigationProperty Name="TrnPurchaseOrderItems" Relationship="IMSModel.FK_TrnPurchaseOrderItems_MstMatThickness" FromRole="MstMatThickness" ToRole="TrnPurchaseOrderItem" />
           <NavigationProperty Name="TrnGoodReceiveNoteItems" Relationship="IMSModel.FK_TrnGoodReceiveNoteItems_MstMatThickness" FromRole="MstMatThickness" ToRole="TrnGoodReceiveNoteItem" />
+          <NavigationProperty Name="TrnMaterialQuotationItems" Relationship="IMSModel.FK_TrnMaterialQuotationItems_MstMatThickness" FromRole="MstMatThickness" ToRole="TrnMaterialQuotationItem" />
+          <NavigationProperty Name="TrnMaterialSelectionItems" Relationship="IMSModel.FK_TrnMaterialSelectionItems_MstMatThickness" FromRole="MstMatThickness" ToRole="TrnMaterialSelectionItem" />
         </EntityType>
         <EntityType Name="MstMenu">
           <Key>
@@ -5563,6 +5985,298 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="TrnMaterialQuotation">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="materialSelectionId" Type="Int64" Nullable="false" />
+          <Property Name="materialQuotationNumber" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="materialQuotationDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="customerId" Type="Int64" Nullable="false" />
+          <Property Name="referById" Type="Int64" />
+          <Property Name="status" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="createdBy" Type="Int64" Nullable="false" />
+          <Property Name="updatedOn" Type="DateTime" Precision="3" />
+          <Property Name="updatedBy" Type="Int64" />
+          <NavigationProperty Name="MstAgent" Relationship="IMSModel.FK_TrnMaterialQuotation_MstAgent" FromRole="TrnMaterialQuotation" ToRole="MstAgent" />
+          <NavigationProperty Name="TrnMaterialQuotationItems" Relationship="IMSModel.FK_TrnMaterialQuotationItems_TrnMaterialQuotation" FromRole="TrnMaterialQuotation" ToRole="TrnMaterialQuotationItem" />
+          <NavigationProperty Name="TrnMaterialSelection" Relationship="IMSModel.FK_TrnMaterialQuotation_TrnMaterialSelection" FromRole="TrnMaterialQuotation" ToRole="TrnMaterialSelection" />
+        </EntityType>
+        <EntityType Name="TrnMaterialQuotationItem">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="materialQuotationId" Type="Int64" Nullable="false" />
+          <Property Name="selectionType" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="area" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="categoryId" Type="Int64" Nullable="false" />
+          <Property Name="collectionId" Type="Int64" Nullable="false" />
+          <Property Name="shadeId" Type="Int64" />
+          <Property Name="matThickNessId" Type="Int64" />
+          <Property Name="matSizeId" Type="Int64" />
+          <Property Name="matHeight" Type="Decimal" Precision="5" Scale="2" />
+          <Property Name="matWidth" Type="Decimal" Precision="5" Scale="2" />
+          <Property Name="orderQuantity" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
+          <Property Name="deliverQuantity" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
+          <Property Name="balanceQuantity" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
+          <Property Name="rate" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
+          <Property Name="discountPercentage" Type="Decimal" Nullable="false" Precision="4" Scale="2" />
+          <Property Name="amount" Type="Int32" Nullable="false" />
+          <Property Name="rateWithSGT" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
+          <Property Name="amountWithGST" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
+          <Property Name="gst" Type="Int32" />
+          <Property Name="status" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="createdBy" Type="Int64" Nullable="false" />
+          <Property Name="updatedOn" Type="DateTime" Precision="3" />
+          <Property Name="updatedBy" Type="Int64" />
+          <NavigationProperty Name="MstCategory" Relationship="IMSModel.FK_TrnMaterialQuotationItems_MstCategory" FromRole="TrnMaterialQuotationItem" ToRole="MstCategory" />
+          <NavigationProperty Name="MstCollection" Relationship="IMSModel.FK_TrnMaterialQuotationItems_MstCollection" FromRole="TrnMaterialQuotationItem" ToRole="MstCollection" />
+          <NavigationProperty Name="MstFWRShade" Relationship="IMSModel.FK_TrnMaterialQuotationItems_MstFWRShade" FromRole="TrnMaterialQuotationItem" ToRole="MstFWRShade" />
+          <NavigationProperty Name="MstMatSize" Relationship="IMSModel.FK_TrnMaterialQuotationItems_MstMatSize" FromRole="TrnMaterialQuotationItem" ToRole="MstMatSize" />
+          <NavigationProperty Name="MstMatThickness" Relationship="IMSModel.FK_TrnMaterialQuotationItems_MstMatThickness" FromRole="TrnMaterialQuotationItem" ToRole="MstMatThickness" />
+          <NavigationProperty Name="TrnMaterialQuotation" Relationship="IMSModel.FK_TrnMaterialQuotationItems_TrnMaterialQuotation" FromRole="TrnMaterialQuotationItem" ToRole="TrnMaterialQuotation" />
+        </EntityType>
+        <Association Name="FK_TrnMaterialQuotation_MstAgent">
+          <End Type="IMSModel.MstAgent" Role="MstAgent" Multiplicity="0..1" />
+          <End Type="IMSModel.TrnMaterialQuotation" Role="TrnMaterialQuotation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstAgent">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnMaterialQuotation">
+              <PropertyRef Name="referById" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnMaterialQuotationItems_MstCategory">
+          <End Type="IMSModel.MstCategory" Role="MstCategory" Multiplicity="1" />
+          <End Type="IMSModel.TrnMaterialQuotationItem" Role="TrnMaterialQuotationItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstCategory">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnMaterialQuotationItem">
+              <PropertyRef Name="categoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnMaterialQuotationItems_MstCollection">
+          <End Type="IMSModel.MstCollection" Role="MstCollection" Multiplicity="1" />
+          <End Type="IMSModel.TrnMaterialQuotationItem" Role="TrnMaterialQuotationItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstCollection">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnMaterialQuotationItem">
+              <PropertyRef Name="collectionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnMaterialQuotationItems_MstFWRShade">
+          <End Type="IMSModel.MstFWRShade" Role="MstFWRShade" Multiplicity="0..1" />
+          <End Type="IMSModel.TrnMaterialQuotationItem" Role="TrnMaterialQuotationItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstFWRShade">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnMaterialQuotationItem">
+              <PropertyRef Name="shadeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnMaterialQuotationItems_MstMatSize">
+          <End Type="IMSModel.MstMatSize" Role="MstMatSize" Multiplicity="0..1" />
+          <End Type="IMSModel.TrnMaterialQuotationItem" Role="TrnMaterialQuotationItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstMatSize">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnMaterialQuotationItem">
+              <PropertyRef Name="matSizeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnMaterialQuotationItems_MstMatThickness">
+          <End Type="IMSModel.MstMatThickness" Role="MstMatThickness" Multiplicity="0..1" />
+          <End Type="IMSModel.TrnMaterialQuotationItem" Role="TrnMaterialQuotationItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstMatThickness">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnMaterialQuotationItem">
+              <PropertyRef Name="matThickNessId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnMaterialQuotationItems_TrnMaterialQuotation">
+          <End Type="IMSModel.TrnMaterialQuotation" Role="TrnMaterialQuotation" Multiplicity="1" />
+          <End Type="IMSModel.TrnMaterialQuotationItem" Role="TrnMaterialQuotationItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TrnMaterialQuotation">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnMaterialQuotationItem">
+              <PropertyRef Name="materialQuotationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="TrnMaterialSelection">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="customerId" Type="Int64" Nullable="false" />
+          <Property Name="materialSelectionNumber" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="referById" Type="Int64" Nullable="false" />
+          <Property Name="materialSelectionDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="isQuotationCreated" Type="Int64" Nullable="false" />
+          <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="createdBy" Type="Int64" Nullable="false" />
+          <Property Name="updatedOn" Type="DateTime" Precision="3" />
+          <Property Name="updatedBy" Type="Int64" />
+          <NavigationProperty Name="MstAgent" Relationship="IMSModel.FK_TrnMaterialSelection_MstAgent" FromRole="TrnMaterialSelection" ToRole="MstAgent" />
+          <NavigationProperty Name="MstCustomer" Relationship="IMSModel.FK_TrnMaterialSelection_MstCustomer" FromRole="TrnMaterialSelection" ToRole="MstCustomer" />
+          <NavigationProperty Name="TrnMaterialQuotations" Relationship="IMSModel.FK_TrnMaterialQuotation_TrnMaterialSelection" FromRole="TrnMaterialSelection" ToRole="TrnMaterialQuotation" />
+          <NavigationProperty Name="TrnMaterialSelectionItems" Relationship="IMSModel.FK_TrnMaterialSelectionItems_TrnMaterialSelection" FromRole="TrnMaterialSelection" ToRole="TrnMaterialSelectionItem" />
+        </EntityType>
+        <EntityType Name="TrnMaterialSelectionItem">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="materialSelectionId" Type="Int64" Nullable="false" />
+          <Property Name="selectionType" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="area" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="categoryId" Type="Int64" Nullable="false" />
+          <Property Name="collectionId" Type="Int64" Nullable="false" />
+          <Property Name="shadeId" Type="Int64" />
+          <Property Name="matThicknessId" Type="Int64" />
+          <Property Name="matSizeId" Type="Int64" />
+          <Property Name="matHeight" Type="Decimal" Precision="5" Scale="2" />
+          <Property Name="matWidth" Type="Decimal" Precision="5" Scale="2" />
+          <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="createdBy" Type="Int64" Nullable="false" />
+          <Property Name="updatedOn" Type="DateTime" Precision="3" />
+          <Property Name="updatedBy" Type="Int64" />
+          <NavigationProperty Name="MstCategory" Relationship="IMSModel.FK_TrnMaterialSelectionItems_MstCategory" FromRole="TrnMaterialSelectionItem" ToRole="MstCategory" />
+          <NavigationProperty Name="MstCollection" Relationship="IMSModel.FK_TrnMaterialSelectionItems_MstCollection" FromRole="TrnMaterialSelectionItem" ToRole="MstCollection" />
+          <NavigationProperty Name="MstFWRShade" Relationship="IMSModel.FK_TrnMaterialSelectionItems_MstFWRShade" FromRole="TrnMaterialSelectionItem" ToRole="MstFWRShade" />
+          <NavigationProperty Name="MstMatSize" Relationship="IMSModel.FK_TrnMaterialSelectionItems_MstMatSize" FromRole="TrnMaterialSelectionItem" ToRole="MstMatSize" />
+          <NavigationProperty Name="MstMatThickness" Relationship="IMSModel.FK_TrnMaterialSelectionItems_MstMatThickness" FromRole="TrnMaterialSelectionItem" ToRole="MstMatThickness" />
+          <NavigationProperty Name="TrnMaterialSelection" Relationship="IMSModel.FK_TrnMaterialSelectionItems_TrnMaterialSelection" FromRole="TrnMaterialSelectionItem" ToRole="TrnMaterialSelection" />
+        </EntityType>
+        <Association Name="FK_TrnMaterialSelection_MstAgent">
+          <End Type="IMSModel.MstAgent" Role="MstAgent" Multiplicity="1" />
+          <End Type="IMSModel.TrnMaterialSelection" Role="TrnMaterialSelection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstAgent">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnMaterialSelection">
+              <PropertyRef Name="referById" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnMaterialSelectionItems_MstCategory">
+          <End Type="IMSModel.MstCategory" Role="MstCategory" Multiplicity="1" />
+          <End Type="IMSModel.TrnMaterialSelectionItem" Role="TrnMaterialSelectionItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstCategory">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnMaterialSelectionItem">
+              <PropertyRef Name="categoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnMaterialSelectionItems_MstCollection">
+          <End Type="IMSModel.MstCollection" Role="MstCollection" Multiplicity="1" />
+          <End Type="IMSModel.TrnMaterialSelectionItem" Role="TrnMaterialSelectionItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstCollection">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnMaterialSelectionItem">
+              <PropertyRef Name="collectionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnMaterialSelection_MstCustomer">
+          <End Type="IMSModel.MstCustomer" Role="MstCustomer" Multiplicity="1" />
+          <End Type="IMSModel.TrnMaterialSelection" Role="TrnMaterialSelection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstCustomer">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnMaterialSelection">
+              <PropertyRef Name="customerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnMaterialSelectionItems_MstFWRShade">
+          <End Type="IMSModel.MstFWRShade" Role="MstFWRShade" Multiplicity="0..1" />
+          <End Type="IMSModel.TrnMaterialSelectionItem" Role="TrnMaterialSelectionItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstFWRShade">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnMaterialSelectionItem">
+              <PropertyRef Name="shadeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnMaterialSelectionItems_MstMatSize">
+          <End Type="IMSModel.MstMatSize" Role="MstMatSize" Multiplicity="0..1" />
+          <End Type="IMSModel.TrnMaterialSelectionItem" Role="TrnMaterialSelectionItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstMatSize">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnMaterialSelectionItem">
+              <PropertyRef Name="matSizeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnMaterialSelectionItems_MstMatThickness">
+          <End Type="IMSModel.MstMatThickness" Role="MstMatThickness" Multiplicity="0..1" />
+          <End Type="IMSModel.TrnMaterialSelectionItem" Role="TrnMaterialSelectionItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstMatThickness">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnMaterialSelectionItem">
+              <PropertyRef Name="matThicknessId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnMaterialQuotation_TrnMaterialSelection">
+          <End Type="IMSModel.TrnMaterialSelection" Role="TrnMaterialSelection" Multiplicity="1" />
+          <End Type="IMSModel.TrnMaterialQuotation" Role="TrnMaterialQuotation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TrnMaterialSelection">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnMaterialQuotation">
+              <PropertyRef Name="materialSelectionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnMaterialSelectionItems_TrnMaterialSelection">
+          <End Type="IMSModel.TrnMaterialSelection" Role="TrnMaterialSelection" Multiplicity="1" />
+          <End Type="IMSModel.TrnMaterialSelectionItem" Role="TrnMaterialSelectionItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TrnMaterialSelection">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnMaterialSelectionItem">
+              <PropertyRef Name="materialSelectionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -6448,6 +7162,91 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
                 <ScalarProperty Name="invoiceNumber" ColumnName="invoiceNumber" />
                 <ScalarProperty Name="salesOrderId" ColumnName="salesOrderId" />
                 <ScalarProperty Name="goodIssueNoteId" ColumnName="goodIssueNoteId" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TrnMaterialQuotations">
+            <EntityTypeMapping TypeName="IMSModel.TrnMaterialQuotation">
+              <MappingFragment StoreEntitySet="TrnMaterialQuotation">
+                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
+                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="referById" ColumnName="referById" />
+                <ScalarProperty Name="customerId" ColumnName="customerId" />
+                <ScalarProperty Name="materialQuotationDate" ColumnName="materialQuotationDate" />
+                <ScalarProperty Name="materialQuotationNumber" ColumnName="materialQuotationNumber" />
+                <ScalarProperty Name="materialSelectionId" ColumnName="materialSelectionId" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TrnMaterialQuotationItems">
+            <EntityTypeMapping TypeName="IMSModel.TrnMaterialQuotationItem">
+              <MappingFragment StoreEntitySet="TrnMaterialQuotationItems">
+                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
+                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="gst" ColumnName="gst" />
+                <ScalarProperty Name="amountWithGST" ColumnName="amountWithGST" />
+                <ScalarProperty Name="rateWithSGT" ColumnName="rateWithSGT" />
+                <ScalarProperty Name="amount" ColumnName="amount" />
+                <ScalarProperty Name="discountPercentage" ColumnName="discountPercentage" />
+                <ScalarProperty Name="rate" ColumnName="rate" />
+                <ScalarProperty Name="balanceQuantity" ColumnName="balanceQuantity" />
+                <ScalarProperty Name="deliverQuantity" ColumnName="deliverQuantity" />
+                <ScalarProperty Name="orderQuantity" ColumnName="orderQuantity" />
+                <ScalarProperty Name="matWidth" ColumnName="matWidth" />
+                <ScalarProperty Name="matHeight" ColumnName="matHeight" />
+                <ScalarProperty Name="matSizeId" ColumnName="matSizeId" />
+                <ScalarProperty Name="matThickNessId" ColumnName="matThickNessId" />
+                <ScalarProperty Name="shadeId" ColumnName="shadeId" />
+                <ScalarProperty Name="collectionId" ColumnName="collectionId" />
+                <ScalarProperty Name="categoryId" ColumnName="categoryId" />
+                <ScalarProperty Name="area" ColumnName="area" />
+                <ScalarProperty Name="selectionType" ColumnName="selectionType" />
+                <ScalarProperty Name="materialQuotationId" ColumnName="materialQuotationId" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TrnMaterialSelections">
+            <EntityTypeMapping TypeName="IMSModel.TrnMaterialSelection">
+              <MappingFragment StoreEntitySet="TrnMaterialSelection">
+                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
+                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
+                <ScalarProperty Name="isQuotationCreated" ColumnName="isQuotationCreated" />
+                <ScalarProperty Name="materialSelectionDate" ColumnName="materialSelectionDate" />
+                <ScalarProperty Name="referById" ColumnName="referById" />
+                <ScalarProperty Name="materialSelectionNumber" ColumnName="materialSelectionNumber" />
+                <ScalarProperty Name="customerId" ColumnName="customerId" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TrnMaterialSelectionItems">
+            <EntityTypeMapping TypeName="IMSModel.TrnMaterialSelectionItem">
+              <MappingFragment StoreEntitySet="TrnMaterialSelectionItems">
+                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
+                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
+                <ScalarProperty Name="matWidth" ColumnName="matWidth" />
+                <ScalarProperty Name="matHeight" ColumnName="matHeight" />
+                <ScalarProperty Name="matSizeId" ColumnName="matSizeId" />
+                <ScalarProperty Name="matThicknessId" ColumnName="matThicknessId" />
+                <ScalarProperty Name="shadeId" ColumnName="shadeId" />
+                <ScalarProperty Name="collectionId" ColumnName="collectionId" />
+                <ScalarProperty Name="categoryId" ColumnName="categoryId" />
+                <ScalarProperty Name="area" ColumnName="area" />
+                <ScalarProperty Name="selectionType" ColumnName="selectionType" />
+                <ScalarProperty Name="materialSelectionId" ColumnName="materialSelectionId" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
