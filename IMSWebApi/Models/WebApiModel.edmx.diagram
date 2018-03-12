@@ -161,22 +161,23 @@
         <AssociationConnector Association="IMSModel.FK_TrnMaterialSelection_MstAgent" />
         <AssociationConnector Association="IMSModel.FK_TrnMaterialSelection_MstCustomer" />
         <AssociationConnector Association="IMSModel.FK_TrnMaterialQuotation_TrnMaterialSelection" />
-        <EntityTypeShape EntityType="IMSModel.TrnMaterialQuotationItem" Width="1.5" PointX="30.75" PointY="44.375" />
         <EntityTypeShape EntityType="IMSModel.TrnMaterialSelectionItem" Width="1.5" PointX="24.75" PointY="30.875" />
-        <AssociationConnector Association="IMSModel.FK_TrnMaterialQuotationItems_MstCategory" />
         <AssociationConnector Association="IMSModel.FK_TrnMaterialSelectionItems_MstCategory" />
-        <AssociationConnector Association="IMSModel.FK_TrnMaterialQuotationItems_MstCollection" />
         <AssociationConnector Association="IMSModel.FK_TrnMaterialSelectionItems_MstCollection" />
-        <AssociationConnector Association="IMSModel.FK_TrnMaterialQuotationItems_MstFWRShade" />
         <AssociationConnector Association="IMSModel.FK_TrnMaterialSelectionItems_MstFWRShade" />
-        <AssociationConnector Association="IMSModel.FK_TrnMaterialQuotationItems_MstMatSize" />
         <AssociationConnector Association="IMSModel.FK_TrnMaterialSelectionItems_MstMatSize" />
-        <AssociationConnector Association="IMSModel.FK_TrnMaterialQuotationItems_MstMatThickness" />
         <AssociationConnector Association="IMSModel.FK_TrnMaterialSelectionItems_MstMatThickness" />
-        <AssociationConnector Association="IMSModel.FK_TrnMaterialQuotationItems_MstQuality" />
         <AssociationConnector Association="IMSModel.FK_TrnMaterialSelectionItems_MstQuality" />
-        <AssociationConnector Association="IMSModel.FK_TrnMaterialQuotationItems_TrnMaterialQuotation" />
         <AssociationConnector Association="IMSModel.FK_TrnMaterialSelectionItems_TrnMaterialSelection" />
+        <EntityTypeShape EntityType="IMSModel.TrnMaterialQuotationItem" Width="1.5" PointX="30.75" PointY="44.5" />
+        <AssociationConnector Association="IMSModel.FK_TrnMaterialQuotationItems_MstCategory" />
+        <AssociationConnector Association="IMSModel.FK_TrnMaterialQuotationItems_MstCollection" />
+        <AssociationConnector Association="IMSModel.FK_TrnMaterialQuotation_MstCustomer" />
+        <AssociationConnector Association="IMSModel.FK_TrnMaterialQuotationItems_MstFWRShade" />
+        <AssociationConnector Association="IMSModel.FK_TrnMaterialQuotationItems_MstMatSize" />
+        <AssociationConnector Association="IMSModel.FK_TrnMaterialQuotationItems_MstMatThickness" />
+        <AssociationConnector Association="IMSModel.FK_TrnMaterialQuotationItems_MstQuality" />
+        <AssociationConnector Association="IMSModel.FK_TrnMaterialQuotationItems_TrnMaterialQuotation" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

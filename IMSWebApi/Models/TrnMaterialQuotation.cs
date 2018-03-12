@@ -33,6 +33,7 @@ namespace IMSWebApi.Models
     
         public virtual MstAgent MstAgent { get; set; }
         public virtual TrnMaterialSelection TrnMaterialSelection { get; set; }
+        public virtual MstCustomer MstCustomer { get; set; }
         public virtual ICollection<TrnMaterialQuotationItem> TrnMaterialQuotationItems { get; set; }
     }
 }
