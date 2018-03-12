@@ -35,7 +35,12 @@ namespace IMSWebApi.ViewModel
         public decimal amountWithGST { get; set; }
         public Nullable<int> gst { get; set; }
         public string status { get; set; }
-        
+
+        public string categoryName { get; set; }
+        public string collectionName { get; set; }
+        public string serialno { get; set; }
+        public string size { get; set; }
+
         public virtual VMCategory MstCategory { get; set; }
         public virtual VMCollection MstCollection { get; set; }
         public virtual VMFWRShade MstFWRShade { get; set; }

@@ -31,5 +31,9 @@ namespace IMSWebApi.Models
         public decimal sellingRatePerKG { get; set; }
         public string sellingRatePerKGWithGst { get; set; }
         public Nullable<decimal> availableStock { get; set; }
+        public long collectionId { get; set; }
+        public long qualityId { get; set; }
+        public long desityId { get; set; }
+        public long sizeId { get; set; }
     }
 }

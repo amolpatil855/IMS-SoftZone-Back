@@ -19,7 +19,10 @@ namespace IMSWebApi.ViewModel
         public Nullable<System.DateTime> updatedOn { get; set; }
         public Nullable<long> updatedBy { get; set; }
 
+        public string customerName { get; set; }
+
         public virtual VMAgent MstAgent { get; set; }
+        public virtual VMCustomer MstCustomer { get; set; }
         public virtual VMTrnMaterialSelection TrnMaterialSelection { get; set; }
         public virtual List<VMTrnMaterialQuotationItem> TrnMaterialQuotationItems { get; set; }
     }
