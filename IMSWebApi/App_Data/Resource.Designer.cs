@@ -376,6 +376,15 @@ namespace IMSWebApi.App_Data {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to GRN Added Successfully.
+        /// </summary>
+        public static string GRNAdded {
+            get {
+                return ResourceManager.GetString("GRNAdded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Hsn Added Successfully.
         /// </summary>
         public static string HsnAdded {
@@ -462,6 +471,15 @@ namespace IMSWebApi.App_Data {
         public static string MatThicknessUpdated {
             get {
                 return ResourceManager.GetString("MatThicknessUpdated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Material Selection Added Successfully.
+        /// </summary>
+        public static string MSAdded {
+            get {
+                return ResourceManager.GetString("MSAdded", resourceCulture);
             }
         }
         

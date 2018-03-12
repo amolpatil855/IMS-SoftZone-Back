@@ -130,7 +130,17 @@ namespace IMSWebApi.App_Start
             Mapper.CreateMap<TrnSalesInvoiceItem, VMTrnSalesInvoiceItem>();
             Mapper.CreateMap<VMTrnSalesInvoiceItem, TrnSalesInvoiceItem>();
 
+            Mapper.CreateMap<TrnMaterialSelection, VMTrnMaterialSelection>();
+            Mapper.CreateMap<VMTrnMaterialSelection, TrnMaterialSelection>();
 
+            Mapper.CreateMap<TrnMaterialSelectionItem, VMTrnMaterialSelectionItem>();
+            Mapper.CreateMap<VMTrnMaterialSelectionItem, TrnMaterialSelectionItem>();
+
+            Mapper.CreateMap<TrnMaterialQuotation, VMTrnMaterialQuotation>();
+            Mapper.CreateMap<VMTrnMaterialQuotation, TrnMaterialQuotation>();
+
+            Mapper.CreateMap<TrnMaterialQuotationItem, VMTrnMaterialQuotationItem>();
+            Mapper.CreateMap<VMTrnMaterialQuotationItem, TrnMaterialQuotationItem>();
         }
     }
 }

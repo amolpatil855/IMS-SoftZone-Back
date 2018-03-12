@@ -281,6 +281,8 @@
     <Compile Include="Controllers\SupplierController.cs" />
     <Compile Include="Controllers\TrnGoodIssueNoteController.cs" />
     <Compile Include="Controllers\TrnGoodReceiveNoteController.cs" />
+    <Compile Include="Controllers\TrnMaterialQuotationController.cs" />
+    <Compile Include="Controllers\TrnMaterialSelectionController.cs" />
     <Compile Include="Controllers\TrnProductStockController.cs" />
     <Compile Include="Controllers\TrnProductStockDetailController.cs" />
     <Compile Include="Controllers\TrnPurchaseOrderController.cs" />
@@ -388,6 +390,18 @@
     <Compile Include="Models\TrnGoodReceiveNoteItem.cs">
       <DependentUpon>WebApiModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\TrnMaterialQuotation.cs">
+      <DependentUpon>WebApiModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TrnMaterialQuotationItem.cs">
+      <DependentUpon>WebApiModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TrnMaterialSelection.cs">
+      <DependentUpon>WebApiModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TrnMaterialSelectionItem.cs">
+      <DependentUpon>WebApiModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\TrnProductStock.cs">
       <DependentUpon>WebApiModel.tt</DependentUpon>
     </Compile>
@@ -463,6 +477,8 @@
     <Compile Include="Services\MatThicknessService.cs" />
     <Compile Include="Services\MenuService.cs" />
     <Compile Include="Services\TrnGoodIssueNoteService.cs" />
+    <Compile Include="Services\TrnMaterialQuotationService.cs" />
+    <Compile Include="Services\TrnMaterialSelectionService.cs" />
     <Compile Include="Services\TrnProductStockService.cs" />
     <Compile Include="Services\QualityService.cs" />
     <Compile Include="Services\RoleService.cs" />
@@ -497,6 +513,10 @@
     <Compile Include="ViewModel\VMProductDetails.cs" />
     <Compile Include="ViewModel\VMTrnGoodIssueNote.cs" />
     <Compile Include="ViewModel\VMTrnGoodIssueNoteItem.cs" />
+    <Compile Include="ViewModel\VMTrnMaterialQuotation.cs" />
+    <Compile Include="ViewModel\VMTrnMaterialQuotationItem.cs" />
+    <Compile Include="ViewModel\VMTrnMaterialSelection.cs" />
+    <Compile Include="ViewModel\VMTrnMaterialSelectionItem.cs" />
     <Compile Include="ViewModel\VMTrnProductStock.cs" />
     <Compile Include="ViewModel\VMQuality.cs" />
     <Compile Include="ViewModel\VMFWRShade.cs" />
