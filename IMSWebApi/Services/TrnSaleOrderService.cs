@@ -143,7 +143,7 @@ namespace IMSWebApi.Services
                 if (!_IsCustomer)
                 {
                     VMTrnSaleOrder VMSaleOrderToPost = Mapper.Map<TrnSaleOrder, VMTrnSaleOrder>(saleOrderToPost);
-                    _trnGoodIssueNoteServie.postGoodIssueNote(VMSaleOrderToPost);
+                    _trnGoodIssueNoteServie.postGoodIssueNote(VMSaleOrderToPost,null);
                     emailNotification.approvedSONotificationForCustomer(saleOrder, "ApprovedSONotificationForCustomer", customerEmail);
                 }
                 else
@@ -266,7 +266,7 @@ namespace IMSWebApi.Services
                 }
                 repo.SaveChanges();
                 VMTrnSaleOrder VMSaleOrder = Mapper.Map<TrnSaleOrder, VMTrnSaleOrder>(saleOrder);
-                _trnGoodIssueNoteServie.postGoodIssueNote(VMSaleOrder);
+                _trnGoodIssueNoteServie.postGoodIssueNote(VMSaleOrder,null);
 
                 string customerEmail = saleOrder.MstCustomer.email;
 

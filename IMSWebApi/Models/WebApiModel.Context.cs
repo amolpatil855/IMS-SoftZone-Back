@@ -57,7 +57,6 @@ namespace IMSWebApi.Models
         public virtual DbSet<MstAccessory> MstAccessories { get; set; }
         public virtual DbSet<TrnGoodReceiveNoteItem> TrnGoodReceiveNoteItems { get; set; }
         public virtual DbSet<TrnSaleOrderItem> TrnSaleOrderItems { get; set; }
-        public virtual DbSet<TrnGoodIssueNote> TrnGoodIssueNotes { get; set; }
         public virtual DbSet<TrnGoodIssueNoteItem> TrnGoodIssueNoteItems { get; set; }
         public virtual DbSet<vwAccessory> vwAccessories { get; set; }
         public virtual DbSet<vwFoam> vwFoams { get; set; }
@@ -72,5 +71,6 @@ namespace IMSWebApi.Models
         public virtual DbSet<TrnMaterialSelection> TrnMaterialSelections { get; set; }
         public virtual DbSet<TrnMaterialSelectionItem> TrnMaterialSelectionItems { get; set; }
         public virtual DbSet<TrnMaterialQuotationItem> TrnMaterialQuotationItems { get; set; }
+        public virtual DbSet<TrnGoodIssueNote> TrnGoodIssueNotes { get; set; }
     }
 }

@@ -23,8 +23,10 @@ namespace IMSWebApi.Models
         public long id { get; set; }
         public string ginNumber { get; set; }
         public long customerId { get; set; }
-        public long salesOrderId { get; set; }
+        public Nullable<long> salesOrderId { get; set; }
         public string salesOrderNumber { get; set; }
+        public Nullable<long> materialQuotationId { get; set; }
+        public string materialQuotationNumber { get; set; }
         public Nullable<System.DateTime> ginDate { get; set; }
         public string status { get; set; }
         public System.DateTime createdOn { get; set; }
@@ -33,8 +35,8 @@ namespace IMSWebApi.Models
         public Nullable<long> updatedBy { get; set; }
     
         public virtual MstCustomer MstCustomer { get; set; }
-        public virtual ICollection<TrnGoodIssueNoteItem> TrnGoodIssueNoteItems { get; set; }
         public virtual TrnSaleOrder TrnSaleOrder { get; set; }
+        public virtual ICollection<TrnGoodIssueNoteItem> TrnGoodIssueNoteItems { get; set; }
         public virtual ICollection<TrnSalesInvoice> TrnSalesInvoices { get; set; }
     }
 }

@@ -12,9 +12,10 @@ namespace IMSWebApi.ViewModel
         public string ginNumber { get; set; }
         [Required]
         public long customerId { get; set; }
-        [Required]
-        public long salesOrderId { get; set; }
+        public Nullable<long> salesOrderId { get; set; }
         public string salesOrderNumber { get; set; }
+        public Nullable<long> materialQuotationId { get; set; }
+        public string materialQuotationNumber { get; set; }
         public Nullable<System.DateTime> ginDate { get; set; }
         public string status { get; set; }
 
