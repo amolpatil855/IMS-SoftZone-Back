@@ -135,8 +135,8 @@ namespace IMSWebApi.Services
                     salesInvoiceItem.rateWithGST = salesInvoiceItem.rate + (salesInvoiceItem.rate * salesInvoiceItem.gst) / 100;
                     //salesInvoiceItem.amountWithGST = Convert.ToInt32(Math.Round((Convert.ToDecimal(salesInvoiceItem.rateWithGST) - (Convert.ToDecimal(salesInvoiceItem.rateWithGST) * Convert.ToDecimal(ginItem.discountPercentage)) / 100) * Convert.ToDecimal(ginItem.issuedQuantity))); 
 
-                    //salesInvoiceItem.amountWithGST = Convert.ToInt32(Math.Round(Convert.ToDecimal(discountAmt + ((discountAmt * salesInvoiceItem.gst) / 100)),MidpointRounding.AwayFromZero));
-                    salesInvoiceItem.amountWithGST = Convert.ToInt32(Math.Round(Convert.ToDecimal(salesInvoiceItem.amount + ((salesInvoiceItem.amount * salesInvoiceItem.gst) / 100)), MidpointRounding.AwayFromZero));
+                    salesInvoiceItem.amountWithGST = Convert.ToInt32(Math.Round(Convert.ToDecimal(discountAmt + ((discountAmt * salesInvoiceItem.gst) / 100)),MidpointRounding.AwayFromZero));
+                    //salesInvoiceItem.amountWithGST = Convert.ToInt32(Math.Round(Convert.ToDecimal(salesInvoiceItem.amount + ((salesInvoiceItem.amount * salesInvoiceItem.gst) / 100)), MidpointRounding.AwayFromZero));
                     salesInvoiceItem.createdOn = DateTime.Now;
                     salesInvoiceItem.createdBy = _LoggedInuserId;
                     salesInvoice.TrnSalesInvoiceItems.Add(salesInvoiceItem);

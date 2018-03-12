@@ -81,7 +81,7 @@ namespace IMSWebApi.Services
                 ginItem.serialno = ginItem.MstCategory.code.Equals("Fabric")
                                 || ginItem.MstCategory.code.Equals("Rug")
                                 || ginItem.MstCategory.code.Equals("Wallpaper")
-                                ? ginItem.MstFWRShade.serialNumber + "(" + ginItem.MstFWRShade.shadeCode + ")" : null;
+                                ? ginItem.MstFWRShade.serialNumber + "(" + ginItem.MstFWRShade.shadeCode + "-" + ginItem.MstFWRShade.MstFWRDesign.designCode + ")" : null;
                 ginItem.size = ginItem.MstMatSize != null ? ginItem.MstMatSize.sizeCode + " (" + ginItem.MstMatSize.MstMatThickNess.thicknessCode + "-" + ginItem.MstMatSize.MstQuality.qualityCode + ")" :
                             ginItem.MstFomSize != null ? ginItem.MstFomSize.itemCode : null;
                 ginItem.accessoryName = ginItem.accessoryId != null ? ginItem.MstAccessory.name : null;
