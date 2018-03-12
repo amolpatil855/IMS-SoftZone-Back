@@ -54,5 +54,38 @@ namespace IMSWebApi.Services
                 .OrderBy(c => c.code)
                 .Select(c => new VMLookUpItem { value = c.id, label = c.code }).ToList();
         }
+
+        public List<VMLookUpItem> getCategoryLookUpBySelectionType(string selectionType)
+        {
+            if (selectionType.Equals("Sofa") || selectionType.Equals("Bedback"))
+            {
+                return repo.MstCategories
+                       .Where(s => s.code == "Fabric")
+                       .OrderBy(s => s.code)
+                       .Select(s => new VMLookUpItem { value = s.id, label = s.code }).ToList();
+            }
+            else if (selectionType.Equals("Mattress"))
+            {
+                return repo.MstCategories
+                      .Where(s => s.code == "Mattress")
+                      .OrderBy(s => s.code)
+                      .Select(s => new VMLookUpItem { value = s.id, label = s.code }).ToList();
+            }
+            else if (selectionType.Equals("Rug"))
+            {
+                return repo.MstCategories
+                .Where(s => s.code == "Rug")
+                .OrderBy(s => s.code)
+                .Select(s => new VMLookUpItem { value = s.id, label = s.code }).ToList();
+            }
+            else
+            {
+                return repo.MstCategories
+                .Where(s => s.code == "Wallpaper")
+                .OrderBy(s => s.code)
+                .Select(s => new VMLookUpItem { value = s.id, label = s.code }).ToList();
+            }
+
+        }
     }
 }

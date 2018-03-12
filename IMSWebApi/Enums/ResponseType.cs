@@ -43,4 +43,9 @@ namespace IMSWebApi.Enums
         Created = 1,
         Approved = 2
     }
+
+    public enum MaterialQuotationStatus
+    {
+        Created = 1
+    }
 }

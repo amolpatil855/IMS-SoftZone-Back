@@ -15,6 +15,7 @@ namespace IMSWebApi.ViewModel
         public long collectionId { get; set; }
         public Nullable<long> shadeId { get; set; }
         public Nullable<long> matThicknessId { get; set; }
+        public Nullable<long> qualityId { get; set; }
         public Nullable<long> matSizeId { get; set; }
         public Nullable<decimal> matHeight { get; set; }
         public Nullable<decimal> matWidth { get; set; }
@@ -33,6 +34,7 @@ namespace IMSWebApi.ViewModel
         public virtual VMFWRShade MstFWRShade { get; set; }
         public virtual VMMatSize MstMatSize { get; set; }
         public virtual VMMatThickness MstMatThickness { get; set; }
+        public virtual VMQuality MstQuality { get; set; }
         public virtual VMTrnMaterialSelection TrnMaterialSelection { get; set; }
     }
 }

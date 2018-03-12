@@ -109,7 +109,7 @@ namespace IMSWebApi.Services
                 goodIssueNoteToPost.salesOrderId = saleOrder.id;
                 goodIssueNoteToPost.salesOrderNumber = saleOrder.orderNumber;
                 var financialYear = repo.MstFinancialYears.Where(f => f.startDate <= saleOrder.orderDate && f.endDate >= saleOrder.orderDate).FirstOrDefault();
-                string orderNo = generateOrderNumber.orderNumber(financialYear.startDate.ToString("yy"), financialYear.endDate.ToString("yy"), financialYear.ginNumber);
+                string orderNo = generateOrderNumber.orderNumber(financialYear.startDate.ToString("yy"), financialYear.endDate.ToString("yy"), financialYear.ginNumber,"GI");
                 goodIssueNoteToPost.ginNumber = orderNo;
                 goodIssueNoteToPost.ginDate = DateTime.Now;
                 goodIssueNoteToPost.status = GINStatus.Created.ToString();

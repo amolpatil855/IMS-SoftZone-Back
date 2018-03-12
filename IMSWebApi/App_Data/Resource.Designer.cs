@@ -484,6 +484,15 @@ namespace IMSWebApi.App_Data {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Material Selection Updated Successfully.
+        /// </summary>
+        public static string MSUpdated {
+            get {
+                return ResourceManager.GetString("MSUpdated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Old Password didn&apos;t Matched.
         /// </summary>
         public static string OldPasswordMismatched {
@@ -597,6 +606,15 @@ namespace IMSWebApi.App_Data {
         public static string QualityUpdated {
             get {
                 return ResourceManager.GetString("QualityUpdated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Quotation Created for this Material Selection.
+        /// </summary>
+        public static string QuotationCreated {
+            get {
+                return ResourceManager.GetString("QuotationCreated", resourceCulture);
             }
         }
         
