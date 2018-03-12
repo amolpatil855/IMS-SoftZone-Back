@@ -7,9 +7,9 @@ namespace IMSWebApi.Common
 {
     public class GenerateOrderNumber
     {
-        public string orderNumber(string startYear,string endYear,int orderNumber)
+        public string orderNumber(string startYear,string endYear,int orderNumber,string initials)
         {
-            string result = "FY" + startYear + endYear + "-" + orderNumber.ToString().PadLeft(5, '0');
+            string result = initials + startYear + endYear + "-" + orderNumber.ToString().PadLeft(5, '0');
             return result;
         }
     }

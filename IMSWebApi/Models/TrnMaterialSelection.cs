@@ -25,7 +25,7 @@ namespace IMSWebApi.Models
         public string materialSelectionNumber { get; set; }
         public long referById { get; set; }
         public System.DateTime materialSelectionDate { get; set; }
-        public long isQuotationCreated { get; set; }
+        public bool isQuotationCreated { get; set; }
         public System.DateTime createdOn { get; set; }
         public long createdBy { get; set; }
         public Nullable<System.DateTime> updatedOn { get; set; }

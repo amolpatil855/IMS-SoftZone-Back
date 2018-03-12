@@ -32,7 +32,7 @@ namespace IMSWebApi.Models
         public Nullable<long> updatedBy { get; set; }
     
         public virtual MstAgent MstAgent { get; set; }
-        public virtual ICollection<TrnMaterialQuotationItem> TrnMaterialQuotationItems { get; set; }
         public virtual TrnMaterialSelection TrnMaterialSelection { get; set; }
+        public virtual ICollection<TrnMaterialQuotationItem> TrnMaterialQuotationItems { get; set; }
     }
 }

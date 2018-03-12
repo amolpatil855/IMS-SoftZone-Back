@@ -80,6 +80,13 @@ namespace IMSWebApi.Services
                 .Select(s => new VMLookUpItem { value = s.id, label = s.name }).ToList();
         }
 
+        public List<VMLookUpItem> getCustomerLookUpWithoutWholesaleCustomer()
+        {
+            return repo.MstCustomers.Where(c=>c.isWholesaleCustomer != true)
+                .OrderBy(s => s.code)
+                .Select(s => new VMLookUpItem { value = s.id, label = s.name }).ToList();
+        }
+
         public List<VMCustomerAddress> getCustomerAddressByCustomerId(Int64 customerId)
         {
             var result = repo.MstCustomerAddresses.Where(ca => ca.customerId == customerId).ToList();

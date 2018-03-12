@@ -157,6 +157,14 @@ namespace IMSWebApi.Controllers
         }
 
         [HttpGet]
+        [Route("api/Common/GetCustomerLookUpWithoutWholesaleCustomer")]
+        public IHttpActionResult GetCustomerLookUpWithoutWholesaleCustomer()
+        {
+            var result = _customerService.getCustomerLookUpWithoutWholesaleCustomer();
+            return Ok(result);
+        }
+
+        [HttpGet]
         [Route("api/Common/GetDesignLookupByQuality")]
         public IHttpActionResult GetDesignLookupByQuality(long qualityid)
         {
@@ -356,5 +364,15 @@ namespace IMSWebApi.Controllers
             var result = _courierService.getCourierLookup();
             return Ok(result);
         }
+
+        [HttpGet]
+        [Route("api/Common/GetCategoryLookupBySelectionType")]
+        public IHttpActionResult GetCategoryLookupBySelectionType(string selectionType)
+        {
+            var result = _categoryService.getCategoryLookUpBySelectionType(selectionType);
+            return Ok(result);
+        }
+
+
     }
 }

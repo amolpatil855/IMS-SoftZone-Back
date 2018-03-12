@@ -21,7 +21,8 @@ namespace IMSWebApi.Models
         public long categoryId { get; set; }
         public long collectionId { get; set; }
         public Nullable<long> shadeId { get; set; }
-        public Nullable<long> matThickNessId { get; set; }
+        public Nullable<long> matThicknessId { get; set; }
+        public Nullable<long> qualityId { get; set; }
         public Nullable<long> matSizeId { get; set; }
         public Nullable<decimal> matHeight { get; set; }
         public Nullable<decimal> matWidth { get; set; }
@@ -45,6 +46,7 @@ namespace IMSWebApi.Models
         public virtual MstFWRShade MstFWRShade { get; set; }
         public virtual MstMatSize MstMatSize { get; set; }
         public virtual MstMatThickness MstMatThickness { get; set; }
+        public virtual MstQuality MstQuality { get; set; }
         public virtual TrnMaterialQuotation TrnMaterialQuotation { get; set; }
     }
 }

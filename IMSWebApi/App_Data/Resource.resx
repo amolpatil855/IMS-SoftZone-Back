@@ -381,4 +381,10 @@
   <data name="MSAdded" xml:space="preserve">
     <value>Material Selection Added Successfully</value>
   </data>
+  <data name="MSUpdated" xml:space="preserve">
+    <value>Material Selection Updated Successfully</value>
+  </data>
+  <data name="QuotationCreated" xml:space="preserve">
+    <value>Quotation Created for this Material Selection</value>
+  </data>
 </root>
