@@ -163,6 +163,7 @@ namespace IMSWebApi.Services
                 var saleOrderToPut = repo.TrnSaleOrders.Where(q => q.id == saleOrder.id).FirstOrDefault();
 
                 saleOrderToPut.orderNumber = saleOrder.orderNumber;
+                saleOrderToPut.shippingAddressId = saleOrder.shippingAddressId;
                 saleOrderToPut.courierId = saleOrder.courierId;
                 saleOrderToPut.courierMode = saleOrder.courierMode;
                 saleOrderToPut.referById = saleOrder.referById;

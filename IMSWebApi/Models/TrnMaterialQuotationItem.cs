@@ -32,7 +32,7 @@ namespace IMSWebApi.Models
         public decimal rate { get; set; }
         public decimal discountPercentage { get; set; }
         public int amount { get; set; }
-        public decimal rateWithSGT { get; set; }
+        public decimal rateWithGST { get; set; }
         public decimal amountWithGST { get; set; }
         public Nullable<int> gst { get; set; }
         public string status { get; set; }

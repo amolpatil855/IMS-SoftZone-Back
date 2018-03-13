@@ -77,14 +77,14 @@ namespace IMSWebApi.Services
         {
             return repo.MstCustomers
                 .OrderBy(s => s.code)
-                .Select(s => new VMLookUpItem { value = s.id, label = s.name }).ToList();
+                .Select(s => new VMLookUpItem { value = s.id, label = s.name + " (" + s.phone + ")"  }).ToList();
         }
 
         public List<VMLookUpItem> getCustomerLookUpWithoutWholesaleCustomer()
         {
             return repo.MstCustomers.Where(c=>c.isWholesaleCustomer != true)
                 .OrderBy(s => s.code)
-                .Select(s => new VMLookUpItem { value = s.id, label = s.name }).ToList();
+                .Select(s => new VMLookUpItem { value = s.id, label = s.name + " (" + s.phone + ")" }).ToList();
         }
 
         public List<VMCustomerAddress> getCustomerAddressByCustomerId(Int64 customerId)
@@ -168,6 +168,7 @@ namespace IMSWebApi.Services
                 customerToPut.alternateEmail1 = customer.alternateEmail1;
                 customerToPut.alternateEmail2 = customer.alternateEmail2;
                 customerToPut.phone = customer.phone;
+                customerToPut.type = customer.type;
                 customerToPut.alternatePhone1 = customer.alternatePhone1;
                 customerToPut.alternatePhone2 = customer.alternatePhone2;
                 customerToPut.isWholesaleCustomer = customer.isWholesaleCustomer;

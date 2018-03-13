@@ -16,8 +16,8 @@ namespace IMSWebApi.Models
     {
         public TrnMaterialSelection()
         {
-            this.TrnMaterialQuotations = new HashSet<TrnMaterialQuotation>();
             this.TrnMaterialSelectionItems = new HashSet<TrnMaterialSelectionItem>();
+            this.TrnMaterialQuotations = new HashSet<TrnMaterialQuotation>();
         }
     
         public long id { get; set; }
@@ -32,8 +32,8 @@ namespace IMSWebApi.Models
         public Nullable<long> updatedBy { get; set; }
     
         public virtual MstAgent MstAgent { get; set; }
+        public virtual ICollection<TrnMaterialSelectionItem> TrnMaterialSelectionItems { get; set; }
         public virtual MstCustomer MstCustomer { get; set; }
         public virtual ICollection<TrnMaterialQuotation> TrnMaterialQuotations { get; set; }
-        public virtual ICollection<TrnMaterialSelectionItem> TrnMaterialSelectionItems { get; set; }
     }
 }

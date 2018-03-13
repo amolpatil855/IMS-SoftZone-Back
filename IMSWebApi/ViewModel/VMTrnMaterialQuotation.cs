@@ -14,6 +14,7 @@ namespace IMSWebApi.ViewModel
         public long customerId { get; set; }
         public Nullable<long> referById { get; set; }
         public string status { get; set; }
+        public int totalAmount { get; set; }
         public System.DateTime createdOn { get; set; }
         public long createdBy { get; set; }
         public Nullable<System.DateTime> updatedOn { get; set; }

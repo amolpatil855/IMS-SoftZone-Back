@@ -14,6 +14,11 @@ namespace IMSWebApi.Models
     
     public partial class MstCustomerAddress
     {
+        public MstCustomerAddress()
+        {
+            this.TrnSaleOrders = new HashSet<TrnSaleOrder>();
+        }
+    
         public long id { get; set; }
         public long customerId { get; set; }
         public string addressLine1 { get; set; }
@@ -30,5 +35,6 @@ namespace IMSWebApi.Models
         public Nullable<long> updatedBy { get; set; }
     
         public virtual MstCustomer MstCustomer { get; set; }
+        public virtual ICollection<TrnSaleOrder> TrnSaleOrders { get; set; }
     }
 }

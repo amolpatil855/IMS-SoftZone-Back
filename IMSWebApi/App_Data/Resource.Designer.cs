@@ -610,7 +610,7 @@ namespace IMSWebApi.App_Data {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Quotation Created for this Material Selection.
+        ///   Looks up a localized string similar to Quotation Created Successfully.
         /// </summary>
         public static string QuotationCreated {
             get {

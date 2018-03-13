@@ -104,7 +104,7 @@ namespace IMSWebApi.Services
                 repo.SaveChanges();
 
                 transaction.Complete();
-                return new ResponseMessage(materialQuotationToPost.id, resourceManager.GetString(""), ResponseType.Success);
+                return new ResponseMessage(materialQuotationToPost.id, resourceManager.GetString("QuotationCreated"), ResponseType.Success);
             }
         }
     }

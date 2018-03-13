@@ -33,5 +33,6 @@ namespace IMSWebApi.Models
         public long createdBy { get; set; }
         public Nullable<System.DateTime> updatedOn { get; set; }
         public Nullable<long> updatedBy { get; set; }
+        public int apNumber { get; set; }
     }
 }
