@@ -70,7 +70,7 @@ namespace IMSWebApi.Models
         public virtual DbSet<TrnGoodIssueNote> TrnGoodIssueNotes { get; set; }
         public virtual DbSet<MstCustomer> MstCustomers { get; set; }
         public virtual DbSet<TrnMaterialQuotation> TrnMaterialQuotations { get; set; }
-        public virtual DbSet<TrnSaleOrder> TrnSaleOrders { get; set; }
         public virtual DbSet<TrnMaterialQuotationItem> TrnMaterialQuotationItems { get; set; }
+        public virtual DbSet<TrnSaleOrder> TrnSaleOrders { get; set; }
     }
 }

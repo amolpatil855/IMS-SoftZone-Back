@@ -99,10 +99,13 @@ namespace IMSWebApi.Common
             StringBuilder sbEmailDetails = new StringBuilder();
             sbEmailDetails.AppendLine(System.IO.File.ReadAllText(HttpContext.Current.Server.MapPath(@"~\EmailTemplate\" + fileName + ".html")));
 
+            string shippingAddress = saleOrder.shippingAddress.addressLine1 + ", " + (saleOrder.shippingAddress.addressLine2 != null ? saleOrder.shippingAddress.addressLine2 + ", " : "" )+
+                    saleOrder.shippingAddress.city + ", " + saleOrder.shippingAddress.state + "Pincode : " + saleOrder.shippingAddress.pin;
+
             sbEmailDetails = sbEmailDetails.Replace("@user", loggedInUser.userName);
             sbEmailDetails = sbEmailDetails.Replace("@courierMode", saleOrder.courierMode);
             sbEmailDetails = sbEmailDetails.Replace("@customerName", saleOrder.customerName);
-            sbEmailDetails = sbEmailDetails.Replace("@shippingAddress", saleOrder.shippingAddress);
+            sbEmailDetails = sbEmailDetails.Replace("@shippingAddress", saleOrder.MstCustomerAddress.addressLine1);
             sbEmailDetails = sbEmailDetails.Replace("@courierName", saleOrder.courierName);
 
             string rows = "";
@@ -194,9 +197,12 @@ namespace IMSWebApi.Common
             StringBuilder sbEmailDetails = new StringBuilder();
             sbEmailDetails.AppendLine(System.IO.File.ReadAllText(HttpContext.Current.Server.MapPath(@"~\EmailTemplate\" + fileName + ".html")));
 
+            string shippingAddress = saleOrder.shippingAddress.addressLine1 + ", " + (saleOrder.shippingAddress.addressLine2 != null ? saleOrder.shippingAddress.addressLine2 + ", " : "") +
+                    saleOrder.shippingAddress.city + ", " + saleOrder.shippingAddress.state + "Pincode : " + saleOrder.shippingAddress.pin;
+
             sbEmailDetails = sbEmailDetails.Replace("@courierMode", saleOrder.courierMode);
             sbEmailDetails = sbEmailDetails.Replace("@customerName", saleOrder.customerName!=null ? saleOrder.customerName : saleOrder.MstCustomer.name);
-            sbEmailDetails = sbEmailDetails.Replace("@shippingAddress", saleOrder.shippingAddress);
+            sbEmailDetails = sbEmailDetails.Replace("@shippingAddress", shippingAddress);
             sbEmailDetails = sbEmailDetails.Replace("@courierName", saleOrder.courierName!=null ? saleOrder.courierName : saleOrder.MstCourier.name);
 
             string rows = "";
@@ -244,9 +250,12 @@ namespace IMSWebApi.Common
             StringBuilder sbEmailDetails = new StringBuilder();
             sbEmailDetails.AppendLine(System.IO.File.ReadAllText(HttpContext.Current.Server.MapPath(@"~\EmailTemplate\" + fileName + ".html")));
 
+            string shippingAddress = saleOrder.shippingAddress.addressLine1 + ", " + (saleOrder.shippingAddress.addressLine2 != null ? saleOrder.shippingAddress.addressLine2 + ", " : "" )+
+                    saleOrder.shippingAddress.city + ", " + saleOrder.shippingAddress.state + "Pincode : " + saleOrder.shippingAddress.pin;
+
             sbEmailDetails = sbEmailDetails.Replace("@courierMode", saleOrder.courierMode);
             sbEmailDetails = sbEmailDetails.Replace("@customerName", saleOrder.MstCustomer.name);
-            sbEmailDetails = sbEmailDetails.Replace("@shippingAddress", saleOrder.shippingAddress);
+            sbEmailDetails = sbEmailDetails.Replace("@shippingAddress", shippingAddress);
             sbEmailDetails = sbEmailDetails.Replace("@courierName", saleOrder.MstCourier.name);
 
             string rows = "";
