@@ -25,8 +25,7 @@ namespace IMSWebApi.Models
         public long id { get; set; }
         public string orderNumber { get; set; }
         public long customerId { get; set; }
-        public Nullable<long> shippingAddressId { get; set; }
-        public string shippingAddress { get; set; }
+        public long shippingAddressId { get; set; }
         public Nullable<long> courierId { get; set; }
         public string courierMode { get; set; }
         public Nullable<long> referById { get; set; }
