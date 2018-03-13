@@ -94,7 +94,7 @@ namespace IMSWebApi.Services
         {
             TrnSalesInvoice salesInvoice = new TrnSalesInvoice();
             salesInvoice.goodIssueNoteId = goodIssueNote.id;
-            salesInvoice.salesOrderId = goodIssueNote.salesOrderId;
+            salesInvoice.salesOrderId = Convert.ToInt64(goodIssueNote.salesOrderId);
 
             var financialYear = repo.MstFinancialYears.Where(f => f.startDate <= goodIssueNote.ginDate && f.endDate >= goodIssueNote.ginDate).FirstOrDefault();
             string invoiceNo = generateOrderNumber.orderNumber(financialYear.startDate.ToString("yy"), financialYear.endDate.ToString("yy"), financialYear.soInvoiceNumber,"IN");

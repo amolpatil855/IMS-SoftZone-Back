@@ -81,7 +81,7 @@ namespace IMSWebApi.Services
                 ginItem.serialno = ginItem.MstCategory.code.Equals("Fabric")
                                 || ginItem.MstCategory.code.Equals("Rug")
                                 || ginItem.MstCategory.code.Equals("Wallpaper")
-                                ? ginItem.MstFWRShade.serialNumber + "(" + ginItem.MstFWRShade.shadeCode + ")" : null;
+                                ? ginItem.MstFWRShade.serialNumber + "(" + ginItem.MstFWRShade.shadeCode + "-" + ginItem.MstFWRShade.MstFWRDesign.designCode + ")" : null;
                 ginItem.size = ginItem.MstMatSize != null ? ginItem.MstMatSize.sizeCode + " (" + ginItem.MstMatSize.MstMatThickNess.thicknessCode + "-" + ginItem.MstMatSize.MstQuality.qualityCode + ")" :
                             ginItem.MstFomSize != null ? ginItem.MstFomSize.itemCode : null;
                 ginItem.accessoryName = ginItem.accessoryId != null ? ginItem.MstAccessory.name : null;
@@ -100,15 +100,18 @@ namespace IMSWebApi.Services
             return goodIssueNoteView;
         }
 
-        public void postGoodIssueNote(VMTrnSaleOrder saleOrder)
+        public void postGoodIssueNote(VMTrnSaleOrder saleOrder,VMTrnMaterialQuotation materialQuotation)
         {
             using (var transaction = new TransactionScope())
             {
                 TrnGoodIssueNote goodIssueNoteToPost = new TrnGoodIssueNote();
                 goodIssueNoteToPost.customerId = saleOrder.customerId;
-                goodIssueNoteToPost.salesOrderId = saleOrder.id;
-                goodIssueNoteToPost.salesOrderNumber = saleOrder.orderNumber;
-                var financialYear = repo.MstFinancialYears.Where(f => f.startDate <= saleOrder.orderDate && f.endDate >= saleOrder.orderDate).FirstOrDefault();
+                goodIssueNoteToPost.salesOrderId = saleOrder != null ? saleOrder.id : (long?)null;
+                goodIssueNoteToPost.salesOrderNumber = saleOrder != null ? saleOrder.orderNumber : null;
+                goodIssueNoteToPost.materialQuotationId = materialQuotation != null ? materialQuotation.id : (long?)null;
+                goodIssueNoteToPost.materialQuotationNumber = materialQuotation != null ? materialQuotation.materialQuotationNumber : null;
+                DateTime dateForFinancialYear = saleOrder != null ? saleOrder.orderDate : materialQuotation.materialQuotationDate;
+                var financialYear = repo.MstFinancialYears.Where(f => f.startDate <= dateForFinancialYear && f.endDate >= dateForFinancialYear).FirstOrDefault();
                 string orderNo = generateOrderNumber.orderNumber(financialYear.startDate.ToString("yy"), financialYear.endDate.ToString("yy"), financialYear.ginNumber,"GI");
                 goodIssueNoteToPost.ginNumber = orderNo;
                 goodIssueNoteToPost.ginDate = DateTime.Now;
@@ -240,7 +243,7 @@ namespace IMSWebApi.Services
 
         }
 
-        public void createGINForRemainingItems(Int64 salesOrderId)
+        public void createGINForRemainingItems(Int64? salesOrderId)
         {
             TrnSaleOrder saleOrder = repo.TrnSaleOrders.Where(so => so.id == salesOrderId && so.status.Equals("Approved")).FirstOrDefault();
 
@@ -248,7 +251,7 @@ namespace IMSWebApi.Services
             {
                 //int itemsWithBalQty = saleOrder.TrnSaleOrderItems.Where(soItems => soItems.balanceQuantity != 0).Count();
                 VMTrnSaleOrder VMSaleOrder = Mapper.Map<TrnSaleOrder, VMTrnSaleOrder>(saleOrder);
-                postGoodIssueNote(VMSaleOrder);
+                postGoodIssueNote(VMSaleOrder,null);
             }
         }
 
