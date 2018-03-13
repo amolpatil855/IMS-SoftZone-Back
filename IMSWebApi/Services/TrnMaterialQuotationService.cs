@@ -84,6 +84,9 @@ namespace IMSWebApi.Services
                 foreach (var mqItems in materialQuotationItems)
                 {
                     mqItems.matSizeId = mqItems.matSizeId == -1 ? null : mqItems.matSizeId;     //set null for custom matSize
+                    mqItems.balanceQuantity = mqItems.orderQuantity;
+                    mqItems.deliverQuantity = 0;
+                    mqItems.status = MaterialQuotationStatus.Created.ToString();
                     mqItems.createdOn = DateTime.Now;
                     mqItems.createdBy = _LoggedInuserId;
                 }
@@ -91,6 +94,7 @@ namespace IMSWebApi.Services
                 var financialYear = repo.MstFinancialYears.Where(f => f.startDate <= materialQuotationToPost.materialQuotationDate && f.endDate >= materialQuotationToPost.materialQuotationDate).FirstOrDefault();
                 string materialQuotationNo = generateOrderNumber.orderNumber(financialYear.startDate.ToString("yy"), financialYear.endDate.ToString("yy"), financialYear.materialSelectionNumber, "MQ");
                 materialQuotationToPost.materialQuotationNumber = materialQuotationNo;
+                materialQuotationToPost.status = MaterialQuotationStatus.Created.ToString();
                 materialQuotationToPost.createdOn = DateTime.Now;
                 materialQuotationToPost.createdBy = _LoggedInuserId;
 

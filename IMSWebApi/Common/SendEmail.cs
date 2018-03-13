@@ -4,6 +4,7 @@ using System.Text;
 using System.Web;
 using System.Configuration;
 using IMSWebApi.ViewModel;
+using System.Collections.Generic;
 
 namespace IMSWebApi.Common
 {
@@ -275,6 +276,34 @@ namespace IMSWebApi.Common
             objEmail.Password = _password;
             objEmail.EmailTo.Add(saleOrder.MstCustomer.email);
             objEmail.Subject = "Sale Order Cancelled";
+            objEmail.EnableSSL = true;
+            objEmail.Body = sbEmailDetails.ToString();
+            objEmail.isBodyHtml = true;
+            objEmail.EnableSSL = true;
+            ReusableEmailComponent.DAOFactoryProvider.GetEmailDao().sendMail(objEmail);
+        }
+
+        public void notificationForPendingGIN(string grnNumber, string fileName, List<string> ginNumbers, string adminEmail)
+        {
+            StringBuilder sbEmailDetails = new StringBuilder();
+            sbEmailDetails.AppendLine(System.IO.File.ReadAllText(HttpContext.Current.Server.MapPath(@"~\EmailTemplate\" + fileName + ".html")));
+
+            sbEmailDetails = sbEmailDetails.Replace("@grnNumber", grnNumber);
+            
+            string rows = "";
+
+            foreach (string ginNumber in ginNumbers)
+            {
+                rows += "<tr><td>" + ginNumber + "</td> </tr>";
+            }
+            sbEmailDetails = sbEmailDetails.Replace("@rows", rows);
+
+            EmailProperties objEmail = new EmailProperties();
+            objEmail.SmtpAddress = _smtpAddress;
+            objEmail.EmailFrom = _emailFrom;
+            objEmail.Password = _password;
+            objEmail.EmailTo.Add(adminEmail);
+            objEmail.Subject = "GRN Created";
             objEmail.EnableSSL = true;
             objEmail.Body = sbEmailDetails.ToString();
             objEmail.isBodyHtml = true;

@@ -21,6 +21,7 @@ namespace IMSWebApi.Services
         ResourceManager resourceManager = null;
         GenerateOrderNumber generateOrderNumber = null;
         TrnProductStockService _productStockService = null;
+        SendEmail emailNotification = null;
 
         public TrnGoodReceiveNoteService()
         {
@@ -28,6 +29,7 @@ namespace IMSWebApi.Services
             resourceManager = new ResourceManager("IMSWebApi.App_Data.Resource", Assembly.GetExecutingAssembly());
             generateOrderNumber = new GenerateOrderNumber();
             _productStockService = new TrnProductStockService();
+            emailNotification = new SendEmail();
         }
 
         public ListResult<VMTrnGoodReceiveNote> getGoodReceiveNote(int pageSize, int page, string search)
@@ -234,6 +236,8 @@ namespace IMSWebApi.Services
                 financialYear.grnNumber += 1;
                 repo.SaveChanges();
 
+                mailNotificationForPendingGIN(goodReceiveNoteToPost);
+
                 transaction.Complete();
                 return new ResponseMessage(goodReceiveNoteToPost.id, resourceManager.GetString("GRNAdded"), ResponseType.Success);
             }
@@ -294,6 +298,25 @@ namespace IMSWebApi.Services
 
             _productStockService.updatePOItemInStockForGRN(grnItem);
 
+        }
+
+        public void mailNotificationForPendingGIN(TrnGoodReceiveNote goodReceiveNote)
+        {
+            List<string> ginNumbers = new List<string>();
+            foreach (var grnItem in goodReceiveNote.TrnGoodReceiveNoteItems)
+            {
+                ginNumbers = repo.TrnGoodIssueNoteItems.Where(ginItem => ginItem.categoryId == grnItem.categoryId
+                                             && ginItem.collectionId == grnItem.collectionId
+                                             && ginItem.shadeId == grnItem.shadeId
+                                             && ginItem.fomSizeId == grnItem.fomSizeId
+                                             && ginItem.matSizeId == grnItem.matSizeId
+                                             && ginItem.accessoryId == grnItem.accessoryId
+                                             && ginItem.orderQuantity <= grnItem.receivedQuantity
+                                             && ginItem.status.Equals("Created")).Select(gin => gin.TrnGoodIssueNote.ginNumber).ToList();
+            }
+            ginNumbers.Distinct();
+            string adminEmail = repo.MstUsers.Where(u => u.userName.Equals("Administrator")).FirstOrDefault().email;
+            emailNotification.notificationForPendingGIN(goodReceiveNote.grnNumber, "NotificationForPendingGIN", ginNumbers, adminEmail);
         }
     }
 }
