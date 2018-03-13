@@ -105,7 +105,7 @@ namespace IMSWebApi.Common
             sbEmailDetails = sbEmailDetails.Replace("@user", loggedInUser.userName);
             sbEmailDetails = sbEmailDetails.Replace("@courierMode", saleOrder.courierMode);
             sbEmailDetails = sbEmailDetails.Replace("@customerName", saleOrder.customerName);
-            sbEmailDetails = sbEmailDetails.Replace("@shippingAddress", saleOrder.MstCustomerAddress.addressLine1);
+            sbEmailDetails = sbEmailDetails.Replace("@shippingAddress", shippingAddress);
             sbEmailDetails = sbEmailDetails.Replace("@courierName", saleOrder.courierName);
 
             string rows = "";
