@@ -119,7 +119,8 @@ namespace IMSWebApi.Services
                     salesInvoiceItem.quantity = Convert.ToDecimal(ginItem.issuedQuantity);
                     salesInvoiceItem.rate = ginItem.rate;
                     salesInvoiceItem.discountPercentage = ginItem.discountPercentage;
-                    decimal discountAmt = (ginItem.rate * Convert.ToDecimal(ginItem.issuedQuantity)) - ((ginItem.rate * Convert.ToDecimal(ginItem.issuedQuantity) * Convert.ToDecimal(ginItem.discountPercentage)) / 100);
+                    decimal _amount = (ginItem.rate * Convert.ToDecimal(ginItem.issuedQuantity));
+                    decimal discountAmt = _amount - (_amount * Convert.ToDecimal(ginItem.discountPercentage) / 100);
                     salesInvoiceItem.amount = Convert.ToInt32(Math.Round(discountAmt, MidpointRounding.AwayFromZero));
                     //salesInvoiceItem.amount = Convert.ToInt32(Math.Round((ginItem.rate - (ginItem.rate * Convert.ToDecimal(ginItem.discountPercentage) ) / 100) * Convert.ToDecimal(ginItem.issuedQuantity))); 
                     salesInvoiceItem.gst = ginItem.shadeId != null ? ginItem.MstFWRShade.MstQuality.MstHsn.gst :
@@ -136,7 +137,7 @@ namespace IMSWebApi.Services
                     //salesInvoiceItem.amountWithGST = Convert.ToInt32(Math.Round((Convert.ToDecimal(salesInvoiceItem.rateWithGST) - (Convert.ToDecimal(salesInvoiceItem.rateWithGST) * Convert.ToDecimal(ginItem.discountPercentage)) / 100) * Convert.ToDecimal(ginItem.issuedQuantity))); 
 
                     //salesInvoiceItem.amountWithGST = Convert.ToInt32(Math.Round(Convert.ToDecimal(discountAmt + ((discountAmt * salesInvoiceItem.gst) / 100)),MidpointRounding.AwayFromZero));
-                    salesInvoiceItem.amountWithGST = Convert.ToInt32(Math.Round(Convert.ToDecimal(salesInvoiceItem.amount + ((salesInvoiceItem.amount * salesInvoiceItem.gst) / 100)), MidpointRounding.AwayFromZero));
+                    salesInvoiceItem.amountWithGST = Convert.ToInt32(Math.Round(Convert.ToDecimal(salesInvoiceItem.amount + Convert.ToDouble(Convert.ToDouble(salesInvoiceItem.amount) * Convert.ToDouble(salesInvoiceItem.gst) / 100)), MidpointRounding.AwayFromZero));
                     salesInvoiceItem.createdOn = DateTime.Now;
                     salesInvoiceItem.createdBy = _LoggedInuserId;
                     salesInvoice.TrnSalesInvoiceItems.Add(salesInvoiceItem);
