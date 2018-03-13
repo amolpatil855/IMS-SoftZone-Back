@@ -13,6 +13,7 @@ namespace IMSWebApi.ViewModel
         public string orderNumber { get; set; }
         [Required]
         public long customerId { get; set; }
+        public Nullable<long> shippingAddressId { get; set; }
         [Required]
         [MaxLength(500)]
         public string shippingAddress { get; set; }
@@ -45,6 +46,7 @@ namespace IMSWebApi.ViewModel
         public virtual VMAgent MstAgent { get; set; }
         public virtual VMCourier MstCourier { get; set; }
         public virtual VMCustomer MstCustomer { get; set; }
+        public virtual VMCustomerAddress MstCustomerAddress { get; set; }
         public virtual List<VMTrnPurchaseOrder> TrnPurchaseOrders { get; set; }
         public virtual List<VMTrnSaleOrderItem> TrnSaleOrderItems { get; set; }
     }

@@ -87,6 +87,7 @@ namespace IMSWebApi.Services
                 grnItem.size = grnItem.MstMatSize != null ? grnItem.MstMatSize.sizeCode + " (" + grnItem.MstMatSize.MstMatThickNess.thicknessCode + "-" + grnItem.MstMatSize.MstQuality.qualityCode + ")" :
                                 grnItem.MstFomSize != null ? grnItem.MstFomSize.itemCode : grnItem.matSizeCode;
                 grnItem.accessoryName = grnItem.accessoryId != null ? grnItem.MstAccessory.name : null;
+                grnItem.purchaseOrderNumber = grnItem.TrnPurchaseOrder.orderNumber;
             });
             return goodReceiveNoteView;
         }

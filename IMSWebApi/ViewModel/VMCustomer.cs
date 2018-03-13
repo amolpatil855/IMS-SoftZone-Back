@@ -25,6 +25,9 @@ namespace IMSWebApi.ViewModel
         [Required]
         [MaxLength(20)]
         public string phone { get; set; }
+        [Required]
+        [MaxLength(20)]
+        public string type { get; set; }
         [MaxLength(254)]
         public string alternateEmail1 { get; set; }
         [MaxLength(254)]

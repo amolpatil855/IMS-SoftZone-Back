@@ -30,7 +30,6 @@ namespace IMSWebApi.Models
         public virtual DbSet<MstCategory> MstCategories { get; set; }
         public virtual DbSet<MstCollection> MstCollections { get; set; }
         public virtual DbSet<MstCompanyLocation> MstCompanyLocations { get; set; }
-        public virtual DbSet<MstCustomer> MstCustomers { get; set; }
         public virtual DbSet<MstCustomerAddress> MstCustomerAddresses { get; set; }
         public virtual DbSet<MstFomDensity> MstFomDensities { get; set; }
         public virtual DbSet<MstFomSize> MstFomSizes { get; set; }
@@ -64,13 +63,14 @@ namespace IMSWebApi.Models
         public virtual DbSet<vwMattress> vwMattresses { get; set; }
         public virtual DbSet<TrnSalesInvoiceItem> TrnSalesInvoiceItems { get; set; }
         public virtual DbSet<MstCompanyInfo> MstCompanyInfoes { get; set; }
-        public virtual DbSet<TrnSaleOrder> TrnSaleOrders { get; set; }
         public virtual DbSet<MstFinancialYear> MstFinancialYears { get; set; }
         public virtual DbSet<TrnSalesInvoice> TrnSalesInvoices { get; set; }
-        public virtual DbSet<TrnMaterialQuotation> TrnMaterialQuotations { get; set; }
         public virtual DbSet<TrnMaterialSelection> TrnMaterialSelections { get; set; }
         public virtual DbSet<TrnMaterialSelectionItem> TrnMaterialSelectionItems { get; set; }
-        public virtual DbSet<TrnMaterialQuotationItem> TrnMaterialQuotationItems { get; set; }
         public virtual DbSet<TrnGoodIssueNote> TrnGoodIssueNotes { get; set; }
+        public virtual DbSet<MstCustomer> MstCustomers { get; set; }
+        public virtual DbSet<TrnMaterialQuotation> TrnMaterialQuotations { get; set; }
+        public virtual DbSet<TrnSaleOrder> TrnSaleOrders { get; set; }
+        public virtual DbSet<TrnMaterialQuotationItem> TrnMaterialQuotationItems { get; set; }
     }
 }

@@ -16,6 +16,7 @@ namespace IMSWebApi.Models
     {
         public TrnMaterialQuotation()
         {
+            this.TrnGoodIssueNotes = new HashSet<TrnGoodIssueNote>();
             this.TrnMaterialQuotationItems = new HashSet<TrnMaterialQuotationItem>();
         }
     
@@ -25,6 +26,7 @@ namespace IMSWebApi.Models
         public System.DateTime materialQuotationDate { get; set; }
         public long customerId { get; set; }
         public Nullable<long> referById { get; set; }
+        public int totalAmount { get; set; }
         public string status { get; set; }
         public System.DateTime createdOn { get; set; }
         public long createdBy { get; set; }
@@ -32,8 +34,9 @@ namespace IMSWebApi.Models
         public Nullable<long> updatedBy { get; set; }
     
         public virtual MstAgent MstAgent { get; set; }
-        public virtual TrnMaterialSelection TrnMaterialSelection { get; set; }
         public virtual MstCustomer MstCustomer { get; set; }
+        public virtual ICollection<TrnGoodIssueNote> TrnGoodIssueNotes { get; set; }
+        public virtual TrnMaterialSelection TrnMaterialSelection { get; set; }
         public virtual ICollection<TrnMaterialQuotationItem> TrnMaterialQuotationItems { get; set; }
     }
 }
