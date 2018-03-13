@@ -67,7 +67,8 @@ namespace IMSWebApi.Services
             {
                 msItem.categoryName = msItem.MstCategory.name;
                 msItem.collectionName = msItem.collectionId != null ? msItem.MstCollection.collectionName : null;
-                msItem.serialno = msItem.MstCategory.code.Equals("Fabric") || msItem.MstCategory.code.Equals("Rug") || msItem.MstCategory.code.Equals("Wallpaper") ? msItem.MstFWRShade.serialNumber + "(" + msItem.MstFWRShade.shadeCode + "-" + msItem.MstFWRShade.MstFWRDesign.designCode + ")" : null;
+                msItem.serialno = msItem.MstCategory.code.Equals("Fabric") || msItem.MstCategory.code.Equals("Rug") || msItem.MstCategory.code.Equals("Wallpaper") 
+                    ? msItem.MstFWRShade.serialNumber + "(" + msItem.MstFWRShade.shadeCode + "-" + msItem.MstFWRShade.MstFWRDesign.designCode + ")" : null;
                 msItem.size = msItem.MstMatSize != null ? msItem.MstMatSize.sizeCode + " (" + msItem.MstMatSize.MstMatThickNess.thicknessCode + "-" + msItem.MstMatSize.MstQuality.qualityCode + ")" : null;
             });
             materialSelectionView.TrnMaterialSelectionItems.ForEach(msItem => msItem.TrnMaterialSelection = null);
@@ -174,6 +175,52 @@ namespace IMSWebApi.Services
                 }
             });
 
+        }
+
+        public VMTrnMaterialQuotation createMaterialQuotation(Int64 materialSelectionId)
+        {
+            var materialSelection = repo.TrnMaterialSelections.Where(ms => ms.id == materialSelectionId).FirstOrDefault();
+
+            VMTrnMaterialQuotation VMMaterialQuotation = new VMTrnMaterialQuotation();
+            VMMaterialQuotation.TrnMaterialQuotationItems = new List<VMTrnMaterialQuotationItem>();
+            VMMaterialQuotation.materialSelectionId = materialSelectionId;
+            VMMaterialQuotation.materialSelectionNo = materialSelection.materialSelectionNumber;
+
+            VMMaterialQuotation.customerId = materialSelection.customerId;
+            VMMaterialQuotation.customerName = materialSelection.MstCustomer.name;
+
+            VMMaterialQuotation.referById = materialSelection.referById;
+            VMMaterialQuotation.agentName = materialSelection.MstAgent.name;
+
+            foreach (var msItem in materialSelection.TrnMaterialSelectionItems)
+            {
+                VMTrnMaterialQuotationItem mqItem = new VMTrnMaterialQuotationItem();
+                mqItem.selectionType = msItem.selectionType;
+                mqItem.area = msItem.area;
+                mqItem.categoryId = msItem.categoryId;
+                mqItem.categoryName = msItem.categoryId != null ? msItem.MstCategory.code : null;
+                mqItem.collectionId = msItem.collectionId;
+                mqItem.collectionName = msItem.collectionId != null ? msItem.MstCollection.collectionName : null;
+                mqItem.shadeId = msItem.shadeId;
+                mqItem.serialno = msItem.shadeId != null ? msItem.MstFWRShade.serialNumber + "(" + msItem.MstFWRShade.shadeCode + "-" + msItem.MstFWRShade.MstFWRDesign.designCode + ")" : null;
+                mqItem.matSizeId = msItem.matSizeId;
+                mqItem.size = msItem.matSizeId != null ? msItem.MstMatSize.sizeCode + " (" + msItem.MstMatSize.MstMatThickness.thicknessCode + "-" + msItem.MstMatSize.MstQuality.qualityCode + ")" :
+                    (msItem.matHeight != null && msItem.matWidth != null) ? msItem.matHeight + "x" + msItem.matWidth : null;
+                mqItem.qualityId = msItem.qualityId;
+                mqItem.matThicknessId = msItem.matThicknessId;
+                mqItem.matHeight = msItem.matHeight;
+                mqItem.matWidth = msItem.matWidth;
+                mqItem.orderQuantity = mqItem.balanceQuantity = mqItem.deliverQuantity = 0;
+                mqItem.rate = msItem.shadeId != null ? (msItem.MstFWRShade.MstQuality.flatRate != null ? Convert.ToDecimal(msItem.MstFWRShade.MstQuality.flatRate) : Convert.ToDecimal(msItem.MstFWRShade.MstQuality.rrp)) :
+                    msItem.matSizeId != null ? msItem.MstMatSize.rate : 
+                    msItem.qualityId != null ? Convert.ToDecimal(msItem.MstQuality.custRatePerSqFeet) : 0;
+                mqItem.gst = msItem.shadeId != null ? msItem.MstFWRShade.MstQuality.MstHsn.gst :
+                    msItem.matSizeId != null ? msItem.MstMatSize.MstQuality.MstHsn.gst :
+                    msItem.qualityId != null ? msItem.MstQuality.MstHsn.gst : (int?)null;
+
+                VMMaterialQuotation.TrnMaterialQuotationItems.Add(mqItem);
+            }
+            return VMMaterialQuotation;
         }
     }
 }

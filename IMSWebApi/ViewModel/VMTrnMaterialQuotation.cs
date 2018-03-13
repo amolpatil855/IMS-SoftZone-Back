@@ -21,6 +21,8 @@ namespace IMSWebApi.ViewModel
         public Nullable<long> updatedBy { get; set; }
 
         public string customerName { get; set; }
+        public string agentName { get; set; }
+        public string materialSelectionNo { get; set; }
 
         public virtual VMAgent MstAgent { get; set; }
         public virtual VMCustomer MstCustomer { get; set; }
