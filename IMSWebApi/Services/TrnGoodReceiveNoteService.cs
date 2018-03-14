@@ -82,11 +82,14 @@ namespace IMSWebApi.Services
             goodReceiveNoteView.TrnGoodReceiveNoteItems.ForEach(grnItem =>
             {
                 grnItem.categoryName = grnItem.MstCategory.name;
-                grnItem.collectionName = grnItem.collectionId != null ? grnItem.MstCollection.collectionName : null;
-                grnItem.serialno = grnItem.MstCategory.code.Equals("Fabric") || grnItem.MstCategory.code.Equals("Rug") || grnItem.MstCategory.code.Equals("Wallpaper") ? grnItem.MstFWRShade.serialNumber + "(" + grnItem.MstFWRShade.shadeCode + "-" + grnItem.MstFWRShade.MstFWRDesign.designCode + ")" : null;
+                grnItem.collectionName = grnItem.collectionId != null ? grnItem.MstCollection.collectionCode : null;
+                grnItem.serialno = grnItem.MstCategory.code.Equals("Fabric") 
+                                || grnItem.MstCategory.code.Equals("Rug") 
+                                || grnItem.MstCategory.code.Equals("Wallpaper") 
+                                ? grnItem.MstFWRShade.serialNumber + "(" + grnItem.MstFWRShade.shadeCode + "-" + grnItem.MstFWRShade.MstFWRDesign.designCode + ")" : null;
                 grnItem.size = grnItem.MstMatSize != null ? grnItem.MstMatSize.sizeCode + " (" + grnItem.MstMatSize.MstMatThickNess.thicknessCode + "-" + grnItem.MstMatSize.MstQuality.qualityCode + ")" :
                                 grnItem.MstFomSize != null ? grnItem.MstFomSize.itemCode : grnItem.matSizeCode;
-                grnItem.accessoryName = grnItem.accessoryId != null ? grnItem.MstAccessory.name : null;
+                grnItem.accessoryName = grnItem.accessoryId != null ? grnItem.MstAccessory.itemCode : null;
                 grnItem.purchaseOrderNumber = grnItem.TrnPurchaseOrder.orderNumber;
             });
             return goodReceiveNoteView;
