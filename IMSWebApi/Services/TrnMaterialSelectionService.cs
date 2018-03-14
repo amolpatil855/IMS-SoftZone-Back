@@ -37,7 +37,7 @@ namespace IMSWebApi.Services
                     ? ms.materialSelectionNumber.StartsWith(search)
                     || ms.MstCustomer.name.StartsWith(search)
                     || ms.isQuotationCreated.ToString().StartsWith(search) : true)
-                    .OrderBy(p => p.id).Skip(page * pageSize).Take(pageSize).ToList();
+                    .OrderByDescending(p => p.id).Skip(page * pageSize).Take(pageSize).ToList();
                 materialSelectionView = Mapper.Map<List<TrnMaterialSelection>, List<VMTrnMaterialSelection>>(result);
             }
             else
@@ -45,7 +45,7 @@ namespace IMSWebApi.Services
                 var result = repo.TrnMaterialSelections.Where(ms => !string.IsNullOrEmpty(search)
                     ? ms.materialSelectionNumber.StartsWith(search)
                     || ms.MstCustomer.name.StartsWith(search)
-                    || ms.isQuotationCreated.ToString().StartsWith(search) : true).ToList();
+                    || ms.isQuotationCreated.ToString().StartsWith(search) : true).OrderByDescending(p => p.id).ToList();
                 materialSelectionView = Mapper.Map<List<TrnMaterialSelection>, List<VMTrnMaterialSelection>>(result);
             }
             materialSelectionView.ForEach(ms => ms.TrnMaterialSelectionItems.ForEach(msItem => msItem.TrnMaterialSelection = null));
@@ -157,6 +157,7 @@ namespace IMSWebApi.Services
                     msItemToPut.shadeId = x.shadeId;
                     msItemToPut.matSizeId = x.matSizeId;
                     msItemToPut.matThicknessId = x.matThicknessId;
+                    msItemToPut.qualityId = x.qualityId;
                     msItemToPut.matHeight = x.matHeight;
                     msItemToPut.matWidth = x.matWidth;
                     msItemToPut.updatedOn = DateTime.Now;

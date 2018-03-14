@@ -475,6 +475,24 @@ namespace IMSWebApi.App_Data {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Quotation Created Successfully.
+        /// </summary>
+        public static string MQCreated {
+            get {
+                return ResourceManager.GetString("MQCreated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Material Quotation Updated Successfully.
+        /// </summary>
+        public static string MQUpdated {
+            get {
+                return ResourceManager.GetString("MQUpdated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Material Selection Added Successfully.
         /// </summary>
         public static string MSAdded {
@@ -606,15 +624,6 @@ namespace IMSWebApi.App_Data {
         public static string QualityUpdated {
             get {
                 return ResourceManager.GetString("QualityUpdated", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Quotation Created Successfully.
-        /// </summary>
-        public static string QuotationCreated {
-            get {
-                return ResourceManager.GetString("QuotationCreated", resourceCulture);
             }
         }
         

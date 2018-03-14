@@ -43,7 +43,7 @@ namespace IMSWebApi.Services
                     || gin.MstCustomer.name.StartsWith(search)
                     || gin.salesOrderNumber.StartsWith(search)
                     || gin.status.StartsWith(search) : true)
-                    .OrderBy(p => p.id).Skip(page * pageSize).Take(pageSize).ToList();
+                    .OrderByDescending(p => p.id).Skip(page * pageSize).Take(pageSize).ToList();
                 goodIssueNoteView = Mapper.Map<List<TrnGoodIssueNote>, List<VMTrnGoodIssueNote>>(result);
             }
             else
@@ -52,7 +52,7 @@ namespace IMSWebApi.Services
                     ? gin.ginNumber.StartsWith(search)
                     || gin.MstCustomer.name.StartsWith(search)
                     || gin.salesOrderNumber.StartsWith(search)
-                    || gin.status.StartsWith(search) : true).ToList();
+                    || gin.status.StartsWith(search) : true).OrderByDescending(p => p.id).ToList();
                 goodIssueNoteView = Mapper.Map<List<TrnGoodIssueNote>, List<VMTrnGoodIssueNote>>(result);
             }
             goodIssueNoteView.ForEach(gin => gin.TrnGoodIssueNoteItems.ForEach(ginItems => ginItems.TrnGoodIssueNote = null));
@@ -285,7 +285,7 @@ namespace IMSWebApi.Services
                                                             || gin.salesOrderNumber.StartsWith(search)
                                                             || gin.status.StartsWith(search) : true
                                                             && ginIdsForItemswithAvailableStock.Contains(gin.id))
-                                                            .OrderBy(p => p.id).Skip(page * pageSize).Take(pageSize).ToList();
+                                                            .OrderByDescending(p => p.id).Skip(page * pageSize).Take(pageSize).ToList();
                 ginsWitStockAvailable = Mapper.Map<List<TrnGoodIssueNote>, List<VMTrnGoodIssueNote>>(result);
             }
             else
@@ -295,7 +295,7 @@ namespace IMSWebApi.Services
                                                            || gin.MstCustomer.name.StartsWith(search)
                                                            || gin.salesOrderNumber.StartsWith(search)
                                                            || gin.status.StartsWith(search) : true
-                                                           && ginIdsForItemswithAvailableStock.Contains(gin.id)).ToList();
+                                                           && ginIdsForItemswithAvailableStock.Contains(gin.id)).OrderByDescending(p => p.id).ToList();
                 ginsWitStockAvailable = Mapper.Map<List<TrnGoodIssueNote>, List<VMTrnGoodIssueNote>>(result);
             }
 

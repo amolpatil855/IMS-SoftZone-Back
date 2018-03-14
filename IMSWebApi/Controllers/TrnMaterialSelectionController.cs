@@ -21,7 +21,7 @@ namespace IMSWebApi.Controllers
         }
 
         // GET api/TrnMaterialSelection
-        //[ApiAuthorize(AccessLevel = "materialselection")]
+        [ApiAuthorize(AccessLevel = "materialselection")]
         [HttpGet]
         public IHttpActionResult Get(int pageSize = 0, int page = 0, string search = null)
         {
@@ -30,7 +30,7 @@ namespace IMSWebApi.Controllers
         }
 
         // GET api/TrnMaterialSelection/1
-        //[ApiAuthorize(AccessLevel = "materialselection")]
+        [ApiAuthorize(AccessLevel = "materialselection")]
         [HttpGet]
         public IHttpActionResult Get(long id)
         {
@@ -39,7 +39,7 @@ namespace IMSWebApi.Controllers
         }
 
         // POST api/TrnMaterialSelection
-        //[ApiAuthorize(AccessLevel = "materialselection")]
+        [ApiAuthorize(AccessLevel = "materialselection")]
         [HttpPost]
         public IHttpActionResult PostTrnMaterialSelection(VMTrnMaterialSelection materialSelection)
         {
@@ -52,7 +52,7 @@ namespace IMSWebApi.Controllers
         }
 
         // PUT api/TrnMaterialSelection
-        //[ApiAuthorize(AccessLevel = "materialselection")]
+        [ApiAuthorize(AccessLevel = "materialselection")]
         [HttpPut]
         public IHttpActionResult PutTrnMaterialSelection(VMTrnMaterialSelection materialSelection)
         {
@@ -65,8 +65,8 @@ namespace IMSWebApi.Controllers
         }
 
         // GET api/TrnMaterialSelection/1
-        //[ApiAuthorize(Roles = "Administrator")]
-        [HttpPut]
+        [ApiAuthorize(AccessLevel = "materialselection")]
+        [HttpGet]
         [Route("api/TrnMaterialSelection/CreateMaterialQuotation/{id}")]
         public IHttpActionResult CreateMaterialQuotation(long id)
         {

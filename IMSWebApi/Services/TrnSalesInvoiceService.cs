@@ -41,7 +41,7 @@ namespace IMSWebApi.Services
                     || s.invoiceNumber.StartsWith(search)
                     || s.TrnSaleOrder.orderNumber.StartsWith(search)
                     || s.status.StartsWith(search) : true)
-                    .OrderBy(p => p.id).Skip(page * pageSize).Take(pageSize).ToList();
+                    .OrderByDescending(p => p.id).Skip(page * pageSize).Take(pageSize).ToList();
                 salesInvoiceView = Mapper.Map<List<TrnSalesInvoice>, List<VMTrnSalesInvoice>>(result);
             }
             else
@@ -50,7 +50,7 @@ namespace IMSWebApi.Services
                     ? s.TrnGoodIssueNote.ginNumber.StartsWith(search)
                     || s.invoiceNumber.StartsWith(search)
                     || s.TrnSaleOrder.orderNumber.StartsWith(search)
-                    || s.status.StartsWith(search) : true).ToList();
+                    || s.status.StartsWith(search) : true).OrderByDescending(p => p.id).ToList();
                 salesInvoiceView = Mapper.Map<List<TrnSalesInvoice>, List<VMTrnSalesInvoice>>(result);
             }
             salesInvoiceView.ForEach(s => s.TrnGoodIssueNote.TrnGoodIssueNoteItems.ForEach(ginItems => ginItems.TrnGoodIssueNote = null));

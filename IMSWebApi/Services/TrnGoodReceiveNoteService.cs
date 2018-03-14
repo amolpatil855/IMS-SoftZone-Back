@@ -43,7 +43,7 @@ namespace IMSWebApi.Services
                     || grn.MstSupplier.code.StartsWith(search)
                     || grn.MstCompanyLocation.locationCode.StartsWith(search)
                     || grn.totalAmount.ToString().StartsWith(search) : true)
-                    .OrderBy(p => p.id).Skip(page * pageSize).Take(pageSize).ToList();
+                    .OrderByDescending(p => p.id).Skip(page * pageSize).Take(pageSize).ToList();
                 goodReceiveNoteView = Mapper.Map<List<TrnGoodReceiveNote>, List<VMTrnGoodReceiveNote>>(result);
             }
             else
@@ -53,7 +53,7 @@ namespace IMSWebApi.Services
                     || grn.grnDate.ToString().StartsWith(search)
                     || grn.MstSupplier.code.StartsWith(search)
                     || grn.MstCompanyLocation.locationCode.StartsWith(search)
-                    || grn.totalAmount.ToString().StartsWith(search) : true).ToList();
+                    || grn.totalAmount.ToString().StartsWith(search) : true).OrderByDescending(p => p.id).ToList();
                 goodReceiveNoteView = Mapper.Map<List<TrnGoodReceiveNote>, List<VMTrnGoodReceiveNote>>(result);
             }
 

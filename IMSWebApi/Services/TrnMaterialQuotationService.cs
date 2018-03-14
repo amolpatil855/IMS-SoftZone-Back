@@ -37,7 +37,7 @@ namespace IMSWebApi.Services
                     ? mq.materialQuotationNumber.StartsWith(search)
                     || mq.MstCustomer.name.StartsWith(search)
                     || mq.status.StartsWith(search) : true)
-                    .OrderBy(p => p.id).Skip(page * pageSize).Take(pageSize).ToList();
+                    .OrderByDescending(p => p.id).Skip(page * pageSize).Take(pageSize).ToList();
                 materialQuotationView = Mapper.Map<List<TrnMaterialQuotation>, List<VMTrnMaterialQuotation>>(result);
             }
             else
@@ -45,7 +45,7 @@ namespace IMSWebApi.Services
                 var result = repo.TrnMaterialQuotations.Where(mq => !string.IsNullOrEmpty(search)
                     ? mq.materialQuotationNumber.StartsWith(search)
                     || mq.MstCustomer.name.StartsWith(search)
-                    || mq.status.StartsWith(search) : true).ToList();
+                    || mq.status.StartsWith(search) : true).OrderByDescending(p => p.id).ToList();
                 materialQuotationView = Mapper.Map<List<TrnMaterialQuotation>, List<VMTrnMaterialQuotation>>(result);
             }
             materialQuotationView.ForEach(mq => mq.TrnMaterialQuotationItems.ForEach(mqItem => mqItem.TrnMaterialQuotation = null));
@@ -98,14 +98,89 @@ namespace IMSWebApi.Services
                 materialQuotationToPost.createdOn = DateTime.Now;
                 materialQuotationToPost.createdBy = _LoggedInuserId;
 
+                materialQuotationToPost.TrnMaterialSelection.isQuotationCreated = true;
+
                 repo.TrnMaterialQuotations.Add(materialQuotationToPost);
 
                 financialYear.materialQuotationNumber += 1;
                 repo.SaveChanges();
 
                 transaction.Complete();
-                return new ResponseMessage(materialQuotationToPost.id, resourceManager.GetString("QuotationCreated"), ResponseType.Success);
+                return new ResponseMessage(materialQuotationToPost.id, resourceManager.GetString("MQCreated"), ResponseType.Success);
             }
         }
+
+        public ResponseMessage putMaterialQuotation(VMTrnMaterialQuotation materialQuotation)
+        {
+            using (var transaction = new TransactionScope())
+            {
+                var materialQuotationToPut = repo.TrnMaterialQuotations.Where(ms => ms.id == materialQuotation.id).FirstOrDefault();
+
+                updateMQItems(materialQuotation);
+
+                materialQuotationToPut.updatedBy = _LoggedInuserId;
+                materialQuotationToPut.updatedOn = DateTime.Now;
+
+                repo.SaveChanges();
+
+                transaction.Complete();
+                return new ResponseMessage(materialQuotation.id, resourceManager.GetString("MQUpdated"), ResponseType.Success);
+            }
+        }
+
+        public void updateMQItems(VMTrnMaterialQuotation materialQuotation)
+        {
+            var materialQuotationToPut = repo.TrnMaterialQuotations.Where(q => q.id == materialQuotation.id).FirstOrDefault();
+
+            List<TrnMaterialQuotationItem> itemsToRemove = new List<TrnMaterialQuotationItem>();
+            foreach (var mqItem in materialQuotationToPut.TrnMaterialQuotationItems)
+            {
+                if (materialQuotation.TrnMaterialQuotationItems.Any(y => y.id == mqItem.id))
+                {
+                    continue;
+                }
+                else
+                {
+                    itemsToRemove.Add(mqItem);
+                }
+            }
+
+            repo.TrnMaterialQuotationItems.RemoveRange(itemsToRemove);
+            repo.SaveChanges();
+
+            materialQuotation.TrnMaterialQuotationItems.ForEach(x =>
+            {
+                if (materialQuotationToPut.TrnMaterialQuotationItems.Any(y => y.id == x.id))
+                {
+                    var mqItemToPut = repo.TrnMaterialQuotationItems.Where(p => p.id == x.id).FirstOrDefault();
+
+                    mqItemToPut.selectionType = x.selectionType;
+                    mqItemToPut.area = x.area;
+                    mqItemToPut.categoryId = x.categoryId;
+                    mqItemToPut.collectionId = x.collectionId;
+                    mqItemToPut.shadeId = x.shadeId;
+                    mqItemToPut.matSizeId = x.matSizeId;
+                    mqItemToPut.matThicknessId = x.matThicknessId;
+                    mqItemToPut.qualityId = x.qualityId;
+                    mqItemToPut.matHeight = x.matHeight;
+                    mqItemToPut.matWidth = x.matWidth;
+                    mqItemToPut.orderQuantity = x.orderQuantity;
+                    mqItemToPut.deliverQuantity = x.deliverQuantity;
+                    mqItemToPut.balanceQuantity = x.balanceQuantity;
+                    mqItemToPut.rate = x.rate;
+                    mqItemToPut.discountPercentage = x.discountPercentage;
+                    mqItemToPut.amount = x.amount;
+                    mqItemToPut.rateWithGST = x.rateWithGST;
+                    mqItemToPut.amountWithGST = x.amountWithGST;
+                    mqItemToPut.gst = x.gst;
+                    mqItemToPut.status = x.status;
+                    mqItemToPut.updatedOn = DateTime.Now;
+                    mqItemToPut.updatedBy = _LoggedInuserId;
+                    repo.SaveChanges();
+                }
+            });
+        }
+
+
     }
 }

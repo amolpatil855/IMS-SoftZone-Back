@@ -384,7 +384,10 @@
   <data name="MSUpdated" xml:space="preserve">
     <value>Material Selection Updated Successfully</value>
   </data>
-  <data name="QuotationCreated" xml:space="preserve">
+  <data name="MQCreated" xml:space="preserve">
     <value>Quotation Created Successfully</value>
+  </data>
+  <data name="MQUpdated" xml:space="preserve">
+    <value>Material Quotation Updated Successfully</value>
   </data>
 </root>
