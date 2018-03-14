@@ -85,7 +85,7 @@ namespace IMSWebApi.Services
                     || po.MstSupplier.name.ToString().StartsWith(search)
                     || po.MstCourier.name.StartsWith(search)
                     || po.courierMode.StartsWith(search) : true)
-                    .OrderBy(p => p.id).Skip(page * pageSize).Take(pageSize).ToList();
+                    .OrderByDescending(p => p.id).Skip(page * pageSize).Take(pageSize).ToList();
                 purchaseOrderView = Mapper.Map<List<TrnPurchaseOrder>, List<VMTrnPurchaseOrder>>(result);
             }
             else
@@ -94,7 +94,7 @@ namespace IMSWebApi.Services
                     ? po.orderNumber.ToString().StartsWith(search)
                     || po.MstSupplier.name.ToString().StartsWith(search)
                     || po.MstCourier.name.StartsWith(search)
-                    || po.courierMode.StartsWith(search) : true).ToList();
+                    || po.courierMode.StartsWith(search) : true).OrderByDescending(p => p.id).ToList();
                 purchaseOrderView = Mapper.Map<List<TrnPurchaseOrder>, List<VMTrnPurchaseOrder>>(result);
             }
 

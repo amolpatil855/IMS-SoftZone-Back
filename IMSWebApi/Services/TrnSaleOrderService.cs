@@ -48,7 +48,7 @@ namespace IMSWebApi.Services
                     || so.MstCustomer.name.StartsWith(search)
                     || so.MstCourier.name.StartsWith(search)
                     || so.status.StartsWith(search) : true)
-                    .OrderBy(p => p.id).Skip(page * pageSize).Take(pageSize).ToList();
+                    .OrderByDescending(p => p.id).Skip(page * pageSize).Take(pageSize).ToList();
                 saleOrderView = Mapper.Map<List<TrnSaleOrder>, List<VMTrnSaleOrder>>(result);
             }
             else
@@ -57,7 +57,7 @@ namespace IMSWebApi.Services
                     ? so.orderNumber.StartsWith(search)
                     || so.MstCustomer.name.StartsWith(search)
                     || so.MstCourier.name.StartsWith(search)
-                    || so.status.StartsWith(search) : true).ToList();
+                    || so.status.StartsWith(search) : true).OrderByDescending(p => p.id).ToList();
                 saleOrderView = Mapper.Map<List<TrnSaleOrder>, List<VMTrnSaleOrder>>(result);
             }
 

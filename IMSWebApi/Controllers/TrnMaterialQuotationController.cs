@@ -1,4 +1,6 @@
-﻿using IMSWebApi.Services;
+﻿using IMSWebApi.CustomAttributes;
+using IMSWebApi.Services;
+using IMSWebApi.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +20,7 @@ namespace IMSWebApi.Controllers
         }
 
         // GET api/TrnMaterialQuotation
-        //[ApiAuthorize(AccessLevel = "materialquotation")]
+        [ApiAuthorize(AccessLevel = "materialquotation")]
         [HttpGet]
         public IHttpActionResult Get(int pageSize = 0, int page = 0, string search = null)
         {
@@ -27,12 +29,52 @@ namespace IMSWebApi.Controllers
         }
 
         // GET api/TrnMaterialQuotation/1
-        //[ApiAuthorize(AccessLevel = "materialquotation")]
+        [ApiAuthorize(AccessLevel = "materialquotation")]
         [HttpGet]
         public IHttpActionResult Get(long id)
         {
             var result = _trnMaterialQuotationService.getMaterialQuotationById(id);
             return Ok(result);
+        }
+
+        // POST api/TrnMaterialQuotation
+        [ApiAuthorize(AccessLevel = "materialquotation")]
+        [HttpPost]
+        public IHttpActionResult PostTrnMaterialQuotation(VMTrnMaterialQuotation materialQuotation)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var result = _trnMaterialQuotationService.postMaterialQuotation(materialQuotation);
+            return Ok(result);
+        }
+
+        // PUT api/TrnMaterialQuotation
+        [ApiAuthorize(AccessLevel = "materialquotation")]
+        [HttpPut]
+        public IHttpActionResult PutTrnMaterialQuotation(VMTrnMaterialQuotation materialQuotation)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var result = _trnMaterialQuotationService.putMaterialQuotation(materialQuotation);
+            return Ok(result);
+        }
+
+        // PUT api/TrnMaterialQuotation
+        [ApiAuthorize(Roles = "Administrator")]
+        [Route("api/TrnMaterialQuotation/ApproveMaterialQuotation/{id}")]
+        [HttpPut]
+        public IHttpActionResult ApproveMaterialQuotation(long id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            //var result = ;
+            return Ok();
         }
     }
 }
