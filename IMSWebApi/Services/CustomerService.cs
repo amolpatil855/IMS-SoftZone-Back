@@ -70,6 +70,7 @@ namespace IMSWebApi.Services
         {
             var result = repo.MstCustomers.Where(c => c.id == id).FirstOrDefault();
             VMCustomer customerViews = Mapper.Map<MstCustomer, VMCustomer>(result);
+            customerViews.userName = customerViews.MstUser.userName;
             return customerViews;
         }
 
@@ -107,7 +108,7 @@ namespace IMSWebApi.Services
                 customerToPost.userId = userId;
                 List<MstCustomerAddress> customerAddress = customerToPost.MstCustomerAddresses.ToList();
                 foreach (var caddress in customerAddress)
-                {
+                {   
                     caddress.createdOn = DateTime.Now;
                     caddress.createdBy = _LoggedInuserId;
                 }
@@ -146,20 +147,6 @@ namespace IMSWebApi.Services
             Nullable<long> userId = null;
             using (var transaction = new TransactionScope())
             {
-                repo.MstCustomerAddresses.RemoveRange(repo.MstCustomerAddresses
-                    .Where(s => s.customerId == customer.id));
-                repo.SaveChanges();
-
-                List<MstCustomerAddress> customerAddressDetails = Mapper.Map<List<VMCustomerAddress>,
-                    List<MstCustomerAddress>>(customer.MstCustomerAddresses);
-                foreach (var caddress in customerAddressDetails)
-                {
-                    caddress.isPrimary = caddress.isPrimary == null ? false : caddress.isPrimary;
-                    caddress.customerId = customer.id;
-                    caddress.createdOn = DateTime.Now;
-                    caddress.createdBy = _LoggedInuserId;
-                }
-
                 MstCustomer customerToPut = repo.MstCustomers.Where(c => c.id == customer.id).FirstOrDefault();
                 customerToPut.name = customer.name;
                 customerToPut.nickName = customer.nickName;
@@ -177,9 +164,12 @@ namespace IMSWebApi.Services
                 customerToPut.accountPersonEmail = customer.accountPersonEmail;
                 customerToPut.accountPersonPhone = customer.accountPersonPhone;
                 customerToPut.creditPeriodDays = customer.creditPeriodDays;
-                customerToPut.MstCustomerAddresses = customerAddressDetails;
+                //customerToPut.MstCustomerAddresses = customerAddressDetails;
                 customerToPut.updatedOn = DateTime.Now;
                 customerToPut.updatedBy = _LoggedInuserId;
+
+                updateCustomerAddress(customer);
+                
                 repo.SaveChanges();
 
                 if (customer.userId != null)
@@ -197,7 +187,56 @@ namespace IMSWebApi.Services
                 transaction.Complete();
                 return new ResponseMessage(customer.id, resourceManager.GetString("CustomerUpdated"), ResponseType.Success);
             }
+        }
 
+        public void updateCustomerAddress(VMCustomer customer)
+        {
+            MstCustomer customerToPut = repo.MstCustomers.Where(c => c.id == customer.id).FirstOrDefault();
+
+            List<MstCustomerAddress> addressesToRemove = new List<MstCustomerAddress>();
+
+            foreach (var customerAddress in customerToPut.MstCustomerAddresses)
+            {
+                if (customer.MstCustomerAddresses.Any(y => y.id == customerAddress.id))
+                {
+                    continue;
+                }
+                else
+                {
+                    addressesToRemove.Add(customerAddress);
+                }
+            }
+
+            repo.MstCustomerAddresses.RemoveRange(addressesToRemove);
+            repo.SaveChanges();
+
+            customer.MstCustomerAddresses.ForEach(x =>
+            {
+                if (customerToPut.MstCustomerAddresses.Any(y => y.id == x.id))
+                {
+                    var customerAddressToPut = repo.MstCustomerAddresses.Where(p => p.id == x.id).FirstOrDefault();
+
+                    customerAddressToPut.addressLine1 = x.addressLine1;
+                    customerAddressToPut.addressLine2 = x.addressLine2;
+                    customerAddressToPut.city = x.city;
+                    customerAddressToPut.state = x.state;
+                    customerAddressToPut.country = x.country;
+                    customerAddressToPut.pin = x.pin;
+                    customerAddressToPut.gstin = x.gstin;
+                    customerAddressToPut.isPrimary = x.isPrimary;
+                    customerAddressToPut.updatedOn = DateTime.Now;
+                    customerAddressToPut.updatedBy = _LoggedInuserId;
+                    repo.SaveChanges();
+                }
+                else
+                {
+                    MstCustomerAddress customerAddress = Mapper.Map<VMCustomerAddress, MstCustomerAddress>(x);
+                    customerAddress.createdBy = _LoggedInuserId;
+                    customerAddress.createdOn = DateTime.Now;
+                    repo.MstCustomerAddresses.Add(customerAddress);
+                    repo.SaveChanges();
+                }
+            });
         }
 
         public ResponseMessage deleteCustomer(Int64 id)
@@ -219,5 +258,11 @@ namespace IMSWebApi.Services
             }
         }
 
+        public bool canCustomerAddressBeDeleted(Int64 id)
+        {
+            int addressAssociatedWithSOcount = repo.TrnSaleOrders.Where(so => so.shippingAddressId == id).Count();
+
+            return addressAssociatedWithSOcount > 0 ? false : true;
+        }
     }
 }
