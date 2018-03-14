@@ -123,7 +123,7 @@ namespace IMSWebApi.Services
             purchaseOrderView.TrnPurchaseOrderItems.ForEach(poItem =>
             {
                 poItem.categoryName = poItem.MstCategory.name;
-                poItem.collectionName = poItem.collectionId != null ? poItem.MstCollection.collectionName : null;
+                poItem.collectionName = poItem.collectionId != null ? poItem.MstCollection.collectionCode : null;
                 poItem.serialno = poItem.MstCategory.code.Equals("Fabric") || poItem.MstCategory.code.Equals("Rug") || poItem.MstCategory.code.Equals("Wallpaper") ? poItem.MstFWRShade.serialNumber + "(" + poItem.MstFWRShade.shadeCode + "-" + poItem.MstFWRShade.MstFWRDesign.designCode + ")" : null;
                 poItem.size = poItem.MstMatSize != null ? poItem.MstMatSize.sizeCode + " (" + poItem.MstMatSize.MstMatThickNess.thicknessCode + "-" + poItem.MstMatSize.MstQuality.qualityCode + ")" :
                                 poItem.MstFomSize != null ? poItem.MstFomSize.itemCode : poItem.matSizeCode;
@@ -483,9 +483,9 @@ namespace IMSWebApi.Services
                 poItemAgainstSO.categoryId = item.categoryId;
                 poItemAgainstSO.categoryName = item.MstCategory.name;
                 poItemAgainstSO.collectionId = item.collectionId != null ? item.collectionId : null;
-                poItemAgainstSO.collectionName = item.collectionId != null ? item.MstCollection.collectionName : null;
+                poItemAgainstSO.collectionName = item.collectionId != null ? item.MstCollection.collectionCode : null;
                 poItemAgainstSO.shadeId = item.fwrShadeId != null ? item.fwrShadeId : null;
-                poItemAgainstSO.serialno = item.fwrShadeId != null ? item.MstFWRShade.serialNumber + "(" + item.MstFWRShade.shadeCode + ")" : null;
+                poItemAgainstSO.serialno = item.fwrShadeId != null ? item.MstFWRShade.serialNumber + "(" + item.MstFWRShade.shadeCode + "-" + item.MstFWRShade.MstFWRDesign.designCode + ")" : null;
                 poItemAgainstSO.fomSizeId = item.fomSizeId != null ? item.fomSizeId : null;
                 poItemAgainstSO.sizeForListing = item.fomSizeId != null ? item.MstFomSize.itemCode : null;
                 //values for calculation of rate for fabrics
@@ -512,7 +512,7 @@ namespace IMSWebApi.Services
 
                 //values for accessory
                 poItemAgainstSO.accessoryId = item.accessoryId != null ? item.accessoryId : null;
-                poItemAgainstSO.accessoryName = item.accessoryId != null ? item.MstAccessory.name : null;
+                poItemAgainstSO.accessoryName = item.accessoryId != null ? item.MstAccessory.itemCode : null;
                 poItemAgainstSO.sellingRate = item.accessoryId != null ? item.MstAccessory.sellingRate : (decimal?)null;
                 poItemAgainstSO.purchaseRate = item.accessoryId != null ? item.MstAccessory.purchaseRate : (decimal?)null;
 

@@ -70,7 +70,7 @@ namespace IMSWebApi.Services
         {
             var result = repo.MstCustomers.Where(c => c.id == id).FirstOrDefault();
             VMCustomer customerViews = Mapper.Map<MstCustomer, VMCustomer>(result);
-            customerViews.userName = customerViews.MstUser.userName;
+            customerViews.userName = customerViews.MstUser != null ? customerViews.MstUser.userName : null;
             return customerViews;
         }
 

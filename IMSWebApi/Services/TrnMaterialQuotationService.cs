@@ -66,7 +66,7 @@ namespace IMSWebApi.Services
             materialQuotationView.TrnMaterialQuotationItems.ForEach(mqItem =>
             {
                 mqItem.categoryName = mqItem.MstCategory.name;
-                mqItem.collectionName = mqItem.collectionId != null ? mqItem.MstCollection.collectionName : null;
+                mqItem.collectionName = mqItem.collectionId != null ? mqItem.MstCollection.collectionCode : null;
                 mqItem.serialno = mqItem.MstCategory.code.Equals("Fabric") || mqItem.MstCategory.code.Equals("Rug") || mqItem.MstCategory.code.Equals("Wallpaper") ? mqItem.MstFWRShade.serialNumber + "(" + mqItem.MstFWRShade.shadeCode + "-" + mqItem.MstFWRShade.MstFWRDesign.designCode + ")" : null;
                 mqItem.size = mqItem.MstMatSize != null ? mqItem.MstMatSize.sizeCode + " (" + mqItem.MstMatSize.MstMatThickNess.thicknessCode + "-" + mqItem.MstMatSize.MstQuality.qualityCode + ")" : null;
             });

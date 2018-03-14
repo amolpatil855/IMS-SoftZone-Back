@@ -83,14 +83,14 @@ namespace IMSWebApi.Services
             saleOrderView.TrnSaleOrderItems.ForEach(soItem =>
             {
                 soItem.categoryName = soItem.MstCategory.name;
-                soItem.collectionName = soItem.collectionId != null ? soItem.MstCollection.collectionName : null;
+                soItem.collectionName = soItem.collectionId != null ? soItem.MstCollection.collectionCode : null;
                 soItem.serialno = soItem.MstCategory.code.Equals("Fabric")
                                 || soItem.MstCategory.code.Equals("Rug")
                                 || soItem.MstCategory.code.Equals("Wallpaper")
                                 ? soItem.MstFWRShade.serialNumber + "(" + soItem.MstFWRShade.shadeCode + "-" + soItem.MstFWRShade.MstFWRDesign.designCode + ")" : null;
                 soItem.size = soItem.MstMatSize != null ? soItem.MstMatSize.sizeCode + " (" + soItem.MstMatSize.MstMatThickNess.thicknessCode + "-" + soItem.MstMatSize.MstQuality.qualityCode + ")" :
                             soItem.MstFomSize != null ? soItem.MstFomSize.itemCode : null;
-                soItem.accessoryName = soItem.accessoryId != null ? soItem.MstAccessory.name : null;
+                soItem.accessoryName = soItem.accessoryId != null ? soItem.MstAccessory.itemCode : null;
 
                 decimal stockAvailable = repo.TrnProductStocks.Where(p => p.categoryId == soItem.categoryId
                                                                      && p.collectionId == soItem.collectionId

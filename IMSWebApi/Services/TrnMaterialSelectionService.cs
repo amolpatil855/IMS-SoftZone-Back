@@ -66,7 +66,7 @@ namespace IMSWebApi.Services
             materialSelectionView.TrnMaterialSelectionItems.ForEach(msItem =>
             {
                 msItem.categoryName = msItem.MstCategory.name;
-                msItem.collectionName = msItem.collectionId != null ? msItem.MstCollection.collectionName : null;
+                msItem.collectionName = msItem.collectionId != null ? msItem.MstCollection.collectionCode : null;
                 msItem.serialno = msItem.MstCategory.code.Equals("Fabric") || msItem.MstCategory.code.Equals("Rug") || msItem.MstCategory.code.Equals("Wallpaper") 
                     ? msItem.MstFWRShade.serialNumber + "(" + msItem.MstFWRShade.shadeCode + "-" + msItem.MstFWRShade.MstFWRDesign.designCode + ")" : null;
                 msItem.size = msItem.MstMatSize != null ? msItem.MstMatSize.sizeCode + " (" + msItem.MstMatSize.MstMatThickNess.thicknessCode + "-" + msItem.MstMatSize.MstQuality.qualityCode + ")" : null;
@@ -201,7 +201,7 @@ namespace IMSWebApi.Services
                 mqItem.categoryId = msItem.categoryId;
                 mqItem.categoryName = msItem.categoryId != null ? msItem.MstCategory.code : null;
                 mqItem.collectionId = msItem.collectionId;
-                mqItem.collectionName = msItem.collectionId != null ? msItem.MstCollection.collectionName : null;
+                mqItem.collectionName = msItem.collectionId != null ? msItem.MstCollection.collectionCode : null;
                 mqItem.shadeId = msItem.shadeId;
                 mqItem.serialno = msItem.shadeId != null ? msItem.MstFWRShade.serialNumber + "(" + msItem.MstFWRShade.shadeCode + "-" + msItem.MstFWRShade.MstFWRDesign.designCode + ")" : null;
                 mqItem.matSizeId = msItem.matSizeId;

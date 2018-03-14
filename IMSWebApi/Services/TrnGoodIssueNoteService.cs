@@ -77,14 +77,14 @@ namespace IMSWebApi.Services
             goodIssueNoteView.TrnGoodIssueNoteItems.ForEach(ginItem =>
             {
                 ginItem.categoryName = ginItem.MstCategory.name;
-                ginItem.collectionName = ginItem.collectionId != null ? ginItem.MstCollection.collectionName : null;
+                ginItem.collectionName = ginItem.collectionId != null ? ginItem.MstCollection.collectionCode : null;
                 ginItem.serialno = ginItem.MstCategory.code.Equals("Fabric")
                                 || ginItem.MstCategory.code.Equals("Rug")
                                 || ginItem.MstCategory.code.Equals("Wallpaper")
                                 ? ginItem.MstFWRShade.serialNumber + "(" + ginItem.MstFWRShade.shadeCode + "-" + ginItem.MstFWRShade.MstFWRDesign.designCode + ")" : null;
                 ginItem.size = ginItem.MstMatSize != null ? ginItem.MstMatSize.sizeCode + " (" + ginItem.MstMatSize.MstMatThickNess.thicknessCode + "-" + ginItem.MstMatSize.MstQuality.qualityCode + ")" :
                             ginItem.MstFomSize != null ? ginItem.MstFomSize.itemCode : null;
-                ginItem.accessoryName = ginItem.accessoryId != null ? ginItem.MstAccessory.name : null;
+                ginItem.accessoryName = ginItem.accessoryId != null ? ginItem.MstAccessory.itemCode : null;
 
                 decimal stockAvailable = repo.TrnProductStocks.Where(p => p.categoryId == ginItem.categoryId
                                                                      && p.collectionId == ginItem.collectionId
@@ -327,14 +327,14 @@ namespace IMSWebApi.Services
                     VMTrnGoodIssueNoteItem VMGinItem = Mapper.Map<TrnGoodIssueNoteItem, VMTrnGoodIssueNoteItem>(ginItem);
                     VMGinItem.availableStock = stockAvailable;
                     VMGinItem.categoryName = VMGinItem.MstCategory.name;
-                    VMGinItem.collectionName = VMGinItem.collectionId != null ? VMGinItem.MstCollection.collectionName : null;
+                    VMGinItem.collectionName = VMGinItem.collectionId != null ? VMGinItem.MstCollection.collectionCode : null;
                     VMGinItem.serialno = VMGinItem.MstCategory.code.Equals("Fabric")
                                     || VMGinItem.MstCategory.code.Equals("Rug")
                                     || VMGinItem.MstCategory.code.Equals("Wallpaper")
                                     ? VMGinItem.MstFWRShade.serialNumber + "(" + VMGinItem.MstFWRShade.shadeCode + "-" + VMGinItem.MstFWRShade.MstFWRDesign.designCode + ")" : null;
                     VMGinItem.size = VMGinItem.MstMatSize != null ? VMGinItem.MstMatSize.sizeCode + " (" + VMGinItem.MstMatSize.MstMatThickNess.thicknessCode + "-" + VMGinItem.MstMatSize.MstQuality.qualityCode + ")" :
                                 VMGinItem.MstFomSize != null ? VMGinItem.MstFomSize.itemCode : null;
-                    VMGinItem.accessoryName = VMGinItem.accessoryId != null ? VMGinItem.MstAccessory.name : null;
+                    VMGinItem.accessoryName = VMGinItem.accessoryId != null ? VMGinItem.MstAccessory.itemCode : null;
                     VMGinItem.TrnGoodIssueNote.TrnGoodIssueNoteItems = null;
                     ginItemsWithAvailableInStock.Add(VMGinItem);
                 }
