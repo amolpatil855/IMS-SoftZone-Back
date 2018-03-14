@@ -81,5 +81,14 @@ namespace IMSWebApi.Controllers
             var result = _customerService.getCustomerAddressByCustomerId(customerId);
             return Ok(result);
         }
+
+        [HttpGet]
+        [Route("api/Customer/CanCustomerAddressBeDeleted/{addressId}")]
+        public IHttpActionResult CanCustomerAddressBeDeleted(long addressId)
+        {
+            var result = _customerService.canCustomerAddressBeDeleted(addressId);
+            return Ok(result);
+        }
+
     }
 }
