@@ -63,5 +63,15 @@ namespace IMSWebApi.Controllers
             var result = _trnMaterialSelectionService.putMaterialSelection(materialSelection);
             return Ok(result);
         }
+
+        // GET api/TrnMaterialSelection/1
+        //[ApiAuthorize(Roles = "Administrator")]
+        [HttpPut]
+        [Route("api/TrnMaterialSelection/CreateMaterialQuotation/{id}")]
+        public IHttpActionResult CreateMaterialQuotation(long id)
+        {
+            var result = _trnMaterialSelectionService.createMaterialQuotation(id);
+            return Ok(result);
+        }
     }
 }
