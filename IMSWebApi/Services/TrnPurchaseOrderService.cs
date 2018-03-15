@@ -487,7 +487,7 @@ namespace IMSWebApi.Services
                 poItemAgainstSO.shadeId = item.fwrShadeId != null ? item.fwrShadeId : null;
                 poItemAgainstSO.serialno = item.fwrShadeId != null ? item.MstFWRShade.serialNumber + "(" + item.MstFWRShade.shadeCode + "-" + item.MstFWRShade.MstFWRDesign.designCode + ")" : null;
                 poItemAgainstSO.fomSizeId = item.fomSizeId != null ? item.fomSizeId : null;
-                poItemAgainstSO.sizeForListing = item.fomSizeId != null ? item.MstFomSize.itemCode : null;
+                poItemAgainstSO.size = item.fomSizeId != null ? item.MstFomSize.itemCode : null;
                 //values for calculation of rate for fabrics
                 poItemAgainstSO.cutRate = item.fwrShadeId != null ? item.MstFWRShade.MstQuality.cutRate : null;
                 poItemAgainstSO.roleRate = item.fwrShadeId != null ? item.MstFWRShade.MstQuality.roleRate : null;

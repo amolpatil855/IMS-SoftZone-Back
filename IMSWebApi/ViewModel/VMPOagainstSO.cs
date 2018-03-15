@@ -39,7 +39,7 @@ namespace IMSWebApi.ViewModel
         public string categoryName { get; set; }
         public string collectionName { get; set; }
         public string serialno { get; set; }
-        public string sizeForListing { get; set; }                  
+        //public string sizeForListing { get; set; }                  
         public string accessoryName { get; set; }
         //Fields for showing values in listing
 
@@ -74,7 +74,7 @@ namespace IMSWebApi.ViewModel
                 public Nullable<decimal> purchaseRate { get; set; }     //Accessory
                 public Nullable<decimal> custRatePerSqFeet { get; set; }
                 public Nullable<decimal> maxDiscount { get; set; }
-                public Nullable<decimal> size { get; set; }         //Mat Thickness size        
+                public string size { get; set; }         //Mat Thickness size   For Display(15/03/2018)     Nullable<decimal> to string
 
                 //Accessory
                 public Nullable<decimal> sellingRate { get; set; }
