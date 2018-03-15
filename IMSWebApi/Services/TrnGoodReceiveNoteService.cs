@@ -40,6 +40,7 @@ namespace IMSWebApi.Services
                 var result = repo.TrnGoodReceiveNotes.Where(grn => !string.IsNullOrEmpty(search)
                     ? grn.grnNumber.ToString().StartsWith(search)
                     || grn.grnDate.ToString().StartsWith(search)
+                    || grn.TrnGoodReceiveNoteItems.Any(grnItem => grnItem.TrnPurchaseOrder.orderNumber.Contains(search))
                     || grn.MstSupplier.code.StartsWith(search)
                     || grn.MstCompanyLocation.locationCode.StartsWith(search)
                     || grn.totalAmount.ToString().StartsWith(search) : true)
@@ -51,6 +52,7 @@ namespace IMSWebApi.Services
                 var result = repo.TrnGoodReceiveNotes.Where(grn => !string.IsNullOrEmpty(search)
                     ? grn.grnNumber.ToString().StartsWith(search)
                     || grn.grnDate.ToString().StartsWith(search)
+                    || grn.TrnGoodReceiveNoteItems.Any(grnItem => grnItem.TrnPurchaseOrder.orderNumber.Contains(search))
                     || grn.MstSupplier.code.StartsWith(search)
                     || grn.MstCompanyLocation.locationCode.StartsWith(search)
                     || grn.totalAmount.ToString().StartsWith(search) : true).OrderByDescending(p => p.id).ToList();
@@ -63,6 +65,7 @@ namespace IMSWebApi.Services
                 TotalCount = repo.TrnGoodReceiveNotes.Where(grn => !string.IsNullOrEmpty(search)
                     ? grn.grnNumber.ToString().StartsWith(search)
                     || grn.grnDate.ToString().StartsWith(search)
+                    || grn.TrnGoodReceiveNoteItems.Any(grnItem => grnItem.TrnPurchaseOrder.orderNumber.Contains(search))
                     || grn.MstSupplier.code.StartsWith(search)
                     || grn.MstCompanyLocation.locationCode.StartsWith(search)
                     || grn.totalAmount.ToString().StartsWith(search) : true).Count(),

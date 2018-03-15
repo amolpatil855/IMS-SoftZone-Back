@@ -118,7 +118,7 @@ namespace IMSWebApi.Services
                     salesInvoiceItem.accessoryId = ginItem.accessoryId;
                     salesInvoiceItem.quantity = Convert.ToDecimal(ginItem.issuedQuantity);
                     salesInvoiceItem.rate = ginItem.rate;
-                    salesInvoiceItem.discountPercentage = ginItem.discountPercentage;
+                    salesInvoiceItem.discountPercentage = ginItem.discountPercentage != null ? ginItem.discountPercentage : 0;
                     decimal _amount = (ginItem.rate * Convert.ToDecimal(ginItem.issuedQuantity));
                     decimal discountAmt = _amount - (_amount * Convert.ToDecimal(ginItem.discountPercentage) / 100);
                     salesInvoiceItem.amount = Convert.ToInt32(Math.Round(discountAmt, MidpointRounding.AwayFromZero));
