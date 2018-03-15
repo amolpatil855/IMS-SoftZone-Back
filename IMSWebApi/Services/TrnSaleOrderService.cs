@@ -97,7 +97,9 @@ namespace IMSWebApi.Services
                                                                      && p.fwrShadeId == soItem.shadeId
                                                                      && p.fomSizeId == soItem.fomSizeId
                                                                      && p.matSizeId == soItem.matSizeId
-                                                                     && p.accessoryId == soItem.accessoryId).FirstOrDefault().stock;
+                                                                     && p.accessoryId == soItem.accessoryId)
+                                                                     .Select(s => s.stock + s.poQuantity - s.soQuanity).FirstOrDefault();
+                stockAvailable = stockAvailable > 0 ? stockAvailable : 0;
                 soItem.availableStock = stockAvailable;
             });
 
