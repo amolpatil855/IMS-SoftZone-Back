@@ -77,7 +77,7 @@ namespace IMSWebApi.Services
             goodIssueNoteView.TrnGoodIssueNoteItems.ForEach(ginItem =>
             {
                 ginItem.categoryName = ginItem.MstCategory.name;
-                ginItem.collectionName = ginItem.collectionId != null ? ginItem.MstCollection.collectionCode : null;
+                ginItem.collectionName = ginItem.collectionId != null ? ginItem.MstCollection.collectionCode + " ("+ ginItem.MstCollection.MstSupplier.code + ")": null;
                 ginItem.serialno = ginItem.MstCategory.code.Equals("Fabric")
                                 || ginItem.MstCategory.code.Equals("Rug")
                                 || ginItem.MstCategory.code.Equals("Wallpaper")

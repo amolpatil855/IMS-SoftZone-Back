@@ -83,7 +83,7 @@ namespace IMSWebApi.Services
             saleOrderView.TrnSaleOrderItems.ForEach(soItem =>
             {
                 soItem.categoryName = soItem.MstCategory.name;
-                soItem.collectionName = soItem.collectionId != null ? soItem.MstCollection.collectionCode : null;
+                soItem.collectionName = soItem.collectionId != null ? soItem.MstCollection.collectionCode + " (" + soItem.MstCollection.MstSupplier.code + ")": null;
                 soItem.serialno = soItem.MstCategory.code.Equals("Fabric")
                                 || soItem.MstCategory.code.Equals("Rug")
                                 || soItem.MstCategory.code.Equals("Wallpaper")
