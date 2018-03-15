@@ -157,7 +157,7 @@ namespace IMSWebApi.Services
             }
             if (categoryCode != null && categoryCode.Equals("Mattress"))
             {
-                if (parameterId != null)
+                if (parameterId != null && parameterId != -1)
                 {
                     poItemDetails = repo.TrnPurchaseOrderItems.Where(po => po.categoryId == categoryId
                                                                   && po.collectionId == collectionId
