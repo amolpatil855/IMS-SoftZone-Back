@@ -37,7 +37,7 @@ namespace IMSWebApi.Services
         {
             return repo.MstCollections.Where(c => c.categoryId == categoryId && c.supplierId == supplierId)
                                         .OrderBy(o => o.collectionCode)
-                                        .Select(s => new VMLookUpItem { value = s.id, label = s.collectionCode })
+                                        .Select(s => new VMLookUpItem { value = s.id, label = s.collectionCode + " (" + s.MstSupplier.code + ")" })
                                         .ToList();
         }
 
@@ -123,7 +123,7 @@ namespace IMSWebApi.Services
             purchaseOrderView.TrnPurchaseOrderItems.ForEach(poItem =>
             {
                 poItem.categoryName = poItem.MstCategory.name;
-                poItem.collectionName = poItem.collectionId != null ? poItem.MstCollection.collectionCode : null;
+                poItem.collectionName = poItem.collectionId != null ? poItem.MstCollection.collectionCode + " (" + poItem.MstCollection.MstSupplier.code + ")" : null;
                 poItem.serialno = poItem.MstCategory.code.Equals("Fabric") || poItem.MstCategory.code.Equals("Rug") || poItem.MstCategory.code.Equals("Wallpaper") ? poItem.MstFWRShade.serialNumber + "(" + poItem.MstFWRShade.shadeCode + "-" + poItem.MstFWRShade.MstFWRDesign.designCode + ")" : null;
                 poItem.size = poItem.MstMatSize != null ? poItem.MstMatSize.sizeCode + " (" + poItem.MstMatSize.MstMatThickNess.thicknessCode + "-" + poItem.MstMatSize.MstQuality.qualityCode + ")" :
                                 poItem.MstFomSize != null ? poItem.MstFomSize.itemCode : poItem.matSizeCode;
@@ -481,9 +481,9 @@ namespace IMSWebApi.Services
 
                 poItemAgainstSO.supplierId = item.collectionId != null ? item.MstCollection.supplierId : item.MstAccessory.supplierId;
                 poItemAgainstSO.categoryId = item.categoryId;
-                poItemAgainstSO.categoryName = item.MstCategory.name;
+                poItemAgainstSO.categoryName = item.MstCategory.name ;
                 poItemAgainstSO.collectionId = item.collectionId != null ? item.collectionId : null;
-                poItemAgainstSO.collectionName = item.collectionId != null ? item.MstCollection.collectionCode : null;
+                poItemAgainstSO.collectionName = item.collectionId != null ? item.MstCollection.collectionCode + " (" + item.MstCollection.MstSupplier.code + ")": null;
                 poItemAgainstSO.shadeId = item.fwrShadeId != null ? item.fwrShadeId : null;
                 poItemAgainstSO.serialno = item.fwrShadeId != null ? item.MstFWRShade.serialNumber + "(" + item.MstFWRShade.shadeCode + "-" + item.MstFWRShade.MstFWRDesign.designCode + ")" : null;
                 poItemAgainstSO.fomSizeId = item.fomSizeId != null ? item.fomSizeId : null;

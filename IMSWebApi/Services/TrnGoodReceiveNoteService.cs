@@ -85,7 +85,7 @@ namespace IMSWebApi.Services
             goodReceiveNoteView.TrnGoodReceiveNoteItems.ForEach(grnItem =>
             {
                 grnItem.categoryName = grnItem.MstCategory.name;
-                grnItem.collectionName = grnItem.collectionId != null ? grnItem.MstCollection.collectionCode : null;
+                grnItem.collectionName = grnItem.collectionId != null ? grnItem.MstCollection.collectionCode + " (" + grnItem.MstCollection.MstSupplier.code + ")" : null;
                 grnItem.serialno = grnItem.MstCategory.code.Equals("Fabric") 
                                 || grnItem.MstCategory.code.Equals("Rug") 
                                 || grnItem.MstCategory.code.Equals("Wallpaper") 
@@ -101,12 +101,13 @@ namespace IMSWebApi.Services
         public List<VMLookUpItem> getSupplierForGRN()
         {
             return repo.TrnPurchaseOrders.Where(po => po.status.Equals("Approved") || po.status.Equals("PartialCompleted"))
-                            .OrderBy(s => s.MstSupplier.name)
                             .Select(s => new VMLookUpItem
                             {
                                 value = s.MstSupplier.id,
                                 label = s.MstSupplier.code
-                            }).Distinct()
+                            })
+                            .OrderBy(o=>o.label)
+                            .Distinct()
                             .ToList();
         }
 

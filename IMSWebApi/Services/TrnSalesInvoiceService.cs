@@ -77,12 +77,14 @@ namespace IMSWebApi.Services
             salesInvoiceView.TrnSalesInvoiceItems.ForEach(salesInvoiceItem =>
             {
                 salesInvoiceItem.categoryName = salesInvoiceItem.MstCategory.name;
-                salesInvoiceItem.collectionName = salesInvoiceItem.collectionId != null ? salesInvoiceItem.MstCollection.collectionCode : null;
+                salesInvoiceItem.collectionName = salesInvoiceItem.collectionId != null ? salesInvoiceItem.MstCollection.collectionCode 
+                    + " (" + salesInvoiceItem.MstCollection.MstSupplier.code  + ")": null;
                 salesInvoiceItem.serialno = salesInvoiceItem.MstCategory.code.Equals("Fabric")
                                 || salesInvoiceItem.MstCategory.code.Equals("Rug")
                                 || salesInvoiceItem.MstCategory.code.Equals("Wallpaper")
                                 ? salesInvoiceItem.MstFWRShade.serialNumber + "(" + salesInvoiceItem.MstFWRShade.shadeCode + "-" + salesInvoiceItem.MstFWRShade.MstFWRDesign.designCode + ")" : null;
-                salesInvoiceItem.size = salesInvoiceItem.MstMatSize != null ? salesInvoiceItem.MstMatSize.sizeCode + " (" + salesInvoiceItem.MstMatSize.MstMatThickNess.thicknessCode + "-" + salesInvoiceItem.MstMatSize.MstQuality.qualityCode + ")" :
+                salesInvoiceItem.size = salesInvoiceItem.MstMatSize != null ? 
+                    salesInvoiceItem.MstMatSize.sizeCode + " (" + salesInvoiceItem.MstMatSize.MstMatThickNess.thicknessCode + "-" + salesInvoiceItem.MstMatSize.MstQuality.qualityCode + ")" :
                             salesInvoiceItem.MstFomSize != null ? salesInvoiceItem.MstFomSize.itemCode : null;
                 salesInvoiceItem.accessoryName = salesInvoiceItem.accessoryId != null ? salesInvoiceItem.MstAccessory.itemCode : null;
             });
