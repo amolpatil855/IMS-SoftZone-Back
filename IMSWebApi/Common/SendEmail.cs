@@ -75,7 +75,7 @@ namespace IMSWebApi.Common
                     + "</td><td>" + accessoryCode 
                     + "</td><td>" + poItem.orderQuantity 
                     + "</td><td> " + poItem.orderType
-                    + "</td><td> " + poItem.rateWithGST 
+                    + "</td><td> " + poItem.rate 
                     + "</td><td> " + poItem.amountWithGST 
                     + "</td> </tr>";  
             }  
@@ -120,7 +120,7 @@ namespace IMSWebApi.Common
                     + "</td><td> " + accessoryCode
                     + "</td><td> " + soItem.orderQuantity 
                     + "</td><td> " + soItem.orderType
-                    + "</td><td> " + soItem.rateWithGST 
+                    + "</td><td> " + soItem.rate 
                     + "</td><td> " + soItem.amountWithGST 
                     + "</td> </tr>";
             }
@@ -165,7 +165,7 @@ namespace IMSWebApi.Common
                 string accessoryCode = poItem.accessoryName != null && poItem.accessoryName != ""? poItem.accessoryName :
                     poItem.accessoryId != null ? poItem.MstAccessory.itemCode : "";
                 string collectionName = poItem.collectionName != null && poItem.collectionName != ""? poItem.collectionName :
-                    poItem.collectionId != null ? poItem.MstCollection.collectionName : "";
+                    poItem.collectionId != null ? poItem.MstCollection.collectionName + " (" + poItem.MstCollection.MstSupplier.code + ")": "";
                 string categoryName = poItem.categoryName != null && poItem.categoryName != ""? poItem.categoryName : poItem.MstCategory.name;
                 rows += "<tr><td>" + categoryName
                     + "</td><td> " + collectionName
@@ -173,7 +173,7 @@ namespace IMSWebApi.Common
                     + "</td><td> " + accessoryCode
                     + "</td><td> " + poItem.orderQuantity
                     + "</td><td> " + poItem.orderType
-                    + "</td><td> " + poItem.rateWithGST
+                    + "</td><td> " + poItem.rate
                     + "</td><td> " + poItem.amountWithGST
                     + "</td></tr>";
             }
@@ -226,7 +226,7 @@ namespace IMSWebApi.Common
                     + "</td><td> " + accessoryCode 
                     + "</td><td> " + soItem.orderQuantity 
                     + "</td><td> " + soItem.orderType
-                    + "</td><td> " + soItem.rateWithGST 
+                    + "</td><td> " + soItem.rate 
                     + "</td><td> " + soItem.amountWithGST 
                     + "</td> </tr>";
             }
@@ -273,7 +273,7 @@ namespace IMSWebApi.Common
                     + "</td><td> " + accessoryCode
                     + "</td><td> " + soItem.orderQuantity
                     + "</td><td> " + soItem.orderType
-                    + "</td><td> " + soItem.rateWithGST
+                    + "</td><td> " + soItem.rate
                     + "</td><td> " + soItem.amountWithGST
                     + "</td> </tr>";
             }
