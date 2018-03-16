@@ -32,34 +32,29 @@ namespace IMSWebApi.Services
             emailNotification = new SendEmail();
         }
 
-        public ListResult<VMTrnGoodReceiveNote> getGoodReceiveNote(int pageSize, int page, string search)
+        public ListResult<VMTrnGoodReceiveNoteList> getGoodReceiveNote(int pageSize, int page, string search)
         {
-            List<VMTrnGoodReceiveNote> goodReceiveNoteView;
-            if (pageSize > 0)
-            {
-                var result = repo.TrnGoodReceiveNotes.Where(grn => !string.IsNullOrEmpty(search)
+            List<VMTrnGoodReceiveNoteList> goodReceiveNoteView;
+            goodReceiveNoteView = repo.TrnGoodReceiveNotes.Where(grn => !string.IsNullOrEmpty(search)
                     ? grn.grnNumber.ToString().StartsWith(search)
                     || grn.grnDate.ToString().StartsWith(search)
                     || grn.TrnGoodReceiveNoteItems.Any(grnItem => grnItem.TrnPurchaseOrder.orderNumber.Contains(search))
                     || grn.MstSupplier.code.StartsWith(search)
                     || grn.MstCompanyLocation.locationCode.StartsWith(search)
                     || grn.totalAmount.ToString().StartsWith(search) : true)
+                    .Select(grn => new VMTrnGoodReceiveNoteList
+                    {
+                        id = grn.id,
+                        grnDate = grn.grnDate,
+                        grnNumber = grn.grnNumber,
+                        purchaseOrderNumbers = grn.TrnGoodReceiveNoteItems.Select(s=>s.TrnPurchaseOrder.orderNumber).Distinct().ToList(),
+                        supplierName = grn.MstSupplier != null ? grn.MstSupplier.code : null ,
+                        locationCode = grn.MstCompanyLocation != null ? grn.MstCompanyLocation.locationCode : null,
+                        totalAmount = grn.totalAmount
+                    })
                     .OrderByDescending(p => p.id).Skip(page * pageSize).Take(pageSize).ToList();
-                goodReceiveNoteView = Mapper.Map<List<TrnGoodReceiveNote>, List<VMTrnGoodReceiveNote>>(result);
-            }
-            else
-            {
-                var result = repo.TrnGoodReceiveNotes.Where(grn => !string.IsNullOrEmpty(search)
-                    ? grn.grnNumber.ToString().StartsWith(search)
-                    || grn.grnDate.ToString().StartsWith(search)
-                    || grn.TrnGoodReceiveNoteItems.Any(grnItem => grnItem.TrnPurchaseOrder.orderNumber.Contains(search))
-                    || grn.MstSupplier.code.StartsWith(search)
-                    || grn.MstCompanyLocation.locationCode.StartsWith(search)
-                    || grn.totalAmount.ToString().StartsWith(search) : true).OrderByDescending(p => p.id).ToList();
-                goodReceiveNoteView = Mapper.Map<List<TrnGoodReceiveNote>, List<VMTrnGoodReceiveNote>>(result);
-            }
-
-            return new ListResult<VMTrnGoodReceiveNote>
+               
+                return new ListResult<VMTrnGoodReceiveNoteList>
             {
                 Data = goodReceiveNoteView,
                 TotalCount = repo.TrnGoodReceiveNotes.Where(grn => !string.IsNullOrEmpty(search)

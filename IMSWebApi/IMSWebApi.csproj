@@ -513,6 +513,7 @@
     <Compile Include="ViewModel\VMProductDetails.cs" />
     <Compile Include="ViewModel\VMTrnGoodIssueNote.cs" />
     <Compile Include="ViewModel\VMTrnGoodIssueNoteItem.cs" />
+    <Compile Include="ViewModel\VMTrnGoodReceiveNoteList.cs" />
     <Compile Include="ViewModel\VMTrnMaterialQuotation.cs" />
     <Compile Include="ViewModel\VMTrnMaterialQuotationItem.cs" />
     <Compile Include="ViewModel\VMTrnMaterialSelection.cs" />
@@ -535,6 +536,7 @@
     <Compile Include="ViewModel\VMTrnPurchaseOrderItem.cs" />
     <Compile Include="ViewModel\VMTrnSaleOrder.cs" />
     <Compile Include="ViewModel\VMTrnSaleOrderItem.cs" />
+    <Compile Include="ViewModel\VMTrnPurchaseOrderList.cs" />
     <Compile Include="ViewModel\VMTrnSalesInvoice.cs" />
     <Compile Include="ViewModel\VMTrnSalesInvoiceItem.cs" />
     <Compile Include="ViewModel\VMUnitOfMeasure.cs" />
