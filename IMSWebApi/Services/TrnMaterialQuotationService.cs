@@ -36,7 +36,7 @@ namespace IMSWebApi.Services
                 var result = repo.TrnMaterialQuotations.Where(mq => !string.IsNullOrEmpty(search)
                     ? mq.materialQuotationNumber.StartsWith(search)
                     || mq.MstCustomer.name.StartsWith(search)
-                    || mq.status.StartsWith(search) : true)
+                    || mq.status.StartsWith(search) : true)                   
                     .OrderByDescending(p => p.id).Skip(page * pageSize).Take(pageSize).ToList();
                 materialQuotationView = Mapper.Map<List<TrnMaterialQuotation>, List<VMTrnMaterialQuotation>>(result);
             }
@@ -49,6 +49,8 @@ namespace IMSWebApi.Services
                 materialQuotationView = Mapper.Map<List<TrnMaterialQuotation>, List<VMTrnMaterialQuotation>>(result);
             }
             materialQuotationView.ForEach(mq => mq.TrnMaterialQuotationItems.ForEach(mqItem => mqItem.TrnMaterialQuotation = null));
+            materialQuotationView.ForEach(mq => mq.TrnMaterialSelection.TrnMaterialQuotations = null);
+            materialQuotationView.ForEach(mq => mq.TrnMaterialSelection.TrnMaterialSelectionItems.ForEach(msItems => msItems.TrnMaterialSelection = null));
             return new ListResult<VMTrnMaterialQuotation>
             {
                 Data = materialQuotationView,
@@ -71,6 +73,8 @@ namespace IMSWebApi.Services
                 mqItem.size = mqItem.MstMatSize != null ? mqItem.MstMatSize.sizeCode + " (" + mqItem.MstMatSize.MstMatThickNess.thicknessCode + "-" + mqItem.MstMatSize.MstQuality.qualityCode + ")" : null;
             });
             materialQuotationView.TrnMaterialQuotationItems.ForEach(mqItem => mqItem.TrnMaterialQuotation = null);
+            materialQuotationView.TrnMaterialSelection.TrnMaterialQuotations = null;
+            materialQuotationView.TrnMaterialSelection.TrnMaterialSelectionItems.ForEach(msItems => msItems.TrnMaterialSelection = null);
             return materialQuotationView;
         }
 
@@ -90,15 +94,15 @@ namespace IMSWebApi.Services
                     mqItems.createdOn = DateTime.Now;
                     mqItems.createdBy = _LoggedInuserId;
                 }
-                //materialSelectionToPost.materialSelectionDate = DateTime.Now;
                 var financialYear = repo.MstFinancialYears.Where(f => f.startDate <= materialQuotationToPost.materialQuotationDate && f.endDate >= materialQuotationToPost.materialQuotationDate).FirstOrDefault();
                 string materialQuotationNo = generateOrderNumber.orderNumber(financialYear.startDate.ToString("yy"), financialYear.endDate.ToString("yy"), financialYear.materialSelectionNumber, "MQ");
                 materialQuotationToPost.materialQuotationNumber = materialQuotationNo;
                 materialQuotationToPost.status = MaterialQuotationStatus.Created.ToString();
                 materialQuotationToPost.createdOn = DateTime.Now;
                 materialQuotationToPost.createdBy = _LoggedInuserId;
-
-                materialQuotationToPost.TrnMaterialSelection.isQuotationCreated = true;
+                
+                var materialSelection = repo.TrnMaterialSelections.Where(ms => ms.id == materialQuotation.materialSelectionId).FirstOrDefault();
+                materialSelection.isQuotationCreated = true;
 
                 repo.TrnMaterialQuotations.Add(materialQuotationToPost);
 
