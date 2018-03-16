@@ -11,6 +11,7 @@ using IMSWebApi.ViewModel;
 using IMSWebApi.Enums;
 using AutoMapper;
 using System.Transactions;
+using IMSWebApi.ViewModel.SalesInvoice;
 
 namespace IMSWebApi.Services
 {
@@ -31,31 +32,28 @@ namespace IMSWebApi.Services
             _trnProductStockService = new TrnProductStockService();
         }
 
-        public ListResult<VMTrnSalesInvoice> getSalesInvoices(int pageSize, int page, string search)
+        public ListResult<VMTrnSalesInvoiceList> getSalesInvoices(int pageSize, int page, string search)
         {
-            List<VMTrnSalesInvoice> salesInvoiceView;
-            if (pageSize > 0)
-            {
-                var result = repo.TrnSalesInvoices.Where(s => !string.IsNullOrEmpty(search)
-                    ? s.TrnGoodIssueNote.ginNumber.StartsWith(search)
+            List<VMTrnSalesInvoiceList> salesInvoiceView;
+            var result = repo.TrnSalesInvoices
+                    .Select(s => new VMTrnSalesInvoiceList
+                    {
+                        id = s.id,
+                        invoiceNumber = s.invoiceNumber,
+                        invoiceDate = s.invoiceDate,
+                        ginNumber = s.TrnGoodIssueNote.ginNumber,
+                        status = s.status,
+                        courierDockYardNumber = s.courierDockYardNumber
+                    })
+                    .Where(s => !string.IsNullOrEmpty(search)
+                    ? s.ginNumber.StartsWith(search)
                     || s.invoiceNumber.StartsWith(search)
-                    || s.TrnSaleOrder.orderNumber.StartsWith(search)
+                    || s.courierDockYardNumber.StartsWith(search)
                     || s.status.StartsWith(search) : true)
                     .OrderByDescending(p => p.id).Skip(page * pageSize).Take(pageSize).ToList();
-                salesInvoiceView = Mapper.Map<List<TrnSalesInvoice>, List<VMTrnSalesInvoice>>(result);
-            }
-            else
-            {
-                var result = repo.TrnSalesInvoices.Where(s => !string.IsNullOrEmpty(search)
-                    ? s.TrnGoodIssueNote.ginNumber.StartsWith(search)
-                    || s.invoiceNumber.StartsWith(search)
-                    || s.TrnSaleOrder.orderNumber.StartsWith(search)
-                    || s.status.StartsWith(search) : true).OrderByDescending(p => p.id).ToList();
-                salesInvoiceView = Mapper.Map<List<TrnSalesInvoice>, List<VMTrnSalesInvoice>>(result);
-            }
-            salesInvoiceView.ForEach(s => s.TrnGoodIssueNote.TrnGoodIssueNoteItems.ForEach(ginItems => ginItems.TrnGoodIssueNote = null));
-            salesInvoiceView.ForEach(s => s.TrnSalesInvoiceItems.ForEach(salesInvoiceItems => salesInvoiceItems.TrnSalesInvoice = null));
-            return new ListResult<VMTrnSalesInvoice>
+            salesInvoiceView = result;
+
+            return new ListResult<VMTrnSalesInvoiceList>
             {
                 Data = salesInvoiceView,
                 TotalCount = repo.TrnSalesInvoices.Where(s => !string.IsNullOrEmpty(search)

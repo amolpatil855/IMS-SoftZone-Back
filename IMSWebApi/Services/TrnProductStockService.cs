@@ -412,18 +412,30 @@ namespace IMSWebApi.Services
             }
         }
 
-        //When SO is approved, add/update soQuantity for soItems in ProductStock 
-        public void AddsoIteminStock(TrnSaleOrderItem saleOrderItem)
+        //When SO/MQ is approved, add/update soQuantity for soItems/mqItems in ProductStock 
+        public void AddsoOrmqIteminStock(TrnSaleOrderItem saleOrderItem,TrnMaterialQuotationItem materialQuotationItem)
         {
-            TrnProductStock product = repo.TrnProductStocks.Where(z => z.categoryId == saleOrderItem.categoryId
+            TrnProductStock product = new TrnProductStock();
+            if (saleOrderItem!=null)
+            {
+                product = repo.TrnProductStocks.Where(z => z.categoryId == saleOrderItem.categoryId
                                                       && z.collectionId == saleOrderItem.collectionId
                                                       && z.fwrShadeId == saleOrderItem.shadeId
                                                       && z.fomSizeId == saleOrderItem.fomSizeId
                                                       && z.matSizeId == saleOrderItem.matSizeId
-                                                      && z.accessoryId == saleOrderItem.accessoryId).FirstOrDefault();
+                                                      && z.accessoryId == saleOrderItem.accessoryId).FirstOrDefault();    
+            }
+            else
+            {
+                product = repo.TrnProductStocks.Where(z => z.categoryId == materialQuotationItem.categoryId
+                                                      && z.collectionId == materialQuotationItem.collectionId
+                                                      && z.fwrShadeId == materialQuotationItem.shadeId
+                                                      && z.matSizeId == materialQuotationItem.matSizeId).FirstOrDefault();
+            }
+            
             if (product != null)
             {
-                product.soQuanity = product.soQuanity + saleOrderItem.orderQuantity;
+                product.soQuanity = product.soQuanity + (saleOrderItem != null ? saleOrderItem.orderQuantity : materialQuotationItem.orderQuantity);
                 product.updatedOn = DateTime.Now;
                 product.updatedBy = _LoggedInuserId;
                 repo.SaveChanges();
@@ -431,13 +443,13 @@ namespace IMSWebApi.Services
             else
             {
                 TrnProductStock productStockToAdd = new TrnProductStock();
-                productStockToAdd.categoryId = saleOrderItem.categoryId;
-                productStockToAdd.collectionId = saleOrderItem.collectionId;
-                productStockToAdd.fwrShadeId = saleOrderItem.shadeId;
-                productStockToAdd.fomSizeId = saleOrderItem.fomSizeId;
-                productStockToAdd.matSizeId = saleOrderItem.matSizeId;
-                productStockToAdd.accessoryId = saleOrderItem.accessoryId;
-                productStockToAdd.soQuanity = saleOrderItem.orderQuantity;
+                productStockToAdd.categoryId = saleOrderItem != null ? saleOrderItem.categoryId : materialQuotationItem.categoryId;
+                productStockToAdd.collectionId = saleOrderItem != null ? saleOrderItem.collectionId : materialQuotationItem.collectionId;
+                productStockToAdd.fwrShadeId = saleOrderItem != null ? saleOrderItem.shadeId : materialQuotationItem.shadeId;
+                productStockToAdd.fomSizeId = saleOrderItem != null ? saleOrderItem.fomSizeId : null;
+                productStockToAdd.matSizeId = saleOrderItem != null ? saleOrderItem.matSizeId : materialQuotationItem.matSizeId;
+                productStockToAdd.accessoryId = saleOrderItem != null ? saleOrderItem.accessoryId : null;
+                productStockToAdd.soQuanity = saleOrderItem != null ? saleOrderItem.orderQuantity : materialQuotationItem.orderQuantity;
                 productStockToAdd.stock = productStockToAdd.poQuantity = 0;
                 productStockToAdd.createdOn = DateTime.Now;
                 productStockToAdd.createdBy = _LoggedInuserId;
@@ -523,5 +535,6 @@ namespace IMSWebApi.Services
                 repo.SaveChanges();
             }
         }
+
     }
 }

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace IMSWebApi.ViewModel
+namespace IMSWebApi.ViewModel.SalesInvoice
 {
     public class VMTrnSaleOrder
     {

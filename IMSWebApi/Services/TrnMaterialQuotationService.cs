@@ -20,38 +20,36 @@ namespace IMSWebApi.Services
         Int64 _LoggedInuserId;
         ResourceManager resourceManager = null;
         GenerateOrderNumber generateOrderNumber = null;
+        TrnProductStockService _trnProductStockService = null;
+        TrnGoodIssueNoteService _trnGoodIssueNoteServie = null;
         
         public TrnMaterialQuotationService()
         {
             _LoggedInuserId = Convert.ToInt64(HttpContext.Current.User.Identity.GetUserId());
             resourceManager = new ResourceManager("IMSWebApi.App_Data.Resource", Assembly.GetExecutingAssembly());
             generateOrderNumber = new GenerateOrderNumber();
+            _trnProductStockService = new TrnProductStockService();
+            _trnGoodIssueNoteServie = new TrnGoodIssueNoteService();
         }
 
-        public ListResult<VMTrnMaterialQuotation> getMaterialQuotations(int pageSize, int page, string search)
+        public ListResult<VMTrnMaterialQuotationList> getMaterialQuotations(int pageSize, int page, string search)
         {
-            List<VMTrnMaterialQuotation> materialQuotationView;
-            if (pageSize > 0)
-            {
-                var result = repo.TrnMaterialQuotations.Where(mq => !string.IsNullOrEmpty(search)
+            List<VMTrnMaterialQuotationList> materialQuotationView;
+
+            materialQuotationView = repo.TrnMaterialQuotations.Where(mq => !string.IsNullOrEmpty(search)
                     ? mq.materialQuotationNumber.StartsWith(search)
                     || mq.MstCustomer.name.StartsWith(search)
-                    || mq.status.StartsWith(search) : true)                   
+                    || mq.status.StartsWith(search) : true)
+                    .Select(mq => new VMTrnMaterialQuotationList
+                    {
+                        id = mq.id,
+                        materialQuotationNumber = mq.materialQuotationNumber,
+                        materialQuotationDate = mq.materialQuotationDate,
+                        customerName = mq.MstCustomer != null ? mq.MstCustomer.name : null,
+                        status = mq.status
+                    })
                     .OrderByDescending(p => p.id).Skip(page * pageSize).Take(pageSize).ToList();
-                materialQuotationView = Mapper.Map<List<TrnMaterialQuotation>, List<VMTrnMaterialQuotation>>(result);
-            }
-            else
-            {
-                var result = repo.TrnMaterialQuotations.Where(mq => !string.IsNullOrEmpty(search)
-                    ? mq.materialQuotationNumber.StartsWith(search)
-                    || mq.MstCustomer.name.StartsWith(search)
-                    || mq.status.StartsWith(search) : true).OrderByDescending(p => p.id).ToList();
-                materialQuotationView = Mapper.Map<List<TrnMaterialQuotation>, List<VMTrnMaterialQuotation>>(result);
-            }
-            materialQuotationView.ForEach(mq => mq.TrnMaterialQuotationItems.ForEach(mqItem => mqItem.TrnMaterialQuotation = null));
-            materialQuotationView.ForEach(mq => mq.TrnMaterialSelection.TrnMaterialQuotations = null);
-            materialQuotationView.ForEach(mq => mq.TrnMaterialSelection.TrnMaterialSelectionItems.ForEach(msItems => msItems.TrnMaterialSelection = null));
-            return new ListResult<VMTrnMaterialQuotation>
+            return new ListResult<VMTrnMaterialQuotationList>
             {
                 Data = materialQuotationView,
                 TotalCount = materialQuotationView.Count(),
@@ -119,6 +117,9 @@ namespace IMSWebApi.Services
             using (var transaction = new TransactionScope())
             {
                 var materialQuotationToPut = repo.TrnMaterialQuotations.Where(ms => ms.id == materialQuotation.id).FirstOrDefault();
+                materialQuotationToPut.materialQuotationDate = materialQuotation.materialQuotationDate;
+                materialQuotationToPut.referById = materialQuotation.referById;
+                materialQuotationToPut.totalAmount = materialQuotation.totalAmount;
 
                 updateMQItems(materialQuotation);
 
@@ -185,6 +186,29 @@ namespace IMSWebApi.Services
             });
         }
 
+        public ResponseMessage approveMaterialQuotation(Int64 id)
+        {
+            using (var transaction = new TransactionScope())
+            {
+                var materialQuotation = repo.TrnMaterialQuotations.Where(mq => mq.id == id).FirstOrDefault();
+                materialQuotation.status = MaterialQuotationStatus.Approved.ToString();
+                foreach (var mqItem in materialQuotation.TrnMaterialQuotationItems)
+                {
+                    mqItem.status = MaterialQuotationStatus.Approved.ToString();
+                    if (!(mqItem.categoryId == 4 && mqItem.matSizeId == null))
+                    {
+                        _trnProductStockService.AddsoOrmqIteminStock(null,mqItem);    
+                    }
+                    mqItem.updatedOn = DateTime.Now;
+                    mqItem.updatedBy = _LoggedInuserId;
+                }
+                repo.SaveChanges();
+                VMTrnMaterialQuotation VMMaterialQuotation = Mapper.Map<TrnMaterialQuotation, VMTrnMaterialQuotation>(materialQuotation);
+                _trnGoodIssueNoteServie.postGoodIssueNote(null, VMMaterialQuotation);
 
+                transaction.Complete();
+                return new ResponseMessage(id, resourceManager.GetString("MQApproved"), ResponseType.Success);
+            }
+        }
     }
 }

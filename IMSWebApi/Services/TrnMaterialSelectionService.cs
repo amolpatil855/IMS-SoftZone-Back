@@ -28,28 +28,24 @@ namespace IMSWebApi.Services
             generateOrderNumber = new GenerateOrderNumber();
         }
 
-        public ListResult<VMTrnMaterialSelection> getMaterialSelections(int pageSize, int page, string search)
+        public ListResult<VMTrnMaterialSelectionList> getMaterialSelections(int pageSize, int page, string search)
         {
-            List<VMTrnMaterialSelection> materialSelectionView;
-            if (pageSize > 0)
-            {
-                var result = repo.TrnMaterialSelections.Where(ms => !string.IsNullOrEmpty(search)
+            List<VMTrnMaterialSelectionList> materialSelectionView;
+            materialSelectionView = repo.TrnMaterialSelections.Where(ms => !string.IsNullOrEmpty(search)
                     ? ms.materialSelectionNumber.StartsWith(search)
                     || ms.MstCustomer.name.StartsWith(search)
                     || ms.isQuotationCreated.ToString().StartsWith(search) : true)
+                    .Select(ms => new VMTrnMaterialSelectionList
+                        {
+                            id = ms.id,
+                            materialSelectionNumber = ms.materialSelectionNumber,
+                            materialSelectionDate = ms.materialSelectionDate,
+                            customerName = ms.MstCustomer !=null ? ms.MstCustomer.name : null,
+                            isQuotationCreated = ms.isQuotationCreated
+                        })
                     .OrderByDescending(p => p.id).Skip(page * pageSize).Take(pageSize).ToList();
-                materialSelectionView = Mapper.Map<List<TrnMaterialSelection>, List<VMTrnMaterialSelection>>(result);
-            }
-            else
-            {
-                var result = repo.TrnMaterialSelections.Where(ms => !string.IsNullOrEmpty(search)
-                    ? ms.materialSelectionNumber.StartsWith(search)
-                    || ms.MstCustomer.name.StartsWith(search)
-                    || ms.isQuotationCreated.ToString().StartsWith(search) : true).OrderByDescending(p => p.id).ToList();
-                materialSelectionView = Mapper.Map<List<TrnMaterialSelection>, List<VMTrnMaterialSelection>>(result);
-            }
-            materialSelectionView.ForEach(ms => ms.TrnMaterialSelectionItems.ForEach(msItem => msItem.TrnMaterialSelection = null));
-            return new ListResult<VMTrnMaterialSelection>
+
+            return new ListResult<VMTrnMaterialSelectionList>
             {
                 Data = materialSelectionView,
                 TotalCount = materialSelectionView.Count(),

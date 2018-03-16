@@ -73,8 +73,8 @@ namespace IMSWebApi.Controllers
             {
                 return BadRequest(ModelState);
             }
-            //var result = ;
-            return Ok();
+            var result = _trnMaterialQuotationService.approveMaterialQuotation(id);
+            return Ok(result);
         }
     }
 }

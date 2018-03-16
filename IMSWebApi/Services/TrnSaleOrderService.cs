@@ -11,6 +11,8 @@ using AutoMapper;
 using IMSWebApi.ViewModel;
 using System.Transactions;
 using IMSWebApi.Enums;
+using IMSWebApi.ViewModel.SlaesOrder;
+using IMSWebApi.ViewModel.SalesInvoice;
 
 namespace IMSWebApi.Services
 {
@@ -38,30 +40,31 @@ namespace IMSWebApi.Services
             _trnGoodIssueNoteServie = new TrnGoodIssueNoteService();
         }
 
-        public ListResult<VMTrnSaleOrder> getSaleOrders(int pageSize, int page, string search)
+        public ListResult<VMTrnSaleOrderList> getSaleOrders(int pageSize, int page, string search)
         {
-            List<VMTrnSaleOrder> saleOrderView;
-            if (pageSize > 0)
-            {
-                var result = repo.TrnSaleOrders.Where(so => !string.IsNullOrEmpty(search)
-                    ? so.orderNumber.StartsWith(search)
-                    || so.MstCustomer.name.StartsWith(search)
-                    || so.MstCourier.name.StartsWith(search)
-                    || so.status.StartsWith(search) : true)
-                    .OrderByDescending(p => p.id).Skip(page * pageSize).Take(pageSize).ToList();
-                saleOrderView = Mapper.Map<List<TrnSaleOrder>, List<VMTrnSaleOrder>>(result);
-            }
-            else
-            {
-                var result = repo.TrnSaleOrders.Where(so => !string.IsNullOrEmpty(search)
-                    ? so.orderNumber.StartsWith(search)
-                    || so.MstCustomer.name.StartsWith(search)
-                    || so.MstCourier.name.StartsWith(search)
-                    || so.status.StartsWith(search) : true).OrderByDescending(p => p.id).ToList();
-                saleOrderView = Mapper.Map<List<TrnSaleOrder>, List<VMTrnSaleOrder>>(result);
-            }
+            List<VMTrnSaleOrderList> saleOrderView;
+            var result = repo.TrnSaleOrders
+                        .Select(so => new VMTrnSaleOrderList
+                        {
+                            id = so.id,
+                            orderNumber = so.orderNumber,
+                            orderDate = so.orderDate,
+                            customerName = so.MstCustomer != null ? so.MstCustomer.name : string.Empty,
+                            courierName = so.MstCourier != null ? so.MstCourier.name : string.Empty,
+                            agentName = so.MstAgent != null ? so.MstAgent.name : string.Empty,
+                            status = so.status
+                        })
+                        .Where(so => !string.IsNullOrEmpty(search)
+                            ? so.orderNumber.StartsWith(search)
+                            || so.customerName.StartsWith(search)
+                            || so.courierName.StartsWith(search)
+                            || so.agentName.StartsWith(search)
+                            || so.status.StartsWith(search) : true)
+                            .OrderByDescending(p => p.id).Skip(page * pageSize).Take(pageSize).ToList();
+            saleOrderView = result;
 
-            return new ListResult<VMTrnSaleOrder>
+
+            return new ListResult<VMTrnSaleOrderList>
             {
                 Data = saleOrderView,
                 TotalCount = repo.TrnSaleOrders.Where(so => !string.IsNullOrEmpty(search)
@@ -122,7 +125,7 @@ namespace IMSWebApi.Services
                     soItems.createdBy = _LoggedInuserId;
                     if (!_IsCustomer)
                     {
-                        _trnProductStockService.AddsoIteminStock(soItems);
+                        _trnProductStockService.AddsoOrmqIteminStock(soItems,null);
                     }
                 }
 
@@ -265,7 +268,7 @@ namespace IMSWebApi.Services
                 foreach (var soItem in saleOrder.TrnSaleOrderItems)
                 {
                     soItem.status = SaleOrderStatus.Approved.ToString();
-                    _trnProductStockService.AddsoIteminStock(soItem);
+                    _trnProductStockService.AddsoOrmqIteminStock(soItem,null);
                 }
                 repo.SaveChanges();
                 VMTrnSaleOrder VMSaleOrder = Mapper.Map<TrnSaleOrder, VMTrnSaleOrder>(saleOrder);
