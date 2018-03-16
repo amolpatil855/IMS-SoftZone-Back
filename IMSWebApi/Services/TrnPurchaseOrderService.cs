@@ -75,32 +75,30 @@ namespace IMSWebApi.Services
         //    return poItems;
         //}
 
-        public ListResult<VMTrnPurchaseOrder> getPurchaseOrders(int pageSize, int page, string search)
+        public ListResult<VMTrnPurchaseOrderList> getPurchaseOrders(int pageSize, int page, string search)
         {
-            List<VMTrnPurchaseOrder> purchaseOrderView;
-            if (pageSize > 0)
-            {
-                var result = repo.TrnPurchaseOrders.Where(po => !string.IsNullOrEmpty(search)
+            List<VMTrnPurchaseOrderList> purchaseOrderListingView;
+            purchaseOrderListingView = repo.TrnPurchaseOrders.Where(po => !string.IsNullOrEmpty(search)
                     ? po.orderNumber.ToString().StartsWith(search)
                     || po.MstSupplier.name.ToString().StartsWith(search)
                     || po.MstCourier.name.StartsWith(search)
                     || po.courierMode.StartsWith(search) : true)
+                    .Select(po => new VMTrnPurchaseOrderList
+                    {
+                        id = po.id,
+                        orderNumber = po.orderNumber,
+                        orderDate = po.orderDate,
+                        supplierName = po.MstSupplier != null ? po.MstSupplier.name : null,
+                        courierName = po.MstCourier != null ? po.MstCourier.name : null,
+                        courierMode = po.courierMode,
+                        totalAmount = po.totalAmount,
+                        status = po.status
+                    })
                     .OrderByDescending(p => p.id).Skip(page * pageSize).Take(pageSize).ToList();
-                purchaseOrderView = Mapper.Map<List<TrnPurchaseOrder>, List<VMTrnPurchaseOrder>>(result);
-            }
-            else
+            
+            return new ListResult<VMTrnPurchaseOrderList>
             {
-                var result = repo.TrnPurchaseOrders.Where(po => !string.IsNullOrEmpty(search)
-                    ? po.orderNumber.ToString().StartsWith(search)
-                    || po.MstSupplier.name.ToString().StartsWith(search)
-                    || po.MstCourier.name.StartsWith(search)
-                    || po.courierMode.StartsWith(search) : true).OrderByDescending(p => p.id).ToList();
-                purchaseOrderView = Mapper.Map<List<TrnPurchaseOrder>, List<VMTrnPurchaseOrder>>(result);
-            }
-
-            return new ListResult<VMTrnPurchaseOrder>
-            {
-                Data = purchaseOrderView,
+                Data = purchaseOrderListingView,
                 TotalCount = repo.TrnPurchaseOrders.Where(po => !string.IsNullOrEmpty(search)
                     ? po.orderNumber.ToString().StartsWith(search)
                     || po.MstSupplier.name.ToString().StartsWith(search)

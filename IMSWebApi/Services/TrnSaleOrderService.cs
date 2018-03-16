@@ -125,7 +125,7 @@ namespace IMSWebApi.Services
                     soItems.createdBy = _LoggedInuserId;
                     if (!_IsCustomer)
                     {
-                        _trnProductStockService.AddsoIteminStock(soItems);
+                        _trnProductStockService.AddsoOrmqIteminStock(soItems,null);
                     }
                 }
 
@@ -268,7 +268,7 @@ namespace IMSWebApi.Services
                 foreach (var soItem in saleOrder.TrnSaleOrderItems)
                 {
                     soItem.status = SaleOrderStatus.Approved.ToString();
-                    _trnProductStockService.AddsoIteminStock(soItem);
+                    _trnProductStockService.AddsoOrmqIteminStock(soItem,null);
                 }
                 repo.SaveChanges();
                 VMTrnSaleOrder VMSaleOrder = Mapper.Map<TrnSaleOrder, VMTrnSaleOrder>(saleOrder);
