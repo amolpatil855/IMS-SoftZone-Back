@@ -5,6 +5,7 @@ using System.Web;
 using AutoMapper;
 using IMSWebApi.Models;
 using IMSWebApi.ViewModel;
+using IMSWebApi.ViewModel.SalesInvoice;
 
 namespace IMSWebApi.App_Start
 {
