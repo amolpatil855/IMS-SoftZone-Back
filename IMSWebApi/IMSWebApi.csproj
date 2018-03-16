@@ -494,6 +494,8 @@
     <Compile Include="Services\FomSizeService.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModel\ResponseMessage.cs" />
+    <Compile Include="ViewModel\SalesInvoice\VMTrnSalesInvoiceList.cs" />
+    <Compile Include="ViewModel\SlaesOrder\VMTrnSaleOrderList.cs" />
     <Compile Include="ViewModel\VMAccessory.cs" />
     <Compile Include="ViewModel\VMAgent.cs" />
     <Compile Include="ViewModel\VMCategory.cs" />
@@ -533,10 +535,10 @@
     <Compile Include="ViewModel\VMTrnProductStockDetail.cs" />
     <Compile Include="ViewModel\VMTrnPurchaseOrder.cs" />
     <Compile Include="ViewModel\VMTrnPurchaseOrderItem.cs" />
-    <Compile Include="ViewModel\VMTrnSaleOrder.cs" />
-    <Compile Include="ViewModel\VMTrnSaleOrderItem.cs" />
-    <Compile Include="ViewModel\VMTrnSalesInvoice.cs" />
-    <Compile Include="ViewModel\VMTrnSalesInvoiceItem.cs" />
+    <Compile Include="ViewModel\SlaesOrder\VMTrnSaleOrder.cs" />
+    <Compile Include="ViewModel\SlaesOrder\VMTrnSaleOrderItem.cs" />
+    <Compile Include="ViewModel\SalesInvoice\VMTrnSalesInvoice.cs" />
+    <Compile Include="ViewModel\SalesInvoice\VMTrnSalesInvoiceItem.cs" />
     <Compile Include="ViewModel\VMUnitOfMeasure.cs" />
     <Compile Include="ViewModel\VMUser.cs" />
     <Compile Include="ViewModel\VMUserType.cs" />
