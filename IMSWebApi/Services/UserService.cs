@@ -49,10 +49,10 @@ namespace IMSWebApi.Services
             if (pageSize > 0)
             {
                 var result = repo.MstUsers.Where(c => !c.MstRole.roleName.Equals("Administrator") && (!string.IsNullOrEmpty(search)
-                                    ? c.userName.StartsWith(search) 
+                                    ? c.userName.StartsWith(search)
                                     || c.MstRole.roleName.StartsWith(search)
-                                    || c.phone.StartsWith(search) 
-                                    || c.email.StartsWith(search)  : true))
+                                    || c.phone.StartsWith(search)
+                                    || c.email.StartsWith(search) : true))
                                     .OrderBy(p => p.id).Skip(page * pageSize)
                                     .Take(pageSize).ToList();
                 userViews = Mapper.Map<List<MstUser>, List<VMUser>>(result);
@@ -83,18 +83,25 @@ namespace IMSWebApi.Services
         public List<string> getUserPermission(string username)
         {
             List<string> permissions = new List<string>();
-            var result = from u in repo.MstUsers
-                         join cfg in repo.CFGRoleMenus on u.roleId equals cfg.roleId
-                         join menu in repo.MstMenus on cfg.menuId equals menu.id
-                         where u.userName.Equals(username)
-                         select new
-                    {
-                        Menu = menu.menuName
-                    };
-
-            foreach (var item in result)
+            if (HttpContext.Current.User.IsInRole("Customer"))
             {
-                permissions.Add(item.Menu.Replace(" ", string.Empty).ToLower());
+                permissions.Add("customerLogin");
+            }
+            else
+            {
+                var result = from u in repo.MstUsers
+                             join cfg in repo.CFGRoleMenus on u.roleId equals cfg.roleId
+                             join menu in repo.MstMenus on cfg.menuId equals menu.id
+                             where u.userName.Equals(username)
+                             select new
+                        {
+                            Menu = menu.menuName
+                        };
+
+                foreach (var item in result)
+                {
+                    permissions.Add(item.Menu.Replace(" ", string.Empty).ToLower());
+                }
             }
             return permissions;
         }
@@ -127,7 +134,7 @@ namespace IMSWebApi.Services
             userToPost.createdBy = _LoggedInuserId;
             repo.MstUsers.Add(userToPost);
             repo.SaveChanges();
-            sendEmail(userToPost.id, originalPassword, "RegisterUser",false);
+            sendEmail(userToPost.id, originalPassword, "RegisterUser", false);
             return new ResponseMessage(userToPost.id, resourceManager.GetString("UserAdded"), ResponseType.Success);
         }
 
@@ -209,14 +216,14 @@ namespace IMSWebApi.Services
         public ResponseMessage forgetPassword(string emailId)
         {
             var user = repo.MstUsers.Where(u => u.email.Equals(emailId)).FirstOrDefault();
-            if (user!=null && user.isActive)
+            if (user != null && user.isActive)
             {
                 var originalPassword = createRandomPassword(8);
                 user.password = encryption(originalPassword);
                 user.updatedBy = 1;
                 user.updatedOn = DateTime.Now;
                 repo.SaveChanges();
-                sendEmail(user.id, originalPassword, "ForgotPassword",true);
+                sendEmail(user.id, originalPassword, "ForgotPassword", true);
                 return new ResponseMessage(user.id, resourceManager.GetString("PasswordReset"), ResponseType.Success);
             }
             else if (user != null && user.isActive == false)
@@ -229,10 +236,10 @@ namespace IMSWebApi.Services
             }
         }
 
-        public void sendEmail(Int64 id, string originalPassword, string fileName,bool isReset)
+        public void sendEmail(Int64 id, string originalPassword, string fileName, bool isReset)
         {
             var result = repo.MstUsers.Where(u => u.id == id).FirstOrDefault();
-            Email.email(result, originalPassword, fileName,isReset);
+            Email.email(result, originalPassword, fileName, isReset);
         }
 
         public MstuserType getCustomerUserType()
@@ -240,7 +247,7 @@ namespace IMSWebApi.Services
             return repo.MstuserTypes.Where(c => c.userTypeName == "Customer").FirstOrDefault();
         }
 
-        public ResponseMessage activateDeActivateUser(Int64 id,bool isActive)
+        public ResponseMessage activateDeActivateUser(Int64 id, bool isActive)
         {
             MstUser user = repo.MstUsers.Where(u => u.id == id).FirstOrDefault();
             user.isActive = isActive;
@@ -256,7 +263,7 @@ namespace IMSWebApi.Services
             {
                 return new ResponseMessage(user.id, resourceManager.GetString("UserDeActivate"), ResponseType.Success);
             }
-            
+
         }
     }
 }
