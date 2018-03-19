@@ -68,6 +68,8 @@ namespace IMSWebApi.Services
                 msItem.size = msItem.MstMatSize != null ? msItem.MstMatSize.sizeCode + " (" + msItem.MstMatSize.MstMatThickNess.thicknessCode + "-" + msItem.MstMatSize.MstQuality.qualityCode + ")" : null;
             });
             materialSelectionView.TrnMaterialSelectionItems.ForEach(msItem => msItem.TrnMaterialSelection = null);
+            materialSelectionView.TrnMaterialQuotations = null;
+
             return materialSelectionView;
         }
 

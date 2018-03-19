@@ -12,23 +12,25 @@ namespace IMSWebApi.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class MstUnitOfMeasure
+    public partial class TrnAdvancePayment
     {
-        public MstUnitOfMeasure()
-        {
-            this.MstAccessories = new HashSet<MstAccessory>();
-            this.MstCategories = new HashSet<MstCategory>();
-        }
-    
         public long id { get; set; }
-        public string uomCode { get; set; }
-        public string uomName { get; set; }
+        public string advancePaymentNumber { get; set; }
+        public System.DateTime advancePaymentDate { get; set; }
+        public long customerId { get; set; }
+        public long materialQuotationId { get; set; }
+        public int amount { get; set; }
+        public string paymentMode { get; set; }
+        public string chequeNumber { get; set; }
+        public Nullable<System.DateTime> chequeDate { get; set; }
+        public string bankName { get; set; }
+        public string bankBranch { get; set; }
         public System.DateTime createdOn { get; set; }
         public long createdBy { get; set; }
         public Nullable<System.DateTime> updatedOn { get; set; }
         public Nullable<long> updatedBy { get; set; }
     
-        public virtual ICollection<MstAccessory> MstAccessories { get; set; }
-        public virtual ICollection<MstCategory> MstCategories { get; set; }
+        public virtual MstCustomer MstCustomer { get; set; }
+        public virtual TrnMaterialQuotation TrnMaterialQuotation { get; set; }
     }
 }

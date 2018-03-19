@@ -485,7 +485,9 @@ namespace IMSWebApi.Services
                 poItemAgainstSO.shadeId = item.fwrShadeId != null ? item.fwrShadeId : null;
                 poItemAgainstSO.serialno = item.fwrShadeId != null ? item.MstFWRShade.serialNumber + "(" + item.MstFWRShade.shadeCode + "-" + item.MstFWRShade.MstFWRDesign.designCode + ")" : null;
                 poItemAgainstSO.fomSizeId = item.fomSizeId != null ? item.fomSizeId : null;
-                poItemAgainstSO.size = item.fomSizeId != null ? item.MstFomSize.itemCode : null;
+                poItemAgainstSO.matSizeId = item.matSizeId != null ? item.matSizeId : null;
+                poItemAgainstSO.size = item.fomSizeId != null ? item.MstFomSize.itemCode : 
+                    item.matSizeId != null ? item.MstMatSize.sizeCode + " (" + item.MstMatSize.MstMatThickness.thicknessCode + "-" + item.MstMatSize.MstQuality.qualityCode + ")" : null;
                 //values for calculation of rate for fabrics
                 poItemAgainstSO.cutRate = item.fwrShadeId != null ? item.MstFWRShade.MstQuality.cutRate : null;
                 poItemAgainstSO.roleRate = item.fwrShadeId != null ? item.MstFWRShade.MstQuality.roleRate : null;
@@ -496,7 +498,8 @@ namespace IMSWebApi.Services
                 poItemAgainstSO.purchaseFlatRate = item.fwrShadeId != null ? item.MstFWRShade.MstQuality.purchaseFlatRate : null;
                 poItemAgainstSO.maxFlatRateDisc = item.fwrShadeId != null ? item.MstFWRShade.MstQuality.maxFlatRateDisc : null;
                 poItemAgainstSO.purchaseDiscount = item.fwrShadeId != null ? item.MstFWRShade.MstCollection.purchaseDiscount :
-                    item.fomSizeId != null ? item.MstFomSize.MstCollection.purchaseDiscount : null;
+                    item.fomSizeId != null ? item.MstFomSize.MstCollection.purchaseDiscount : 
+                    item.matSizeId != null ? item.MstMatSize.MstCollection.purchaseDiscount : null;
 
                 //values for calculation of rate for fom
                 poItemAgainstSO.sellingRatePerMM = item.fomSizeId != null ? item.MstFomSize.MstFomDensity.sellingRatePerMM : (decimal?)null;
@@ -512,8 +515,12 @@ namespace IMSWebApi.Services
                 poItemAgainstSO.accessoryId = item.accessoryId != null ? item.accessoryId : null;
                 poItemAgainstSO.accessoryName = item.accessoryId != null ? item.MstAccessory.itemCode : null;
                 poItemAgainstSO.sellingRate = item.accessoryId != null ? item.MstAccessory.sellingRate : (decimal?)null;
-                poItemAgainstSO.purchaseRate = item.accessoryId != null ? item.MstAccessory.purchaseRate : (decimal?)null;
+                poItemAgainstSO.purchaseRate = item.accessoryId != null ? item.MstAccessory.purchaseRate : 
+                     item.matSizeId != null ? item.MstMatSize.purchaseRate : (decimal?)null;
 
+                //values for standard mat
+                poItemAgainstSO.rate = item.matSizeId != null ? item.MstMatSize.rate : (decimal?)null;
+                
                 poItemAgainstSO.gst = item.fomSizeId != null ? item.MstFomSize.MstQuality.MstHsn.gst :
                     item.fwrShadeId != null ? item.MstFWRShade.MstQuality.MstHsn.gst :
                     item.matSizeId != null ? item.MstMatSize.MstQuality.MstHsn.gst : item.MstAccessory.MstHsn.gst;

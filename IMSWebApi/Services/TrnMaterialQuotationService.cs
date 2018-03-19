@@ -18,6 +18,7 @@ namespace IMSWebApi.Services
     {
         WebAPIdbEntities repo = new WebAPIdbEntities();
         Int64 _LoggedInuserId;
+        bool _IsAdministrator;
         ResourceManager resourceManager = null;
         GenerateOrderNumber generateOrderNumber = null;
         TrnProductStockService _trnProductStockService = null;
@@ -27,6 +28,7 @@ namespace IMSWebApi.Services
         {
             _LoggedInuserId = Convert.ToInt64(HttpContext.Current.User.Identity.GetUserId());
             resourceManager = new ResourceManager("IMSWebApi.App_Data.Resource", Assembly.GetExecutingAssembly());
+            _IsAdministrator = HttpContext.Current.User.IsInRole("Administrator");
             generateOrderNumber = new GenerateOrderNumber();
             _trnProductStockService = new TrnProductStockService();
             _trnGoodIssueNoteServie = new TrnGoodIssueNoteService();
@@ -46,6 +48,7 @@ namespace IMSWebApi.Services
                         materialQuotationNumber = mq.materialQuotationNumber,
                         materialQuotationDate = mq.materialQuotationDate,
                         customerName = mq.MstCustomer != null ? mq.MstCustomer.name : null,
+                        totalAmount = mq.totalAmount,
                         status = mq.status
                     })
                     .OrderByDescending(p => p.id).Skip(page * pageSize).Take(pageSize).ToList();
@@ -172,6 +175,7 @@ namespace IMSWebApi.Services
                     mqItemToPut.orderQuantity = x.orderQuantity;
                     mqItemToPut.deliverQuantity = x.deliverQuantity;
                     mqItemToPut.balanceQuantity = x.balanceQuantity;
+                    mqItemToPut.orderType = x.orderType;
                     mqItemToPut.rate = x.rate;
                     mqItemToPut.discountPercentage = x.discountPercentage;
                     mqItemToPut.amount = x.amount;
@@ -208,6 +212,74 @@ namespace IMSWebApi.Services
 
                 transaction.Complete();
                 return new ResponseMessage(id, resourceManager.GetString("MQApproved"), ResponseType.Success);
+            }
+        }
+
+        public ResponseMessage cancelMaterialQuotation(Int64 id)
+        {
+            String messageToDisplay;
+            ResponseType type;
+            using (var transaction = new TransactionScope())
+            {
+                var materialQuotation = repo.TrnMaterialQuotations.Where(so => so.id == id).FirstOrDefault();
+                if (materialQuotation.status.Equals("Created"))
+                {
+                    materialQuotation.status = SaleOrderStatus.Cancelled.ToString();
+                    foreach (var mqItem in materialQuotation.TrnMaterialQuotationItems)
+                    {
+                        mqItem.status = MaterialQuotationStatus.Cancelled.ToString();
+                    }
+                    messageToDisplay = "MQCancelled";
+                    type = ResponseType.Success;
+
+                    VMTrnMaterialQuotation VMMaterialQuotation = Mapper.Map<TrnMaterialQuotation, VMTrnMaterialQuotation>(materialQuotation);
+                    //emailNotification.cancelledSONotificationForCustomer(VMsaleOrder, "CancelledSONotificationForCustomer");
+                }
+                else if (materialQuotation.status.Equals("Approved") && _IsAdministrator)
+                {
+                    int itemCountWithOrderQtyNotEqualBalQty = materialQuotation.TrnMaterialQuotationItems.Where(mqItem => mqItem.orderQuantity != mqItem.balanceQuantity).Count();
+                    if (itemCountWithOrderQtyNotEqualBalQty == 0)
+                    {
+                        materialQuotation.status = MaterialQuotationStatus.Cancelled.ToString();
+                        foreach (var mqItem in materialQuotation.TrnMaterialQuotationItems)
+                        {
+                            mqItem.status = MaterialQuotationStatus.Cancelled.ToString();
+                            _trnProductStockService.SubSOItemFromStock(null,mqItem);
+                        }
+                        var ginToUpdate = repo.TrnGoodIssueNotes.Where(gin => gin.materialQuotationId == materialQuotation.id && gin.status.Equals("Created"))
+                                    .FirstOrDefault();
+                        ginToUpdate.status = GINStatus.Cancelled.ToString();
+
+                        foreach (var ginItem in ginToUpdate.TrnGoodIssueNoteItems)
+                        {
+                            ginItem.status = GINStatus.Cancelled.ToString();
+                            ginItem.statusChangeDate = DateTime.Now;
+                            ginItem.updatedOn = DateTime.Now;
+                            ginItem.updatedBy = _LoggedInuserId;
+                        }
+
+                        messageToDisplay = "MQCancelled";
+                        type = ResponseType.Success;
+
+                        //VMTrnSaleOrder VMsaleOrder = Mapper.Map<TrnSaleOrder, VMTrnSaleOrder>(saleOrder);
+                        //emailNotification.cancelledSONotificationForCustomer(VMsaleOrder, "CancelledSONotificationForCustomer");
+                    }
+                    else
+                    {
+                        messageToDisplay = "GINExists";
+                        type = ResponseType.Error;
+                    }
+                }
+                else
+                {
+                    messageToDisplay = "MQApprovedByAdmin";
+                    type = ResponseType.Error;
+                }
+
+                repo.SaveChanges();
+
+                transaction.Complete();
+                return new ResponseMessage(id, resourceManager.GetString(messageToDisplay), type);
             }
         }
     }

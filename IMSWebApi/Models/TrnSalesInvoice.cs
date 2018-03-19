@@ -21,7 +21,8 @@ namespace IMSWebApi.Models
     
         public long id { get; set; }
         public long goodIssueNoteId { get; set; }
-        public long salesOrderId { get; set; }
+        public Nullable<long> salesOrderId { get; set; }
+        public Nullable<long> materialQuotationId { get; set; }
         public string invoiceNumber { get; set; }
         public System.DateTime invoiceDate { get; set; }
         public string buyersOrderNumber { get; set; }
@@ -35,8 +36,9 @@ namespace IMSWebApi.Models
         public Nullable<System.DateTime> updatedOn { get; set; }
         public Nullable<long> updatedBy { get; set; }
     
-        public virtual ICollection<TrnSalesInvoiceItem> TrnSalesInvoiceItems { get; set; }
         public virtual TrnGoodIssueNote TrnGoodIssueNote { get; set; }
+        public virtual TrnMaterialQuotation TrnMaterialQuotation { get; set; }
         public virtual TrnSaleOrder TrnSaleOrder { get; set; }
+        public virtual ICollection<TrnSalesInvoiceItem> TrnSalesInvoiceItems { get; set; }
     }
 }

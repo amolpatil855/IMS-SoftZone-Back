@@ -416,14 +416,14 @@ namespace IMSWebApi.Services
         public void AddsoOrmqIteminStock(TrnSaleOrderItem saleOrderItem,TrnMaterialQuotationItem materialQuotationItem)
         {
             TrnProductStock product = new TrnProductStock();
-            if (saleOrderItem!=null)
+            if (saleOrderItem != null)
             {
                 product = repo.TrnProductStocks.Where(z => z.categoryId == saleOrderItem.categoryId
                                                       && z.collectionId == saleOrderItem.collectionId
                                                       && z.fwrShadeId == saleOrderItem.shadeId
                                                       && z.fomSizeId == saleOrderItem.fomSizeId
                                                       && z.matSizeId == saleOrderItem.matSizeId
-                                                      && z.accessoryId == saleOrderItem.accessoryId).FirstOrDefault();    
+                                                      && z.accessoryId == saleOrderItem.accessoryId).FirstOrDefault();
             }
             else
             {
@@ -432,7 +432,6 @@ namespace IMSWebApi.Services
                                                       && z.fwrShadeId == materialQuotationItem.shadeId
                                                       && z.matSizeId == materialQuotationItem.matSizeId).FirstOrDefault();
             }
-            
             if (product != null)
             {
                 product.soQuanity = product.soQuanity + (saleOrderItem != null ? saleOrderItem.orderQuantity : materialQuotationItem.orderQuantity);
@@ -519,17 +518,29 @@ namespace IMSWebApi.Services
         }
 
         //When SO is Cancelled/ Forcefully completed, subtract balanceQuantity from soQuantity for each soItem in ProductStock
-        public void SubSOItemFromStock(TrnSaleOrderItem saleOrderItem)
+        public void SubSOItemFromStock(TrnSaleOrderItem saleOrderItem,TrnMaterialQuotationItem materialQuotationItem)
         {
-            TrnProductStock product = repo.TrnProductStocks.Where(z => z.categoryId == saleOrderItem.categoryId
+            TrnProductStock product = null;
+            if (saleOrderItem != null)
+            {
+                 product = repo.TrnProductStocks.Where(z => z.categoryId == saleOrderItem.categoryId
                                                       && z.collectionId == saleOrderItem.collectionId
                                                       && z.fwrShadeId == saleOrderItem.shadeId
                                                       && z.fomSizeId == saleOrderItem.fomSizeId
                                                       && z.matSizeId == saleOrderItem.matSizeId
                                                       && z.accessoryId == saleOrderItem.accessoryId).FirstOrDefault();
+            }
+            else
+            {
+                product = repo.TrnProductStocks.Where(z => z.categoryId == materialQuotationItem.categoryId
+                                                      && z.collectionId == materialQuotationItem.collectionId
+                                                      && z.fwrShadeId == materialQuotationItem.shadeId
+                                                      && z.matSizeId == materialQuotationItem.matSizeId).FirstOrDefault();
+            }
+
             if (product != null)
             {
-                product.soQuanity = product.soQuanity - Convert.ToDecimal(saleOrderItem.balanceQuantity);
+                product.soQuanity = product.soQuanity - (saleOrderItem != null ? Convert.ToDecimal(saleOrderItem.balanceQuantity) : Convert.ToDecimal(materialQuotationItem.balanceQuantity));
                 product.updatedOn = DateTime.Now;
                 product.updatedBy = _LoggedInuserId;
                 repo.SaveChanges();

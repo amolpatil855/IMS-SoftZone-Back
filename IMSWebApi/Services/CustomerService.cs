@@ -133,6 +133,7 @@ namespace IMSWebApi.Services
             MstUser userToPost = Mapper.Map<VMUser, MstUser>(user);
             var originalPassword = _userService.createRandomPassword(8);
             userToPost.password = UserService.encryption(originalPassword);
+            userToPost.isActive = true;
             userToPost.createdOn = DateTime.Now;
             userToPost.createdBy = _LoggedInuserId;
             repo.MstUsers.Add(userToPost);

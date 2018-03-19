@@ -47,7 +47,8 @@ namespace IMSWebApi.Services
                         id = gin.id,
                         ginNumber = gin.ginNumber,
                         ginDate = gin.ginDate,
-                        salesOrderNumber = gin.TrnSaleOrder.orderNumber,
+                        salesOrderNumber = gin.TrnSaleOrder != null ? gin.TrnSaleOrder.orderNumber : string.Empty,
+                        materialQuotationNumber = gin.TrnMaterialQuotation != null ? gin.TrnMaterialQuotation.materialQuotationNumber : string.Empty,
                         customerName = gin.MstCustomer.name,
                         status = gin.status
                     })
@@ -161,7 +162,7 @@ namespace IMSWebApi.Services
                                 ginItem.shadeId = mqItem.shadeId;
                                 ginItem.fomSizeId = null;
                                 ginItem.matSizeId = mqItem.matSizeId;
-                                ginItem.sizeCode = mqItem.matSizeId == null ? (mqItem.matHeight + "x" + mqItem.matWidth) : null;
+                                ginItem.sizeCode = mqItem.matSizeId == null && (mqItem.matHeight != null && mqItem.matWidth != null) ? (mqItem.matHeight + "x" + mqItem.matWidth) : null;
                                 ginItem.accessoryId = null;
                                 ginItem.orderQuantity = mqItem.balanceQuantity;
                                 ginItem.issuedQuantity = 0;
@@ -202,7 +203,7 @@ namespace IMSWebApi.Services
 
                     _trnSalesInvoiceService.createInvoiceForGIN(goodIssueNote);
 
-                    createGINForRemainingItems(goodIssueNote.salesOrderId);
+                    createGINForRemainingItems(goodIssueNote.salesOrderId,goodIssueNote.materialQuotationId);
 
                     transaction.Complete();
                     return new ResponseMessage(goodIssueNote.id, resourceManager.GetString("InvoiceCreated"), ResponseType.Success);
@@ -239,8 +240,14 @@ namespace IMSWebApi.Services
                     ginItemToPut.updatedBy = _LoggedInuserId;
 
                     repo.SaveChanges();
-
-                    updateStatusAndBalQtyForSOItem(ginItemToPut);
+                    if (goodIssueNote.salesOrderId != null)
+                    {
+                        updateStatusAndBalQtyForSOItem(ginItemToPut);
+                    }
+                    else
+                    {
+                        updateStatusAndBalQtyForMQItem(ginItemToPut);
+                    }
                     _trnProductStockService.SubtractItemQtyFromStockDetailsForGIN(ginItemToPut);
                 }
             });
@@ -272,20 +279,70 @@ namespace IMSWebApi.Services
                 soItem.TrnSaleOrder.status = SaleOrderStatus.Completed.ToString();
             }
             repo.SaveChanges();
-
-
         }
 
-        public void createGINForRemainingItems(Int64? salesOrderId)
+        public void updateStatusAndBalQtyForMQItem(TrnGoodIssueNoteItem ginItem)
         {
-            TrnSaleOrder saleOrder = repo.TrnSaleOrders.Where(so => so.id == salesOrderId && so.status.Equals("Approved")).FirstOrDefault();
-
-            if (saleOrder != null)
+            TrnMaterialQuotationItem mqItem = new TrnMaterialQuotationItem();
+            if (ginItem.matSizeId != null || ginItem.shadeId != null)
             {
-                //int itemsWithBalQty = saleOrder.TrnSaleOrderItems.Where(soItems => soItems.balanceQuantity != 0).Count();
-                VMTrnSaleOrder VMSaleOrder = Mapper.Map<TrnSaleOrder, VMTrnSaleOrder>(saleOrder);
-                postGoodIssueNote(VMSaleOrder, null);
+                mqItem = repo.TrnMaterialQuotationItems.Where(mq => mq.categoryId == ginItem.categoryId
+                                                                          && mq.collectionId == ginItem.collectionId
+                                                                          && mq.shadeId == ginItem.shadeId
+                                                                          && mq.matSizeId == ginItem.matSizeId
+                                                                          && mq.materialQuotationId == ginItem.TrnGoodIssueNote.materialQuotationId).FirstOrDefault();
             }
+            else if(ginItem.matSizeId == null && ginItem.sizeCode != null)
+            {
+                mqItem = repo.TrnMaterialQuotationItems.Where(mq => mq.categoryId == ginItem.categoryId
+                                                                          && mq.collectionId == ginItem.collectionId
+                                                                          && mq.shadeId == ginItem.shadeId
+                                                                          && (mq.matHeight + "x" + mq.matWidth).Equals(ginItem.sizeCode)
+                                                                          && mq.materialQuotationId == ginItem.TrnGoodIssueNote.materialQuotationId).FirstOrDefault();
+            }
+
+            mqItem.balanceQuantity = ginItem.issuedQuantity > mqItem.balanceQuantity ? 0 : mqItem.balanceQuantity - Convert.ToDecimal(ginItem.issuedQuantity);
+            mqItem.deliverQuantity += Convert.ToDecimal(ginItem.issuedQuantity);
+            mqItem.status = mqItem.balanceQuantity == 0 ? SaleOrderStatus.Completed.ToString() : mqItem.status;
+            mqItem.updatedBy = _LoggedInuserId;
+            mqItem.updatedOn = DateTime.Now;
+            repo.SaveChanges();
+
+            //Set MQ status Completed, if all its item's status is completed or closed
+            int mqItemCount = repo.TrnMaterialQuotationItems.Where(mq => mq.materialQuotationId == ginItem.TrnGoodIssueNote.materialQuotationId).Count();
+            int completeMQItemCount = repo.TrnMaterialQuotationItems.Where(mq => mq.materialQuotationId == ginItem.TrnGoodIssueNote.materialQuotationId && (mq.status.Equals("Completed"))).Count();
+            if (mqItemCount == completeMQItemCount)
+            {
+                mqItem.TrnMaterialQuotation.status = MaterialQuotationStatus.Completed.ToString();
+            }
+            repo.SaveChanges();
+        }
+
+        //Create GIN for remaining Items in SalesOrder OR Material Quotation
+        public void createGINForRemainingItems(Int64? salesOrderId,Int64? materialQuotationId)
+        {
+            if (salesOrderId != null)
+            {
+                TrnSaleOrder saleOrder = repo.TrnSaleOrders.Where(so => so.id == salesOrderId && so.status.Equals("Approved")).FirstOrDefault();
+                if (saleOrder != null)
+                {
+                    //int itemsWithBalQty = saleOrder.TrnSaleOrderItems.Where(soItems => soItems.balanceQuantity != 0).Count();
+                    VMTrnSaleOrder VMSaleOrder = Mapper.Map<TrnSaleOrder, VMTrnSaleOrder>(saleOrder);
+                    postGoodIssueNote(VMSaleOrder, null);
+                }
+            }
+            else
+            {
+                TrnMaterialQuotation materialQuotation = repo.TrnMaterialQuotations.Where(mq => mq.id == materialQuotationId && mq.status.Equals("Approved")).FirstOrDefault();
+                if (materialQuotation != null)
+                {
+                    //int itemsWithBalQty = saleOrder.TrnSaleOrderItems.Where(soItems => soItems.balanceQuantity != 0).Count();
+                    VMTrnMaterialQuotation VMMaterialQuotation = Mapper.Map<TrnMaterialQuotation, VMTrnMaterialQuotation>(materialQuotation);
+                    postGoodIssueNote(null, VMMaterialQuotation);
+                }
+            }
+
+            
         }
 
         //List of GINs whose items physical stock is available/greater than orderQuantity

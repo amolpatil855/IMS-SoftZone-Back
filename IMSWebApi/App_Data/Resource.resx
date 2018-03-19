@@ -390,4 +390,13 @@
   <data name="MQUpdated" xml:space="preserve">
     <value>Material Quotation Updated Successfully</value>
   </data>
+  <data name="MQApproved" xml:space="preserve">
+    <value>Material Quotation is Approved Successfully</value>
+  </data>
+  <data name="MQApprovedByAdmin" xml:space="preserve">
+    <value>Can't Cancel, as it is already Approved By Admin</value>
+  </data>
+  <data name="MQCancelled" xml:space="preserve">
+    <value>Material Quotation Cancelled Successfully</value>
+  </data>
 </root>

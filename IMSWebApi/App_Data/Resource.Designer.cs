@@ -475,6 +475,33 @@ namespace IMSWebApi.App_Data {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Material Quotation is Approved Successfully.
+        /// </summary>
+        public static string MQApproved {
+            get {
+                return ResourceManager.GetString("MQApproved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Can&apos;t Cancel, as it is already Approved By Admin.
+        /// </summary>
+        public static string MQApprovedByAdmin {
+            get {
+                return ResourceManager.GetString("MQApprovedByAdmin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Material Quotation Cancelled Successfully.
+        /// </summary>
+        public static string MQCancelled {
+            get {
+                return ResourceManager.GetString("MQCancelled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Quotation Created Successfully.
         /// </summary>
         public static string MQCreated {

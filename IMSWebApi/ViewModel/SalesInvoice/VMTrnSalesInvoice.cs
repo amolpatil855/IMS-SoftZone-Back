@@ -11,7 +11,8 @@ namespace IMSWebApi.ViewModel.SalesInvoice
     {
         public long id { get; set; }
         public long goodIssueNoteId { get; set; }
-        public long salesOrderId { get; set; }
+        public Nullable<long> salesOrderId { get; set; }
+        public Nullable<long> materialQuotationId { get; set; }
         [MaxLength(50)]
         public string invoiceNumber { get; set; }
         public System.DateTime invoiceDate { get; set; }
@@ -26,6 +27,7 @@ namespace IMSWebApi.ViewModel.SalesInvoice
         public string courierDockYardNumber { get; set; }
         
         public virtual VMCompanyInfo MstCompanyInfo { get; set; }
+        public virtual VMTrnMaterialQuotation TrnMaterialQuotation { get; set; }
         public virtual VMTrnGoodIssueNote TrnGoodIssueNote { get; set; }
         public virtual VMTrnSaleOrder TrnSaleOrder { get; set; }
         public virtual List<VMTrnSalesInvoiceItem> TrnSalesInvoiceItems { get; set; }

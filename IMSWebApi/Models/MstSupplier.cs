@@ -16,11 +16,11 @@ namespace IMSWebApi.Models
     {
         public MstSupplier()
         {
+            this.MstAccessories = new HashSet<MstAccessory>();
             this.MstCollections = new HashSet<MstCollection>();
             this.MstSupplierAddresses = new HashSet<MstSupplierAddress>();
-            this.TrnPurchaseOrders = new HashSet<TrnPurchaseOrder>();
             this.TrnGoodReceiveNotes = new HashSet<TrnGoodReceiveNote>();
-            this.MstAccessories = new HashSet<MstAccessory>();
+            this.TrnPurchaseOrders = new HashSet<TrnPurchaseOrder>();
         }
     
         public long id { get; set; }
@@ -45,10 +45,10 @@ namespace IMSWebApi.Models
         public Nullable<System.DateTime> updatedOn { get; set; }
         public Nullable<long> updatedBy { get; set; }
     
+        public virtual ICollection<MstAccessory> MstAccessories { get; set; }
         public virtual ICollection<MstCollection> MstCollections { get; set; }
         public virtual ICollection<MstSupplierAddress> MstSupplierAddresses { get; set; }
-        public virtual ICollection<TrnPurchaseOrder> TrnPurchaseOrders { get; set; }
         public virtual ICollection<TrnGoodReceiveNote> TrnGoodReceiveNotes { get; set; }
-        public virtual ICollection<MstAccessory> MstAccessories { get; set; }
+        public virtual ICollection<TrnPurchaseOrder> TrnPurchaseOrders { get; set; }
     }
 }

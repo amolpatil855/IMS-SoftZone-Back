@@ -378,6 +378,9 @@
     <Compile Include="Models\MstuserType.cs">
       <DependentUpon>WebApiModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\TrnAdvancePayment.cs">
+      <DependentUpon>WebApiModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\TrnGoodIssueNote.cs">
       <DependentUpon>WebApiModel.tt</DependentUpon>
     </Compile>
