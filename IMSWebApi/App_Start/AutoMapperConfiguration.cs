@@ -142,6 +142,10 @@ namespace IMSWebApi.App_Start
 
             Mapper.CreateMap<TrnMaterialQuotationItem, VMTrnMaterialQuotationItem>();
             Mapper.CreateMap<VMTrnMaterialQuotationItem, TrnMaterialQuotationItem>();
+
+            Mapper.CreateMap<TrnAdvancePayment, VMTrnAdvancePayment>();
+            Mapper.CreateMap<VMTrnAdvancePayment, TrnAdvancePayment>();
+
         }
     }
 }

@@ -279,6 +279,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\FWRShadeController.cs" />
     <Compile Include="Controllers\SupplierController.cs" />
+    <Compile Include="Controllers\TrnAdvancePaymentController.cs" />
     <Compile Include="Controllers\TrnGoodIssueNoteController.cs" />
     <Compile Include="Controllers\TrnGoodReceiveNoteController.cs" />
     <Compile Include="Controllers\TrnMaterialQuotationController.cs" />
@@ -479,6 +480,7 @@
     <Compile Include="Services\MatSizeService.cs" />
     <Compile Include="Services\MatThicknessService.cs" />
     <Compile Include="Services\MenuService.cs" />
+    <Compile Include="Services\TrnAdvancePaymentService.cs" />
     <Compile Include="Services\TrnGoodIssueNoteService.cs" />
     <Compile Include="Services\TrnMaterialQuotationService.cs" />
     <Compile Include="Services\TrnMaterialSelectionService.cs" />
@@ -496,6 +498,7 @@
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Services\FomSizeService.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModel\AdvancePayment\VMTrnAdvancePaymentList.cs" />
     <Compile Include="ViewModel\ResponseMessage.cs" />
     <Compile Include="ViewModel\SalesInvoice\VMTrnSalesInvoiceList.cs" />
     <Compile Include="ViewModel\SlaesOrder\VMTrnSaleOrderList.cs" />
@@ -526,6 +529,7 @@
     <Compile Include="ViewModel\MaterialSelection\VMTrnMaterialSelection.cs" />
     <Compile Include="ViewModel\MaterialSelection\VMTrnMaterialSelectionItem.cs" />
     <Compile Include="ViewModel\MaterialSelection\VMTrnMaterialSelectionList.cs" />
+    <Compile Include="ViewModel\AdvancePayment\VMTrnAdvancePayment.cs" />
     <Compile Include="ViewModel\VMTrnProductStock.cs" />
     <Compile Include="ViewModel\VMQuality.cs" />
     <Compile Include="ViewModel\VMFWRShade.cs" />

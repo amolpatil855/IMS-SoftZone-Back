@@ -60,6 +60,29 @@ namespace IMSWebApi.Services
             };
         }
 
+        public List<VMLookUpItem> getMaterialQuotationLookup()
+        {
+            return repo.TrnMaterialQuotations.
+                    Select(mq => new VMLookUpItem
+                    {
+                        label = mq.materialQuotationNumber,
+                        value = mq.id
+                    })
+                    .OrderByDescending(o=>o.value)
+                    .ToList();
+        }
+
+        public List<VMLookUpItem> getCustomerLookupByMaterialQuotationId(Int64 materialQuotationId)
+        {
+            return repo.TrnMaterialQuotations.Where(mq => mq.id == materialQuotationId)
+                    .Select(c => new VMLookUpItem
+                    {
+                        label = c.customerId != null ? c.MstCustomer.name : string.Empty,
+                        value = c.customerId
+                    }).OrderByDescending(o => o.label).ToList();
+        }
+        
+
         public VMTrnMaterialQuotation getMaterialQuotationById(Int64 id)
         {
             var result = repo.TrnMaterialQuotations.Where(mq => mq.id == id).FirstOrDefault();
