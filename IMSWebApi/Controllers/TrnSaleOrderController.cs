@@ -102,5 +102,15 @@ namespace IMSWebApi.Controllers
             var result = _trnSaleOrderService.completeSO(id);
             return Ok(result);
         }
+
+        // GET api/TrnSaleOrder
+        [HttpGet]
+        [Route("api/TrnSaleOrder/GetSalesOrdersForLoggedInUser")]
+        public IHttpActionResult GetSalesOrdersForLoggedInUser(int pageSize = 0, int page = 0, string search = null)
+        {
+            var result = _trnSaleOrderService.getSalesOrdersForLoggedInUser(pageSize, page, search);
+            return Ok(result);
+        }
+
     }
 }

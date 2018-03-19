@@ -71,7 +71,11 @@ namespace IMSWebApi.Services
             VMTrnSalesInvoice salesInvoiceView = Mapper.Map<TrnSalesInvoice, VMTrnSalesInvoice>(result);
             salesInvoiceView.TrnGoodIssueNote.TrnGoodIssueNoteItems.ForEach(ginItems => ginItems.TrnGoodIssueNote = null);
             salesInvoiceView.TrnSalesInvoiceItems.ForEach(salesInvoiceItems => salesInvoiceItems.TrnSalesInvoice = null);
-
+            if (salesInvoiceView.TrnMaterialQuotation != null)
+            {
+                salesInvoiceView.TrnMaterialQuotation.TrnMaterialQuotationItems.ForEach(mqItem => mqItem.TrnMaterialQuotation = null);
+                salesInvoiceView.TrnMaterialQuotation.TrnMaterialSelection = null;
+            }
             salesInvoiceView.TrnSalesInvoiceItems.ForEach(salesInvoiceItem =>
             {
                 salesInvoiceItem.categoryName = salesInvoiceItem.MstCategory.name;
@@ -94,7 +98,8 @@ namespace IMSWebApi.Services
         {
             TrnSalesInvoice salesInvoice = new TrnSalesInvoice();
             salesInvoice.goodIssueNoteId = goodIssueNote.id;
-            salesInvoice.salesOrderId = Convert.ToInt64(goodIssueNote.salesOrderId);
+            salesInvoice.salesOrderId = goodIssueNote.salesOrderId;
+            salesInvoice.materialQuotationId = goodIssueNote.materialQuotationId;
 
             var financialYear = repo.MstFinancialYears.Where(f => f.startDate <= goodIssueNote.ginDate && f.endDate >= goodIssueNote.ginDate).FirstOrDefault();
             string invoiceNo = generateOrderNumber.orderNumber(financialYear.startDate.ToString("yy"), financialYear.endDate.ToString("yy"), financialYear.soInvoiceNumber,"IN");

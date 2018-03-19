@@ -312,7 +312,7 @@ namespace IMSWebApi.Services
                         foreach (var soItem in saleOrder.TrnSaleOrderItems)
                         {
                             soItem.status = SaleOrderStatus.Cancelled.ToString();
-                            _trnProductStockService.SubSOItemFromStock(soItem);
+                            _trnProductStockService.SubSOItemFromStock(soItem,null);
                         }
                         var ginToUpdate = repo.TrnGoodIssueNotes.Where(gin => gin.salesOrderId == saleOrder.id && gin.status.Equals("Created"))
                                     .FirstOrDefault();
@@ -361,7 +361,7 @@ namespace IMSWebApi.Services
                 foreach (var soItem in saleOrder.TrnSaleOrderItems)
                 {
                     soItem.status = SaleOrderStatus.Completed.ToString();
-                    _trnProductStockService.SubSOItemFromStock(soItem);
+                    _trnProductStockService.SubSOItemFromStock(soItem,null);
                 }
                 repo.SaveChanges();
                 var ginToUpdate = repo.TrnGoodIssueNotes.Where(gin => gin.salesOrderId == id && gin.status.Equals("Created"))
@@ -379,6 +379,46 @@ namespace IMSWebApi.Services
                 transaction.Complete();
                 return new ResponseMessage(id, resourceManager.GetString("SOForcefullyComplete"), ResponseType.Success);
             }
+        }
+
+        public ListResult<VMTrnSaleOrderList> getSalesOrdersForLoggedInUser(int pageSize, int page, string search)
+        {
+            List<VMTrnSaleOrderList> saleOrderView = null;
+            
+            if (_IsCustomer)
+            {
+                Int64 customerId = repo.MstCustomers.Where(c => c.userId == _LoggedInuserId).FirstOrDefault().id;
+                var result = repo.TrnSaleOrders.Where(saleOrder => saleOrder.customerId == customerId &&
+                                (!string.IsNullOrEmpty(search)
+                                ? saleOrder.orderNumber.StartsWith(search)
+                                || saleOrder.MstCustomer.name.StartsWith(search)
+                                || saleOrder.MstCourier.name.StartsWith(search)
+                                || saleOrder.MstAgent.name.StartsWith(search)
+                                || saleOrder.status.StartsWith(search) : true))
+                                .Select(so => new VMTrnSaleOrderList
+                                {
+                                    id = so.id,
+                                    orderNumber = so.orderNumber,
+                                    orderDate = so.orderDate,
+                                    customerName = so.MstCustomer != null ? so.MstCustomer.name : string.Empty,
+                                    courierName = so.MstCourier != null ? so.MstCourier.name : string.Empty,
+                                    agentName = so.MstAgent != null ? so.MstAgent.name : string.Empty,
+                                    status = so.status
+                                })
+                                .OrderByDescending(p => p.id).Skip(page * pageSize).Take(pageSize).ToList();
+                saleOrderView = result;
+            }
+            
+            return new ListResult<VMTrnSaleOrderList>
+            {
+                Data = saleOrderView,
+                TotalCount = repo.TrnSaleOrders.Where(so => !string.IsNullOrEmpty(search)
+                    ? so.orderNumber.StartsWith(search)
+                    || so.MstCustomer.name.StartsWith(search)
+                    || so.MstCourier.name.StartsWith(search)
+                    || so.status.StartsWith(search) : true).Count(),
+                Page = page
+            };
         }
     }
 }

@@ -76,5 +76,19 @@ namespace IMSWebApi.Controllers
             var result = _trnMaterialQuotationService.approveMaterialQuotation(id);
             return Ok(result);
         }
+
+        // PUT api/TrnMaterialQuotation
+        [ApiAuthorize(AccessLevel = "materialquotation")]
+        [Route("api/TrnMaterialQuotation/CancelMaterialQuotation/{id}")]
+        [HttpPut]
+        public IHttpActionResult CancelMaterialQuotation(long id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var result = _trnMaterialQuotationService.cancelMaterialQuotation(id);
+            return Ok(result);
+        }
     }
 }

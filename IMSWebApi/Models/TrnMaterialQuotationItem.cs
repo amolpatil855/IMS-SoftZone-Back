@@ -29,6 +29,7 @@ namespace IMSWebApi.Models
         public decimal orderQuantity { get; set; }
         public decimal deliverQuantity { get; set; }
         public decimal balanceQuantity { get; set; }
+        public string orderType { get; set; }
         public decimal rate { get; set; }
         public decimal discountPercentage { get; set; }
         public int amount { get; set; }
