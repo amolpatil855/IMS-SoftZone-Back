@@ -115,6 +115,24 @@ namespace IMSWebApi.App_Data {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Advance Payment Added Successfully.
+        /// </summary>
+        public static string APAdded {
+            get {
+                return ResourceManager.GetString("APAdded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Advance Payment Updated Successfully.
+        /// </summary>
+        public static string APUpdated {
+            get {
+                return ResourceManager.GetString("APUpdated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Collection Added Successfully.
         /// </summary>
         public static string CollectionAdded {
