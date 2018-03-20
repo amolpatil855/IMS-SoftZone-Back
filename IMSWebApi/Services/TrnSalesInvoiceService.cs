@@ -215,5 +215,40 @@ namespace IMSWebApi.Services
                 return new ResponseMessage(id, resourceManager.GetString("SalesInvoiceApproved"), ResponseType.Success);
             }
         }
+
+        public ListResult<VMTrnSalesInvoiceList> getSalesInvoicesForLoggedInUser(int pageSize, int page, string search)
+        {
+            Int64 customerId = repo.MstCustomers.Where(c => c.userId == _LoggedInuserId).FirstOrDefault().id;
+            List<VMTrnSalesInvoiceList> salesInvoiceView;
+            salesInvoiceView = repo.TrnSalesInvoices
+                    .Where(s => !string.IsNullOrEmpty(search)
+                    ? s.TrnGoodIssueNote.ginNumber.StartsWith(search)
+                    || s.invoiceNumber.StartsWith(search)
+                    || s.courierDockYardNumber.StartsWith(search)
+                    || s.status.StartsWith(search) : true
+                    && (s.TrnMaterialQuotation != null ? s.TrnMaterialQuotation.customerId == customerId : s.TrnSaleOrder.customerId == customerId))
+                     .Select(s => new VMTrnSalesInvoiceList
+                     {
+                         id = s.id,
+                         invoiceNumber = s.invoiceNumber,
+                         invoiceDate = s.invoiceDate,
+                         ginNumber = s.TrnGoodIssueNote.ginNumber,
+                         status = s.status,
+                         courierDockYardNumber = s.courierDockYardNumber
+                     })
+                    .OrderByDescending(p => p.id).Skip(page * pageSize).Take(pageSize).ToList();
+            
+            return new ListResult<VMTrnSalesInvoiceList>
+            {
+                Data = salesInvoiceView,
+                TotalCount = repo.TrnSalesInvoices.Where(s => !string.IsNullOrEmpty(search)
+                    ? s.TrnGoodIssueNote.ginNumber.StartsWith(search)
+                    || s.invoiceNumber.StartsWith(search)
+                    || s.TrnSaleOrder.orderNumber.StartsWith(search)
+                    || s.status.StartsWith(search) : true
+                    && (s.TrnMaterialQuotation != null ? s.TrnMaterialQuotation.customerId == customerId : s.TrnSaleOrder.customerId == customerId)).Count(),
+                Page = page
+            };
+        }
     }
 }

@@ -60,5 +60,25 @@ namespace IMSWebApi.Controllers
             var result = _trnSalesInvoiceService.approveSalesInvoice(id);
             return Ok(result);
         }
+
+        // GET api/TrnSalesInvoice
+        [ApiAuthorize(AccessLevel = "customerLogin")]
+        [HttpGet]
+        [Route("api/TrnSalesInvoice/GetSalesInvoicesForLoggedInUser")]
+        public IHttpActionResult GetSalesInvoicesForLoggedInUser(int pageSize = 0, int page = 0, string search = null)
+        {
+            var result = _trnSalesInvoiceService.getSalesInvoicesForLoggedInUser(pageSize, page, search);
+            return Ok(result);
+        }
+
+        // GET api/TrnSalesInvoice/1
+        [ApiAuthorize(AccessLevel = "customerLogin")]
+        [HttpGet]
+        [Route("api/TrnSalesInvoice/GetSalesInvoiceByIdForCustomerUser/{id}")]
+        public IHttpActionResult GetSalesInvoiceByIdForCustomerUser(long id)
+        {
+            var result = _trnSalesInvoiceService.getSalesInvoiceById(id);
+            return Ok(result);
+        }
     }
 }
