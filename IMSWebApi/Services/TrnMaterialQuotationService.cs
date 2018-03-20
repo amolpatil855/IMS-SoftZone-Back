@@ -215,26 +215,38 @@ namespace IMSWebApi.Services
 
         public ResponseMessage approveMaterialQuotation(Int64 id)
         {
+            String messageToDisplay;
+            ResponseType type;
             using (var transaction = new TransactionScope())
             {
-                var materialQuotation = repo.TrnMaterialQuotations.Where(mq => mq.id == id).FirstOrDefault();
-                materialQuotation.status = MaterialQuotationStatus.Approved.ToString();
-                foreach (var mqItem in materialQuotation.TrnMaterialQuotationItems)
+                int advPaymentCount = repo.TrnAdvancePayments.Where(advPayment => advPayment.materialQuotationId == id).Count();
+                if (advPaymentCount > 0)
                 {
-                    mqItem.status = MaterialQuotationStatus.Approved.ToString();
-                    if (!(mqItem.categoryId == 4 && mqItem.matSizeId == null))
+                    var materialQuotation = repo.TrnMaterialQuotations.Where(mq => mq.id == id).FirstOrDefault();
+                    materialQuotation.status = MaterialQuotationStatus.Approved.ToString();
+                    foreach (var mqItem in materialQuotation.TrnMaterialQuotationItems)
                     {
-                        _trnProductStockService.AddsoOrmqIteminStock(null,mqItem);    
+                        mqItem.status = MaterialQuotationStatus.Approved.ToString();
+                        if (!(mqItem.categoryId == 4 && mqItem.matSizeId == null))
+                        {
+                            _trnProductStockService.AddsoOrmqIteminStock(null, mqItem);
+                        }
+                        mqItem.updatedOn = DateTime.Now;
+                        mqItem.updatedBy = _LoggedInuserId;
                     }
-                    mqItem.updatedOn = DateTime.Now;
-                    mqItem.updatedBy = _LoggedInuserId;
+                    repo.SaveChanges();
+                    VMTrnMaterialQuotation VMMaterialQuotation = Mapper.Map<TrnMaterialQuotation, VMTrnMaterialQuotation>(materialQuotation);
+                    _trnGoodIssueNoteServie.postGoodIssueNote(null, VMMaterialQuotation);
+                    messageToDisplay = "MQApproved";
+                    type = ResponseType.Success;
                 }
-                repo.SaveChanges();
-                VMTrnMaterialQuotation VMMaterialQuotation = Mapper.Map<TrnMaterialQuotation, VMTrnMaterialQuotation>(materialQuotation);
-                _trnGoodIssueNoteServie.postGoodIssueNote(null, VMMaterialQuotation);
-
+                else
+                {
+                    messageToDisplay = "AdvPaymentPending";
+                    type = ResponseType.Error;
+                }               
                 transaction.Complete();
-                return new ResponseMessage(id, resourceManager.GetString("MQApproved"), ResponseType.Success);
+                return new ResponseMessage(id, resourceManager.GetString(messageToDisplay), type);
             }
         }
 

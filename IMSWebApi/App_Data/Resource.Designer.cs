@@ -88,6 +88,15 @@ namespace IMSWebApi.App_Data {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Material Quotation can&apos;t be approved. Advance Payment is pending..
+        /// </summary>
+        public static string AdvPaymentPending {
+            get {
+                return ResourceManager.GetString("AdvPaymentPending", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Agent details added Successfully.
         /// </summary>
         public static string AgentAdded {

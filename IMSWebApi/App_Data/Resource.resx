@@ -405,4 +405,7 @@
   <data name="APUpdated" xml:space="preserve">
     <value>Advance Payment Updated Successfully</value>
   </data>
+  <data name="AdvPaymentPending" xml:space="preserve">
+    <value>Material Quotation can't be approved. Advance Payment is pending.</value>
+  </data>
 </root>
