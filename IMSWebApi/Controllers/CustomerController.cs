@@ -90,5 +90,13 @@ namespace IMSWebApi.Controllers
             return Ok(result);
         }
 
+        [ApiAuthorize(AccessLevel = "customerLogin")]
+        [HttpGet]
+        [Route("api/Customer/GetLoggedInCustomerDetails")]
+        public IHttpActionResult GetLoggedInCustomerDetails()
+        {
+            var result = _customerService.getLoggedInCustomerDetails();
+            return Ok(result);
+        }
     }
 }

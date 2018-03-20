@@ -113,6 +113,16 @@ namespace IMSWebApi.Controllers
             return Ok(result);
         }
 
+        // GET api/TrnSaleOrder/1
+        [ApiAuthorize(AccessLevel = "customerLogin")]
+        [HttpGet]
+        [Route("api/TrnSaleOrder/GetSalesOrderByIdForCustomerUser/{id}")]
+        public IHttpActionResult GetSalesOrderByIdForCustomerUser(long id)
+        {
+            var result = _trnSaleOrderService.getSaleOrderById(id);
+            return Ok(result);
+        }
+
         // PUT api/TrnSaleOrder/1
         [ApiAuthorize(AccessLevel = "customerLogin")]
         [HttpPut]
@@ -123,5 +133,18 @@ namespace IMSWebApi.Controllers
             return Ok(result);
         }
 
+        // POST api/TrnSaleOrder
+        [ApiAuthorize(AccessLevel = "customerLogin")]
+        [HttpPost]
+        [Route("api/TrnSaleOrder/PostTrnSaleOrderForCustomerUser")]
+        public IHttpActionResult PostTrnSaleOrderForCustomerUser(VMTrnSaleOrder saleorder)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var result = _trnSaleOrderService.postSaleOrder(saleorder);
+            return Ok(result);
+        }
     }
 }

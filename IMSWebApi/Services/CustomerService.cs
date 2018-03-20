@@ -74,6 +74,14 @@ namespace IMSWebApi.Services
             return customerViews;
         }
 
+        public VMCustomer getLoggedInCustomerDetails()
+        {
+            var result = repo.MstCustomers.Where(c => c.userId == _LoggedInuserId).FirstOrDefault();
+            VMCustomer customerViews = Mapper.Map<MstCustomer, VMCustomer>(result);
+            customerViews.userName = customerViews.MstUser != null ? customerViews.MstUser.userName : null;
+            return customerViews;
+        }
+
         public List<VMLookUpItem> getCustomerLookUp()
         {
             return repo.MstCustomers

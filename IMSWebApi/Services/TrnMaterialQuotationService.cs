@@ -72,14 +72,14 @@ namespace IMSWebApi.Services
                     .ToList();
         }
 
-        public List<VMLookUpItem> getCustomerLookupByMaterialQuotationId(Int64 materialQuotationId)
+        public VMLookUpItem getCustomerLookupByMaterialQuotationId(Int64 materialQuotationId)
         {
             return repo.TrnMaterialQuotations.Where(mq => mq.id == materialQuotationId)
                     .Select(c => new VMLookUpItem
                     {
                         label = c.customerId != null ? c.MstCustomer.name : string.Empty,
                         value = c.customerId
-                    }).OrderByDescending(o => o.label).ToList();
+                    }).OrderByDescending(o => o.label).FirstOrDefault();
         }
         
 
