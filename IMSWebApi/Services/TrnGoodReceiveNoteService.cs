@@ -224,10 +224,7 @@ namespace IMSWebApi.Services
                     grnItems.createdOn = DateTime.Now;
                     grnItems.createdBy = _LoggedInuserId;
                     updateStatusAndBalQtyForPOItem(grnItems);
-                    if (!(grnItems.categoryId == 4 && grnItems.matSizeId == null))
-                    {
-                        addItemInProductDetails(grnItems, goodReceiveNoteToPost.locationId);
-                    }
+                    addItemInProductDetails(grnItems, goodReceiveNoteToPost.locationId);
                 });
 
                 var financialYear = repo.MstFinancialYears.Where(f => f.startDate <= goodReceiveNote.grnDate && f.endDate >= goodReceiveNote.grnDate).FirstOrDefault();
@@ -256,6 +253,8 @@ namespace IMSWebApi.Services
                                                                           && po.fomSizeId == grnItem.fomSizeId
                                                                           && po.matSizeId == grnItem.matSizeId
                                                                           && po.accessoryId == grnItem.accessoryId
+                                                                          && po.matQualityId == grnItem.matQualityId
+                                                                          && po.matThicknessId == grnItem.matThicknessId
                                                                           && po.matSizeCode.Equals(grnItem.matSizeCode)
                                                                           && po.purchaseOrderId == grnItem.purchaseOrderId).FirstOrDefault();
 
@@ -292,6 +291,9 @@ namespace IMSWebApi.Services
             productStockDetail.fwrShadeId = grnItem.shadeId;
             productStockDetail.fomSizeId = grnItem.fomSizeId;
             productStockDetail.matSizeId = grnItem.matSizeId;
+            productStockDetail.qualityId = grnItem.matQualityId;
+            productStockDetail.matThicknessId = grnItem.matThicknessId;
+            productStockDetail.matSizeCode = grnItem.matSizeCode;
             productStockDetail.locationId = locationId;
             productStockDetail.stock = grnItem.receivedQuantity;
             productStockDetail.stockInKg = grnItem.fomQuantityInKG;
@@ -316,6 +318,9 @@ namespace IMSWebApi.Services
                                              && ginItem.fomSizeId == grnItem.fomSizeId
                                              && ginItem.matSizeId == grnItem.matSizeId
                                              && ginItem.accessoryId == grnItem.accessoryId
+                                             && ginItem.matQualityId == grnItem.matQualityId
+                                             && ginItem.matThicknessId == grnItem.matThicknessId
+                                             && ginItem.sizeCode.Equals(grnItem.matSizeCode)
                                              && ginItem.orderQuantity <= grnItem.receivedQuantity
                                              && ginItem.status.Equals("Created")).Select(gin => gin.TrnGoodIssueNote.ginNumber).ToList();
             }

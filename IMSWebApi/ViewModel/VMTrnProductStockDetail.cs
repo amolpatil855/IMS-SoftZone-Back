@@ -16,6 +16,10 @@ namespace IMSWebApi.ViewModel
         public Nullable<long> matSizeId { get; set; }
         public Nullable<long> fomSizeId { get; set; }
         public Nullable<long> accessoryId { get; set; }
+        public Nullable<long> qualityId { get; set; }
+        public Nullable<long> matThicknessId { get; set; }
+        [MaxLength(20)]
+        public string matSizeCode { get; set; }
         [Required]
         public long locationId { get; set; }
         [Required]
@@ -35,5 +39,7 @@ namespace IMSWebApi.ViewModel
         public virtual VMFomSize MstFomSize { get; set; }
         public virtual VMFWRShade MstFWRShade { get; set; }
         public virtual VMMatSize MstMatSize { get; set; }
+        public virtual VMMatThickness MstMatThickness { get; set; }
+        public virtual VMQuality MstQuality { get; set; }
     }
 }

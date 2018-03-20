@@ -146,10 +146,7 @@ namespace IMSWebApi.Services
                     poItems.balanceQuantity = poItems.orderQuantity;
                     poItems.createdOn = DateTime.Now;
                     poItems.createdBy = _LoggedInuserId;
-                    if (!(poItems.categoryId == 4 && poItems.matSizeId == null) && _IsAdministrator)
-                    {
-                        _trnProductStockService.AddpoIteminStock(poItems);
-                    }
+                    _trnProductStockService.AddpoIteminStock(poItems);
                 }
 
                 var financialYear = repo.MstFinancialYears.Where(f => f.startDate <= purchaseOrder.orderDate && f.endDate >= purchaseOrder.orderDate).FirstOrDefault();
@@ -285,10 +282,7 @@ namespace IMSWebApi.Services
                 foreach (var poItem in purchaseOrder.TrnPurchaseOrderItems)
                 {
                     poItem.status = PurchaseOrderStatus.Approved.ToString();
-                    if (!(poItem.categoryId == 4 && poItem.matSizeId == null))
-                    {
-                        _trnProductStockService.AddpoIteminStock(poItem);
-                    }
+                    _trnProductStockService.AddpoIteminStock(poItem);
                 }
                 purchaseOrder.updatedOn = DateTime.Now;
                 purchaseOrder.updatedBy = _LoggedInuserId;

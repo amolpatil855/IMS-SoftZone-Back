@@ -62,8 +62,9 @@ namespace IMSWebApi.Services
                                         productStock.MstFWRShade.MstFWRDesign.designCode+")" : null;
                  productStock.fomItem = productStock.MstCategory.code.Equals("Foam") ? productStock.MstFomSize.itemCode : null;
                  productStock.matSize = productStock.MstCategory.code.Equals("Mattress") ? 
-                                        productStock.MstMatSize.sizeCode + " ("+productStock.MstMatSize.MstMatThickNess.thicknessCode+
-                                        "-"+productStock.MstMatSize.MstQuality.qualityCode+")" : null;
+                                            productStock.MstMatSize != null ? productStock.MstMatSize.sizeCode + " ("+productStock.MstMatSize.MstMatThickNess.thicknessCode+
+                                            "-" + productStock.MstMatSize.MstQuality.qualityCode + ")" : productStock.matSizeCode +" (" + productStock.MstMatThickness.thicknessCode +
+                                            "-" + productStock.MstQuality.qualityCode + ")" : null;
              }
 
 
@@ -222,7 +223,7 @@ namespace IMSWebApi.Services
             };
         }
 
-        public VMProductDetails getProductStockAvailablity(Int64 categoryId, Int64? collectionId, Int64? parameterId,Int64? qualityId)
+        public VMProductDetails getProductStockAvailablity(Int64 categoryId, Int64? collectionId, Int64? parameterId,Int64? qualityId, Int64? matThicknessId, string matSizeCode)
         {
             TrnProductStock TrnProductStock = null;
             MstFWRShade fwrShade = null;
@@ -297,10 +298,17 @@ namespace IMSWebApi.Services
                                                     && z.collectionId == collectionId
                                                     && z.id == qualityId).FirstOrDefault();
 
+                    TrnProductStock = repo.TrnProductStocks.Where(z => z.categoryId == categoryId
+                                                                        && z.collectionId == collectionId
+                                                                        && z.qualityId == qualityId
+                                                                        && z.matThicknessId == matThicknessId
+                                                                        && z.matSizeCode.Equals(matSizeCode)).FirstOrDefault();
+
                     productDetails.custRatePerSqFeet = customSizeMat.custRatePerSqFeet;
                     productDetails.maxDiscount = customSizeMat.maxDiscount;
                     productDetails.purchaseDiscount = customSizeMat.MstCollection.purchaseDiscount;
                     productDetails.gst = customSizeMat.MstHsn.gst;
+                    productDetails.stock = TrnProductStock != null ? TrnProductStock.stock + TrnProductStock.poQuantity - TrnProductStock.soQuanity : 0; 
                 }
             }
             if (categoryCode != null && categoryCode.Equals("Accessories"))
@@ -365,7 +373,10 @@ namespace IMSWebApi.Services
                                                       && z.fwrShadeId == purchaseOrderItem.shadeId
                                                       && z.fomSizeId == purchaseOrderItem.fomSizeId
                                                       && z.matSizeId == purchaseOrderItem.matSizeId
-                                                      && z.accessoryId == purchaseOrderItem.accessoryId).FirstOrDefault();
+                                                      && z.accessoryId == purchaseOrderItem.accessoryId
+                                                      && z.qualityId == purchaseOrderItem.matQualityId
+                                                      && z.matThicknessId == purchaseOrderItem.matThicknessId
+                                                      && z.matSizeCode.Equals(purchaseOrderItem.matSizeCode)).FirstOrDefault();
                 if (product != null)
                 {
                     product.poQuantity = product.poQuantity + purchaseOrderItem.orderQuantity;
@@ -382,6 +393,9 @@ namespace IMSWebApi.Services
                     productStockToAdd.fomSizeId = purchaseOrderItem.fomSizeId;
                     productStockToAdd.matSizeId = purchaseOrderItem.matSizeId;
                     productStockToAdd.accessoryId = purchaseOrderItem.accessoryId;
+                    productStockToAdd.qualityId = purchaseOrderItem.matQualityId;
+                    productStockToAdd.matThicknessId = purchaseOrderItem.matThicknessId;
+                    productStockToAdd.matSizeCode = purchaseOrderItem.matSizeCode;
                     productStockToAdd.poQuantity = purchaseOrderItem.orderQuantity;
                     productStockToAdd.stock = productStockToAdd.soQuanity = 0;
                     productStockToAdd.createdOn = DateTime.Now;
@@ -399,7 +413,10 @@ namespace IMSWebApi.Services
                                                       && z.fwrShadeId == grnItem.shadeId
                                                       && z.fomSizeId == grnItem.fomSizeId
                                                       && z.matSizeId == grnItem.matSizeId
-                                                      && z.accessoryId == grnItem.accessoryId).FirstOrDefault();
+                                                      && z.accessoryId == grnItem.accessoryId
+                                                      && z.qualityId == grnItem.matQualityId
+                                                      && z.matThicknessId == grnItem.matThicknessId
+                                                      && z.matSizeCode.Equals(grnItem.matSizeCode)).FirstOrDefault();
 
             if (product!=null)
             {

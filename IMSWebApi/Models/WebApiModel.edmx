@@ -537,6 +537,8 @@
           <Property Name="fomSizeId" Type="bigint" />
           <Property Name="matSizeId" Type="bigint" />
           <Property Name="sizeCode" Type="varchar" MaxLength="20" />
+          <Property Name="matQualityId" Type="bigint" />
+          <Property Name="matThicknessId" Type="bigint" />
           <Property Name="accessoryId" Type="bigint" />
           <Property Name="orderQuantity" Type="decimal" Precision="7" Scale="2" Nullable="false" />
           <Property Name="issuedQuantity" Type="decimal" Precision="7" Scale="2" />
@@ -690,6 +692,9 @@
           <Property Name="matSizeId" Type="bigint" />
           <Property Name="fomSizeId" Type="bigint" />
           <Property Name="accessoryId" Type="bigint" />
+          <Property Name="qualityId" Type="bigint" />
+          <Property Name="matThicknessId" Type="bigint" />
+          <Property Name="matSizeCode" Type="varchar" MaxLength="20" />
           <Property Name="stock" Type="decimal" Precision="7" Scale="2" Nullable="false" />
           <Property Name="stockInKg" Type="decimal" Precision="5" Scale="2" />
           <Property Name="soQuanity" Type="decimal" Precision="7" Scale="2" Nullable="false" />
@@ -710,6 +715,9 @@
           <Property Name="matSizeId" Type="bigint" />
           <Property Name="fomSizeId" Type="bigint" />
           <Property Name="accessoryId" Type="bigint" />
+          <Property Name="qualityId" Type="bigint" />
+          <Property Name="matThicknessId" Type="bigint" />
+          <Property Name="matSizeCode" Type="varchar" MaxLength="20" />
           <Property Name="locationId" Type="bigint" Nullable="false" />
           <Property Name="stock" Type="decimal" Precision="5" Scale="2" Nullable="false" />
           <Property Name="stockInKg" Type="decimal" Precision="5" Scale="2" />
@@ -1628,6 +1636,30 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_TrnGoodIssueNoteItems_MstMatThickness">
+          <End Role="MstMatThickness" Type="Self.MstMatThickness" Multiplicity="0..1" />
+          <End Role="TrnGoodIssueNoteItems" Type="Self.TrnGoodIssueNoteItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstMatThickness">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnGoodIssueNoteItems">
+              <PropertyRef Name="matThicknessId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnGoodIssueNoteItems_MstQuality">
+          <End Role="MstQuality" Type="Self.MstQuality" Multiplicity="0..1" />
+          <End Role="TrnGoodIssueNoteItems" Type="Self.TrnGoodIssueNoteItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstQuality">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnGoodIssueNoteItems">
+              <PropertyRef Name="matQualityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_TrnGoodIssueNoteItems_TrnGoodIssueNote">
           <End Role="TrnGoodIssueNote" Type="Self.TrnGoodIssueNote" Multiplicity="1" />
           <End Role="TrnGoodIssueNoteItems" Type="Self.TrnGoodIssueNoteItems" Multiplicity="*" />
@@ -2156,6 +2188,30 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_TrnProductStock_MstMatThickness">
+          <End Role="MstMatThickness" Type="Self.MstMatThickness" Multiplicity="0..1" />
+          <End Role="TrnProductStock" Type="Self.TrnProductStock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstMatThickness">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnProductStock">
+              <PropertyRef Name="matThicknessId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnProductStock_MstQuality">
+          <End Role="MstQuality" Type="Self.MstQuality" Multiplicity="0..1" />
+          <End Role="TrnProductStock" Type="Self.TrnProductStock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstQuality">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnProductStock">
+              <PropertyRef Name="qualityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_TrnProductStockDetails_MstAccessory">
           <End Role="MstAccessory" Type="Self.MstAccessory" Multiplicity="0..1" />
           <End Role="TrnProductStockDetails" Type="Self.TrnProductStockDetails" Multiplicity="*" />
@@ -2165,6 +2221,30 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
             </Principal>
             <Dependent Role="TrnProductStockDetails">
               <PropertyRef Name="accessoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnProductStockDetails_MstMatThickness">
+          <End Role="MstMatThickness" Type="Self.MstMatThickness" Multiplicity="0..1" />
+          <End Role="TrnProductStockDetails" Type="Self.TrnProductStockDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstMatThickness">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnProductStockDetails">
+              <PropertyRef Name="matThicknessId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnProductStockDetails_MstQuality">
+          <End Role="MstQuality" Type="Self.MstQuality" Multiplicity="0..1" />
+          <End Role="TrnProductStockDetails" Type="Self.TrnProductStockDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstQuality">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnProductStockDetails">
+              <PropertyRef Name="qualityId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2909,6 +2989,14 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
             <End Role="MstMatSize" EntitySet="MstMatSize" />
             <End Role="TrnGoodIssueNoteItems" EntitySet="TrnGoodIssueNoteItems" />
           </AssociationSet>
+          <AssociationSet Name="FK_TrnGoodIssueNoteItems_MstMatThickness" Association="Self.FK_TrnGoodIssueNoteItems_MstMatThickness">
+            <End Role="MstMatThickness" EntitySet="MstMatThickness" />
+            <End Role="TrnGoodIssueNoteItems" EntitySet="TrnGoodIssueNoteItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnGoodIssueNoteItems_MstQuality" Association="Self.FK_TrnGoodIssueNoteItems_MstQuality">
+            <End Role="MstQuality" EntitySet="MstQuality" />
+            <End Role="TrnGoodIssueNoteItems" EntitySet="TrnGoodIssueNoteItems" />
+          </AssociationSet>
           <AssociationSet Name="FK_TrnGoodIssueNoteItems_TrnGoodIssueNote" Association="Self.FK_TrnGoodIssueNoteItems_TrnGoodIssueNote">
             <End Role="TrnGoodIssueNote" EntitySet="TrnGoodIssueNote" />
             <End Role="TrnGoodIssueNoteItems" EntitySet="TrnGoodIssueNoteItems" />
@@ -3085,8 +3173,24 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
             <End Role="MstMatSize" EntitySet="MstMatSize" />
             <End Role="TrnProductStock" EntitySet="TrnProductStock" />
           </AssociationSet>
+          <AssociationSet Name="FK_TrnProductStock_MstMatThickness" Association="Self.FK_TrnProductStock_MstMatThickness">
+            <End Role="MstMatThickness" EntitySet="MstMatThickness" />
+            <End Role="TrnProductStock" EntitySet="TrnProductStock" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnProductStock_MstQuality" Association="Self.FK_TrnProductStock_MstQuality">
+            <End Role="MstQuality" EntitySet="MstQuality" />
+            <End Role="TrnProductStock" EntitySet="TrnProductStock" />
+          </AssociationSet>
           <AssociationSet Name="FK_TrnProductStockDetails_MstAccessory" Association="Self.FK_TrnProductStockDetails_MstAccessory">
             <End Role="MstAccessory" EntitySet="MstAccessory" />
+            <End Role="TrnProductStockDetails" EntitySet="TrnProductStockDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnProductStockDetails_MstMatThickness" Association="Self.FK_TrnProductStockDetails_MstMatThickness">
+            <End Role="MstMatThickness" EntitySet="MstMatThickness" />
+            <End Role="TrnProductStockDetails" EntitySet="TrnProductStockDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnProductStockDetails_MstQuality" Association="Self.FK_TrnProductStockDetails_MstQuality">
+            <End Role="MstQuality" EntitySet="MstQuality" />
             <End Role="TrnProductStockDetails" EntitySet="TrnProductStockDetails" />
           </AssociationSet>
           <AssociationSet Name="FK_TrnPurchaseOrder_MstCompanyLocation" Association="Self.FK_TrnPurchaseOrder_MstCompanyLocation">
@@ -3260,15 +3364,12 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <EntitySet Name="MstuserTypes" EntityType="IMSModel.MstuserType" />
           <EntitySet Name="TrnAdvancePayments" EntityType="IMSModel.TrnAdvancePayment" />
           <EntitySet Name="TrnGoodIssueNotes" EntityType="IMSModel.TrnGoodIssueNote" />
-          <EntitySet Name="TrnGoodIssueNoteItems" EntityType="IMSModel.TrnGoodIssueNoteItem" />
           <EntitySet Name="TrnGoodReceiveNotes" EntityType="IMSModel.TrnGoodReceiveNote" />
           <EntitySet Name="TrnGoodReceiveNoteItems" EntityType="IMSModel.TrnGoodReceiveNoteItem" />
           <EntitySet Name="TrnMaterialQuotations" EntityType="IMSModel.TrnMaterialQuotation" />
           <EntitySet Name="TrnMaterialQuotationItems" EntityType="IMSModel.TrnMaterialQuotationItem" />
           <EntitySet Name="TrnMaterialSelections" EntityType="IMSModel.TrnMaterialSelection" />
           <EntitySet Name="TrnMaterialSelectionItems" EntityType="IMSModel.TrnMaterialSelectionItem" />
-          <EntitySet Name="TrnProductStocks" EntityType="IMSModel.TrnProductStock" />
-          <EntitySet Name="TrnProductStockDetails" EntityType="IMSModel.TrnProductStockDetail" />
           <EntitySet Name="TrnPurchaseOrders" EntityType="IMSModel.TrnPurchaseOrder" />
           <EntitySet Name="TrnPurchaseOrderItems" EntityType="IMSModel.TrnPurchaseOrderItem" />
           <EntitySet Name="TrnSaleOrders" EntityType="IMSModel.TrnSaleOrder" />
@@ -3299,21 +3400,9 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
             <End Role="MstUnitOfMeasure" EntitySet="MstUnitOfMeasures" />
             <End Role="MstAccessory" EntitySet="MstAccessories" />
           </AssociationSet>
-          <AssociationSet Name="FK_TrnGoodIssueNoteItems_MstAccessory" Association="IMSModel.FK_TrnGoodIssueNoteItems_MstAccessory">
-            <End Role="MstAccessory" EntitySet="MstAccessories" />
-            <End Role="TrnGoodIssueNoteItem" EntitySet="TrnGoodIssueNoteItems" />
-          </AssociationSet>
           <AssociationSet Name="FK_TrnGoodReceiveNoteItems_MstAccessory" Association="IMSModel.FK_TrnGoodReceiveNoteItems_MstAccessory">
             <End Role="MstAccessory" EntitySet="MstAccessories" />
             <End Role="TrnGoodReceiveNoteItem" EntitySet="TrnGoodReceiveNoteItems" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TrnProductStock_MstAccessory" Association="IMSModel.FK_TrnProductStock_MstAccessory">
-            <End Role="MstAccessory" EntitySet="MstAccessories" />
-            <End Role="TrnProductStock" EntitySet="TrnProductStocks" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TrnProductStockDetails_MstAccessory" Association="IMSModel.FK_TrnProductStockDetails_MstAccessory">
-            <End Role="MstAccessory" EntitySet="MstAccessories" />
-            <End Role="TrnProductStockDetail" EntitySet="TrnProductStockDetails" />
           </AssociationSet>
           <AssociationSet Name="FK_TrnPurchaseOrderItems_MstAccessory" Association="IMSModel.FK_TrnPurchaseOrderItems_MstAccessory">
             <End Role="MstAccessory" EntitySet="MstAccessories" />
@@ -3375,10 +3464,6 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
             <End Role="MstCategory" EntitySet="MstCategories" />
             <End Role="MstFWRShade" EntitySet="MstFWRShades" />
           </AssociationSet>
-          <AssociationSet Name="FK_TrnGoodIssueNoteItems_MstCategory" Association="IMSModel.FK_TrnGoodIssueNoteItems_MstCategory">
-            <End Role="MstCategory" EntitySet="MstCategories" />
-            <End Role="TrnGoodIssueNoteItem" EntitySet="TrnGoodIssueNoteItems" />
-          </AssociationSet>
           <AssociationSet Name="FK_TrnGoodReceiveNoteItems_MstCategory" Association="IMSModel.FK_TrnGoodReceiveNoteItems_MstCategory">
             <End Role="MstCategory" EntitySet="MstCategories" />
             <End Role="TrnGoodReceiveNoteItem" EntitySet="TrnGoodReceiveNoteItems" />
@@ -3390,14 +3475,6 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <AssociationSet Name="FK_TrnMaterialSelectionItems_MstCategory" Association="IMSModel.FK_TrnMaterialSelectionItems_MstCategory">
             <End Role="MstCategory" EntitySet="MstCategories" />
             <End Role="TrnMaterialSelectionItem" EntitySet="TrnMaterialSelectionItems" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TrnProductStock_MstCategory" Association="IMSModel.FK_TrnProductStock_MstCategory">
-            <End Role="MstCategory" EntitySet="MstCategories" />
-            <End Role="TrnProductStockDetail" EntitySet="TrnProductStockDetails" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TrnProductStock_MstCategory1" Association="IMSModel.FK_TrnProductStock_MstCategory1">
-            <End Role="MstCategory" EntitySet="MstCategories" />
-            <End Role="TrnProductStock" EntitySet="TrnProductStocks" />
           </AssociationSet>
           <AssociationSet Name="FK_TrnPurchaseOrderItems_MstCategory" Association="IMSModel.FK_TrnPurchaseOrderItems_MstCategory">
             <End Role="MstCategory" EntitySet="MstCategories" />
@@ -3443,10 +3520,6 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
             <End Role="MstCollection" EntitySet="MstCollections" />
             <End Role="MstFWRShade" EntitySet="MstFWRShades" />
           </AssociationSet>
-          <AssociationSet Name="FK_TrnGoodIssueNoteItems_MstCollection" Association="IMSModel.FK_TrnGoodIssueNoteItems_MstCollection">
-            <End Role="MstCollection" EntitySet="MstCollections" />
-            <End Role="TrnGoodIssueNoteItem" EntitySet="TrnGoodIssueNoteItems" />
-          </AssociationSet>
           <AssociationSet Name="FK_TrnGoodReceiveNoteItems_MstCollection" Association="IMSModel.FK_TrnGoodReceiveNoteItems_MstCollection">
             <End Role="MstCollection" EntitySet="MstCollections" />
             <End Role="TrnGoodReceiveNoteItem" EntitySet="TrnGoodReceiveNoteItems" />
@@ -3458,14 +3531,6 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <AssociationSet Name="FK_TrnMaterialSelectionItems_MstCollection" Association="IMSModel.FK_TrnMaterialSelectionItems_MstCollection">
             <End Role="MstCollection" EntitySet="MstCollections" />
             <End Role="TrnMaterialSelectionItem" EntitySet="TrnMaterialSelectionItems" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TrnProductStock_MstCollection" Association="IMSModel.FK_TrnProductStock_MstCollection">
-            <End Role="MstCollection" EntitySet="MstCollections" />
-            <End Role="TrnProductStockDetail" EntitySet="TrnProductStockDetails" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TrnProductStock_MstCollection1" Association="IMSModel.FK_TrnProductStock_MstCollection1">
-            <End Role="MstCollection" EntitySet="MstCollections" />
-            <End Role="TrnProductStock" EntitySet="TrnProductStocks" />
           </AssociationSet>
           <AssociationSet Name="FK_TrnPurchaseOrderItems_MstCollection" Association="IMSModel.FK_TrnPurchaseOrderItems_MstCollection">
             <End Role="MstCollection" EntitySet="MstCollections" />
@@ -3486,10 +3551,6 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <AssociationSet Name="FK_TrnGoodReceiveNote_MstCompanyLocation" Association="IMSModel.FK_TrnGoodReceiveNote_MstCompanyLocation">
             <End Role="MstCompanyLocation" EntitySet="MstCompanyLocations" />
             <End Role="TrnGoodReceiveNote" EntitySet="TrnGoodReceiveNotes" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TrnProductStock_MstCompanyLocation" Association="IMSModel.FK_TrnProductStock_MstCompanyLocation">
-            <End Role="MstCompanyLocation" EntitySet="MstCompanyLocations" />
-            <End Role="TrnProductStockDetail" EntitySet="TrnProductStockDetails" />
           </AssociationSet>
           <AssociationSet Name="FK_TrnPurchaseOrder_MstCompanyLocation" Association="IMSModel.FK_TrnPurchaseOrder_MstCompanyLocation">
             <End Role="MstCompanyLocation" EntitySet="MstCompanyLocations" />
@@ -3555,21 +3616,9 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
             <End Role="MstQuality" EntitySet="MstQualities" />
             <End Role="MstFomSize" EntitySet="MstFomSizes" />
           </AssociationSet>
-          <AssociationSet Name="FK_TrnGoodIssueNoteItems_MstFomSize" Association="IMSModel.FK_TrnGoodIssueNoteItems_MstFomSize">
-            <End Role="MstFomSize" EntitySet="MstFomSizes" />
-            <End Role="TrnGoodIssueNoteItem" EntitySet="TrnGoodIssueNoteItems" />
-          </AssociationSet>
           <AssociationSet Name="FK_TrnGoodReceiveNoteItems_MstFomSize" Association="IMSModel.FK_TrnGoodReceiveNoteItems_MstFomSize">
             <End Role="MstFomSize" EntitySet="MstFomSizes" />
             <End Role="TrnGoodReceiveNoteItem" EntitySet="TrnGoodReceiveNoteItems" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TrnProductStock_MstFomSize" Association="IMSModel.FK_TrnProductStock_MstFomSize">
-            <End Role="MstFomSize" EntitySet="MstFomSizes" />
-            <End Role="TrnProductStockDetail" EntitySet="TrnProductStockDetails" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TrnProductStock_MstFomSize1" Association="IMSModel.FK_TrnProductStock_MstFomSize1">
-            <End Role="MstFomSize" EntitySet="MstFomSizes" />
-            <End Role="TrnProductStock" EntitySet="TrnProductStocks" />
           </AssociationSet>
           <AssociationSet Name="FK_TrnPurchaseOrderItems_MstFomSize" Association="IMSModel.FK_TrnPurchaseOrderItems_MstFomSize">
             <End Role="MstFomSize" EntitySet="MstFomSizes" />
@@ -3599,10 +3648,6 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
             <End Role="MstQuality" EntitySet="MstQualities" />
             <End Role="MstFWRShade" EntitySet="MstFWRShades" />
           </AssociationSet>
-          <AssociationSet Name="FK_TrnGoodIssueNoteItems_MstFWRShade" Association="IMSModel.FK_TrnGoodIssueNoteItems_MstFWRShade">
-            <End Role="MstFWRShade" EntitySet="MstFWRShades" />
-            <End Role="TrnGoodIssueNoteItem" EntitySet="TrnGoodIssueNoteItems" />
-          </AssociationSet>
           <AssociationSet Name="FK_TrnGoodReceiveNoteItems_MstFWRShade" Association="IMSModel.FK_TrnGoodReceiveNoteItems_MstFWRShade">
             <End Role="MstFWRShade" EntitySet="MstFWRShades" />
             <End Role="TrnGoodReceiveNoteItem" EntitySet="TrnGoodReceiveNoteItems" />
@@ -3614,14 +3659,6 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <AssociationSet Name="FK_TrnMaterialSelectionItems_MstFWRShade" Association="IMSModel.FK_TrnMaterialSelectionItems_MstFWRShade">
             <End Role="MstFWRShade" EntitySet="MstFWRShades" />
             <End Role="TrnMaterialSelectionItem" EntitySet="TrnMaterialSelectionItems" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TrnProductStock_MstFWRShade" Association="IMSModel.FK_TrnProductStock_MstFWRShade">
-            <End Role="MstFWRShade" EntitySet="MstFWRShades" />
-            <End Role="TrnProductStockDetail" EntitySet="TrnProductStockDetails" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TrnProductStock_MstFWRShade1" Association="IMSModel.FK_TrnProductStock_MstFWRShade1">
-            <End Role="MstFWRShade" EntitySet="MstFWRShades" />
-            <End Role="TrnProductStock" EntitySet="TrnProductStocks" />
           </AssociationSet>
           <AssociationSet Name="FK_TrnPurchaseOrderItems_MstFWRShade" Association="IMSModel.FK_TrnPurchaseOrderItems_MstFWRShade">
             <End Role="MstFWRShade" EntitySet="MstFWRShades" />
@@ -3647,10 +3684,6 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
             <End Role="MstQuality" EntitySet="MstQualities" />
             <End Role="MstMatSize" EntitySet="MstMatSizes" />
           </AssociationSet>
-          <AssociationSet Name="FK_TrnGoodIssueNoteItems_MstMatSize" Association="IMSModel.FK_TrnGoodIssueNoteItems_MstMatSize">
-            <End Role="MstMatSize" EntitySet="MstMatSizes" />
-            <End Role="TrnGoodIssueNoteItem" EntitySet="TrnGoodIssueNoteItems" />
-          </AssociationSet>
           <AssociationSet Name="FK_TrnGoodReceiveNoteItems_MstMatSize" Association="IMSModel.FK_TrnGoodReceiveNoteItems_MstMatSize">
             <End Role="MstMatSize" EntitySet="MstMatSizes" />
             <End Role="TrnGoodReceiveNoteItem" EntitySet="TrnGoodReceiveNoteItems" />
@@ -3662,14 +3695,6 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <AssociationSet Name="FK_TrnMaterialSelectionItems_MstMatSize" Association="IMSModel.FK_TrnMaterialSelectionItems_MstMatSize">
             <End Role="MstMatSize" EntitySet="MstMatSizes" />
             <End Role="TrnMaterialSelectionItem" EntitySet="TrnMaterialSelectionItems" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TrnProductStock_MstMatSize" Association="IMSModel.FK_TrnProductStock_MstMatSize">
-            <End Role="MstMatSize" EntitySet="MstMatSizes" />
-            <End Role="TrnProductStockDetail" EntitySet="TrnProductStockDetails" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TrnProductStock_MstMatSize1" Association="IMSModel.FK_TrnProductStock_MstMatSize1">
-            <End Role="MstMatSize" EntitySet="MstMatSizes" />
-            <End Role="TrnProductStock" EntitySet="TrnProductStocks" />
           </AssociationSet>
           <AssociationSet Name="FK_TrnPurchaseOrderItems_MstMatSize" Association="IMSModel.FK_TrnPurchaseOrderItems_MstMatSize">
             <End Role="MstMatSize" EntitySet="MstMatSizes" />
@@ -3747,10 +3772,6 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
             <End Role="TrnSaleOrder" EntitySet="TrnSaleOrders" />
             <End Role="TrnGoodIssueNote" EntitySet="TrnGoodIssueNotes" />
           </AssociationSet>
-          <AssociationSet Name="FK_TrnGoodIssueNoteItems_TrnGoodIssueNote" Association="IMSModel.FK_TrnGoodIssueNoteItems_TrnGoodIssueNote">
-            <End Role="TrnGoodIssueNote" EntitySet="TrnGoodIssueNotes" />
-            <End Role="TrnGoodIssueNoteItem" EntitySet="TrnGoodIssueNoteItems" />
-          </AssociationSet>
           <AssociationSet Name="FK_TrnSalesInvoice_TrnGoodIssueNote" Association="IMSModel.FK_TrnSalesInvoice_TrnGoodIssueNote">
             <End Role="TrnGoodIssueNote" EntitySet="TrnGoodIssueNotes" />
             <End Role="TrnSalesInvoice" EntitySet="TrnSalesInvoices" />
@@ -3803,6 +3824,113 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <EntitySet Name="vwFoams" EntityType="IMSModel.vwFoam" />
           <EntitySet Name="vwFWRs" EntityType="IMSModel.vwFWR" />
           <EntitySet Name="vwMattresses" EntityType="IMSModel.vwMattress" />
+          <EntitySet Name="TrnProductStocks" EntityType="IMSModel.TrnProductStock" />
+          <EntitySet Name="TrnProductStockDetails" EntityType="IMSModel.TrnProductStockDetail" />
+          <AssociationSet Name="FK_TrnProductStock_MstAccessory" Association="IMSModel.FK_TrnProductStock_MstAccessory">
+            <End Role="MstAccessory" EntitySet="MstAccessories" />
+            <End Role="TrnProductStock" EntitySet="TrnProductStocks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnProductStockDetails_MstAccessory" Association="IMSModel.FK_TrnProductStockDetails_MstAccessory">
+            <End Role="MstAccessory" EntitySet="MstAccessories" />
+            <End Role="TrnProductStockDetail" EntitySet="TrnProductStockDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnProductStock_MstCategory" Association="IMSModel.FK_TrnProductStock_MstCategory">
+            <End Role="MstCategory" EntitySet="MstCategories" />
+            <End Role="TrnProductStockDetail" EntitySet="TrnProductStockDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnProductStock_MstCategory1" Association="IMSModel.FK_TrnProductStock_MstCategory1">
+            <End Role="MstCategory" EntitySet="MstCategories" />
+            <End Role="TrnProductStock" EntitySet="TrnProductStocks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnProductStock_MstCollection" Association="IMSModel.FK_TrnProductStock_MstCollection">
+            <End Role="MstCollection" EntitySet="MstCollections" />
+            <End Role="TrnProductStockDetail" EntitySet="TrnProductStockDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnProductStock_MstCollection1" Association="IMSModel.FK_TrnProductStock_MstCollection1">
+            <End Role="MstCollection" EntitySet="MstCollections" />
+            <End Role="TrnProductStock" EntitySet="TrnProductStocks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnProductStock_MstCompanyLocation" Association="IMSModel.FK_TrnProductStock_MstCompanyLocation">
+            <End Role="MstCompanyLocation" EntitySet="MstCompanyLocations" />
+            <End Role="TrnProductStockDetail" EntitySet="TrnProductStockDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnProductStock_MstFomSize" Association="IMSModel.FK_TrnProductStock_MstFomSize">
+            <End Role="MstFomSize" EntitySet="MstFomSizes" />
+            <End Role="TrnProductStockDetail" EntitySet="TrnProductStockDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnProductStock_MstFomSize1" Association="IMSModel.FK_TrnProductStock_MstFomSize1">
+            <End Role="MstFomSize" EntitySet="MstFomSizes" />
+            <End Role="TrnProductStock" EntitySet="TrnProductStocks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnProductStock_MstFWRShade" Association="IMSModel.FK_TrnProductStock_MstFWRShade">
+            <End Role="MstFWRShade" EntitySet="MstFWRShades" />
+            <End Role="TrnProductStockDetail" EntitySet="TrnProductStockDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnProductStock_MstFWRShade1" Association="IMSModel.FK_TrnProductStock_MstFWRShade1">
+            <End Role="MstFWRShade" EntitySet="MstFWRShades" />
+            <End Role="TrnProductStock" EntitySet="TrnProductStocks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnProductStock_MstMatSize" Association="IMSModel.FK_TrnProductStock_MstMatSize">
+            <End Role="MstMatSize" EntitySet="MstMatSizes" />
+            <End Role="TrnProductStockDetail" EntitySet="TrnProductStockDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnProductStock_MstMatSize1" Association="IMSModel.FK_TrnProductStock_MstMatSize1">
+            <End Role="MstMatSize" EntitySet="MstMatSizes" />
+            <End Role="TrnProductStock" EntitySet="TrnProductStocks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnProductStock_MstMatThickness" Association="IMSModel.FK_TrnProductStock_MstMatThickness">
+            <End Role="MstMatThickness" EntitySet="MstMatThicknesses" />
+            <End Role="TrnProductStock" EntitySet="TrnProductStocks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnProductStockDetails_MstMatThickness" Association="IMSModel.FK_TrnProductStockDetails_MstMatThickness">
+            <End Role="MstMatThickness" EntitySet="MstMatThicknesses" />
+            <End Role="TrnProductStockDetail" EntitySet="TrnProductStockDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnProductStock_MstQuality" Association="IMSModel.FK_TrnProductStock_MstQuality">
+            <End Role="MstQuality" EntitySet="MstQualities" />
+            <End Role="TrnProductStock" EntitySet="TrnProductStocks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnProductStockDetails_MstQuality" Association="IMSModel.FK_TrnProductStockDetails_MstQuality">
+            <End Role="MstQuality" EntitySet="MstQualities" />
+            <End Role="TrnProductStockDetail" EntitySet="TrnProductStockDetails" />
+          </AssociationSet>
+          <EntitySet Name="TrnGoodIssueNoteItems" EntityType="IMSModel.TrnGoodIssueNoteItem" />
+          <AssociationSet Name="FK_TrnGoodIssueNoteItems_MstAccessory" Association="IMSModel.FK_TrnGoodIssueNoteItems_MstAccessory">
+            <End Role="MstAccessory" EntitySet="MstAccessories" />
+            <End Role="TrnGoodIssueNoteItem" EntitySet="TrnGoodIssueNoteItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnGoodIssueNoteItems_MstCategory" Association="IMSModel.FK_TrnGoodIssueNoteItems_MstCategory">
+            <End Role="MstCategory" EntitySet="MstCategories" />
+            <End Role="TrnGoodIssueNoteItem" EntitySet="TrnGoodIssueNoteItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnGoodIssueNoteItems_MstCollection" Association="IMSModel.FK_TrnGoodIssueNoteItems_MstCollection">
+            <End Role="MstCollection" EntitySet="MstCollections" />
+            <End Role="TrnGoodIssueNoteItem" EntitySet="TrnGoodIssueNoteItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnGoodIssueNoteItems_MstFomSize" Association="IMSModel.FK_TrnGoodIssueNoteItems_MstFomSize">
+            <End Role="MstFomSize" EntitySet="MstFomSizes" />
+            <End Role="TrnGoodIssueNoteItem" EntitySet="TrnGoodIssueNoteItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnGoodIssueNoteItems_MstFWRShade" Association="IMSModel.FK_TrnGoodIssueNoteItems_MstFWRShade">
+            <End Role="MstFWRShade" EntitySet="MstFWRShades" />
+            <End Role="TrnGoodIssueNoteItem" EntitySet="TrnGoodIssueNoteItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnGoodIssueNoteItems_MstMatSize" Association="IMSModel.FK_TrnGoodIssueNoteItems_MstMatSize">
+            <End Role="MstMatSize" EntitySet="MstMatSizes" />
+            <End Role="TrnGoodIssueNoteItem" EntitySet="TrnGoodIssueNoteItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnGoodIssueNoteItems_MstMatThickness" Association="IMSModel.FK_TrnGoodIssueNoteItems_MstMatThickness">
+            <End Role="MstMatThickness" EntitySet="MstMatThicknesses" />
+            <End Role="TrnGoodIssueNoteItem" EntitySet="TrnGoodIssueNoteItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnGoodIssueNoteItems_MstQuality" Association="IMSModel.FK_TrnGoodIssueNoteItems_MstQuality">
+            <End Role="MstQuality" EntitySet="MstQualities" />
+            <End Role="TrnGoodIssueNoteItem" EntitySet="TrnGoodIssueNoteItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnGoodIssueNoteItems_TrnGoodIssueNote" Association="IMSModel.FK_TrnGoodIssueNoteItems_TrnGoodIssueNote">
+            <End Role="TrnGoodIssueNote" EntitySet="TrnGoodIssueNotes" />
+            <End Role="TrnGoodIssueNoteItem" EntitySet="TrnGoodIssueNoteItems" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="CFGRoleMenu">
           <Key>
@@ -3841,13 +3969,13 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <NavigationProperty Name="MstHsn" Relationship="IMSModel.FK_MstAccessory_MstHsn" FromRole="MstAccessory" ToRole="MstHsn" />
           <NavigationProperty Name="MstSupplier" Relationship="IMSModel.FK_MstAccessory_MstSupplier" FromRole="MstAccessory" ToRole="MstSupplier" />
           <NavigationProperty Name="MstUnitOfMeasure" Relationship="IMSModel.FK_MstAccessory_MstUnitOfMeasure" FromRole="MstAccessory" ToRole="MstUnitOfMeasure" />
-          <NavigationProperty Name="TrnGoodIssueNoteItems" Relationship="IMSModel.FK_TrnGoodIssueNoteItems_MstAccessory" FromRole="MstAccessory" ToRole="TrnGoodIssueNoteItem" />
           <NavigationProperty Name="TrnGoodReceiveNoteItems" Relationship="IMSModel.FK_TrnGoodReceiveNoteItems_MstAccessory" FromRole="MstAccessory" ToRole="TrnGoodReceiveNoteItem" />
-          <NavigationProperty Name="TrnProductStocks" Relationship="IMSModel.FK_TrnProductStock_MstAccessory" FromRole="MstAccessory" ToRole="TrnProductStock" />
-          <NavigationProperty Name="TrnProductStockDetails" Relationship="IMSModel.FK_TrnProductStockDetails_MstAccessory" FromRole="MstAccessory" ToRole="TrnProductStockDetail" />
           <NavigationProperty Name="TrnPurchaseOrderItems" Relationship="IMSModel.FK_TrnPurchaseOrderItems_MstAccessory" FromRole="MstAccessory" ToRole="TrnPurchaseOrderItem" />
           <NavigationProperty Name="TrnSaleOrderItems" Relationship="IMSModel.FK_TrnSaleOrderItems_MstAccessory" FromRole="MstAccessory" ToRole="TrnSaleOrderItem" />
           <NavigationProperty Name="TrnSalesInvoiceItems" Relationship="IMSModel.FK_TrnSalesInvoiceItems_MstAccessory" FromRole="MstAccessory" ToRole="TrnSalesInvoiceItem" />
+          <NavigationProperty Name="TrnProductStocks" Relationship="IMSModel.FK_TrnProductStock_MstAccessory" FromRole="MstAccessory" ToRole="TrnProductStock" />
+          <NavigationProperty Name="TrnProductStockDetails" Relationship="IMSModel.FK_TrnProductStockDetails_MstAccessory" FromRole="MstAccessory" ToRole="TrnProductStockDetail" />
+          <NavigationProperty Name="TrnGoodIssueNoteItems" Relationship="IMSModel.FK_TrnGoodIssueNoteItems_MstAccessory" FromRole="MstAccessory" ToRole="TrnGoodIssueNoteItem" />
         </EntityType>
         <EntityType Name="MstAgent">
           <Key>
@@ -3893,15 +4021,15 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <NavigationProperty Name="MstMatSizes" Relationship="IMSModel.FK_MstMattressSize_MstCategory" FromRole="MstCategory" ToRole="MstMatSize" />
           <NavigationProperty Name="MstQualities" Relationship="IMSModel.FK_MstQuality_MstCategory" FromRole="MstCategory" ToRole="MstQuality" />
           <NavigationProperty Name="MstFWRShades" Relationship="IMSModel.FK_MstShade_MstCategory" FromRole="MstCategory" ToRole="MstFWRShade" />
-          <NavigationProperty Name="TrnGoodIssueNoteItems" Relationship="IMSModel.FK_TrnGoodIssueNoteItems_MstCategory" FromRole="MstCategory" ToRole="TrnGoodIssueNoteItem" />
           <NavigationProperty Name="TrnGoodReceiveNoteItems" Relationship="IMSModel.FK_TrnGoodReceiveNoteItems_MstCategory" FromRole="MstCategory" ToRole="TrnGoodReceiveNoteItem" />
           <NavigationProperty Name="TrnMaterialQuotationItems" Relationship="IMSModel.FK_TrnMaterialQuotationItems_MstCategory" FromRole="MstCategory" ToRole="TrnMaterialQuotationItem" />
           <NavigationProperty Name="TrnMaterialSelectionItems" Relationship="IMSModel.FK_TrnMaterialSelectionItems_MstCategory" FromRole="MstCategory" ToRole="TrnMaterialSelectionItem" />
-          <NavigationProperty Name="TrnProductStockDetails" Relationship="IMSModel.FK_TrnProductStock_MstCategory" FromRole="MstCategory" ToRole="TrnProductStockDetail" />
-          <NavigationProperty Name="TrnProductStocks" Relationship="IMSModel.FK_TrnProductStock_MstCategory1" FromRole="MstCategory" ToRole="TrnProductStock" />
           <NavigationProperty Name="TrnPurchaseOrderItems" Relationship="IMSModel.FK_TrnPurchaseOrderItems_MstCategory" FromRole="MstCategory" ToRole="TrnPurchaseOrderItem" />
           <NavigationProperty Name="TrnSaleOrderItems" Relationship="IMSModel.FK_TrnSaleOrderItem_MstCategory" FromRole="MstCategory" ToRole="TrnSaleOrderItem" />
           <NavigationProperty Name="TrnSalesInvoiceItems" Relationship="IMSModel.FK_TrnSalesInvoiceItems_MstCategory" FromRole="MstCategory" ToRole="TrnSalesInvoiceItem" />
+          <NavigationProperty Name="TrnProductStockDetails" Relationship="IMSModel.FK_TrnProductStock_MstCategory" FromRole="MstCategory" ToRole="TrnProductStockDetail" />
+          <NavigationProperty Name="TrnProductStocks" Relationship="IMSModel.FK_TrnProductStock_MstCategory1" FromRole="MstCategory" ToRole="TrnProductStock" />
+          <NavigationProperty Name="TrnGoodIssueNoteItems" Relationship="IMSModel.FK_TrnGoodIssueNoteItems_MstCategory" FromRole="MstCategory" ToRole="TrnGoodIssueNoteItem" />
         </EntityType>
         <EntityType Name="MstCollection">
           <Key>
@@ -3928,15 +4056,15 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <NavigationProperty Name="MstMatSizes" Relationship="IMSModel.FK_MstMattressSize_MstCollection" FromRole="MstCollection" ToRole="MstMatSize" />
           <NavigationProperty Name="MstQualities" Relationship="IMSModel.FK_MstQuality_MstCollection" FromRole="MstCollection" ToRole="MstQuality" />
           <NavigationProperty Name="MstFWRShades" Relationship="IMSModel.FK_MstShade_MstCollection" FromRole="MstCollection" ToRole="MstFWRShade" />
-          <NavigationProperty Name="TrnGoodIssueNoteItems" Relationship="IMSModel.FK_TrnGoodIssueNoteItems_MstCollection" FromRole="MstCollection" ToRole="TrnGoodIssueNoteItem" />
           <NavigationProperty Name="TrnGoodReceiveNoteItems" Relationship="IMSModel.FK_TrnGoodReceiveNoteItems_MstCollection" FromRole="MstCollection" ToRole="TrnGoodReceiveNoteItem" />
           <NavigationProperty Name="TrnMaterialQuotationItems" Relationship="IMSModel.FK_TrnMaterialQuotationItems_MstCollection" FromRole="MstCollection" ToRole="TrnMaterialQuotationItem" />
           <NavigationProperty Name="TrnMaterialSelectionItems" Relationship="IMSModel.FK_TrnMaterialSelectionItems_MstCollection" FromRole="MstCollection" ToRole="TrnMaterialSelectionItem" />
-          <NavigationProperty Name="TrnProductStockDetails" Relationship="IMSModel.FK_TrnProductStock_MstCollection" FromRole="MstCollection" ToRole="TrnProductStockDetail" />
-          <NavigationProperty Name="TrnProductStocks" Relationship="IMSModel.FK_TrnProductStock_MstCollection1" FromRole="MstCollection" ToRole="TrnProductStock" />
           <NavigationProperty Name="TrnPurchaseOrderItems" Relationship="IMSModel.FK_TrnPurchaseOrderItems_MstCollection" FromRole="MstCollection" ToRole="TrnPurchaseOrderItem" />
           <NavigationProperty Name="TrnSaleOrderItems" Relationship="IMSModel.FK_TrnSaleOrderItem_MstCollection" FromRole="MstCollection" ToRole="TrnSaleOrderItem" />
           <NavigationProperty Name="TrnSalesInvoiceItems" Relationship="IMSModel.FK_TrnSalesInvoiceItems_MstCollection" FromRole="MstCollection" ToRole="TrnSalesInvoiceItem" />
+          <NavigationProperty Name="TrnProductStockDetails" Relationship="IMSModel.FK_TrnProductStock_MstCollection" FromRole="MstCollection" ToRole="TrnProductStockDetail" />
+          <NavigationProperty Name="TrnProductStocks" Relationship="IMSModel.FK_TrnProductStock_MstCollection1" FromRole="MstCollection" ToRole="TrnProductStock" />
+          <NavigationProperty Name="TrnGoodIssueNoteItems" Relationship="IMSModel.FK_TrnGoodIssueNoteItems_MstCollection" FromRole="MstCollection" ToRole="TrnGoodIssueNoteItem" />
         </EntityType>
         <EntityType Name="MstCompanyInfo">
           <Key>
@@ -3980,8 +4108,8 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <Property Name="phone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="MstUsers" Relationship="IMSModel.FK_MstUser_MstCompanyLocation" FromRole="MstCompanyLocation" ToRole="MstUser" />
           <NavigationProperty Name="TrnGoodReceiveNotes" Relationship="IMSModel.FK_TrnGoodReceiveNote_MstCompanyLocation" FromRole="MstCompanyLocation" ToRole="TrnGoodReceiveNote" />
-          <NavigationProperty Name="TrnProductStockDetails" Relationship="IMSModel.FK_TrnProductStock_MstCompanyLocation" FromRole="MstCompanyLocation" ToRole="TrnProductStockDetail" />
           <NavigationProperty Name="TrnPurchaseOrders" Relationship="IMSModel.FK_TrnPurchaseOrder_MstCompanyLocation" FromRole="MstCompanyLocation" ToRole="TrnPurchaseOrder" />
+          <NavigationProperty Name="TrnProductStockDetails" Relationship="IMSModel.FK_TrnProductStock_MstCompanyLocation" FromRole="MstCompanyLocation" ToRole="TrnProductStockDetail" />
         </EntityType>
         <EntityType Name="MstCourier">
           <Key>
@@ -4129,13 +4257,13 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <NavigationProperty Name="MstFomDensity" Relationship="IMSModel.FK_MstFomSize_MstFomDensity" FromRole="MstFomSize" ToRole="MstFomDensity" />
           <NavigationProperty Name="MstFomSuggestedMM" Relationship="IMSModel.FK_MstFomSize_MstFomSuggestdMM" FromRole="MstFomSize" ToRole="MstFomSuggestedMM" />
           <NavigationProperty Name="MstQuality" Relationship="IMSModel.FK_MstFomSize_MstQuality" FromRole="MstFomSize" ToRole="MstQuality" />
-          <NavigationProperty Name="TrnGoodIssueNoteItems" Relationship="IMSModel.FK_TrnGoodIssueNoteItems_MstFomSize" FromRole="MstFomSize" ToRole="TrnGoodIssueNoteItem" />
           <NavigationProperty Name="TrnGoodReceiveNoteItems" Relationship="IMSModel.FK_TrnGoodReceiveNoteItems_MstFomSize" FromRole="MstFomSize" ToRole="TrnGoodReceiveNoteItem" />
-          <NavigationProperty Name="TrnProductStockDetails" Relationship="IMSModel.FK_TrnProductStock_MstFomSize" FromRole="MstFomSize" ToRole="TrnProductStockDetail" />
-          <NavigationProperty Name="TrnProductStocks" Relationship="IMSModel.FK_TrnProductStock_MstFomSize1" FromRole="MstFomSize" ToRole="TrnProductStock" />
           <NavigationProperty Name="TrnPurchaseOrderItems" Relationship="IMSModel.FK_TrnPurchaseOrderItems_MstFomSize" FromRole="MstFomSize" ToRole="TrnPurchaseOrderItem" />
           <NavigationProperty Name="TrnSaleOrderItems" Relationship="IMSModel.FK_TrnSaleOrderItem_MstFomSize" FromRole="MstFomSize" ToRole="TrnSaleOrderItem" />
           <NavigationProperty Name="TrnSalesInvoiceItems" Relationship="IMSModel.FK_TrnSalesInvoiceItems_MstFomSize" FromRole="MstFomSize" ToRole="TrnSalesInvoiceItem" />
+          <NavigationProperty Name="TrnProductStockDetails" Relationship="IMSModel.FK_TrnProductStock_MstFomSize" FromRole="MstFomSize" ToRole="TrnProductStockDetail" />
+          <NavigationProperty Name="TrnProductStocks" Relationship="IMSModel.FK_TrnProductStock_MstFomSize1" FromRole="MstFomSize" ToRole="TrnProductStock" />
+          <NavigationProperty Name="TrnGoodIssueNoteItems" Relationship="IMSModel.FK_TrnGoodIssueNoteItems_MstFomSize" FromRole="MstFomSize" ToRole="TrnGoodIssueNoteItem" />
         </EntityType>
         <EntityType Name="MstFomSuggestedMM">
           <Key>
@@ -4199,15 +4327,15 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <NavigationProperty Name="MstCollection" Relationship="IMSModel.FK_MstShade_MstCollection" FromRole="MstFWRShade" ToRole="MstCollection" />
           <NavigationProperty Name="MstFWRDesign" Relationship="IMSModel.FK_MstShade_MstDesign" FromRole="MstFWRShade" ToRole="MstFWRDesign" />
           <NavigationProperty Name="MstQuality" Relationship="IMSModel.FK_MstShade_MstQuality" FromRole="MstFWRShade" ToRole="MstQuality" />
-          <NavigationProperty Name="TrnGoodIssueNoteItems" Relationship="IMSModel.FK_TrnGoodIssueNoteItems_MstFWRShade" FromRole="MstFWRShade" ToRole="TrnGoodIssueNoteItem" />
           <NavigationProperty Name="TrnGoodReceiveNoteItems" Relationship="IMSModel.FK_TrnGoodReceiveNoteItems_MstFWRShade" FromRole="MstFWRShade" ToRole="TrnGoodReceiveNoteItem" />
           <NavigationProperty Name="TrnMaterialQuotationItems" Relationship="IMSModel.FK_TrnMaterialQuotationItems_MstFWRShade" FromRole="MstFWRShade" ToRole="TrnMaterialQuotationItem" />
           <NavigationProperty Name="TrnMaterialSelectionItems" Relationship="IMSModel.FK_TrnMaterialSelectionItems_MstFWRShade" FromRole="MstFWRShade" ToRole="TrnMaterialSelectionItem" />
-          <NavigationProperty Name="TrnProductStockDetails" Relationship="IMSModel.FK_TrnProductStock_MstFWRShade" FromRole="MstFWRShade" ToRole="TrnProductStockDetail" />
-          <NavigationProperty Name="TrnProductStocks" Relationship="IMSModel.FK_TrnProductStock_MstFWRShade1" FromRole="MstFWRShade" ToRole="TrnProductStock" />
           <NavigationProperty Name="TrnPurchaseOrderItems" Relationship="IMSModel.FK_TrnPurchaseOrderItems_MstFWRShade" FromRole="MstFWRShade" ToRole="TrnPurchaseOrderItem" />
           <NavigationProperty Name="TrnSaleOrderItems" Relationship="IMSModel.FK_TrnSaleOrderItem_MstFWRShade" FromRole="MstFWRShade" ToRole="TrnSaleOrderItem" />
           <NavigationProperty Name="TrnSalesInvoiceItems" Relationship="IMSModel.FK_TrnSalesInvoiceItems_MstFWRShade" FromRole="MstFWRShade" ToRole="TrnSalesInvoiceItem" />
+          <NavigationProperty Name="TrnProductStockDetails" Relationship="IMSModel.FK_TrnProductStock_MstFWRShade" FromRole="MstFWRShade" ToRole="TrnProductStockDetail" />
+          <NavigationProperty Name="TrnProductStocks" Relationship="IMSModel.FK_TrnProductStock_MstFWRShade1" FromRole="MstFWRShade" ToRole="TrnProductStock" />
+          <NavigationProperty Name="TrnGoodIssueNoteItems" Relationship="IMSModel.FK_TrnGoodIssueNoteItems_MstFWRShade" FromRole="MstFWRShade" ToRole="TrnGoodIssueNoteItem" />
         </EntityType>
         <EntityType Name="MstHsn">
           <Key>
@@ -4246,15 +4374,15 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <NavigationProperty Name="MstCollection" Relationship="IMSModel.FK_MstMattressSize_MstCollection" FromRole="MstMatSize" ToRole="MstCollection" />
           <NavigationProperty Name="MstMatThickness" Relationship="IMSModel.FK_MstMattressSize_MstMattressThickNess" FromRole="MstMatSize" ToRole="MstMatThickness" />
           <NavigationProperty Name="MstQuality" Relationship="IMSModel.FK_MstMattressSize_MstQuality" FromRole="MstMatSize" ToRole="MstQuality" />
-          <NavigationProperty Name="TrnGoodIssueNoteItems" Relationship="IMSModel.FK_TrnGoodIssueNoteItems_MstMatSize" FromRole="MstMatSize" ToRole="TrnGoodIssueNoteItem" />
           <NavigationProperty Name="TrnGoodReceiveNoteItems" Relationship="IMSModel.FK_TrnGoodReceiveNoteItems_MstMatSize" FromRole="MstMatSize" ToRole="TrnGoodReceiveNoteItem" />
           <NavigationProperty Name="TrnMaterialQuotationItems" Relationship="IMSModel.FK_TrnMaterialQuotationItems_MstMatSize" FromRole="MstMatSize" ToRole="TrnMaterialQuotationItem" />
           <NavigationProperty Name="TrnMaterialSelectionItems" Relationship="IMSModel.FK_TrnMaterialSelectionItems_MstMatSize" FromRole="MstMatSize" ToRole="TrnMaterialSelectionItem" />
-          <NavigationProperty Name="TrnProductStockDetails" Relationship="IMSModel.FK_TrnProductStock_MstMatSize" FromRole="MstMatSize" ToRole="TrnProductStockDetail" />
-          <NavigationProperty Name="TrnProductStocks" Relationship="IMSModel.FK_TrnProductStock_MstMatSize1" FromRole="MstMatSize" ToRole="TrnProductStock" />
           <NavigationProperty Name="TrnPurchaseOrderItems" Relationship="IMSModel.FK_TrnPurchaseOrderItems_MstMatSize" FromRole="MstMatSize" ToRole="TrnPurchaseOrderItem" />
           <NavigationProperty Name="TrnSaleOrderItems" Relationship="IMSModel.FK_TrnSaleOrderItem_MstMatSize" FromRole="MstMatSize" ToRole="TrnSaleOrderItem" />
           <NavigationProperty Name="TrnSalesInvoiceItems" Relationship="IMSModel.FK_TrnSalesInvoiceItems_MstMatSize" FromRole="MstMatSize" ToRole="TrnSalesInvoiceItem" />
+          <NavigationProperty Name="TrnProductStockDetails" Relationship="IMSModel.FK_TrnProductStock_MstMatSize" FromRole="MstMatSize" ToRole="TrnProductStockDetail" />
+          <NavigationProperty Name="TrnProductStocks" Relationship="IMSModel.FK_TrnProductStock_MstMatSize1" FromRole="MstMatSize" ToRole="TrnProductStock" />
+          <NavigationProperty Name="TrnGoodIssueNoteItems" Relationship="IMSModel.FK_TrnGoodIssueNoteItems_MstMatSize" FromRole="MstMatSize" ToRole="TrnGoodIssueNoteItem" />
         </EntityType>
         <EntityType Name="MstMatThickness">
           <Key>
@@ -4272,6 +4400,9 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <NavigationProperty Name="TrnMaterialQuotationItems" Relationship="IMSModel.FK_TrnMaterialQuotationItems_MstMatThickness" FromRole="MstMatThickness" ToRole="TrnMaterialQuotationItem" />
           <NavigationProperty Name="TrnMaterialSelectionItems" Relationship="IMSModel.FK_TrnMaterialSelectionItems_MstMatThickness" FromRole="MstMatThickness" ToRole="TrnMaterialSelectionItem" />
           <NavigationProperty Name="TrnPurchaseOrderItems" Relationship="IMSModel.FK_TrnPurchaseOrderItems_MstMatThickness" FromRole="MstMatThickness" ToRole="TrnPurchaseOrderItem" />
+          <NavigationProperty Name="TrnProductStocks" Relationship="IMSModel.FK_TrnProductStock_MstMatThickness" FromRole="MstMatThickness" ToRole="TrnProductStock" />
+          <NavigationProperty Name="TrnProductStockDetails" Relationship="IMSModel.FK_TrnProductStockDetails_MstMatThickness" FromRole="MstMatThickness" ToRole="TrnProductStockDetail" />
+          <NavigationProperty Name="TrnGoodIssueNoteItems" Relationship="IMSModel.FK_TrnGoodIssueNoteItems_MstMatThickness" FromRole="MstMatThickness" ToRole="TrnGoodIssueNoteItem" />
         </EntityType>
         <EntityType Name="MstMenu">
           <Key>
@@ -4327,6 +4458,9 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <NavigationProperty Name="TrnMaterialQuotationItems" Relationship="IMSModel.FK_TrnMaterialQuotationItems_MstQuality" FromRole="MstQuality" ToRole="TrnMaterialQuotationItem" />
           <NavigationProperty Name="TrnMaterialSelectionItems" Relationship="IMSModel.FK_TrnMaterialSelectionItems_MstQuality" FromRole="MstQuality" ToRole="TrnMaterialSelectionItem" />
           <NavigationProperty Name="TrnPurchaseOrderItems" Relationship="IMSModel.FK_TrnPurchaseOrderItems_MstQuality" FromRole="MstQuality" ToRole="TrnPurchaseOrderItem" />
+          <NavigationProperty Name="TrnProductStocks" Relationship="IMSModel.FK_TrnProductStock_MstQuality" FromRole="MstQuality" ToRole="TrnProductStock" />
+          <NavigationProperty Name="TrnProductStockDetails" Relationship="IMSModel.FK_TrnProductStockDetails_MstQuality" FromRole="MstQuality" ToRole="TrnProductStockDetail" />
+          <NavigationProperty Name="TrnGoodIssueNoteItems" Relationship="IMSModel.FK_TrnGoodIssueNoteItems_MstQuality" FromRole="MstQuality" ToRole="TrnGoodIssueNoteItem" />
         </EntityType>
         <EntityType Name="MstRole">
           <Key>
@@ -4484,40 +4618,8 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <NavigationProperty Name="MstCustomer" Relationship="IMSModel.FK_TrnGoodIssueNote_MstCustomer" FromRole="TrnGoodIssueNote" ToRole="MstCustomer" />
           <NavigationProperty Name="TrnMaterialQuotation" Relationship="IMSModel.FK_TrnGoodIssueNote_TrnMaterialQuotation" FromRole="TrnGoodIssueNote" ToRole="TrnMaterialQuotation" />
           <NavigationProperty Name="TrnSaleOrder" Relationship="IMSModel.FK_TrnGoodIssueNote_TrnSaleOrder" FromRole="TrnGoodIssueNote" ToRole="TrnSaleOrder" />
-          <NavigationProperty Name="TrnGoodIssueNoteItems" Relationship="IMSModel.FK_TrnGoodIssueNoteItems_TrnGoodIssueNote" FromRole="TrnGoodIssueNote" ToRole="TrnGoodIssueNoteItem" />
           <NavigationProperty Name="TrnSalesInvoices" Relationship="IMSModel.FK_TrnSalesInvoice_TrnGoodIssueNote" FromRole="TrnGoodIssueNote" ToRole="TrnSalesInvoice" />
-        </EntityType>
-        <EntityType Name="TrnGoodIssueNoteItem">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="goodIssueNoteId" Type="Int64" Nullable="false" />
-          <Property Name="categoryId" Type="Int64" Nullable="false" />
-          <Property Name="collectionId" Type="Int64" />
-          <Property Name="shadeId" Type="Int64" />
-          <Property Name="fomSizeId" Type="Int64" />
-          <Property Name="matSizeId" Type="Int64" />
-          <Property Name="sizeCode" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="accessoryId" Type="Int64" />
-          <Property Name="orderQuantity" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
-          <Property Name="issuedQuantity" Type="Decimal" Precision="7" Scale="2" />
-          <Property Name="rate" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
-          <Property Name="discountPercentage" Type="Decimal" Precision="4" Scale="2" />
-          <Property Name="amount" Type="Int32" Nullable="false" />
-          <Property Name="status" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="statusChangeDate" Type="DateTime" Precision="3" />
-          <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="createdBy" Type="Int64" Nullable="false" />
-          <Property Name="updatedOn" Type="DateTime" Precision="3" />
-          <Property Name="updatedBy" Type="Int64" />
-          <NavigationProperty Name="MstAccessory" Relationship="IMSModel.FK_TrnGoodIssueNoteItems_MstAccessory" FromRole="TrnGoodIssueNoteItem" ToRole="MstAccessory" />
-          <NavigationProperty Name="MstCategory" Relationship="IMSModel.FK_TrnGoodIssueNoteItems_MstCategory" FromRole="TrnGoodIssueNoteItem" ToRole="MstCategory" />
-          <NavigationProperty Name="MstCollection" Relationship="IMSModel.FK_TrnGoodIssueNoteItems_MstCollection" FromRole="TrnGoodIssueNoteItem" ToRole="MstCollection" />
-          <NavigationProperty Name="MstFomSize" Relationship="IMSModel.FK_TrnGoodIssueNoteItems_MstFomSize" FromRole="TrnGoodIssueNoteItem" ToRole="MstFomSize" />
-          <NavigationProperty Name="MstFWRShade" Relationship="IMSModel.FK_TrnGoodIssueNoteItems_MstFWRShade" FromRole="TrnGoodIssueNoteItem" ToRole="MstFWRShade" />
-          <NavigationProperty Name="MstMatSize" Relationship="IMSModel.FK_TrnGoodIssueNoteItems_MstMatSize" FromRole="TrnGoodIssueNoteItem" ToRole="MstMatSize" />
-          <NavigationProperty Name="TrnGoodIssueNote" Relationship="IMSModel.FK_TrnGoodIssueNoteItems_TrnGoodIssueNote" FromRole="TrnGoodIssueNoteItem" ToRole="TrnGoodIssueNote" />
+          <NavigationProperty Name="TrnGoodIssueNoteItems" Relationship="IMSModel.FK_TrnGoodIssueNoteItems_TrnGoodIssueNote" FromRole="TrnGoodIssueNote" ToRole="TrnGoodIssueNoteItem" />
         </EntityType>
         <EntityType Name="TrnGoodReceiveNote">
           <Key>
@@ -4685,59 +4787,6 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <NavigationProperty Name="MstMatThickness" Relationship="IMSModel.FK_TrnMaterialSelectionItems_MstMatThickness" FromRole="TrnMaterialSelectionItem" ToRole="MstMatThickness" />
           <NavigationProperty Name="MstQuality" Relationship="IMSModel.FK_TrnMaterialSelectionItems_MstQuality" FromRole="TrnMaterialSelectionItem" ToRole="MstQuality" />
           <NavigationProperty Name="TrnMaterialSelection" Relationship="IMSModel.FK_TrnMaterialSelectionItems_TrnMaterialSelection" FromRole="TrnMaterialSelectionItem" ToRole="TrnMaterialSelection" />
-        </EntityType>
-        <EntityType Name="TrnProductStock">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="categoryId" Type="Int64" Nullable="false" />
-          <Property Name="collectionId" Type="Int64" />
-          <Property Name="fwrShadeId" Type="Int64" />
-          <Property Name="matSizeId" Type="Int64" />
-          <Property Name="fomSizeId" Type="Int64" />
-          <Property Name="accessoryId" Type="Int64" />
-          <Property Name="stock" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
-          <Property Name="stockInKg" Type="Decimal" Precision="5" Scale="2" />
-          <Property Name="soQuanity" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
-          <Property Name="poQuantity" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
-          <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="createdBy" Type="Int64" Nullable="false" />
-          <Property Name="updatedOn" Type="DateTime" Precision="3" />
-          <Property Name="updatedBy" Type="Int64" />
-          <NavigationProperty Name="MstAccessory" Relationship="IMSModel.FK_TrnProductStock_MstAccessory" FromRole="TrnProductStock" ToRole="MstAccessory" />
-          <NavigationProperty Name="MstCategory" Relationship="IMSModel.FK_TrnProductStock_MstCategory1" FromRole="TrnProductStock" ToRole="MstCategory" />
-          <NavigationProperty Name="MstCollection" Relationship="IMSModel.FK_TrnProductStock_MstCollection1" FromRole="TrnProductStock" ToRole="MstCollection" />
-          <NavigationProperty Name="MstFomSize" Relationship="IMSModel.FK_TrnProductStock_MstFomSize1" FromRole="TrnProductStock" ToRole="MstFomSize" />
-          <NavigationProperty Name="MstFWRShade" Relationship="IMSModel.FK_TrnProductStock_MstFWRShade1" FromRole="TrnProductStock" ToRole="MstFWRShade" />
-          <NavigationProperty Name="MstMatSize" Relationship="IMSModel.FK_TrnProductStock_MstMatSize1" FromRole="TrnProductStock" ToRole="MstMatSize" />
-        </EntityType>
-        <EntityType Name="TrnProductStockDetail">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="categoryId" Type="Int64" Nullable="false" />
-          <Property Name="collectionId" Type="Int64" />
-          <Property Name="fwrShadeId" Type="Int64" />
-          <Property Name="matSizeId" Type="Int64" />
-          <Property Name="fomSizeId" Type="Int64" />
-          <Property Name="accessoryId" Type="Int64" />
-          <Property Name="locationId" Type="Int64" Nullable="false" />
-          <Property Name="stock" Type="Decimal" Nullable="false" Precision="5" Scale="2" />
-          <Property Name="stockInKg" Type="Decimal" Precision="5" Scale="2" />
-          <Property Name="kgPerUnit" Type="Decimal" Precision="5" Scale="2" />
-          <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="createdBy" Type="Int64" Nullable="false" />
-          <Property Name="updatedOn" Type="DateTime" Precision="3" />
-          <Property Name="updatedBy" Type="Int64" />
-          <NavigationProperty Name="MstAccessory" Relationship="IMSModel.FK_TrnProductStockDetails_MstAccessory" FromRole="TrnProductStockDetail" ToRole="MstAccessory" />
-          <NavigationProperty Name="MstCategory" Relationship="IMSModel.FK_TrnProductStock_MstCategory" FromRole="TrnProductStockDetail" ToRole="MstCategory" />
-          <NavigationProperty Name="MstCollection" Relationship="IMSModel.FK_TrnProductStock_MstCollection" FromRole="TrnProductStockDetail" ToRole="MstCollection" />
-          <NavigationProperty Name="MstCompanyLocation" Relationship="IMSModel.FK_TrnProductStock_MstCompanyLocation" FromRole="TrnProductStockDetail" ToRole="MstCompanyLocation" />
-          <NavigationProperty Name="MstFomSize" Relationship="IMSModel.FK_TrnProductStock_MstFomSize" FromRole="TrnProductStockDetail" ToRole="MstFomSize" />
-          <NavigationProperty Name="MstFWRShade" Relationship="IMSModel.FK_TrnProductStock_MstFWRShade" FromRole="TrnProductStockDetail" ToRole="MstFWRShade" />
-          <NavigationProperty Name="MstMatSize" Relationship="IMSModel.FK_TrnProductStock_MstMatSize" FromRole="TrnProductStockDetail" ToRole="MstMatSize" />
         </EntityType>
         <EntityType Name="TrnPurchaseOrder">
           <Key>
@@ -5010,18 +5059,6 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_TrnGoodIssueNoteItems_MstAccessory">
-          <End Type="IMSModel.MstAccessory" Role="MstAccessory" Multiplicity="0..1" />
-          <End Type="IMSModel.TrnGoodIssueNoteItem" Role="TrnGoodIssueNoteItem" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MstAccessory">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="TrnGoodIssueNoteItem">
-              <PropertyRef Name="accessoryId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_TrnGoodReceiveNoteItems_MstAccessory">
           <End Type="IMSModel.MstAccessory" Role="MstAccessory" Multiplicity="0..1" />
           <End Type="IMSModel.TrnGoodReceiveNoteItem" Role="TrnGoodReceiveNoteItem" Multiplicity="*" />
@@ -5030,30 +5067,6 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="TrnGoodReceiveNoteItem">
-              <PropertyRef Name="accessoryId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TrnProductStock_MstAccessory">
-          <End Type="IMSModel.MstAccessory" Role="MstAccessory" Multiplicity="0..1" />
-          <End Type="IMSModel.TrnProductStock" Role="TrnProductStock" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MstAccessory">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="TrnProductStock">
-              <PropertyRef Name="accessoryId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TrnProductStockDetails_MstAccessory">
-          <End Type="IMSModel.MstAccessory" Role="MstAccessory" Multiplicity="0..1" />
-          <End Type="IMSModel.TrnProductStockDetail" Role="TrnProductStockDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MstAccessory">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="TrnProductStockDetail">
               <PropertyRef Name="accessoryId" />
             </Dependent>
           </ReferentialConstraint>
@@ -5238,18 +5251,6 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_TrnGoodIssueNoteItems_MstCategory">
-          <End Type="IMSModel.MstCategory" Role="MstCategory" Multiplicity="1" />
-          <End Type="IMSModel.TrnGoodIssueNoteItem" Role="TrnGoodIssueNoteItem" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MstCategory">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="TrnGoodIssueNoteItem">
-              <PropertyRef Name="categoryId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_TrnGoodReceiveNoteItems_MstCategory">
           <End Type="IMSModel.MstCategory" Role="MstCategory" Multiplicity="1" />
           <End Type="IMSModel.TrnGoodReceiveNoteItem" Role="TrnGoodReceiveNoteItem" Multiplicity="*" />
@@ -5282,30 +5283,6 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="TrnMaterialSelectionItem">
-              <PropertyRef Name="categoryId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TrnProductStock_MstCategory">
-          <End Type="IMSModel.MstCategory" Role="MstCategory" Multiplicity="1" />
-          <End Type="IMSModel.TrnProductStockDetail" Role="TrnProductStockDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MstCategory">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="TrnProductStockDetail">
-              <PropertyRef Name="categoryId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TrnProductStock_MstCategory1">
-          <End Type="IMSModel.MstCategory" Role="MstCategory" Multiplicity="1" />
-          <End Type="IMSModel.TrnProductStock" Role="TrnProductStock" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MstCategory">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="TrnProductStock">
               <PropertyRef Name="categoryId" />
             </Dependent>
           </ReferentialConstraint>
@@ -5442,18 +5419,6 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_TrnGoodIssueNoteItems_MstCollection">
-          <End Type="IMSModel.MstCollection" Role="MstCollection" Multiplicity="0..1" />
-          <End Type="IMSModel.TrnGoodIssueNoteItem" Role="TrnGoodIssueNoteItem" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MstCollection">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="TrnGoodIssueNoteItem">
-              <PropertyRef Name="collectionId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_TrnGoodReceiveNoteItems_MstCollection">
           <End Type="IMSModel.MstCollection" Role="MstCollection" Multiplicity="0..1" />
           <End Type="IMSModel.TrnGoodReceiveNoteItem" Role="TrnGoodReceiveNoteItem" Multiplicity="*" />
@@ -5486,30 +5451,6 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="TrnMaterialSelectionItem">
-              <PropertyRef Name="collectionId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TrnProductStock_MstCollection">
-          <End Type="IMSModel.MstCollection" Role="MstCollection" Multiplicity="0..1" />
-          <End Type="IMSModel.TrnProductStockDetail" Role="TrnProductStockDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MstCollection">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="TrnProductStockDetail">
-              <PropertyRef Name="collectionId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TrnProductStock_MstCollection1">
-          <End Type="IMSModel.MstCollection" Role="MstCollection" Multiplicity="0..1" />
-          <End Type="IMSModel.TrnProductStock" Role="TrnProductStock" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MstCollection">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="TrnProductStock">
               <PropertyRef Name="collectionId" />
             </Dependent>
           </ReferentialConstraint>
@@ -5570,18 +5511,6 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="TrnGoodReceiveNote">
-              <PropertyRef Name="locationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TrnProductStock_MstCompanyLocation">
-          <End Type="IMSModel.MstCompanyLocation" Role="MstCompanyLocation" Multiplicity="1" />
-          <End Type="IMSModel.TrnProductStockDetail" Role="TrnProductStockDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MstCompanyLocation">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="TrnProductStockDetail">
               <PropertyRef Name="locationId" />
             </Dependent>
           </ReferentialConstraint>
@@ -5780,18 +5709,6 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_TrnGoodIssueNoteItems_MstFomSize">
-          <End Type="IMSModel.MstFomSize" Role="MstFomSize" Multiplicity="0..1" />
-          <End Type="IMSModel.TrnGoodIssueNoteItem" Role="TrnGoodIssueNoteItem" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MstFomSize">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="TrnGoodIssueNoteItem">
-              <PropertyRef Name="fomSizeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_TrnGoodReceiveNoteItems_MstFomSize">
           <End Type="IMSModel.MstFomSize" Role="MstFomSize" Multiplicity="0..1" />
           <End Type="IMSModel.TrnGoodReceiveNoteItem" Role="TrnGoodReceiveNoteItem" Multiplicity="*" />
@@ -5800,30 +5717,6 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="TrnGoodReceiveNoteItem">
-              <PropertyRef Name="fomSizeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TrnProductStock_MstFomSize">
-          <End Type="IMSModel.MstFomSize" Role="MstFomSize" Multiplicity="0..1" />
-          <End Type="IMSModel.TrnProductStockDetail" Role="TrnProductStockDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MstFomSize">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="TrnProductStockDetail">
-              <PropertyRef Name="fomSizeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TrnProductStock_MstFomSize1">
-          <End Type="IMSModel.MstFomSize" Role="MstFomSize" Multiplicity="0..1" />
-          <End Type="IMSModel.TrnProductStock" Role="TrnProductStock" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MstFomSize">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="TrnProductStock">
               <PropertyRef Name="fomSizeId" />
             </Dependent>
           </ReferentialConstraint>
@@ -5912,18 +5805,6 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_TrnGoodIssueNoteItems_MstFWRShade">
-          <End Type="IMSModel.MstFWRShade" Role="MstFWRShade" Multiplicity="0..1" />
-          <End Type="IMSModel.TrnGoodIssueNoteItem" Role="TrnGoodIssueNoteItem" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MstFWRShade">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="TrnGoodIssueNoteItem">
-              <PropertyRef Name="shadeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_TrnGoodReceiveNoteItems_MstFWRShade">
           <End Type="IMSModel.MstFWRShade" Role="MstFWRShade" Multiplicity="0..1" />
           <End Type="IMSModel.TrnGoodReceiveNoteItem" Role="TrnGoodReceiveNoteItem" Multiplicity="*" />
@@ -5957,30 +5838,6 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
             </Principal>
             <Dependent Role="TrnMaterialSelectionItem">
               <PropertyRef Name="shadeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TrnProductStock_MstFWRShade">
-          <End Type="IMSModel.MstFWRShade" Role="MstFWRShade" Multiplicity="0..1" />
-          <End Type="IMSModel.TrnProductStockDetail" Role="TrnProductStockDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MstFWRShade">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="TrnProductStockDetail">
-              <PropertyRef Name="fwrShadeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TrnProductStock_MstFWRShade1">
-          <End Type="IMSModel.MstFWRShade" Role="MstFWRShade" Multiplicity="0..1" />
-          <End Type="IMSModel.TrnProductStock" Role="TrnProductStock" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MstFWRShade">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="TrnProductStock">
-              <PropertyRef Name="fwrShadeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -6056,18 +5913,6 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_TrnGoodIssueNoteItems_MstMatSize">
-          <End Type="IMSModel.MstMatSize" Role="MstMatSize" Multiplicity="0..1" />
-          <End Type="IMSModel.TrnGoodIssueNoteItem" Role="TrnGoodIssueNoteItem" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MstMatSize">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="TrnGoodIssueNoteItem">
-              <PropertyRef Name="matSizeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_TrnGoodReceiveNoteItems_MstMatSize">
           <End Type="IMSModel.MstMatSize" Role="MstMatSize" Multiplicity="0..1" />
           <End Type="IMSModel.TrnGoodReceiveNoteItem" Role="TrnGoodReceiveNoteItem" Multiplicity="*" />
@@ -6100,30 +5945,6 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="TrnMaterialSelectionItem">
-              <PropertyRef Name="matSizeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TrnProductStock_MstMatSize">
-          <End Type="IMSModel.MstMatSize" Role="MstMatSize" Multiplicity="0..1" />
-          <End Type="IMSModel.TrnProductStockDetail" Role="TrnProductStockDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MstMatSize">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="TrnProductStockDetail">
-              <PropertyRef Name="matSizeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TrnProductStock_MstMatSize1">
-          <End Type="IMSModel.MstMatSize" Role="MstMatSize" Multiplicity="0..1" />
-          <End Type="IMSModel.TrnProductStock" Role="TrnProductStock" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MstMatSize">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="TrnProductStock">
               <PropertyRef Name="matSizeId" />
             </Dependent>
           </ReferentialConstraint>
@@ -6355,18 +6176,6 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
             </Principal>
             <Dependent Role="TrnGoodIssueNote">
               <PropertyRef Name="salesOrderId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TrnGoodIssueNoteItems_TrnGoodIssueNote">
-          <End Type="IMSModel.TrnGoodIssueNote" Role="TrnGoodIssueNote" Multiplicity="1" />
-          <End Type="IMSModel.TrnGoodIssueNoteItem" Role="TrnGoodIssueNoteItem" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TrnGoodIssueNote">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="TrnGoodIssueNoteItem">
-              <PropertyRef Name="goodIssueNoteId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -6629,6 +6438,417 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <Property Name="customRatePerSqFeet" Type="Decimal" Precision="7" Scale="2" />
           <Property Name="availableStock" Type="Decimal" Precision="9" Scale="2" />
         </EntityType>
+        <EntityType Name="TrnProductStock">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="categoryId" Type="Int64" Nullable="false" />
+          <Property Name="collectionId" Type="Int64" />
+          <Property Name="fwrShadeId" Type="Int64" />
+          <Property Name="matSizeId" Type="Int64" />
+          <Property Name="fomSizeId" Type="Int64" />
+          <Property Name="accessoryId" Type="Int64" />
+          <Property Name="qualityId" Type="Int64" />
+          <Property Name="matThicknessId" Type="Int64" />
+          <Property Name="matSizeCode" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="stock" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
+          <Property Name="stockInKg" Type="Decimal" Precision="5" Scale="2" />
+          <Property Name="soQuanity" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
+          <Property Name="poQuantity" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
+          <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="createdBy" Type="Int64" Nullable="false" />
+          <Property Name="updatedOn" Type="DateTime" Precision="3" />
+          <Property Name="updatedBy" Type="Int64" />
+          <NavigationProperty Name="MstAccessory" Relationship="IMSModel.FK_TrnProductStock_MstAccessory" FromRole="TrnProductStock" ToRole="MstAccessory" />
+          <NavigationProperty Name="MstCategory" Relationship="IMSModel.FK_TrnProductStock_MstCategory1" FromRole="TrnProductStock" ToRole="MstCategory" />
+          <NavigationProperty Name="MstCollection" Relationship="IMSModel.FK_TrnProductStock_MstCollection1" FromRole="TrnProductStock" ToRole="MstCollection" />
+          <NavigationProperty Name="MstFomSize" Relationship="IMSModel.FK_TrnProductStock_MstFomSize1" FromRole="TrnProductStock" ToRole="MstFomSize" />
+          <NavigationProperty Name="MstFWRShade" Relationship="IMSModel.FK_TrnProductStock_MstFWRShade1" FromRole="TrnProductStock" ToRole="MstFWRShade" />
+          <NavigationProperty Name="MstMatSize" Relationship="IMSModel.FK_TrnProductStock_MstMatSize1" FromRole="TrnProductStock" ToRole="MstMatSize" />
+          <NavigationProperty Name="MstMatThickness" Relationship="IMSModel.FK_TrnProductStock_MstMatThickness" FromRole="TrnProductStock" ToRole="MstMatThickness" />
+          <NavigationProperty Name="MstQuality" Relationship="IMSModel.FK_TrnProductStock_MstQuality" FromRole="TrnProductStock" ToRole="MstQuality" />
+        </EntityType>
+        <EntityType Name="TrnProductStockDetail">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="categoryId" Type="Int64" Nullable="false" />
+          <Property Name="collectionId" Type="Int64" />
+          <Property Name="fwrShadeId" Type="Int64" />
+          <Property Name="matSizeId" Type="Int64" />
+          <Property Name="fomSizeId" Type="Int64" />
+          <Property Name="accessoryId" Type="Int64" />
+          <Property Name="qualityId" Type="Int64" />
+          <Property Name="matThicknessId" Type="Int64" />
+          <Property Name="matSizeCode" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="locationId" Type="Int64" Nullable="false" />
+          <Property Name="stock" Type="Decimal" Nullable="false" Precision="5" Scale="2" />
+          <Property Name="stockInKg" Type="Decimal" Precision="5" Scale="2" />
+          <Property Name="kgPerUnit" Type="Decimal" Precision="5" Scale="2" />
+          <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="createdBy" Type="Int64" Nullable="false" />
+          <Property Name="updatedOn" Type="DateTime" Precision="3" />
+          <Property Name="updatedBy" Type="Int64" />
+          <NavigationProperty Name="MstAccessory" Relationship="IMSModel.FK_TrnProductStockDetails_MstAccessory" FromRole="TrnProductStockDetail" ToRole="MstAccessory" />
+          <NavigationProperty Name="MstCategory" Relationship="IMSModel.FK_TrnProductStock_MstCategory" FromRole="TrnProductStockDetail" ToRole="MstCategory" />
+          <NavigationProperty Name="MstCollection" Relationship="IMSModel.FK_TrnProductStock_MstCollection" FromRole="TrnProductStockDetail" ToRole="MstCollection" />
+          <NavigationProperty Name="MstCompanyLocation" Relationship="IMSModel.FK_TrnProductStock_MstCompanyLocation" FromRole="TrnProductStockDetail" ToRole="MstCompanyLocation" />
+          <NavigationProperty Name="MstFomSize" Relationship="IMSModel.FK_TrnProductStock_MstFomSize" FromRole="TrnProductStockDetail" ToRole="MstFomSize" />
+          <NavigationProperty Name="MstFWRShade" Relationship="IMSModel.FK_TrnProductStock_MstFWRShade" FromRole="TrnProductStockDetail" ToRole="MstFWRShade" />
+          <NavigationProperty Name="MstMatSize" Relationship="IMSModel.FK_TrnProductStock_MstMatSize" FromRole="TrnProductStockDetail" ToRole="MstMatSize" />
+          <NavigationProperty Name="MstMatThickness" Relationship="IMSModel.FK_TrnProductStockDetails_MstMatThickness" FromRole="TrnProductStockDetail" ToRole="MstMatThickness" />
+          <NavigationProperty Name="MstQuality" Relationship="IMSModel.FK_TrnProductStockDetails_MstQuality" FromRole="TrnProductStockDetail" ToRole="MstQuality" />
+        </EntityType>
+        <Association Name="FK_TrnProductStock_MstAccessory">
+          <End Type="IMSModel.MstAccessory" Role="MstAccessory" Multiplicity="0..1" />
+          <End Type="IMSModel.TrnProductStock" Role="TrnProductStock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstAccessory">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnProductStock">
+              <PropertyRef Name="accessoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnProductStockDetails_MstAccessory">
+          <End Type="IMSModel.MstAccessory" Role="MstAccessory" Multiplicity="0..1" />
+          <End Type="IMSModel.TrnProductStockDetail" Role="TrnProductStockDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstAccessory">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnProductStockDetail">
+              <PropertyRef Name="accessoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnProductStock_MstCategory">
+          <End Type="IMSModel.MstCategory" Role="MstCategory" Multiplicity="1" />
+          <End Type="IMSModel.TrnProductStockDetail" Role="TrnProductStockDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstCategory">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnProductStockDetail">
+              <PropertyRef Name="categoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnProductStock_MstCategory1">
+          <End Type="IMSModel.MstCategory" Role="MstCategory" Multiplicity="1" />
+          <End Type="IMSModel.TrnProductStock" Role="TrnProductStock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstCategory">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnProductStock">
+              <PropertyRef Name="categoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnProductStock_MstCollection">
+          <End Type="IMSModel.MstCollection" Role="MstCollection" Multiplicity="0..1" />
+          <End Type="IMSModel.TrnProductStockDetail" Role="TrnProductStockDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstCollection">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnProductStockDetail">
+              <PropertyRef Name="collectionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnProductStock_MstCollection1">
+          <End Type="IMSModel.MstCollection" Role="MstCollection" Multiplicity="0..1" />
+          <End Type="IMSModel.TrnProductStock" Role="TrnProductStock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstCollection">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnProductStock">
+              <PropertyRef Name="collectionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnProductStock_MstCompanyLocation">
+          <End Type="IMSModel.MstCompanyLocation" Role="MstCompanyLocation" Multiplicity="1" />
+          <End Type="IMSModel.TrnProductStockDetail" Role="TrnProductStockDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstCompanyLocation">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnProductStockDetail">
+              <PropertyRef Name="locationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnProductStock_MstFomSize">
+          <End Type="IMSModel.MstFomSize" Role="MstFomSize" Multiplicity="0..1" />
+          <End Type="IMSModel.TrnProductStockDetail" Role="TrnProductStockDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstFomSize">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnProductStockDetail">
+              <PropertyRef Name="fomSizeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnProductStock_MstFomSize1">
+          <End Type="IMSModel.MstFomSize" Role="MstFomSize" Multiplicity="0..1" />
+          <End Type="IMSModel.TrnProductStock" Role="TrnProductStock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstFomSize">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnProductStock">
+              <PropertyRef Name="fomSizeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnProductStock_MstFWRShade">
+          <End Type="IMSModel.MstFWRShade" Role="MstFWRShade" Multiplicity="0..1" />
+          <End Type="IMSModel.TrnProductStockDetail" Role="TrnProductStockDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstFWRShade">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnProductStockDetail">
+              <PropertyRef Name="fwrShadeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnProductStock_MstFWRShade1">
+          <End Type="IMSModel.MstFWRShade" Role="MstFWRShade" Multiplicity="0..1" />
+          <End Type="IMSModel.TrnProductStock" Role="TrnProductStock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstFWRShade">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnProductStock">
+              <PropertyRef Name="fwrShadeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnProductStock_MstMatSize">
+          <End Type="IMSModel.MstMatSize" Role="MstMatSize" Multiplicity="0..1" />
+          <End Type="IMSModel.TrnProductStockDetail" Role="TrnProductStockDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstMatSize">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnProductStockDetail">
+              <PropertyRef Name="matSizeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnProductStock_MstMatSize1">
+          <End Type="IMSModel.MstMatSize" Role="MstMatSize" Multiplicity="0..1" />
+          <End Type="IMSModel.TrnProductStock" Role="TrnProductStock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstMatSize">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnProductStock">
+              <PropertyRef Name="matSizeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnProductStock_MstMatThickness">
+          <End Type="IMSModel.MstMatThickness" Role="MstMatThickness" Multiplicity="0..1" />
+          <End Type="IMSModel.TrnProductStock" Role="TrnProductStock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstMatThickness">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnProductStock">
+              <PropertyRef Name="matThicknessId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnProductStockDetails_MstMatThickness">
+          <End Type="IMSModel.MstMatThickness" Role="MstMatThickness" Multiplicity="0..1" />
+          <End Type="IMSModel.TrnProductStockDetail" Role="TrnProductStockDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstMatThickness">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnProductStockDetail">
+              <PropertyRef Name="matThicknessId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnProductStock_MstQuality">
+          <End Type="IMSModel.MstQuality" Role="MstQuality" Multiplicity="0..1" />
+          <End Type="IMSModel.TrnProductStock" Role="TrnProductStock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstQuality">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnProductStock">
+              <PropertyRef Name="qualityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnProductStockDetails_MstQuality">
+          <End Type="IMSModel.MstQuality" Role="MstQuality" Multiplicity="0..1" />
+          <End Type="IMSModel.TrnProductStockDetail" Role="TrnProductStockDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstQuality">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnProductStockDetail">
+              <PropertyRef Name="qualityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="TrnGoodIssueNoteItem">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="goodIssueNoteId" Type="Int64" Nullable="false" />
+          <Property Name="categoryId" Type="Int64" Nullable="false" />
+          <Property Name="collectionId" Type="Int64" />
+          <Property Name="shadeId" Type="Int64" />
+          <Property Name="fomSizeId" Type="Int64" />
+          <Property Name="matSizeId" Type="Int64" />
+          <Property Name="sizeCode" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="matQualityId" Type="Int64" />
+          <Property Name="matThicknessId" Type="Int64" />
+          <Property Name="accessoryId" Type="Int64" />
+          <Property Name="orderQuantity" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
+          <Property Name="issuedQuantity" Type="Decimal" Precision="7" Scale="2" />
+          <Property Name="rate" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
+          <Property Name="discountPercentage" Type="Decimal" Precision="4" Scale="2" />
+          <Property Name="amount" Type="Int32" Nullable="false" />
+          <Property Name="status" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="statusChangeDate" Type="DateTime" Precision="3" />
+          <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="createdBy" Type="Int64" Nullable="false" />
+          <Property Name="updatedOn" Type="DateTime" Precision="3" />
+          <Property Name="updatedBy" Type="Int64" />
+          <NavigationProperty Name="MstAccessory" Relationship="IMSModel.FK_TrnGoodIssueNoteItems_MstAccessory" FromRole="TrnGoodIssueNoteItem" ToRole="MstAccessory" />
+          <NavigationProperty Name="MstCategory" Relationship="IMSModel.FK_TrnGoodIssueNoteItems_MstCategory" FromRole="TrnGoodIssueNoteItem" ToRole="MstCategory" />
+          <NavigationProperty Name="MstCollection" Relationship="IMSModel.FK_TrnGoodIssueNoteItems_MstCollection" FromRole="TrnGoodIssueNoteItem" ToRole="MstCollection" />
+          <NavigationProperty Name="MstFomSize" Relationship="IMSModel.FK_TrnGoodIssueNoteItems_MstFomSize" FromRole="TrnGoodIssueNoteItem" ToRole="MstFomSize" />
+          <NavigationProperty Name="MstFWRShade" Relationship="IMSModel.FK_TrnGoodIssueNoteItems_MstFWRShade" FromRole="TrnGoodIssueNoteItem" ToRole="MstFWRShade" />
+          <NavigationProperty Name="MstMatSize" Relationship="IMSModel.FK_TrnGoodIssueNoteItems_MstMatSize" FromRole="TrnGoodIssueNoteItem" ToRole="MstMatSize" />
+          <NavigationProperty Name="MstMatThickness" Relationship="IMSModel.FK_TrnGoodIssueNoteItems_MstMatThickness" FromRole="TrnGoodIssueNoteItem" ToRole="MstMatThickness" />
+          <NavigationProperty Name="MstQuality" Relationship="IMSModel.FK_TrnGoodIssueNoteItems_MstQuality" FromRole="TrnGoodIssueNoteItem" ToRole="MstQuality" />
+          <NavigationProperty Name="TrnGoodIssueNote" Relationship="IMSModel.FK_TrnGoodIssueNoteItems_TrnGoodIssueNote" FromRole="TrnGoodIssueNoteItem" ToRole="TrnGoodIssueNote" />
+        </EntityType>
+        <Association Name="FK_TrnGoodIssueNoteItems_MstAccessory">
+          <End Type="IMSModel.MstAccessory" Role="MstAccessory" Multiplicity="0..1" />
+          <End Type="IMSModel.TrnGoodIssueNoteItem" Role="TrnGoodIssueNoteItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstAccessory">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnGoodIssueNoteItem">
+              <PropertyRef Name="accessoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnGoodIssueNoteItems_MstCategory">
+          <End Type="IMSModel.MstCategory" Role="MstCategory" Multiplicity="1" />
+          <End Type="IMSModel.TrnGoodIssueNoteItem" Role="TrnGoodIssueNoteItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstCategory">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnGoodIssueNoteItem">
+              <PropertyRef Name="categoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnGoodIssueNoteItems_MstCollection">
+          <End Type="IMSModel.MstCollection" Role="MstCollection" Multiplicity="0..1" />
+          <End Type="IMSModel.TrnGoodIssueNoteItem" Role="TrnGoodIssueNoteItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstCollection">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnGoodIssueNoteItem">
+              <PropertyRef Name="collectionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnGoodIssueNoteItems_MstFomSize">
+          <End Type="IMSModel.MstFomSize" Role="MstFomSize" Multiplicity="0..1" />
+          <End Type="IMSModel.TrnGoodIssueNoteItem" Role="TrnGoodIssueNoteItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstFomSize">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnGoodIssueNoteItem">
+              <PropertyRef Name="fomSizeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnGoodIssueNoteItems_MstFWRShade">
+          <End Type="IMSModel.MstFWRShade" Role="MstFWRShade" Multiplicity="0..1" />
+          <End Type="IMSModel.TrnGoodIssueNoteItem" Role="TrnGoodIssueNoteItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstFWRShade">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnGoodIssueNoteItem">
+              <PropertyRef Name="shadeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnGoodIssueNoteItems_MstMatSize">
+          <End Type="IMSModel.MstMatSize" Role="MstMatSize" Multiplicity="0..1" />
+          <End Type="IMSModel.TrnGoodIssueNoteItem" Role="TrnGoodIssueNoteItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstMatSize">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnGoodIssueNoteItem">
+              <PropertyRef Name="matSizeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnGoodIssueNoteItems_MstMatThickness">
+          <End Type="IMSModel.MstMatThickness" Role="MstMatThickness" Multiplicity="0..1" />
+          <End Type="IMSModel.TrnGoodIssueNoteItem" Role="TrnGoodIssueNoteItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstMatThickness">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnGoodIssueNoteItem">
+              <PropertyRef Name="matThicknessId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnGoodIssueNoteItems_MstQuality">
+          <End Type="IMSModel.MstQuality" Role="MstQuality" Multiplicity="0..1" />
+          <End Type="IMSModel.TrnGoodIssueNoteItem" Role="TrnGoodIssueNoteItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstQuality">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnGoodIssueNoteItem">
+              <PropertyRef Name="matQualityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnGoodIssueNoteItems_TrnGoodIssueNote">
+          <End Type="IMSModel.TrnGoodIssueNote" Role="TrnGoodIssueNote" Multiplicity="1" />
+          <End Type="IMSModel.TrnGoodIssueNoteItem" Role="TrnGoodIssueNoteItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TrnGoodIssueNote">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnGoodIssueNoteItem">
+              <PropertyRef Name="goodIssueNoteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -7184,32 +7404,6 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="TrnGoodIssueNoteItems">
-            <EntityTypeMapping TypeName="IMSModel.TrnGoodIssueNoteItem">
-              <MappingFragment StoreEntitySet="TrnGoodIssueNoteItems">
-                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
-                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
-                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
-                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
-                <ScalarProperty Name="statusChangeDate" ColumnName="statusChangeDate" />
-                <ScalarProperty Name="status" ColumnName="status" />
-                <ScalarProperty Name="amount" ColumnName="amount" />
-                <ScalarProperty Name="discountPercentage" ColumnName="discountPercentage" />
-                <ScalarProperty Name="rate" ColumnName="rate" />
-                <ScalarProperty Name="issuedQuantity" ColumnName="issuedQuantity" />
-                <ScalarProperty Name="orderQuantity" ColumnName="orderQuantity" />
-                <ScalarProperty Name="accessoryId" ColumnName="accessoryId" />
-                <ScalarProperty Name="sizeCode" ColumnName="sizeCode" />
-                <ScalarProperty Name="matSizeId" ColumnName="matSizeId" />
-                <ScalarProperty Name="fomSizeId" ColumnName="fomSizeId" />
-                <ScalarProperty Name="shadeId" ColumnName="shadeId" />
-                <ScalarProperty Name="collectionId" ColumnName="collectionId" />
-                <ScalarProperty Name="categoryId" ColumnName="categoryId" />
-                <ScalarProperty Name="goodIssueNoteId" ColumnName="goodIssueNoteId" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="TrnGoodReceiveNotes">
             <EntityTypeMapping TypeName="IMSModel.TrnGoodReceiveNote">
               <MappingFragment StoreEntitySet="TrnGoodReceiveNote">
@@ -7341,48 +7535,6 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
                 <ScalarProperty Name="area" ColumnName="area" />
                 <ScalarProperty Name="selectionType" ColumnName="selectionType" />
                 <ScalarProperty Name="materialSelectionId" ColumnName="materialSelectionId" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TrnProductStocks">
-            <EntityTypeMapping TypeName="IMSModel.TrnProductStock">
-              <MappingFragment StoreEntitySet="TrnProductStock">
-                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
-                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
-                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
-                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
-                <ScalarProperty Name="poQuantity" ColumnName="poQuantity" />
-                <ScalarProperty Name="soQuanity" ColumnName="soQuanity" />
-                <ScalarProperty Name="stockInKg" ColumnName="stockInKg" />
-                <ScalarProperty Name="stock" ColumnName="stock" />
-                <ScalarProperty Name="accessoryId" ColumnName="accessoryId" />
-                <ScalarProperty Name="fomSizeId" ColumnName="fomSizeId" />
-                <ScalarProperty Name="matSizeId" ColumnName="matSizeId" />
-                <ScalarProperty Name="fwrShadeId" ColumnName="fwrShadeId" />
-                <ScalarProperty Name="collectionId" ColumnName="collectionId" />
-                <ScalarProperty Name="categoryId" ColumnName="categoryId" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TrnProductStockDetails">
-            <EntityTypeMapping TypeName="IMSModel.TrnProductStockDetail">
-              <MappingFragment StoreEntitySet="TrnProductStockDetails">
-                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
-                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
-                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
-                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
-                <ScalarProperty Name="kgPerUnit" ColumnName="kgPerUnit" />
-                <ScalarProperty Name="stockInKg" ColumnName="stockInKg" />
-                <ScalarProperty Name="stock" ColumnName="stock" />
-                <ScalarProperty Name="locationId" ColumnName="locationId" />
-                <ScalarProperty Name="accessoryId" ColumnName="accessoryId" />
-                <ScalarProperty Name="fomSizeId" ColumnName="fomSizeId" />
-                <ScalarProperty Name="matSizeId" ColumnName="matSizeId" />
-                <ScalarProperty Name="fwrShadeId" ColumnName="fwrShadeId" />
-                <ScalarProperty Name="collectionId" ColumnName="collectionId" />
-                <ScalarProperty Name="categoryId" ColumnName="categoryId" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -7634,6 +7786,82 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
                 <ScalarProperty Name="qualityCode" ColumnName="qualityCode" />
                 <ScalarProperty Name="Collection" ColumnName="Collection" />
                 <ScalarProperty Name="Category" ColumnName="Category" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TrnProductStocks">
+            <EntityTypeMapping TypeName="IMSModel.TrnProductStock">
+              <MappingFragment StoreEntitySet="TrnProductStock">
+                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
+                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
+                <ScalarProperty Name="poQuantity" ColumnName="poQuantity" />
+                <ScalarProperty Name="soQuanity" ColumnName="soQuanity" />
+                <ScalarProperty Name="stockInKg" ColumnName="stockInKg" />
+                <ScalarProperty Name="stock" ColumnName="stock" />
+                <ScalarProperty Name="matSizeCode" ColumnName="matSizeCode" />
+                <ScalarProperty Name="matThicknessId" ColumnName="matThicknessId" />
+                <ScalarProperty Name="qualityId" ColumnName="qualityId" />
+                <ScalarProperty Name="accessoryId" ColumnName="accessoryId" />
+                <ScalarProperty Name="fomSizeId" ColumnName="fomSizeId" />
+                <ScalarProperty Name="matSizeId" ColumnName="matSizeId" />
+                <ScalarProperty Name="fwrShadeId" ColumnName="fwrShadeId" />
+                <ScalarProperty Name="collectionId" ColumnName="collectionId" />
+                <ScalarProperty Name="categoryId" ColumnName="categoryId" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TrnProductStockDetails">
+            <EntityTypeMapping TypeName="IMSModel.TrnProductStockDetail">
+              <MappingFragment StoreEntitySet="TrnProductStockDetails">
+                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
+                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
+                <ScalarProperty Name="kgPerUnit" ColumnName="kgPerUnit" />
+                <ScalarProperty Name="stockInKg" ColumnName="stockInKg" />
+                <ScalarProperty Name="stock" ColumnName="stock" />
+                <ScalarProperty Name="locationId" ColumnName="locationId" />
+                <ScalarProperty Name="matSizeCode" ColumnName="matSizeCode" />
+                <ScalarProperty Name="matThicknessId" ColumnName="matThicknessId" />
+                <ScalarProperty Name="qualityId" ColumnName="qualityId" />
+                <ScalarProperty Name="accessoryId" ColumnName="accessoryId" />
+                <ScalarProperty Name="fomSizeId" ColumnName="fomSizeId" />
+                <ScalarProperty Name="matSizeId" ColumnName="matSizeId" />
+                <ScalarProperty Name="fwrShadeId" ColumnName="fwrShadeId" />
+                <ScalarProperty Name="collectionId" ColumnName="collectionId" />
+                <ScalarProperty Name="categoryId" ColumnName="categoryId" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TrnGoodIssueNoteItems">
+            <EntityTypeMapping TypeName="IMSModel.TrnGoodIssueNoteItem">
+              <MappingFragment StoreEntitySet="TrnGoodIssueNoteItems">
+                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
+                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
+                <ScalarProperty Name="statusChangeDate" ColumnName="statusChangeDate" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="amount" ColumnName="amount" />
+                <ScalarProperty Name="discountPercentage" ColumnName="discountPercentage" />
+                <ScalarProperty Name="rate" ColumnName="rate" />
+                <ScalarProperty Name="issuedQuantity" ColumnName="issuedQuantity" />
+                <ScalarProperty Name="orderQuantity" ColumnName="orderQuantity" />
+                <ScalarProperty Name="accessoryId" ColumnName="accessoryId" />
+                <ScalarProperty Name="matThicknessId" ColumnName="matThicknessId" />
+                <ScalarProperty Name="matQualityId" ColumnName="matQualityId" />
+                <ScalarProperty Name="sizeCode" ColumnName="sizeCode" />
+                <ScalarProperty Name="matSizeId" ColumnName="matSizeId" />
+                <ScalarProperty Name="fomSizeId" ColumnName="fomSizeId" />
+                <ScalarProperty Name="shadeId" ColumnName="shadeId" />
+                <ScalarProperty Name="collectionId" ColumnName="collectionId" />
+                <ScalarProperty Name="categoryId" ColumnName="categoryId" />
+                <ScalarProperty Name="goodIssueNoteId" ColumnName="goodIssueNoteId" />
+                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

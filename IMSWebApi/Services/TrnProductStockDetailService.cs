@@ -66,8 +66,9 @@ namespace IMSWebApi.Services
                                        productStock.MstFWRShade.MstFWRDesign.designCode + ")" : null;
                 productStock.fomItem = productStock.MstCategory.code.Equals("Foam") ? productStock.MstFomSize.itemCode : null;
                 productStock.matSize = productStock.MstCategory.code.Equals("Mattress") ?
-                                       productStock.MstMatSize.sizeCode + " (" + productStock.MstMatSize.MstMatThickNess.thicknessCode +
-                                       "-" + productStock.MstMatSize.MstQuality.qualityCode + ")" : null;
+                                        productStock.MstMatSize != null ? productStock.MstMatSize.sizeCode + " (" + productStock.MstMatSize.MstMatThickNess.thicknessCode +
+                                            "-" + productStock.MstMatSize.MstQuality.qualityCode + ")" : productStock.matSizeCode + " (" + productStock.MstMatThickness.thicknessCode +
+                                            "-" + productStock.MstQuality.qualityCode + ")" : null;
             }
             return new ListResult<VMTrnProductStockDetail>
             {

@@ -21,6 +21,9 @@ namespace IMSWebApi.Models
         public Nullable<long> matSizeId { get; set; }
         public Nullable<long> fomSizeId { get; set; }
         public Nullable<long> accessoryId { get; set; }
+        public Nullable<long> qualityId { get; set; }
+        public Nullable<long> matThicknessId { get; set; }
+        public string matSizeCode { get; set; }
         public decimal stock { get; set; }
         public Nullable<decimal> stockInKg { get; set; }
         public decimal soQuanity { get; set; }
@@ -36,5 +39,7 @@ namespace IMSWebApi.Models
         public virtual MstFomSize MstFomSize { get; set; }
         public virtual MstFWRShade MstFWRShade { get; set; }
         public virtual MstMatSize MstMatSize { get; set; }
+        public virtual MstMatThickness MstMatThickness { get; set; }
+        public virtual MstQuality MstQuality { get; set; }
     }
 }
