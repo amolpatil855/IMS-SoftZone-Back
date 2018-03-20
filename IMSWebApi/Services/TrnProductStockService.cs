@@ -447,7 +447,10 @@ namespace IMSWebApi.Services
                 product = repo.TrnProductStocks.Where(z => z.categoryId == materialQuotationItem.categoryId
                                                       && z.collectionId == materialQuotationItem.collectionId
                                                       && z.fwrShadeId == materialQuotationItem.shadeId
-                                                      && z.matSizeId == materialQuotationItem.matSizeId).FirstOrDefault();
+                                                      && z.matSizeId == materialQuotationItem.matSizeId
+                                                      && z.qualityId == materialQuotationItem.qualityId
+                                                      && z.matThicknessId == materialQuotationItem.matThicknessId
+                                                      && z.matSizeCode.Equals(materialQuotationItem.matHeight+"x"+materialQuotationItem.matWidth)).FirstOrDefault();
             }
             if (product != null)
             {
@@ -465,6 +468,9 @@ namespace IMSWebApi.Services
                 productStockToAdd.fomSizeId = saleOrderItem != null ? saleOrderItem.fomSizeId : null;
                 productStockToAdd.matSizeId = saleOrderItem != null ? saleOrderItem.matSizeId : materialQuotationItem.matSizeId;
                 productStockToAdd.accessoryId = saleOrderItem != null ? saleOrderItem.accessoryId : null;
+                productStockToAdd.qualityId = materialQuotationItem != null ? materialQuotationItem.qualityId : null;
+                productStockToAdd.matThicknessId = materialQuotationItem != null ? materialQuotationItem.matThicknessId : null;
+                productStockToAdd.matSizeCode = materialQuotationItem != null ? (materialQuotationItem.matHeight + "x" + materialQuotationItem.matWidth) : null;
                 productStockToAdd.soQuanity = saleOrderItem != null ? saleOrderItem.orderQuantity : materialQuotationItem.orderQuantity;
                 productStockToAdd.stock = productStockToAdd.poQuantity = 0;
                 productStockToAdd.createdOn = DateTime.Now;

@@ -65,7 +65,8 @@ namespace IMSWebApi.Services
                 msItem.collectionName = msItem.collectionId != null ? msItem.MstCollection.collectionCode : null;
                 msItem.serialno = msItem.MstCategory.code.Equals("Fabric") || msItem.MstCategory.code.Equals("Rug") || msItem.MstCategory.code.Equals("Wallpaper") 
                     ? msItem.MstFWRShade.serialNumber + "(" + msItem.MstFWRShade.shadeCode + "-" + msItem.MstFWRShade.MstFWRDesign.designCode + ")" : null;
-                msItem.size = msItem.MstMatSize != null ? msItem.MstMatSize.sizeCode + " (" + msItem.MstMatSize.MstMatThickNess.thicknessCode + "-" + msItem.MstMatSize.MstQuality.qualityCode + ")" : null;
+                msItem.size = msItem.MstMatSize != null ? msItem.MstMatSize.sizeCode + " (" + msItem.MstMatSize.MstMatThickNess.thicknessCode + "-" + msItem.MstMatSize.MstQuality.qualityCode + ")" : 
+                    msItem.matHeight != null && msItem.matWidth != null ? (msItem.matHeight + "x" + msItem.matWidth + " (" + msItem.MstMatThickness.thicknessCode + "-" + msItem.MstQuality.qualityCode + ")") : null;
             });
             materialSelectionView.TrnMaterialSelectionItems.ForEach(msItem => msItem.TrnMaterialSelection = null);
             materialSelectionView.TrnMaterialQuotations = null;

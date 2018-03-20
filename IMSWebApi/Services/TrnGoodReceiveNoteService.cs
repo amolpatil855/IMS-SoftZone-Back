@@ -329,17 +329,17 @@ namespace IMSWebApi.Services
             emailNotification.notificationForPendingGIN(goodReceiveNote.grnNumber, "NotificationForPendingGIN", ginNumbers, adminEmail);
         }
 
-        public List<VMLookUpItem> getCustomMatSizeCodeLookup(Int64 categoryId, Int64 collectionId, Int64 matQualityId, Int64 matThicknessId)
+        public List<VMLookUpItemForMatSizeCode> getCustomMatSizeCodeLookup(Int64 categoryId, Int64 collectionId, Int64 matQualityId, Int64 matThicknessId)
         {
             return repo.TrnPurchaseOrderItems.Where(poItem => poItem.categoryId == categoryId
                                                     && poItem.collectionId == collectionId
                                                     && poItem.matQualityId == matQualityId
                                                     && poItem.matThicknessId == matThicknessId
                                                     && (poItem.status.Equals("Approved") || poItem.status.Equals("PartialCompleted")))
-                                            .Select(p => new VMLookUpItem
+                                            .Select(p => new VMLookUpItemForMatSizeCode
                                             {
                                                 label = p.matSizeCode,
-                                                value = -1
+                                                value = p.matSizeCode
                                             }).ToList();
                                             
         }

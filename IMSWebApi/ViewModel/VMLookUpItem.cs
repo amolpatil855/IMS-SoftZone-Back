@@ -9,7 +9,7 @@ namespace IMSWebApi.ViewModel
     {
         public long value { get; set; }
         public string label { get; set; }
-
+        
         public bool Equals(VMLookUpItem x, VMLookUpItem y)
         {
             return x.value.Equals(y.value);
@@ -19,6 +19,12 @@ namespace IMSWebApi.ViewModel
         {
             return (int)obj.value;
         }
+    }
+
+    public class VMLookUpItemForMatSizeCode
+    {
+        public string value { get; set; }
+        public string label { get; set; }
     }
 
 }

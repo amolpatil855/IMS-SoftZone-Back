@@ -94,7 +94,8 @@ namespace IMSWebApi.Services
                 mqItem.categoryName = mqItem.MstCategory.name;
                 mqItem.collectionName = mqItem.collectionId != null ? mqItem.MstCollection.collectionCode : null;
                 mqItem.serialno = mqItem.MstCategory.code.Equals("Fabric") || mqItem.MstCategory.code.Equals("Rug") || mqItem.MstCategory.code.Equals("Wallpaper") ? mqItem.MstFWRShade.serialNumber + "(" + mqItem.MstFWRShade.shadeCode + "-" + mqItem.MstFWRShade.MstFWRDesign.designCode + ")" : null;
-                mqItem.size = mqItem.MstMatSize != null ? mqItem.MstMatSize.sizeCode + " (" + mqItem.MstMatSize.MstMatThickNess.thicknessCode + "-" + mqItem.MstMatSize.MstQuality.qualityCode + ")" : null;
+                mqItem.size = mqItem.MstMatSize != null ? mqItem.MstMatSize.sizeCode + " (" + mqItem.MstMatSize.MstMatThickNess.thicknessCode + "-" + mqItem.MstMatSize.MstQuality.qualityCode + ")" :
+                    mqItem.matHeight != null && mqItem.matWidth != null ? (mqItem.matHeight + "x" + mqItem.matWidth + " (" + mqItem.MstMatThickness.thicknessCode + "-" + mqItem.MstQuality.qualityCode + ")") : null; 
             });
             materialQuotationView.TrnMaterialQuotationItems.ForEach(mqItem => mqItem.TrnMaterialQuotation = null);
             materialQuotationView.TrnMaterialSelection.TrnMaterialQuotations = null;
@@ -227,10 +228,7 @@ namespace IMSWebApi.Services
                     foreach (var mqItem in materialQuotation.TrnMaterialQuotationItems)
                     {
                         mqItem.status = MaterialQuotationStatus.Approved.ToString();
-                        if (!(mqItem.categoryId == 4 && mqItem.matSizeId == null))
-                        {
-                            _trnProductStockService.AddsoOrmqIteminStock(null, mqItem);
-                        }
+                        _trnProductStockService.AddsoOrmqIteminStock(null, mqItem);
                         mqItem.updatedOn = DateTime.Now;
                         mqItem.updatedBy = _LoggedInuserId;
                     }
