@@ -124,7 +124,8 @@ namespace IMSWebApi.Services
                 poItem.collectionName = poItem.collectionId != null ? poItem.MstCollection.collectionCode + " (" + poItem.MstCollection.MstSupplier.code + ")" : null;
                 poItem.serialno = poItem.MstCategory.code.Equals("Fabric") || poItem.MstCategory.code.Equals("Rug") || poItem.MstCategory.code.Equals("Wallpaper") ? poItem.MstFWRShade.serialNumber + "(" + poItem.MstFWRShade.shadeCode + "-" + poItem.MstFWRShade.MstFWRDesign.designCode + ")" : null;
                 poItem.size = poItem.MstMatSize != null ? poItem.MstMatSize.sizeCode + " (" + poItem.MstMatSize.MstMatThickNess.thicknessCode + "-" + poItem.MstMatSize.MstQuality.qualityCode + ")" :
-                                poItem.MstFomSize != null ? poItem.MstFomSize.itemCode : poItem.matSizeCode;
+                                poItem.MstFomSize != null ? poItem.MstFomSize.itemCode : 
+                                poItem.matSizeCode != null ? poItem.matSizeCode + " (" + poItem.MstMatThickness.thicknessCode + "-" + poItem.MstQuality.qualityCode + ")" : null;
                 poItem.accessoryName = poItem.accessoryId != null ? poItem.MstAccessory.itemCode : null;
             });
 

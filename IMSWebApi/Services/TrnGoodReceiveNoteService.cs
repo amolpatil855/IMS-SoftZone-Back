@@ -106,7 +106,7 @@ namespace IMSWebApi.Services
                             .ToList();
         }
 
-        public List<VMTrnGoodReceiveNoteItem> getPOListForSelectedItem(Int64 categoryId, Int64? collectionId, Int64? parameterId, string matSizeCode)
+        public List<VMTrnGoodReceiveNoteItem> getPOListForSelectedItem(Int64 categoryId, Int64? collectionId, Int64? parameterId, string matSizeCode, Int64? matQualityId, Int64? matThicknessId)
         {
             string categoryCode = repo.MstCategories.Where(c => c.id == categoryId).Select(a => a.code).FirstOrDefault();
             List<VMTrnGoodReceiveNoteItem> poItemDetails = new List<VMTrnGoodReceiveNoteItem>();
@@ -175,6 +175,8 @@ namespace IMSWebApi.Services
                     poItemDetails = repo.TrnPurchaseOrderItems.Where(po => po.categoryId == categoryId
                                                                   && po.collectionId == collectionId
                                                                   && po.matSizeCode.Equals(matSizeCode)
+                                                                  && po.matQualityId == matQualityId
+                                                                  && po.matThicknessId == matThicknessId
                                                                   && (po.status.Equals("Approved") || po.status.Equals("PartialCompleted")))
                                                           .Select(s => new VMTrnGoodReceiveNoteItem
                                                           {
@@ -321,5 +323,21 @@ namespace IMSWebApi.Services
             string adminEmail = repo.MstUsers.Where(u => u.userName.Equals("Administrator")).FirstOrDefault().email;
             emailNotification.notificationForPendingGIN(goodReceiveNote.grnNumber, "NotificationForPendingGIN", ginNumbers, adminEmail);
         }
+
+        public List<VMLookUpItem> getCustomMatSizeCodeLookup(Int64 categoryId, Int64 collectionId, Int64 matQualityId, Int64 matThicknessId)
+        {
+            return repo.TrnPurchaseOrderItems.Where(poItem => poItem.categoryId == categoryId
+                                                    && poItem.collectionId == collectionId
+                                                    && poItem.matQualityId == matQualityId
+                                                    && poItem.matThicknessId == matThicknessId
+                                                    && (poItem.status.Equals("Approved") || poItem.status.Equals("PartialCompleted")))
+                                            .Select(p => new VMLookUpItem
+                                            {
+                                                label = p.matSizeCode,
+                                                value = -1
+                                            }).ToList();
+                                            
+        }
+
     }
 }
