@@ -13,6 +13,6 @@ namespace IMSWebApi.ViewModel.SalesInvoice
         public string ginNumber { get; set; }           
         public string status { get; set; }
         public string courierDockYardNumber { get; set; }
-        
+        public bool isPaid { get; set; }
     }
 }
