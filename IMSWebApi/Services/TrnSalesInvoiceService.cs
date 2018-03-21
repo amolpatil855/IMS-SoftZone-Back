@@ -45,7 +45,8 @@ namespace IMSWebApi.Services
                         invoiceDate = s.invoiceDate,
                         ginNumber = s.TrnGoodIssueNote.ginNumber,
                         status = s.status,
-                        courierDockYardNumber = s.courierDockYardNumber
+                        courierDockYardNumber = s.courierDockYardNumber,
+                        isPaid = s.isPaid
                     })
                     .Where(s => !string.IsNullOrEmpty(search)
                     ? s.ginNumber.StartsWith(search)
