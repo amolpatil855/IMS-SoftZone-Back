@@ -29,6 +29,7 @@ namespace IMSWebApi.Models
         public Nullable<System.DateTime> expectedDeliveryDate { get; set; }
         public int totalAmount { get; set; }
         public int amountPaid { get; set; }
+        public bool isPaid { get; set; }
         public string status { get; set; }
         public string courierDockYardNumber { get; set; }
         public System.DateTime createdOn { get; set; }

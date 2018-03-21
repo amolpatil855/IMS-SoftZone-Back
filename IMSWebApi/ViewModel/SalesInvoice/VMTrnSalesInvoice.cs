@@ -21,10 +21,13 @@ namespace IMSWebApi.ViewModel.SalesInvoice
         public Nullable<System.DateTime> expectedDeliveryDate { get; set; }
         public int totalAmount { get; set; }
         public int amountPaid { get; set; }
+        public bool isPaid { get; set; }
         [MaxLength(20)]
         public string status { get; set; }
         [MaxLength(20)]
         public string courierDockYardNumber { get; set; }
+
+        public bool isApproved { get; set; }
         
         public virtual VMCompanyInfo MstCompanyInfo { get; set; }
         public virtual VMTrnMaterialQuotation TrnMaterialQuotation { get; set; }
