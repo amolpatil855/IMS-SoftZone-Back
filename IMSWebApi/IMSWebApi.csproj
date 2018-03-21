@@ -501,7 +501,7 @@
     <Compile Include="ViewModel\AdvancePayment\VMTrnAdvancePaymentList.cs" />
     <Compile Include="ViewModel\ResponseMessage.cs" />
     <Compile Include="ViewModel\SalesInvoice\VMTrnSalesInvoiceList.cs" />
-    <Compile Include="ViewModel\SlaesOrder\VMTrnSaleOrderList.cs" />
+    <Compile Include="ViewModel\SalesOrder\VMTrnSaleOrderList.cs" />
     <Compile Include="ViewModel\VMAccessory.cs" />
     <Compile Include="ViewModel\VMAgent.cs" />
     <Compile Include="ViewModel\VMCategory.cs" />
@@ -530,7 +530,7 @@
     <Compile Include="ViewModel\MaterialSelection\VMTrnMaterialSelectionItem.cs" />
     <Compile Include="ViewModel\MaterialSelection\VMTrnMaterialSelectionList.cs" />
     <Compile Include="ViewModel\AdvancePayment\VMTrnAdvancePayment.cs" />
-    <Compile Include="ViewModel\VMTrnProductStock.cs" />
+    <Compile Include="ViewModel\ProductStock\VMTrnProductStock.cs" />
     <Compile Include="ViewModel\VMQuality.cs" />
     <Compile Include="ViewModel\VMFWRShade.cs" />
     <Compile Include="ViewModel\VMSupplier.cs" />
@@ -543,14 +543,16 @@
     <Compile Include="ViewModel\VMSupplierAddress.cs" />
     <Compile Include="ViewModel\GoodReceiveNote\VMTrnGoodReceiveNote.cs" />
     <Compile Include="ViewModel\GoodReceiveNote\VMTrnGoodReceiveNoteItem.cs" />
-    <Compile Include="ViewModel\VMTrnProductStockDetail.cs" />
+    <Compile Include="ViewModel\ProductStock\VMTrnProductStockDetail.cs" />
     <Compile Include="ViewModel\PurchaseOrder\VMTrnPurchaseOrder.cs" />
     <Compile Include="ViewModel\PurchaseOrder\VMTrnPurchaseOrderItem.cs" />
-    <Compile Include="ViewModel\SlaesOrder\VMTrnSaleOrder.cs" />
-    <Compile Include="ViewModel\SlaesOrder\VMTrnSaleOrderItem.cs" />
+    <Compile Include="ViewModel\SalesOrder\VMTrnSaleOrder.cs" />
+    <Compile Include="ViewModel\SalesOrder\VMTrnSaleOrderItem.cs" />
     <Compile Include="ViewModel\SalesInvoice\VMTrnSalesInvoice.cs" />
     <Compile Include="ViewModel\SalesInvoice\VMTrnSalesInvoiceItem.cs" />
     <Compile Include="ViewModel\PurchaseOrder\VMTrnPurchaseOrderList.cs" />
+    <Compile Include="ViewModel\ProductStock\VMTrnProductStockList.cs" />
+    <Compile Include="ViewModel\ProductStock\VMTrnProductStockDetailList.cs" />
     <Compile Include="ViewModel\VMUnitOfMeasure.cs" />
     <Compile Include="ViewModel\VMUser.cs" />
     <Compile Include="ViewModel\VMUserType.cs" />

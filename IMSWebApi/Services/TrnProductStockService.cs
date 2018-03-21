@@ -24,53 +24,35 @@ namespace IMSWebApi.Services
             resourceManager = new ResourceManager("IMSWebApi.App_Data.Resource", Assembly.GetExecutingAssembly());
         }
 
-        public ListResult<VMTrnProductStock> getTrnProductStock(int pageSize, int page, string search)
+        public ListResult<VMTrnProductStockList> getTrnProductStock(int pageSize, int page, string search)
          {	        
-		 List<VMTrnProductStock> trnProductStockView;
-             if (pageSize > 0)	           
-             {	            
-                 var result = repo.TrnProductStocks.Where(q => !string.IsNullOrEmpty(search)	             
-                     ? q.MstCategory.code.StartsWith(search)	                   
-                     || q.MstCollection.collectionCode.StartsWith(search)	
-                     || q.MstAccessory.itemCode.StartsWith(search)
-                     || q.MstFWRShade.serialNumber.ToString().StartsWith(search)	
-                     || q.MstMatSize.sizeCode.StartsWith(search)
-                     || q.MstFomSize.itemCode.StartsWith(search)
-                     || q.matSizeCode.StartsWith(search)
-					 || q.stock.ToString().StartsWith(search): true)
-                     .OrderBy(q => q.id).Skip(page * pageSize).Take(pageSize).ToList();	            
-                 trnProductStockView = Mapper.Map<List<TrnProductStock>, List<VMTrnProductStock>>(result);	
-             }	            
-			 else
-             {	             
-                 var result = repo.TrnProductStocks.Where(q => !string.IsNullOrEmpty(search)	              
-                     ? q.MstCategory.code.StartsWith(search)	                 
+		 List<VMTrnProductStockList> trnProductStockView;
+         trnProductStockView = repo.TrnProductStocks.Where(q => !string.IsNullOrEmpty(search)
+                     ? q.MstCategory.code.StartsWith(search)
                      || q.MstCollection.collectionCode.StartsWith(search)
                      || q.MstAccessory.itemCode.StartsWith(search)
                      || q.MstFWRShade.serialNumber.ToString().StartsWith(search)
                      || q.MstMatSize.sizeCode.StartsWith(search)
                      || q.MstFomSize.itemCode.StartsWith(search)
                      || q.matSizeCode.StartsWith(search)
-                     || q.stock.ToString().StartsWith(search) : true).ToList();	
-                 trnProductStockView = Mapper.Map<List<TrnProductStock>, List<VMTrnProductStock>>(result);	                
-             }
-             foreach (var productStock in trnProductStockView)
-             {
-                 productStock.accessoryCode = productStock.MstCategory.code.Equals("Accessories") ? productStock.MstAccessory.itemCode : null;
-                 productStock.serialno = productStock.MstCategory.code.Equals("Fabric") 
-                                        || productStock.MstCategory.code.Equals("Rug") 
-                                        || productStock.MstCategory.code.Equals("Wallpaper") 
-                                        ? productStock.MstFWRShade.serialNumber + " ("+productStock.MstFWRShade.shadeCode+"-"+
-                                        productStock.MstFWRShade.MstFWRDesign.designCode+")" : null;
-                 productStock.fomItem = productStock.MstCategory.code.Equals("Foam") ? productStock.MstFomSize.itemCode : null;
-                 productStock.matSize = productStock.MstCategory.code.Equals("Mattress") ? 
-                                            productStock.MstMatSize != null ? productStock.MstMatSize.sizeCode + " ("+productStock.MstMatSize.MstMatThickNess.thicknessCode+
-                                            "-" + productStock.MstMatSize.MstQuality.qualityCode + ")" : productStock.matSizeCode +" (" + productStock.MstMatThickness.thicknessCode +
-                                            "-" + productStock.MstQuality.qualityCode + ")" : null;
-             }
-
-
-             return new ListResult<VMTrnProductStock>	       
+                     || q.stock.ToString().StartsWith(search) : true)
+                     .Select(p => new VMTrnProductStockList { 
+                         id = p.id,
+                     categoryName = p.categoryId != null ? p.MstCategory.code : string.Empty,
+                     collectionName = p.collectionId != null ? p.MstCollection.collectionCode : string.Empty,
+                         serialno = p.fwrShadeId != null ? (p.MstFWRShade.serialNumber + " (" + p.MstFWRShade.shadeCode + "-" +
+                                            p.MstFWRShade.MstFWRDesign.designCode + ")" ): string.Empty,
+                         matSize = p.matSizeId != null ? p.MstMatSize.sizeCode + " (" + p.MstMatSize.MstMatThickness.thicknessCode + "-" + p.MstMatSize.MstQuality.qualityCode + ")"
+                                    : p.matSizeCode != null ? p.matSizeCode + " (" + p.MstMatThickness.thicknessCode + "-" + p.MstQuality.qualityCode + ")" : string.Empty,
+                     fomItem = p.fomSizeId != null ? p.MstFomSize.itemCode : string.Empty,
+                     accessoryCode = p.accessoryId != null ? p.MstAccessory.itemCode : string.Empty,
+                     stock = p.stock,
+                     poQuantity = p.poQuantity,
+                     soQuanity = p.soQuanity
+                     })
+                     .OrderBy(q => q.id).Skip(page * pageSize).Take(pageSize).ToList();	            
+            
+             return new ListResult<VMTrnProductStockList>	       
              {	             
 			 Data = trnProductStockView,
                  TotalCount = repo.TrnProductStocks.Where(q => !string.IsNullOrEmpty(search)	             
