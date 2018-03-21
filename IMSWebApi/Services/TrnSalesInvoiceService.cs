@@ -108,7 +108,7 @@ namespace IMSWebApi.Services
                     salesInvoiceItem.accessoryName = salesInvoiceItem.accessoryId != null ? salesInvoiceItem.MstAccessory.itemCode : null;
                 });
                 salesInvoiceView.MstCompanyInfo = Mapper.Map<MstCompanyInfo, VMCompanyInfo>(repo.MstCompanyInfoes.FirstOrDefault());
-                salesInvoiceView.isApproved = salesInvoiceView.isApproved;
+                salesInvoiceView.isApproved = salesInvoiceView.status.Equals("Created") ? false : true;
             }
 
             return salesInvoiceView;
