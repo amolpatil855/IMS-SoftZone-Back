@@ -116,7 +116,7 @@ namespace IMSWebApi.Services
                 goodIssueNoteToPost.materialQuotationId = materialQuotation != null ? materialQuotation.id : (long?)null;
                 goodIssueNoteToPost.materialQuotationNumber = materialQuotation != null ? materialQuotation.materialQuotationNumber : null;
                 DateTime dateForFinancialYear = saleOrder != null ? saleOrder.orderDate : materialQuotation.materialQuotationDate;
-                var financialYear = repo.MstFinancialYears.Where(f => f.startDate <= dateForFinancialYear && f.endDate >= dateForFinancialYear).FirstOrDefault();
+                var financialYear = repo.MstFinancialYears.Where(f => f.startDate <= dateForFinancialYear.Date && f.endDate >= dateForFinancialYear.Date).FirstOrDefault();
                 string orderNo = generateOrderNumber.orderNumber(financialYear.startDate.ToString("yy"), financialYear.endDate.ToString("yy"), financialYear.ginNumber, "GI");
                 goodIssueNoteToPost.ginNumber = orderNo;
                 goodIssueNoteToPost.ginDate = DateTime.Now;

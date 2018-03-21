@@ -227,7 +227,8 @@ namespace IMSWebApi.Services
                     addItemInProductDetails(grnItems, goodReceiveNoteToPost.locationId);
                 });
 
-                var financialYear = repo.MstFinancialYears.Where(f => f.startDate <= goodReceiveNote.grnDate && f.endDate >= goodReceiveNote.grnDate).FirstOrDefault();
+                DateTime grnDate = goodReceiveNote.grnDate != null ? goodReceiveNote.grnDate.Value.Date : DateTime.Now;
+                var financialYear = repo.MstFinancialYears.Where(f => f.startDate <= grnDate && f.endDate >= grnDate).FirstOrDefault();
                 string orderNo = generateOrderNumber.orderNumber(financialYear.startDate.ToString("yy"), financialYear.endDate.ToString("yy"), financialYear.grnNumber,"GR");
                 goodReceiveNoteToPost.grnNumber = orderNo;
                 goodReceiveNoteToPost.createdOn = DateTime.Now;

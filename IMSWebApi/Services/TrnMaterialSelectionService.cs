@@ -20,12 +20,14 @@ namespace IMSWebApi.Services
         Int64 _LoggedInuserId;
         ResourceManager resourceManager = null;
         GenerateOrderNumber generateOrderNumber = null;
+        TrnMaterialQuotationService _trnMaterialQuotation = null;
 
         public TrnMaterialSelectionService()
         {
             _LoggedInuserId = Convert.ToInt64(HttpContext.Current.User.Identity.GetUserId());
             resourceManager = new ResourceManager("IMSWebApi.App_Data.Resource", Assembly.GetExecutingAssembly());
             generateOrderNumber = new GenerateOrderNumber();
+            _trnMaterialQuotation = new TrnMaterialQuotationService();
         }
 
         public ListResult<VMTrnMaterialSelectionList> getMaterialSelections(int pageSize, int page, string search)
@@ -88,7 +90,7 @@ namespace IMSWebApi.Services
                     msItems.createdBy = _LoggedInuserId;
                 }
                 //materialSelectionToPost.materialSelectionDate = DateTime.Now;
-                var financialYear = repo.MstFinancialYears.Where(f => f.startDate <= materialSelectionToPost.materialSelectionDate && f.endDate >= materialSelectionToPost.materialSelectionDate).FirstOrDefault();
+                var financialYear = repo.MstFinancialYears.Where(f => f.startDate <= materialSelectionToPost.materialSelectionDate.Date && f.endDate >= materialSelectionToPost.materialSelectionDate.Date).FirstOrDefault();
                 string materialselectionNo = generateOrderNumber.orderNumber(financialYear.startDate.ToString("yy"), financialYear.endDate.ToString("yy"), financialYear.materialSelectionNumber, "MS");
                 materialSelectionToPost.materialSelectionNumber = materialselectionNo;
                 materialSelectionToPost.createdOn = DateTime.Now;
@@ -221,6 +223,12 @@ namespace IMSWebApi.Services
                 VMMaterialQuotation.TrnMaterialQuotationItems.Add(mqItem);
             }
             return VMMaterialQuotation;
+        }
+
+        public Int64 viewMaterialQuotation(Int64 materialSelectionId)
+        {   
+            Int64 materialQuotationId = repo.TrnMaterialQuotations.Where(mq => mq.materialSelectionId == materialSelectionId).FirstOrDefault().id;
+            return materialQuotationId;
         }
     }
 }

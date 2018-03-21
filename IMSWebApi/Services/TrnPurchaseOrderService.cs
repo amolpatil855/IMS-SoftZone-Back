@@ -149,7 +149,8 @@ namespace IMSWebApi.Services
                     _trnProductStockService.AddpoIteminStock(poItems);
                 }
 
-                var financialYear = repo.MstFinancialYears.Where(f => f.startDate <= purchaseOrder.orderDate && f.endDate >= purchaseOrder.orderDate).FirstOrDefault();
+                DateTime poDate = purchaseOrder.orderDate != null ? purchaseOrder.orderDate.Value.Date : DateTime.Now;
+                var financialYear = repo.MstFinancialYears.Where(f => f.startDate <= poDate && f.endDate >= poDate).FirstOrDefault();
                 string orderNo = generateOrderNumber.orderNumber(financialYear.startDate.ToString("yy"), financialYear.endDate.ToString("yy"), financialYear.poNumber,"PO");
                 purchaseOrderToPost.orderNumber = orderNo;
                 purchaseOrderToPost.financialYear = financialYear.financialYear;

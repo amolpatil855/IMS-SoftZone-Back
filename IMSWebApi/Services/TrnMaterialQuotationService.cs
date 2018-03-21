@@ -119,7 +119,7 @@ namespace IMSWebApi.Services
                     mqItems.createdOn = DateTime.Now;
                     mqItems.createdBy = _LoggedInuserId;
                 }
-                var financialYear = repo.MstFinancialYears.Where(f => f.startDate <= materialQuotationToPost.materialQuotationDate && f.endDate >= materialQuotationToPost.materialQuotationDate).FirstOrDefault();
+                var financialYear = repo.MstFinancialYears.Where(f => f.startDate <= materialQuotationToPost.materialQuotationDate.Date && f.endDate >= materialQuotationToPost.materialQuotationDate.Date).FirstOrDefault();
                 string materialQuotationNo = generateOrderNumber.orderNumber(financialYear.startDate.ToString("yy"), financialYear.endDate.ToString("yy"), financialYear.materialSelectionNumber, "MQ");
                 materialQuotationToPost.materialQuotationNumber = materialQuotationNo;
                 materialQuotationToPost.status = MaterialQuotationStatus.Created.ToString();

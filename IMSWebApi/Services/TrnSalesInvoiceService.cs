@@ -87,7 +87,8 @@ namespace IMSWebApi.Services
                                 ? salesInvoiceItem.MstFWRShade.serialNumber + "(" + salesInvoiceItem.MstFWRShade.shadeCode + "-" + salesInvoiceItem.MstFWRShade.MstFWRDesign.designCode + ")" : null;
                 salesInvoiceItem.size = salesInvoiceItem.MstMatSize != null ? 
                     salesInvoiceItem.MstMatSize.sizeCode + " (" + salesInvoiceItem.MstMatSize.MstMatThickNess.thicknessCode + "-" + salesInvoiceItem.MstMatSize.MstQuality.qualityCode + ")" :
-                            salesInvoiceItem.MstFomSize != null ? salesInvoiceItem.MstFomSize.itemCode : null;
+                            salesInvoiceItem.MstFomSize != null ? salesInvoiceItem.MstFomSize.itemCode : 
+                            salesInvoiceItem.sizeCode != null ? salesInvoiceItem.sizeCode : null;
                 salesInvoiceItem.accessoryName = salesInvoiceItem.accessoryId != null ? salesInvoiceItem.MstAccessory.itemCode : null;
             });
             salesInvoiceView.MstCompanyInfo = Mapper.Map<MstCompanyInfo, VMCompanyInfo>(repo.MstCompanyInfoes.FirstOrDefault());
@@ -101,7 +102,7 @@ namespace IMSWebApi.Services
             salesInvoice.salesOrderId = goodIssueNote.salesOrderId;
             salesInvoice.materialQuotationId = goodIssueNote.materialQuotationId;
 
-            var financialYear = repo.MstFinancialYears.Where(f => f.startDate <= goodIssueNote.ginDate && f.endDate >= goodIssueNote.ginDate).FirstOrDefault();
+            var financialYear = repo.MstFinancialYears.Where(f => f.startDate <= goodIssueNote.ginDate.Value.Date && f.endDate >= goodIssueNote.ginDate.Value.Date).FirstOrDefault();
             string invoiceNo = generateOrderNumber.orderNumber(financialYear.startDate.ToString("yy"), financialYear.endDate.ToString("yy"), financialYear.soInvoiceNumber,"IN");
             salesInvoice.invoiceNumber = invoiceNo;
 
