@@ -129,7 +129,7 @@ namespace IMSWebApi.Services
                     }
                 }
 
-                var financialYear = repo.MstFinancialYears.Where(f => f.startDate <= saleOrder.orderDate && f.endDate >= saleOrder.orderDate).FirstOrDefault();
+                var financialYear = repo.MstFinancialYears.Where(f => f.startDate <= saleOrder.orderDate.Date && f.endDate >= saleOrder.orderDate.Date).FirstOrDefault();
                 string orderNo = generateOrderNumber.orderNumber(financialYear.startDate.ToString("yy"), financialYear.endDate.ToString("yy"), financialYear.soNumber,"SO");
                 saleOrderToPost.orderNumber = orderNo;
                 saleOrderToPost.financialYear = financialYear.financialYear;

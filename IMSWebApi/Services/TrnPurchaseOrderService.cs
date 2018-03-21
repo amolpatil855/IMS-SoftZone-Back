@@ -124,7 +124,8 @@ namespace IMSWebApi.Services
                 poItem.collectionName = poItem.collectionId != null ? poItem.MstCollection.collectionCode + " (" + poItem.MstCollection.MstSupplier.code + ")" : null;
                 poItem.serialno = poItem.MstCategory.code.Equals("Fabric") || poItem.MstCategory.code.Equals("Rug") || poItem.MstCategory.code.Equals("Wallpaper") ? poItem.MstFWRShade.serialNumber + "(" + poItem.MstFWRShade.shadeCode + "-" + poItem.MstFWRShade.MstFWRDesign.designCode + ")" : null;
                 poItem.size = poItem.MstMatSize != null ? poItem.MstMatSize.sizeCode + " (" + poItem.MstMatSize.MstMatThickNess.thicknessCode + "-" + poItem.MstMatSize.MstQuality.qualityCode + ")" :
-                                poItem.MstFomSize != null ? poItem.MstFomSize.itemCode : poItem.matSizeCode;
+                                poItem.MstFomSize != null ? poItem.MstFomSize.itemCode : 
+                                poItem.matSizeCode != null ? poItem.matSizeCode + " (" + poItem.MstMatThickness.thicknessCode + "-" + poItem.MstQuality.qualityCode + ")" : null;
                 poItem.accessoryName = poItem.accessoryId != null ? poItem.MstAccessory.itemCode : null;
             });
 
@@ -145,13 +146,11 @@ namespace IMSWebApi.Services
                     poItems.balanceQuantity = poItems.orderQuantity;
                     poItems.createdOn = DateTime.Now;
                     poItems.createdBy = _LoggedInuserId;
-                    if (!(poItems.categoryId == 4 && poItems.matSizeId == null) && _IsAdministrator)
-                    {
-                        _trnProductStockService.AddpoIteminStock(poItems);
-                    }
+                    _trnProductStockService.AddpoIteminStock(poItems);
                 }
 
-                var financialYear = repo.MstFinancialYears.Where(f => f.startDate <= purchaseOrder.orderDate && f.endDate >= purchaseOrder.orderDate).FirstOrDefault();
+                DateTime poDate = purchaseOrder.orderDate != null ? purchaseOrder.orderDate.Value.Date : DateTime.Now;
+                var financialYear = repo.MstFinancialYears.Where(f => f.startDate <= poDate && f.endDate >= poDate).FirstOrDefault();
                 string orderNo = generateOrderNumber.orderNumber(financialYear.startDate.ToString("yy"), financialYear.endDate.ToString("yy"), financialYear.poNumber,"PO");
                 purchaseOrderToPost.orderNumber = orderNo;
                 purchaseOrderToPost.financialYear = financialYear.financialYear;
@@ -284,10 +283,7 @@ namespace IMSWebApi.Services
                 foreach (var poItem in purchaseOrder.TrnPurchaseOrderItems)
                 {
                     poItem.status = PurchaseOrderStatus.Approved.ToString();
-                    if (!(poItem.categoryId == 4 && poItem.matSizeId == null))
-                    {
-                        _trnProductStockService.AddpoIteminStock(poItem);
-                    }
+                    _trnProductStockService.AddpoIteminStock(poItem);
                 }
                 purchaseOrder.updatedOn = DateTime.Now;
                 purchaseOrder.updatedBy = _LoggedInuserId;
@@ -487,7 +483,8 @@ namespace IMSWebApi.Services
                 poItemAgainstSO.fomSizeId = item.fomSizeId != null ? item.fomSizeId : null;
                 poItemAgainstSO.matSizeId = item.matSizeId != null ? item.matSizeId : null;
                 poItemAgainstSO.size = item.fomSizeId != null ? item.MstFomSize.itemCode : 
-                    item.matSizeId != null ? item.MstMatSize.sizeCode + " (" + item.MstMatSize.MstMatThickness.thicknessCode + "-" + item.MstMatSize.MstQuality.qualityCode + ")" : null;
+                    item.matSizeId != null ? item.MstMatSize.sizeCode + " (" + item.MstMatSize.MstMatThickness.thicknessCode + "-" + item.MstMatSize.MstQuality.qualityCode + ")" : 
+                    item.matSizeCode != null ? item.matSizeCode + " (" + item.MstMatThickness.thicknessCode + "-" + item.MstQuality.qualityCode + ")" : null;
                 //values for calculation of rate for fabrics
                 poItemAgainstSO.cutRate = item.fwrShadeId != null ? item.MstFWRShade.MstQuality.cutRate : null;
                 poItemAgainstSO.roleRate = item.fwrShadeId != null ? item.MstFWRShade.MstQuality.roleRate : null;
@@ -499,7 +496,8 @@ namespace IMSWebApi.Services
                 poItemAgainstSO.maxFlatRateDisc = item.fwrShadeId != null ? item.MstFWRShade.MstQuality.maxFlatRateDisc : null;
                 poItemAgainstSO.purchaseDiscount = item.fwrShadeId != null ? item.MstFWRShade.MstCollection.purchaseDiscount :
                     item.fomSizeId != null ? item.MstFomSize.MstCollection.purchaseDiscount : 
-                    item.matSizeId != null ? item.MstMatSize.MstCollection.purchaseDiscount : null;
+                    item.matSizeId != null ? item.MstMatSize.MstCollection.purchaseDiscount : 
+                    item.matSizeCode != null ? item.MstCollection.purchaseDiscount : null;
 
                 //values for calculation of rate for fom
                 poItemAgainstSO.sellingRatePerMM = item.fomSizeId != null ? item.MstFomSize.MstFomDensity.sellingRatePerMM : (decimal?)null;
@@ -508,8 +506,8 @@ namespace IMSWebApi.Services
                 poItemAgainstSO.purchaseRatePerMM = item.fomSizeId != null ? item.MstFomSize.MstFomDensity.purchaseRatePerMM : (decimal?)null;
                 poItemAgainstSO.purchaseRatePerKG = item.fomSizeId != null ? item.MstFomSize.MstFomDensity.purchaseRatePerKG : (decimal?)null;
                 poItemAgainstSO.maxDiscount = item.fomSizeId != null ? item.MstFomSize.MstQuality.maxDiscount : null;
-                poItemAgainstSO.length = item.fomSizeId != null ? item.MstFomSize.length : (decimal?)null;
-                poItemAgainstSO.width = item.fomSizeId != null ? item.MstFomSize.width : (decimal?)null;
+                poItemAgainstSO.length = item.fomSizeId != null ? item.MstFomSize.length : item.matSizeCode != null ? Convert.ToDecimal(item.matSizeCode.Substring(0,item.matSizeCode.IndexOf("x")-1)) : (decimal?)null;
+                poItemAgainstSO.width = item.fomSizeId != null ? item.MstFomSize.width : item.matSizeCode != null ? Convert.ToDecimal(item.matSizeCode.Substring(item.matSizeCode.IndexOf("x")+1)) : (decimal?)null;
 
                 //values for accessory
                 poItemAgainstSO.accessoryId = item.accessoryId != null ? item.accessoryId : null;
@@ -521,9 +519,16 @@ namespace IMSWebApi.Services
                 //values for standard mat
                 poItemAgainstSO.rate = item.matSizeId != null ? item.MstMatSize.rate : (decimal?)null;
                 
+                //values for custom mat
+                poItemAgainstSO.custRatePerSqFeet = item.matSizeCode != null ? item.MstQuality.custRatePerSqFeet : null;
+                poItemAgainstSO.matQualityId = item.matSizeCode != null ? item.qualityId : null;
+                poItemAgainstSO.matThicknessId = item.matSizeCode != null ? item.matThicknessId : null;
+                poItemAgainstSO.matSizeCode = item.matSizeCode != null ? item.matSizeCode : null;
+
                 poItemAgainstSO.gst = item.fomSizeId != null ? item.MstFomSize.MstQuality.MstHsn.gst :
                     item.fwrShadeId != null ? item.MstFWRShade.MstQuality.MstHsn.gst :
-                    item.matSizeId != null ? item.MstMatSize.MstQuality.MstHsn.gst : item.MstAccessory.MstHsn.gst;
+                    item.matSizeId != null ? item.MstMatSize.MstQuality.MstHsn.gst : 
+                    item.accessoryId != null ? item.MstAccessory.MstHsn.gst : item.MstQuality.MstHsn.gst;
 
                 poItemAgainstSO.requiredQuantity = -Convert.ToDecimal(item.stock + item.poQuantity - item.soQuanity);
                 poItemListAgainstSO.Add(poItemAgainstSO);

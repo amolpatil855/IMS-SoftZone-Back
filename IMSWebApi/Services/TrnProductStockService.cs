@@ -24,50 +24,35 @@ namespace IMSWebApi.Services
             resourceManager = new ResourceManager("IMSWebApi.App_Data.Resource", Assembly.GetExecutingAssembly());
         }
 
-        public ListResult<VMTrnProductStock> getTrnProductStock(int pageSize, int page, string search)
+        public ListResult<VMTrnProductStockList> getTrnProductStock(int pageSize, int page, string search)
          {	        
-		 List<VMTrnProductStock> trnProductStockView;
-             if (pageSize > 0)	           
-             {	            
-                 var result = repo.TrnProductStocks.Where(q => !string.IsNullOrEmpty(search)	             
-                     ? q.MstCategory.code.StartsWith(search)	                   
-                     || q.MstCollection.collectionCode.StartsWith(search)	
-                     || q.MstAccessory.itemCode.StartsWith(search)
-                     || q.MstFWRShade.serialNumber.ToString().StartsWith(search)	
-                     || q.MstMatSize.sizeCode.StartsWith(search)
-                     || q.MstFomSize.itemCode.StartsWith(search)
-					 || q.stock.ToString().StartsWith(search): true)
-                     .OrderBy(q => q.id).Skip(page * pageSize).Take(pageSize).ToList();	            
-                 trnProductStockView = Mapper.Map<List<TrnProductStock>, List<VMTrnProductStock>>(result);	
-             }	            
-			 else
-             {	             
-                 var result = repo.TrnProductStocks.Where(q => !string.IsNullOrEmpty(search)	              
-                     ? q.MstCategory.code.StartsWith(search)	                 
+		 List<VMTrnProductStockList> trnProductStockView;
+         trnProductStockView = repo.TrnProductStocks.Where(q => !string.IsNullOrEmpty(search)
+                     ? q.MstCategory.code.StartsWith(search)
                      || q.MstCollection.collectionCode.StartsWith(search)
                      || q.MstAccessory.itemCode.StartsWith(search)
                      || q.MstFWRShade.serialNumber.ToString().StartsWith(search)
                      || q.MstMatSize.sizeCode.StartsWith(search)
-                     || q.MstFomSize.itemCode.StartsWith(search)	            
-                     || q.stock.ToString().StartsWith(search) : true).ToList();	
-                 trnProductStockView = Mapper.Map<List<TrnProductStock>, List<VMTrnProductStock>>(result);	                
-             }
-             foreach (var productStock in trnProductStockView)
-             {
-                 productStock.accessoryCode = productStock.MstCategory.code.Equals("Accessories") ? productStock.MstAccessory.itemCode : null;
-                 productStock.serialno = productStock.MstCategory.code.Equals("Fabric") 
-                                        || productStock.MstCategory.code.Equals("Rug") 
-                                        || productStock.MstCategory.code.Equals("Wallpaper") 
-                                        ? productStock.MstFWRShade.serialNumber + " ("+productStock.MstFWRShade.shadeCode+"-"+
-                                        productStock.MstFWRShade.MstFWRDesign.designCode+")" : null;
-                 productStock.fomItem = productStock.MstCategory.code.Equals("Foam") ? productStock.MstFomSize.itemCode : null;
-                 productStock.matSize = productStock.MstCategory.code.Equals("Mattress") ? 
-                                        productStock.MstMatSize.sizeCode + " ("+productStock.MstMatSize.MstMatThickNess.thicknessCode+
-                                        "-"+productStock.MstMatSize.MstQuality.qualityCode+")" : null;
-             }
-
-
-             return new ListResult<VMTrnProductStock>	       
+                     || q.MstFomSize.itemCode.StartsWith(search)
+                     || q.matSizeCode.StartsWith(search)
+                     || q.stock.ToString().StartsWith(search) : true)
+                     .Select(p => new VMTrnProductStockList { 
+                         id = p.id,
+                     categoryName = p.categoryId != null ? p.MstCategory.code : string.Empty,
+                     collectionName = p.collectionId != null ? p.MstCollection.collectionCode : string.Empty,
+                         serialno = p.fwrShadeId != null ? (p.MstFWRShade.serialNumber + " (" + p.MstFWRShade.shadeCode + "-" +
+                                            p.MstFWRShade.MstFWRDesign.designCode + ")" ): string.Empty,
+                         matSize = p.matSizeId != null ? p.MstMatSize.sizeCode + " (" + p.MstMatSize.MstMatThickness.thicknessCode + "-" + p.MstMatSize.MstQuality.qualityCode + ")"
+                                    : p.matSizeCode != null ? p.matSizeCode + " (" + p.MstMatThickness.thicknessCode + "-" + p.MstQuality.qualityCode + ")" : string.Empty,
+                     fomItem = p.fomSizeId != null ? p.MstFomSize.itemCode : string.Empty,
+                     accessoryCode = p.accessoryId != null ? p.MstAccessory.itemCode : string.Empty,
+                     stock = p.stock,
+                     poQuantity = p.poQuantity,
+                     soQuanity = p.soQuanity
+                     })
+                     .OrderBy(q => q.id).Skip(page * pageSize).Take(pageSize).ToList();	            
+            
+             return new ListResult<VMTrnProductStockList>	       
              {	             
 			 Data = trnProductStockView,
                  TotalCount = repo.TrnProductStocks.Where(q => !string.IsNullOrEmpty(search)	             
@@ -76,7 +61,8 @@ namespace IMSWebApi.Services
                      || q.MstAccessory.itemCode.StartsWith(search)
                      || q.MstFWRShade.serialNumber.ToString().StartsWith(search)	                  
                      || q.MstMatSize.sizeCode.StartsWith(search)
-                     || q.MstFomSize.itemCode.StartsWith(search)	                    
+                     || q.MstFomSize.itemCode.StartsWith(search)
+                     || q.matSizeCode.StartsWith(search)   
                      || q.stock.ToString().StartsWith(search) : true).Count(),	        
                  Page = page	              
              };	          
@@ -222,7 +208,7 @@ namespace IMSWebApi.Services
             };
         }
 
-        public VMProductDetails getProductStockAvailablity(Int64 categoryId, Int64? collectionId, Int64? parameterId,Int64? qualityId)
+        public VMProductDetails getProductStockAvailablity(Int64 categoryId, Int64? collectionId, Int64? parameterId,Int64? qualityId, Int64? matThicknessId, string matSizeCode)
         {
             TrnProductStock TrnProductStock = null;
             MstFWRShade fwrShade = null;
@@ -297,10 +283,17 @@ namespace IMSWebApi.Services
                                                     && z.collectionId == collectionId
                                                     && z.id == qualityId).FirstOrDefault();
 
+                    TrnProductStock = repo.TrnProductStocks.Where(z => z.categoryId == categoryId
+                                                                        && z.collectionId == collectionId
+                                                                        && z.qualityId == qualityId
+                                                                        && z.matThicknessId == matThicknessId
+                                                                        && z.matSizeCode.Equals(matSizeCode)).FirstOrDefault();
+
                     productDetails.custRatePerSqFeet = customSizeMat.custRatePerSqFeet;
                     productDetails.maxDiscount = customSizeMat.maxDiscount;
                     productDetails.purchaseDiscount = customSizeMat.MstCollection.purchaseDiscount;
                     productDetails.gst = customSizeMat.MstHsn.gst;
+                    productDetails.stock = TrnProductStock != null ? TrnProductStock.stock + TrnProductStock.poQuantity - TrnProductStock.soQuanity : 0; 
                 }
             }
             if (categoryCode != null && categoryCode.Equals("Accessories"))
@@ -365,7 +358,10 @@ namespace IMSWebApi.Services
                                                       && z.fwrShadeId == purchaseOrderItem.shadeId
                                                       && z.fomSizeId == purchaseOrderItem.fomSizeId
                                                       && z.matSizeId == purchaseOrderItem.matSizeId
-                                                      && z.accessoryId == purchaseOrderItem.accessoryId).FirstOrDefault();
+                                                      && z.accessoryId == purchaseOrderItem.accessoryId
+                                                      && z.qualityId == purchaseOrderItem.matQualityId
+                                                      && z.matThicknessId == purchaseOrderItem.matThicknessId
+                                                      && z.matSizeCode.Equals(purchaseOrderItem.matSizeCode)).FirstOrDefault();
                 if (product != null)
                 {
                     product.poQuantity = product.poQuantity + purchaseOrderItem.orderQuantity;
@@ -382,6 +378,9 @@ namespace IMSWebApi.Services
                     productStockToAdd.fomSizeId = purchaseOrderItem.fomSizeId;
                     productStockToAdd.matSizeId = purchaseOrderItem.matSizeId;
                     productStockToAdd.accessoryId = purchaseOrderItem.accessoryId;
+                    productStockToAdd.qualityId = purchaseOrderItem.matQualityId;
+                    productStockToAdd.matThicknessId = purchaseOrderItem.matThicknessId;
+                    productStockToAdd.matSizeCode = purchaseOrderItem.matSizeCode;
                     productStockToAdd.poQuantity = purchaseOrderItem.orderQuantity;
                     productStockToAdd.stock = productStockToAdd.soQuanity = 0;
                     productStockToAdd.createdOn = DateTime.Now;
@@ -399,7 +398,10 @@ namespace IMSWebApi.Services
                                                       && z.fwrShadeId == grnItem.shadeId
                                                       && z.fomSizeId == grnItem.fomSizeId
                                                       && z.matSizeId == grnItem.matSizeId
-                                                      && z.accessoryId == grnItem.accessoryId).FirstOrDefault();
+                                                      && z.accessoryId == grnItem.accessoryId
+                                                      && z.qualityId == grnItem.matQualityId
+                                                      && z.matThicknessId == grnItem.matThicknessId
+                                                      && z.matSizeCode.Equals(grnItem.matSizeCode)).FirstOrDefault();
 
             if (product!=null)
             {
@@ -430,7 +432,10 @@ namespace IMSWebApi.Services
                 product = repo.TrnProductStocks.Where(z => z.categoryId == materialQuotationItem.categoryId
                                                       && z.collectionId == materialQuotationItem.collectionId
                                                       && z.fwrShadeId == materialQuotationItem.shadeId
-                                                      && z.matSizeId == materialQuotationItem.matSizeId).FirstOrDefault();
+                                                      && z.matSizeId == materialQuotationItem.matSizeId
+                                                      && z.qualityId == materialQuotationItem.qualityId
+                                                      && z.matThicknessId == materialQuotationItem.matThicknessId
+                                                      && z.matSizeCode.Equals(materialQuotationItem.matHeight+"x"+materialQuotationItem.matWidth)).FirstOrDefault();
             }
             if (product != null)
             {
@@ -448,6 +453,9 @@ namespace IMSWebApi.Services
                 productStockToAdd.fomSizeId = saleOrderItem != null ? saleOrderItem.fomSizeId : null;
                 productStockToAdd.matSizeId = saleOrderItem != null ? saleOrderItem.matSizeId : materialQuotationItem.matSizeId;
                 productStockToAdd.accessoryId = saleOrderItem != null ? saleOrderItem.accessoryId : null;
+                productStockToAdd.qualityId = materialQuotationItem != null ? materialQuotationItem.qualityId : null;
+                productStockToAdd.matThicknessId = materialQuotationItem != null ? materialQuotationItem.matThicknessId : null;
+                productStockToAdd.matSizeCode = materialQuotationItem != null ? (materialQuotationItem.matHeight != null && materialQuotationItem.matWidth != null) ? (materialQuotationItem.matHeight + "x" + materialQuotationItem.matWidth) : null : null;
                 productStockToAdd.soQuanity = saleOrderItem != null ? saleOrderItem.orderQuantity : materialQuotationItem.orderQuantity;
                 productStockToAdd.stock = productStockToAdd.poQuantity = 0;
                 productStockToAdd.createdOn = DateTime.Now;
@@ -465,6 +473,9 @@ namespace IMSWebApi.Services
                                                       && z.fwrShadeId == ginItem.shadeId
                                                       && z.fomSizeId == ginItem.fomSizeId
                                                       && z.matSizeId == ginItem.matSizeId
+                                                      && z.matSizeCode.Equals(ginItem.sizeCode)
+                                                      && z.qualityId == ginItem.matQualityId
+                                                      && z.matThicknessId == ginItem.matThicknessId
                                                       && z.accessoryId == ginItem.accessoryId).FirstOrDefault();
 
             if (product != null)
@@ -486,6 +497,9 @@ namespace IMSWebApi.Services
                                                                             && z.fwrShadeId == ginItem.shadeId
                                                                             && z.fomSizeId == ginItem.fomSizeId
                                                                             && z.matSizeId == ginItem.matSizeId
+                                                                            && z.matSizeCode.Equals(ginItem.sizeCode)
+                                                                            && z.qualityId == ginItem.matQualityId
+                                                                            && z.matThicknessId == ginItem.matThicknessId
                                                                             && z.accessoryId == ginItem.accessoryId
                                                                             && z.stock > 0)
                                                                          .OrderBy(o=>o.id)
@@ -535,7 +549,11 @@ namespace IMSWebApi.Services
                 product = repo.TrnProductStocks.Where(z => z.categoryId == materialQuotationItem.categoryId
                                                       && z.collectionId == materialQuotationItem.collectionId
                                                       && z.fwrShadeId == materialQuotationItem.shadeId
-                                                      && z.matSizeId == materialQuotationItem.matSizeId).FirstOrDefault();
+                                                      && z.matSizeId == materialQuotationItem.matSizeId
+                                                      && z.matSizeCode.Equals((materialQuotationItem.matHeight+"x"+materialQuotationItem.matWidth))
+                                                      && z.qualityId == materialQuotationItem.qualityId
+                                                      && z.matThicknessId == materialQuotationItem.matThicknessId
+                                                      ).FirstOrDefault();
             }
 
             if (product != null)

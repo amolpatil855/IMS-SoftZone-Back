@@ -75,11 +75,19 @@ namespace IMSWebApi.Controllers
         [ApiAuthorize(AccessLevel = "grn")]
         [HttpGet]
         [Route("api/TrnGoodReceiveNote/GetPOListForSelectedItem")]
-        public IHttpActionResult GetPOListForSelectedItem(long categoryId, long? collectionId, long? parameterId, string matSizeCode)
+        public IHttpActionResult GetPOListForSelectedItem(long categoryId, long? collectionId, long? parameterId, string matSizeCode , long? matQualityId, long? matThicknessId)
         {
-            var result = _trnGoodReceiveNoteService.getPOListForSelectedItem(categoryId, collectionId, parameterId, matSizeCode);
+            var result = _trnGoodReceiveNoteService.getPOListForSelectedItem(categoryId, collectionId, parameterId, matSizeCode, matQualityId, matThicknessId);
             return Ok(result);
         }
-        
+
+        [ApiAuthorize(AccessLevel = "grn")]
+        [HttpGet]
+        [Route("api/TrnGoodReceiveNote/GetCustomMatSizeCodeLookup")]
+        public IHttpActionResult GetCustomMatSizeCodeLookup(long categoryId, long collectionId, long matQualityId, long matThicknessId)
+        {
+            var result = _trnGoodReceiveNoteService.getCustomMatSizeCodeLookup(categoryId, collectionId, matQualityId, matThicknessId);
+            return Ok(result);
+        }
     }
 }

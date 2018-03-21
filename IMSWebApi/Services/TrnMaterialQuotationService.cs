@@ -94,7 +94,8 @@ namespace IMSWebApi.Services
                 mqItem.categoryName = mqItem.MstCategory.name;
                 mqItem.collectionName = mqItem.collectionId != null ? mqItem.MstCollection.collectionCode : null;
                 mqItem.serialno = mqItem.MstCategory.code.Equals("Fabric") || mqItem.MstCategory.code.Equals("Rug") || mqItem.MstCategory.code.Equals("Wallpaper") ? mqItem.MstFWRShade.serialNumber + "(" + mqItem.MstFWRShade.shadeCode + "-" + mqItem.MstFWRShade.MstFWRDesign.designCode + ")" : null;
-                mqItem.size = mqItem.MstMatSize != null ? mqItem.MstMatSize.sizeCode + " (" + mqItem.MstMatSize.MstMatThickNess.thicknessCode + "-" + mqItem.MstMatSize.MstQuality.qualityCode + ")" : null;
+                mqItem.size = mqItem.MstMatSize != null ? mqItem.MstMatSize.sizeCode + " (" + mqItem.MstMatSize.MstMatThickNess.thicknessCode + "-" + mqItem.MstMatSize.MstQuality.qualityCode + ")" :
+                    mqItem.matHeight != null && mqItem.matWidth != null ? (mqItem.matHeight + "x" + mqItem.matWidth + " (" + mqItem.MstMatThickness.thicknessCode + "-" + mqItem.MstQuality.qualityCode + ")") : null; 
             });
             materialQuotationView.TrnMaterialQuotationItems.ForEach(mqItem => mqItem.TrnMaterialQuotation = null);
             materialQuotationView.TrnMaterialSelection.TrnMaterialQuotations = null;
@@ -118,7 +119,7 @@ namespace IMSWebApi.Services
                     mqItems.createdOn = DateTime.Now;
                     mqItems.createdBy = _LoggedInuserId;
                 }
-                var financialYear = repo.MstFinancialYears.Where(f => f.startDate <= materialQuotationToPost.materialQuotationDate && f.endDate >= materialQuotationToPost.materialQuotationDate).FirstOrDefault();
+                var financialYear = repo.MstFinancialYears.Where(f => f.startDate <= materialQuotationToPost.materialQuotationDate.Date && f.endDate >= materialQuotationToPost.materialQuotationDate.Date).FirstOrDefault();
                 string materialQuotationNo = generateOrderNumber.orderNumber(financialYear.startDate.ToString("yy"), financialYear.endDate.ToString("yy"), financialYear.materialSelectionNumber, "MQ");
                 materialQuotationToPost.materialQuotationNumber = materialQuotationNo;
                 materialQuotationToPost.status = MaterialQuotationStatus.Created.ToString();
@@ -215,26 +216,35 @@ namespace IMSWebApi.Services
 
         public ResponseMessage approveMaterialQuotation(Int64 id)
         {
+            String messageToDisplay;
+            ResponseType type;
             using (var transaction = new TransactionScope())
             {
-                var materialQuotation = repo.TrnMaterialQuotations.Where(mq => mq.id == id).FirstOrDefault();
-                materialQuotation.status = MaterialQuotationStatus.Approved.ToString();
-                foreach (var mqItem in materialQuotation.TrnMaterialQuotationItems)
+                int advPaymentCount = repo.TrnAdvancePayments.Where(advPayment => advPayment.materialQuotationId == id).Count();
+                if (advPaymentCount > 0)
                 {
-                    mqItem.status = MaterialQuotationStatus.Approved.ToString();
-                    if (!(mqItem.categoryId == 4 && mqItem.matSizeId == null))
+                    var materialQuotation = repo.TrnMaterialQuotations.Where(mq => mq.id == id).FirstOrDefault();
+                    materialQuotation.status = MaterialQuotationStatus.Approved.ToString();
+                    foreach (var mqItem in materialQuotation.TrnMaterialQuotationItems)
                     {
-                        _trnProductStockService.AddsoOrmqIteminStock(null,mqItem);    
+                        mqItem.status = MaterialQuotationStatus.Approved.ToString();
+                        _trnProductStockService.AddsoOrmqIteminStock(null, mqItem);
+                        mqItem.updatedOn = DateTime.Now;
+                        mqItem.updatedBy = _LoggedInuserId;
                     }
-                    mqItem.updatedOn = DateTime.Now;
-                    mqItem.updatedBy = _LoggedInuserId;
+                    repo.SaveChanges();
+                    VMTrnMaterialQuotation VMMaterialQuotation = Mapper.Map<TrnMaterialQuotation, VMTrnMaterialQuotation>(materialQuotation);
+                    _trnGoodIssueNoteServie.postGoodIssueNote(null, VMMaterialQuotation);
+                    messageToDisplay = "MQApproved";
+                    type = ResponseType.Success;
                 }
-                repo.SaveChanges();
-                VMTrnMaterialQuotation VMMaterialQuotation = Mapper.Map<TrnMaterialQuotation, VMTrnMaterialQuotation>(materialQuotation);
-                _trnGoodIssueNoteServie.postGoodIssueNote(null, VMMaterialQuotation);
-
+                else
+                {
+                    messageToDisplay = "AdvPaymentPending";
+                    type = ResponseType.Error;
+                }               
                 transaction.Complete();
-                return new ResponseMessage(id, resourceManager.GetString("MQApproved"), ResponseType.Success);
+                return new ResponseMessage(id, resourceManager.GetString(messageToDisplay), type);
             }
         }
 

@@ -106,7 +106,7 @@ namespace IMSWebApi.Services
                             .ToList();
         }
 
-        public List<VMTrnGoodReceiveNoteItem> getPOListForSelectedItem(Int64 categoryId, Int64? collectionId, Int64? parameterId, string matSizeCode)
+        public List<VMTrnGoodReceiveNoteItem> getPOListForSelectedItem(Int64 categoryId, Int64? collectionId, Int64? parameterId, string matSizeCode, Int64? matQualityId, Int64? matThicknessId)
         {
             string categoryCode = repo.MstCategories.Where(c => c.id == categoryId).Select(a => a.code).FirstOrDefault();
             List<VMTrnGoodReceiveNoteItem> poItemDetails = new List<VMTrnGoodReceiveNoteItem>();
@@ -175,6 +175,8 @@ namespace IMSWebApi.Services
                     poItemDetails = repo.TrnPurchaseOrderItems.Where(po => po.categoryId == categoryId
                                                                   && po.collectionId == collectionId
                                                                   && po.matSizeCode.Equals(matSizeCode)
+                                                                  && po.matQualityId == matQualityId
+                                                                  && po.matThicknessId == matThicknessId
                                                                   && (po.status.Equals("Approved") || po.status.Equals("PartialCompleted")))
                                                           .Select(s => new VMTrnGoodReceiveNoteItem
                                                           {
@@ -222,13 +224,11 @@ namespace IMSWebApi.Services
                     grnItems.createdOn = DateTime.Now;
                     grnItems.createdBy = _LoggedInuserId;
                     updateStatusAndBalQtyForPOItem(grnItems);
-                    if (!(grnItems.categoryId == 4 && grnItems.matSizeId == null))
-                    {
-                        addItemInProductDetails(grnItems, goodReceiveNoteToPost.locationId);
-                    }
+                    addItemInProductDetails(grnItems, goodReceiveNoteToPost.locationId);
                 });
 
-                var financialYear = repo.MstFinancialYears.Where(f => f.startDate <= goodReceiveNote.grnDate && f.endDate >= goodReceiveNote.grnDate).FirstOrDefault();
+                DateTime grnDate = goodReceiveNote.grnDate != null ? goodReceiveNote.grnDate.Value.Date : DateTime.Now;
+                var financialYear = repo.MstFinancialYears.Where(f => f.startDate <= grnDate && f.endDate >= grnDate).FirstOrDefault();
                 string orderNo = generateOrderNumber.orderNumber(financialYear.startDate.ToString("yy"), financialYear.endDate.ToString("yy"), financialYear.grnNumber,"GR");
                 goodReceiveNoteToPost.grnNumber = orderNo;
                 goodReceiveNoteToPost.createdOn = DateTime.Now;
@@ -254,6 +254,8 @@ namespace IMSWebApi.Services
                                                                           && po.fomSizeId == grnItem.fomSizeId
                                                                           && po.matSizeId == grnItem.matSizeId
                                                                           && po.accessoryId == grnItem.accessoryId
+                                                                          && po.matQualityId == grnItem.matQualityId
+                                                                          && po.matThicknessId == grnItem.matThicknessId
                                                                           && po.matSizeCode.Equals(grnItem.matSizeCode)
                                                                           && po.purchaseOrderId == grnItem.purchaseOrderId).FirstOrDefault();
 
@@ -290,6 +292,9 @@ namespace IMSWebApi.Services
             productStockDetail.fwrShadeId = grnItem.shadeId;
             productStockDetail.fomSizeId = grnItem.fomSizeId;
             productStockDetail.matSizeId = grnItem.matSizeId;
+            productStockDetail.qualityId = grnItem.matQualityId;
+            productStockDetail.matThicknessId = grnItem.matThicknessId;
+            productStockDetail.matSizeCode = grnItem.matSizeCode;
             productStockDetail.locationId = locationId;
             productStockDetail.stock = grnItem.receivedQuantity;
             productStockDetail.stockInKg = grnItem.fomQuantityInKG;
@@ -314,6 +319,9 @@ namespace IMSWebApi.Services
                                              && ginItem.fomSizeId == grnItem.fomSizeId
                                              && ginItem.matSizeId == grnItem.matSizeId
                                              && ginItem.accessoryId == grnItem.accessoryId
+                                             && ginItem.matQualityId == grnItem.matQualityId
+                                             && ginItem.matThicknessId == grnItem.matThicknessId
+                                             && ginItem.sizeCode.Equals(grnItem.matSizeCode)
                                              && ginItem.orderQuantity <= grnItem.receivedQuantity
                                              && ginItem.status.Equals("Created")).Select(gin => gin.TrnGoodIssueNote.ginNumber).ToList();
             }
@@ -321,5 +329,21 @@ namespace IMSWebApi.Services
             string adminEmail = repo.MstUsers.Where(u => u.userName.Equals("Administrator")).FirstOrDefault().email;
             emailNotification.notificationForPendingGIN(goodReceiveNote.grnNumber, "NotificationForPendingGIN", ginNumbers, adminEmail);
         }
+
+        public List<VMLookUpItemForMatSizeCode> getCustomMatSizeCodeLookup(Int64 categoryId, Int64 collectionId, Int64 matQualityId, Int64 matThicknessId)
+        {
+            return repo.TrnPurchaseOrderItems.Where(poItem => poItem.categoryId == categoryId
+                                                    && poItem.collectionId == collectionId
+                                                    && poItem.matQualityId == matQualityId
+                                                    && poItem.matThicknessId == matThicknessId
+                                                    && (poItem.status.Equals("Approved") || poItem.status.Equals("PartialCompleted")))
+                                            .Select(p => new VMLookUpItemForMatSizeCode
+                                            {
+                                                label = p.matSizeCode,
+                                                value = p.matSizeCode
+                                            }).ToList();
+                                            
+        }
+
     }
 }

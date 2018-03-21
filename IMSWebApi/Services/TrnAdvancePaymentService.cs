@@ -81,7 +81,7 @@ namespace IMSWebApi.Services
             {
                 TrnAdvancePayment advancePaymentToPost = Mapper.Map<VMTrnAdvancePayment, TrnAdvancePayment>(advancePayment);
 
-                var financialYear = repo.MstFinancialYears.Where(f => f.startDate <= advancePayment.advancePaymentDate && f.endDate >= advancePayment.advancePaymentDate).FirstOrDefault();
+                var financialYear = repo.MstFinancialYears.Where(f => f.startDate <= advancePayment.advancePaymentDate.Date && f.endDate >= advancePayment.advancePaymentDate.Date).FirstOrDefault();
                 string advPaymentNo = generateOrderNumber.orderNumber(financialYear.startDate.ToString("yy"), financialYear.endDate.ToString("yy"), financialYear.apNumber, "AP");
                 advancePaymentToPost.advancePaymentNumber = advPaymentNo;
                 advancePaymentToPost.createdOn = DateTime.Now;

@@ -19,6 +19,7 @@ namespace IMSWebApi.Services
     {
         WebAPIdbEntities repo = new WebAPIdbEntities();
         Int64 _LoggedInuserId;
+        bool _IsCustomer;
         ResourceManager resourceManager = null;
         GenerateOrderNumber generateOrderNumber = null;
         SendEmail emailNotification = new SendEmail();
@@ -27,6 +28,7 @@ namespace IMSWebApi.Services
         public TrnSalesInvoiceService()
         {
             _LoggedInuserId = Convert.ToInt64(HttpContext.Current.User.Identity.GetUserId());
+            _IsCustomer = HttpContext.Current.User.IsInRole("Customer");
             resourceManager = new ResourceManager("IMSWebApi.App_Data.Resource", Assembly.GetExecutingAssembly());
             generateOrderNumber = new GenerateOrderNumber();
             _trnProductStockService = new TrnProductStockService();
@@ -67,30 +69,48 @@ namespace IMSWebApi.Services
 
         public VMTrnSalesInvoice getSalesInvoiceById(Int64 id)
         {
-            var result = repo.TrnSalesInvoices.Where(s => s.id == id).FirstOrDefault();
-            VMTrnSalesInvoice salesInvoiceView = Mapper.Map<TrnSalesInvoice, VMTrnSalesInvoice>(result);
-            salesInvoiceView.TrnGoodIssueNote.TrnGoodIssueNoteItems.ForEach(ginItems => ginItems.TrnGoodIssueNote = null);
-            salesInvoiceView.TrnSalesInvoiceItems.ForEach(salesInvoiceItems => salesInvoiceItems.TrnSalesInvoice = null);
-            if (salesInvoiceView.TrnMaterialQuotation != null)
+            TrnSalesInvoice result;
+            VMTrnSalesInvoice salesInvoiceView = new VMTrnSalesInvoice();
+            if (!_IsCustomer)
             {
-                salesInvoiceView.TrnMaterialQuotation.TrnMaterialQuotationItems.ForEach(mqItem => mqItem.TrnMaterialQuotation = null);
-                salesInvoiceView.TrnMaterialQuotation.TrnMaterialSelection = null;
+                result = repo.TrnSalesInvoices.Where(s => s.id == id).FirstOrDefault();
             }
-            salesInvoiceView.TrnSalesInvoiceItems.ForEach(salesInvoiceItem =>
+            else
             {
-                salesInvoiceItem.categoryName = salesInvoiceItem.MstCategory.name;
-                salesInvoiceItem.collectionName = salesInvoiceItem.collectionId != null ? salesInvoiceItem.MstCollection.collectionCode 
-                    + " (" + salesInvoiceItem.MstCollection.MstSupplier.code  + ")": null;
-                salesInvoiceItem.serialno = salesInvoiceItem.MstCategory.code.Equals("Fabric")
-                                || salesInvoiceItem.MstCategory.code.Equals("Rug")
-                                || salesInvoiceItem.MstCategory.code.Equals("Wallpaper")
-                                ? salesInvoiceItem.MstFWRShade.serialNumber + "(" + salesInvoiceItem.MstFWRShade.shadeCode + "-" + salesInvoiceItem.MstFWRShade.MstFWRDesign.designCode + ")" : null;
-                salesInvoiceItem.size = salesInvoiceItem.MstMatSize != null ? 
-                    salesInvoiceItem.MstMatSize.sizeCode + " (" + salesInvoiceItem.MstMatSize.MstMatThickNess.thicknessCode + "-" + salesInvoiceItem.MstMatSize.MstQuality.qualityCode + ")" :
-                            salesInvoiceItem.MstFomSize != null ? salesInvoiceItem.MstFomSize.itemCode : null;
-                salesInvoiceItem.accessoryName = salesInvoiceItem.accessoryId != null ? salesInvoiceItem.MstAccessory.itemCode : null;
-            });
-            salesInvoiceView.MstCompanyInfo = Mapper.Map<MstCompanyInfo, VMCompanyInfo>(repo.MstCompanyInfoes.FirstOrDefault());
+                Int64 customerId = repo.MstCustomers.Where(c => c.userId == _LoggedInuserId).FirstOrDefault().id;
+                result = repo.TrnSalesInvoices.Where(s => s.id == id
+                                                     && !(s.status.Equals("Created"))
+                                                     && (s.TrnMaterialQuotation != null ? s.TrnMaterialQuotation.customerId == customerId : s.TrnSaleOrder.customerId == customerId)).FirstOrDefault();
+            }
+            if (result != null)
+            {
+                salesInvoiceView = Mapper.Map<TrnSalesInvoice, VMTrnSalesInvoice>(result);
+                salesInvoiceView.TrnGoodIssueNote.TrnGoodIssueNoteItems.ForEach(ginItems => ginItems.TrnGoodIssueNote = null);
+                salesInvoiceView.TrnSalesInvoiceItems.ForEach(salesInvoiceItems => salesInvoiceItems.TrnSalesInvoice = null);
+                if (salesInvoiceView.TrnMaterialQuotation != null)
+                {
+                    salesInvoiceView.TrnMaterialQuotation.TrnMaterialQuotationItems.ForEach(mqItem => mqItem.TrnMaterialQuotation = null);
+                    salesInvoiceView.TrnMaterialQuotation.TrnMaterialSelection = null;
+                }
+                salesInvoiceView.TrnSalesInvoiceItems.ForEach(salesInvoiceItem =>
+                {
+                    salesInvoiceItem.categoryName = salesInvoiceItem.MstCategory.name;
+                    salesInvoiceItem.collectionName = salesInvoiceItem.collectionId != null ? salesInvoiceItem.MstCollection.collectionCode
+                        + " (" + salesInvoiceItem.MstCollection.MstSupplier.code + ")" : null;
+                    salesInvoiceItem.serialno = salesInvoiceItem.MstCategory.code.Equals("Fabric")
+                                    || salesInvoiceItem.MstCategory.code.Equals("Rug")
+                                    || salesInvoiceItem.MstCategory.code.Equals("Wallpaper")
+                                    ? salesInvoiceItem.MstFWRShade.serialNumber + "(" + salesInvoiceItem.MstFWRShade.shadeCode + "-" + salesInvoiceItem.MstFWRShade.MstFWRDesign.designCode + ")" : null;
+                    salesInvoiceItem.size = salesInvoiceItem.MstMatSize != null ?
+                        salesInvoiceItem.MstMatSize.sizeCode + " (" + salesInvoiceItem.MstMatSize.MstMatThickNess.thicknessCode + "-" + salesInvoiceItem.MstMatSize.MstQuality.qualityCode + ")" :
+                                salesInvoiceItem.MstFomSize != null ? salesInvoiceItem.MstFomSize.itemCode :
+                                salesInvoiceItem.sizeCode != null ? salesInvoiceItem.sizeCode : null;
+                    salesInvoiceItem.accessoryName = salesInvoiceItem.accessoryId != null ? salesInvoiceItem.MstAccessory.itemCode : null;
+                });
+                salesInvoiceView.MstCompanyInfo = Mapper.Map<MstCompanyInfo, VMCompanyInfo>(repo.MstCompanyInfoes.FirstOrDefault());
+                salesInvoiceView.isApproved = salesInvoiceView.status.Equals("Created") ? false : true;
+            }
+
             return salesInvoiceView;
         }
 
@@ -101,10 +121,11 @@ namespace IMSWebApi.Services
             salesInvoice.salesOrderId = goodIssueNote.salesOrderId;
             salesInvoice.materialQuotationId = goodIssueNote.materialQuotationId;
 
-            var financialYear = repo.MstFinancialYears.Where(f => f.startDate <= goodIssueNote.ginDate && f.endDate >= goodIssueNote.ginDate).FirstOrDefault();
+            DateTime invoiceDate = goodIssueNote.ginDate != null ? goodIssueNote.ginDate.Value.Date : DateTime.Now;
+            var financialYear = repo.MstFinancialYears.Where(f => f.startDate <= invoiceDate && f.endDate >= invoiceDate).FirstOrDefault();
             string invoiceNo = generateOrderNumber.orderNumber(financialYear.startDate.ToString("yy"), financialYear.endDate.ToString("yy"), financialYear.soInvoiceNumber,"IN");
             salesInvoice.invoiceNumber = invoiceNo;
-
+            salesInvoice.isPaid = false;
             salesInvoice.invoiceDate = DateTime.Now;
             salesInvoice.status = InvoiceStatus.Created.ToString();
             salesInvoice.expectedDeliveryDate = salesInvoice.invoiceDate.AddDays(goodIssueNote.customerId != 0 ? Convert.ToDouble(goodIssueNote.MstCustomer.creditPeriodDays) : 0);
@@ -131,12 +152,14 @@ namespace IMSWebApi.Services
                     salesInvoiceItem.gst = ginItem.shadeId != null ? ginItem.MstFWRShade.MstQuality.MstHsn.gst :
                         ginItem.fomSizeId != null ? ginItem.MstFomSize.MstQuality.MstHsn.gst :
                         ginItem.matSizeId != null ? ginItem.MstMatSize.MstQuality.MstHsn.gst :
-                        ginItem.MstAccessory.MstHsn.gst;
+                        ginItem.accessoryId != null ? ginItem.MstAccessory.MstHsn.gst :
+                        ginItem.MstQuality.MstHsn.gst;
                     salesInvoiceItem.uom = ginItem.categoryId != 7 ? ginItem.MstCategory.MstUnitOfMeasure.uomCode : null;
                     salesInvoiceItem.hsnCode = ginItem.shadeId != null ? ginItem.MstFWRShade.MstQuality.MstHsn.hsnCode :
                         ginItem.fomSizeId != null ? ginItem.MstFomSize.MstQuality.MstHsn.hsnCode :
                         ginItem.matSizeId != null ? ginItem.MstMatSize.MstQuality.MstHsn.hsnCode :
-                        ginItem.MstAccessory.MstHsn.hsnCode;
+                        ginItem.accessoryId != null ? ginItem.MstAccessory.MstHsn.hsnCode :
+                        ginItem.MstQuality.MstHsn.hsnCode;
 
                     salesInvoiceItem.rateWithGST = salesInvoiceItem.rate + (salesInvoiceItem.rate * salesInvoiceItem.gst) / 100;
                     //salesInvoiceItem.amountWithGST = Convert.ToInt32(Math.Round((Convert.ToDecimal(salesInvoiceItem.rateWithGST) - (Convert.ToDecimal(salesInvoiceItem.rateWithGST) * Convert.ToDecimal(ginItem.discountPercentage)) / 100) * Convert.ToDecimal(ginItem.issuedQuantity))); 
@@ -169,6 +192,9 @@ namespace IMSWebApi.Services
                 salesInvoiceToPut.totalAmount = salesInvoice.totalAmount;
                 salesInvoiceToPut.amountPaid = salesInvoice.amountPaid;
                 salesInvoiceToPut.courierDockYardNumber = salesInvoice.courierDockYardNumber;
+                salesInvoiceToPut.isPaid = salesInvoice.isPaid;
+
+                salesInvoiceToPut.status = salesInvoice.isApproved ? InvoiceStatus.Approved.ToString() : salesInvoice.status;
 
                 updateSalesInvoiceItems(salesInvoice);
 
@@ -226,7 +252,8 @@ namespace IMSWebApi.Services
                     || s.invoiceNumber.StartsWith(search)
                     || s.courierDockYardNumber.StartsWith(search)
                     || s.status.StartsWith(search) : true
-                    && (s.TrnMaterialQuotation != null ? s.TrnMaterialQuotation.customerId == customerId : s.TrnSaleOrder.customerId == customerId))
+                    && (s.TrnMaterialQuotation != null ? s.TrnMaterialQuotation.customerId == customerId : s.TrnSaleOrder.customerId == customerId)
+                    && !(s.status.Equals("Created")))
                      .Select(s => new VMTrnSalesInvoiceList
                      {
                          id = s.id,
@@ -246,7 +273,8 @@ namespace IMSWebApi.Services
                     || s.invoiceNumber.StartsWith(search)
                     || s.TrnSaleOrder.orderNumber.StartsWith(search)
                     || s.status.StartsWith(search) : true
-                    && (s.TrnMaterialQuotation != null ? s.TrnMaterialQuotation.customerId == customerId : s.TrnSaleOrder.customerId == customerId)).Count(),
+                    && (s.TrnMaterialQuotation != null ? s.TrnMaterialQuotation.customerId == customerId : s.TrnSaleOrder.customerId == customerId)
+                    && !(s.status.Equals("Created"))).Count(),
                 Page = page
             };
         }

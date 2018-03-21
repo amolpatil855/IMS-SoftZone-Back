@@ -17,6 +17,8 @@ namespace IMSWebApi.ViewModel
         public Nullable<long> fomSizeId { get; set; }
         public Nullable<long> matSizeId { get; set; }
         public string sizeCode { get; set; }
+        public Nullable<long> matQualityId { get; set; }
+        public Nullable<long> matThicknessId { get; set; }
         public Nullable<long> accessoryId { get; set; }
         public decimal orderQuantity { get; set; }
         public Nullable<decimal> issuedQuantity { get; set; }
@@ -39,6 +41,8 @@ namespace IMSWebApi.ViewModel
         public virtual VMFomSize MstFomSize { get; set; }
         public virtual VMFWRShade MstFWRShade { get; set; }
         public virtual VMMatSize MstMatSize { get; set; }
+        public virtual VMMatThickness MstMatThickness { get; set; }
+        public virtual VMQuality MstQuality { get; set; }
         public virtual VMTrnGoodIssueNote TrnGoodIssueNote { get; set; }
     }
 }

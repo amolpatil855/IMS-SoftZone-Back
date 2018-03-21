@@ -81,18 +81,19 @@ namespace IMSWebApi.Services
                                 || ginItem.MstCategory.code.Equals("Wallpaper")
                                 ? ginItem.MstFWRShade.serialNumber + "(" + ginItem.MstFWRShade.shadeCode + "-" + ginItem.MstFWRShade.MstFWRDesign.designCode + ")" : null;
                 ginItem.size = ginItem.MstMatSize != null ? ginItem.MstMatSize.sizeCode + " (" + ginItem.MstMatSize.MstMatThickNess.thicknessCode + "-" + ginItem.MstMatSize.MstQuality.qualityCode + ")" :
-                            ginItem.MstFomSize != null ? ginItem.MstFomSize.itemCode : null;
+                            ginItem.MstFomSize != null ? ginItem.MstFomSize.itemCode : 
+                            ginItem.sizeCode != null ? ginItem.sizeCode + " (" + ginItem.MstMatThickness.thicknessCode + "-" + ginItem.MstQuality.qualityCode + ")" : null;
                 ginItem.accessoryName = ginItem.accessoryId != null ? ginItem.MstAccessory.itemCode : null;
 
-                if (!(ginItem.categoryId == 4 && ginItem.matSizeId == null))
-                {
-                    stockAvailable = repo.TrnProductStocks.Where(p => p.categoryId == ginItem.categoryId
+                stockAvailable = repo.TrnProductStocks.Where(p => p.categoryId == ginItem.categoryId
                                                                      && p.collectionId == ginItem.collectionId
                                                                      && p.fwrShadeId == ginItem.shadeId
                                                                      && p.fomSizeId == ginItem.fomSizeId
                                                                      && p.matSizeId == ginItem.matSizeId
+                                                                     && p.matSizeCode.Equals(ginItem.sizeCode)
+                                                                     && p.qualityId == ginItem.matQualityId
+                                                                     && p.matThicknessId == ginItem.matThicknessId
                                                                      && p.accessoryId == ginItem.accessoryId).FirstOrDefault().stock;
-                }
                 ginItem.availableStock = stockAvailable;
             });
             if (goodIssueNoteView.TrnMaterialQuotation != null)
@@ -115,7 +116,7 @@ namespace IMSWebApi.Services
                 goodIssueNoteToPost.materialQuotationId = materialQuotation != null ? materialQuotation.id : (long?)null;
                 goodIssueNoteToPost.materialQuotationNumber = materialQuotation != null ? materialQuotation.materialQuotationNumber : null;
                 DateTime dateForFinancialYear = saleOrder != null ? saleOrder.orderDate : materialQuotation.materialQuotationDate;
-                var financialYear = repo.MstFinancialYears.Where(f => f.startDate <= dateForFinancialYear && f.endDate >= dateForFinancialYear).FirstOrDefault();
+                var financialYear = repo.MstFinancialYears.Where(f => f.startDate <= dateForFinancialYear.Date && f.endDate >= dateForFinancialYear.Date).FirstOrDefault();
                 string orderNo = generateOrderNumber.orderNumber(financialYear.startDate.ToString("yy"), financialYear.endDate.ToString("yy"), financialYear.ginNumber, "GI");
                 goodIssueNoteToPost.ginNumber = orderNo;
                 goodIssueNoteToPost.ginDate = DateTime.Now;
@@ -162,6 +163,8 @@ namespace IMSWebApi.Services
                                 ginItem.shadeId = mqItem.shadeId;
                                 ginItem.fomSizeId = null;
                                 ginItem.matSizeId = mqItem.matSizeId;
+                                ginItem.matQualityId = mqItem.qualityId;
+                                ginItem.matThicknessId = mqItem.matThicknessId;
                                 ginItem.sizeCode = mqItem.matSizeId == null && (mqItem.matHeight != null && mqItem.matWidth != null) ? (mqItem.matHeight + "x" + mqItem.matWidth) : null;
                                 ginItem.accessoryId = null;
                                 ginItem.orderQuantity = mqItem.balanceQuantity;
@@ -298,6 +301,8 @@ namespace IMSWebApi.Services
                                                                           && mq.collectionId == ginItem.collectionId
                                                                           && mq.shadeId == ginItem.shadeId
                                                                           && (mq.matHeight + "x" + mq.matWidth).Equals(ginItem.sizeCode)
+                                                                          && mq.qualityId == ginItem.matQualityId
+                                                                          && mq.matThicknessId == ginItem.matThicknessId
                                                                           && mq.materialQuotationId == ginItem.TrnGoodIssueNote.materialQuotationId).FirstOrDefault();
             }
 
@@ -355,15 +360,15 @@ namespace IMSWebApi.Services
             ginItemWithStatusCreated.ForEach(ginItem =>
             {
                 decimal stockAvailable = 0;
-                if (!(ginItem.categoryId == 4 && ginItem.matSizeId == null))
-                {
-                    stockAvailable = repo.TrnProductStocks.Where(p => p.categoryId == ginItem.categoryId
+                stockAvailable = repo.TrnProductStocks.Where(p => p.categoryId == ginItem.categoryId
                                                                     && p.collectionId == ginItem.collectionId
                                                                     && p.fwrShadeId == ginItem.shadeId
                                                                     && p.fomSizeId == ginItem.fomSizeId
                                                                     && p.matSizeId == ginItem.matSizeId
+                                                                    && p.qualityId == ginItem.matQualityId
+                                                                    && p.matThicknessId == ginItem.matThicknessId
+                                                                    && p.matSizeCode.Equals(ginItem.sizeCode)
                                                                     && p.accessoryId == ginItem.accessoryId).FirstOrDefault().stock;
-                }
 
                 if (stockAvailable >= ginItem.orderQuantity)
                 {
@@ -409,6 +414,9 @@ namespace IMSWebApi.Services
                                                                      && p.fwrShadeId == ginItem.shadeId
                                                                      && p.fomSizeId == ginItem.fomSizeId
                                                                      && p.matSizeId == ginItem.matSizeId
+                                                                     && p.qualityId == ginItem.matQualityId
+                                                                     && p.matThicknessId == ginItem.matThicknessId
+                                                                     && p.matSizeCode.Equals(ginItem.sizeCode)
                                                                      && p.accessoryId == ginItem.accessoryId).FirstOrDefault().stock;
                 if (stockAvailable >= ginItem.orderQuantity)
                 {
