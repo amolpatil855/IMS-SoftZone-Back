@@ -102,7 +102,8 @@ namespace IMSWebApi.Services
             salesInvoice.salesOrderId = goodIssueNote.salesOrderId;
             salesInvoice.materialQuotationId = goodIssueNote.materialQuotationId;
 
-            var financialYear = repo.MstFinancialYears.Where(f => f.startDate <= goodIssueNote.ginDate.Value.Date && f.endDate >= goodIssueNote.ginDate.Value.Date).FirstOrDefault();
+            DateTime invoiceDate = goodIssueNote.ginDate != null ? goodIssueNote.ginDate.Value.Date : DateTime.Now;
+            var financialYear = repo.MstFinancialYears.Where(f => f.startDate <= invoiceDate && f.endDate >= invoiceDate).FirstOrDefault();
             string invoiceNo = generateOrderNumber.orderNumber(financialYear.startDate.ToString("yy"), financialYear.endDate.ToString("yy"), financialYear.soInvoiceNumber,"IN");
             salesInvoice.invoiceNumber = invoiceNo;
 
