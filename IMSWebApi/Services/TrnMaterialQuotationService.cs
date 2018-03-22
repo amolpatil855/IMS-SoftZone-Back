@@ -44,14 +44,14 @@ namespace IMSWebApi.Services
                     || mq.status.StartsWith(search) : true)
                     .Select(mq => new VMTrnMaterialQuotationList
                     {
-                        quotationId = mq.id,
+                        id = mq.id,
                         materialQuotationNumber = mq.materialQuotationNumber,
                         materialQuotationDate = mq.materialQuotationDate,
                         customerName = mq.MstCustomer != null ? mq.MstCustomer.name : null,
                         totalAmount = mq.totalAmount,
                         status = mq.status
                     })
-                    .OrderByDescending(p => p.quotationId).Skip(page * pageSize).Take(pageSize).ToList();
+                    .OrderByDescending(p => p.id).Skip(page * pageSize).Take(pageSize).ToList();
             return new ListResult<VMTrnMaterialQuotationList>
             {
                 Data = materialQuotationView,
@@ -65,13 +65,13 @@ namespace IMSWebApi.Services
             return repo.TrnMaterialQuotations.Where(mq => mq.status.Equals("Created") || mq.status.Equals("Approved"))
                 .Select(mq => new VMTrnMaterialQuotationList
                     {
-                        quotationId = mq.id,
+                        id = mq.id,
                         materialQuotationNumber = mq.materialQuotationNumber,
                         totalAmount = mq.totalAmount,
                         customerName = mq.MstCustomer != null ? mq.MstCustomer.name : null,
                         customerId = mq.MstCustomer.id
                     })
-                    .OrderByDescending(o => o.quotationId)
+                    .OrderByDescending(o => o.id)
                     .ToList();
         }
 

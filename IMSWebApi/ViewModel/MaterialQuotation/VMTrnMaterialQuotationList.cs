@@ -7,7 +7,7 @@ namespace IMSWebApi.ViewModel
 {
     public class VMTrnMaterialQuotationList
     {
-        public long quotationId { get; set; }
+        public long id { get; set; }
         public string materialQuotationNumber { get; set; }
         public System.DateTime materialQuotationDate { get; set; }
         public long customerId { get; set; }
