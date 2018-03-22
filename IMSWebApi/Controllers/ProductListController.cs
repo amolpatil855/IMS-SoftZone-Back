@@ -32,26 +32,6 @@ namespace IMSWebApi.Controllers
         // GET api/ProductList   
         [ApiAuthorize(AccessLevel = "customerLogin")]
         [HttpGet]
-        [Route("api/ProductList/GetRugProducts")]
-        public IHttpActionResult GetRugProducts(int pageSize = 0, int page = 0, string search = null)
-        {
-            var result = _productListService.getRugProducts(pageSize, page, search);
-            return Ok(result);
-        }
-
-        // GET api/ProductList   
-        [ApiAuthorize(AccessLevel = "customerLogin")]
-        [HttpGet]
-        [Route("api/ProductList/GetWallpaperProducts")]
-        public IHttpActionResult GetWallpaperProducts(int pageSize = 0, int page = 0, string search = null)
-        {
-            var result = _productListService.getWallpaperProducts(pageSize, page, search);
-            return Ok(result);
-        }
-
-        // GET api/ProductList   
-        [ApiAuthorize(AccessLevel = "customerLogin")]
-        [HttpGet]
         [Route("api/ProductList/GetFoamProducts")]
         public IHttpActionResult GetFoamProducts(int pageSize = 0, int page = 0, string search = null)
         {
@@ -66,16 +46,6 @@ namespace IMSWebApi.Controllers
         public IHttpActionResult GetAccessoryProducts(int pageSize = 0, int page = 0, string search = null)
         {
             var result = _productListService.getAccessoryProducts(pageSize, page, search);
-            return Ok(result);
-        }
-
-        // GET api/ProductList   
-        [ApiAuthorize(AccessLevel = "customerLogin")]
-        [HttpGet]
-        [Route("api/ProductList/GetMattressProducts")]
-        public IHttpActionResult GetMattressProducts(int pageSize = 0, int page = 0, string search = null)
-        {
-            var result = _productListService.getMattressProducts(pageSize, page, search);
             return Ok(result);
         }
     }

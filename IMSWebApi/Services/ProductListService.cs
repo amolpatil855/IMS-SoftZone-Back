@@ -25,10 +25,10 @@ namespace IMSWebApi.Services
             accessoryProductView = repo.vwAccessories.Where(a => !string.IsNullOrEmpty(search)
                     ? a.itemCode.StartsWith(search)
                     || a.name.StartsWith(search)
-                    || a.size.StartsWith(search): true)
+                    || a.size.StartsWith(search) : true)
                     .OrderBy(q => q.itemCode)
                     .Skip(page * pageSize).Take(pageSize).ToList();
-
+            accessoryProductView.ForEach(a => a.availableStock = a.availableStock > 0 ? a.availableStock : 0);
             return new ListResult<vwAccessory>
             {
                 Data = accessoryProductView,
@@ -47,10 +47,11 @@ namespace IMSWebApi.Services
                     ? f.Collection.StartsWith(search)
                     || f.QDS.StartsWith(search)
                     || f.serialNumber.ToString().StartsWith(search) : true
-                    && f.Category.Equals("Fabric"))
+                    && f.Category.Equals("Fabric")
+                    && f.flatRate != null)
                     .OrderBy(q => q.Collection)
-                    .Skip(page * pageSize).Take(pageSize).ToList();
-
+                    .Skip(page * pageSize).Take(pageSize).Distinct().ToList();
+            fabricProductView.ForEach(f => f.availableStock = f.availableStock > 0 ? f.availableStock : 0);
             return new ListResult<vwFWR>
             {
                 Data = fabricProductView,
@@ -58,53 +59,8 @@ namespace IMSWebApi.Services
                     ? f.Collection.StartsWith(search)
                     || f.QDS.StartsWith(search)
                     || f.serialNumber.ToString().StartsWith(search) : true
-                    && f.Category.Equals("Fabric")).Count(),
-                Page = page
-            };
-        }
-
-        public ListResult<vwFWR> getRugProducts(int pageSize, int page, string search)
-        {
-            List<vwFWR> rugProductView;
-            rugProductView = repo.vwFWRs.Where(f => !string.IsNullOrEmpty(search)
-                    ? f.Collection.StartsWith(search)
-                    || f.QDS.StartsWith(search)
-                    || f.serialNumber.ToString().StartsWith(search) : true
-                    && f.Category.Equals("Rug"))
-                    .OrderBy(q => q.Collection)
-                    .Skip(page * pageSize).Take(pageSize).ToList();
-
-            return new ListResult<vwFWR>
-            {
-                Data = rugProductView,
-                TotalCount = repo.vwFWRs.Where(f => !string.IsNullOrEmpty(search)
-                    ? f.Collection.StartsWith(search)
-                    || f.QDS.StartsWith(search)
-                    || f.serialNumber.ToString().StartsWith(search) : true
-                    && f.Category.Equals("Rug")).Count(),
-                Page = page
-            };
-        }
-
-        public ListResult<vwFWR> getWallpaperProducts(int pageSize, int page, string search)
-        {
-            List<vwFWR> wallpaperProductView;
-            wallpaperProductView = repo.vwFWRs.Where(f => !string.IsNullOrEmpty(search)
-                    ? f.Collection.StartsWith(search)
-                    || f.QDS.StartsWith(search)
-                    || f.serialNumber.ToString().StartsWith(search) : true
-                    && f.Category.Equals("Wallpaper"))
-                    .OrderBy(q => q.Collection)
-                    .Skip(page * pageSize).Take(pageSize).ToList();
-
-            return new ListResult<vwFWR>
-            {
-                Data = wallpaperProductView,
-                TotalCount = repo.vwFWRs.Where(f => !string.IsNullOrEmpty(search)
-                    ? f.Collection.StartsWith(search)
-                    || f.QDS.StartsWith(search)
-                    || f.serialNumber.ToString().StartsWith(search) : true
-                    && f.Category.Equals("Wallpaper")).Count(),
+                    && f.Category.Equals("Fabric")
+                    && f.flatRate != null).Count(),
                 Page = page
             };
         }
@@ -120,7 +76,7 @@ namespace IMSWebApi.Services
                     || f.itemCode.StartsWith(search) : true)
                     .OrderBy(q => q.Collection)
                     .Skip(page * pageSize).Take(pageSize).ToList();
-
+            foamProductView.ForEach(f => f.availableStock = f.availableStock > 0 ? f.availableStock : 0);
             return new ListResult<vwFoam>
             {
                 Data = foamProductView,
@@ -133,28 +89,6 @@ namespace IMSWebApi.Services
                 Page = page
             };
         }
-
-        public ListResult<vwMattress> getMattressProducts(int pageSize, int page, string search)
-        {
-            List<vwMattress> mattressProductView;
-            mattressProductView = repo.vwMattresses.Where(m => !string.IsNullOrEmpty(search)
-                    ? m.Collection.StartsWith(search)
-                    || m.qualityCode.StartsWith(search)
-                    || m.thicknessCode.ToString().StartsWith(search)
-                    || m.sizeCode.StartsWith(search) : true)
-                    .OrderBy(q => q.Collection)
-                    .Skip(page * pageSize).Take(pageSize).ToList();
-
-            return new ListResult<vwMattress>
-            {
-                Data = mattressProductView,
-                TotalCount = repo.vwMattresses.Where(m => !string.IsNullOrEmpty(search)
-                    ? m.Collection.StartsWith(search)
-                    || m.qualityCode.StartsWith(search)
-                    || m.thicknessCode.ToString().StartsWith(search)
-                    || m.sizeCode.StartsWith(search) : true).Count(),
-                Page = page
-            };
-        }
     }
+        
 }
