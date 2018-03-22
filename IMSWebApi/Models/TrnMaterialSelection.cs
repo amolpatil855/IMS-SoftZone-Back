@@ -23,7 +23,7 @@ namespace IMSWebApi.Models
         public long id { get; set; }
         public long customerId { get; set; }
         public string materialSelectionNumber { get; set; }
-        public long referById { get; set; }
+        public Nullable<long> referById { get; set; }
         public System.DateTime materialSelectionDate { get; set; }
         public bool isQuotationCreated { get; set; }
         public System.DateTime createdOn { get; set; }

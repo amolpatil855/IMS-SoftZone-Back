@@ -13,8 +13,7 @@ namespace IMSWebApi.ViewModel
         public long customerId { get; set; }
         [MaxLength(20)]
         public string materialSelectionNumber { get; set; }
-        [Required]
-        public long referById { get; set; }
+        public Nullable<long> referById { get; set; }
         public System.DateTime materialSelectionDate { get; set; }
         public bool isQuotationCreated { get; set; }
         
