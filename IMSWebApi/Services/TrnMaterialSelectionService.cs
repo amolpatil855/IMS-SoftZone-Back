@@ -111,7 +111,8 @@ namespace IMSWebApi.Services
             using (var transaction = new TransactionScope())
             {
                 var materialSelectionToPut = repo.TrnMaterialSelections.Where(ms => ms.id == materialSelection.id).FirstOrDefault();
-
+                materialSelectionToPut.customerId = materialSelection.customerId;
+                materialSelectionToPut.referById = materialSelection.referById;
                 materialSelectionToPut.isQuotationCreated = materialSelection.isQuotationCreated;
 
                 updateMSItems(materialSelection);
