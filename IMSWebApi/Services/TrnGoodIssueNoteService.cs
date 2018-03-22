@@ -308,7 +308,7 @@ namespace IMSWebApi.Services
 
             mqItem.balanceQuantity = ginItem.issuedQuantity > mqItem.balanceQuantity ? 0 : mqItem.balanceQuantity - Convert.ToDecimal(ginItem.issuedQuantity);
             mqItem.deliverQuantity += Convert.ToDecimal(ginItem.issuedQuantity);
-            mqItem.status = mqItem.balanceQuantity == 0 ? SaleOrderStatus.Completed.ToString() : mqItem.status;
+            mqItem.status = mqItem.balanceQuantity == 0 ? MaterialQuotationStatus.Completed.ToString() : mqItem.status;
             mqItem.updatedBy = _LoggedInuserId;
             mqItem.updatedOn = DateTime.Now;
             repo.SaveChanges();

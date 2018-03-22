@@ -48,7 +48,8 @@ namespace IMSWebApi.Enums
     {
         Created = 1,
         Approved = 2,
-        Completed = 3,
-        Cancelled = 4
+        PartialCompleted = 3,
+        Completed = 4,
+        Cancelled = 5
     }
 }

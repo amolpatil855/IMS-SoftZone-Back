@@ -60,15 +60,18 @@ namespace IMSWebApi.Services
             };
         }
 
-        public List<VMLookUpItem> getMaterialQuotationLookup()
+        public List<VMTrnMaterialQuotationList> getMaterialQuotationLookup()
         {
-            return repo.TrnMaterialQuotations.
-                    Select(mq => new VMLookUpItem
+            return repo.TrnMaterialQuotations.Where(mq => mq.status.Equals("Created") || mq.status.Equals("Approved"))
+                .Select(mq => new VMTrnMaterialQuotationList
                     {
-                        label = mq.materialQuotationNumber,
-                        value = mq.id
+                        id = mq.id,
+                        materialQuotationNumber = mq.materialQuotationNumber,
+                        totalAmount = mq.totalAmount,
+                        customerName = mq.MstCustomer != null ? mq.MstCustomer.name : null,
+                        customerId = mq.MstCustomer.id
                     })
-                    .OrderByDescending(o=>o.value)
+                    .OrderByDescending(o => o.id)
                     .ToList();
         }
 
@@ -81,14 +84,13 @@ namespace IMSWebApi.Services
                         value = c.customerId
                     }).OrderByDescending(o => o.label).FirstOrDefault();
         }
-        
 
         public VMTrnMaterialQuotation getMaterialQuotationById(Int64 id)
         {
             var result = repo.TrnMaterialQuotations.Where(mq => mq.id == id).FirstOrDefault();
             VMTrnMaterialQuotation materialQuotationView = Mapper.Map<TrnMaterialQuotation, VMTrnMaterialQuotation>(result);
             materialQuotationView.customerName = result.MstCustomer.name;
-
+            materialQuotationView.materialSelectionNo = result.TrnMaterialSelection != null ? result.TrnMaterialSelection.materialSelectionNumber : null;
             materialQuotationView.TrnMaterialQuotationItems.ForEach(mqItem =>
             {
                 mqItem.categoryName = mqItem.MstCategory.name;
@@ -120,7 +122,7 @@ namespace IMSWebApi.Services
                     mqItems.createdBy = _LoggedInuserId;
                 }
                 var financialYear = repo.MstFinancialYears.Where(f => f.startDate <= materialQuotationToPost.materialQuotationDate.Date && f.endDate >= materialQuotationToPost.materialQuotationDate.Date).FirstOrDefault();
-                string materialQuotationNo = generateOrderNumber.orderNumber(financialYear.startDate.ToString("yy"), financialYear.endDate.ToString("yy"), financialYear.materialSelectionNumber, "MQ");
+                string materialQuotationNo = generateOrderNumber.orderNumber(financialYear.startDate.ToString("yy"), financialYear.endDate.ToString("yy"), financialYear.materialQuotationNumber, "MQ");
                 materialQuotationToPost.materialQuotationNumber = materialQuotationNo;
                 materialQuotationToPost.status = MaterialQuotationStatus.Created.ToString();
                 materialQuotationToPost.createdOn = DateTime.Now;

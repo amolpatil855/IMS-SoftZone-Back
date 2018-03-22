@@ -193,7 +193,7 @@ namespace IMSWebApi.Services
             VMMaterialQuotation.customerName = materialSelection.MstCustomer.name;
 
             VMMaterialQuotation.referById = materialSelection.referById;
-            VMMaterialQuotation.agentName = materialSelection.MstAgent.name;
+            VMMaterialQuotation.agentName = materialSelection.MstAgent != null ? materialSelection.MstAgent.name : null;
 
             foreach (var msItem in materialSelection.TrnMaterialSelectionItems)
             {
