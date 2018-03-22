@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -9,9 +10,13 @@ namespace IMSWebApi.ViewModel
     {
         public long id { get; set; }
         public long materialSelectionId { get; set; }
+        [Required]
         public string selectionType { get; set; }
+        [Required]
         public string area { get; set; }
+        [Required]
         public long categoryId { get; set; }
+        [Required]
         public long collectionId { get; set; }
         public Nullable<long> shadeId { get; set; }
         public Nullable<long> matThicknessId { get; set; }

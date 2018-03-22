@@ -332,7 +332,7 @@ namespace IMSWebApi.Services
 
         public List<VMLookUpItemForMatSizeCode> getCustomMatSizeCodeLookup(Int64 categoryId, Int64 collectionId, Int64 matQualityId, Int64 matThicknessId)
         {
-            return repo.TrnPurchaseOrderItems.Where(poItem => poItem.categoryId == categoryId
+            var result = repo.TrnPurchaseOrderItems.Where(poItem => poItem.categoryId == categoryId
                                                     && poItem.collectionId == collectionId
                                                     && poItem.matQualityId == matQualityId
                                                     && poItem.matThicknessId == matThicknessId
@@ -342,6 +342,7 @@ namespace IMSWebApi.Services
                                                 label = p.matSizeCode,
                                                 value = p.matSizeCode
                                             }).ToList();
+            return result.Distinct(new VMLookUpItemForMatSizeCode()).ToList();
                                             
         }
 
