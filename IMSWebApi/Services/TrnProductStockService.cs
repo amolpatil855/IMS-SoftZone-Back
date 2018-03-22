@@ -429,13 +429,26 @@ namespace IMSWebApi.Services
             }
             else
             {
-                product = repo.TrnProductStocks.Where(z => z.categoryId == materialQuotationItem.categoryId
+                if (materialQuotationItem.matWidth != null && materialQuotationItem.matHeight != null)
+                {
+                    product = repo.TrnProductStocks.Where(z => z.categoryId == materialQuotationItem.categoryId
                                                       && z.collectionId == materialQuotationItem.collectionId
                                                       && z.fwrShadeId == materialQuotationItem.shadeId
                                                       && z.matSizeId == materialQuotationItem.matSizeId
                                                       && z.qualityId == materialQuotationItem.qualityId
                                                       && z.matThicknessId == materialQuotationItem.matThicknessId
-                                                      && z.matSizeCode.Equals(materialQuotationItem.matHeight+"x"+materialQuotationItem.matWidth)).FirstOrDefault();
+                                                      && z.matSizeCode.Equals((materialQuotationItem.matHeight + "x" + materialQuotationItem.matWidth))).FirstOrDefault();
+                }
+                else
+                {
+                    product = repo.TrnProductStocks.Where(z => z.categoryId == materialQuotationItem.categoryId
+                                                      && z.collectionId == materialQuotationItem.collectionId
+                                                      && z.fwrShadeId == materialQuotationItem.shadeId
+                                                      && z.matSizeId == materialQuotationItem.matSizeId
+                                                      && z.qualityId == materialQuotationItem.qualityId
+                                                      && z.matThicknessId == materialQuotationItem.matThicknessId).FirstOrDefault();
+                }
+                
             }
             if (product != null)
             {
@@ -546,14 +559,26 @@ namespace IMSWebApi.Services
             }
             else
             {
-                product = repo.TrnProductStocks.Where(z => z.categoryId == materialQuotationItem.categoryId
+                if (materialQuotationItem.matWidth != null && materialQuotationItem.matHeight != null)
+                {
+                    product = repo.TrnProductStocks.Where(z => z.categoryId == materialQuotationItem.categoryId
                                                       && z.collectionId == materialQuotationItem.collectionId
                                                       && z.fwrShadeId == materialQuotationItem.shadeId
                                                       && z.matSizeId == materialQuotationItem.matSizeId
-                                                      && z.matSizeCode.Equals((materialQuotationItem.matHeight+"x"+materialQuotationItem.matWidth))
                                                       && z.qualityId == materialQuotationItem.qualityId
                                                       && z.matThicknessId == materialQuotationItem.matThicknessId
-                                                      ).FirstOrDefault();
+                                                      && z.matSizeCode.Equals((materialQuotationItem.matHeight + "x" + materialQuotationItem.matWidth))).FirstOrDefault();
+                }
+                else
+                {
+                    product = repo.TrnProductStocks.Where(z => z.categoryId == materialQuotationItem.categoryId
+                                                      && z.collectionId == materialQuotationItem.collectionId
+                                                      && z.fwrShadeId == materialQuotationItem.shadeId
+                                                      && z.matSizeId == materialQuotationItem.matSizeId
+                                                      && z.qualityId == materialQuotationItem.qualityId
+                                                      && z.matThicknessId == materialQuotationItem.matThicknessId).FirstOrDefault();
+                }
+                
             }
 
             if (product != null)
