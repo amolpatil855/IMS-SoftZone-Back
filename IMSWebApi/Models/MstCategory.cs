@@ -26,7 +26,6 @@ namespace IMSWebApi.Models
             this.MstQualities = new HashSet<MstQuality>();
             this.MstFWRShades = new HashSet<MstFWRShade>();
             this.TrnGoodReceiveNoteItems = new HashSet<TrnGoodReceiveNoteItem>();
-            this.TrnMaterialQuotationItems = new HashSet<TrnMaterialQuotationItem>();
             this.TrnMaterialSelectionItems = new HashSet<TrnMaterialSelectionItem>();
             this.TrnPurchaseOrderItems = new HashSet<TrnPurchaseOrderItem>();
             this.TrnSaleOrderItems = new HashSet<TrnSaleOrderItem>();
@@ -34,6 +33,7 @@ namespace IMSWebApi.Models
             this.TrnProductStockDetails = new HashSet<TrnProductStockDetail>();
             this.TrnProductStocks = new HashSet<TrnProductStock>();
             this.TrnGoodIssueNoteItems = new HashSet<TrnGoodIssueNoteItem>();
+            this.TrnMaterialQuotationItems = new HashSet<TrnMaterialQuotationItem>();
         }
     
         public long id { get; set; }
@@ -56,7 +56,6 @@ namespace IMSWebApi.Models
         public virtual ICollection<MstQuality> MstQualities { get; set; }
         public virtual ICollection<MstFWRShade> MstFWRShades { get; set; }
         public virtual ICollection<TrnGoodReceiveNoteItem> TrnGoodReceiveNoteItems { get; set; }
-        public virtual ICollection<TrnMaterialQuotationItem> TrnMaterialQuotationItems { get; set; }
         public virtual ICollection<TrnMaterialSelectionItem> TrnMaterialSelectionItems { get; set; }
         public virtual ICollection<TrnPurchaseOrderItem> TrnPurchaseOrderItems { get; set; }
         public virtual ICollection<TrnSaleOrderItem> TrnSaleOrderItems { get; set; }
@@ -64,5 +63,6 @@ namespace IMSWebApi.Models
         public virtual ICollection<TrnProductStockDetail> TrnProductStockDetails { get; set; }
         public virtual ICollection<TrnProductStock> TrnProductStocks { get; set; }
         public virtual ICollection<TrnGoodIssueNoteItem> TrnGoodIssueNoteItems { get; set; }
+        public virtual ICollection<TrnMaterialQuotationItem> TrnMaterialQuotationItems { get; set; }
     }
 }
