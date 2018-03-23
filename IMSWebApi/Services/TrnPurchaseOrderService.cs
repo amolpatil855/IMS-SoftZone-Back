@@ -146,7 +146,10 @@ namespace IMSWebApi.Services
                     poItems.balanceQuantity = poItems.orderQuantity;
                     poItems.createdOn = DateTime.Now;
                     poItems.createdBy = _LoggedInuserId;
-                    _trnProductStockService.AddpoIteminStock(poItems);
+                    if (_IsAdministrator)
+                    {
+                        _trnProductStockService.AddpoIteminStock(poItems);    
+                    }
                 }
 
                 DateTime poDate = purchaseOrder.orderDate != null ? purchaseOrder.orderDate.Value.Date : DateTime.Now;
@@ -318,6 +321,9 @@ namespace IMSWebApi.Services
                     purchaseOrder.updatedBy = _LoggedInuserId;
                     messageToDisplay = "POCancelled";
                     type = ResponseType.Success;
+
+                    string adminEmail = repo.MstUsers.Where(u => u.userName.Equals("Administrator")).FirstOrDefault().email;
+                    emailNotification.notifyAdminForCancelledPO(purchaseOrder, "NotifyAdminForCancelledPO", adminEmail);
                 }
                 else
                 {
