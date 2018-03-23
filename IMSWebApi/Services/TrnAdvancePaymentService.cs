@@ -47,7 +47,7 @@ namespace IMSWebApi.Services
                         amount = advPayment.amount,
                         paymentMode = advPayment.paymentMode
                     })
-                    .OrderBy(q => q.id)
+                    .OrderByDescending(q => q.id)
                     .Skip(page * pageSize).Take(pageSize).ToList();
 
             return new ListResult<VMTrnAdvancePaymentList>
@@ -69,7 +69,7 @@ namespace IMSWebApi.Services
             VMTrnAdvancePayment advancePaymentView = Mapper.Map<TrnAdvancePayment, VMTrnAdvancePayment>(result);
             advancePaymentView.materialQuotationNumber = result.materialQuotationId != null ? result.TrnMaterialQuotation.materialQuotationNumber : string.Empty;
             advancePaymentView.customerName = result.customerId != null ? result.MstCustomer.name : string.Empty;
-
+            
             advancePaymentView.TrnMaterialQuotation.TrnMaterialSelection = null;
             advancePaymentView.TrnMaterialQuotation.TrnMaterialQuotationItems.ForEach(mqItem => mqItem.TrnMaterialQuotation = null);
             return advancePaymentView;
