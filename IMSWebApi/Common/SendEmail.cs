@@ -10,8 +10,7 @@ using IMSWebApi.ViewModel.SalesInvoice;
 namespace IMSWebApi.Common
 {
     public class SendEmail
-    {
-
+    {   
         public static string _smtpAddress =ConfigurationManager.AppSettings["SMTPHost"];
         public static string _emailFrom = ConfigurationManager.AppSettings["SMTPUserName"];
         public static string _password = ConfigurationManager.AppSettings["SMTPPassword"];
@@ -378,6 +377,46 @@ namespace IMSWebApi.Common
             objEmail.Password = _password;
             objEmail.EmailTo.Add(adminEmail);
             objEmail.Subject = "GRN Created";
+            objEmail.EnableSSL = true;
+            objEmail.Body = sbEmailDetails.ToString();
+            objEmail.isBodyHtml = true;
+            objEmail.EnableSSL = true;
+            ReusableEmailComponent.DAOFactoryProvider.GetEmailDao().sendMail(objEmail);
+        }
+
+        //Notify Admin, Customer for Material Quotation Created
+        public void notifyAdminForCreatedMQ(VMTrnMaterialQuotation materialQuotation, string fileName, MstUser user, string adminEmail, string materialQuotationNo)
+        {
+            StringBuilder sbEmailDetails = new StringBuilder();
+            sbEmailDetails.AppendLine(System.IO.File.ReadAllText(HttpContext.Current.Server.MapPath(@"~\EmailTemplate\" + fileName + ".html")));
+
+            sbEmailDetails = sbEmailDetails.Replace("@user", user.userName);
+            sbEmailDetails = sbEmailDetails.Replace("@materialSelectionNumber", materialQuotation.materialSelectionNo);
+            sbEmailDetails = sbEmailDetails.Replace("@materialQuotationNumber", materialQuotationNo);
+            sbEmailDetails = sbEmailDetails.Replace("@customerName", materialQuotation.customerName);
+
+            string rows = "";
+
+            foreach (var mqItem in materialQuotation.TrnMaterialQuotationItems)
+            {
+                string serialOrSize = mqItem.shadeId != null ? mqItem.serialno : mqItem.size;
+                rows += "<tr><td>" + mqItem.categoryName
+                    + "</td><td> " + mqItem.collectionName
+                    + "</td><td> " + serialOrSize
+                    + "</td><td> " + mqItem.orderQuantity
+                    + "</td><td> " + mqItem.orderType
+                    + "</td><td> " + mqItem.rate
+                    + "</td><td> " + mqItem.amountWithGST
+                    + "</td> </tr>";
+            }
+            sbEmailDetails = sbEmailDetails.Replace("@rows", rows);
+
+            EmailProperties objEmail = new EmailProperties();
+            objEmail.SmtpAddress = _smtpAddress;
+            objEmail.EmailFrom = _emailFrom;
+            objEmail.Password = _password;
+            objEmail.EmailTo.Add(adminEmail);
+            objEmail.Subject = "Material Quotation Created";
             objEmail.EnableSSL = true;
             objEmail.Body = sbEmailDetails.ToString();
             objEmail.isBodyHtml = true;

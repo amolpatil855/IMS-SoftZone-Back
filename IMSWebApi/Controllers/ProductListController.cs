@@ -48,5 +48,15 @@ namespace IMSWebApi.Controllers
             var result = _productListService.getAccessoryProducts(pageSize, page, search);
             return Ok(result);
         }
+
+        // GET api/ProductList
+        //[ApiAuthorize(AccessLevel = "customerLogin")]
+        [HttpGet]
+        [Route("api/ProductList/GetProductStock")]
+        public IHttpActionResult GetProductStock(long categoryId, long? collectionId, long parameterId)
+        {
+            var result = _productListService.getProductStock(categoryId, collectionId, parameterId);
+            return Ok(result);
+        }
     }
 }
