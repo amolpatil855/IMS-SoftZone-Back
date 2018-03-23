@@ -34,7 +34,7 @@ namespace IMSWebApi.Models
         public decimal discountPercentage { get; set; }
         public int amount { get; set; }
         public decimal rateWithGST { get; set; }
-        public decimal amountWithGST { get; set; }
+        public int amountWithGST { get; set; }
         public Nullable<int> gst { get; set; }
         public string status { get; set; }
         public System.DateTime createdOn { get; set; }
