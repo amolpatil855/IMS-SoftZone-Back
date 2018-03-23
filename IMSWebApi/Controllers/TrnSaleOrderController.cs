@@ -146,5 +146,20 @@ namespace IMSWebApi.Controllers
             var result = _trnSaleOrderService.postSaleOrder(saleorder);
             return Ok(result);
         }
+
+        // PUT api/TrnSaleOrder
+        [ApiAuthorize(AccessLevel = "customerLogin")]
+        [HttpPut]
+        [Route("api/TrnSaleOrder/PutTrnSaleOrderForCustomerUser")]
+        public IHttpActionResult PutTrnSaleOrderForCustomerUser(VMTrnSaleOrder saleorder)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var result = _trnSaleOrderService.putSaleOrder(saleorder);
+            return Ok(result);
+        }
+
     }
 }
