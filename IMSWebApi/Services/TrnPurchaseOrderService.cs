@@ -517,7 +517,7 @@ namespace IMSWebApi.Services
                      item.matSizeId != null ? item.MstMatSize.purchaseRate : (decimal?)null;
 
                 //values for standard mat
-                poItemAgainstSO.rate = item.matSizeId != null ? item.MstMatSize.rate : (decimal?)null;
+                //poItemAgainstSO.rate = item.matSizeId != null ? item.MstMatSize.purchaseRate : (decimal?)null;
                 
                 //values for custom mat
                 poItemAgainstSO.custRatePerSqFeet = item.matSizeCode != null ? item.MstQuality.custRatePerSqFeet : null;
