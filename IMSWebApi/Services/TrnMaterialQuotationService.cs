@@ -62,17 +62,20 @@ namespace IMSWebApi.Services
 
         public List<VMTrnMaterialQuotationList> getMaterialQuotationLookup()
         {
-            return repo.TrnMaterialQuotations.Where(mq => mq.status.Equals("Created") || mq.status.Equals("Approved"))
+            var result = repo.TrnMaterialQuotations.Where(mq => mq.status.Equals("Created") || mq.status.Equals("Approved"))
                 .Select(mq => new VMTrnMaterialQuotationList
                     {
                         id = mq.id,
                         materialQuotationNumber = mq.materialQuotationNumber,
                         totalAmount = mq.totalAmount,
                         customerName = mq.MstCustomer != null ? mq.MstCustomer.name : null,
-                        customerId = mq.MstCustomer.id
+                        customerId = mq.MstCustomer.id,
+                        balanceAmount = mq.totalAmount - mq.TrnAdvancePayments.Select(ap=>ap.amount).DefaultIfEmpty(0).Sum()
                     })
                     .OrderByDescending(o => o.id)
                     .ToList();
+
+            return result;
         }
 
         public VMLookUpItem getCustomerLookupByMaterialQuotationId(Int64 materialQuotationId)

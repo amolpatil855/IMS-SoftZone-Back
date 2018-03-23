@@ -14,5 +14,6 @@ namespace IMSWebApi.ViewModel
         public string customerName { get; set; }
         public string status { get; set; }
         public int totalAmount { get; set; }
+        public int balanceAmount { get; set; }
     }
 }
