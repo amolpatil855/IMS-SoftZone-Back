@@ -24,32 +24,27 @@ namespace IMSWebApi.Services
             resourceManager = new ResourceManager("IMSWebApi.App_Data.Resource", Assembly.GetExecutingAssembly());
         }
 
-        public ListResult<VMAgent> getAgent(int pageSize, int page, string search)
+        public ListResult<VMAgentList> getAgents(int pageSize, int page, string search)
         {
-            List<VMAgent> agentView;
-            if (pageSize > 0)
-            {
-                var result = repo.MstAgents.Where(a => !string.IsNullOrEmpty(search)
-                    ? a.email.StartsWith(search)
-                    || a.name.StartsWith(search)
-                    || a.phone.StartsWith(search) 
-                    || a.commision.ToString().StartsWith(search) : true)
-                    .OrderBy(p => p.id).Skip(page * pageSize).Take(pageSize).ToList();
-                agentView = Mapper.Map<List<MstAgent>, List<VMAgent>>(result);
-            }
-            else
-            {
-                var result = repo.MstAgents.Where(a => !string.IsNullOrEmpty(search)
+            List<VMAgentList> agentListView;
+            agentListView = repo.MstAgents.Where(a => !string.IsNullOrEmpty(search)
                     ? a.email.StartsWith(search)
                     || a.name.StartsWith(search)
                     || a.phone.StartsWith(search)
-                    || a.commision.ToString().StartsWith(search) : true).ToList();
-                agentView = Mapper.Map<List<MstAgent>, List<VMAgent>>(result);
-            }
+                    || a.commision.ToString().StartsWith(search) : true)
+                    .Select(a => new VMAgentList
+                    {
+                        id = a.id,
+                        name = a.name,
+                        email = a.email,
+                        phone = a.phone,
+                        commision = a.commision
+                    })
+                    .OrderByDescending(p => p.id).Skip(page * pageSize).Take(pageSize).ToList();
 
-            return new ListResult<VMAgent>
+            return new ListResult<VMAgentList>
             {
-                Data = agentView,
+                Data = agentListView,
                 TotalCount = repo.MstAgents.Where(a => !string.IsNullOrEmpty(search)
                     ? a.email.StartsWith(search)
                     || a.name.StartsWith(search)

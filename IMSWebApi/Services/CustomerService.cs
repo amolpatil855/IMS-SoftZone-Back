@@ -31,37 +31,38 @@ namespace IMSWebApi.Services
             resourceManager = new ResourceManager("IMSWebApi.App_Data.Resource", Assembly.GetExecutingAssembly());
         }
 
-        public ListResult<VMCustomer> getCustomer(int pageSize, int page, string search)
+        public ListResult<VMCustomerList> getCustomers(int pageSize, int page, string search)
         {
-            List<VMCustomer> customerViews;
-            var result = repo.MstCustomers.ToList();
-            customerViews = Mapper.Map<List<MstCustomer>, List<VMCustomer>>(result);
-            customerViews.ForEach(s => s.MstCustomerAddresses.RemoveAll(a => a.isPrimary == false));
-            if (pageSize > 0)
+            List<VMCustomerList> customerListingView;
+            customerListingView = repo.MstCustomers.Where(c => !string.IsNullOrEmpty(search)
+                    ? c.code.StartsWith(search)
+                    || c.name.ToString().StartsWith(search)
+                    || c.email.StartsWith(search)
+                    || c.phone.StartsWith(search)
+                    || c.nickName.StartsWith(search)
+                    || c.MstCustomerAddresses.Where(ca => ca.isPrimary == true).FirstOrDefault().gstin.StartsWith(search) : true)
+                    .Select(c => new VMCustomerList
+                    {
+                        id = c.id,
+                        code = c.code,
+                        name = c.name,
+                        email = c.email,
+                        phone = c.phone,
+                        nickName = c.nickName,
+                        isWholesaleCustomer = c.isWholesaleCustomer,
+                        gstin = c.MstCustomerAddresses.Where(supp => supp.isPrimary == true).FirstOrDefault().gstin
+                    })
+                    .OrderByDescending(p => p.id).Skip(page * pageSize).Take(pageSize).ToList();
+            return new ListResult<VMCustomerList>
             {
-                customerViews = customerViews.Where(c => !string.IsNullOrEmpty(search)
-                                ? c.name.StartsWith(search)
-                || c.email.StartsWith(search)
-                || c.phone.StartsWith(search)
-                || c.nickName.StartsWith(search)
-                || c.code.StartsWith(search)
-                || (c.MstCustomerAddresses.Count() > 0 ? c.MstCustomerAddresses[0].gstin.StartsWith(search) : false) : true)
-                .OrderBy(p => p.id).Skip(page * pageSize).Take(pageSize).ToList();
-            }
-            else
-            {
-                customerViews = customerViews.Where(c => !string.IsNullOrEmpty(search)
-                               ? c.name.StartsWith(search)
-               || c.email.StartsWith(search)
-               || c.phone.StartsWith(search)
-               || c.nickName.StartsWith(search)
-               || c.code.StartsWith(search)
-               || (c.MstCustomerAddresses.Count() > 0 ? c.MstCustomerAddresses[0].gstin.StartsWith(search) : false) : true).ToList();
-            }
-            return new ListResult<VMCustomer>
-            {
-                Data = customerViews,
-                TotalCount = customerViews.Count(),
+                Data = customerListingView,
+                TotalCount = repo.MstCustomers.Where(c => !string.IsNullOrEmpty(search)
+                    ? c.code.StartsWith(search)
+                    || c.name.ToString().StartsWith(search)
+                    || c.email.StartsWith(search)
+                    || c.phone.StartsWith(search)
+                    || c.nickName.StartsWith(search)
+                    || c.MstCustomerAddresses.Where(ca => ca.isPrimary == true).FirstOrDefault().gstin.StartsWith(search) : true).Count(),
                 Page = page
             };
         }

@@ -26,7 +26,7 @@ namespace IMSWebApi.Controllers
         [HttpGet]
         public IHttpActionResult Get(int pageSize = 0, int page = 0, string search = null)
         {
-            var result = _supplierService.getSupplier(pageSize, page, search);
+            var result = _supplierService.getSuppliers(pageSize, page, search);
            return Ok(result);
         }
 
