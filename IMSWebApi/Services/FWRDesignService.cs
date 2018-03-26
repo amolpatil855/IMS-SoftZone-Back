@@ -25,35 +25,31 @@ namespace IMSWebApi.Services
             resourceManager = new ResourceManager("IMSWebApi.App_Data.Resource", Assembly.GetExecutingAssembly());
         }
 
-        public ListResult<VMFWRDesign> getDesign(int pageSize, int page, string search)
+        public ListResult<VMFWRDesignList> getDesigns(int pageSize, int page, string search)
         {
-            List<VMFWRDesign> designView;
-            if (pageSize > 0)
-            {
-                var result = repo.MstFWRDesigns.Where(q => !string.IsNullOrEmpty(search)
+            List<VMFWRDesignList> designListView;
+            designListView = repo.MstFWRDesigns.Where(q => !string.IsNullOrEmpty(search)
                     ? q.MstCategory.code.StartsWith(search)
-                    ||q.MstCollection.collectionCode.StartsWith(search) 
-                    || q.MstQuality.qualityCode.StartsWith(search) 
-                    || q.designCode.StartsWith(search) 
-                    || q.designName.StartsWith(search) : true)
-                    .OrderBy(q => q.MstCategory.id).ThenBy(q=>q.MstCollection.collectionCode)
-                    .Skip(page * pageSize).Take(pageSize).ToList();
-                designView = Mapper.Map<List<MstFWRDesign>, List<VMFWRDesign>>(result);
-            }
-            else
-            {
-                var result = repo.MstFWRDesigns.Where(q => !string.IsNullOrEmpty(search)
-                   ? q.MstCategory.code.StartsWith(search)
                     || q.MstCollection.collectionCode.StartsWith(search)
                     || q.MstQuality.qualityCode.StartsWith(search)
                     || q.designCode.StartsWith(search)
-                    || q.designName.StartsWith(search) : true).ToList();
-                designView = Mapper.Map<List<MstFWRDesign>, List<VMFWRDesign>>(result);
-            }
-
-            return new ListResult<VMFWRDesign>
+                    || q.designName.StartsWith(search) : true)
+                    .Select(d => new VMFWRDesignList
+                    {
+                        id = d.id,
+                        categoryId = d.categoryId,
+                        categoryCode = d.MstCategory != null ? d.MstCategory.code : string.Empty,
+                        collectionCode = d.MstCollection != null ? d.MstCollection.collectionCode : string.Empty,
+                        qualityCode = d.MstQuality != null ? d.MstQuality.qualityCode : string.Empty,
+                        designCode = d.designCode,
+                        designName = d.designName
+                    })
+                    .OrderBy(q => q.categoryId).ThenBy(q => q.collectionCode)
+                    .Skip(page * pageSize).Take(pageSize).ToList();
+                
+            return new ListResult<VMFWRDesignList>
             {
-                Data = designView,
+                Data = designListView,
                 TotalCount = repo.MstFWRDesigns.Where(q => !string.IsNullOrEmpty(search)
                      ? q.MstCategory.code.StartsWith(search)
                     || q.MstCollection.collectionCode.StartsWith(search)

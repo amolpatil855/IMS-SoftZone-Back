@@ -25,35 +25,31 @@ namespace IMSWebApi.Services
             resourceManager = new ResourceManager("IMSWebApi.App_Data.Resource", Assembly.GetExecutingAssembly());
         }
 
-        public ListResult<VMQuality> getQuality(int pageSize, int page, string search)
+        public ListResult<VMQualityList> getQualities(int pageSize, int page, string search)
         {
-            List<VMQuality> qualityView;
-            if (pageSize > 0)
-            {
-                var result = repo.MstQualities.Where(q => !string.IsNullOrEmpty(search)
-                    ? q.MstCategory.code.StartsWith(search) 
-                    || q.MstCollection.collectionCode.StartsWith(search) 
-                    || q.qualityCode.StartsWith(search) 
-                    || q.qualityName.StartsWith(search)
-                    || q.MstHsn.hsnCode.StartsWith(search) : true)
-                    .OrderBy(q => q.MstCategory.id).ThenBy(q=>q.MstCollection.collectionCode)
-                    .Skip(page * pageSize).Take(pageSize).ToList();
-                qualityView = Mapper.Map<List<MstQuality>, List<VMQuality>>(result);
-            }
-            else
-            {
-                var result = repo.MstQualities.Where(q => !string.IsNullOrEmpty(search)
+            List<VMQualityList> qualityListView;
+            qualityListView = repo.MstQualities.Where(q => !string.IsNullOrEmpty(search)
                    ? q.MstCategory.code.StartsWith(search)
-                    || q.MstCollection.collectionCode.StartsWith(search)
-                    || q.qualityCode.StartsWith(search)
-                    || q.qualityName.StartsWith(search)
-                    || q.MstHsn.hsnCode.StartsWith(search) : true).ToList();
-                qualityView = Mapper.Map<List<MstQuality>, List<VMQuality>>(result);
-            }
+                   || q.MstCollection.collectionCode.StartsWith(search)
+                   || q.qualityCode.StartsWith(search)
+                   || q.qualityName.StartsWith(search)
+                   || q.MstHsn.hsnCode.StartsWith(search) : true)
+                   .Select(q => new VMQualityList
+                   {
+                       id = q.id,
+                       categoryId = q.categoryId,
+                       categoryCode = q.MstCategory != null ? q.MstCategory.code : string.Empty,
+                       collectionCode = q.MstCollection != null ? q.MstCollection.collectionCode : string.Empty,
+                       qualityCode = q.qualityCode,
+                       qualityName = q.qualityName,
+                       hsnCode = q.MstHsn != null ? q.MstHsn.hsnCode : string.Empty
+                   })
+                   .OrderBy(q => q.categoryId).ThenBy(q => q.collectionCode)
+                   .Skip(page * pageSize).Take(pageSize).ToList();
 
-            return new ListResult<VMQuality>
+             return new ListResult<VMQualityList>
             {
-                Data = qualityView,
+                Data = qualityListView,
                 TotalCount = repo.MstQualities.Where(q => !string.IsNullOrEmpty(search)
                      ? q.MstCategory.code.StartsWith(search)
                     || q.MstCollection.collectionCode.StartsWith(search)

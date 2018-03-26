@@ -25,12 +25,10 @@ namespace IMSWebApi.ServicesDesign
             resourceManager = new ResourceManager("IMSWebApi.App_Data.Resource", Assembly.GetExecutingAssembly());
         }
 
-        public ListResult<VMFWRShade> getShade(int pageSize, int page, string search)
+        public ListResult<VMFWRShadeList> getShades(int pageSize, int page, string search)
         {
-            List<VMFWRShade> shadeView;
-            if (pageSize > 0)
-            {
-                var result = repo.MstFWRShades.Where(q => !string.IsNullOrEmpty(search)
+            List<VMFWRShadeList> shadeListView;
+            shadeListView = repo.MstFWRShades.Where(q => !string.IsNullOrEmpty(search)
                     ? q.serialNumber.ToString().StartsWith(search)
                     || q.MstCategory.code.StartsWith(search)
                     || q.MstCollection.collectionCode.StartsWith(search)
@@ -38,26 +36,24 @@ namespace IMSWebApi.ServicesDesign
                     || q.MstFWRDesign.designCode.StartsWith(search)
                     || q.shadeCode.StartsWith(search)
                     || q.shadeName.StartsWith(search) : true)
-                    .OrderBy(q => q.MstCategory.id).ThenBy(q => q.MstCollection.collectionCode)
+                    .Select(d => new VMFWRShadeList
+                    {
+                        id = d.id,
+                        categoryId = d.categoryId,
+                        categoryCode = d.MstCategory != null ? d.MstCategory.code : string.Empty,
+                        collectionCode = d.MstCollection != null ? d.MstCollection.collectionCode : string.Empty,
+                        qualityCode = d.MstQuality != null ? d.MstQuality.qualityCode : string.Empty,
+                        designCode = d.MstFWRDesign != null ? d.MstFWRDesign.designCode : string.Empty,
+                        shadeCode = d.shadeCode,
+                        shadeName = d.shadeName,
+                        serialNumber = d.serialNumber
+                    })
+                    .OrderBy(q => q.categoryId).ThenBy(q => q.collectionCode)
                     .Skip(page * pageSize).Take(pageSize).ToList();
-                shadeView = Mapper.Map<List<MstFWRShade>, List<VMFWRShade>>(result);
-            }
-            else
+                
+            return new ListResult<VMFWRShadeList>
             {
-                var result = repo.MstFWRShades.Where(q => !string.IsNullOrEmpty(search)
-                   ? q.serialNumber.ToString().StartsWith(search)
-                    || q.MstCategory.code.StartsWith(search)
-                    || q.MstCollection.collectionCode.StartsWith(search)
-                    || q.MstQuality.qualityCode.StartsWith(search)
-                    || q.MstFWRDesign.designCode.StartsWith(search)
-                    || q.shadeCode.StartsWith(search)
-                    || q.shadeName.StartsWith(search) : true).ToList();
-                shadeView = Mapper.Map<List<MstFWRShade>, List<VMFWRShade>>(result);
-            }
-
-            return new ListResult<VMFWRShade>
-            {
-                Data = shadeView,
+                Data = shadeListView,
                 TotalCount = repo.MstFWRShades.Where(q => !string.IsNullOrEmpty(search)
                      ? q.serialNumber.ToString().StartsWith(search)
                     || q.MstCategory.code.StartsWith(search)

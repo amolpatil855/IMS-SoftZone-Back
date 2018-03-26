@@ -26,38 +26,37 @@ namespace IMSWebApi.Services
             resourceManager = new ResourceManager("IMSWebApi.App_Data.Resource", Assembly.GetExecutingAssembly());
         }
 
-        public ListResult<VMAccessory> getAccessory(int pageSize, int page, string search)
+        public ListResult<VMAccessoryList> getAccessories(int pageSize, int page, string search)
         {
-            List<VMAccessory> accessoryView;
-            if (pageSize > 0)
-            {
-                var result = repo.MstAccessories.Where(a => !string.IsNullOrEmpty(search)
+            List<VMAccessoryList> accessoryListView;
+            accessoryListView = repo.MstAccessories.Where(a => !string.IsNullOrEmpty(search)
                     ? a.name.StartsWith(search)
                     || a.itemCode.StartsWith(search)
-                    || a.MstHsn.hsnCode.StartsWith(search)
-                    || a.MstUnitOfMeasure.uomCode.StartsWith(search)
+                    || a.MstSupplier.code.StartsWith(search)
+                    || a.purchaseRate.ToString().StartsWith(search)
+                    || a.sellingRate.ToString().StartsWith(search)
                     || a.size.StartsWith(search) : true)
-                    .OrderBy(p => p.id).Skip(page * pageSize).Take(pageSize).ToList();
-                accessoryView = Mapper.Map<List<MstAccessory>, List<VMAccessory>>(result);
-            }
-            else
+                    .Select(a => new VMAccessoryList
+                    {
+                        id = a.id,
+                        name = a.name,
+                        itemCode = a.itemCode,
+                        supplierCode = a.MstSupplier != null ? a.MstSupplier.code : string.Empty,
+                        sellingRate = a.sellingRate,
+                        purchaseRate = a.purchaseRate,
+                        size = a.size
+                    })
+                    .OrderByDescending(p => p.id).Skip(page * pageSize).Take(pageSize).ToList();
+               
+            return new ListResult<VMAccessoryList>
             {
-                var result = repo.MstAccessories.Where(a => !string.IsNullOrEmpty(search)
-                    ? a.name.StartsWith(search)
-                    || a.itemCode.StartsWith(search)
-                    || a.MstHsn.hsnCode.StartsWith(search)
-                    || a.MstUnitOfMeasure.uomCode.StartsWith(search)
-                    || a.size.StartsWith(search) : true).ToList();
-                accessoryView = Mapper.Map<List<MstAccessory>, List<VMAccessory>>(result);
-            }
-            return new ListResult<VMAccessory>
-            {
-                Data = accessoryView,
+                Data = accessoryListView,
                 TotalCount = repo.MstAccessories.Where(a => !string.IsNullOrEmpty(search)
                     ? a.name.StartsWith(search)
                     || a.itemCode.StartsWith(search)
-                    || a.MstHsn.hsnCode.StartsWith(search)
-                    || a.MstUnitOfMeasure.uomCode.StartsWith(search)
+                    || a.MstSupplier.code.StartsWith(search)
+                    || a.purchaseRate.ToString().StartsWith(search)
+                    || a.sellingRate.ToString().StartsWith(search)
                     || a.size.StartsWith(search) : true).Count(),
                 Page = page
             };

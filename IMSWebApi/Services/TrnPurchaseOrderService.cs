@@ -380,7 +380,7 @@ namespace IMSWebApi.Services
             var result = repo.TrnProductStocks.Where(stk => (stk.stock + stk.poQuantity) < stk.soQuanity)
                 .Select(s => new VMLookUpItem
                 {
-                    label = s.collectionId != null ? s.MstCollection.MstSupplier.name : s.MstAccessory.MstSupplier.code,
+                    label = s.collectionId != null ? s.MstCollection.MstSupplier.code : s.MstAccessory.MstSupplier.code,
                     value = s.collectionId != null ? s.MstCollection.MstSupplier.id : s.MstAccessory.supplierId
                 }).ToList();
             return result.Distinct(new VMLookUpItem()).ToList();
