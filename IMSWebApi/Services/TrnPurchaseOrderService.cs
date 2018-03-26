@@ -377,12 +377,13 @@ namespace IMSWebApi.Services
             //return result; 
             #endregion
 
-            return repo.TrnProductStocks.Where(stk => (stk.stock + stk.poQuantity) < stk.soQuanity)
+            var result = repo.TrnProductStocks.Where(stk => (stk.stock + stk.poQuantity) < stk.soQuanity)
                 .Select(s => new VMLookUpItem
                 {
                     label = s.collectionId != null ? s.MstCollection.MstSupplier.name : s.MstAccessory.MstSupplier.code,
                     value = s.collectionId != null ? s.MstCollection.MstSupplier.id : s.MstAccessory.supplierId
-                }).Distinct().ToList();
+                }).ToList();
+            return result.Distinct(new VMLookUpItem()).ToList();
         }
 
         //public List<VMPOagainstSO> getSOitemsWithStockInsufficient()

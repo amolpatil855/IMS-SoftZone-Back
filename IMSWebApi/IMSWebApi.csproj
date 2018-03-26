@@ -509,6 +509,7 @@
     <Compile Include="ViewModel\VMAgentList.cs" />
     <Compile Include="ViewModel\VMCategory.cs" />
     <Compile Include="ViewModel\VMCollection.cs" />
+    <Compile Include="ViewModel\VMCollectionList.cs" />
     <Compile Include="ViewModel\VMCompanyLocation.cs" />
     <Compile Include="ViewModel\VMCourier.cs" />
     <Compile Include="ViewModel\VMCustomerList.cs" />
