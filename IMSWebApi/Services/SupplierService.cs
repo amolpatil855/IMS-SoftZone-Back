@@ -24,40 +24,38 @@ namespace IMSWebApi.Services
             resourceManager = new ResourceManager("IMSWebApi.App_Data.Resource", Assembly.GetExecutingAssembly());
         }
 
-        public ListResult<VMSupplier> getSupplier(int pageSize, int page, string search)
+        public ListResult<VMSupplierList> getSuppliers(int pageSize, int page, string search)
         {
-            List<VMSupplier> supplierView;
-           
-            var result = repo.MstSuppliers.ToList();
-            supplierView = Mapper.Map<List<MstSupplier>, List<VMSupplier>>(result);
-           
-            supplierView.ForEach(s => s.MstSupplierAddresses.RemoveAll(a => a.isPrimary == false));
-            if (pageSize > 0)
-            {
-                supplierView = supplierView.Where(s => !string.IsNullOrEmpty(search) ?
-                    s.name.StartsWith(search)
-                    || s.firmName.StartsWith(search)
-                    || s.code.StartsWith(search)
+            List<VMSupplierList> supplierListingView;
+
+            supplierListingView = repo.MstSuppliers.Where(s => !string.IsNullOrEmpty(search)
+                    ? s.code.StartsWith(search)
+                    || s.name.ToString().StartsWith(search)
                     || s.email.StartsWith(search)
-                    || s.phone.StartsWith(search) 
-                    || (s.MstSupplierAddresses.Count() > 0 ? s.MstSupplierAddresses[0].gstin.StartsWith(search) : false) : true)
-                    .OrderBy(p => p.id).Skip(page * pageSize).Take(pageSize).ToList();
-            }
-            else
-	        {
-            supplierView = supplierView.Where(s => !string.IsNullOrEmpty(search) ?
-                    s.name.StartsWith(search)
+                    || s.phone.StartsWith(search)
                     || s.firmName.StartsWith(search)
-                    || s.code.StartsWith(search)
-                    || s.email.StartsWith(search)
-                    || s.phone.StartsWith(search) 
-                    || (s.MstSupplierAddresses.Count() > 0 ? s.MstSupplierAddresses[0].gstin.StartsWith(search) : false) : true)
-                    .ToList();        
-	        }
-            return new ListResult<VMSupplier>
+                    || s.MstSupplierAddresses.Where(supp=>supp.isPrimary == true).FirstOrDefault().gstin.StartsWith(search) : true)
+                    .Select(s => new VMSupplierList
+                    {
+                        id = s.id,
+                        code = s.code,
+                        name = s.name,
+                        email = s.email,
+                        phone = s.phone,
+                        firmName = s.firmName,
+                        gstin = s.MstSupplierAddresses.Where(supp => supp.isPrimary == true).FirstOrDefault().gstin
+                    })
+                    .OrderByDescending(p => p.id).Skip(page * pageSize).Take(pageSize).ToList();
+            return new ListResult<VMSupplierList>
             {
-                Data = supplierView,
-                TotalCount = supplierView.Count(),
+                Data = supplierListingView,
+                TotalCount = repo.MstSuppliers.Where(s => !string.IsNullOrEmpty(search)
+                    ? s.code.StartsWith(search)
+                    || s.name.ToString().StartsWith(search)
+                    || s.email.StartsWith(search)
+                    || s.phone.StartsWith(search)
+                    || s.firmName.StartsWith(search)
+                    || s.MstSupplierAddresses.Where(supp => supp.isPrimary == true).FirstOrDefault().gstin.StartsWith(search) : true).Count(),
                 Page = page
             };
         }

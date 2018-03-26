@@ -26,34 +26,29 @@ namespace IMSWebApi.Services
             resourceManager = new ResourceManager("IMSWebApi.App_Data.Resource", Assembly.GetExecutingAssembly());
         }
 
-        public ListResult<VMCollection> getCollection(int pageSize, int page, string search)
+        public ListResult<VMCollectionList> getCollections(int pageSize, int page, string search)
         {
-            List<VMCollection> collectionView;
-            if (pageSize > 0)
-            {
-                var result = repo.MstCollections.Where(c => !string.IsNullOrEmpty(search) 
-                    ? c.MstCategory.code.StartsWith(search)
-                    || c.collectionCode.StartsWith(search)
-                    || c.manufacturerName.StartsWith(search)
-                    || c.MstSupplier.code.StartsWith(search) 
-                    || c.collectionName.StartsWith(search) : true)
-                    .OrderBy(p => p.id).Skip(page * pageSize).Take(pageSize).ToList();
-                collectionView = Mapper.Map<List<MstCollection>, List<VMCollection>>(result);
-            }
-            else
-            {
-                var result = repo.MstCollections.Where(c => !string.IsNullOrEmpty(search)
+            List<VMCollectionList> collectionListView;
+            collectionListView = repo.MstCollections.Where(c => !string.IsNullOrEmpty(search)
                     ? c.MstCategory.code.StartsWith(search)
                     || c.collectionCode.StartsWith(search)
                     || c.manufacturerName.StartsWith(search)
                     || c.MstSupplier.code.StartsWith(search)
-                    || c.collectionName.StartsWith(search) : true).ToList();
-                collectionView = Mapper.Map<List<MstCollection>, List<VMCollection>>(result);
-            }
-
-            return new ListResult<VMCollection>
+                    || c.collectionName.StartsWith(search) : true)
+                    .Select(c => new VMCollectionList
+                    {
+                        id = c.id,
+                        categoryCode = c.MstCategory != null ? c.MstCategory.code : string.Empty,
+                        collectionCode = c.collectionCode,
+                        collectionName = c.collectionName,
+                        supplierCode = c.MstSupplier != null ? c.MstSupplier.code : string.Empty,
+                        manufacturerName = c.manufacturerName
+                    })
+                    .OrderByDescending(p => p.id).Skip(page * pageSize).Take(pageSize).ToList();
+                           
+            return new ListResult<VMCollectionList>
             {
-                Data = collectionView,
+                Data = collectionListView,
                 TotalCount = repo.MstCollections.Where(c => !string.IsNullOrEmpty(search)
                     ? c.MstCategory.code.StartsWith(search)
                     || c.collectionCode.StartsWith(search)

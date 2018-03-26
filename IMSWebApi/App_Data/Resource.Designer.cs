@@ -808,7 +808,7 @@ namespace IMSWebApi.App_Data {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sale Order Generated Successfully.
+        ///   Looks up a localized string similar to Sale Order Updated Successfully.
         /// </summary>
         public static string SOUpdated {
             get {

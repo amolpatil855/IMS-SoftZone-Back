@@ -506,10 +506,13 @@
     <Compile Include="ViewModel\SalesOrder\VMTrnSaleOrderList.cs" />
     <Compile Include="ViewModel\VMAccessory.cs" />
     <Compile Include="ViewModel\VMAgent.cs" />
+    <Compile Include="ViewModel\VMAgentList.cs" />
     <Compile Include="ViewModel\VMCategory.cs" />
     <Compile Include="ViewModel\VMCollection.cs" />
+    <Compile Include="ViewModel\VMCollectionList.cs" />
     <Compile Include="ViewModel\VMCompanyLocation.cs" />
     <Compile Include="ViewModel\VMCourier.cs" />
+    <Compile Include="ViewModel\VMCustomerList.cs" />
     <Compile Include="ViewModel\VMFinancialYear.cs" />
     <Compile Include="ViewModel\VMFomDensity.cs" />
     <Compile Include="ViewModel\VMFomSize.cs" />
@@ -555,6 +558,7 @@
     <Compile Include="ViewModel\PurchaseOrder\VMTrnPurchaseOrderList.cs" />
     <Compile Include="ViewModel\ProductStock\VMTrnProductStockList.cs" />
     <Compile Include="ViewModel\ProductStock\VMTrnProductStockDetailList.cs" />
+    <Compile Include="ViewModel\VMSupplierList.cs" />
     <Compile Include="ViewModel\VMUnitOfMeasure.cs" />
     <Compile Include="ViewModel\VMUser.cs" />
     <Compile Include="ViewModel\VMUserType.cs" />
