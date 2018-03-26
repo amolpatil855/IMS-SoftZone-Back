@@ -171,7 +171,7 @@ namespace IMSWebApi.Services
 
                 if (_IsAdministrator)
                 {
-                    emailNotification.notifySupplierForPO(purchaseOrder, "NotifySupplierForPO", supplierEmail);
+                    emailNotification.notifySupplierForPO(purchaseOrder, "NotifySupplierForPO", supplierEmail, adminEmail);
                 }
                 else
                 {
@@ -295,7 +295,8 @@ namespace IMSWebApi.Services
                 MstUser loggedInUser = repo.MstUsers.Where(u => u.id == _LoggedInuserId).FirstOrDefault();
                 string supplierEmail = VMPurchaseOrder.MstSupplier.email;
 
-                emailNotification.notifySupplierForPO(VMPurchaseOrder, "NotifySupplierForPO", supplierEmail);
+                string adminEmail = repo.MstUsers.Where(u => u.userName.Equals("Administrator")).FirstOrDefault().email;
+                emailNotification.notifySupplierForPO(VMPurchaseOrder, "NotifySupplierForPO", supplierEmail, adminEmail);
 
                 transaction.Complete();
                 return new ResponseMessage(id, resourceManager.GetString("POApproved"), ResponseType.Success);

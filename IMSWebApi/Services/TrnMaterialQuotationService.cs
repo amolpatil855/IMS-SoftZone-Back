@@ -234,6 +234,7 @@ namespace IMSWebApi.Services
                 int advPaymentCount = repo.TrnAdvancePayments.Where(advPayment => advPayment.materialQuotationId == id).Count();
                 if (advPaymentCount > 0)
                 {
+                    string adminEmail = repo.MstUsers.Where(u => u.userName.Equals("Administrator")).FirstOrDefault().email;
                     var materialQuotation = repo.TrnMaterialQuotations.Where(mq => mq.id == id).FirstOrDefault();
                     materialQuotation.status = MaterialQuotationStatus.Approved.ToString();
                     foreach (var mqItem in materialQuotation.TrnMaterialQuotationItems)
@@ -248,6 +249,9 @@ namespace IMSWebApi.Services
                     _trnGoodIssueNoteServie.postGoodIssueNote(null, VMMaterialQuotation);
                     messageToDisplay = "MQApproved";
                     type = ResponseType.Success;
+
+                    emailNotification.notificationForApprovedMQ(materialQuotation, "NotificationForApprovedMQ", adminEmail);
+
                 }
                 else
                 {
@@ -266,6 +270,7 @@ namespace IMSWebApi.Services
             using (var transaction = new TransactionScope())
             {
                 var materialQuotation = repo.TrnMaterialQuotations.Where(so => so.id == id).FirstOrDefault();
+                string adminEmail = repo.MstUsers.Where(u => u.userName.Equals("Administrator")).FirstOrDefault().email;
                 if (materialQuotation.status.Equals("Created"))
                 {
                     materialQuotation.status = SaleOrderStatus.Cancelled.ToString();
@@ -276,8 +281,7 @@ namespace IMSWebApi.Services
                     messageToDisplay = "MQCancelled";
                     type = ResponseType.Success;
 
-                    VMTrnMaterialQuotation VMMaterialQuotation = Mapper.Map<TrnMaterialQuotation, VMTrnMaterialQuotation>(materialQuotation);
-                    //emailNotification.cancelledSONotificationForCustomer(VMsaleOrder, "CancelledSONotificationForCustomer");
+                    emailNotification.notificationForCancelledMQ(materialQuotation, "NotificationForCancelledMQ", adminEmail);
                 }
                 else if (materialQuotation.status.Equals("Approved") && _IsAdministrator)
                 {
@@ -305,8 +309,7 @@ namespace IMSWebApi.Services
                         messageToDisplay = "MQCancelled";
                         type = ResponseType.Success;
 
-                        //VMTrnSaleOrder VMsaleOrder = Mapper.Map<TrnSaleOrder, VMTrnSaleOrder>(saleOrder);
-                        //emailNotification.cancelledSONotificationForCustomer(VMsaleOrder, "CancelledSONotificationForCustomer");
+                        emailNotification.notificationForCancelledMQ(materialQuotation, "NotificationForCancelledMQ", adminEmail);
                     }
                     else
                     {

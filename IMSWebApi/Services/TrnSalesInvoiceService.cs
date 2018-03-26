@@ -262,7 +262,8 @@ namespace IMSWebApi.Services
                          invoiceDate = s.invoiceDate,
                          ginNumber = s.TrnGoodIssueNote.ginNumber,
                          status = s.status,
-                         courierDockYardNumber = s.courierDockYardNumber
+                         courierDockYardNumber = s.courierDockYardNumber,
+                         isPaid = s.isPaid
                      })
                     .OrderByDescending(p => p.id).Skip(page * pageSize).Take(pageSize).ToList();
             

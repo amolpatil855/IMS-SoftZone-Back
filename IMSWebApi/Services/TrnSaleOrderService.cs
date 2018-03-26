@@ -149,7 +149,7 @@ namespace IMSWebApi.Services
                 {
                     VMTrnSaleOrder VMSaleOrderToPost = Mapper.Map<TrnSaleOrder, VMTrnSaleOrder>(saleOrderToPost);
                     _trnGoodIssueNoteServie.postGoodIssueNote(VMSaleOrderToPost,null);
-                    emailNotification.approvedSONotificationForCustomer(saleOrder, "ApprovedSONotificationForCustomer", customerEmail);
+                    emailNotification.approvedSONotificationForCustomer(saleOrder, "ApprovedSONotificationForCustomer", customerEmail, adminEmail);
                 }
                 else
                 {
@@ -264,6 +264,7 @@ namespace IMSWebApi.Services
             using (var transaction = new TransactionScope())
             {
                 var saleOrder = repo.TrnSaleOrders.Where(so => so.id == id).FirstOrDefault();
+                string adminEmail = repo.MstUsers.Where(u => u.userName.Equals("Administrator")).FirstOrDefault().email;
                 saleOrder.status = SaleOrderStatus.Approved.ToString();
                 foreach (var soItem in saleOrder.TrnSaleOrderItems)
                 {
@@ -276,7 +277,7 @@ namespace IMSWebApi.Services
 
                 string customerEmail = saleOrder.MstCustomer.email;
 
-                emailNotification.approvedSONotificationForCustomer(VMSaleOrder, "ApprovedSONotificationForCustomer", customerEmail);
+                emailNotification.approvedSONotificationForCustomer(VMSaleOrder, "ApprovedSONotificationForCustomer", customerEmail, adminEmail);
 
                 transaction.Complete();
                 return new ResponseMessage(id, resourceManager.GetString("SOApproved"), ResponseType.Success);
@@ -290,6 +291,8 @@ namespace IMSWebApi.Services
             using (var transaction = new TransactionScope())
             {
                 var saleOrder = repo.TrnSaleOrders.Where(so => so.id == id).FirstOrDefault();
+                string adminEmail = repo.MstUsers.Where(u => u.userName.Equals("Administrator")).FirstOrDefault().email;
+
                 if (saleOrder.status.Equals("Created"))
                 {
                     saleOrder.status = SaleOrderStatus.Cancelled.ToString();
@@ -299,9 +302,9 @@ namespace IMSWebApi.Services
                     }
                     messageToDisplay = "SOCancelled";
                     type = ResponseType.Success;
-
+                    
                     VMTrnSaleOrder VMsaleOrder = Mapper.Map<TrnSaleOrder, VMTrnSaleOrder>(saleOrder);
-                    emailNotification.cancelledSONotificationForCustomer(VMsaleOrder, "CancelledSONotificationForCustomer");
+                    emailNotification.cancelledSONotificationForCustomer(VMsaleOrder, "CancelledSONotificationForCustomer", adminEmail);
                 }
                 else if (saleOrder.status.Equals("Approved") && _IsAdministrator)
                 {
@@ -330,7 +333,7 @@ namespace IMSWebApi.Services
                         type = ResponseType.Success;
 
                         VMTrnSaleOrder VMsaleOrder = Mapper.Map<TrnSaleOrder, VMTrnSaleOrder>(saleOrder);
-                        emailNotification.cancelledSONotificationForCustomer(VMsaleOrder, "CancelledSONotificationForCustomer");
+                        emailNotification.cancelledSONotificationForCustomer(VMsaleOrder, "CancelledSONotificationForCustomer", adminEmail);
                     }
                     else
                     {

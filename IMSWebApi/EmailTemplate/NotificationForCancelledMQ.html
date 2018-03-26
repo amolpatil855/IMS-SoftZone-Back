@@ -1,0 +1,63 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title></title>
+    <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+    </style>
+</head>
+<body>
+    Hi @customerName,
+    <br />
+    <br />
+    Your Material Quotation is Cancelled.
+    <br />
+    <br />
+    Material Selection No. : @materialSelectionNumber
+    <br />
+    <br />
+    Material Quotation No. : @materialQuotationNumber
+    <br />
+    <br />
+    Customer Name : @customerName
+    <br />
+    <br />
+    <table>
+        <tr>
+            <th>Category</th>
+            <th>Collection</th>
+            <th>Serial No/Size</th>
+            <th>Quantity</th>
+            <th>Type</th>
+            <th>Rate</th>
+            <th>Amount</th>
+        </tr>
+        @rows
+    </table>
+
+
+    <br />
+    <br />
+    Team,
+    <br />
+    SoftZone
+    <br />
+    <i>Powered by</i>&nbsp;<a href="http://www.eternussolutions.com" style="text-decoration:none">Eternus Solutions Pvt. Ltd</a>
+    <br />
+    DISCLAIMER: <i>This communication is confidential and privileged and is directed to and for the use of the addressee only. The recipient if not the addressee should not use this message if erroneously received, and access and use of this e-mail in any manner by anyone other than the addressee is unauthorized.</i>
+</body>
+</html>
