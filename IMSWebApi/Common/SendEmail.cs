@@ -96,8 +96,8 @@ namespace IMSWebApi.Common
             ReusableEmailComponent.DAOFactoryProvider.GetEmailDao().sendMail(objEmail);
         }
 
-        //When PO approved, Notifiy Supplier for PO approved
-        public void notifySupplierForPO(VMTrnPurchaseOrder purchaseOrder, string fileName, string supplierEmail)
+        //When PO approved, Notifiy Supplier and Admin for PO approved
+        public void notifySupplierForPO(VMTrnPurchaseOrder purchaseOrder, string fileName, string supplierEmail, string adminEmail)
         {
             string shippingAddress = purchaseOrder.shippingAddress != null ? purchaseOrder.shippingAddress : 
                 purchaseOrder.MstCompanyLocation != null ? purchaseOrder.MstCompanyLocation.addressLine1 + " " + purchaseOrder.MstCompanyLocation.addressLine2 +
@@ -143,6 +143,7 @@ namespace IMSWebApi.Common
             objEmail.EmailFrom = _emailFrom;
             objEmail.Password = _password;
             objEmail.EmailTo.Add(supplierEmail);
+            objEmail.EmailTo.Add(adminEmail);
             objEmail.Subject = "Purchase Order Generated";
             objEmail.EnableSSL = true;
             objEmail.Body = sbEmailDetails.ToString();
@@ -250,8 +251,8 @@ namespace IMSWebApi.Common
             ReusableEmailComponent.DAOFactoryProvider.GetEmailDao().sendMail(objEmail);
         }
 
-        //Whwn SO is approved, notifiy its customer about approved SO
-        public void approvedSONotificationForCustomer(VMTrnSaleOrder saleOrder, string fileName,string customerEmail)
+        //Whwn SO is approved, notifiy its customer and Admin about approved SO
+        public void approvedSONotificationForCustomer(VMTrnSaleOrder saleOrder, string fileName,string customerEmail, string adminEmail)
         {
             StringBuilder sbEmailDetails = new StringBuilder();
             sbEmailDetails.AppendLine(System.IO.File.ReadAllText(HttpContext.Current.Server.MapPath(@"~\EmailTemplate\" + fileName + ".html")));
@@ -298,6 +299,7 @@ namespace IMSWebApi.Common
             objEmail.EmailFrom = _emailFrom;
             objEmail.Password = _password;
             objEmail.EmailTo.Add(customerEmail);
+            objEmail.EmailTo.Add(adminEmail);
             objEmail.Subject = "Sale Order Approved";
             objEmail.EnableSSL = true;
             objEmail.Body = sbEmailDetails.ToString();
@@ -306,8 +308,8 @@ namespace IMSWebApi.Common
             ReusableEmailComponent.DAOFactoryProvider.GetEmailDao().sendMail(objEmail);
         }
 
-        //When SO is cancelled, notify customer about cancelled SO
-        public void cancelledSONotificationForCustomer(VMTrnSaleOrder saleOrder, string fileName)
+        //When SO is cancelled, notify customer and Admin about cancelled SO
+        public void cancelledSONotificationForCustomer(VMTrnSaleOrder saleOrder, string fileName, string adminEmail)
         {
             StringBuilder sbEmailDetails = new StringBuilder();
             sbEmailDetails.AppendLine(System.IO.File.ReadAllText(HttpContext.Current.Server.MapPath(@"~\EmailTemplate\" + fileName + ".html")));
@@ -349,6 +351,7 @@ namespace IMSWebApi.Common
             objEmail.EmailFrom = _emailFrom;
             objEmail.Password = _password;
             objEmail.EmailTo.Add(saleOrder.MstCustomer.email);
+            objEmail.EmailTo.Add(adminEmail);
             objEmail.Subject = "Sale Order Cancelled";
             objEmail.EnableSSL = true;
             objEmail.Body = sbEmailDetails.ToString();
@@ -426,8 +429,8 @@ namespace IMSWebApi.Common
             ReusableEmailComponent.DAOFactoryProvider.GetEmailDao().sendMail(objEmail);
         }
 
-        //Notify Customer for Material Quotation Approved
-        public void notificationForApprovedMQ(TrnMaterialQuotation materialQuotation, string fileName)
+        //Notify Customer, Admin for Material Quotation Approved
+        public void notificationForApprovedMQ(TrnMaterialQuotation materialQuotation, string fileName, string adminEmail)
         {
             StringBuilder sbEmailDetails = new StringBuilder();
             sbEmailDetails.AppendLine(System.IO.File.ReadAllText(HttpContext.Current.Server.MapPath(@"~\EmailTemplate\" + fileName + ".html")));
@@ -458,7 +461,8 @@ namespace IMSWebApi.Common
             objEmail.SmtpAddress = _smtpAddress;
             objEmail.EmailFrom = _emailFrom;
             objEmail.Password = _password;
-            objEmail.EmailTo.Add(materialQuotation.MstCustomer != null ? materialQuotation.MstCustomer.email : null);
+            objEmail.EmailTo.Add(materialQuotation.MstCustomer.email);
+            objEmail.EmailTo.Add(adminEmail);
             objEmail.Subject = "Material Quotation Approved";
             objEmail.EnableSSL = true;
             objEmail.Body = sbEmailDetails.ToString();
@@ -467,8 +471,8 @@ namespace IMSWebApi.Common
             ReusableEmailComponent.DAOFactoryProvider.GetEmailDao().sendMail(objEmail);
         }
 
-        //Notify Customer for Material Quotation Cancelled
-        public void notificationForCancelledMQ(TrnMaterialQuotation materialQuotation, string fileName)
+        //Notify Customer, Admin for Material Quotation Cancelled
+        public void notificationForCancelledMQ(TrnMaterialQuotation materialQuotation, string fileName, string adminEmail)
         {
             StringBuilder sbEmailDetails = new StringBuilder();
             sbEmailDetails.AppendLine(System.IO.File.ReadAllText(HttpContext.Current.Server.MapPath(@"~\EmailTemplate\" + fileName + ".html")));
@@ -499,7 +503,8 @@ namespace IMSWebApi.Common
             objEmail.SmtpAddress = _smtpAddress;
             objEmail.EmailFrom = _emailFrom;
             objEmail.Password = _password;
-            objEmail.EmailTo.Add(materialQuotation.MstCustomer != null ? materialQuotation.MstCustomer.email : string.Empty);
+            objEmail.EmailTo.Add(materialQuotation.MstCustomer.email);
+            objEmail.EmailTo.Add(adminEmail);
             objEmail.Subject = "Material Quotation Cancelled";
             objEmail.EnableSSL = true;
             objEmail.Body = sbEmailDetails.ToString();
