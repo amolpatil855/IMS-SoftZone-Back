@@ -23,6 +23,7 @@ namespace IMSWebApi.Services
         GenerateOrderNumber generateOrderNumber = null;
         TrnProductStockService _trnProductStockService = null;
         TrnGoodIssueNoteService _trnGoodIssueNoteServie = null;
+        SendEmail emailNotification = null;
         
         public TrnMaterialQuotationService()
         {
@@ -32,6 +33,7 @@ namespace IMSWebApi.Services
             generateOrderNumber = new GenerateOrderNumber();
             _trnProductStockService = new TrnProductStockService();
             _trnGoodIssueNoteServie = new TrnGoodIssueNoteService();
+            emailNotification = new SendEmail();
         }
 
         public ListResult<VMTrnMaterialQuotationList> getMaterialQuotations(int pageSize, int page, string search)
@@ -138,6 +140,10 @@ namespace IMSWebApi.Services
 
                 financialYear.materialQuotationNumber += 1;
                 repo.SaveChanges();
+
+                MstUser loggedInUser = repo.MstUsers.Where(u=>u.id == _LoggedInuserId).FirstOrDefault();
+                string adminEmail = repo.MstUsers.Where(u => u.userName.Equals("Administrator")).FirstOrDefault().email;
+                emailNotification.notifyAdminForCreatedMQ(materialQuotation, "NotifyAdminForCreatedMQ", loggedInUser,adminEmail, materialQuotationNo);
 
                 transaction.Complete();
                 return new ResponseMessage(materialQuotationToPost.id, resourceManager.GetString("MQCreated"), ResponseType.Success);

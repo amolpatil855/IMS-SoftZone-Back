@@ -89,6 +89,43 @@ namespace IMSWebApi.Services
                 Page = page
             };
         }
+
+        public decimal getProductStock(long categoryId, long? collectionId, long parameterId)
+        {
+            TrnProductStock trnProductStock = null;
+            decimal productStock = 0;
+            string categoryCode = repo.MstCategories.Where(c => c.id == categoryId).Select(a => a.code).FirstOrDefault();
+
+            if (categoryCode != null && (categoryCode.Equals("Fabric") || categoryCode.Equals("Rug") || categoryCode.Equals("Wallpaper")))
+            {
+                trnProductStock = repo.TrnProductStocks.Where(z => z.categoryId == categoryId
+                                                      && z.collectionId == collectionId
+                                                      && z.fwrShadeId == parameterId).FirstOrDefault();
+                productStock = trnProductStock != null ? trnProductStock.stock + trnProductStock.poQuantity - trnProductStock.soQuanity : 0;
+                productStock = productStock < 0 ? 0 : productStock;
+                
+            }
+            if (categoryCode != null && categoryCode.Equals("Foam"))
+            {
+                trnProductStock = repo.TrnProductStocks.Where(z => z.categoryId == categoryId
+                                                      && z.collectionId == collectionId
+                                                      && z.fomSizeId == parameterId).FirstOrDefault();
+
+                productStock = trnProductStock != null ? trnProductStock.stock + trnProductStock.poQuantity - trnProductStock.soQuanity : 0;
+                productStock = productStock < 0 ? 0 : productStock;
+            }
+           
+            if (categoryCode != null && categoryCode.Equals("Accessories"))
+            {
+                trnProductStock = repo.TrnProductStocks.Where(z => z.categoryId == categoryId
+                                                        && z.accessoryId == parameterId).FirstOrDefault();
+                
+                productStock = trnProductStock != null ? trnProductStock.stock + trnProductStock.poQuantity - trnProductStock.soQuanity : 0;
+                productStock = productStock < 0 ? 0 : productStock;
+            }
+
+            return productStock;
+        }
     }
         
 }
