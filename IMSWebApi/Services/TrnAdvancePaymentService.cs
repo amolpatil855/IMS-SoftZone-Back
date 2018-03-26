@@ -67,8 +67,8 @@ namespace IMSWebApi.Services
         {
             var result = repo.TrnAdvancePayments.Where(ap => ap.id == id).FirstOrDefault();
             VMTrnAdvancePayment advancePaymentView = Mapper.Map<TrnAdvancePayment, VMTrnAdvancePayment>(result);
-            advancePaymentView.materialQuotationNumber = result.materialQuotationId != null ? result.TrnMaterialQuotation.materialQuotationNumber : string.Empty;
-            advancePaymentView.customerName = result.customerId != null ? result.MstCustomer.name : string.Empty;
+            advancePaymentView.materialQuotationNumber = result.TrnMaterialQuotation != null ? result.TrnMaterialQuotation.materialQuotationNumber : string.Empty;
+            advancePaymentView.customerName = result.MstCustomer != null ? result.MstCustomer.name : string.Empty;
             
             advancePaymentView.TrnMaterialQuotation.TrnMaterialSelection = null;
             advancePaymentView.TrnMaterialQuotation.TrnMaterialQuotationItems.ForEach(mqItem => mqItem.TrnMaterialQuotation = null);

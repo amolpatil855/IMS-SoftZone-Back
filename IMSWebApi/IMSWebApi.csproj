@@ -564,10 +564,13 @@
     <Content Include="EmailTemplate\ApprovedSONotificationForCustomer.html" />
     <Content Include="EmailTemplate\CancelledSONotificationForCustomer.html" />
     <Content Include="EmailTemplate\ForgotPassword.html" />
+    <Content Include="EmailTemplate\NotificationForApprovedMQ.html" />
+    <Content Include="EmailTemplate\NotificationForCancelledMQ.html" />
     <Content Include="EmailTemplate\NotificationForPendingGIN.html" />
     <Content Include="EmailTemplate\NotificationForPO.html" />
     <Content Include="EmailTemplate\NotificationForSO.html" />
     <Content Include="EmailTemplate\NotifyAdminForCancelledPO.html" />
+    <Content Include="EmailTemplate\NotifyAdminForCreatedMQ.html" />
     <Content Include="EmailTemplate\NotifySupplierForPO.html" />
     <Content Include="EmailTemplate\RegisterUser.html" />
     <Content Include="favicon.ico" />
