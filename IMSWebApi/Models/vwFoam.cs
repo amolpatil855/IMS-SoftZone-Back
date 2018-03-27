@@ -24,6 +24,7 @@ namespace IMSWebApi.Models
         public string sizeCode { get; set; }
         public long sizeId { get; set; }
         public string itemCode { get; set; }
+        public string uom { get; set; }
         public string hsnCode { get; set; }
         public string gst { get; set; }
         public decimal purchaseRatePerMM { get; set; }

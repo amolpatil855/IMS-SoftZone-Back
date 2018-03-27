@@ -193,7 +193,7 @@
           <Key>
             <PropertyRef Name="id" />
           </Key>
-          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id" Type="bigint" Nullable="false" />
           <Property Name="startDate" Type="date" Nullable="false" />
           <Property Name="endDate" Type="date" Nullable="false" />
           <Property Name="financialYear" Type="varchar" MaxLength="10" Nullable="false" />
@@ -841,8 +841,8 @@
           </Key>
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="goodIssueNoteId" Type="bigint" Nullable="false" />
-          <Property Name="materialQuotationId" Type="bigint" />
           <Property Name="salesOrderId" Type="bigint" />
+          <Property Name="materialQuotationId" Type="bigint" />
           <Property Name="invoiceNumber" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="invoiceDate" Type="datetime" Nullable="false" />
           <Property Name="buyersOrderNumber" Type="varchar" MaxLength="50" />
@@ -885,13 +885,14 @@
           <Property Name="updatedBy" Type="bigint" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'IMS_Test.dbo.vwAccessory' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'IMS.dbo.vwAccessory' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwAccessory">
           <Key>
             <PropertyRef Name="Category" />
             <PropertyRef Name="itemCode" />
             <PropertyRef Name="name" />
             <PropertyRef Name="size" />
+            <PropertyRef Name="uomCode" />
             <PropertyRef Name="hsnCode" />
             <PropertyRef Name="sellingRate" />
             <PropertyRef Name="purchaseRate" />
@@ -900,6 +901,7 @@ warning 6002: The table/view 'IMS_Test.dbo.vwAccessory' does not have a primary 
           <Property Name="itemCode" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="size" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="uomCode" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="hsnCode" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="gst" Type="varchar" MaxLength="31" />
           <Property Name="sellingRate" Type="decimal" Precision="7" Scale="2" Nullable="false" />
@@ -909,7 +911,27 @@ warning 6002: The table/view 'IMS_Test.dbo.vwAccessory' does not have a primary 
           <Property Name="availableStock" Type="decimal" Precision="9" Scale="2" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'IMS_Test.dbo.vwFoam' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6013: The table/view 'IMS.dbo.vwAccessoryStockValue' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="vwAccessoryStockValue">
+          <Property Name="accessoryStockValue" Type="decimal" Precision="38" Scale="2" />
+        </EntityType>-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'IMS.dbo.vwDasBoard' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vwDasBoard">
+          <Key>
+            <PropertyRef Name="totalPaymentDue" />
+          </Key>
+          <Property Name="totalOutStandingAmount" Type="int" />
+          <Property Name="totalSalesCount" Type="int" />
+          <Property Name="totalPaymentDue" Type="int" Nullable="false" />
+          <Property Name="totalPurchaseCount" Type="int" />
+          <Property Name="ytdSale" Type="int" />
+          <Property Name="currentMonthSale" Type="int" />
+          <Property Name="itemsCountBelowReorderLevel" Type="int" />
+          <Property Name="totalStockValue" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'IMS.dbo.vwFoam' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwFoam">
           <Key>
             <PropertyRef Name="Category" />
@@ -922,6 +944,7 @@ warning 6002: The table/view 'IMS_Test.dbo.vwFoam' does not have a primary key d
             <PropertyRef Name="sizeCode" />
             <PropertyRef Name="sizeId" />
             <PropertyRef Name="itemCode" />
+            <PropertyRef Name="uom" />
             <PropertyRef Name="hsnCode" />
             <PropertyRef Name="purchaseRatePerMM" />
             <PropertyRef Name="purchaseRatePerKG" />
@@ -938,6 +961,7 @@ warning 6002: The table/view 'IMS_Test.dbo.vwFoam' does not have a primary key d
           <Property Name="sizeCode" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="sizeId" Type="bigint" Nullable="false" />
           <Property Name="itemCode" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="uom" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="hsnCode" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="gst" Type="varchar" MaxLength="31" />
           <Property Name="purchaseRatePerMM" Type="decimal" Precision="7" Scale="2" Nullable="false" />
@@ -951,19 +975,26 @@ warning 6002: The table/view 'IMS_Test.dbo.vwFoam' does not have a primary key d
           <Property Name="availableStock" Type="decimal" Precision="9" Scale="2" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'IMS_Test.dbo.vwFWR' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6013: The table/view 'IMS.dbo.vwFoamStockValue' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="vwFoamStockValue">
+          <Property Name="foamStockValue" Type="decimal" Precision="38" Scale="2" />
+        </EntityType>-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'IMS.dbo.vwFWR' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwFWR">
           <Key>
             <PropertyRef Name="Category" />
             <PropertyRef Name="Collection" />
             <PropertyRef Name="QDS" />
             <PropertyRef Name="serialNumber" />
+            <PropertyRef Name="uom" />
             <PropertyRef Name="hsnCode" />
           </Key>
           <Property Name="Category" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="Collection" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="QDS" Type="varchar" MaxLength="154" Nullable="false" />
           <Property Name="serialNumber" Type="int" Nullable="false" />
+          <Property Name="uom" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="hsnCode" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="gst" Type="varchar" MaxLength="31" />
           <Property Name="width" Type="decimal" Precision="6" Scale="2" />
@@ -981,7 +1012,12 @@ warning 6002: The table/view 'IMS_Test.dbo.vwFWR' does not have a primary key de
           <Property Name="availableStock" Type="decimal" Precision="9" Scale="2" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'IMS_Test.dbo.vwMattress' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6013: The table/view 'IMS.dbo.vwFWRStockValue' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="vwFWRStockValue">
+          <Property Name="FWRStockValue" Type="decimal" Precision="38" Scale="2" />
+        </EntityType>-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwMattress">
           <Key>
             <PropertyRef Name="Category" />
@@ -989,6 +1025,7 @@ warning 6002: The table/view 'IMS_Test.dbo.vwMattress' does not have a primary k
             <PropertyRef Name="qualityCode" />
             <PropertyRef Name="thicknessCode" />
             <PropertyRef Name="sizeCode" />
+            <PropertyRef Name="uom" />
             <PropertyRef Name="hsnCode" />
             <PropertyRef Name="rate" />
             <PropertyRef Name="purchaseRate" />
@@ -998,6 +1035,7 @@ warning 6002: The table/view 'IMS_Test.dbo.vwMattress' does not have a primary k
           <Property Name="qualityCode" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="thicknessCode" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="sizeCode" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="uom" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="hsnCode" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="gst" Type="varchar" MaxLength="31" />
           <Property Name="rate" Type="decimal" Precision="7" Scale="2" Nullable="false" />
@@ -1007,6 +1045,11 @@ warning 6002: The table/view 'IMS_Test.dbo.vwMattress' does not have a primary k
           <Property Name="customRatePerSqFeet" Type="decimal" Precision="7" Scale="2" />
           <Property Name="availableStock" Type="decimal" Precision="9" Scale="2" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'IMS.dbo.vwMattressStockValue' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="vwMattressStockValue">
+          <Property Name="mattressStockValue" Type="decimal" Precision="38" Scale="2" />
+        </EntityType>-->
         <Association Name="FK_CFGRoleMenu_MstMenu">
           <End Role="MstMenu" Type="Self.MstMenu" Multiplicity="1" />
           <End Role="CFGRoleMenu" Type="Self.CFGRoleMenu" Multiplicity="*" />
@@ -2708,6 +2751,7 @@ warning 6002: The table/view 'IMS_Test.dbo.vwMattress' does not have a primary k
     [vwAccessory].[itemCode] AS [itemCode], 
     [vwAccessory].[name] AS [name], 
     [vwAccessory].[size] AS [size], 
+    [vwAccessory].[uomCode] AS [uomCode], 
     [vwAccessory].[hsnCode] AS [hsnCode], 
     [vwAccessory].[gst] AS [gst], 
     [vwAccessory].[sellingRate] AS [sellingRate], 
@@ -2716,6 +2760,18 @@ warning 6002: The table/view 'IMS_Test.dbo.vwMattress' does not have a primary k
     [vwAccessory].[purchaseRateWithGst] AS [purchaseRateWithGst], 
     [vwAccessory].[availableStock] AS [availableStock]
     FROM [dbo].[vwAccessory] AS [vwAccessory]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vwDasBoard" EntityType="Self.vwDasBoard" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vwDasBoard].[totalOutStandingAmount] AS [totalOutStandingAmount], 
+    [vwDasBoard].[totalSalesCount] AS [totalSalesCount], 
+    [vwDasBoard].[totalPaymentDue] AS [totalPaymentDue], 
+    [vwDasBoard].[totalPurchaseCount] AS [totalPurchaseCount], 
+    [vwDasBoard].[ytdSale] AS [ytdSale], 
+    [vwDasBoard].[currentMonthSale] AS [currentMonthSale], 
+    [vwDasBoard].[itemsCountBelowReorderLevel] AS [itemsCountBelowReorderLevel], 
+    [vwDasBoard].[totalStockValue] AS [totalStockValue]
+    FROM [dbo].[vwDasBoard] AS [vwDasBoard]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="vwFoam" EntityType="Self.vwFoam" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -2729,6 +2785,7 @@ warning 6002: The table/view 'IMS_Test.dbo.vwMattress' does not have a primary k
     [vwFoam].[sizeCode] AS [sizeCode], 
     [vwFoam].[sizeId] AS [sizeId], 
     [vwFoam].[itemCode] AS [itemCode], 
+    [vwFoam].[uom] AS [uom], 
     [vwFoam].[hsnCode] AS [hsnCode], 
     [vwFoam].[gst] AS [gst], 
     [vwFoam].[purchaseRatePerMM] AS [purchaseRatePerMM], 
@@ -2748,6 +2805,7 @@ warning 6002: The table/view 'IMS_Test.dbo.vwMattress' does not have a primary k
     [vwFWR].[Collection] AS [Collection], 
     [vwFWR].[QDS] AS [QDS], 
     [vwFWR].[serialNumber] AS [serialNumber], 
+    [vwFWR].[uom] AS [uom], 
     [vwFWR].[hsnCode] AS [hsnCode], 
     [vwFWR].[gst] AS [gst], 
     [vwFWR].[width] AS [width], 
@@ -2772,6 +2830,7 @@ warning 6002: The table/view 'IMS_Test.dbo.vwMattress' does not have a primary k
     [vwMattress].[qualityCode] AS [qualityCode], 
     [vwMattress].[thicknessCode] AS [thicknessCode], 
     [vwMattress].[sizeCode] AS [sizeCode], 
+    [vwMattress].[uom] AS [uom], 
     [vwMattress].[hsnCode] AS [hsnCode], 
     [vwMattress].[gst] AS [gst], 
     [vwMattress].[rate] AS [rate], 
@@ -3758,10 +3817,6 @@ warning 6002: The table/view 'IMS_Test.dbo.vwMattress' does not have a primary k
             <End Role="TrnSaleOrder" EntitySet="TrnSaleOrders" />
             <End Role="TrnSaleOrderItem" EntitySet="TrnSaleOrderItems" />
           </AssociationSet>
-          <EntitySet Name="vwAccessories" EntityType="IMSModel.vwAccessory" />
-          <EntitySet Name="vwFoams" EntityType="IMSModel.vwFoam" />
-          <EntitySet Name="vwFWRs" EntityType="IMSModel.vwFWR" />
-          <EntitySet Name="vwMattresses" EntityType="IMSModel.vwMattress" />
           <EntitySet Name="TrnProductStocks" EntityType="IMSModel.TrnProductStock" />
           <EntitySet Name="TrnProductStockDetails" EntityType="IMSModel.TrnProductStockDetail" />
           <AssociationSet Name="FK_TrnProductStock_MstAccessory" Association="IMSModel.FK_TrnProductStock_MstAccessory">
@@ -3932,6 +3987,11 @@ warning 6002: The table/view 'IMS_Test.dbo.vwMattress' does not have a primary k
             <End Role="TrnMaterialQuotation" EntitySet="TrnMaterialQuotations" />
             <End Role="TrnMaterialQuotationItem" EntitySet="TrnMaterialQuotationItems" />
           </AssociationSet>
+          <EntitySet Name="vwAccessories" EntityType="IMSModel.vwAccessory" />
+          <EntitySet Name="vwDasBoards" EntityType="IMSModel.vwDasBoard" />
+          <EntitySet Name="vwFoams" EntityType="IMSModel.vwFoam" />
+          <EntitySet Name="vwFWRs" EntityType="IMSModel.vwFWR" />
+          <EntitySet Name="vwMattresses" EntityType="IMSModel.vwMattress" />
         </EntityContainer>
         <EntityType Name="CFGRoleMenu">
           <Key>
@@ -6061,121 +6121,6 @@ warning 6002: The table/view 'IMS_Test.dbo.vwMattress' does not have a primary k
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="vwAccessory">
-          <Key>
-            <PropertyRef Name="Category" />
-            <PropertyRef Name="itemCode" />
-            <PropertyRef Name="name" />
-            <PropertyRef Name="size" />
-            <PropertyRef Name="hsnCode" />
-            <PropertyRef Name="sellingRate" />
-            <PropertyRef Name="purchaseRate" />
-          </Key>
-          <Property Name="Category" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="itemCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="size" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="hsnCode" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="gst" Type="String" MaxLength="31" FixedLength="false" Unicode="false" />
-          <Property Name="sellingRate" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
-          <Property Name="sellingRateWithGst" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
-          <Property Name="purchaseRate" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
-          <Property Name="purchaseRateWithGst" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
-          <Property Name="availableStock" Type="Decimal" Precision="9" Scale="2" />
-        </EntityType>
-        <EntityType Name="vwFoam">
-          <Key>
-            <PropertyRef Name="Category" />
-            <PropertyRef Name="Collection" />
-            <PropertyRef Name="collectionId" />
-            <PropertyRef Name="qualityCode" />
-            <PropertyRef Name="qualityId" />
-            <PropertyRef Name="density" />
-            <PropertyRef Name="desityId" />
-            <PropertyRef Name="sizeCode" />
-            <PropertyRef Name="sizeId" />
-            <PropertyRef Name="itemCode" />
-            <PropertyRef Name="hsnCode" />
-            <PropertyRef Name="purchaseRatePerMM" />
-            <PropertyRef Name="purchaseRatePerKG" />
-            <PropertyRef Name="sellingRatePerMM" />
-            <PropertyRef Name="sellingRatePerKG" />
-          </Key>
-          <Property Name="Category" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="Collection" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="collectionId" Type="Int64" Nullable="false" />
-          <Property Name="qualityCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="qualityId" Type="Int64" Nullable="false" />
-          <Property Name="density" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="desityId" Type="Int64" Nullable="false" />
-          <Property Name="sizeCode" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="sizeId" Type="Int64" Nullable="false" />
-          <Property Name="itemCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="hsnCode" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="gst" Type="String" MaxLength="31" FixedLength="false" Unicode="false" />
-          <Property Name="purchaseRatePerMM" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
-          <Property Name="purchaseRatePerMMWithGst" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
-          <Property Name="purchaseRatePerKG" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
-          <Property Name="purchaseRatePerKGWithGst" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
-          <Property Name="sellingRatePerMM" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
-          <Property Name="sellingRatePerMMWithGst" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
-          <Property Name="sellingRatePerKG" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
-          <Property Name="sellingRatePerKGWithGst" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
-          <Property Name="availableStock" Type="Decimal" Precision="9" Scale="2" />
-        </EntityType>
-        <EntityType Name="vwFWR">
-          <Key>
-            <PropertyRef Name="Category" />
-            <PropertyRef Name="Collection" />
-            <PropertyRef Name="QDS" />
-            <PropertyRef Name="serialNumber" />
-            <PropertyRef Name="hsnCode" />
-          </Key>
-          <Property Name="Category" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="Collection" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="QDS" Type="String" Nullable="false" MaxLength="154" FixedLength="false" Unicode="false" />
-          <Property Name="serialNumber" Type="Int32" Nullable="false" />
-          <Property Name="hsnCode" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="gst" Type="String" MaxLength="31" FixedLength="false" Unicode="false" />
-          <Property Name="width" Type="Decimal" Precision="6" Scale="2" />
-          <Property Name="size" Type="Decimal" Precision="6" Scale="2" />
-          <Property Name="cutRate" Type="Decimal" Precision="7" Scale="2" />
-          <Property Name="cutRateWithGst" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
-          <Property Name="roleRate" Type="Decimal" Precision="7" Scale="2" />
-          <Property Name="rollRateWithGst" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
-          <Property Name="rrp" Type="Decimal" Precision="7" Scale="2" />
-          <Property Name="rrpWithGst" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
-          <Property Name="flatRate" Type="Decimal" Precision="7" Scale="2" />
-          <Property Name="flatRateWithGst" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
-          <Property Name="purchaseFlatRate" Type="Decimal" Precision="7" Scale="2" />
-          <Property Name="purchaseFlatRateWithGst" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
-          <Property Name="availableStock" Type="Decimal" Precision="9" Scale="2" />
-        </EntityType>
-        <EntityType Name="vwMattress">
-          <Key>
-            <PropertyRef Name="Category" />
-            <PropertyRef Name="Collection" />
-            <PropertyRef Name="qualityCode" />
-            <PropertyRef Name="thicknessCode" />
-            <PropertyRef Name="sizeCode" />
-            <PropertyRef Name="hsnCode" />
-            <PropertyRef Name="rate" />
-            <PropertyRef Name="purchaseRate" />
-          </Key>
-          <Property Name="Category" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="Collection" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="qualityCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="thicknessCode" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="sizeCode" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="hsnCode" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="gst" Type="String" MaxLength="31" FixedLength="false" Unicode="false" />
-          <Property Name="rate" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
-          <Property Name="rateWithGst" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
-          <Property Name="purchaseRate" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
-          <Property Name="purchaseRateWithGst" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
-          <Property Name="customRatePerSqFeet" Type="Decimal" Precision="7" Scale="2" />
-          <Property Name="availableStock" Type="Decimal" Precision="9" Scale="2" />
-        </EntityType>
         <EntityType Name="TrnProductStock">
           <Key>
             <PropertyRef Name="id" />
@@ -6851,6 +6796,142 @@ warning 6002: The table/view 'IMS_Test.dbo.vwMattress' does not have a primary k
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="vwAccessory">
+          <Key>
+            <PropertyRef Name="Category" />
+            <PropertyRef Name="itemCode" />
+            <PropertyRef Name="name" />
+            <PropertyRef Name="size" />
+            <PropertyRef Name="uomCode" />
+            <PropertyRef Name="hsnCode" />
+            <PropertyRef Name="sellingRate" />
+            <PropertyRef Name="purchaseRate" />
+          </Key>
+          <Property Name="Category" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="itemCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="size" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="uomCode" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="hsnCode" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="gst" Type="String" MaxLength="31" FixedLength="false" Unicode="false" />
+          <Property Name="sellingRate" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
+          <Property Name="sellingRateWithGst" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="purchaseRate" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
+          <Property Name="purchaseRateWithGst" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="availableStock" Type="Decimal" Precision="9" Scale="2" />
+        </EntityType>
+        <EntityType Name="vwDasBoard">
+          <Key>
+            <PropertyRef Name="totalPaymentDue" />
+          </Key>
+          <Property Name="totalOutStandingAmount" Type="Int32" />
+          <Property Name="totalSalesCount" Type="Int32" />
+          <Property Name="totalPaymentDue" Type="Int32" Nullable="false" />
+          <Property Name="totalPurchaseCount" Type="Int32" />
+          <Property Name="ytdSale" Type="Int32" />
+          <Property Name="currentMonthSale" Type="Int32" />
+          <Property Name="itemsCountBelowReorderLevel" Type="Int32" />
+          <Property Name="totalStockValue" Type="Int32" />
+        </EntityType>
+        <EntityType Name="vwFoam">
+          <Key>
+            <PropertyRef Name="Category" />
+            <PropertyRef Name="Collection" />
+            <PropertyRef Name="collectionId" />
+            <PropertyRef Name="qualityCode" />
+            <PropertyRef Name="qualityId" />
+            <PropertyRef Name="density" />
+            <PropertyRef Name="desityId" />
+            <PropertyRef Name="sizeCode" />
+            <PropertyRef Name="sizeId" />
+            <PropertyRef Name="itemCode" />
+            <PropertyRef Name="uom" />
+            <PropertyRef Name="hsnCode" />
+            <PropertyRef Name="purchaseRatePerMM" />
+            <PropertyRef Name="purchaseRatePerKG" />
+            <PropertyRef Name="sellingRatePerMM" />
+            <PropertyRef Name="sellingRatePerKG" />
+          </Key>
+          <Property Name="Category" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Collection" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="collectionId" Type="Int64" Nullable="false" />
+          <Property Name="qualityCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="qualityId" Type="Int64" Nullable="false" />
+          <Property Name="density" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="desityId" Type="Int64" Nullable="false" />
+          <Property Name="sizeCode" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="sizeId" Type="Int64" Nullable="false" />
+          <Property Name="itemCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="uom" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="hsnCode" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="gst" Type="String" MaxLength="31" FixedLength="false" Unicode="false" />
+          <Property Name="purchaseRatePerMM" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
+          <Property Name="purchaseRatePerMMWithGst" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="purchaseRatePerKG" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
+          <Property Name="purchaseRatePerKGWithGst" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="sellingRatePerMM" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
+          <Property Name="sellingRatePerMMWithGst" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="sellingRatePerKG" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
+          <Property Name="sellingRatePerKGWithGst" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="availableStock" Type="Decimal" Precision="9" Scale="2" />
+        </EntityType>
+        <EntityType Name="vwFWR">
+          <Key>
+            <PropertyRef Name="Category" />
+            <PropertyRef Name="Collection" />
+            <PropertyRef Name="QDS" />
+            <PropertyRef Name="serialNumber" />
+            <PropertyRef Name="uom" />
+            <PropertyRef Name="hsnCode" />
+          </Key>
+          <Property Name="Category" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Collection" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="QDS" Type="String" Nullable="false" MaxLength="154" FixedLength="false" Unicode="false" />
+          <Property Name="serialNumber" Type="Int32" Nullable="false" />
+          <Property Name="uom" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="hsnCode" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="gst" Type="String" MaxLength="31" FixedLength="false" Unicode="false" />
+          <Property Name="width" Type="Decimal" Precision="6" Scale="2" />
+          <Property Name="size" Type="Decimal" Precision="6" Scale="2" />
+          <Property Name="cutRate" Type="Decimal" Precision="7" Scale="2" />
+          <Property Name="cutRateWithGst" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="roleRate" Type="Decimal" Precision="7" Scale="2" />
+          <Property Name="rollRateWithGst" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="rrp" Type="Decimal" Precision="7" Scale="2" />
+          <Property Name="rrpWithGst" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="flatRate" Type="Decimal" Precision="7" Scale="2" />
+          <Property Name="flatRateWithGst" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="purchaseFlatRate" Type="Decimal" Precision="7" Scale="2" />
+          <Property Name="purchaseFlatRateWithGst" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="availableStock" Type="Decimal" Precision="9" Scale="2" />
+        </EntityType>
+        <EntityType Name="vwMattress">
+          <Key>
+            <PropertyRef Name="Category" />
+            <PropertyRef Name="Collection" />
+            <PropertyRef Name="qualityCode" />
+            <PropertyRef Name="thicknessCode" />
+            <PropertyRef Name="sizeCode" />
+            <PropertyRef Name="uom" />
+            <PropertyRef Name="hsnCode" />
+            <PropertyRef Name="rate" />
+            <PropertyRef Name="purchaseRate" />
+          </Key>
+          <Property Name="Category" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Collection" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="qualityCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="thicknessCode" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="sizeCode" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="uom" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="hsnCode" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="gst" Type="String" MaxLength="31" FixedLength="false" Unicode="false" />
+          <Property Name="rate" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
+          <Property Name="rateWithGst" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="purchaseRate" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
+          <Property Name="purchaseRateWithGst" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="customRatePerSqFeet" Type="Decimal" Precision="7" Scale="2" />
+          <Property Name="availableStock" Type="Decimal" Precision="9" Scale="2" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -7632,94 +7713,6 @@ warning 6002: The table/view 'IMS_Test.dbo.vwMattress' does not have a primary k
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="vwAccessories">
-            <EntityTypeMapping TypeName="IMSModel.vwAccessory">
-              <MappingFragment StoreEntitySet="vwAccessory">
-                <ScalarProperty Name="availableStock" ColumnName="availableStock" />
-                <ScalarProperty Name="purchaseRateWithGst" ColumnName="purchaseRateWithGst" />
-                <ScalarProperty Name="purchaseRate" ColumnName="purchaseRate" />
-                <ScalarProperty Name="sellingRateWithGst" ColumnName="sellingRateWithGst" />
-                <ScalarProperty Name="sellingRate" ColumnName="sellingRate" />
-                <ScalarProperty Name="gst" ColumnName="gst" />
-                <ScalarProperty Name="hsnCode" ColumnName="hsnCode" />
-                <ScalarProperty Name="size" ColumnName="size" />
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="itemCode" ColumnName="itemCode" />
-                <ScalarProperty Name="Category" ColumnName="Category" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="vwFoams">
-            <EntityTypeMapping TypeName="IMSModel.vwFoam">
-              <MappingFragment StoreEntitySet="vwFoam">
-                <ScalarProperty Name="availableStock" ColumnName="availableStock" />
-                <ScalarProperty Name="sellingRatePerKGWithGst" ColumnName="sellingRatePerKGWithGst" />
-                <ScalarProperty Name="sellingRatePerKG" ColumnName="sellingRatePerKG" />
-                <ScalarProperty Name="sellingRatePerMMWithGst" ColumnName="sellingRatePerMMWithGst" />
-                <ScalarProperty Name="sellingRatePerMM" ColumnName="sellingRatePerMM" />
-                <ScalarProperty Name="purchaseRatePerKGWithGst" ColumnName="purchaseRatePerKGWithGst" />
-                <ScalarProperty Name="purchaseRatePerKG" ColumnName="purchaseRatePerKG" />
-                <ScalarProperty Name="purchaseRatePerMMWithGst" ColumnName="purchaseRatePerMMWithGst" />
-                <ScalarProperty Name="purchaseRatePerMM" ColumnName="purchaseRatePerMM" />
-                <ScalarProperty Name="gst" ColumnName="gst" />
-                <ScalarProperty Name="hsnCode" ColumnName="hsnCode" />
-                <ScalarProperty Name="itemCode" ColumnName="itemCode" />
-                <ScalarProperty Name="sizeId" ColumnName="sizeId" />
-                <ScalarProperty Name="sizeCode" ColumnName="sizeCode" />
-                <ScalarProperty Name="desityId" ColumnName="desityId" />
-                <ScalarProperty Name="density" ColumnName="density" />
-                <ScalarProperty Name="qualityId" ColumnName="qualityId" />
-                <ScalarProperty Name="qualityCode" ColumnName="qualityCode" />
-                <ScalarProperty Name="collectionId" ColumnName="collectionId" />
-                <ScalarProperty Name="Collection" ColumnName="Collection" />
-                <ScalarProperty Name="Category" ColumnName="Category" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="vwFWRs">
-            <EntityTypeMapping TypeName="IMSModel.vwFWR">
-              <MappingFragment StoreEntitySet="vwFWR">
-                <ScalarProperty Name="availableStock" ColumnName="availableStock" />
-                <ScalarProperty Name="purchaseFlatRateWithGst" ColumnName="purchaseFlatRateWithGst" />
-                <ScalarProperty Name="purchaseFlatRate" ColumnName="purchaseFlatRate" />
-                <ScalarProperty Name="flatRateWithGst" ColumnName="flatRateWithGst" />
-                <ScalarProperty Name="flatRate" ColumnName="flatRate" />
-                <ScalarProperty Name="rrpWithGst" ColumnName="rrpWithGst" />
-                <ScalarProperty Name="rrp" ColumnName="rrp" />
-                <ScalarProperty Name="rollRateWithGst" ColumnName="rollRateWithGst" />
-                <ScalarProperty Name="roleRate" ColumnName="roleRate" />
-                <ScalarProperty Name="cutRateWithGst" ColumnName="cutRateWithGst" />
-                <ScalarProperty Name="cutRate" ColumnName="cutRate" />
-                <ScalarProperty Name="size" ColumnName="size" />
-                <ScalarProperty Name="width" ColumnName="width" />
-                <ScalarProperty Name="gst" ColumnName="gst" />
-                <ScalarProperty Name="hsnCode" ColumnName="hsnCode" />
-                <ScalarProperty Name="serialNumber" ColumnName="serialNumber" />
-                <ScalarProperty Name="QDS" ColumnName="QDS" />
-                <ScalarProperty Name="Collection" ColumnName="Collection" />
-                <ScalarProperty Name="Category" ColumnName="Category" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="vwMattresses">
-            <EntityTypeMapping TypeName="IMSModel.vwMattress">
-              <MappingFragment StoreEntitySet="vwMattress">
-                <ScalarProperty Name="availableStock" ColumnName="availableStock" />
-                <ScalarProperty Name="customRatePerSqFeet" ColumnName="customRatePerSqFeet" />
-                <ScalarProperty Name="purchaseRateWithGst" ColumnName="purchaseRateWithGst" />
-                <ScalarProperty Name="purchaseRate" ColumnName="purchaseRate" />
-                <ScalarProperty Name="rateWithGst" ColumnName="rateWithGst" />
-                <ScalarProperty Name="rate" ColumnName="rate" />
-                <ScalarProperty Name="gst" ColumnName="gst" />
-                <ScalarProperty Name="hsnCode" ColumnName="hsnCode" />
-                <ScalarProperty Name="sizeCode" ColumnName="sizeCode" />
-                <ScalarProperty Name="thicknessCode" ColumnName="thicknessCode" />
-                <ScalarProperty Name="qualityCode" ColumnName="qualityCode" />
-                <ScalarProperty Name="Collection" ColumnName="Collection" />
-                <ScalarProperty Name="Category" ColumnName="Category" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="TrnProductStocks">
             <EntityTypeMapping TypeName="IMSModel.TrnProductStock">
               <MappingFragment StoreEntitySet="TrnProductStock">
@@ -7865,6 +7858,112 @@ warning 6002: The table/view 'IMS_Test.dbo.vwMattress' does not have a primary k
                 <ScalarProperty Name="selectionType" ColumnName="selectionType" />
                 <ScalarProperty Name="materialQuotationId" ColumnName="materialQuotationId" />
                 <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vwAccessories">
+            <EntityTypeMapping TypeName="IMSModel.vwAccessory">
+              <MappingFragment StoreEntitySet="vwAccessory">
+                <ScalarProperty Name="availableStock" ColumnName="availableStock" />
+                <ScalarProperty Name="purchaseRateWithGst" ColumnName="purchaseRateWithGst" />
+                <ScalarProperty Name="purchaseRate" ColumnName="purchaseRate" />
+                <ScalarProperty Name="sellingRateWithGst" ColumnName="sellingRateWithGst" />
+                <ScalarProperty Name="sellingRate" ColumnName="sellingRate" />
+                <ScalarProperty Name="gst" ColumnName="gst" />
+                <ScalarProperty Name="hsnCode" ColumnName="hsnCode" />
+                <ScalarProperty Name="uomCode" ColumnName="uomCode" />
+                <ScalarProperty Name="size" ColumnName="size" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="itemCode" ColumnName="itemCode" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vwDasBoards">
+            <EntityTypeMapping TypeName="IMSModel.vwDasBoard">
+              <MappingFragment StoreEntitySet="vwDasBoard">
+                <ScalarProperty Name="totalStockValue" ColumnName="totalStockValue" />
+                <ScalarProperty Name="itemsCountBelowReorderLevel" ColumnName="itemsCountBelowReorderLevel" />
+                <ScalarProperty Name="currentMonthSale" ColumnName="currentMonthSale" />
+                <ScalarProperty Name="ytdSale" ColumnName="ytdSale" />
+                <ScalarProperty Name="totalPurchaseCount" ColumnName="totalPurchaseCount" />
+                <ScalarProperty Name="totalPaymentDue" ColumnName="totalPaymentDue" />
+                <ScalarProperty Name="totalSalesCount" ColumnName="totalSalesCount" />
+                <ScalarProperty Name="totalOutStandingAmount" ColumnName="totalOutStandingAmount" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vwFoams">
+            <EntityTypeMapping TypeName="IMSModel.vwFoam">
+              <MappingFragment StoreEntitySet="vwFoam">
+                <ScalarProperty Name="availableStock" ColumnName="availableStock" />
+                <ScalarProperty Name="sellingRatePerKGWithGst" ColumnName="sellingRatePerKGWithGst" />
+                <ScalarProperty Name="sellingRatePerKG" ColumnName="sellingRatePerKG" />
+                <ScalarProperty Name="sellingRatePerMMWithGst" ColumnName="sellingRatePerMMWithGst" />
+                <ScalarProperty Name="sellingRatePerMM" ColumnName="sellingRatePerMM" />
+                <ScalarProperty Name="purchaseRatePerKGWithGst" ColumnName="purchaseRatePerKGWithGst" />
+                <ScalarProperty Name="purchaseRatePerKG" ColumnName="purchaseRatePerKG" />
+                <ScalarProperty Name="purchaseRatePerMMWithGst" ColumnName="purchaseRatePerMMWithGst" />
+                <ScalarProperty Name="purchaseRatePerMM" ColumnName="purchaseRatePerMM" />
+                <ScalarProperty Name="gst" ColumnName="gst" />
+                <ScalarProperty Name="hsnCode" ColumnName="hsnCode" />
+                <ScalarProperty Name="uom" ColumnName="uom" />
+                <ScalarProperty Name="itemCode" ColumnName="itemCode" />
+                <ScalarProperty Name="sizeId" ColumnName="sizeId" />
+                <ScalarProperty Name="sizeCode" ColumnName="sizeCode" />
+                <ScalarProperty Name="desityId" ColumnName="desityId" />
+                <ScalarProperty Name="density" ColumnName="density" />
+                <ScalarProperty Name="qualityId" ColumnName="qualityId" />
+                <ScalarProperty Name="qualityCode" ColumnName="qualityCode" />
+                <ScalarProperty Name="collectionId" ColumnName="collectionId" />
+                <ScalarProperty Name="Collection" ColumnName="Collection" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vwFWRs">
+            <EntityTypeMapping TypeName="IMSModel.vwFWR">
+              <MappingFragment StoreEntitySet="vwFWR">
+                <ScalarProperty Name="availableStock" ColumnName="availableStock" />
+                <ScalarProperty Name="purchaseFlatRateWithGst" ColumnName="purchaseFlatRateWithGst" />
+                <ScalarProperty Name="purchaseFlatRate" ColumnName="purchaseFlatRate" />
+                <ScalarProperty Name="flatRateWithGst" ColumnName="flatRateWithGst" />
+                <ScalarProperty Name="flatRate" ColumnName="flatRate" />
+                <ScalarProperty Name="rrpWithGst" ColumnName="rrpWithGst" />
+                <ScalarProperty Name="rrp" ColumnName="rrp" />
+                <ScalarProperty Name="rollRateWithGst" ColumnName="rollRateWithGst" />
+                <ScalarProperty Name="roleRate" ColumnName="roleRate" />
+                <ScalarProperty Name="cutRateWithGst" ColumnName="cutRateWithGst" />
+                <ScalarProperty Name="cutRate" ColumnName="cutRate" />
+                <ScalarProperty Name="size" ColumnName="size" />
+                <ScalarProperty Name="width" ColumnName="width" />
+                <ScalarProperty Name="gst" ColumnName="gst" />
+                <ScalarProperty Name="hsnCode" ColumnName="hsnCode" />
+                <ScalarProperty Name="uom" ColumnName="uom" />
+                <ScalarProperty Name="serialNumber" ColumnName="serialNumber" />
+                <ScalarProperty Name="QDS" ColumnName="QDS" />
+                <ScalarProperty Name="Collection" ColumnName="Collection" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vwMattresses">
+            <EntityTypeMapping TypeName="IMSModel.vwMattress">
+              <MappingFragment StoreEntitySet="vwMattress">
+                <ScalarProperty Name="availableStock" ColumnName="availableStock" />
+                <ScalarProperty Name="customRatePerSqFeet" ColumnName="customRatePerSqFeet" />
+                <ScalarProperty Name="purchaseRateWithGst" ColumnName="purchaseRateWithGst" />
+                <ScalarProperty Name="purchaseRate" ColumnName="purchaseRate" />
+                <ScalarProperty Name="rateWithGst" ColumnName="rateWithGst" />
+                <ScalarProperty Name="rate" ColumnName="rate" />
+                <ScalarProperty Name="gst" ColumnName="gst" />
+                <ScalarProperty Name="hsnCode" ColumnName="hsnCode" />
+                <ScalarProperty Name="uom" ColumnName="uom" />
+                <ScalarProperty Name="sizeCode" ColumnName="sizeCode" />
+                <ScalarProperty Name="thicknessCode" ColumnName="thicknessCode" />
+                <ScalarProperty Name="qualityCode" ColumnName="qualityCode" />
+                <ScalarProperty Name="Collection" ColumnName="Collection" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

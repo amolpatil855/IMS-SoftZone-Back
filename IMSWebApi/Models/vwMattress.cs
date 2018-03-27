@@ -19,6 +19,7 @@ namespace IMSWebApi.Models
         public string qualityCode { get; set; }
         public string thicknessCode { get; set; }
         public string sizeCode { get; set; }
+        public string uom { get; set; }
         public string hsnCode { get; set; }
         public string gst { get; set; }
         public decimal rate { get; set; }

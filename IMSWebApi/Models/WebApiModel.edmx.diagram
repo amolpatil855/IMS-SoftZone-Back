@@ -139,10 +139,6 @@
         <AssociationConnector Association="IMSModel.FK_TrnPurchaseOrder_TrnSaleOrder" />
         <AssociationConnector Association="IMSModel.FK_TrnPurchaseOrderItems_TrnPurchaseOrder" />
         <AssociationConnector Association="IMSModel.FK_TrnSaleOrderItems_TrnSaleOrder" />
-        <EntityTypeShape EntityType="IMSModel.vwAccessory" Width="1.5" PointX="5.75" PointY="0.75" />
-        <EntityTypeShape EntityType="IMSModel.vwFoam" Width="1.5" PointX="5.75" PointY="4.75" />
-        <EntityTypeShape EntityType="IMSModel.vwFWR" Width="1.5" PointX="0.75" PointY="6.75" />
-        <EntityTypeShape EntityType="IMSModel.vwMattress" Width="1.5" PointX="2.75" PointY="6.75" />
         <EntityTypeShape EntityType="IMSModel.TrnProductStock" Width="1.5" PointX="24" PointY="41" />
         <EntityTypeShape EntityType="IMSModel.TrnProductStockDetail" Width="1.5" PointX="27" PointY="46.875" />
         <AssociationConnector Association="IMSModel.FK_TrnProductStock_MstAccessory" />
@@ -190,6 +186,11 @@
         <AssociationConnector Association="IMSModel.FK_TrnMaterialQuotationItems_MstMatThickness" />
         <AssociationConnector Association="IMSModel.FK_TrnMaterialQuotationItems_MstQuality" />
         <AssociationConnector Association="IMSModel.FK_TrnMaterialQuotationItems_TrnMaterialQuotation" />
+        <EntityTypeShape EntityType="IMSModel.vwAccessory" Width="1.5" PointX="5.75" PointY="0.75" />
+        <EntityTypeShape EntityType="IMSModel.vwDasBoard" Width="1.5" PointX="5.75" PointY="5.75" />
+        <EntityTypeShape EntityType="IMSModel.vwFoam" Width="1.5" PointX="0.75" PointY="6.75" />
+        <EntityTypeShape EntityType="IMSModel.vwFWR" Width="1.5" PointX="2.75" PointY="6.75" />
+        <EntityTypeShape EntityType="IMSModel.vwMattress" Width="1.5" PointX="7.75" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

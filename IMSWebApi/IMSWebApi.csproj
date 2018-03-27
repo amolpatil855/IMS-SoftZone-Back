@@ -264,6 +264,7 @@
     <Compile Include="Controllers\CompanyInfoController.cs" />
     <Compile Include="Controllers\CourierController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
+    <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\FinancialYearController.cs" />
     <Compile Include="Controllers\FomDensityController.cs" />
     <Compile Include="Controllers\FomSizeController.cs" />
@@ -434,6 +435,9 @@
     <Compile Include="Models\vwAccessory.cs">
       <DependentUpon>WebApiModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\vwDasBoard.cs">
+      <DependentUpon>WebApiModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\vwFoam.cs">
       <DependentUpon>WebApiModel.tt</DependentUpon>
     </Compile>
@@ -473,6 +477,7 @@
     <Compile Include="Services\CompanyLocationService.cs" />
     <Compile Include="Services\CourierService.cs" />
     <Compile Include="Services\CustomerService.cs" />
+    <Compile Include="Services\DashboardService.cs" />
     <Compile Include="Services\FinancialYearService.cs" />
     <Compile Include="Services\FomDensityService.cs" />
     <Compile Include="Services\FomSuggestedMMService.cs" />

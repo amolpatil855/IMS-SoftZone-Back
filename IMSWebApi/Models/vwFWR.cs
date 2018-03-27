@@ -18,6 +18,7 @@ namespace IMSWebApi.Models
         public string Collection { get; set; }
         public string QDS { get; set; }
         public int serialNumber { get; set; }
+        public string uom { get; set; }
         public string hsnCode { get; set; }
         public string gst { get; set; }
         public Nullable<decimal> width { get; set; }
