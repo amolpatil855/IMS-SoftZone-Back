@@ -25,7 +25,8 @@ namespace IMSWebApi.Services
             accessoryProductView = repo.vwAccessories.Where(a => !string.IsNullOrEmpty(search)
                     ? a.itemCode.StartsWith(search)
                     || a.name.StartsWith(search)
-                    || a.size.StartsWith(search) : true)
+                    || a.size.StartsWith(search)
+                    || (search.ToLower().Equals("yes") ? a.availableStock > 0 : search.ToLower().Equals("no") ? a.availableStock <= 0 : false) : true)
                     .OrderBy(q => q.itemCode)
                     .Skip(page * pageSize).Take(pageSize).ToList();
             accessoryProductView.ForEach(a => a.availableStock = a.availableStock > 0 ? a.availableStock : 0);
@@ -35,7 +36,8 @@ namespace IMSWebApi.Services
                 TotalCount = repo.vwAccessories.Where(a => !string.IsNullOrEmpty(search)
                     ? a.itemCode.StartsWith(search)
                     || a.name.StartsWith(search)
-                    || a.size.StartsWith(search) : true).Count(),
+                    || a.size.StartsWith(search)
+                    || (search.ToLower().Equals("yes") ? a.availableStock > 0 : search.ToLower().Equals("no") ? a.availableStock <= 0 : false) : true).Count(),
                 Page = page
             };
         }
@@ -43,22 +45,24 @@ namespace IMSWebApi.Services
         public ListResult<vwFWR> getFabricProducts(int pageSize, int page, string search)
         {
             List<vwFWR> fabricProductView;
-            fabricProductView = repo.vwFWRs.Where(f => !string.IsNullOrEmpty(search)
+            fabricProductView = repo.vwFWRs.Where(f => (!string.IsNullOrEmpty(search)
                     ? f.Collection.StartsWith(search)
                     || f.QDS.StartsWith(search)
-                    || f.serialNumber.ToString().StartsWith(search) : true
+                    || f.serialNumber.ToString().StartsWith(search) 
+                    || (search.ToLower().Equals("yes") ? f.availableStock > 0 : search.ToLower().Equals("no") ? f.availableStock <= 0 : false ) : true)
                     && f.Category.Equals("Fabric")
                     && f.flatRate != null)
                     .OrderBy(q => q.Collection)
                     .Skip(page * pageSize).Take(pageSize).Distinct().ToList();
-            fabricProductView.ForEach(f => f.availableStock = f.availableStock > 0 ? f.availableStock : 0);
+            fabricProductView.ForEach(f => f.availableStock = f.availableStock > 0 ? f.availableStock : 0);            
             return new ListResult<vwFWR>
             {
                 Data = fabricProductView,
-                TotalCount = repo.vwFWRs.Where(f => !string.IsNullOrEmpty(search)
+                TotalCount = repo.vwFWRs.Where(f => (!string.IsNullOrEmpty(search)
                     ? f.Collection.StartsWith(search)
                     || f.QDS.StartsWith(search)
-                    || f.serialNumber.ToString().StartsWith(search) : true
+                    || f.serialNumber.ToString().StartsWith(search)
+                    || (search.ToLower().Equals("yes") ? f.availableStock > 0 : search.ToLower().Equals("no") ? f.availableStock <= 0 : false) : true)
                     && f.Category.Equals("Fabric")
                     && f.flatRate != null).Count(),
                 Page = page
@@ -73,7 +77,8 @@ namespace IMSWebApi.Services
                     || f.qualityCode.StartsWith(search)
                     || f.density.StartsWith(search)
                     || f.sizeCode.StartsWith(search)
-                    || f.itemCode.StartsWith(search) : true)
+                    || f.itemCode.StartsWith(search)
+                    || (search.ToLower().Equals("yes") ? f.availableStock > 0 : search.ToLower().Equals("no") ? f.availableStock <= 0 : false) : true)
                     .OrderBy(q => q.Collection)
                     .Skip(page * pageSize).Take(pageSize).ToList();
             foamProductView.ForEach(f => f.availableStock = f.availableStock > 0 ? f.availableStock : 0);
@@ -85,7 +90,8 @@ namespace IMSWebApi.Services
                     || f.qualityCode.StartsWith(search)
                     || f.density.StartsWith(search)
                     || f.sizeCode.StartsWith(search)
-                    || f.itemCode.StartsWith(search) : true).Count(),
+                    || f.itemCode.StartsWith(search)
+                    || (search.ToLower().Equals("yes") ? f.availableStock > 0 : search.ToLower().Equals("no") ? f.availableStock <= 0 : false) : true).Count(),
                 Page = page
             };
         }
