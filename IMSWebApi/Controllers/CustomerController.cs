@@ -98,5 +98,19 @@ namespace IMSWebApi.Controllers
             var result = _customerService.getLoggedInCustomerDetails();
             return Ok(result);
         }
+
+
+        // POST api/Customer
+        [ApiAuthorize(AccessLevel = "materialselection")]
+        [HttpPost]
+        [Route("api/Customer/postCustomerFromMS")]
+        public IHttpActionResult postCustomerFromMS(VMCustomer customer)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            return Ok(_customerService.postCustomer(customer));
+        }
     }
 }
