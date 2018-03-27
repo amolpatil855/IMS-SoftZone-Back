@@ -80,7 +80,7 @@ namespace IMSWebApi.Services
             List<VMTrnPurchaseOrderList> purchaseOrderListingView;
             purchaseOrderListingView = repo.TrnPurchaseOrders.Where(po => !string.IsNullOrEmpty(search)
                     ? po.orderNumber.ToString().StartsWith(search)
-                    || po.MstSupplier.name.ToString().StartsWith(search)
+                    || po.MstSupplier.code.ToString().StartsWith(search)
                     || po.MstCourier.name.StartsWith(search)
                     || po.courierMode.StartsWith(search) : true)
                     .Select(po => new VMTrnPurchaseOrderList
@@ -88,7 +88,7 @@ namespace IMSWebApi.Services
                         id = po.id,
                         orderNumber = po.orderNumber,
                         orderDate = po.orderDate,
-                        supplierName = po.MstSupplier != null ? po.MstSupplier.name : null,
+                        supplierName = po.MstSupplier != null ? po.MstSupplier.code : null,
                         courierName = po.MstCourier != null ? po.MstCourier.name : null,
                         courierMode = po.courierMode,
                         totalAmount = po.totalAmount,

@@ -254,7 +254,8 @@ namespace IMSWebApi.Services
                     ? s.TrnGoodIssueNote.ginNumber.StartsWith(search)
                     || s.invoiceNumber.StartsWith(search)
                     || s.courierDockYardNumber.StartsWith(search)
-                    || s.status.StartsWith(search) : true
+                    || s.status.StartsWith(search)
+                    || (search.ToLower().Equals("yes") ? s.isPaid : search.ToLower().Equals("no") ? !(s.isPaid) : false) : true
                     && (s.TrnMaterialQuotation != null ? s.TrnMaterialQuotation.customerId == customerId : s.TrnSaleOrder.customerId == customerId)
                     && !(s.status.Equals("Created")))
                      .Select(s => new VMTrnSalesInvoiceList

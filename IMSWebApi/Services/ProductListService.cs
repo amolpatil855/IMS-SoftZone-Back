@@ -19,32 +19,36 @@ namespace IMSWebApi.Services
             _LoggedInuserId = Convert.ToInt64(HttpContext.Current.User.Identity.GetUserId());
         }
 
-        public ListResult<vwAccessory> getAccessoryProducts(int pageSize, int page, string search)
+        public ListResult<VMvwAccessory> getAccessoryProducts(int pageSize, int page, string search)
         {
-            List<vwAccessory> accessoryProductView;
+            List<VMvwAccessory> accessoryProductView;
             accessoryProductView = repo.vwAccessories.Where(a => !string.IsNullOrEmpty(search)
                     ? a.itemCode.StartsWith(search)
                     || a.name.StartsWith(search)
-                    || a.size.StartsWith(search)
                     || (search.ToLower().Equals("yes") ? a.availableStock > 0 : search.ToLower().Equals("no") ? a.availableStock <= 0 : false) : true)
+                    .Select(a => new VMvwAccessory
+                    {
+                        name = a.name,
+                        itemCode = a.itemCode,
+                        availableStock = a.availableStock
+                    })
                     .OrderBy(q => q.itemCode)
                     .Skip(page * pageSize).Take(pageSize).ToList();
             accessoryProductView.ForEach(a => a.availableStock = a.availableStock > 0 ? a.availableStock : 0);
-            return new ListResult<vwAccessory>
+            return new ListResult<VMvwAccessory>
             {
                 Data = accessoryProductView,
                 TotalCount = repo.vwAccessories.Where(a => !string.IsNullOrEmpty(search)
                     ? a.itemCode.StartsWith(search)
                     || a.name.StartsWith(search)
-                    || a.size.StartsWith(search)
                     || (search.ToLower().Equals("yes") ? a.availableStock > 0 : search.ToLower().Equals("no") ? a.availableStock <= 0 : false) : true).Count(),
                 Page = page
             };
         }
 
-        public ListResult<vwFWR> getFabricProducts(int pageSize, int page, string search)
+        public ListResult<VMvwFWR> getFabricProducts(int pageSize, int page, string search)
         {
-            List<vwFWR> fabricProductView;
+            List<VMvwFWR> fabricProductView;
             fabricProductView = repo.vwFWRs.Where(f => (!string.IsNullOrEmpty(search)
                     ? f.Collection.StartsWith(search)
                     || f.QDS.StartsWith(search)
@@ -52,10 +56,17 @@ namespace IMSWebApi.Services
                     || (search.ToLower().Equals("yes") ? f.availableStock > 0 : search.ToLower().Equals("no") ? f.availableStock <= 0 : false ) : true)
                     && f.Category.Equals("Fabric")
                     && f.flatRate != null)
+                    .Select(f => new VMvwFWR
+                    {
+                        Collection = f.Collection,
+                        QDS = f.QDS,
+                        serialNumber = f.serialNumber,
+                        availableStock = f.availableStock
+                    })
                     .OrderBy(q => q.Collection)
                     .Skip(page * pageSize).Take(pageSize).Distinct().ToList();
-            fabricProductView.ForEach(f => f.availableStock = f.availableStock > 0 ? f.availableStock : 0);            
-            return new ListResult<vwFWR>
+            fabricProductView.ForEach(f => f.availableStock = f.availableStock > 0 ? f.availableStock : 0);
+            return new ListResult<VMvwFWR>
             {
                 Data = fabricProductView,
                 TotalCount = repo.vwFWRs.Where(f => (!string.IsNullOrEmpty(search)
@@ -69,28 +80,31 @@ namespace IMSWebApi.Services
             };
         }
 
-        public ListResult<vwFoam> getFoamProducts(int pageSize, int page, string search)
+        public ListResult<VMvwFoam> getFoamProducts(int pageSize, int page, string search)
         {
-            List<vwFoam> foamProductView;
+            List<VMvwFoam> foamProductView;
             foamProductView = repo.vwFoams.Where(f => !string.IsNullOrEmpty(search)
                     ? f.Collection.StartsWith(search)
                     || f.qualityCode.StartsWith(search)
-                    || f.density.StartsWith(search)
-                    || f.sizeCode.StartsWith(search)
                     || f.itemCode.StartsWith(search)
                     || (search.ToLower().Equals("yes") ? f.availableStock > 0 : search.ToLower().Equals("no") ? f.availableStock <= 0 : false) : true)
+                    .Select(f => new VMvwFoam
+                    {
+                        Collection = f.Collection,
+                        qualityCode = f.qualityCode,
+                        itemCode = f.itemCode,
+                        availableStock =f.availableStock
+                    })
                     .OrderBy(q => q.Collection)
                     .Skip(page * pageSize).Take(pageSize).ToList();
             foamProductView.ForEach(f => f.availableStock = f.availableStock > 0 ? f.availableStock : 0);
-            return new ListResult<vwFoam>
+            return new ListResult<VMvwFoam>
             {
                 Data = foamProductView,
                 TotalCount = repo.vwFoams.Where(f => !string.IsNullOrEmpty(search)
                     ? f.Collection.StartsWith(search)
                     || f.qualityCode.StartsWith(search)
                     || f.density.StartsWith(search)
-                    || f.sizeCode.StartsWith(search)
-                    || f.itemCode.StartsWith(search)
                     || (search.ToLower().Equals("yes") ? f.availableStock > 0 : search.ToLower().Equals("no") ? f.availableStock <= 0 : false) : true).Count(),
                 Page = page
             };
@@ -132,6 +146,8 @@ namespace IMSWebApi.Services
 
             return productStock;
         }
+
+
     }
         
 }
