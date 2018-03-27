@@ -5,19 +5,21 @@ using System.Web;
 
 namespace IMSWebApi.ViewModel
 {
-    public class VMvwAccessory
+    public class VMvwMattress
     {
         public string Category { get; set; }
-        public string itemCode { get; set; }
-        public string name { get; set; }
-        public string size { get; set; }
-        public string uomCode { get; set; }
+        public string Collection { get; set; }
+        public string qualityCode { get; set; }
+        public string thicknessCode { get; set; }
+        public string sizeCode { get; set; }
+        public string uom { get; set; }
         public string hsnCode { get; set; }
         public string gst { get; set; }
-        public decimal sellingRate { get; set; }
-        public string sellingRateWithGst { get; set; }
+        public decimal rate { get; set; }
+        public string rateWithGst { get; set; }
         public decimal purchaseRate { get; set; }
         public string purchaseRateWithGst { get; set; }
+        public Nullable<decimal> customRatePerSqFeet { get; set; }
         public Nullable<decimal> availableStock { get; set; }
         public string hsnWithGST { get; set; }
     }

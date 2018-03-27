@@ -146,6 +146,10 @@ namespace IMSWebApi.App_Start
             Mapper.CreateMap<TrnAdvancePayment, VMTrnAdvancePayment>();
             Mapper.CreateMap<VMTrnAdvancePayment, TrnAdvancePayment>();
 
+            Mapper.CreateMap<vwAccessory, VMvwAccessory>();
+            Mapper.CreateMap<vwFoam, VMvwFoam>();
+            Mapper.CreateMap<vwFWR, VMvwFWR>();
+            Mapper.CreateMap<vwMattress, VMvwMattress>();
         }
     }
 }

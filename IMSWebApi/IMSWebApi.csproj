@@ -276,6 +276,7 @@
     <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Controllers\ProductListController.cs" />
     <Compile Include="Controllers\QualityController.cs" />
+    <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -487,6 +488,7 @@
     <Compile Include="Services\MatThicknessService.cs" />
     <Compile Include="Services\MenuService.cs" />
     <Compile Include="Services\ProductListService.cs" />
+    <Compile Include="Services\ReportsService.cs" />
     <Compile Include="Services\TrnAdvancePaymentService.cs" />
     <Compile Include="Services\TrnGoodIssueNoteService.cs" />
     <Compile Include="Services\TrnMaterialQuotationService.cs" />
@@ -578,6 +580,7 @@
     <Compile Include="ViewModel\ViewsVM\VMvwAccessory.cs" />
     <Compile Include="ViewModel\ViewsVM\VMvwFoam.cs" />
     <Compile Include="ViewModel\ViewsVM\VMvwFWR.cs" />
+    <Compile Include="ViewModel\ViewsVM\VMvwMattress.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />

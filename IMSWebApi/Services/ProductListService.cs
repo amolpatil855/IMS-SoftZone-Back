@@ -12,11 +12,9 @@ namespace IMSWebApi.Services
     public class ProductListService
     {
         WebAPIdbEntities repo = new WebAPIdbEntities();
-        Int64 _LoggedInuserId;
-
+       
         public ProductListService()
         {
-            _LoggedInuserId = Convert.ToInt64(HttpContext.Current.User.Identity.GetUserId());
         }
 
         public ListResult<VMvwAccessory> getAccessoryProducts(int pageSize, int page, string search)
