@@ -52,7 +52,8 @@ namespace IMSWebApi.Services
                     ? s.ginNumber.StartsWith(search)
                     || s.invoiceNumber.StartsWith(search)
                     || s.courierDockYardNumber.StartsWith(search)
-                    || s.status.StartsWith(search) : true)
+                    || s.status.StartsWith(search)
+                    || (search.ToLower().Equals("yes") ? s.isPaid  : search.ToLower().Equals("no") ? !(s.isPaid) : false) : true)
                     .OrderByDescending(p => p.id).Skip(page * pageSize).Take(pageSize).ToList();
             salesInvoiceView = result;
 
@@ -63,7 +64,8 @@ namespace IMSWebApi.Services
                     ? s.TrnGoodIssueNote.ginNumber.StartsWith(search)
                     || s.invoiceNumber.StartsWith(search)
                     || s.TrnSaleOrder.orderNumber.StartsWith(search)
-                    || s.status.StartsWith(search) : true).Count(),
+                    || s.status.StartsWith(search)
+                    || (search.ToLower().Equals("yes") ? s.isPaid : search.ToLower().Equals("no") ? !(s.isPaid) : false) : true).Count(),
                 Page = page
             };
         }
