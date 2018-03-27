@@ -26,7 +26,7 @@ namespace IMSWebApi.Controllers
          [HttpGet]
          public IHttpActionResult Get(int pageSize = 0, int page = 0, string search = null)
          {
-             var result = _shadeService.getShade(pageSize, page, search);
+             var result = _shadeService.getShades(pageSize, page, search);
              return Ok(result);
          }
 

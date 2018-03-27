@@ -27,35 +27,30 @@ namespace IMSWebApi.Services
             resourceManager = new ResourceManager("IMSWebApi.App_Data.Resource", Assembly.GetExecutingAssembly());
         }
 
-        public ListResult<VMMatSize> getMatSizes(int pageSize, int page, string search)
+        public ListResult<VMMatSizeList> getMatSizes(int pageSize, int page, string search)
         {
-            List<VMMatSize> matSizeView;
-            if (pageSize > 0)
-            {
-                var result = repo.MstMatSizes.Where(m => !string.IsNullOrEmpty(search) 
+            List<VMMatSizeList> matSizeListView;
+            matSizeListView = repo.MstMatSizes.Where(m => !string.IsNullOrEmpty(search) 
                     ? m.sizeCode.StartsWith(search) 
                     || m.MstCollection.collectionCode.StartsWith(search)
                     || m.MstQuality.qualityCode.StartsWith(search)
                     || m.MstMatThickness.thicknessCode.StartsWith(search)
                     || m.purchaseRate.ToString().StartsWith(search) : true)
-                    .OrderBy(m => m.MstCollection.collectionCode)
+                    .Select(d => new VMMatSizeList
+                    {
+                        id = d.id,
+                        collectionCode = d.MstCollection != null ? d.MstCollection.collectionCode : string.Empty,
+                        qualityCode = d.MstQuality != null ? d.MstQuality.qualityCode : string.Empty,
+                        thicknessCode = d.MstMatThickness != null ? d.MstMatThickness.thicknessCode : string.Empty,
+                        sizeCode = d.sizeCode,
+                        purchaseRate = d.purchaseRate
+                    })
+                    .OrderBy(m => m.collectionCode)
                     .Skip(page * pageSize).Take(pageSize).ToList();
-                matSizeView = Mapper.Map<List<MstMatSize>, List<VMMatSize>>(result);
-            }
-            else
+            
+            return new ListResult<VMMatSizeList>
             {
-                var result = repo.MstMatSizes.Where(m => !string.IsNullOrEmpty(search) 
-                    ? m.sizeCode.StartsWith(search)
-                    || m.MstCollection.collectionCode.StartsWith(search)
-                    || m.MstQuality.qualityCode.StartsWith(search)
-                    || m.MstMatThickness.thicknessCode.StartsWith(search)
-                    || m.purchaseRate.ToString().StartsWith(search) : true).ToList();
-                matSizeView = Mapper.Map<List<MstMatSize>, List<VMMatSize>>(result);
-            }
-
-            return new ListResult<VMMatSize>
-            {
-                Data = matSizeView,
+                Data = matSizeListView,
                 TotalCount = repo.MstMatSizes.Where(m => !string.IsNullOrEmpty(search) 
                     ? m.sizeCode.StartsWith(search) 
                     || m.MstCollection.collectionCode.StartsWith(search)

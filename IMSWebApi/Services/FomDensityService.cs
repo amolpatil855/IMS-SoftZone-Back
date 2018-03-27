@@ -27,35 +27,30 @@ namespace IMSWebApi.Services
             resourceManager = new ResourceManager("IMSWebApi.App_Data.Resource", Assembly.GetExecutingAssembly());
         }
 
-        public ListResult<VMFomDensity> getFomDensity(int pageSize, int page, string search)
+        public ListResult<VMFomDensityList> getFomDensities(int pageSize, int page, string search)
         {
-            List<VMFomDensity> fomDensityView;
-            if (pageSize > 0)
-            {
-                var result = repo.MstFomDensities.Where(f => !string.IsNullOrEmpty(search)
+            List<VMFomDensityList> fomDensityListView;
+            fomDensityListView = repo.MstFomDensities.Where(f => !string.IsNullOrEmpty(search)
                     ? f.MstCollection.collectionCode.StartsWith(search)
                     || f.MstQuality.qualityCode.StartsWith(search)
                     || f.density.StartsWith(search)
                     || f.purchaseRatePerMM.ToString().StartsWith(search)
                     || f.purchaseRatePerKG.ToString().StartsWith(search) : true)
-                    .OrderBy(f => f.MstCollection.collectionCode)
+                     .Select(f => new VMFomDensityList
+                     {
+                         id = f.id,
+                         collectionCode = f.MstCollection != null ? f.MstCollection.collectionCode : string.Empty,
+                         qualityCode = f.MstQuality != null ? f.MstQuality.qualityCode : string.Empty,
+                         density = f.density,
+                         purchaseRatePerKG = f.purchaseRatePerKG,
+                         purchaseRatePerMM = f.purchaseRatePerMM
+                     })
+                    .OrderBy(f => f.collectionCode)
                     .Skip(page * pageSize).Take(pageSize).ToList();
-                fomDensityView = Mapper.Map<List<MstFomDensity>, List<VMFomDensity>>(result);
-            }
-            else
+               
+            return new ListResult<VMFomDensityList>
             {
-                var result = repo.MstFomDensities.Where(f => !string.IsNullOrEmpty(search)
-                    ? f.MstCollection.collectionCode.StartsWith(search)
-                    || f.MstQuality.qualityCode.StartsWith(search)
-                    || f.density.StartsWith(search)
-                    || f.purchaseRatePerMM.ToString().StartsWith(search)
-                    || f.purchaseRatePerKG.ToString().StartsWith(search) : true).ToList();
-                fomDensityView = Mapper.Map<List<MstFomDensity>, List<VMFomDensity>>(result);
-            }
-
-            return new ListResult<VMFomDensity>
-            {
-                Data = fomDensityView,
+                Data = fomDensityListView,
                 TotalCount = repo.MstFomDensities.Where(f => !string.IsNullOrEmpty(search)
                     ? f.MstCollection.collectionCode.StartsWith(search)
                     || f.MstQuality.qualityCode.StartsWith(search)

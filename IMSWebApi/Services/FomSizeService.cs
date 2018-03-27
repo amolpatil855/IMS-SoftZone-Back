@@ -27,38 +27,32 @@ namespace IMSWebApi.Services
             resourceManager = new ResourceManager("IMSWebApi.App_Data.Resource", Assembly.GetExecutingAssembly());
         }
 
-        public ListResult<VMFomSize> getFomSizes(int pageSize, int page, string search)
+        public ListResult<VMFomSizeList> getFomSizes(int pageSize, int page, string search)
         {
-            List<VMFomSize> fomSizeView;
-            if (pageSize > 0)
-            {
-                var result = repo.MstFomSizes.Where(q => !string.IsNullOrEmpty(search)
+            List<VMFomSizeList> fomSizeListView;
+            fomSizeListView= repo.MstFomSizes.Where(q => !string.IsNullOrEmpty(search)
                     ? q.MstCollection.collectionCode.StartsWith(search)
                     || q.MstQuality.qualityCode.StartsWith(search)
                     || q.MstFomDensity.density.ToString().StartsWith(search)
                     || q.MstFomSuggestedMM.suggestedMM.ToString().StartsWith(search)
                     || q.sizeCode.StartsWith(search)
                     || q.itemCode.StartsWith(search): true)
-                    .OrderBy(q => q.MstCollection.collectionCode)
+                    .Select(f => new VMFomSizeList
+                    {
+                        id = f.id,
+                        collectionCode = f.MstCollection != null ? f.MstCollection.collectionCode : string.Empty,
+                        qualityCode = f.MstQuality != null ? f.MstQuality.qualityCode : string.Empty,
+                        density = f.MstFomDensity != null ? f.MstFomDensity.density : string.Empty,
+                        suggestedMM = f.MstFomSuggestedMM != null ? f.MstFomSuggestedMM.suggestedMM.ToString() : string.Empty,
+                        sizeCode = f.sizeCode,
+                        itemCode = f.itemCode
+                    })
+                    .OrderBy(q => q.collectionCode)
                     .Skip(page * pageSize).Take(pageSize).ToList();
-                fomSizeView = Mapper.Map<List<MstFomSize>, List<VMFomSize>>(result);
-            }
-            else
-            {
-                var result = repo.MstFomSizes.Where(q => !string.IsNullOrEmpty(search)
-                    ? q.MstCategory.code.StartsWith(search)
-                    || q.MstCollection.collectionCode.StartsWith(search)
-                    || q.MstQuality.qualityCode.StartsWith(search)
-                    || q.MstFomDensity.density.ToString().StartsWith(search)
-                    || q.MstFomSuggestedMM.suggestedMM.ToString().StartsWith(search)
-                    || q.sizeCode.StartsWith(search)
-                    || q.itemCode.StartsWith(search) : true).ToList();
-                fomSizeView = Mapper.Map<List<MstFomSize>, List<VMFomSize>>(result);
-            }
 
-            return new ListResult<VMFomSize>
+            return new ListResult<VMFomSizeList>
             {
-                Data = fomSizeView,
+                Data = fomSizeListView,
                 TotalCount = repo.MstFomSizes.Where(q => !string.IsNullOrEmpty(search)
                     ? q.MstCategory.code.StartsWith(search)
                     || q.MstCollection.collectionCode.StartsWith(search)

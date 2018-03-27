@@ -27,33 +27,28 @@ namespace IMSWebApi.Services
             resourceManager = new ResourceManager("IMSWebApi.App_Data.Resource", Assembly.GetExecutingAssembly());
         }
 
-        public ListResult<VMFomSuggestedMM> getFomSuggestedMM(int pageSize, int page, string search)
+        public ListResult<VMFomSuggestedMMList> getFomSuggestedMMs(int pageSize, int page, string search)
         {
-            List<VMFomSuggestedMM> fomSuggestedMMView;
-            if (pageSize > 0)
-            {
-                var result = repo.MstFomSuggestedMMs.Where(q => !string.IsNullOrEmpty(search)
+            List<VMFomSuggestedMMList> fomSuggestedMMListView;
+            fomSuggestedMMListView= repo.MstFomSuggestedMMs.Where(q => !string.IsNullOrEmpty(search)
                     ? q.MstFomDensity.density.StartsWith(search)
                     || q.MstCollection.collectionCode.StartsWith(search)
                     || q.MstQuality.qualityCode.StartsWith(search) 
                     || q.suggestedMM.ToString().StartsWith(search): true)
-                    .OrderBy(q => q.MstCollection.collectionCode)
+                     .Select(f => new VMFomSuggestedMMList
+                     {
+                         id = f.id,
+                         collectionCode = f.MstCollection != null ? f.MstCollection.collectionCode : string.Empty,
+                         qualityCode = f.MstQuality != null ? f.MstQuality.qualityCode : string.Empty,
+                         density = f.MstFomDensity != null ? f.MstFomDensity.density : string.Empty,
+                         suggestedMM = f.suggestedMM
+                     })
+                    .OrderBy(q => q.collectionCode)
                     .Skip(page * pageSize).Take(pageSize).ToList();
-                fomSuggestedMMView = Mapper.Map<List<MstFomSuggestedMM>, List<VMFomSuggestedMM>>(result);
-            }
-            else
-            {
-                var result = repo.MstFomSuggestedMMs.Where(q => !string.IsNullOrEmpty(search)
-                    ? q.MstFomDensity.density.StartsWith(search)
-                    || q.MstCollection.collectionCode.StartsWith(search)
-                    || q.MstQuality.qualityCode.StartsWith(search)
-                    || q.suggestedMM.ToString().StartsWith(search) : true).ToList();
-                fomSuggestedMMView = Mapper.Map<List<MstFomSuggestedMM>, List<VMFomSuggestedMM>>(result);
-            }
 
-            return new ListResult<VMFomSuggestedMM>
+            return new ListResult<VMFomSuggestedMMList>
             {
-                Data = fomSuggestedMMView,
+                Data = fomSuggestedMMListView,
                 TotalCount = repo.MstFomSuggestedMMs.Where(q => !string.IsNullOrEmpty(search)
                     ? q.MstFomDensity.density.StartsWith(search)
                     || q.MstCollection.collectionCode.StartsWith(search)
