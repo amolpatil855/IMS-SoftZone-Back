@@ -88,7 +88,7 @@ namespace IMSWebApi.Common
             objEmail.EmailFrom = _emailFrom;
             objEmail.Password = _password;
             objEmail.EmailTo.Add(adminEmail);
-            objEmail.Subject = "Purchase Order Generated";
+            objEmail.Subject = "Purchase Order Approved";
             objEmail.EnableSSL = true;
             objEmail.Body = sbEmailDetails.ToString();
             objEmail.isBodyHtml = true;
@@ -99,10 +99,9 @@ namespace IMSWebApi.Common
         //When PO approved, Notifiy Supplier and Admin for PO approved
         public void notifySupplierForPO(VMTrnPurchaseOrder purchaseOrder, string fileName, string supplierEmail, string adminEmail)
         {
-            string shippingAddress = purchaseOrder.shippingAddress != null ? purchaseOrder.shippingAddress : 
-                purchaseOrder.MstCompanyLocation != null ? purchaseOrder.MstCompanyLocation.addressLine1 + " " + purchaseOrder.MstCompanyLocation.addressLine2 +
-                                                   "," + purchaseOrder.MstCompanyLocation.city + ", " + purchaseOrder.MstCompanyLocation.state + " PINCODE - "
-                                                   + purchaseOrder.MstCompanyLocation.pin : string.Empty;
+            string shippingAddress = purchaseOrder.shippingAddress != null ? purchaseOrder.shippingAddress :
+                purchaseOrder.MstCompanyLocation != null ? (purchaseOrder.MstCompanyLocation.addressLine1 + "," + (purchaseOrder.MstCompanyLocation.addressLine2 != null ? purchaseOrder.MstCompanyLocation.addressLine2 + "," : "") +
+                purchaseOrder.MstCompanyLocation.city + "," + purchaseOrder.MstCompanyLocation.state + " PINCODE - " + purchaseOrder.MstCompanyLocation.pin) : string.Empty;
 
             StringBuilder sbEmailDetails = new StringBuilder();
             sbEmailDetails.AppendLine(System.IO.File.ReadAllText(HttpContext.Current.Server.MapPath(@"~\EmailTemplate\" + fileName + ".html")));
