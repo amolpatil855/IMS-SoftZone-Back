@@ -153,7 +153,7 @@ namespace IMSWebApi.Services
                 }
                 else
                 {
-                    emailNotification.notificationForSO(saleOrder, "NotificationForSO", loggedInUser, adminEmail);
+                    emailNotification.notificationForSO(saleOrder, "NotificationForSO", loggedInUser, adminEmail, saleOrderToPost.orderNumber);
                 }
 
                 transaction.Complete();

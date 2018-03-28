@@ -52,12 +52,13 @@ namespace IMSWebApi.Common
         }
 
         //When PO is created, Nofity Admin for PO created
-        public void notificationForPO(VMTrnPurchaseOrder purchaseOrder, string fileName,MstUser loggedInUser,string adminEmail)
+        public void notificationForPO(VMTrnPurchaseOrder purchaseOrder, string fileName,MstUser loggedInUser,string adminEmail, string orderNo)
         {
             StringBuilder sbEmailDetails = new StringBuilder();
             sbEmailDetails.AppendLine(System.IO.File.ReadAllText(HttpContext.Current.Server.MapPath(@"~\EmailTemplate\" + fileName + ".html")));
 
             sbEmailDetails = sbEmailDetails.Replace("@user",loggedInUser.userName);
+            sbEmailDetails = sbEmailDetails.Replace("@orderNo", orderNo);
             sbEmailDetails = sbEmailDetails.Replace("@courierMode", purchaseOrder.courierMode);
             sbEmailDetails = sbEmailDetails.Replace("@supplierName", purchaseOrder.supplierName);
             sbEmailDetails = sbEmailDetails.Replace("@shippingAddress", purchaseOrder.shippingAddress);
@@ -88,7 +89,7 @@ namespace IMSWebApi.Common
             objEmail.EmailFrom = _emailFrom;
             objEmail.Password = _password;
             objEmail.EmailTo.Add(adminEmail);
-            objEmail.Subject = "Purchase Order Approved";
+            objEmail.Subject = "Purchase Order Created";
             objEmail.EnableSSL = true;
             objEmail.Body = sbEmailDetails.ToString();
             objEmail.isBodyHtml = true;
@@ -97,7 +98,7 @@ namespace IMSWebApi.Common
         }
 
         //When PO approved, Notifiy Supplier and Admin for PO approved
-        public void notifySupplierForPO(VMTrnPurchaseOrder purchaseOrder, string fileName, string supplierEmail, string adminEmail)
+        public void notifySupplierForPO(VMTrnPurchaseOrder purchaseOrder, string fileName, string supplierEmail, string adminEmail, string orderNo)
         {
             string shippingAddress = purchaseOrder.shippingAddress != null ? purchaseOrder.shippingAddress :
                 purchaseOrder.MstCompanyLocation != null ? (purchaseOrder.MstCompanyLocation.addressLine1 + "," + (purchaseOrder.MstCompanyLocation.addressLine2 != null ? purchaseOrder.MstCompanyLocation.addressLine2 + "," : "") +
@@ -107,7 +108,8 @@ namespace IMSWebApi.Common
             sbEmailDetails.AppendLine(System.IO.File.ReadAllText(HttpContext.Current.Server.MapPath(@"~\EmailTemplate\" + fileName + ".html")));
 
             sbEmailDetails = sbEmailDetails.Replace("@courierMode", purchaseOrder.courierMode);
-            sbEmailDetails = sbEmailDetails.Replace("@supplierName", purchaseOrder.supplierName != null ? purchaseOrder.supplierName : purchaseOrder.MstSupplier.name);
+            sbEmailDetails = sbEmailDetails.Replace("@orderNo", orderNo);
+            sbEmailDetails = sbEmailDetails.Replace("@supplierName", purchaseOrder.supplierName != null ? purchaseOrder.supplierName : purchaseOrder.MstSupplier.code);
             sbEmailDetails = sbEmailDetails.Replace("@shippingAddress", shippingAddress);
             sbEmailDetails = sbEmailDetails.Replace("@courierName", purchaseOrder.courierName != null ? purchaseOrder.courierName : purchaseOrder.MstCourier.name);
 
@@ -117,13 +119,13 @@ namespace IMSWebApi.Common
             {
                 string serialOrSize = poItem.serialno != null && poItem.serialno != "" ? poItem.serialno :
                     poItem.size != null && poItem.size != "" ? poItem.size :
-                    poItem.shadeId != null ? poItem.MstFWRShade.serialNumber + "(" + poItem.MstFWRShade.shadeCode + ")" :
+                    poItem.shadeId != null ? poItem.MstFWRShade.serialNumber + "(" + poItem.MstFWRShade.shadeCode + "-" + poItem.MstFWRShade.MstFWRDesign.designCode + ")" :
                     poItem.matSizeId != null ? poItem.MstMatSize.sizeCode + " (" + poItem.MstMatSize.MstMatThickNess.thicknessCode + "-" + poItem.MstMatSize.MstQuality.qualityCode + ")" :
                     poItem.fomSizeId != null ? poItem.MstFomSize.itemCode : poItem.matSizeCode;
                 string accessoryCode = poItem.accessoryName != null && poItem.accessoryName != "" ? poItem.accessoryName :
                     poItem.accessoryId != null ? poItem.MstAccessory.itemCode : string.Empty;
                 string collectionName = poItem.collectionName != null && poItem.collectionName != "" ? poItem.collectionName :
-                    poItem.collectionId != null ? poItem.MstCollection.collectionName + " (" + poItem.MstCollection.MstSupplier.code + ")" : string.Empty;
+                    poItem.collectionId != null ? poItem.MstCollection.collectionCode + " (" + poItem.MstCollection.MstSupplier.code + ")" : string.Empty;
                 string categoryName = poItem.categoryName != null && poItem.categoryName != "" ? poItem.categoryName : poItem.MstCategory.name;
                 rows += "<tr><td>" + categoryName
                     + "</td><td> " + collectionName
@@ -143,7 +145,7 @@ namespace IMSWebApi.Common
             objEmail.Password = _password;
             objEmail.EmailTo.Add(supplierEmail);
             objEmail.EmailTo.Add(adminEmail);
-            objEmail.Subject = "Purchase Order Generated";
+            objEmail.Subject = "Purchase Order Approved";
             objEmail.EnableSSL = true;
             objEmail.Body = sbEmailDetails.ToString();
             objEmail.isBodyHtml = true;
@@ -175,7 +177,7 @@ namespace IMSWebApi.Common
                     poItem.matSizeId != null ? poItem.MstMatSize.sizeCode + " (" + poItem.MstMatSize.MstMatThickness.thicknessCode + "-" + poItem.MstMatSize.MstQuality.qualityCode + ")" :
                     poItem.fomSizeId != null ? poItem.MstFomSize.itemCode : poItem.matSizeCode;
                 string accessoryCode = poItem.accessoryId != null ? poItem.MstAccessory.itemCode : string.Empty;
-                string collectionName = poItem.collectionId != null ? poItem.MstCollection.collectionName + " (" + poItem.MstCollection.MstSupplier.code + ")" : string.Empty;
+                string collectionName = poItem.collectionId != null ? poItem.MstCollection.collectionCode + " (" + poItem.MstCollection.MstSupplier.code + ")" : string.Empty;
                 string categoryName = poItem.MstCategory.name;
                 rows += "<tr><td>" + categoryName
                     + "</td><td> " + collectionName
@@ -203,7 +205,7 @@ namespace IMSWebApi.Common
         }
 
         //Notify Admin when SO created by other users
-        public void notificationForSO(VMTrnSaleOrder saleOrder, string fileName, MstUser loggedInUser, string adminEmail)
+        public void notificationForSO(VMTrnSaleOrder saleOrder, string fileName, MstUser loggedInUser, string adminEmail, string orderNo)
         {
             StringBuilder sbEmailDetails = new StringBuilder();
             sbEmailDetails.AppendLine(System.IO.File.ReadAllText(HttpContext.Current.Server.MapPath(@"~\EmailTemplate\" + fileName + ".html")));
@@ -214,6 +216,7 @@ namespace IMSWebApi.Common
             saleOrder.MstCustomerAddress.city + ", " + saleOrder.MstCustomerAddress.state + "Pincode : " + saleOrder.MstCustomerAddress.pin) : string.Empty;
                 
             sbEmailDetails = sbEmailDetails.Replace("@user", loggedInUser.userName);
+            sbEmailDetails = sbEmailDetails.Replace("@orderNo", orderNo);
             sbEmailDetails = sbEmailDetails.Replace("@courierMode", saleOrder.courierMode);
             sbEmailDetails = sbEmailDetails.Replace("@customerName", saleOrder.customerName);
             sbEmailDetails = sbEmailDetails.Replace("@shippingAddress", shippingAddress);
@@ -261,6 +264,7 @@ namespace IMSWebApi.Common
                 saleOrder.MstCustomerAddress != null ? (saleOrder.MstCustomerAddress.addressLine1 + ", " + (saleOrder.MstCustomerAddress.addressLine2 != null ? saleOrder.MstCustomerAddress.addressLine2 + ", " : "") +
                     saleOrder.MstCustomerAddress.city + ", " + saleOrder.MstCustomerAddress.state + "Pincode : " + saleOrder.MstCustomerAddress.pin) : null;
 
+            sbEmailDetails = sbEmailDetails.Replace("@orderNo", saleOrder.orderNumber);
             sbEmailDetails = sbEmailDetails.Replace("@courierMode", saleOrder.courierMode);
             sbEmailDetails = sbEmailDetails.Replace("@customerName", saleOrder.customerName!=null ? saleOrder.customerName : saleOrder.MstCustomer.name);
             sbEmailDetails = sbEmailDetails.Replace("@shippingAddress", shippingAddress);
@@ -318,6 +322,7 @@ namespace IMSWebApi.Common
                     saleOrder.MstCustomerAddress != null ? (saleOrder.MstCustomerAddress.addressLine1 + ", " + (saleOrder.MstCustomerAddress.addressLine2 != null ? saleOrder.MstCustomerAddress.addressLine2 + ", " : "") +
                     saleOrder.MstCustomerAddress.city + ", " + saleOrder.MstCustomerAddress.state + "Pincode : " + saleOrder.MstCustomerAddress.pin) : string.Empty;
 
+            sbEmailDetails = sbEmailDetails.Replace("@orderNo", saleOrder.orderNumber);
             sbEmailDetails = sbEmailDetails.Replace("@courierMode", saleOrder.courierMode);
             sbEmailDetails = sbEmailDetails.Replace("@customerName", saleOrder.MstCustomer.name);
             sbEmailDetails = sbEmailDetails.Replace("@shippingAddress", shippingAddress);

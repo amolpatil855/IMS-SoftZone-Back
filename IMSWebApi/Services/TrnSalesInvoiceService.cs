@@ -44,6 +44,7 @@ namespace IMSWebApi.Services
                         invoiceNumber = s.invoiceNumber,
                         invoiceDate = s.invoiceDate,
                         ginNumber = s.TrnGoodIssueNote.ginNumber,
+                        totalAmount = s.totalAmount,
                         status = s.status,
                         courierDockYardNumber = s.courierDockYardNumber,
                         isPaid = s.isPaid
@@ -250,12 +251,12 @@ namespace IMSWebApi.Services
             Int64 customerId = repo.MstCustomers.Where(c => c.userId == _LoggedInuserId).FirstOrDefault().id;
             List<VMTrnSalesInvoiceList> salesInvoiceView;
             salesInvoiceView = repo.TrnSalesInvoices
-                    .Where(s => !string.IsNullOrEmpty(search)
+                    .Where(s => (!string.IsNullOrEmpty(search)
                     ? s.TrnGoodIssueNote.ginNumber.StartsWith(search)
                     || s.invoiceNumber.StartsWith(search)
                     || s.courierDockYardNumber.StartsWith(search)
                     || s.status.StartsWith(search)
-                    || (search.ToLower().Equals("yes") ? s.isPaid : search.ToLower().Equals("no") ? !(s.isPaid) : false) : true
+                    || (search.ToLower().Equals("yes") ? s.isPaid : search.ToLower().Equals("no") ? !(s.isPaid) : false) : true)
                     && (s.TrnMaterialQuotation != null ? s.TrnMaterialQuotation.customerId == customerId : s.TrnSaleOrder.customerId == customerId)
                     && !(s.status.Equals("Created")))
                      .Select(s => new VMTrnSalesInvoiceList

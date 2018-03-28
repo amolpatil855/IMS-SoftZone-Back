@@ -104,6 +104,7 @@ namespace IMSWebApi.Services
                 mqItem.size = mqItem.MstMatSize != null ? mqItem.MstMatSize.sizeCode + " (" + mqItem.MstMatSize.MstMatThickNess.thicknessCode + "-" + mqItem.MstMatSize.MstQuality.qualityCode + ")" :
                     mqItem.matHeight != null && mqItem.matWidth != null ? (mqItem.matHeight + "x" + mqItem.matWidth + " (" + mqItem.MstMatThickness.thicknessCode + "-" + mqItem.MstQuality.qualityCode + ")") : null; 
             });
+            materialQuotationView.advanceAmount = repo.TrnAdvancePayments.Where(ap => ap.materialQuotationId == id).Select(ap => ap.amount).DefaultIfEmpty(0).Sum();
             materialQuotationView.TrnMaterialQuotationItems.ForEach(mqItem => mqItem.TrnMaterialQuotation = null);
             materialQuotationView.TrnMaterialSelection.TrnMaterialQuotations = null;
             materialQuotationView.TrnMaterialSelection.TrnMaterialSelectionItems.ForEach(msItems => msItems.TrnMaterialSelection = null);
