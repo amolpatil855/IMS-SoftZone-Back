@@ -26,6 +26,8 @@ namespace IMSWebApi.ViewModel.SalesInvoice
         public string status { get; set; }
         [MaxLength(20)]
         public string courierDockYardNumber { get; set; }
+        [MaxLength(10)]
+        public string financialYear { get; set; }
 
         public bool isApproved { get; set; }
         

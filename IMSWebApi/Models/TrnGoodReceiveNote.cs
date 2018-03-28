@@ -25,6 +25,7 @@ namespace IMSWebApi.Models
         public long supplierId { get; set; }
         public long locationId { get; set; }
         public int totalAmount { get; set; }
+        public string financialYear { get; set; }
         public System.DateTime createdOn { get; set; }
         public long createdBy { get; set; }
         public Nullable<System.DateTime> updatedOn { get; set; }

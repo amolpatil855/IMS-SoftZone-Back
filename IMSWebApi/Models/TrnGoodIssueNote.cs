@@ -29,6 +29,7 @@ namespace IMSWebApi.Models
         public string materialQuotationNumber { get; set; }
         public Nullable<System.DateTime> ginDate { get; set; }
         public string status { get; set; }
+        public string financialYear { get; set; }
         public System.DateTime createdOn { get; set; }
         public long createdBy { get; set; }
         public Nullable<System.DateTime> updatedOn { get; set; }

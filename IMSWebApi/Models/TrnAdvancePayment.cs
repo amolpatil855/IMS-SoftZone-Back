@@ -25,6 +25,7 @@ namespace IMSWebApi.Models
         public Nullable<System.DateTime> chequeDate { get; set; }
         public string bankName { get; set; }
         public string bankBranch { get; set; }
+        public string financialYear { get; set; }
         public System.DateTime createdOn { get; set; }
         public long createdBy { get; set; }
         public Nullable<System.DateTime> updatedOn { get; set; }
