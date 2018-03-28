@@ -80,7 +80,7 @@ namespace IMSWebApi.Services
             List<VMTrnPurchaseOrderList> purchaseOrderListingView;
             purchaseOrderListingView = repo.TrnPurchaseOrders.Where(po => !string.IsNullOrEmpty(search)
                     ? po.orderNumber.ToString().StartsWith(search)
-                    || po.MstSupplier.name.ToString().StartsWith(search)
+                    || po.MstSupplier.code.ToString().StartsWith(search)
                     || po.MstCourier.name.StartsWith(search)
                     || po.courierMode.StartsWith(search) : true)
                     .Select(po => new VMTrnPurchaseOrderList
@@ -88,7 +88,7 @@ namespace IMSWebApi.Services
                         id = po.id,
                         orderNumber = po.orderNumber,
                         orderDate = po.orderDate,
-                        supplierName = po.MstSupplier != null ? po.MstSupplier.name : null,
+                        supplierName = po.MstSupplier != null ? po.MstSupplier.code : null,
                         courierName = po.MstCourier != null ? po.MstCourier.name : null,
                         courierMode = po.courierMode,
                         totalAmount = po.totalAmount,
@@ -171,11 +171,11 @@ namespace IMSWebApi.Services
 
                 if (_IsAdministrator)
                 {
-                    emailNotification.notifySupplierForPO(purchaseOrder, "NotifySupplierForPO", supplierEmail, adminEmail);
+                    emailNotification.notifySupplierForPO(purchaseOrder, "NotifySupplierForPO", supplierEmail, adminEmail, purchaseOrderToPost.orderNumber);
                 }
                 else
                 {
-                    emailNotification.notificationForPO(purchaseOrder, "NotificationForPO", loggedInUser, adminEmail);
+                    emailNotification.notificationForPO(purchaseOrder, "NotificationForPO", loggedInUser, adminEmail, purchaseOrderToPost.orderNumber);
                 }
 
                 transaction.Complete();
@@ -296,7 +296,7 @@ namespace IMSWebApi.Services
                 string supplierEmail = VMPurchaseOrder.MstSupplier.email;
 
                 string adminEmail = repo.MstUsers.Where(u => u.userName.Equals("Administrator")).FirstOrDefault().email;
-                emailNotification.notifySupplierForPO(VMPurchaseOrder, "NotifySupplierForPO", supplierEmail, adminEmail);
+                emailNotification.notifySupplierForPO(VMPurchaseOrder, "NotifySupplierForPO", supplierEmail, adminEmail, VMPurchaseOrder.orderNumber);
 
                 transaction.Complete();
                 return new ResponseMessage(id, resourceManager.GetString("POApproved"), ResponseType.Success);

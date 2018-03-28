@@ -264,6 +264,7 @@
     <Compile Include="Controllers\CompanyInfoController.cs" />
     <Compile Include="Controllers\CourierController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
+    <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\FinancialYearController.cs" />
     <Compile Include="Controllers\FomDensityController.cs" />
     <Compile Include="Controllers\FomSizeController.cs" />
@@ -275,6 +276,7 @@
     <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Controllers\ProductListController.cs" />
     <Compile Include="Controllers\QualityController.cs" />
+    <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -434,6 +436,9 @@
     <Compile Include="Models\vwAccessory.cs">
       <DependentUpon>WebApiModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\vwDasBoard.cs">
+      <DependentUpon>WebApiModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\vwFoam.cs">
       <DependentUpon>WebApiModel.tt</DependentUpon>
     </Compile>
@@ -473,6 +478,7 @@
     <Compile Include="Services\CompanyLocationService.cs" />
     <Compile Include="Services\CourierService.cs" />
     <Compile Include="Services\CustomerService.cs" />
+    <Compile Include="Services\DashboardService.cs" />
     <Compile Include="Services\FinancialYearService.cs" />
     <Compile Include="Services\FomDensityService.cs" />
     <Compile Include="Services\FomSuggestedMMService.cs" />
@@ -482,6 +488,7 @@
     <Compile Include="Services\MatThicknessService.cs" />
     <Compile Include="Services\MenuService.cs" />
     <Compile Include="Services\ProductListService.cs" />
+    <Compile Include="Services\ReportsService.cs" />
     <Compile Include="Services\TrnAdvancePaymentService.cs" />
     <Compile Include="Services\TrnGoodIssueNoteService.cs" />
     <Compile Include="Services\TrnMaterialQuotationService.cs" />
@@ -504,31 +511,31 @@
     <Compile Include="ViewModel\ResponseMessage.cs" />
     <Compile Include="ViewModel\SalesInvoice\VMTrnSalesInvoiceList.cs" />
     <Compile Include="ViewModel\SalesOrder\VMTrnSaleOrderList.cs" />
-    <Compile Include="ViewModel\VMAccessory.cs" />
-    <Compile Include="ViewModel\VMAccessoryList.cs" />
-    <Compile Include="ViewModel\VMAgent.cs" />
-    <Compile Include="ViewModel\VMAgentList.cs" />
+    <Compile Include="ViewModel\ProductMasters\VMAccessory.cs" />
+    <Compile Include="ViewModel\ProductMasters\VMAccessoryList.cs" />
+    <Compile Include="ViewModel\Masters\VMAgent.cs" />
+    <Compile Include="ViewModel\Masters\VMAgentList.cs" />
     <Compile Include="ViewModel\VMCategory.cs" />
     <Compile Include="ViewModel\VMCollection.cs" />
     <Compile Include="ViewModel\VMCollectionList.cs" />
-    <Compile Include="ViewModel\VMCompanyLocation.cs" />
-    <Compile Include="ViewModel\VMCourier.cs" />
-    <Compile Include="ViewModel\VMCustomerList.cs" />
-    <Compile Include="ViewModel\VMFomDensityList.cs" />
-    <Compile Include="ViewModel\VMFomSizeList.cs" />
-    <Compile Include="ViewModel\VMFomSuggestedMMList.cs" />
-    <Compile Include="ViewModel\VMFWRDesignList.cs" />
-    <Compile Include="ViewModel\VMFinancialYear.cs" />
-    <Compile Include="ViewModel\VMFomDensity.cs" />
-    <Compile Include="ViewModel\VMFomSize.cs" />
-    <Compile Include="ViewModel\VMFomSuggestedMM.cs" />
-    <Compile Include="ViewModel\VMFWRDesign.cs" />
-    <Compile Include="ViewModel\VMFWRShadeList.cs" />
-    <Compile Include="ViewModel\VMHsn.cs" />
+    <Compile Include="ViewModel\Masters\VMCompanyLocation.cs" />
+    <Compile Include="ViewModel\Masters\VMCourier.cs" />
+    <Compile Include="ViewModel\Masters\VMCustomerList.cs" />
+    <Compile Include="ViewModel\ProductMasters\VMFomDensityList.cs" />
+    <Compile Include="ViewModel\ProductMasters\VMFomSizeList.cs" />
+    <Compile Include="ViewModel\ProductMasters\VMFomSuggestedMMList.cs" />
+    <Compile Include="ViewModel\ProductMasters\VMFWRDesignList.cs" />
+    <Compile Include="ViewModel\Masters\VMFinancialYear.cs" />
+    <Compile Include="ViewModel\ProductMasters\VMFomDensity.cs" />
+    <Compile Include="ViewModel\ProductMasters\VMFomSize.cs" />
+    <Compile Include="ViewModel\ProductMasters\VMFomSuggestedMM.cs" />
+    <Compile Include="ViewModel\ProductMasters\VMFWRDesign.cs" />
+    <Compile Include="ViewModel\ProductMasters\VMFWRShadeList.cs" />
+    <Compile Include="ViewModel\Masters\VMHsn.cs" />
     <Compile Include="ViewModel\VMLookUpItem.cs" />
-    <Compile Include="ViewModel\VMMatSize.cs" />
-    <Compile Include="ViewModel\VMMatSizeList.cs" />
-    <Compile Include="ViewModel\VMMatThickness.cs" />
+    <Compile Include="ViewModel\ProductMasters\VMMatSize.cs" />
+    <Compile Include="ViewModel\ProductMasters\VMMatSizeList.cs" />
+    <Compile Include="ViewModel\ProductMasters\VMMatThickness.cs" />
     <Compile Include="ViewModel\VMPOagainstSO.cs" />
     <Compile Include="ViewModel\VMProductDetails.cs" />
     <Compile Include="ViewModel\GoodIssueNote\VMTrnGoodIssueNote.cs" />
@@ -543,17 +550,17 @@
     <Compile Include="ViewModel\MaterialSelection\VMTrnMaterialSelectionList.cs" />
     <Compile Include="ViewModel\AdvancePayment\VMTrnAdvancePayment.cs" />
     <Compile Include="ViewModel\ProductStock\VMTrnProductStock.cs" />
-    <Compile Include="ViewModel\VMQuality.cs" />
-    <Compile Include="ViewModel\VMFWRShade.cs" />
-    <Compile Include="ViewModel\VMQualityList.cs" />
-    <Compile Include="ViewModel\VMSupplier.cs" />
+    <Compile Include="ViewModel\ProductMasters\VMQuality.cs" />
+    <Compile Include="ViewModel\ProductMasters\VMFWRShade.cs" />
+    <Compile Include="ViewModel\ProductMasters\VMQualityList.cs" />
+    <Compile Include="ViewModel\Masters\VMSupplier.cs" />
     <Compile Include="ViewModel\VMCFGRoleMenu.cs" />
-    <Compile Include="ViewModel\VMCompanyInfo.cs" />
-    <Compile Include="ViewModel\VMCustomer.cs" />
-    <Compile Include="ViewModel\VMCustomerAddress.cs" />
+    <Compile Include="ViewModel\Masters\VMCompanyInfo.cs" />
+    <Compile Include="ViewModel\Masters\VMCustomer.cs" />
+    <Compile Include="ViewModel\Masters\VMCustomerAddress.cs" />
     <Compile Include="ViewModel\VMMenu.cs" />
     <Compile Include="ViewModel\VMRole.cs" />
-    <Compile Include="ViewModel\VMSupplierAddress.cs" />
+    <Compile Include="ViewModel\Masters\VMSupplierAddress.cs" />
     <Compile Include="ViewModel\GoodReceiveNote\VMTrnGoodReceiveNote.cs" />
     <Compile Include="ViewModel\GoodReceiveNote\VMTrnGoodReceiveNoteItem.cs" />
     <Compile Include="ViewModel\ProductStock\VMTrnProductStockDetail.cs" />
@@ -566,10 +573,14 @@
     <Compile Include="ViewModel\PurchaseOrder\VMTrnPurchaseOrderList.cs" />
     <Compile Include="ViewModel\ProductStock\VMTrnProductStockList.cs" />
     <Compile Include="ViewModel\ProductStock\VMTrnProductStockDetailList.cs" />
-    <Compile Include="ViewModel\VMSupplierList.cs" />
+    <Compile Include="ViewModel\Masters\VMSupplierList.cs" />
     <Compile Include="ViewModel\VMUnitOfMeasure.cs" />
     <Compile Include="ViewModel\VMUser.cs" />
     <Compile Include="ViewModel\VMUserType.cs" />
+    <Compile Include="ViewModel\ViewsVM\VMvwAccessory.cs" />
+    <Compile Include="ViewModel\ViewsVM\VMvwFoam.cs" />
+    <Compile Include="ViewModel\ViewsVM\VMvwFWR.cs" />
+    <Compile Include="ViewModel\ViewsVM\VMvwMattress.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
