@@ -898,7 +898,7 @@ warning 6002: The table/view 'IMS.dbo.vwAccessory' does not have a primary key d
             <PropertyRef Name="itemCode" />
             <PropertyRef Name="name" />
             <PropertyRef Name="size" />
-            <PropertyRef Name="uomCode" />
+            <PropertyRef Name="uom" />
             <PropertyRef Name="hsnCode" />
             <PropertyRef Name="sellingRate" />
             <PropertyRef Name="purchaseRate" />
@@ -907,7 +907,7 @@ warning 6002: The table/view 'IMS.dbo.vwAccessory' does not have a primary key d
           <Property Name="itemCode" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="size" Type="varchar" MaxLength="20" Nullable="false" />
-          <Property Name="uomCode" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="uom" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="hsnCode" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="gst" Type="varchar" MaxLength="31" />
           <Property Name="sellingRate" Type="decimal" Precision="7" Scale="2" Nullable="false" />
@@ -916,11 +916,6 @@ warning 6002: The table/view 'IMS.dbo.vwAccessory' does not have a primary key d
           <Property Name="purchaseRateWithGst" Type="nvarchar" MaxLength="4000" />
           <Property Name="availableStock" Type="decimal" Precision="9" Scale="2" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6013: The table/view 'IMS.dbo.vwAccessoryStockValue' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="vwAccessoryStockValue">
-          <Property Name="accessoryStockValue" Type="decimal" Precision="38" Scale="2" />
-        </EntityType>-->
         <!--Errors Found During Generation:
 warning 6002: The table/view 'IMS.dbo.vwDasBoard' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwDasBoard">
@@ -981,11 +976,6 @@ warning 6002: The table/view 'IMS.dbo.vwFoam' does not have a primary key define
           <Property Name="availableStock" Type="decimal" Precision="9" Scale="2" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6013: The table/view 'IMS.dbo.vwFoamStockValue' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="vwFoamStockValue">
-          <Property Name="foamStockValue" Type="decimal" Precision="38" Scale="2" />
-        </EntityType>-->
-        <!--Errors Found During Generation:
 warning 6002: The table/view 'IMS.dbo.vwFWR' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwFWR">
           <Key>
@@ -1018,11 +1008,6 @@ warning 6002: The table/view 'IMS.dbo.vwFWR' does not have a primary key defined
           <Property Name="availableStock" Type="decimal" Precision="9" Scale="2" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6013: The table/view 'IMS.dbo.vwFWRStockValue' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="vwFWRStockValue">
-          <Property Name="FWRStockValue" Type="decimal" Precision="38" Scale="2" />
-        </EntityType>-->
-        <!--Errors Found During Generation:
 warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwMattress">
           <Key>
@@ -1051,11 +1036,6 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <Property Name="customRatePerSqFeet" Type="decimal" Precision="7" Scale="2" />
           <Property Name="availableStock" Type="decimal" Precision="9" Scale="2" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6013: The table/view 'IMS.dbo.vwMattressStockValue' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="vwMattressStockValue">
-          <Property Name="mattressStockValue" Type="decimal" Precision="38" Scale="2" />
-        </EntityType>-->
         <Association Name="FK_CFGRoleMenu_MstMenu">
           <End Role="MstMenu" Type="Self.MstMenu" Multiplicity="1" />
           <End Role="CFGRoleMenu" Type="Self.CFGRoleMenu" Multiplicity="*" />
@@ -2757,7 +2737,7 @@ warning 6013: The table/view 'IMS.dbo.vwMattressStockValue' does not have a prim
     [vwAccessory].[itemCode] AS [itemCode], 
     [vwAccessory].[name] AS [name], 
     [vwAccessory].[size] AS [size], 
-    [vwAccessory].[uomCode] AS [uomCode], 
+    [vwAccessory].[uom] AS [uom], 
     [vwAccessory].[hsnCode] AS [hsnCode], 
     [vwAccessory].[gst] AS [gst], 
     [vwAccessory].[sellingRate] AS [sellingRate], 
@@ -3445,7 +3425,6 @@ warning 6013: The table/view 'IMS.dbo.vwMattressStockValue' does not have a prim
           <EntitySet Name="TrnSaleOrderItems" EntityType="IMSModel.TrnSaleOrderItem" />
           <EntitySet Name="TrnSalesInvoices" EntityType="IMSModel.TrnSalesInvoice" />
           <EntitySet Name="TrnSalesInvoiceItems" EntityType="IMSModel.TrnSalesInvoiceItem" />
-          <EntitySet Name="vwAccessories" EntityType="IMSModel.vwAccessory" />
           <EntitySet Name="vwDasBoards" EntityType="IMSModel.vwDasBoard" />
           <EntitySet Name="vwFoams" EntityType="IMSModel.vwFoam" />
           <EntitySet Name="vwFWRs" EntityType="IMSModel.vwFWR" />
@@ -3998,6 +3977,7 @@ warning 6013: The table/view 'IMS.dbo.vwMattressStockValue' does not have a prim
             <End Role="TrnSalesInvoice" EntitySet="TrnSalesInvoices" />
             <End Role="TrnSalesInvoiceItem" EntitySet="TrnSalesInvoiceItems" />
           </AssociationSet>
+          <EntitySet Name="vwAccessories" EntityType="IMSModel.vwAccessory" />
         </EntityContainer>
         <EntityType Name="CFGRoleMenu">
           <Key>
@@ -5157,30 +5137,6 @@ warning 6013: The table/view 'IMS.dbo.vwMattressStockValue' does not have a prim
           <NavigationProperty Name="MstFWRShade" Relationship="IMSModel.FK_TrnSalesInvoiceItems_MstFWRShade" FromRole="TrnSalesInvoiceItem" ToRole="MstFWRShade" />
           <NavigationProperty Name="MstMatSize" Relationship="IMSModel.FK_TrnSalesInvoiceItems_MstMatSize" FromRole="TrnSalesInvoiceItem" ToRole="MstMatSize" />
           <NavigationProperty Name="TrnSalesInvoice" Relationship="IMSModel.FK_TrnSalesInvoiceItems_TrnSalesInvoice" FromRole="TrnSalesInvoiceItem" ToRole="TrnSalesInvoice" />
-        </EntityType>
-        <EntityType Name="vwAccessory">
-          <Key>
-            <PropertyRef Name="Category" />
-            <PropertyRef Name="itemCode" />
-            <PropertyRef Name="name" />
-            <PropertyRef Name="size" />
-            <PropertyRef Name="uomCode" />
-            <PropertyRef Name="hsnCode" />
-            <PropertyRef Name="sellingRate" />
-            <PropertyRef Name="purchaseRate" />
-          </Key>
-          <Property Name="Category" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="itemCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="size" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="uomCode" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="hsnCode" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="gst" Type="String" MaxLength="31" FixedLength="false" Unicode="false" />
-          <Property Name="sellingRate" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
-          <Property Name="sellingRateWithGst" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
-          <Property Name="purchaseRate" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
-          <Property Name="purchaseRateWithGst" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
-          <Property Name="availableStock" Type="Decimal" Precision="9" Scale="2" />
         </EntityType>
         <EntityType Name="vwDasBoard">
           <Key>
@@ -6944,6 +6900,30 @@ warning 6013: The table/view 'IMS.dbo.vwMattressStockValue' does not have a prim
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="vwAccessory">
+          <Key>
+            <PropertyRef Name="Category" />
+            <PropertyRef Name="itemCode" />
+            <PropertyRef Name="name" />
+            <PropertyRef Name="size" />
+            <PropertyRef Name="uom" />
+            <PropertyRef Name="hsnCode" />
+            <PropertyRef Name="sellingRate" />
+            <PropertyRef Name="purchaseRate" />
+          </Key>
+          <Property Name="Category" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="itemCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="size" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="uom" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="hsnCode" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="gst" Type="String" MaxLength="31" FixedLength="false" Unicode="false" />
+          <Property Name="sellingRate" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
+          <Property Name="sellingRateWithGst" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="purchaseRate" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
+          <Property Name="purchaseRateWithGst" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="availableStock" Type="Decimal" Precision="9" Scale="2" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -7879,24 +7859,6 @@ warning 6013: The table/view 'IMS.dbo.vwMattressStockValue' does not have a prim
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="vwAccessories">
-            <EntityTypeMapping TypeName="IMSModel.vwAccessory">
-              <MappingFragment StoreEntitySet="vwAccessory">
-                <ScalarProperty Name="availableStock" ColumnName="availableStock" />
-                <ScalarProperty Name="purchaseRateWithGst" ColumnName="purchaseRateWithGst" />
-                <ScalarProperty Name="purchaseRate" ColumnName="purchaseRate" />
-                <ScalarProperty Name="sellingRateWithGst" ColumnName="sellingRateWithGst" />
-                <ScalarProperty Name="sellingRate" ColumnName="sellingRate" />
-                <ScalarProperty Name="gst" ColumnName="gst" />
-                <ScalarProperty Name="hsnCode" ColumnName="hsnCode" />
-                <ScalarProperty Name="uomCode" ColumnName="uomCode" />
-                <ScalarProperty Name="size" ColumnName="size" />
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="itemCode" ColumnName="itemCode" />
-                <ScalarProperty Name="Category" ColumnName="Category" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="vwDasBoards">
             <EntityTypeMapping TypeName="IMSModel.vwDasBoard">
               <MappingFragment StoreEntitySet="vwDasBoard">
@@ -7981,6 +7943,24 @@ warning 6013: The table/view 'IMS.dbo.vwMattressStockValue' does not have a prim
                 <ScalarProperty Name="thicknessCode" ColumnName="thicknessCode" />
                 <ScalarProperty Name="qualityCode" ColumnName="qualityCode" />
                 <ScalarProperty Name="Collection" ColumnName="Collection" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vwAccessories">
+            <EntityTypeMapping TypeName="IMSModel.vwAccessory">
+              <MappingFragment StoreEntitySet="vwAccessory">
+                <ScalarProperty Name="availableStock" ColumnName="availableStock" />
+                <ScalarProperty Name="purchaseRateWithGst" ColumnName="purchaseRateWithGst" />
+                <ScalarProperty Name="purchaseRate" ColumnName="purchaseRate" />
+                <ScalarProperty Name="sellingRateWithGst" ColumnName="sellingRateWithGst" />
+                <ScalarProperty Name="sellingRate" ColumnName="sellingRate" />
+                <ScalarProperty Name="gst" ColumnName="gst" />
+                <ScalarProperty Name="hsnCode" ColumnName="hsnCode" />
+                <ScalarProperty Name="uom" ColumnName="uom" />
+                <ScalarProperty Name="size" ColumnName="size" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="itemCode" ColumnName="itemCode" />
                 <ScalarProperty Name="Category" ColumnName="Category" />
               </MappingFragment>
             </EntityTypeMapping>
