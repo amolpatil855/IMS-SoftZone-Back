@@ -47,7 +47,7 @@ namespace IMSWebApi.Models
         public virtual MstMatSize MstMatSize { get; set; }
         public virtual MstMatThickness MstMatThickness { get; set; }
         public virtual MstQuality MstQuality { get; set; }
-        public virtual TrnPurchaseOrder TrnPurchaseOrder { get; set; }
         public virtual TrnGoodReceiveNote TrnGoodReceiveNote { get; set; }
+        public virtual TrnPurchaseOrder TrnPurchaseOrder { get; set; }
     }
 }
