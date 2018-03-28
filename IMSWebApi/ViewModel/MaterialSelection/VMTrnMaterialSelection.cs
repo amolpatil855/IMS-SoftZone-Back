@@ -16,6 +16,8 @@ namespace IMSWebApi.ViewModel
         public Nullable<long> referById { get; set; }
         public System.DateTime materialSelectionDate { get; set; }
         public bool isQuotationCreated { get; set; }
+        [MaxLength(10)]
+        public string financialYear { get; set; }
         
         public string customerName { get; set; }
 

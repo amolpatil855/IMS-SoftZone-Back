@@ -19,6 +19,8 @@ namespace IMSWebApi.ViewModel
         public string materialQuotationNumber { get; set; }
         public Nullable<System.DateTime> ginDate { get; set; }
         public string status { get; set; }
+        [MaxLength(10)]
+        public string financialYear { get; set; }
 
         public virtual VMCustomer MstCustomer { get; set; }
         public virtual VMTrnSaleOrder TrnSaleOrder { get; set; }

@@ -93,6 +93,7 @@ namespace IMSWebApi.Services
                 var financialYear = repo.MstFinancialYears.Where(f => f.startDate <= materialSelectionToPost.materialSelectionDate.Date && f.endDate >= materialSelectionToPost.materialSelectionDate.Date).FirstOrDefault();
                 string materialselectionNo = generateOrderNumber.orderNumber(financialYear.startDate.ToString("yy"), financialYear.endDate.ToString("yy"), financialYear.materialSelectionNumber, "MS");
                 materialSelectionToPost.materialSelectionNumber = materialselectionNo;
+                materialSelectionToPost.financialYear = financialYear.financialYear;
                 materialSelectionToPost.createdOn = DateTime.Now;
                 materialSelectionToPost.createdBy = _LoggedInuserId;
 

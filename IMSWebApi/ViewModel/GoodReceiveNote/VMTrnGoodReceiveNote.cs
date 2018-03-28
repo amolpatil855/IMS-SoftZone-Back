@@ -18,6 +18,8 @@ namespace IMSWebApi.ViewModel
         public long locationId { get; set; }
         [Required]
         public int totalAmount { get; set; }
+        [MaxLength(10)]
+        public string financialYear { get; set; }
 
         public string supplierName { get; set; }
         public string shippingAddress { get; set; }

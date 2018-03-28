@@ -69,7 +69,7 @@ namespace IMSWebApi.Services
             VMTrnAdvancePayment advancePaymentView = Mapper.Map<TrnAdvancePayment, VMTrnAdvancePayment>(result);
             advancePaymentView.materialQuotationNumber = result.TrnMaterialQuotation != null ? result.TrnMaterialQuotation.materialQuotationNumber : string.Empty;
             advancePaymentView.customerName = result.MstCustomer != null ? result.MstCustomer.name : string.Empty;
-            
+           
             advancePaymentView.TrnMaterialQuotation.TrnMaterialSelection = null;
             advancePaymentView.TrnMaterialQuotation.TrnMaterialQuotationItems.ForEach(mqItem => mqItem.TrnMaterialQuotation = null);
             return advancePaymentView;
@@ -84,6 +84,7 @@ namespace IMSWebApi.Services
                 var financialYear = repo.MstFinancialYears.Where(f => f.startDate <= advancePayment.advancePaymentDate.Date && f.endDate >= advancePayment.advancePaymentDate.Date).FirstOrDefault();
                 string advPaymentNo = generateOrderNumber.orderNumber(financialYear.startDate.ToString("yy"), financialYear.endDate.ToString("yy"), financialYear.apNumber, "AP");
                 advancePaymentToPost.advancePaymentNumber = advPaymentNo;
+                advancePaymentToPost.financialYear = financialYear.financialYear;
                 advancePaymentToPost.createdOn = DateTime.Now;
                 advancePaymentToPost.createdBy = _LoggedInuserId;
 

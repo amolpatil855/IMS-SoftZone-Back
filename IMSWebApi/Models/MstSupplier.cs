@@ -19,8 +19,8 @@ namespace IMSWebApi.Models
             this.MstAccessories = new HashSet<MstAccessory>();
             this.MstCollections = new HashSet<MstCollection>();
             this.MstSupplierAddresses = new HashSet<MstSupplierAddress>();
-            this.TrnGoodReceiveNotes = new HashSet<TrnGoodReceiveNote>();
             this.TrnPurchaseOrders = new HashSet<TrnPurchaseOrder>();
+            this.TrnGoodReceiveNotes = new HashSet<TrnGoodReceiveNote>();
         }
     
         public long id { get; set; }
@@ -48,7 +48,7 @@ namespace IMSWebApi.Models
         public virtual ICollection<MstAccessory> MstAccessories { get; set; }
         public virtual ICollection<MstCollection> MstCollections { get; set; }
         public virtual ICollection<MstSupplierAddress> MstSupplierAddresses { get; set; }
-        public virtual ICollection<TrnGoodReceiveNote> TrnGoodReceiveNotes { get; set; }
         public virtual ICollection<TrnPurchaseOrder> TrnPurchaseOrders { get; set; }
+        public virtual ICollection<TrnGoodReceiveNote> TrnGoodReceiveNotes { get; set; }
     }
 }

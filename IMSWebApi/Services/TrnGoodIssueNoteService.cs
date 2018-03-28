@@ -121,6 +121,7 @@ namespace IMSWebApi.Services
                 goodIssueNoteToPost.ginNumber = orderNo;
                 goodIssueNoteToPost.ginDate = DateTime.Now;
                 goodIssueNoteToPost.status = GINStatus.Created.ToString();
+                goodIssueNoteToPost.financialYear = financialYear.financialYear;
                 goodIssueNoteToPost.createdOn = DateTime.Now;
                 goodIssueNoteToPost.createdBy = _LoggedInuserId;
 

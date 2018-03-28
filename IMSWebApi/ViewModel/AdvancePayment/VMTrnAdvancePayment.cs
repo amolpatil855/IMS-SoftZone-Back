@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -18,14 +19,12 @@ namespace IMSWebApi.ViewModel
         public Nullable<System.DateTime> chequeDate { get; set; }
         public string bankName { get; set; }
         public string bankBranch { get; set; }
-        public System.DateTime createdOn { get; set; }
-        public long createdBy { get; set; }
-        public Nullable<System.DateTime> updatedOn { get; set; }
-        public Nullable<long> updatedBy { get; set; }
+        [MaxLength(10)]
+        public string financialYear { get; set; }
 
         public string customerName { get; set; }
         public string materialQuotationNumber { get; set; }
-
+        
         public virtual VMCustomer MstCustomer { get; set; }
         public virtual VMTrnMaterialQuotation TrnMaterialQuotation { get; set; }
     }

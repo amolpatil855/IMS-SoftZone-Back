@@ -16,8 +16,8 @@ namespace IMSWebApi.Models
     {
         public MstAgent()
         {
-            this.TrnMaterialQuotations = new HashSet<TrnMaterialQuotation>();
             this.TrnSaleOrders = new HashSet<TrnSaleOrder>();
+            this.TrnMaterialQuotations = new HashSet<TrnMaterialQuotation>();
             this.TrnMaterialSelections = new HashSet<TrnMaterialSelection>();
         }
     
@@ -36,8 +36,8 @@ namespace IMSWebApi.Models
         public Nullable<System.DateTime> updatedOn { get; set; }
         public Nullable<long> updatedBy { get; set; }
     
-        public virtual ICollection<TrnMaterialQuotation> TrnMaterialQuotations { get; set; }
         public virtual ICollection<TrnSaleOrder> TrnSaleOrders { get; set; }
+        public virtual ICollection<TrnMaterialQuotation> TrnMaterialQuotations { get; set; }
         public virtual ICollection<TrnMaterialSelection> TrnMaterialSelections { get; set; }
     }
 }

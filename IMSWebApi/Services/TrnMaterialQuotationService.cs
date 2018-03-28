@@ -131,6 +131,7 @@ namespace IMSWebApi.Services
                 string materialQuotationNo = generateOrderNumber.orderNumber(financialYear.startDate.ToString("yy"), financialYear.endDate.ToString("yy"), financialYear.materialQuotationNumber, "MQ");
                 materialQuotationToPost.materialQuotationNumber = materialQuotationNo;
                 materialQuotationToPost.status = MaterialQuotationStatus.Created.ToString();
+                materialQuotationToPost.financialYear = financialYear.financialYear;
                 materialQuotationToPost.createdOn = DateTime.Now;
                 materialQuotationToPost.createdBy = _LoggedInuserId;
                 

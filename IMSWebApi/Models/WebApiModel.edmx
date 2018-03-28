@@ -502,6 +502,7 @@
           <Property Name="chequeDate" Type="date" />
           <Property Name="bankName" Type="varchar" MaxLength="50" />
           <Property Name="bankBranch" Type="varchar" MaxLength="20" />
+          <Property Name="financialYear" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="createdOn" Type="datetime" Nullable="false" />
           <Property Name="createdBy" Type="bigint" Nullable="false" />
           <Property Name="updatedOn" Type="datetime" />
@@ -520,6 +521,7 @@
           <Property Name="materialQuotationNumber" Type="varchar" MaxLength="50" />
           <Property Name="ginDate" Type="datetime" />
           <Property Name="status" Type="varchar" MaxLength="20" />
+          <Property Name="financialYear" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="createdOn" Type="datetime" Nullable="false" />
           <Property Name="createdBy" Type="bigint" Nullable="false" />
           <Property Name="updatedOn" Type="datetime" />
@@ -562,6 +564,7 @@
           <Property Name="supplierId" Type="bigint" Nullable="false" />
           <Property Name="locationId" Type="bigint" Nullable="false" />
           <Property Name="totalAmount" Type="int" Nullable="false" />
+          <Property Name="financialYear" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="createdOn" Type="datetime" Nullable="false" />
           <Property Name="createdBy" Type="bigint" Nullable="false" />
           <Property Name="updatedOn" Type="datetime" />
@@ -608,6 +611,7 @@
           <Property Name="referById" Type="bigint" />
           <Property Name="totalAmount" Type="int" Nullable="false" />
           <Property Name="status" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="financialYear" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="createdOn" Type="datetime" Nullable="false" />
           <Property Name="createdBy" Type="bigint" Nullable="false" />
           <Property Name="updatedOn" Type="datetime" />
@@ -655,6 +659,7 @@
           <Property Name="referById" Type="bigint" />
           <Property Name="materialSelectionDate" Type="datetime" Nullable="false" />
           <Property Name="isQuotationCreated" Type="bit" Nullable="false" />
+          <Property Name="financialYear" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="createdOn" Type="datetime" Nullable="false" />
           <Property Name="createdBy" Type="bigint" Nullable="false" />
           <Property Name="updatedOn" Type="datetime" />
@@ -852,6 +857,7 @@
           <Property Name="isPaid" Type="bit" Nullable="false" />
           <Property Name="status" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="courierDockYardNumber" Type="varchar" MaxLength="20" />
+          <Property Name="financialYear" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="createdOn" Type="datetime" Nullable="false" />
           <Property Name="createdBy" Type="bigint" Nullable="false" />
           <Property Name="updatedOn" Type="datetime" />
@@ -910,11 +916,6 @@ warning 6002: The table/view 'IMS.dbo.vwAccessory' does not have a primary key d
           <Property Name="purchaseRateWithGst" Type="nvarchar" MaxLength="4000" />
           <Property Name="availableStock" Type="decimal" Precision="9" Scale="2" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6013: The table/view 'IMS.dbo.vwAccessoryStockValue' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="vwAccessoryStockValue">
-          <Property Name="accessoryStockValue" Type="decimal" Precision="38" Scale="2" />
-        </EntityType>-->
         <!--Errors Found During Generation:
 warning 6002: The table/view 'IMS.dbo.vwDasBoard' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwDasBoard">
@@ -975,11 +976,6 @@ warning 6002: The table/view 'IMS.dbo.vwFoam' does not have a primary key define
           <Property Name="availableStock" Type="decimal" Precision="9" Scale="2" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6013: The table/view 'IMS.dbo.vwFoamStockValue' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="vwFoamStockValue">
-          <Property Name="foamStockValue" Type="decimal" Precision="38" Scale="2" />
-        </EntityType>-->
-        <!--Errors Found During Generation:
 warning 6002: The table/view 'IMS.dbo.vwFWR' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwFWR">
           <Key>
@@ -1012,11 +1008,6 @@ warning 6002: The table/view 'IMS.dbo.vwFWR' does not have a primary key defined
           <Property Name="availableStock" Type="decimal" Precision="9" Scale="2" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6013: The table/view 'IMS.dbo.vwFWRStockValue' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="vwFWRStockValue">
-          <Property Name="FWRStockValue" Type="decimal" Precision="38" Scale="2" />
-        </EntityType>-->
-        <!--Errors Found During Generation:
 warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwMattress">
           <Key>
@@ -1045,11 +1036,6 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <Property Name="customRatePerSqFeet" Type="decimal" Precision="7" Scale="2" />
           <Property Name="availableStock" Type="decimal" Precision="9" Scale="2" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6013: The table/view 'IMS.dbo.vwMattressStockValue' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="vwMattressStockValue">
-          <Property Name="mattressStockValue" Type="decimal" Precision="38" Scale="2" />
-        </EntityType>-->
         <Association Name="FK_CFGRoleMenu_MstMenu">
           <End Role="MstMenu" Type="Self.MstMenu" Multiplicity="1" />
           <End Role="CFGRoleMenu" Type="Self.CFGRoleMenu" Multiplicity="*" />
@@ -3422,11 +3408,7 @@ warning 6013: The table/view 'IMS.dbo.vwMattressStockValue' does not have a prim
           <EntitySet Name="MstUnitOfMeasures" EntityType="IMSModel.MstUnitOfMeasure" />
           <EntitySet Name="MstUsers" EntityType="IMSModel.MstUser" />
           <EntitySet Name="MstuserTypes" EntityType="IMSModel.MstuserType" />
-          <EntitySet Name="TrnAdvancePayments" EntityType="IMSModel.TrnAdvancePayment" />
-          <EntitySet Name="TrnGoodIssueNotes" EntityType="IMSModel.TrnGoodIssueNote" />
-          <EntitySet Name="TrnGoodReceiveNotes" EntityType="IMSModel.TrnGoodReceiveNote" />
           <EntitySet Name="TrnGoodReceiveNoteItems" EntityType="IMSModel.TrnGoodReceiveNoteItem" />
-          <EntitySet Name="TrnMaterialQuotations" EntityType="IMSModel.TrnMaterialQuotation" />
           <EntitySet Name="TrnMaterialSelectionItems" EntityType="IMSModel.TrnMaterialSelectionItem" />
           <EntitySet Name="TrnPurchaseOrders" EntityType="IMSModel.TrnPurchaseOrder" />
           <EntitySet Name="TrnPurchaseOrderItems" EntityType="IMSModel.TrnPurchaseOrderItem" />
@@ -3472,10 +3454,6 @@ warning 6013: The table/view 'IMS.dbo.vwMattressStockValue' does not have a prim
           <AssociationSet Name="FK_TrnSalesInvoiceItems_MstAccessory" Association="IMSModel.FK_TrnSalesInvoiceItems_MstAccessory">
             <End Role="MstAccessory" EntitySet="MstAccessories" />
             <End Role="TrnSalesInvoiceItem" EntitySet="TrnSalesInvoiceItems" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TrnMaterialQuotation_MstAgent" Association="IMSModel.FK_TrnMaterialQuotation_MstAgent">
-            <End Role="MstAgent" EntitySet="MstAgents" />
-            <End Role="TrnMaterialQuotation" EntitySet="TrnMaterialQuotations" />
           </AssociationSet>
           <AssociationSet Name="FK_TrnSaleOrder_MstAgent" Association="IMSModel.FK_TrnSaleOrder_MstAgent">
             <End Role="MstAgent" EntitySet="MstAgents" />
@@ -3593,10 +3571,6 @@ warning 6013: The table/view 'IMS.dbo.vwMattressStockValue' does not have a prim
             <End Role="MstCompanyLocation" EntitySet="MstCompanyLocations" />
             <End Role="MstUser" EntitySet="MstUsers" />
           </AssociationSet>
-          <AssociationSet Name="FK_TrnGoodReceiveNote_MstCompanyLocation" Association="IMSModel.FK_TrnGoodReceiveNote_MstCompanyLocation">
-            <End Role="MstCompanyLocation" EntitySet="MstCompanyLocations" />
-            <End Role="TrnGoodReceiveNote" EntitySet="TrnGoodReceiveNotes" />
-          </AssociationSet>
           <AssociationSet Name="FK_TrnPurchaseOrder_MstCompanyLocation" Association="IMSModel.FK_TrnPurchaseOrder_MstCompanyLocation">
             <End Role="MstCompanyLocation" EntitySet="MstCompanyLocations" />
             <End Role="TrnPurchaseOrder" EntitySet="TrnPurchaseOrders" />
@@ -3616,18 +3590,6 @@ warning 6013: The table/view 'IMS.dbo.vwMattressStockValue' does not have a prim
           <AssociationSet Name="FK_MstCustomerAddressDetails_MstCustomer" Association="IMSModel.FK_MstCustomerAddressDetails_MstCustomer">
             <End Role="MstCustomer" EntitySet="MstCustomers" />
             <End Role="MstCustomerAddress" EntitySet="MstCustomerAddresses" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TrnAdvancePayment_MstCustomer" Association="IMSModel.FK_TrnAdvancePayment_MstCustomer">
-            <End Role="MstCustomer" EntitySet="MstCustomers" />
-            <End Role="TrnAdvancePayment" EntitySet="TrnAdvancePayments" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TrnGoodIssueNote_MstCustomer" Association="IMSModel.FK_TrnGoodIssueNote_MstCustomer">
-            <End Role="MstCustomer" EntitySet="MstCustomers" />
-            <End Role="TrnGoodIssueNote" EntitySet="TrnGoodIssueNotes" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TrnMaterialQuotation_MstCustomer" Association="IMSModel.FK_TrnMaterialQuotation_MstCustomer">
-            <End Role="MstCustomer" EntitySet="MstCustomers" />
-            <End Role="TrnMaterialQuotation" EntitySet="TrnMaterialQuotations" />
           </AssociationSet>
           <AssociationSet Name="FK_TrnSaleOrder_MstCustomer" Association="IMSModel.FK_TrnSaleOrder_MstCustomer">
             <End Role="MstCustomer" EntitySet="MstCustomers" />
@@ -3773,10 +3735,6 @@ warning 6013: The table/view 'IMS.dbo.vwMattressStockValue' does not have a prim
             <End Role="MstSupplier" EntitySet="MstSuppliers" />
             <End Role="MstSupplierAddress" EntitySet="MstSupplierAddresses" />
           </AssociationSet>
-          <AssociationSet Name="FK_TrnGoodReceiveNote_MstSupplier" Association="IMSModel.FK_TrnGoodReceiveNote_MstSupplier">
-            <End Role="MstSupplier" EntitySet="MstSuppliers" />
-            <End Role="TrnGoodReceiveNote" EntitySet="TrnGoodReceiveNotes" />
-          </AssociationSet>
           <AssociationSet Name="FK_TrnPurchaseOrder_MstSupplier" Association="IMSModel.FK_TrnPurchaseOrder_MstSupplier">
             <End Role="MstSupplier" EntitySet="MstSuppliers" />
             <End Role="TrnPurchaseOrder" EntitySet="TrnPurchaseOrders" />
@@ -3784,22 +3742,6 @@ warning 6013: The table/view 'IMS.dbo.vwMattressStockValue' does not have a prim
           <AssociationSet Name="FK_MstUser_MstUserType" Association="IMSModel.FK_MstUser_MstUserType">
             <End Role="MstuserType" EntitySet="MstuserTypes" />
             <End Role="MstUser" EntitySet="MstUsers" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TrnAdvancePayment_TrnMaterialQuotation" Association="IMSModel.FK_TrnAdvancePayment_TrnMaterialQuotation">
-            <End Role="TrnMaterialQuotation" EntitySet="TrnMaterialQuotations" />
-            <End Role="TrnAdvancePayment" EntitySet="TrnAdvancePayments" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TrnGoodIssueNote_TrnMaterialQuotation" Association="IMSModel.FK_TrnGoodIssueNote_TrnMaterialQuotation">
-            <End Role="TrnMaterialQuotation" EntitySet="TrnMaterialQuotations" />
-            <End Role="TrnGoodIssueNote" EntitySet="TrnGoodIssueNotes" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TrnGoodIssueNote_TrnSaleOrder" Association="IMSModel.FK_TrnGoodIssueNote_TrnSaleOrder">
-            <End Role="TrnSaleOrder" EntitySet="TrnSaleOrders" />
-            <End Role="TrnGoodIssueNote" EntitySet="TrnGoodIssueNotes" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TrnGoodReceiveNoteItems_TrnGoodReceiveNote" Association="IMSModel.FK_TrnGoodReceiveNoteItems_TrnGoodReceiveNote">
-            <End Role="TrnGoodReceiveNote" EntitySet="TrnGoodReceiveNotes" />
-            <End Role="TrnGoodReceiveNoteItem" EntitySet="TrnGoodReceiveNoteItems" />
           </AssociationSet>
           <AssociationSet Name="FK_TrnGoodReceiveNoteItems_TrnPurchaseOrder" Association="IMSModel.FK_TrnGoodReceiveNoteItems_TrnPurchaseOrder">
             <End Role="TrnPurchaseOrder" EntitySet="TrnPurchaseOrders" />
@@ -3920,44 +3862,6 @@ warning 6013: The table/view 'IMS.dbo.vwMattressStockValue' does not have a prim
             <End Role="MstQuality" EntitySet="MstQualities" />
             <End Role="TrnGoodIssueNoteItem" EntitySet="TrnGoodIssueNoteItems" />
           </AssociationSet>
-          <AssociationSet Name="FK_TrnGoodIssueNoteItems_TrnGoodIssueNote" Association="IMSModel.FK_TrnGoodIssueNoteItems_TrnGoodIssueNote">
-            <End Role="TrnGoodIssueNote" EntitySet="TrnGoodIssueNotes" />
-            <End Role="TrnGoodIssueNoteItem" EntitySet="TrnGoodIssueNoteItems" />
-          </AssociationSet>
-          <EntitySet Name="TrnSalesInvoices" EntityType="IMSModel.TrnSalesInvoice" />
-          <AssociationSet Name="FK_TrnSalesInvoice_TrnGoodIssueNote" Association="IMSModel.FK_TrnSalesInvoice_TrnGoodIssueNote">
-            <End Role="TrnGoodIssueNote" EntitySet="TrnGoodIssueNotes" />
-            <End Role="TrnSalesInvoice" EntitySet="TrnSalesInvoices" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TrnSalesInvoice_TrnMaterialQuotation" Association="IMSModel.FK_TrnSalesInvoice_TrnMaterialQuotation">
-            <End Role="TrnMaterialQuotation" EntitySet="TrnMaterialQuotations" />
-            <End Role="TrnSalesInvoice" EntitySet="TrnSalesInvoices" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TrnSalesInvoice_TrnSaleOrder" Association="IMSModel.FK_TrnSalesInvoice_TrnSaleOrder">
-            <End Role="TrnSaleOrder" EntitySet="TrnSaleOrders" />
-            <End Role="TrnSalesInvoice" EntitySet="TrnSalesInvoices" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TrnSalesInvoiceItems_TrnSalesInvoice" Association="IMSModel.FK_TrnSalesInvoiceItems_TrnSalesInvoice">
-            <End Role="TrnSalesInvoice" EntitySet="TrnSalesInvoices" />
-            <End Role="TrnSalesInvoiceItem" EntitySet="TrnSalesInvoiceItems" />
-          </AssociationSet>
-          <EntitySet Name="TrnMaterialSelections" EntityType="IMSModel.TrnMaterialSelection" />
-          <AssociationSet Name="FK_TrnMaterialSelection_MstAgent" Association="IMSModel.FK_TrnMaterialSelection_MstAgent">
-            <End Role="MstAgent" EntitySet="MstAgents" />
-            <End Role="TrnMaterialSelection" EntitySet="TrnMaterialSelections" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TrnMaterialSelection_MstCustomer" Association="IMSModel.FK_TrnMaterialSelection_MstCustomer">
-            <End Role="MstCustomer" EntitySet="MstCustomers" />
-            <End Role="TrnMaterialSelection" EntitySet="TrnMaterialSelections" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TrnMaterialQuotation_TrnMaterialSelection" Association="IMSModel.FK_TrnMaterialQuotation_TrnMaterialSelection">
-            <End Role="TrnMaterialSelection" EntitySet="TrnMaterialSelections" />
-            <End Role="TrnMaterialQuotation" EntitySet="TrnMaterialQuotations" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TrnMaterialSelectionItems_TrnMaterialSelection" Association="IMSModel.FK_TrnMaterialSelectionItems_TrnMaterialSelection">
-            <End Role="TrnMaterialSelection" EntitySet="TrnMaterialSelections" />
-            <End Role="TrnMaterialSelectionItem" EntitySet="TrnMaterialSelectionItems" />
-          </AssociationSet>
           <EntitySet Name="TrnMaterialQuotationItems" EntityType="IMSModel.TrnMaterialQuotationItem" />
           <AssociationSet Name="FK_TrnMaterialQuotationItems_MstCategory" Association="IMSModel.FK_TrnMaterialQuotationItems_MstCategory">
             <End Role="MstCategory" EntitySet="MstCategories" />
@@ -3983,15 +3887,97 @@ warning 6013: The table/view 'IMS.dbo.vwMattressStockValue' does not have a prim
             <End Role="MstQuality" EntitySet="MstQualities" />
             <End Role="TrnMaterialQuotationItem" EntitySet="TrnMaterialQuotationItems" />
           </AssociationSet>
-          <AssociationSet Name="FK_TrnMaterialQuotationItems_TrnMaterialQuotation" Association="IMSModel.FK_TrnMaterialQuotationItems_TrnMaterialQuotation">
-            <End Role="TrnMaterialQuotation" EntitySet="TrnMaterialQuotations" />
-            <End Role="TrnMaterialQuotationItem" EntitySet="TrnMaterialQuotationItems" />
-          </AssociationSet>
           <EntitySet Name="vwAccessories" EntityType="IMSModel.vwAccessory" />
           <EntitySet Name="vwDasBoards" EntityType="IMSModel.vwDasBoard" />
           <EntitySet Name="vwFoams" EntityType="IMSModel.vwFoam" />
           <EntitySet Name="vwFWRs" EntityType="IMSModel.vwFWR" />
           <EntitySet Name="vwMattresses" EntityType="IMSModel.vwMattress" />
+          <EntitySet Name="TrnAdvancePayments" EntityType="IMSModel.TrnAdvancePayment" />
+          <EntitySet Name="TrnGoodIssueNotes" EntityType="IMSModel.TrnGoodIssueNote" />
+          <EntitySet Name="TrnGoodReceiveNotes" EntityType="IMSModel.TrnGoodReceiveNote" />
+          <EntitySet Name="TrnMaterialQuotations" EntityType="IMSModel.TrnMaterialQuotation" />
+          <EntitySet Name="TrnMaterialSelections" EntityType="IMSModel.TrnMaterialSelection" />
+          <EntitySet Name="TrnSalesInvoices" EntityType="IMSModel.TrnSalesInvoice" />
+          <AssociationSet Name="FK_TrnMaterialQuotation_MstAgent" Association="IMSModel.FK_TrnMaterialQuotation_MstAgent">
+            <End Role="MstAgent" EntitySet="MstAgents" />
+            <End Role="TrnMaterialQuotation" EntitySet="TrnMaterialQuotations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnMaterialSelection_MstAgent" Association="IMSModel.FK_TrnMaterialSelection_MstAgent">
+            <End Role="MstAgent" EntitySet="MstAgents" />
+            <End Role="TrnMaterialSelection" EntitySet="TrnMaterialSelections" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnGoodReceiveNote_MstCompanyLocation" Association="IMSModel.FK_TrnGoodReceiveNote_MstCompanyLocation">
+            <End Role="MstCompanyLocation" EntitySet="MstCompanyLocations" />
+            <End Role="TrnGoodReceiveNote" EntitySet="TrnGoodReceiveNotes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnAdvancePayment_MstCustomer" Association="IMSModel.FK_TrnAdvancePayment_MstCustomer">
+            <End Role="MstCustomer" EntitySet="MstCustomers" />
+            <End Role="TrnAdvancePayment" EntitySet="TrnAdvancePayments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnGoodIssueNote_MstCustomer" Association="IMSModel.FK_TrnGoodIssueNote_MstCustomer">
+            <End Role="MstCustomer" EntitySet="MstCustomers" />
+            <End Role="TrnGoodIssueNote" EntitySet="TrnGoodIssueNotes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnMaterialQuotation_MstCustomer" Association="IMSModel.FK_TrnMaterialQuotation_MstCustomer">
+            <End Role="MstCustomer" EntitySet="MstCustomers" />
+            <End Role="TrnMaterialQuotation" EntitySet="TrnMaterialQuotations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnMaterialSelection_MstCustomer" Association="IMSModel.FK_TrnMaterialSelection_MstCustomer">
+            <End Role="MstCustomer" EntitySet="MstCustomers" />
+            <End Role="TrnMaterialSelection" EntitySet="TrnMaterialSelections" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnGoodReceiveNote_MstSupplier" Association="IMSModel.FK_TrnGoodReceiveNote_MstSupplier">
+            <End Role="MstSupplier" EntitySet="MstSuppliers" />
+            <End Role="TrnGoodReceiveNote" EntitySet="TrnGoodReceiveNotes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnAdvancePayment_TrnMaterialQuotation" Association="IMSModel.FK_TrnAdvancePayment_TrnMaterialQuotation">
+            <End Role="TrnMaterialQuotation" EntitySet="TrnMaterialQuotations" />
+            <End Role="TrnAdvancePayment" EntitySet="TrnAdvancePayments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnGoodIssueNote_TrnMaterialQuotation" Association="IMSModel.FK_TrnGoodIssueNote_TrnMaterialQuotation">
+            <End Role="TrnMaterialQuotation" EntitySet="TrnMaterialQuotations" />
+            <End Role="TrnGoodIssueNote" EntitySet="TrnGoodIssueNotes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnGoodIssueNote_TrnSaleOrder" Association="IMSModel.FK_TrnGoodIssueNote_TrnSaleOrder">
+            <End Role="TrnSaleOrder" EntitySet="TrnSaleOrders" />
+            <End Role="TrnGoodIssueNote" EntitySet="TrnGoodIssueNotes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnGoodIssueNoteItems_TrnGoodIssueNote" Association="IMSModel.FK_TrnGoodIssueNoteItems_TrnGoodIssueNote">
+            <End Role="TrnGoodIssueNote" EntitySet="TrnGoodIssueNotes" />
+            <End Role="TrnGoodIssueNoteItem" EntitySet="TrnGoodIssueNoteItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnSalesInvoice_TrnGoodIssueNote" Association="IMSModel.FK_TrnSalesInvoice_TrnGoodIssueNote">
+            <End Role="TrnGoodIssueNote" EntitySet="TrnGoodIssueNotes" />
+            <End Role="TrnSalesInvoice" EntitySet="TrnSalesInvoices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnGoodReceiveNoteItems_TrnGoodReceiveNote" Association="IMSModel.FK_TrnGoodReceiveNoteItems_TrnGoodReceiveNote">
+            <End Role="TrnGoodReceiveNote" EntitySet="TrnGoodReceiveNotes" />
+            <End Role="TrnGoodReceiveNoteItem" EntitySet="TrnGoodReceiveNoteItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnMaterialQuotation_TrnMaterialSelection" Association="IMSModel.FK_TrnMaterialQuotation_TrnMaterialSelection">
+            <End Role="TrnMaterialSelection" EntitySet="TrnMaterialSelections" />
+            <End Role="TrnMaterialQuotation" EntitySet="TrnMaterialQuotations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnMaterialQuotationItems_TrnMaterialQuotation" Association="IMSModel.FK_TrnMaterialQuotationItems_TrnMaterialQuotation">
+            <End Role="TrnMaterialQuotation" EntitySet="TrnMaterialQuotations" />
+            <End Role="TrnMaterialQuotationItem" EntitySet="TrnMaterialQuotationItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnSalesInvoice_TrnMaterialQuotation" Association="IMSModel.FK_TrnSalesInvoice_TrnMaterialQuotation">
+            <End Role="TrnMaterialQuotation" EntitySet="TrnMaterialQuotations" />
+            <End Role="TrnSalesInvoice" EntitySet="TrnSalesInvoices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnMaterialSelectionItems_TrnMaterialSelection" Association="IMSModel.FK_TrnMaterialSelectionItems_TrnMaterialSelection">
+            <End Role="TrnMaterialSelection" EntitySet="TrnMaterialSelections" />
+            <End Role="TrnMaterialSelectionItem" EntitySet="TrnMaterialSelectionItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnSalesInvoice_TrnSaleOrder" Association="IMSModel.FK_TrnSalesInvoice_TrnSaleOrder">
+            <End Role="TrnSaleOrder" EntitySet="TrnSaleOrders" />
+            <End Role="TrnSalesInvoice" EntitySet="TrnSalesInvoices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnSalesInvoiceItems_TrnSalesInvoice" Association="IMSModel.FK_TrnSalesInvoiceItems_TrnSalesInvoice">
+            <End Role="TrnSalesInvoice" EntitySet="TrnSalesInvoices" />
+            <End Role="TrnSalesInvoiceItem" EntitySet="TrnSalesInvoiceItems" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="CFGRoleMenu">
           <Key>
@@ -4056,8 +4042,8 @@ warning 6013: The table/view 'IMS.dbo.vwMattressStockValue' does not have a prim
           <Property Name="createdBy" Type="Int64" Nullable="false" />
           <Property Name="updatedOn" Type="DateTime" Precision="3" />
           <Property Name="updatedBy" Type="Int64" />
-          <NavigationProperty Name="TrnMaterialQuotations" Relationship="IMSModel.FK_TrnMaterialQuotation_MstAgent" FromRole="MstAgent" ToRole="TrnMaterialQuotation" />
           <NavigationProperty Name="TrnSaleOrders" Relationship="IMSModel.FK_TrnSaleOrder_MstAgent" FromRole="MstAgent" ToRole="TrnSaleOrder" />
+          <NavigationProperty Name="TrnMaterialQuotations" Relationship="IMSModel.FK_TrnMaterialQuotation_MstAgent" FromRole="MstAgent" ToRole="TrnMaterialQuotation" />
           <NavigationProperty Name="TrnMaterialSelections" Relationship="IMSModel.FK_TrnMaterialSelection_MstAgent" FromRole="MstAgent" ToRole="TrnMaterialSelection" />
         </EntityType>
         <EntityType Name="MstCategory">
@@ -4168,9 +4154,9 @@ warning 6013: The table/view 'IMS.dbo.vwMattressStockValue' does not have a prim
           <Property Name="updatedBy" Type="Int64" />
           <Property Name="phone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="MstUsers" Relationship="IMSModel.FK_MstUser_MstCompanyLocation" FromRole="MstCompanyLocation" ToRole="MstUser" />
-          <NavigationProperty Name="TrnGoodReceiveNotes" Relationship="IMSModel.FK_TrnGoodReceiveNote_MstCompanyLocation" FromRole="MstCompanyLocation" ToRole="TrnGoodReceiveNote" />
           <NavigationProperty Name="TrnPurchaseOrders" Relationship="IMSModel.FK_TrnPurchaseOrder_MstCompanyLocation" FromRole="MstCompanyLocation" ToRole="TrnPurchaseOrder" />
           <NavigationProperty Name="TrnProductStockDetails" Relationship="IMSModel.FK_TrnProductStock_MstCompanyLocation" FromRole="MstCompanyLocation" ToRole="TrnProductStockDetail" />
+          <NavigationProperty Name="TrnGoodReceiveNotes" Relationship="IMSModel.FK_TrnGoodReceiveNote_MstCompanyLocation" FromRole="MstCompanyLocation" ToRole="TrnGoodReceiveNote" />
         </EntityType>
         <EntityType Name="MstCourier">
           <Key>
@@ -4218,10 +4204,10 @@ warning 6013: The table/view 'IMS.dbo.vwMattressStockValue' does not have a prim
           <Property Name="updatedBy" Type="Int64" />
           <NavigationProperty Name="MstUser" Relationship="IMSModel.FK_MstCustomer_MstUser" FromRole="MstCustomer" ToRole="MstUser" />
           <NavigationProperty Name="MstCustomerAddresses" Relationship="IMSModel.FK_MstCustomerAddressDetails_MstCustomer" FromRole="MstCustomer" ToRole="MstCustomerAddress" />
+          <NavigationProperty Name="TrnSaleOrders" Relationship="IMSModel.FK_TrnSaleOrder_MstCustomer" FromRole="MstCustomer" ToRole="TrnSaleOrder" />
           <NavigationProperty Name="TrnAdvancePayments" Relationship="IMSModel.FK_TrnAdvancePayment_MstCustomer" FromRole="MstCustomer" ToRole="TrnAdvancePayment" />
           <NavigationProperty Name="TrnGoodIssueNotes" Relationship="IMSModel.FK_TrnGoodIssueNote_MstCustomer" FromRole="MstCustomer" ToRole="TrnGoodIssueNote" />
           <NavigationProperty Name="TrnMaterialQuotations" Relationship="IMSModel.FK_TrnMaterialQuotation_MstCustomer" FromRole="MstCustomer" ToRole="TrnMaterialQuotation" />
-          <NavigationProperty Name="TrnSaleOrders" Relationship="IMSModel.FK_TrnSaleOrder_MstCustomer" FromRole="MstCustomer" ToRole="TrnSaleOrder" />
           <NavigationProperty Name="TrnMaterialSelections" Relationship="IMSModel.FK_TrnMaterialSelection_MstCustomer" FromRole="MstCustomer" ToRole="TrnMaterialSelection" />
         </EntityType>
         <EntityType Name="MstCustomerAddress">
@@ -4565,8 +4551,8 @@ warning 6013: The table/view 'IMS.dbo.vwMattressStockValue' does not have a prim
           <NavigationProperty Name="MstAccessories" Relationship="IMSModel.FK_MstAccessory_MstSupplier" FromRole="MstSupplier" ToRole="MstAccessory" />
           <NavigationProperty Name="MstCollections" Relationship="IMSModel.FK_MstCollection_MstSupplier" FromRole="MstSupplier" ToRole="MstCollection" />
           <NavigationProperty Name="MstSupplierAddresses" Relationship="IMSModel.FK_MstSupplierAddressDetails_MstSupplier" FromRole="MstSupplier" ToRole="MstSupplierAddress" />
-          <NavigationProperty Name="TrnGoodReceiveNotes" Relationship="IMSModel.FK_TrnGoodReceiveNote_MstSupplier" FromRole="MstSupplier" ToRole="TrnGoodReceiveNote" />
           <NavigationProperty Name="TrnPurchaseOrders" Relationship="IMSModel.FK_TrnPurchaseOrder_MstSupplier" FromRole="MstSupplier" ToRole="TrnPurchaseOrder" />
+          <NavigationProperty Name="TrnGoodReceiveNotes" Relationship="IMSModel.FK_TrnGoodReceiveNote_MstSupplier" FromRole="MstSupplier" ToRole="TrnGoodReceiveNote" />
         </EntityType>
         <EntityType Name="MstSupplierAddress">
           <Key>
@@ -4637,69 +4623,6 @@ warning 6013: The table/view 'IMS.dbo.vwMattressStockValue' does not have a prim
           <Property Name="updatedBy" Type="Int64" />
           <NavigationProperty Name="MstUsers" Relationship="IMSModel.FK_MstUser_MstUserType" FromRole="MstuserType" ToRole="MstUser" />
         </EntityType>
-        <EntityType Name="TrnAdvancePayment">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="advancePaymentNumber" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="advancePaymentDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="customerId" Type="Int64" Nullable="false" />
-          <Property Name="materialQuotationId" Type="Int64" Nullable="false" />
-          <Property Name="amount" Type="Int32" Nullable="false" />
-          <Property Name="paymentMode" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="chequeNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="chequeDate" Type="DateTime" Precision="0" />
-          <Property Name="bankName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="bankBranch" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="createdBy" Type="Int64" Nullable="false" />
-          <Property Name="updatedOn" Type="DateTime" Precision="3" />
-          <Property Name="updatedBy" Type="Int64" />
-          <NavigationProperty Name="MstCustomer" Relationship="IMSModel.FK_TrnAdvancePayment_MstCustomer" FromRole="TrnAdvancePayment" ToRole="MstCustomer" />
-          <NavigationProperty Name="TrnMaterialQuotation" Relationship="IMSModel.FK_TrnAdvancePayment_TrnMaterialQuotation" FromRole="TrnAdvancePayment" ToRole="TrnMaterialQuotation" />
-        </EntityType>
-        <EntityType Name="TrnGoodIssueNote">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ginNumber" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="customerId" Type="Int64" Nullable="false" />
-          <Property Name="salesOrderId" Type="Int64" />
-          <Property Name="salesOrderNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="materialQuotationId" Type="Int64" />
-          <Property Name="materialQuotationNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="ginDate" Type="DateTime" Precision="3" />
-          <Property Name="status" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="createdBy" Type="Int64" Nullable="false" />
-          <Property Name="updatedOn" Type="DateTime" Precision="3" />
-          <Property Name="updatedBy" Type="Int64" />
-          <NavigationProperty Name="MstCustomer" Relationship="IMSModel.FK_TrnGoodIssueNote_MstCustomer" FromRole="TrnGoodIssueNote" ToRole="MstCustomer" />
-          <NavigationProperty Name="TrnMaterialQuotation" Relationship="IMSModel.FK_TrnGoodIssueNote_TrnMaterialQuotation" FromRole="TrnGoodIssueNote" ToRole="TrnMaterialQuotation" />
-          <NavigationProperty Name="TrnSaleOrder" Relationship="IMSModel.FK_TrnGoodIssueNote_TrnSaleOrder" FromRole="TrnGoodIssueNote" ToRole="TrnSaleOrder" />
-          <NavigationProperty Name="TrnGoodIssueNoteItems" Relationship="IMSModel.FK_TrnGoodIssueNoteItems_TrnGoodIssueNote" FromRole="TrnGoodIssueNote" ToRole="TrnGoodIssueNoteItem" />
-          <NavigationProperty Name="TrnSalesInvoices" Relationship="IMSModel.FK_TrnSalesInvoice_TrnGoodIssueNote" FromRole="TrnGoodIssueNote" ToRole="TrnSalesInvoice" />
-        </EntityType>
-        <EntityType Name="TrnGoodReceiveNote">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="grnNumber" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="grnDate" Type="DateTime" Precision="3" />
-          <Property Name="supplierId" Type="Int64" Nullable="false" />
-          <Property Name="locationId" Type="Int64" Nullable="false" />
-          <Property Name="totalAmount" Type="Int32" Nullable="false" />
-          <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="createdBy" Type="Int64" Nullable="false" />
-          <Property Name="updatedOn" Type="DateTime" Precision="3" />
-          <Property Name="updatedBy" Type="Int64" />
-          <NavigationProperty Name="MstCompanyLocation" Relationship="IMSModel.FK_TrnGoodReceiveNote_MstCompanyLocation" FromRole="TrnGoodReceiveNote" ToRole="MstCompanyLocation" />
-          <NavigationProperty Name="MstSupplier" Relationship="IMSModel.FK_TrnGoodReceiveNote_MstSupplier" FromRole="TrnGoodReceiveNote" ToRole="MstSupplier" />
-          <NavigationProperty Name="TrnGoodReceiveNoteItems" Relationship="IMSModel.FK_TrnGoodReceiveNoteItems_TrnGoodReceiveNote" FromRole="TrnGoodReceiveNote" ToRole="TrnGoodReceiveNoteItem" />
-        </EntityType>
         <EntityType Name="TrnGoodReceiveNoteItem">
           <Key>
             <PropertyRef Name="id" />
@@ -4736,32 +4659,8 @@ warning 6013: The table/view 'IMS.dbo.vwMattressStockValue' does not have a prim
           <NavigationProperty Name="MstMatSize" Relationship="IMSModel.FK_TrnGoodReceiveNoteItems_MstMatSize" FromRole="TrnGoodReceiveNoteItem" ToRole="MstMatSize" />
           <NavigationProperty Name="MstMatThickness" Relationship="IMSModel.FK_TrnGoodReceiveNoteItems_MstMatThickness" FromRole="TrnGoodReceiveNoteItem" ToRole="MstMatThickness" />
           <NavigationProperty Name="MstQuality" Relationship="IMSModel.FK_TrnGoodReceiveNoteItems_MstQuality" FromRole="TrnGoodReceiveNoteItem" ToRole="MstQuality" />
-          <NavigationProperty Name="TrnGoodReceiveNote" Relationship="IMSModel.FK_TrnGoodReceiveNoteItems_TrnGoodReceiveNote" FromRole="TrnGoodReceiveNoteItem" ToRole="TrnGoodReceiveNote" />
           <NavigationProperty Name="TrnPurchaseOrder" Relationship="IMSModel.FK_TrnGoodReceiveNoteItems_TrnPurchaseOrder" FromRole="TrnGoodReceiveNoteItem" ToRole="TrnPurchaseOrder" />
-        </EntityType>
-        <EntityType Name="TrnMaterialQuotation">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="materialSelectionId" Type="Int64" Nullable="false" />
-          <Property Name="materialQuotationNumber" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="materialQuotationDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="customerId" Type="Int64" Nullable="false" />
-          <Property Name="referById" Type="Int64" />
-          <Property Name="totalAmount" Type="Int32" Nullable="false" />
-          <Property Name="status" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="createdBy" Type="Int64" Nullable="false" />
-          <Property Name="updatedOn" Type="DateTime" Precision="3" />
-          <Property Name="updatedBy" Type="Int64" />
-          <NavigationProperty Name="MstAgent" Relationship="IMSModel.FK_TrnMaterialQuotation_MstAgent" FromRole="TrnMaterialQuotation" ToRole="MstAgent" />
-          <NavigationProperty Name="MstCustomer" Relationship="IMSModel.FK_TrnMaterialQuotation_MstCustomer" FromRole="TrnMaterialQuotation" ToRole="MstCustomer" />
-          <NavigationProperty Name="TrnAdvancePayments" Relationship="IMSModel.FK_TrnAdvancePayment_TrnMaterialQuotation" FromRole="TrnMaterialQuotation" ToRole="TrnAdvancePayment" />
-          <NavigationProperty Name="TrnGoodIssueNotes" Relationship="IMSModel.FK_TrnGoodIssueNote_TrnMaterialQuotation" FromRole="TrnMaterialQuotation" ToRole="TrnGoodIssueNote" />
-          <NavigationProperty Name="TrnSalesInvoices" Relationship="IMSModel.FK_TrnSalesInvoice_TrnMaterialQuotation" FromRole="TrnMaterialQuotation" ToRole="TrnSalesInvoice" />
-          <NavigationProperty Name="TrnMaterialSelection" Relationship="IMSModel.FK_TrnMaterialQuotation_TrnMaterialSelection" FromRole="TrnMaterialQuotation" ToRole="TrnMaterialSelection" />
-          <NavigationProperty Name="TrnMaterialQuotationItems" Relationship="IMSModel.FK_TrnMaterialQuotationItems_TrnMaterialQuotation" FromRole="TrnMaterialQuotation" ToRole="TrnMaterialQuotationItem" />
+          <NavigationProperty Name="TrnGoodReceiveNote" Relationship="IMSModel.FK_TrnGoodReceiveNoteItems_TrnGoodReceiveNote" FromRole="TrnGoodReceiveNoteItem" ToRole="TrnGoodReceiveNote" />
         </EntityType>
         <EntityType Name="TrnMaterialSelectionItem">
           <Key>
@@ -4888,9 +4787,9 @@ warning 6013: The table/view 'IMS.dbo.vwMattressStockValue' does not have a prim
           <NavigationProperty Name="MstCourier" Relationship="IMSModel.FK_TrnSaleOrder_MstCourier" FromRole="TrnSaleOrder" ToRole="MstCourier" />
           <NavigationProperty Name="MstCustomer" Relationship="IMSModel.FK_TrnSaleOrder_MstCustomer" FromRole="TrnSaleOrder" ToRole="MstCustomer" />
           <NavigationProperty Name="MstCustomerAddress" Relationship="IMSModel.FK_TrnSaleOrder_MstCustomerAddress" FromRole="TrnSaleOrder" ToRole="MstCustomerAddress" />
-          <NavigationProperty Name="TrnGoodIssueNotes" Relationship="IMSModel.FK_TrnGoodIssueNote_TrnSaleOrder" FromRole="TrnSaleOrder" ToRole="TrnGoodIssueNote" />
           <NavigationProperty Name="TrnPurchaseOrders" Relationship="IMSModel.FK_TrnPurchaseOrder_TrnSaleOrder" FromRole="TrnSaleOrder" ToRole="TrnPurchaseOrder" />
           <NavigationProperty Name="TrnSaleOrderItems" Relationship="IMSModel.FK_TrnSaleOrderItems_TrnSaleOrder" FromRole="TrnSaleOrder" ToRole="TrnSaleOrderItem" />
+          <NavigationProperty Name="TrnGoodIssueNotes" Relationship="IMSModel.FK_TrnGoodIssueNote_TrnSaleOrder" FromRole="TrnSaleOrder" ToRole="TrnGoodIssueNote" />
           <NavigationProperty Name="TrnSalesInvoices" Relationship="IMSModel.FK_TrnSalesInvoice_TrnSaleOrder" FromRole="TrnSaleOrder" ToRole="TrnSalesInvoice" />
         </EntityType>
         <EntityType Name="TrnSaleOrderItem">
@@ -5082,18 +4981,6 @@ warning 6013: The table/view 'IMS.dbo.vwMattressStockValue' does not have a prim
             </Principal>
             <Dependent Role="TrnSalesInvoiceItem">
               <PropertyRef Name="accessoryId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TrnMaterialQuotation_MstAgent">
-          <End Type="IMSModel.MstAgent" Role="MstAgent" Multiplicity="0..1" />
-          <End Type="IMSModel.TrnMaterialQuotation" Role="TrnMaterialQuotation" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MstAgent">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="TrnMaterialQuotation">
-              <PropertyRef Name="referById" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -5445,18 +5332,6 @@ warning 6013: The table/view 'IMS.dbo.vwMattressStockValue' does not have a prim
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_TrnGoodReceiveNote_MstCompanyLocation">
-          <End Type="IMSModel.MstCompanyLocation" Role="MstCompanyLocation" Multiplicity="1" />
-          <End Type="IMSModel.TrnGoodReceiveNote" Role="TrnGoodReceiveNote" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MstCompanyLocation">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="TrnGoodReceiveNote">
-              <PropertyRef Name="locationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_TrnPurchaseOrder_MstCompanyLocation">
           <End Type="IMSModel.MstCompanyLocation" Role="MstCompanyLocation" Multiplicity="1" />
           <End Type="IMSModel.TrnPurchaseOrder" Role="TrnPurchaseOrder" Multiplicity="*" />
@@ -5515,42 +5390,6 @@ warning 6013: The table/view 'IMS.dbo.vwMattressStockValue' does not have a prim
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="MstCustomerAddress">
-              <PropertyRef Name="customerId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TrnAdvancePayment_MstCustomer">
-          <End Type="IMSModel.MstCustomer" Role="MstCustomer" Multiplicity="1" />
-          <End Type="IMSModel.TrnAdvancePayment" Role="TrnAdvancePayment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MstCustomer">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="TrnAdvancePayment">
-              <PropertyRef Name="customerId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TrnGoodIssueNote_MstCustomer">
-          <End Type="IMSModel.MstCustomer" Role="MstCustomer" Multiplicity="1" />
-          <End Type="IMSModel.TrnGoodIssueNote" Role="TrnGoodIssueNote" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MstCustomer">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="TrnGoodIssueNote">
-              <PropertyRef Name="customerId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TrnMaterialQuotation_MstCustomer">
-          <End Type="IMSModel.MstCustomer" Role="MstCustomer" Multiplicity="1" />
-          <End Type="IMSModel.TrnMaterialQuotation" Role="TrnMaterialQuotation" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MstCustomer">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="TrnMaterialQuotation">
               <PropertyRef Name="customerId" />
             </Dependent>
           </ReferentialConstraint>
@@ -5989,18 +5828,6 @@ warning 6013: The table/view 'IMS.dbo.vwMattressStockValue' does not have a prim
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_TrnGoodReceiveNote_MstSupplier">
-          <End Type="IMSModel.MstSupplier" Role="MstSupplier" Multiplicity="1" />
-          <End Type="IMSModel.TrnGoodReceiveNote" Role="TrnGoodReceiveNote" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MstSupplier">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="TrnGoodReceiveNote">
-              <PropertyRef Name="supplierId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_TrnPurchaseOrder_MstSupplier">
           <End Type="IMSModel.MstSupplier" Role="MstSupplier" Multiplicity="1" />
           <End Type="IMSModel.TrnPurchaseOrder" Role="TrnPurchaseOrder" Multiplicity="*" />
@@ -6022,54 +5849,6 @@ warning 6013: The table/view 'IMS.dbo.vwMattressStockValue' does not have a prim
             </Principal>
             <Dependent Role="MstUser">
               <PropertyRef Name="userTypeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TrnAdvancePayment_TrnMaterialQuotation">
-          <End Type="IMSModel.TrnMaterialQuotation" Role="TrnMaterialQuotation" Multiplicity="1" />
-          <End Type="IMSModel.TrnAdvancePayment" Role="TrnAdvancePayment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TrnMaterialQuotation">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="TrnAdvancePayment">
-              <PropertyRef Name="materialQuotationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TrnGoodIssueNote_TrnMaterialQuotation">
-          <End Type="IMSModel.TrnMaterialQuotation" Role="TrnMaterialQuotation" Multiplicity="0..1" />
-          <End Type="IMSModel.TrnGoodIssueNote" Role="TrnGoodIssueNote" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TrnMaterialQuotation">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="TrnGoodIssueNote">
-              <PropertyRef Name="materialQuotationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TrnGoodIssueNote_TrnSaleOrder">
-          <End Type="IMSModel.TrnSaleOrder" Role="TrnSaleOrder" Multiplicity="0..1" />
-          <End Type="IMSModel.TrnGoodIssueNote" Role="TrnGoodIssueNote" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TrnSaleOrder">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="TrnGoodIssueNote">
-              <PropertyRef Name="salesOrderId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TrnGoodReceiveNoteItems_TrnGoodReceiveNote">
-          <End Type="IMSModel.TrnGoodReceiveNote" Role="TrnGoodReceiveNote" Multiplicity="1" />
-          <End Type="IMSModel.TrnGoodReceiveNoteItem" Role="TrnGoodReceiveNoteItem" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TrnGoodReceiveNote">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="TrnGoodReceiveNoteItem">
-              <PropertyRef Name="grnId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -6520,159 +6299,6 @@ warning 6013: The table/view 'IMS.dbo.vwMattressStockValue' does not have a prim
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_TrnGoodIssueNoteItems_TrnGoodIssueNote">
-          <End Type="IMSModel.TrnGoodIssueNote" Role="TrnGoodIssueNote" Multiplicity="1" />
-          <End Type="IMSModel.TrnGoodIssueNoteItem" Role="TrnGoodIssueNoteItem" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TrnGoodIssueNote">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="TrnGoodIssueNoteItem">
-              <PropertyRef Name="goodIssueNoteId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="TrnSalesInvoice">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="goodIssueNoteId" Type="Int64" Nullable="false" />
-          <Property Name="salesOrderId" Type="Int64" />
-          <Property Name="materialQuotationId" Type="Int64" />
-          <Property Name="invoiceNumber" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="invoiceDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="buyersOrderNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="expectedDeliveryDate" Type="DateTime" Precision="0" />
-          <Property Name="totalAmount" Type="Int32" Nullable="false" />
-          <Property Name="amountPaid" Type="Int32" Nullable="false" />
-          <Property Name="isPaid" Type="Boolean" Nullable="false" />
-          <Property Name="status" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="courierDockYardNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="createdBy" Type="Int64" Nullable="false" />
-          <Property Name="updatedOn" Type="DateTime" Precision="3" />
-          <Property Name="updatedBy" Type="Int64" />
-          <NavigationProperty Name="TrnGoodIssueNote" Relationship="IMSModel.FK_TrnSalesInvoice_TrnGoodIssueNote" FromRole="TrnSalesInvoice" ToRole="TrnGoodIssueNote" />
-          <NavigationProperty Name="TrnMaterialQuotation" Relationship="IMSModel.FK_TrnSalesInvoice_TrnMaterialQuotation" FromRole="TrnSalesInvoice" ToRole="TrnMaterialQuotation" />
-          <NavigationProperty Name="TrnSaleOrder" Relationship="IMSModel.FK_TrnSalesInvoice_TrnSaleOrder" FromRole="TrnSalesInvoice" ToRole="TrnSaleOrder" />
-          <NavigationProperty Name="TrnSalesInvoiceItems" Relationship="IMSModel.FK_TrnSalesInvoiceItems_TrnSalesInvoice" FromRole="TrnSalesInvoice" ToRole="TrnSalesInvoiceItem" />
-        </EntityType>
-        <Association Name="FK_TrnSalesInvoice_TrnGoodIssueNote">
-          <End Type="IMSModel.TrnGoodIssueNote" Role="TrnGoodIssueNote" Multiplicity="1" />
-          <End Type="IMSModel.TrnSalesInvoice" Role="TrnSalesInvoice" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TrnGoodIssueNote">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="TrnSalesInvoice">
-              <PropertyRef Name="goodIssueNoteId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TrnSalesInvoice_TrnMaterialQuotation">
-          <End Type="IMSModel.TrnMaterialQuotation" Role="TrnMaterialQuotation" Multiplicity="0..1" />
-          <End Type="IMSModel.TrnSalesInvoice" Role="TrnSalesInvoice" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TrnMaterialQuotation">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="TrnSalesInvoice">
-              <PropertyRef Name="materialQuotationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TrnSalesInvoice_TrnSaleOrder">
-          <End Type="IMSModel.TrnSaleOrder" Role="TrnSaleOrder" Multiplicity="0..1" />
-          <End Type="IMSModel.TrnSalesInvoice" Role="TrnSalesInvoice" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TrnSaleOrder">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="TrnSalesInvoice">
-              <PropertyRef Name="salesOrderId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TrnSalesInvoiceItems_TrnSalesInvoice">
-          <End Type="IMSModel.TrnSalesInvoice" Role="TrnSalesInvoice" Multiplicity="1" />
-          <End Type="IMSModel.TrnSalesInvoiceItem" Role="TrnSalesInvoiceItem" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TrnSalesInvoice">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="TrnSalesInvoiceItem">
-              <PropertyRef Name="salesInvoiceId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="TrnMaterialSelection">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="customerId" Type="Int64" Nullable="false" />
-          <Property Name="materialSelectionNumber" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="referById" Type="Int64" />
-          <Property Name="materialSelectionDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="isQuotationCreated" Type="Boolean" Nullable="false" />
-          <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="createdBy" Type="Int64" Nullable="false" />
-          <Property Name="updatedOn" Type="DateTime" Precision="3" />
-          <Property Name="updatedBy" Type="Int64" />
-          <NavigationProperty Name="MstAgent" Relationship="IMSModel.FK_TrnMaterialSelection_MstAgent" FromRole="TrnMaterialSelection" ToRole="MstAgent" />
-          <NavigationProperty Name="MstCustomer" Relationship="IMSModel.FK_TrnMaterialSelection_MstCustomer" FromRole="TrnMaterialSelection" ToRole="MstCustomer" />
-          <NavigationProperty Name="TrnMaterialQuotations" Relationship="IMSModel.FK_TrnMaterialQuotation_TrnMaterialSelection" FromRole="TrnMaterialSelection" ToRole="TrnMaterialQuotation" />
-          <NavigationProperty Name="TrnMaterialSelectionItems" Relationship="IMSModel.FK_TrnMaterialSelectionItems_TrnMaterialSelection" FromRole="TrnMaterialSelection" ToRole="TrnMaterialSelectionItem" />
-        </EntityType>
-        <Association Name="FK_TrnMaterialSelection_MstAgent">
-          <End Type="IMSModel.MstAgent" Role="MstAgent" Multiplicity="0..1" />
-          <End Type="IMSModel.TrnMaterialSelection" Role="TrnMaterialSelection" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MstAgent">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="TrnMaterialSelection">
-              <PropertyRef Name="referById" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TrnMaterialSelection_MstCustomer">
-          <End Type="IMSModel.MstCustomer" Role="MstCustomer" Multiplicity="1" />
-          <End Type="IMSModel.TrnMaterialSelection" Role="TrnMaterialSelection" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MstCustomer">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="TrnMaterialSelection">
-              <PropertyRef Name="customerId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TrnMaterialQuotation_TrnMaterialSelection">
-          <End Type="IMSModel.TrnMaterialSelection" Role="TrnMaterialSelection" Multiplicity="1" />
-          <End Type="IMSModel.TrnMaterialQuotation" Role="TrnMaterialQuotation" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TrnMaterialSelection">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="TrnMaterialQuotation">
-              <PropertyRef Name="materialSelectionId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TrnMaterialSelectionItems_TrnMaterialSelection">
-          <End Type="IMSModel.TrnMaterialSelection" Role="TrnMaterialSelection" Multiplicity="1" />
-          <End Type="IMSModel.TrnMaterialSelectionItem" Role="TrnMaterialSelectionItem" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TrnMaterialSelection">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="TrnMaterialSelectionItem">
-              <PropertyRef Name="materialSelectionId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="TrnMaterialQuotationItem">
           <Key>
             <PropertyRef Name="id" />
@@ -6781,18 +6407,6 @@ warning 6013: The table/view 'IMS.dbo.vwMattressStockValue' does not have a prim
             </Principal>
             <Dependent Role="TrnMaterialQuotationItem">
               <PropertyRef Name="qualityId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TrnMaterialQuotationItems_TrnMaterialQuotation">
-          <End Type="IMSModel.TrnMaterialQuotation" Role="TrnMaterialQuotation" Multiplicity="1" />
-          <End Type="IMSModel.TrnMaterialQuotationItem" Role="TrnMaterialQuotationItem" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TrnMaterialQuotation">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="TrnMaterialQuotationItem">
-              <PropertyRef Name="materialQuotationId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -6932,6 +6546,384 @@ warning 6013: The table/view 'IMS.dbo.vwMattressStockValue' does not have a prim
           <Property Name="customRatePerSqFeet" Type="Decimal" Precision="7" Scale="2" />
           <Property Name="availableStock" Type="Decimal" Precision="9" Scale="2" />
         </EntityType>
+        <EntityType Name="TrnAdvancePayment">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="advancePaymentNumber" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="advancePaymentDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="customerId" Type="Int64" Nullable="false" />
+          <Property Name="materialQuotationId" Type="Int64" Nullable="false" />
+          <Property Name="amount" Type="Int32" Nullable="false" />
+          <Property Name="paymentMode" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="chequeNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="chequeDate" Type="DateTime" Precision="0" />
+          <Property Name="bankName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="bankBranch" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="financialYear" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="createdBy" Type="Int64" Nullable="false" />
+          <Property Name="updatedOn" Type="DateTime" Precision="3" />
+          <Property Name="updatedBy" Type="Int64" />
+          <NavigationProperty Name="MstCustomer" Relationship="IMSModel.FK_TrnAdvancePayment_MstCustomer" FromRole="TrnAdvancePayment" ToRole="MstCustomer" />
+          <NavigationProperty Name="TrnMaterialQuotation" Relationship="IMSModel.FK_TrnAdvancePayment_TrnMaterialQuotation" FromRole="TrnAdvancePayment" ToRole="TrnMaterialQuotation" />
+        </EntityType>
+        <EntityType Name="TrnGoodIssueNote">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ginNumber" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="customerId" Type="Int64" Nullable="false" />
+          <Property Name="salesOrderId" Type="Int64" />
+          <Property Name="salesOrderNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="materialQuotationId" Type="Int64" />
+          <Property Name="materialQuotationNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ginDate" Type="DateTime" Precision="3" />
+          <Property Name="status" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="financialYear" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="createdBy" Type="Int64" Nullable="false" />
+          <Property Name="updatedOn" Type="DateTime" Precision="3" />
+          <Property Name="updatedBy" Type="Int64" />
+          <NavigationProperty Name="MstCustomer" Relationship="IMSModel.FK_TrnGoodIssueNote_MstCustomer" FromRole="TrnGoodIssueNote" ToRole="MstCustomer" />
+          <NavigationProperty Name="TrnMaterialQuotation" Relationship="IMSModel.FK_TrnGoodIssueNote_TrnMaterialQuotation" FromRole="TrnGoodIssueNote" ToRole="TrnMaterialQuotation" />
+          <NavigationProperty Name="TrnSaleOrder" Relationship="IMSModel.FK_TrnGoodIssueNote_TrnSaleOrder" FromRole="TrnGoodIssueNote" ToRole="TrnSaleOrder" />
+          <NavigationProperty Name="TrnGoodIssueNoteItems" Relationship="IMSModel.FK_TrnGoodIssueNoteItems_TrnGoodIssueNote" FromRole="TrnGoodIssueNote" ToRole="TrnGoodIssueNoteItem" />
+          <NavigationProperty Name="TrnSalesInvoices" Relationship="IMSModel.FK_TrnSalesInvoice_TrnGoodIssueNote" FromRole="TrnGoodIssueNote" ToRole="TrnSalesInvoice" />
+        </EntityType>
+        <EntityType Name="TrnGoodReceiveNote">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="grnNumber" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="grnDate" Type="DateTime" Precision="3" />
+          <Property Name="supplierId" Type="Int64" Nullable="false" />
+          <Property Name="locationId" Type="Int64" Nullable="false" />
+          <Property Name="totalAmount" Type="Int32" Nullable="false" />
+          <Property Name="financialYear" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="createdBy" Type="Int64" Nullable="false" />
+          <Property Name="updatedOn" Type="DateTime" Precision="3" />
+          <Property Name="updatedBy" Type="Int64" />
+          <NavigationProperty Name="MstCompanyLocation" Relationship="IMSModel.FK_TrnGoodReceiveNote_MstCompanyLocation" FromRole="TrnGoodReceiveNote" ToRole="MstCompanyLocation" />
+          <NavigationProperty Name="MstSupplier" Relationship="IMSModel.FK_TrnGoodReceiveNote_MstSupplier" FromRole="TrnGoodReceiveNote" ToRole="MstSupplier" />
+          <NavigationProperty Name="TrnGoodReceiveNoteItems" Relationship="IMSModel.FK_TrnGoodReceiveNoteItems_TrnGoodReceiveNote" FromRole="TrnGoodReceiveNote" ToRole="TrnGoodReceiveNoteItem" />
+        </EntityType>
+        <EntityType Name="TrnMaterialQuotation">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="materialSelectionId" Type="Int64" Nullable="false" />
+          <Property Name="materialQuotationNumber" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="materialQuotationDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="customerId" Type="Int64" Nullable="false" />
+          <Property Name="referById" Type="Int64" />
+          <Property Name="totalAmount" Type="Int32" Nullable="false" />
+          <Property Name="status" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="financialYear" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="createdBy" Type="Int64" Nullable="false" />
+          <Property Name="updatedOn" Type="DateTime" Precision="3" />
+          <Property Name="updatedBy" Type="Int64" />
+          <NavigationProperty Name="MstAgent" Relationship="IMSModel.FK_TrnMaterialQuotation_MstAgent" FromRole="TrnMaterialQuotation" ToRole="MstAgent" />
+          <NavigationProperty Name="MstCustomer" Relationship="IMSModel.FK_TrnMaterialQuotation_MstCustomer" FromRole="TrnMaterialQuotation" ToRole="MstCustomer" />
+          <NavigationProperty Name="TrnAdvancePayments" Relationship="IMSModel.FK_TrnAdvancePayment_TrnMaterialQuotation" FromRole="TrnMaterialQuotation" ToRole="TrnAdvancePayment" />
+          <NavigationProperty Name="TrnGoodIssueNotes" Relationship="IMSModel.FK_TrnGoodIssueNote_TrnMaterialQuotation" FromRole="TrnMaterialQuotation" ToRole="TrnGoodIssueNote" />
+          <NavigationProperty Name="TrnMaterialSelection" Relationship="IMSModel.FK_TrnMaterialQuotation_TrnMaterialSelection" FromRole="TrnMaterialQuotation" ToRole="TrnMaterialSelection" />
+          <NavigationProperty Name="TrnMaterialQuotationItems" Relationship="IMSModel.FK_TrnMaterialQuotationItems_TrnMaterialQuotation" FromRole="TrnMaterialQuotation" ToRole="TrnMaterialQuotationItem" />
+          <NavigationProperty Name="TrnSalesInvoices" Relationship="IMSModel.FK_TrnSalesInvoice_TrnMaterialQuotation" FromRole="TrnMaterialQuotation" ToRole="TrnSalesInvoice" />
+        </EntityType>
+        <EntityType Name="TrnMaterialSelection">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="customerId" Type="Int64" Nullable="false" />
+          <Property Name="materialSelectionNumber" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="referById" Type="Int64" />
+          <Property Name="materialSelectionDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="isQuotationCreated" Type="Boolean" Nullable="false" />
+          <Property Name="financialYear" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="createdBy" Type="Int64" Nullable="false" />
+          <Property Name="updatedOn" Type="DateTime" Precision="3" />
+          <Property Name="updatedBy" Type="Int64" />
+          <NavigationProperty Name="MstAgent" Relationship="IMSModel.FK_TrnMaterialSelection_MstAgent" FromRole="TrnMaterialSelection" ToRole="MstAgent" />
+          <NavigationProperty Name="MstCustomer" Relationship="IMSModel.FK_TrnMaterialSelection_MstCustomer" FromRole="TrnMaterialSelection" ToRole="MstCustomer" />
+          <NavigationProperty Name="TrnMaterialQuotations" Relationship="IMSModel.FK_TrnMaterialQuotation_TrnMaterialSelection" FromRole="TrnMaterialSelection" ToRole="TrnMaterialQuotation" />
+          <NavigationProperty Name="TrnMaterialSelectionItems" Relationship="IMSModel.FK_TrnMaterialSelectionItems_TrnMaterialSelection" FromRole="TrnMaterialSelection" ToRole="TrnMaterialSelectionItem" />
+        </EntityType>
+        <EntityType Name="TrnSalesInvoice">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="goodIssueNoteId" Type="Int64" Nullable="false" />
+          <Property Name="salesOrderId" Type="Int64" />
+          <Property Name="materialQuotationId" Type="Int64" />
+          <Property Name="invoiceNumber" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="invoiceDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="buyersOrderNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="expectedDeliveryDate" Type="DateTime" Precision="0" />
+          <Property Name="totalAmount" Type="Int32" Nullable="false" />
+          <Property Name="amountPaid" Type="Int32" Nullable="false" />
+          <Property Name="isPaid" Type="Boolean" Nullable="false" />
+          <Property Name="status" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="courierDockYardNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="financialYear" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="createdBy" Type="Int64" Nullable="false" />
+          <Property Name="updatedOn" Type="DateTime" Precision="3" />
+          <Property Name="updatedBy" Type="Int64" />
+          <NavigationProperty Name="TrnGoodIssueNote" Relationship="IMSModel.FK_TrnSalesInvoice_TrnGoodIssueNote" FromRole="TrnSalesInvoice" ToRole="TrnGoodIssueNote" />
+          <NavigationProperty Name="TrnMaterialQuotation" Relationship="IMSModel.FK_TrnSalesInvoice_TrnMaterialQuotation" FromRole="TrnSalesInvoice" ToRole="TrnMaterialQuotation" />
+          <NavigationProperty Name="TrnSaleOrder" Relationship="IMSModel.FK_TrnSalesInvoice_TrnSaleOrder" FromRole="TrnSalesInvoice" ToRole="TrnSaleOrder" />
+          <NavigationProperty Name="TrnSalesInvoiceItems" Relationship="IMSModel.FK_TrnSalesInvoiceItems_TrnSalesInvoice" FromRole="TrnSalesInvoice" ToRole="TrnSalesInvoiceItem" />
+        </EntityType>
+        <Association Name="FK_TrnMaterialQuotation_MstAgent">
+          <End Type="IMSModel.MstAgent" Role="MstAgent" Multiplicity="0..1" />
+          <End Type="IMSModel.TrnMaterialQuotation" Role="TrnMaterialQuotation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstAgent">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnMaterialQuotation">
+              <PropertyRef Name="referById" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnMaterialSelection_MstAgent">
+          <End Type="IMSModel.MstAgent" Role="MstAgent" Multiplicity="0..1" />
+          <End Type="IMSModel.TrnMaterialSelection" Role="TrnMaterialSelection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstAgent">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnMaterialSelection">
+              <PropertyRef Name="referById" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnGoodReceiveNote_MstCompanyLocation">
+          <End Type="IMSModel.MstCompanyLocation" Role="MstCompanyLocation" Multiplicity="1" />
+          <End Type="IMSModel.TrnGoodReceiveNote" Role="TrnGoodReceiveNote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstCompanyLocation">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnGoodReceiveNote">
+              <PropertyRef Name="locationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnAdvancePayment_MstCustomer">
+          <End Type="IMSModel.MstCustomer" Role="MstCustomer" Multiplicity="1" />
+          <End Type="IMSModel.TrnAdvancePayment" Role="TrnAdvancePayment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstCustomer">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnAdvancePayment">
+              <PropertyRef Name="customerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnGoodIssueNote_MstCustomer">
+          <End Type="IMSModel.MstCustomer" Role="MstCustomer" Multiplicity="1" />
+          <End Type="IMSModel.TrnGoodIssueNote" Role="TrnGoodIssueNote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstCustomer">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnGoodIssueNote">
+              <PropertyRef Name="customerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnMaterialQuotation_MstCustomer">
+          <End Type="IMSModel.MstCustomer" Role="MstCustomer" Multiplicity="1" />
+          <End Type="IMSModel.TrnMaterialQuotation" Role="TrnMaterialQuotation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstCustomer">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnMaterialQuotation">
+              <PropertyRef Name="customerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnMaterialSelection_MstCustomer">
+          <End Type="IMSModel.MstCustomer" Role="MstCustomer" Multiplicity="1" />
+          <End Type="IMSModel.TrnMaterialSelection" Role="TrnMaterialSelection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstCustomer">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnMaterialSelection">
+              <PropertyRef Name="customerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnGoodReceiveNote_MstSupplier">
+          <End Type="IMSModel.MstSupplier" Role="MstSupplier" Multiplicity="1" />
+          <End Type="IMSModel.TrnGoodReceiveNote" Role="TrnGoodReceiveNote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstSupplier">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnGoodReceiveNote">
+              <PropertyRef Name="supplierId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnAdvancePayment_TrnMaterialQuotation">
+          <End Type="IMSModel.TrnMaterialQuotation" Role="TrnMaterialQuotation" Multiplicity="1" />
+          <End Type="IMSModel.TrnAdvancePayment" Role="TrnAdvancePayment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TrnMaterialQuotation">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnAdvancePayment">
+              <PropertyRef Name="materialQuotationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnGoodIssueNote_TrnMaterialQuotation">
+          <End Type="IMSModel.TrnMaterialQuotation" Role="TrnMaterialQuotation" Multiplicity="0..1" />
+          <End Type="IMSModel.TrnGoodIssueNote" Role="TrnGoodIssueNote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TrnMaterialQuotation">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnGoodIssueNote">
+              <PropertyRef Name="materialQuotationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnGoodIssueNote_TrnSaleOrder">
+          <End Type="IMSModel.TrnSaleOrder" Role="TrnSaleOrder" Multiplicity="0..1" />
+          <End Type="IMSModel.TrnGoodIssueNote" Role="TrnGoodIssueNote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TrnSaleOrder">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnGoodIssueNote">
+              <PropertyRef Name="salesOrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnGoodIssueNoteItems_TrnGoodIssueNote">
+          <End Type="IMSModel.TrnGoodIssueNote" Role="TrnGoodIssueNote" Multiplicity="1" />
+          <End Type="IMSModel.TrnGoodIssueNoteItem" Role="TrnGoodIssueNoteItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TrnGoodIssueNote">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnGoodIssueNoteItem">
+              <PropertyRef Name="goodIssueNoteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnSalesInvoice_TrnGoodIssueNote">
+          <End Type="IMSModel.TrnGoodIssueNote" Role="TrnGoodIssueNote" Multiplicity="1" />
+          <End Type="IMSModel.TrnSalesInvoice" Role="TrnSalesInvoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TrnGoodIssueNote">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnSalesInvoice">
+              <PropertyRef Name="goodIssueNoteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnGoodReceiveNoteItems_TrnGoodReceiveNote">
+          <End Type="IMSModel.TrnGoodReceiveNote" Role="TrnGoodReceiveNote" Multiplicity="1" />
+          <End Type="IMSModel.TrnGoodReceiveNoteItem" Role="TrnGoodReceiveNoteItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TrnGoodReceiveNote">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnGoodReceiveNoteItem">
+              <PropertyRef Name="grnId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnMaterialQuotation_TrnMaterialSelection">
+          <End Type="IMSModel.TrnMaterialSelection" Role="TrnMaterialSelection" Multiplicity="1" />
+          <End Type="IMSModel.TrnMaterialQuotation" Role="TrnMaterialQuotation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TrnMaterialSelection">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnMaterialQuotation">
+              <PropertyRef Name="materialSelectionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnMaterialQuotationItems_TrnMaterialQuotation">
+          <End Type="IMSModel.TrnMaterialQuotation" Role="TrnMaterialQuotation" Multiplicity="1" />
+          <End Type="IMSModel.TrnMaterialQuotationItem" Role="TrnMaterialQuotationItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TrnMaterialQuotation">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnMaterialQuotationItem">
+              <PropertyRef Name="materialQuotationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnSalesInvoice_TrnMaterialQuotation">
+          <End Type="IMSModel.TrnMaterialQuotation" Role="TrnMaterialQuotation" Multiplicity="0..1" />
+          <End Type="IMSModel.TrnSalesInvoice" Role="TrnSalesInvoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TrnMaterialQuotation">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnSalesInvoice">
+              <PropertyRef Name="materialQuotationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnMaterialSelectionItems_TrnMaterialSelection">
+          <End Type="IMSModel.TrnMaterialSelection" Role="TrnMaterialSelection" Multiplicity="1" />
+          <End Type="IMSModel.TrnMaterialSelectionItem" Role="TrnMaterialSelectionItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TrnMaterialSelection">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnMaterialSelectionItem">
+              <PropertyRef Name="materialSelectionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnSalesInvoice_TrnSaleOrder">
+          <End Type="IMSModel.TrnSaleOrder" Role="TrnSaleOrder" Multiplicity="0..1" />
+          <End Type="IMSModel.TrnSalesInvoice" Role="TrnSalesInvoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TrnSaleOrder">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnSalesInvoice">
+              <PropertyRef Name="salesOrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnSalesInvoiceItems_TrnSalesInvoice">
+          <End Type="IMSModel.TrnSalesInvoice" Role="TrnSalesInvoice" Multiplicity="1" />
+          <End Type="IMSModel.TrnSalesInvoiceItem" Role="TrnSalesInvoiceItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TrnSalesInvoice">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnSalesInvoiceItem">
+              <PropertyRef Name="salesInvoiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -7447,62 +7439,6 @@ warning 6013: The table/view 'IMS.dbo.vwMattressStockValue' does not have a prim
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="TrnAdvancePayments">
-            <EntityTypeMapping TypeName="IMSModel.TrnAdvancePayment">
-              <MappingFragment StoreEntitySet="TrnAdvancePayment">
-                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
-                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
-                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
-                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
-                <ScalarProperty Name="bankBranch" ColumnName="bankBranch" />
-                <ScalarProperty Name="bankName" ColumnName="bankName" />
-                <ScalarProperty Name="chequeDate" ColumnName="chequeDate" />
-                <ScalarProperty Name="chequeNumber" ColumnName="chequeNumber" />
-                <ScalarProperty Name="paymentMode" ColumnName="paymentMode" />
-                <ScalarProperty Name="amount" ColumnName="amount" />
-                <ScalarProperty Name="materialQuotationId" ColumnName="materialQuotationId" />
-                <ScalarProperty Name="customerId" ColumnName="customerId" />
-                <ScalarProperty Name="advancePaymentDate" ColumnName="advancePaymentDate" />
-                <ScalarProperty Name="advancePaymentNumber" ColumnName="advancePaymentNumber" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TrnGoodIssueNotes">
-            <EntityTypeMapping TypeName="IMSModel.TrnGoodIssueNote">
-              <MappingFragment StoreEntitySet="TrnGoodIssueNote">
-                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
-                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
-                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
-                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
-                <ScalarProperty Name="status" ColumnName="status" />
-                <ScalarProperty Name="ginDate" ColumnName="ginDate" />
-                <ScalarProperty Name="materialQuotationNumber" ColumnName="materialQuotationNumber" />
-                <ScalarProperty Name="materialQuotationId" ColumnName="materialQuotationId" />
-                <ScalarProperty Name="salesOrderNumber" ColumnName="salesOrderNumber" />
-                <ScalarProperty Name="salesOrderId" ColumnName="salesOrderId" />
-                <ScalarProperty Name="customerId" ColumnName="customerId" />
-                <ScalarProperty Name="ginNumber" ColumnName="ginNumber" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TrnGoodReceiveNotes">
-            <EntityTypeMapping TypeName="IMSModel.TrnGoodReceiveNote">
-              <MappingFragment StoreEntitySet="TrnGoodReceiveNote">
-                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
-                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
-                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
-                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
-                <ScalarProperty Name="totalAmount" ColumnName="totalAmount" />
-                <ScalarProperty Name="locationId" ColumnName="locationId" />
-                <ScalarProperty Name="supplierId" ColumnName="supplierId" />
-                <ScalarProperty Name="grnDate" ColumnName="grnDate" />
-                <ScalarProperty Name="grnNumber" ColumnName="grnNumber" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="TrnGoodReceiveNoteItems">
             <EntityTypeMapping TypeName="IMSModel.TrnGoodReceiveNoteItem">
               <MappingFragment StoreEntitySet="TrnGoodReceiveNoteItems">
@@ -7529,24 +7465,6 @@ warning 6013: The table/view 'IMS.dbo.vwMattressStockValue' does not have a prim
                 <ScalarProperty Name="collectionId" ColumnName="collectionId" />
                 <ScalarProperty Name="categoryId" ColumnName="categoryId" />
                 <ScalarProperty Name="grnId" ColumnName="grnId" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TrnMaterialQuotations">
-            <EntityTypeMapping TypeName="IMSModel.TrnMaterialQuotation">
-              <MappingFragment StoreEntitySet="TrnMaterialQuotation">
-                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
-                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
-                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
-                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
-                <ScalarProperty Name="status" ColumnName="status" />
-                <ScalarProperty Name="totalAmount" ColumnName="totalAmount" />
-                <ScalarProperty Name="referById" ColumnName="referById" />
-                <ScalarProperty Name="customerId" ColumnName="customerId" />
-                <ScalarProperty Name="materialQuotationDate" ColumnName="materialQuotationDate" />
-                <ScalarProperty Name="materialQuotationNumber" ColumnName="materialQuotationNumber" />
-                <ScalarProperty Name="materialSelectionId" ColumnName="materialSelectionId" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -7789,45 +7707,6 @@ warning 6013: The table/view 'IMS.dbo.vwMattressStockValue' does not have a prim
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="TrnSalesInvoices">
-            <EntityTypeMapping TypeName="IMSModel.TrnSalesInvoice">
-              <MappingFragment StoreEntitySet="TrnSalesInvoice">
-                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
-                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
-                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
-                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
-                <ScalarProperty Name="courierDockYardNumber" ColumnName="courierDockYardNumber" />
-                <ScalarProperty Name="status" ColumnName="status" />
-                <ScalarProperty Name="isPaid" ColumnName="isPaid" />
-                <ScalarProperty Name="amountPaid" ColumnName="amountPaid" />
-                <ScalarProperty Name="totalAmount" ColumnName="totalAmount" />
-                <ScalarProperty Name="expectedDeliveryDate" ColumnName="expectedDeliveryDate" />
-                <ScalarProperty Name="buyersOrderNumber" ColumnName="buyersOrderNumber" />
-                <ScalarProperty Name="invoiceDate" ColumnName="invoiceDate" />
-                <ScalarProperty Name="invoiceNumber" ColumnName="invoiceNumber" />
-                <ScalarProperty Name="materialQuotationId" ColumnName="materialQuotationId" />
-                <ScalarProperty Name="salesOrderId" ColumnName="salesOrderId" />
-                <ScalarProperty Name="goodIssueNoteId" ColumnName="goodIssueNoteId" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TrnMaterialSelections">
-            <EntityTypeMapping TypeName="IMSModel.TrnMaterialSelection">
-              <MappingFragment StoreEntitySet="TrnMaterialSelection">
-                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
-                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
-                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
-                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
-                <ScalarProperty Name="isQuotationCreated" ColumnName="isQuotationCreated" />
-                <ScalarProperty Name="materialSelectionDate" ColumnName="materialSelectionDate" />
-                <ScalarProperty Name="referById" ColumnName="referById" />
-                <ScalarProperty Name="materialSelectionNumber" ColumnName="materialSelectionNumber" />
-                <ScalarProperty Name="customerId" ColumnName="customerId" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="TrnMaterialQuotationItems">
             <EntityTypeMapping TypeName="IMSModel.TrnMaterialQuotationItem">
               <MappingFragment StoreEntitySet="TrnMaterialQuotationItems">
@@ -7964,6 +7843,125 @@ warning 6013: The table/view 'IMS.dbo.vwMattressStockValue' does not have a prim
                 <ScalarProperty Name="qualityCode" ColumnName="qualityCode" />
                 <ScalarProperty Name="Collection" ColumnName="Collection" />
                 <ScalarProperty Name="Category" ColumnName="Category" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TrnAdvancePayments">
+            <EntityTypeMapping TypeName="IMSModel.TrnAdvancePayment">
+              <MappingFragment StoreEntitySet="TrnAdvancePayment">
+                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
+                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
+                <ScalarProperty Name="financialYear" ColumnName="financialYear" />
+                <ScalarProperty Name="bankBranch" ColumnName="bankBranch" />
+                <ScalarProperty Name="bankName" ColumnName="bankName" />
+                <ScalarProperty Name="chequeDate" ColumnName="chequeDate" />
+                <ScalarProperty Name="chequeNumber" ColumnName="chequeNumber" />
+                <ScalarProperty Name="paymentMode" ColumnName="paymentMode" />
+                <ScalarProperty Name="amount" ColumnName="amount" />
+                <ScalarProperty Name="materialQuotationId" ColumnName="materialQuotationId" />
+                <ScalarProperty Name="customerId" ColumnName="customerId" />
+                <ScalarProperty Name="advancePaymentDate" ColumnName="advancePaymentDate" />
+                <ScalarProperty Name="advancePaymentNumber" ColumnName="advancePaymentNumber" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TrnGoodIssueNotes">
+            <EntityTypeMapping TypeName="IMSModel.TrnGoodIssueNote">
+              <MappingFragment StoreEntitySet="TrnGoodIssueNote">
+                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
+                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
+                <ScalarProperty Name="financialYear" ColumnName="financialYear" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="ginDate" ColumnName="ginDate" />
+                <ScalarProperty Name="materialQuotationNumber" ColumnName="materialQuotationNumber" />
+                <ScalarProperty Name="materialQuotationId" ColumnName="materialQuotationId" />
+                <ScalarProperty Name="salesOrderNumber" ColumnName="salesOrderNumber" />
+                <ScalarProperty Name="salesOrderId" ColumnName="salesOrderId" />
+                <ScalarProperty Name="customerId" ColumnName="customerId" />
+                <ScalarProperty Name="ginNumber" ColumnName="ginNumber" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TrnGoodReceiveNotes">
+            <EntityTypeMapping TypeName="IMSModel.TrnGoodReceiveNote">
+              <MappingFragment StoreEntitySet="TrnGoodReceiveNote">
+                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
+                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
+                <ScalarProperty Name="financialYear" ColumnName="financialYear" />
+                <ScalarProperty Name="totalAmount" ColumnName="totalAmount" />
+                <ScalarProperty Name="locationId" ColumnName="locationId" />
+                <ScalarProperty Name="supplierId" ColumnName="supplierId" />
+                <ScalarProperty Name="grnDate" ColumnName="grnDate" />
+                <ScalarProperty Name="grnNumber" ColumnName="grnNumber" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TrnMaterialQuotations">
+            <EntityTypeMapping TypeName="IMSModel.TrnMaterialQuotation">
+              <MappingFragment StoreEntitySet="TrnMaterialQuotation">
+                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
+                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
+                <ScalarProperty Name="financialYear" ColumnName="financialYear" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="totalAmount" ColumnName="totalAmount" />
+                <ScalarProperty Name="referById" ColumnName="referById" />
+                <ScalarProperty Name="customerId" ColumnName="customerId" />
+                <ScalarProperty Name="materialQuotationDate" ColumnName="materialQuotationDate" />
+                <ScalarProperty Name="materialQuotationNumber" ColumnName="materialQuotationNumber" />
+                <ScalarProperty Name="materialSelectionId" ColumnName="materialSelectionId" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TrnMaterialSelections">
+            <EntityTypeMapping TypeName="IMSModel.TrnMaterialSelection">
+              <MappingFragment StoreEntitySet="TrnMaterialSelection">
+                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
+                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
+                <ScalarProperty Name="financialYear" ColumnName="financialYear" />
+                <ScalarProperty Name="isQuotationCreated" ColumnName="isQuotationCreated" />
+                <ScalarProperty Name="materialSelectionDate" ColumnName="materialSelectionDate" />
+                <ScalarProperty Name="referById" ColumnName="referById" />
+                <ScalarProperty Name="materialSelectionNumber" ColumnName="materialSelectionNumber" />
+                <ScalarProperty Name="customerId" ColumnName="customerId" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TrnSalesInvoices">
+            <EntityTypeMapping TypeName="IMSModel.TrnSalesInvoice">
+              <MappingFragment StoreEntitySet="TrnSalesInvoice">
+                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
+                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
+                <ScalarProperty Name="financialYear" ColumnName="financialYear" />
+                <ScalarProperty Name="courierDockYardNumber" ColumnName="courierDockYardNumber" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="isPaid" ColumnName="isPaid" />
+                <ScalarProperty Name="amountPaid" ColumnName="amountPaid" />
+                <ScalarProperty Name="totalAmount" ColumnName="totalAmount" />
+                <ScalarProperty Name="expectedDeliveryDate" ColumnName="expectedDeliveryDate" />
+                <ScalarProperty Name="buyersOrderNumber" ColumnName="buyersOrderNumber" />
+                <ScalarProperty Name="invoiceDate" ColumnName="invoiceDate" />
+                <ScalarProperty Name="invoiceNumber" ColumnName="invoiceNumber" />
+                <ScalarProperty Name="materialQuotationId" ColumnName="materialQuotationId" />
+                <ScalarProperty Name="salesOrderId" ColumnName="salesOrderId" />
+                <ScalarProperty Name="goodIssueNoteId" ColumnName="goodIssueNoteId" />
+                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

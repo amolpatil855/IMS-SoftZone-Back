@@ -134,6 +134,7 @@ namespace IMSWebApi.Services
             salesInvoice.isPaid = false;
             salesInvoice.invoiceDate = DateTime.Now;
             salesInvoice.status = InvoiceStatus.Created.ToString();
+            salesInvoice.financialYear = financialYear.financialYear;
             salesInvoice.expectedDeliveryDate = salesInvoice.invoiceDate.AddDays(goodIssueNote.customerId != 0 ? Convert.ToDouble(goodIssueNote.MstCustomer.creditPeriodDays) : 0);
 
             goodIssueNote.TrnGoodIssueNoteItems.ForEach(ginItem =>
