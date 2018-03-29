@@ -12,7 +12,7 @@ namespace IMSWebApi.ViewModel
         public System.DateTime advancePaymentDate { get; set; }
         public string materialQuotationNumber { get; set; }
         public string customerName { get; set; }
-        public int amount { get; set; }
+        public long amount { get; set; }
         public string paymentMode { get; set; }
     }
 }

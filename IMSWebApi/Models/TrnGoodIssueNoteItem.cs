@@ -29,7 +29,7 @@ namespace IMSWebApi.Models
         public Nullable<decimal> issuedQuantity { get; set; }
         public decimal rate { get; set; }
         public Nullable<decimal> discountPercentage { get; set; }
-        public int amount { get; set; }
+        public long amount { get; set; }
         public string status { get; set; }
         public Nullable<System.DateTime> statusChangeDate { get; set; }
         public System.DateTime createdOn { get; set; }

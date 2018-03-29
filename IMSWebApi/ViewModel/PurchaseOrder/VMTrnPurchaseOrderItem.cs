@@ -29,8 +29,8 @@ namespace IMSWebApi.ViewModel
         public string orderType { get; set; }
         public Nullable<decimal> rate { get; set; }
         public Nullable<decimal> rateWithGST { get; set; }
-        public Nullable<int> amount { get; set; }
-        public Nullable<int> amountWithGST { get; set; }
+        public Nullable<long> amount { get; set; }
+        public Nullable<long> amountWithGST { get; set; }
         public Nullable<int> gst { get; set; }
         [MaxLength(20)]
         public string status { get; set; }

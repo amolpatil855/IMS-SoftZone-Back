@@ -15,14 +15,14 @@ namespace IMSWebApi.ViewModel
         public long customerId { get; set; }
         public Nullable<long> referById { get; set; }
         public string status { get; set; }
-        public int totalAmount { get; set; }
+        public long totalAmount { get; set; }
         [MaxLength(10)]
         public string financialYear { get; set; }
         
         public string customerName { get; set; }
         public string agentName { get; set; }
         public string materialSelectionNo { get; set; }
-        public int advanceAmount { get; set; }
+        public long advanceAmount { get; set; }
 
         public virtual VMAgent MstAgent { get; set; }
         public virtual VMCustomer MstCustomer { get; set; }

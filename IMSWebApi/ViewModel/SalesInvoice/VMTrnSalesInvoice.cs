@@ -19,8 +19,8 @@ namespace IMSWebApi.ViewModel.SalesInvoice
         [MaxLength(50)]
         public string buyersOrderNumber { get; set; }
         public Nullable<System.DateTime> expectedDeliveryDate { get; set; }
-        public int totalAmount { get; set; }
-        public int amountPaid { get; set; }
+        public long totalAmount { get; set; }
+        public long amountPaid { get; set; }
         public bool isPaid { get; set; }
         [MaxLength(20)]
         public string status { get; set; }

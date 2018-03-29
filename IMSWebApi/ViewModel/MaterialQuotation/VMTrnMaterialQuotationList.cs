@@ -13,7 +13,7 @@ namespace IMSWebApi.ViewModel
         public long customerId { get; set; }
         public string customerName { get; set; }
         public string status { get; set; }
-        public int totalAmount { get; set; }
-        public int balanceAmount { get; set; }
+        public long totalAmount { get; set; }
+        public long balanceAmount { get; set; }
     }
 }

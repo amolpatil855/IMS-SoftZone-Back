@@ -19,7 +19,7 @@ namespace IMSWebApi.Models
         public System.DateTime advancePaymentDate { get; set; }
         public long customerId { get; set; }
         public long materialQuotationId { get; set; }
-        public int amount { get; set; }
+        public long amount { get; set; }
         public string paymentMode { get; set; }
         public string chequeNumber { get; set; }
         public Nullable<System.DateTime> chequeDate { get; set; }

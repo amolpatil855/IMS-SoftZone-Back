@@ -21,7 +21,7 @@ namespace IMSWebApi.ViewModel.SalesInvoice
         public Nullable<long> referById { get; set; }
         public DateTime orderDate { get; set; }
         public Nullable<DateTime> expectedDeliveryDate { get; set; }
-        public Nullable<int> totalAmount { get; set; }
+        public Nullable<long> totalAmount { get; set; }
         [MaxLength(20)]
         public string paymentMode { get; set; }
         [MaxLength(20)]

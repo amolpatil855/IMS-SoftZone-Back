@@ -26,9 +26,9 @@ namespace IMSWebApi.Models
         public decimal quantity { get; set; }
         public decimal rate { get; set; }
         public Nullable<decimal> discountPercentage { get; set; }
-        public int amount { get; set; }
+        public long amount { get; set; }
         public Nullable<decimal> rateWithGST { get; set; }
-        public Nullable<int> amountWithGST { get; set; }
+        public Nullable<long> amountWithGST { get; set; }
         public Nullable<int> gst { get; set; }
         public string uom { get; set; }
         public string hsnCode { get; set; }

@@ -30,9 +30,9 @@ namespace IMSWebApi.Models
         public decimal receivedQuantity { get; set; }
         public Nullable<decimal> fomQuantityInKG { get; set; }
         public decimal rate { get; set; }
-        public int amount { get; set; }
+        public long amount { get; set; }
         public Nullable<decimal> rateWithGST { get; set; }
-        public Nullable<int> amountWithGST { get; set; }
+        public Nullable<long> amountWithGST { get; set; }
         public Nullable<int> gst { get; set; }
         public System.DateTime createdOn { get; set; }
         public long createdBy { get; set; }

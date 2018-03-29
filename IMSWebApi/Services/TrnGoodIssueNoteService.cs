@@ -237,7 +237,7 @@ namespace IMSWebApi.Services
                     ginItemToPut.issuedQuantity = x.issuedQuantity;
                     //ginItemToPut.amount = Convert.ToInt32(Math.Round((x.rate - (x.rate * (Convert.ToDecimal(x.discountPercentage) / 100))) * (decimal)x.issuedQuantity));
                     decimal discountAmt = (x.rate * Convert.ToDecimal(x.issuedQuantity)) - ((x.rate * Convert.ToDecimal(x.issuedQuantity) * Convert.ToDecimal(x.discountPercentage)) / 100);
-                    ginItemToPut.amount = Convert.ToInt32(Math.Round(discountAmt, MidpointRounding.AwayFromZero));
+                    ginItemToPut.amount = Convert.ToInt64(Math.Round(discountAmt, MidpointRounding.AwayFromZero));
                     ginItemToPut.status = GINStatus.Completed.ToString();
                     ginItemToPut.statusChangeDate = DateTime.Now;
                     ginItemToPut.updatedOn = DateTime.Now;
