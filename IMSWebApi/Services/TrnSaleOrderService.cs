@@ -149,7 +149,7 @@ namespace IMSWebApi.Services
                 {
                     VMTrnSaleOrder VMSaleOrderToPost = Mapper.Map<TrnSaleOrder, VMTrnSaleOrder>(saleOrderToPost);
                     _trnGoodIssueNoteServie.postGoodIssueNote(VMSaleOrderToPost,null);
-                    emailNotification.approvedSONotificationForCustomer(saleOrder, "ApprovedSONotificationForCustomer", customerEmail, adminEmail);
+                    emailNotification.approvedSONotificationForCustomer(saleOrder, "ApprovedSONotificationForCustomer", customerEmail, adminEmail, saleOrderToPost.orderNumber);
                 }
                 else
                 {
@@ -277,7 +277,7 @@ namespace IMSWebApi.Services
 
                 string customerEmail = saleOrder.MstCustomer.email;
 
-                emailNotification.approvedSONotificationForCustomer(VMSaleOrder, "ApprovedSONotificationForCustomer", customerEmail, adminEmail);
+                emailNotification.approvedSONotificationForCustomer(VMSaleOrder, "ApprovedSONotificationForCustomer", customerEmail, adminEmail, saleOrder.orderNumber);
 
                 transaction.Complete();
                 return new ResponseMessage(id, resourceManager.GetString("SOApproved"), ResponseType.Success);

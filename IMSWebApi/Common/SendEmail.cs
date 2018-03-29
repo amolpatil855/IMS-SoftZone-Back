@@ -254,7 +254,7 @@ namespace IMSWebApi.Common
         }
 
         //Whwn SO is approved, notifiy its customer and Admin about approved SO
-        public void approvedSONotificationForCustomer(VMTrnSaleOrder saleOrder, string fileName,string customerEmail, string adminEmail)
+        public void approvedSONotificationForCustomer(VMTrnSaleOrder saleOrder, string fileName,string customerEmail, string adminEmail, string orderNo)
         {
             StringBuilder sbEmailDetails = new StringBuilder();
             sbEmailDetails.AppendLine(System.IO.File.ReadAllText(HttpContext.Current.Server.MapPath(@"~\EmailTemplate\" + fileName + ".html")));
@@ -264,7 +264,7 @@ namespace IMSWebApi.Common
                 saleOrder.MstCustomerAddress != null ? (saleOrder.MstCustomerAddress.addressLine1 + ", " + (saleOrder.MstCustomerAddress.addressLine2 != null ? saleOrder.MstCustomerAddress.addressLine2 + ", " : "") +
                     saleOrder.MstCustomerAddress.city + ", " + saleOrder.MstCustomerAddress.state + "Pincode : " + saleOrder.MstCustomerAddress.pin) : null;
 
-            sbEmailDetails = sbEmailDetails.Replace("@orderNo", saleOrder.orderNumber);
+            sbEmailDetails = sbEmailDetails.Replace("@orderNo", orderNo);
             sbEmailDetails = sbEmailDetails.Replace("@courierMode", saleOrder.courierMode);
             sbEmailDetails = sbEmailDetails.Replace("@customerName", saleOrder.customerName!=null ? saleOrder.customerName : saleOrder.MstCustomer.name);
             sbEmailDetails = sbEmailDetails.Replace("@shippingAddress", shippingAddress);
