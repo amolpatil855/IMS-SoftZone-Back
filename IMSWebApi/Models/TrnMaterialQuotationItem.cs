@@ -32,9 +32,9 @@ namespace IMSWebApi.Models
         public string orderType { get; set; }
         public decimal rate { get; set; }
         public decimal discountPercentage { get; set; }
-        public int amount { get; set; }
+        public long amount { get; set; }
         public decimal rateWithGST { get; set; }
-        public int amountWithGST { get; set; }
+        public long amountWithGST { get; set; }
         public Nullable<int> gst { get; set; }
         public string status { get; set; }
         public System.DateTime createdOn { get; set; }

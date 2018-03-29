@@ -13,7 +13,7 @@ namespace IMSWebApi.ViewModel
         public string supplierName { get; set; }
         public string courierName { get; set; }
         public string courierMode { get; set; }
-        public Nullable<int> totalAmount { get; set; }
+        public Nullable<long> totalAmount { get; set; }
         public string status { get; set; }
     }
 }

@@ -30,7 +30,7 @@ namespace IMSWebApi.Models
         public string orderNumber { get; set; }
         public Nullable<System.DateTime> orderDate { get; set; }
         public Nullable<System.DateTime> expectedDeliveryDate { get; set; }
-        public Nullable<int> totalAmount { get; set; }
+        public Nullable<long> totalAmount { get; set; }
         public string remark { get; set; }
         public string status { get; set; }
         public string financialYear { get; set; }

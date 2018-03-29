@@ -13,6 +13,6 @@ namespace IMSWebApi.ViewModel
         public List<string> purchaseOrderNumbers { get; set; }
         public string supplierName { get; set; }
         public string locationCode { get; set; }
-        public int totalAmount { get; set; }
+        public long totalAmount { get; set; }
     }
 }

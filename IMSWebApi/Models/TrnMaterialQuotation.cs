@@ -28,7 +28,7 @@ namespace IMSWebApi.Models
         public System.DateTime materialQuotationDate { get; set; }
         public long customerId { get; set; }
         public Nullable<long> referById { get; set; }
-        public int totalAmount { get; set; }
+        public long totalAmount { get; set; }
         public string status { get; set; }
         public string financialYear { get; set; }
         public System.DateTime createdOn { get; set; }

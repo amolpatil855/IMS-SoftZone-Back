@@ -31,7 +31,7 @@ namespace IMSWebApi.Models
         public Nullable<long> referById { get; set; }
         public System.DateTime orderDate { get; set; }
         public Nullable<System.DateTime> expectedDeliveryDate { get; set; }
-        public Nullable<int> totalAmount { get; set; }
+        public Nullable<long> totalAmount { get; set; }
         public string paymentMode { get; set; }
         public string chequeNumber { get; set; }
         public Nullable<System.DateTime> chequeDate { get; set; }

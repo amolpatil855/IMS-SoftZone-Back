@@ -14,6 +14,6 @@ namespace IMSWebApi.ViewModel.SalesInvoice
         public string status { get; set; }
         public string courierDockYardNumber { get; set; }
         public bool isPaid { get; set; }
-        public int totalAmount { get; set; }
+        public long totalAmount { get; set; }
     }
 }

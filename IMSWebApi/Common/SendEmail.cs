@@ -60,7 +60,7 @@ namespace IMSWebApi.Common
             sbEmailDetails = sbEmailDetails.Replace("@user",loggedInUser.userName);
             sbEmailDetails = sbEmailDetails.Replace("@orderNo", orderNo);
             sbEmailDetails = sbEmailDetails.Replace("@courierMode", purchaseOrder.courierMode);
-            sbEmailDetails = sbEmailDetails.Replace("@supplierName", purchaseOrder.supplierName);
+            //sbEmailDetails = sbEmailDetails.Replace("@supplierName", purchaseOrder.supplierName);
             sbEmailDetails = sbEmailDetails.Replace("@shippingAddress", purchaseOrder.shippingAddress);
             sbEmailDetails = sbEmailDetails.Replace("@courierName", purchaseOrder.courierName);
             
@@ -109,7 +109,7 @@ namespace IMSWebApi.Common
 
             sbEmailDetails = sbEmailDetails.Replace("@courierMode", purchaseOrder.courierMode);
             sbEmailDetails = sbEmailDetails.Replace("@orderNo", orderNo);
-            sbEmailDetails = sbEmailDetails.Replace("@supplierName", purchaseOrder.supplierName != null ? purchaseOrder.supplierName : purchaseOrder.MstSupplier.code);
+            sbEmailDetails = sbEmailDetails.Replace("@supplierName", purchaseOrder.supplierName != null ? purchaseOrder.supplierName : purchaseOrder.MstSupplier.name);
             sbEmailDetails = sbEmailDetails.Replace("@shippingAddress", shippingAddress);
             sbEmailDetails = sbEmailDetails.Replace("@courierName", purchaseOrder.courierName != null ? purchaseOrder.courierName : purchaseOrder.MstCourier.name);
 

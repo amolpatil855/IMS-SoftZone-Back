@@ -496,7 +496,7 @@
           <Property Name="advancePaymentDate" Type="datetime" Nullable="false" />
           <Property Name="customerId" Type="bigint" Nullable="false" />
           <Property Name="materialQuotationId" Type="bigint" Nullable="false" />
-          <Property Name="amount" Type="int" Nullable="false" />
+          <Property Name="amount" Type="bigint" Nullable="false" />
           <Property Name="paymentMode" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="chequeNumber" Type="varchar" MaxLength="20" />
           <Property Name="chequeDate" Type="date" />
@@ -544,9 +544,9 @@
           <Property Name="accessoryId" Type="bigint" />
           <Property Name="orderQuantity" Type="decimal" Precision="7" Scale="2" Nullable="false" />
           <Property Name="issuedQuantity" Type="decimal" Precision="7" Scale="2" />
-          <Property Name="rate" Type="decimal" Precision="7" Scale="2" Nullable="false" />
+          <Property Name="rate" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="discountPercentage" Type="decimal" Precision="4" Scale="2" />
-          <Property Name="amount" Type="int" Nullable="false" />
+          <Property Name="amount" Type="bigint" Nullable="false" />
           <Property Name="status" Type="varchar" MaxLength="20" />
           <Property Name="statusChangeDate" Type="datetime" />
           <Property Name="createdOn" Type="datetime" Nullable="false" />
@@ -563,7 +563,7 @@
           <Property Name="grnDate" Type="datetime" />
           <Property Name="supplierId" Type="bigint" Nullable="false" />
           <Property Name="locationId" Type="bigint" Nullable="false" />
-          <Property Name="totalAmount" Type="int" Nullable="false" />
+          <Property Name="totalAmount" Type="bigint" Nullable="false" />
           <Property Name="financialYear" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="createdOn" Type="datetime" Nullable="false" />
           <Property Name="createdBy" Type="bigint" Nullable="false" />
@@ -589,10 +589,10 @@
           <Property Name="orderQuantity" Type="decimal" Precision="7" Scale="2" Nullable="false" />
           <Property Name="receivedQuantity" Type="decimal" Precision="7" Scale="2" Nullable="false" />
           <Property Name="fomQuantityInKG" Type="decimal" Precision="5" Scale="3" />
-          <Property Name="rate" Type="decimal" Precision="7" Scale="2" Nullable="false" />
-          <Property Name="amount" Type="int" Nullable="false" />
-          <Property Name="rateWithGST" Type="decimal" Precision="8" Scale="2" />
-          <Property Name="amountWithGST" Type="int" />
+          <Property Name="rate" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="amount" Type="bigint" Nullable="false" />
+          <Property Name="rateWithGST" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="amountWithGST" Type="bigint" />
           <Property Name="gst" Type="int" />
           <Property Name="createdOn" Type="datetime" Nullable="false" />
           <Property Name="createdBy" Type="bigint" Nullable="false" />
@@ -609,7 +609,7 @@
           <Property Name="materialQuotationDate" Type="datetime" Nullable="false" />
           <Property Name="customerId" Type="bigint" Nullable="false" />
           <Property Name="referById" Type="bigint" />
-          <Property Name="totalAmount" Type="int" Nullable="false" />
+          <Property Name="totalAmount" Type="bigint" Nullable="false" />
           <Property Name="status" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="financialYear" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="createdOn" Type="datetime" Nullable="false" />
@@ -637,11 +637,11 @@
           <Property Name="deliverQuantity" Type="decimal" Precision="7" Scale="2" Nullable="false" />
           <Property Name="balanceQuantity" Type="decimal" Precision="7" Scale="2" Nullable="false" />
           <Property Name="orderType" Type="varchar" MaxLength="20" />
-          <Property Name="rate" Type="decimal" Precision="7" Scale="2" Nullable="false" />
+          <Property Name="rate" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="discountPercentage" Type="decimal" Precision="4" Scale="2" Nullable="false" />
-          <Property Name="amount" Type="int" Nullable="false" />
-          <Property Name="rateWithGST" Type="decimal" Precision="8" Scale="2" Nullable="false" />
-          <Property Name="amountWithGST" Type="int" Nullable="false" />
+          <Property Name="amount" Type="bigint" Nullable="false" />
+          <Property Name="rateWithGST" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="amountWithGST" Type="bigint" Nullable="false" />
           <Property Name="gst" Type="int" />
           <Property Name="status" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="createdOn" Type="datetime" Nullable="false" />
@@ -746,7 +746,7 @@
           <Property Name="orderNumber" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="orderDate" Type="datetime" />
           <Property Name="expectedDeliveryDate" Type="date" />
-          <Property Name="totalAmount" Type="int" />
+          <Property Name="totalAmount" Type="bigint" />
           <Property Name="remark" Type="varchar" MaxLength="100" />
           <Property Name="status" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="financialYear" Type="varchar" MaxLength="10" />
@@ -773,10 +773,10 @@
           <Property Name="orderQuantity" Type="decimal" Precision="7" Scale="2" Nullable="false" />
           <Property Name="balanceQuantity" Type="decimal" Precision="7" Scale="2" Nullable="false" />
           <Property Name="orderType" Type="varchar" MaxLength="20" />
-          <Property Name="rate" Type="decimal" Precision="7" Scale="2" />
-          <Property Name="rateWithGST" Type="decimal" Precision="8" Scale="2" />
-          <Property Name="amount" Type="int" />
-          <Property Name="amountWithGST" Type="int" />
+          <Property Name="rate" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="rateWithGST" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="amount" Type="bigint" />
+          <Property Name="amountWithGST" Type="bigint" />
           <Property Name="gst" Type="int" />
           <Property Name="status" Type="varchar" MaxLength="20" />
           <Property Name="createdOn" Type="datetime" Nullable="false" />
@@ -797,7 +797,7 @@
           <Property Name="referById" Type="bigint" />
           <Property Name="orderDate" Type="datetime" Nullable="false" />
           <Property Name="expectedDeliveryDate" Type="date" />
-          <Property Name="totalAmount" Type="int" />
+          <Property Name="totalAmount" Type="bigint" />
           <Property Name="paymentMode" Type="varchar" MaxLength="20" />
           <Property Name="chequeNumber" Type="varchar" MaxLength="20" />
           <Property Name="chequeDate" Type="date" />
@@ -828,11 +828,11 @@
           <Property Name="deliverQuantity" Type="decimal" Precision="7" Scale="2" />
           <Property Name="balanceQuantity" Type="decimal" Precision="7" Scale="2" />
           <Property Name="orderType" Type="varchar" MaxLength="20" />
-          <Property Name="rate" Type="decimal" Precision="7" Scale="2" />
+          <Property Name="rate" Type="decimal" Precision="18" Scale="2" />
           <Property Name="discountPercentage" Type="decimal" Precision="4" Scale="2" />
-          <Property Name="amount" Type="int" />
-          <Property Name="rateWithGST" Type="decimal" Precision="8" Scale="2" />
-          <Property Name="amountWithGST" Type="int" />
+          <Property Name="amount" Type="bigint" />
+          <Property Name="rateWithGST" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="amountWithGST" Type="bigint" />
           <Property Name="gst" Type="int" />
           <Property Name="status" Type="varchar" MaxLength="20" />
           <Property Name="createdOn" Type="datetime" Nullable="false" />
@@ -852,8 +852,8 @@
           <Property Name="invoiceDate" Type="datetime" Nullable="false" />
           <Property Name="buyersOrderNumber" Type="varchar" MaxLength="50" />
           <Property Name="expectedDeliveryDate" Type="date" />
-          <Property Name="totalAmount" Type="int" Nullable="false" />
-          <Property Name="amountPaid" Type="int" Nullable="false" />
+          <Property Name="totalAmount" Type="bigint" Nullable="false" />
+          <Property Name="amountPaid" Type="bigint" Nullable="false" />
           <Property Name="isPaid" Type="bit" Nullable="false" />
           <Property Name="status" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="courierDockYardNumber" Type="varchar" MaxLength="20" />
@@ -877,11 +877,11 @@
           <Property Name="sizeCode" Type="varchar" MaxLength="20" />
           <Property Name="accessoryId" Type="bigint" />
           <Property Name="quantity" Type="decimal" Precision="7" Scale="2" Nullable="false" />
-          <Property Name="rate" Type="decimal" Precision="7" Scale="2" Nullable="false" />
+          <Property Name="rate" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="discountPercentage" Type="decimal" Precision="4" Scale="2" />
-          <Property Name="amount" Type="int" Nullable="false" />
-          <Property Name="rateWithGST" Type="decimal" Precision="8" Scale="2" />
-          <Property Name="amountWithGST" Type="int" />
+          <Property Name="amount" Type="bigint" Nullable="false" />
+          <Property Name="rateWithGST" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="amountWithGST" Type="bigint" />
           <Property Name="gst" Type="int" />
           <Property Name="uom" Type="varchar" MaxLength="10" />
           <Property Name="hsnCode" Type="varchar" MaxLength="10" />
@@ -922,14 +922,14 @@ warning 6002: The table/view 'IMS.dbo.vwDasBoard' does not have a primary key de
           <Key>
             <PropertyRef Name="totalPaymentDue" />
           </Key>
-          <Property Name="totalOutStandingAmount" Type="int" />
+          <Property Name="totalOutStandingAmount" Type="bigint" />
           <Property Name="totalSalesCount" Type="int" />
           <Property Name="totalPaymentDue" Type="int" Nullable="false" />
           <Property Name="totalPurchaseCount" Type="int" />
-          <Property Name="ytdSale" Type="int" />
-          <Property Name="currentMonthSale" Type="int" />
+          <Property Name="ytdSale" Type="bigint" />
+          <Property Name="currentMonthSale" Type="bigint" />
           <Property Name="itemsCountBelowReorderLevel" Type="int" />
-          <Property Name="totalStockValue" Type="int" />
+          <Property Name="totalStockValue" Type="bigint" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'IMS.dbo.vwFoam' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -3425,7 +3425,7 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <EntitySet Name="TrnSaleOrderItems" EntityType="IMSModel.TrnSaleOrderItem" />
           <EntitySet Name="TrnSalesInvoices" EntityType="IMSModel.TrnSalesInvoice" />
           <EntitySet Name="TrnSalesInvoiceItems" EntityType="IMSModel.TrnSalesInvoiceItem" />
-          <EntitySet Name="vwDasBoards" EntityType="IMSModel.vwDasBoard" />
+          <EntitySet Name="vwAccessories" EntityType="IMSModel.vwAccessory" />
           <EntitySet Name="vwFoams" EntityType="IMSModel.vwFoam" />
           <EntitySet Name="vwFWRs" EntityType="IMSModel.vwFWR" />
           <EntitySet Name="vwMattresses" EntityType="IMSModel.vwMattress" />
@@ -3977,7 +3977,7 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
             <End Role="TrnSalesInvoice" EntitySet="TrnSalesInvoices" />
             <End Role="TrnSalesInvoiceItem" EntitySet="TrnSalesInvoiceItems" />
           </AssociationSet>
-          <EntitySet Name="vwAccessories" EntityType="IMSModel.vwAccessory" />
+          <EntitySet Name="vwDasBoards" EntityType="IMSModel.vwDasBoard" />
         </EntityContainer>
         <EntityType Name="CFGRoleMenu">
           <Key>
@@ -4632,7 +4632,7 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <Property Name="advancePaymentDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="customerId" Type="Int64" Nullable="false" />
           <Property Name="materialQuotationId" Type="Int64" Nullable="false" />
-          <Property Name="amount" Type="Int32" Nullable="false" />
+          <Property Name="amount" Type="Int64" Nullable="false" />
           <Property Name="paymentMode" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="chequeNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="chequeDate" Type="DateTime" Precision="0" />
@@ -4687,9 +4687,9 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <Property Name="accessoryId" Type="Int64" />
           <Property Name="orderQuantity" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
           <Property Name="issuedQuantity" Type="Decimal" Precision="7" Scale="2" />
-          <Property Name="rate" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
+          <Property Name="rate" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <Property Name="discountPercentage" Type="Decimal" Precision="4" Scale="2" />
-          <Property Name="amount" Type="Int32" Nullable="false" />
+          <Property Name="amount" Type="Int64" Nullable="false" />
           <Property Name="status" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="statusChangeDate" Type="DateTime" Precision="3" />
           <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
@@ -4715,7 +4715,7 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <Property Name="grnDate" Type="DateTime" Precision="3" />
           <Property Name="supplierId" Type="Int64" Nullable="false" />
           <Property Name="locationId" Type="Int64" Nullable="false" />
-          <Property Name="totalAmount" Type="Int32" Nullable="false" />
+          <Property Name="totalAmount" Type="Int64" Nullable="false" />
           <Property Name="financialYear" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="createdBy" Type="Int64" Nullable="false" />
@@ -4744,10 +4744,10 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <Property Name="orderQuantity" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
           <Property Name="receivedQuantity" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
           <Property Name="fomQuantityInKG" Type="Decimal" Precision="5" Scale="3" />
-          <Property Name="rate" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
-          <Property Name="amount" Type="Int32" Nullable="false" />
-          <Property Name="rateWithGST" Type="Decimal" Precision="8" Scale="2" />
-          <Property Name="amountWithGST" Type="Int32" />
+          <Property Name="rate" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="amount" Type="Int64" Nullable="false" />
+          <Property Name="rateWithGST" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="amountWithGST" Type="Int64" />
           <Property Name="gst" Type="Int32" />
           <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="createdBy" Type="Int64" Nullable="false" />
@@ -4774,7 +4774,7 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <Property Name="materialQuotationDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="customerId" Type="Int64" Nullable="false" />
           <Property Name="referById" Type="Int64" />
-          <Property Name="totalAmount" Type="Int32" Nullable="false" />
+          <Property Name="totalAmount" Type="Int64" Nullable="false" />
           <Property Name="status" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="financialYear" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
@@ -4809,11 +4809,11 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <Property Name="deliverQuantity" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
           <Property Name="balanceQuantity" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
           <Property Name="orderType" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="rate" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
+          <Property Name="rate" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <Property Name="discountPercentage" Type="Decimal" Nullable="false" Precision="4" Scale="2" />
-          <Property Name="amount" Type="Int32" Nullable="false" />
-          <Property Name="rateWithGST" Type="Decimal" Nullable="false" Precision="8" Scale="2" />
-          <Property Name="amountWithGST" Type="Int32" Nullable="false" />
+          <Property Name="amount" Type="Int64" Nullable="false" />
+          <Property Name="rateWithGST" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="amountWithGST" Type="Int64" Nullable="false" />
           <Property Name="gst" Type="Int32" />
           <Property Name="status" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
@@ -4953,7 +4953,7 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <Property Name="orderNumber" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="orderDate" Type="DateTime" Precision="3" />
           <Property Name="expectedDeliveryDate" Type="DateTime" Precision="0" />
-          <Property Name="totalAmount" Type="Int32" />
+          <Property Name="totalAmount" Type="Int64" />
           <Property Name="remark" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="status" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="financialYear" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
@@ -4986,10 +4986,10 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <Property Name="orderQuantity" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
           <Property Name="balanceQuantity" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
           <Property Name="orderType" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="rate" Type="Decimal" Precision="7" Scale="2" />
-          <Property Name="rateWithGST" Type="Decimal" Precision="8" Scale="2" />
-          <Property Name="amount" Type="Int32" />
-          <Property Name="amountWithGST" Type="Int32" />
+          <Property Name="rate" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="rateWithGST" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="amount" Type="Int64" />
+          <Property Name="amountWithGST" Type="Int64" />
           <Property Name="gst" Type="Int32" />
           <Property Name="status" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
@@ -5019,7 +5019,7 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <Property Name="referById" Type="Int64" />
           <Property Name="orderDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="expectedDeliveryDate" Type="DateTime" Precision="0" />
-          <Property Name="totalAmount" Type="Int32" />
+          <Property Name="totalAmount" Type="Int64" />
           <Property Name="paymentMode" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="chequeNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="chequeDate" Type="DateTime" Precision="0" />
@@ -5058,11 +5058,11 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <Property Name="deliverQuantity" Type="Decimal" Precision="7" Scale="2" />
           <Property Name="balanceQuantity" Type="Decimal" Precision="7" Scale="2" />
           <Property Name="orderType" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="rate" Type="Decimal" Precision="7" Scale="2" />
+          <Property Name="rate" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="discountPercentage" Type="Decimal" Precision="4" Scale="2" />
-          <Property Name="amount" Type="Int32" />
-          <Property Name="rateWithGST" Type="Decimal" Precision="8" Scale="2" />
-          <Property Name="amountWithGST" Type="Int32" />
+          <Property Name="amount" Type="Int64" />
+          <Property Name="rateWithGST" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="amountWithGST" Type="Int64" />
           <Property Name="gst" Type="Int32" />
           <Property Name="status" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
@@ -5089,8 +5089,8 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <Property Name="invoiceDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="buyersOrderNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="expectedDeliveryDate" Type="DateTime" Precision="0" />
-          <Property Name="totalAmount" Type="Int32" Nullable="false" />
-          <Property Name="amountPaid" Type="Int32" Nullable="false" />
+          <Property Name="totalAmount" Type="Int64" Nullable="false" />
+          <Property Name="amountPaid" Type="Int64" Nullable="false" />
           <Property Name="isPaid" Type="Boolean" Nullable="false" />
           <Property Name="status" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="courierDockYardNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
@@ -5118,11 +5118,11 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <Property Name="sizeCode" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="accessoryId" Type="Int64" />
           <Property Name="quantity" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
-          <Property Name="rate" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
+          <Property Name="rate" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <Property Name="discountPercentage" Type="Decimal" Precision="4" Scale="2" />
-          <Property Name="amount" Type="Int32" Nullable="false" />
-          <Property Name="rateWithGST" Type="Decimal" Precision="8" Scale="2" />
-          <Property Name="amountWithGST" Type="Int32" />
+          <Property Name="amount" Type="Int64" Nullable="false" />
+          <Property Name="rateWithGST" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="amountWithGST" Type="Int64" />
           <Property Name="gst" Type="Int32" />
           <Property Name="uom" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="hsnCode" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
@@ -5138,18 +5138,29 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <NavigationProperty Name="MstMatSize" Relationship="IMSModel.FK_TrnSalesInvoiceItems_MstMatSize" FromRole="TrnSalesInvoiceItem" ToRole="MstMatSize" />
           <NavigationProperty Name="TrnSalesInvoice" Relationship="IMSModel.FK_TrnSalesInvoiceItems_TrnSalesInvoice" FromRole="TrnSalesInvoiceItem" ToRole="TrnSalesInvoice" />
         </EntityType>
-        <EntityType Name="vwDasBoard">
+        <EntityType Name="vwAccessory">
           <Key>
-            <PropertyRef Name="totalPaymentDue" />
+            <PropertyRef Name="Category" />
+            <PropertyRef Name="itemCode" />
+            <PropertyRef Name="name" />
+            <PropertyRef Name="size" />
+            <PropertyRef Name="uom" />
+            <PropertyRef Name="hsnCode" />
+            <PropertyRef Name="sellingRate" />
+            <PropertyRef Name="purchaseRate" />
           </Key>
-          <Property Name="totalOutStandingAmount" Type="Int32" />
-          <Property Name="totalSalesCount" Type="Int32" />
-          <Property Name="totalPaymentDue" Type="Int32" Nullable="false" />
-          <Property Name="totalPurchaseCount" Type="Int32" />
-          <Property Name="ytdSale" Type="Int32" />
-          <Property Name="currentMonthSale" Type="Int32" />
-          <Property Name="itemsCountBelowReorderLevel" Type="Int32" />
-          <Property Name="totalStockValue" Type="Int32" />
+          <Property Name="Category" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="itemCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="size" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="uom" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="hsnCode" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="gst" Type="String" MaxLength="31" FixedLength="false" Unicode="false" />
+          <Property Name="sellingRate" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
+          <Property Name="sellingRateWithGst" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="purchaseRate" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
+          <Property Name="purchaseRateWithGst" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="availableStock" Type="Decimal" Precision="9" Scale="2" />
         </EntityType>
         <EntityType Name="vwFoam">
           <Key>
@@ -6900,29 +6911,18 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="vwAccessory">
+        <EntityType Name="vwDasBoard">
           <Key>
-            <PropertyRef Name="Category" />
-            <PropertyRef Name="itemCode" />
-            <PropertyRef Name="name" />
-            <PropertyRef Name="size" />
-            <PropertyRef Name="uom" />
-            <PropertyRef Name="hsnCode" />
-            <PropertyRef Name="sellingRate" />
-            <PropertyRef Name="purchaseRate" />
+            <PropertyRef Name="totalPaymentDue" />
           </Key>
-          <Property Name="Category" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="itemCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="size" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="uom" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="hsnCode" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="gst" Type="String" MaxLength="31" FixedLength="false" Unicode="false" />
-          <Property Name="sellingRate" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
-          <Property Name="sellingRateWithGst" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
-          <Property Name="purchaseRate" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
-          <Property Name="purchaseRateWithGst" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
-          <Property Name="availableStock" Type="Decimal" Precision="9" Scale="2" />
+          <Property Name="totalOutStandingAmount" Type="Int64" />
+          <Property Name="totalSalesCount" Type="Int32" />
+          <Property Name="totalPaymentDue" Type="Int32" Nullable="false" />
+          <Property Name="totalPurchaseCount" Type="Int32" />
+          <Property Name="ytdSale" Type="Int64" />
+          <Property Name="currentMonthSale" Type="Int64" />
+          <Property Name="itemsCountBelowReorderLevel" Type="Int32" />
+          <Property Name="totalStockValue" Type="Int64" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -7859,17 +7859,21 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="vwDasBoards">
-            <EntityTypeMapping TypeName="IMSModel.vwDasBoard">
-              <MappingFragment StoreEntitySet="vwDasBoard">
-                <ScalarProperty Name="totalStockValue" ColumnName="totalStockValue" />
-                <ScalarProperty Name="itemsCountBelowReorderLevel" ColumnName="itemsCountBelowReorderLevel" />
-                <ScalarProperty Name="currentMonthSale" ColumnName="currentMonthSale" />
-                <ScalarProperty Name="ytdSale" ColumnName="ytdSale" />
-                <ScalarProperty Name="totalPurchaseCount" ColumnName="totalPurchaseCount" />
-                <ScalarProperty Name="totalPaymentDue" ColumnName="totalPaymentDue" />
-                <ScalarProperty Name="totalSalesCount" ColumnName="totalSalesCount" />
-                <ScalarProperty Name="totalOutStandingAmount" ColumnName="totalOutStandingAmount" />
+          <EntitySetMapping Name="vwAccessories">
+            <EntityTypeMapping TypeName="IMSModel.vwAccessory">
+              <MappingFragment StoreEntitySet="vwAccessory">
+                <ScalarProperty Name="availableStock" ColumnName="availableStock" />
+                <ScalarProperty Name="purchaseRateWithGst" ColumnName="purchaseRateWithGst" />
+                <ScalarProperty Name="purchaseRate" ColumnName="purchaseRate" />
+                <ScalarProperty Name="sellingRateWithGst" ColumnName="sellingRateWithGst" />
+                <ScalarProperty Name="sellingRate" ColumnName="sellingRate" />
+                <ScalarProperty Name="gst" ColumnName="gst" />
+                <ScalarProperty Name="hsnCode" ColumnName="hsnCode" />
+                <ScalarProperty Name="uom" ColumnName="uom" />
+                <ScalarProperty Name="size" ColumnName="size" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="itemCode" ColumnName="itemCode" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -7947,21 +7951,17 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="vwAccessories">
-            <EntityTypeMapping TypeName="IMSModel.vwAccessory">
-              <MappingFragment StoreEntitySet="vwAccessory">
-                <ScalarProperty Name="availableStock" ColumnName="availableStock" />
-                <ScalarProperty Name="purchaseRateWithGst" ColumnName="purchaseRateWithGst" />
-                <ScalarProperty Name="purchaseRate" ColumnName="purchaseRate" />
-                <ScalarProperty Name="sellingRateWithGst" ColumnName="sellingRateWithGst" />
-                <ScalarProperty Name="sellingRate" ColumnName="sellingRate" />
-                <ScalarProperty Name="gst" ColumnName="gst" />
-                <ScalarProperty Name="hsnCode" ColumnName="hsnCode" />
-                <ScalarProperty Name="uom" ColumnName="uom" />
-                <ScalarProperty Name="size" ColumnName="size" />
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="itemCode" ColumnName="itemCode" />
-                <ScalarProperty Name="Category" ColumnName="Category" />
+          <EntitySetMapping Name="vwDasBoards">
+            <EntityTypeMapping TypeName="IMSModel.vwDasBoard">
+              <MappingFragment StoreEntitySet="vwDasBoard">
+                <ScalarProperty Name="totalStockValue" ColumnName="totalStockValue" />
+                <ScalarProperty Name="itemsCountBelowReorderLevel" ColumnName="itemsCountBelowReorderLevel" />
+                <ScalarProperty Name="currentMonthSale" ColumnName="currentMonthSale" />
+                <ScalarProperty Name="ytdSale" ColumnName="ytdSale" />
+                <ScalarProperty Name="totalPurchaseCount" ColumnName="totalPurchaseCount" />
+                <ScalarProperty Name="totalPaymentDue" ColumnName="totalPaymentDue" />
+                <ScalarProperty Name="totalSalesCount" ColumnName="totalSalesCount" />
+                <ScalarProperty Name="totalOutStandingAmount" ColumnName="totalOutStandingAmount" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

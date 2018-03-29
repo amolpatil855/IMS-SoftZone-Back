@@ -4,52 +4,52 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="b93ccf94511548a08944c7935c3877fe" Name="Diagram1" ZoomLevel="52">
-        <EntityTypeShape EntityType="IMSModel.CFGRoleMenu" Width="1.5" PointX="4.5" PointY="36.625" />
+      <Diagram DiagramId="b93ccf94511548a08944c7935c3877fe" Name="Diagram1" ZoomLevel="67">
+        <EntityTypeShape EntityType="IMSModel.CFGRoleMenu" Width="1.5" PointX="3.75" PointY="44.625" />
         <EntityTypeShape EntityType="IMSModel.MstAccessory" Width="1.5" PointX="5.25" PointY="54.125" />
-        <EntityTypeShape EntityType="IMSModel.MstAgent" Width="1.5" PointX="6.75" PointY="37.5" />
+        <EntityTypeShape EntityType="IMSModel.MstAgent" Width="1.5" PointX="1.5" PointY="68.125" />
         <EntityTypeShape EntityType="IMSModel.MstCategory" Width="1.5" PointX="3" PointY="56.625" />
         <EntityTypeShape EntityType="IMSModel.MstCollection" Width="1.5" PointX="8.25" PointY="56.25" />
         <EntityTypeShape EntityType="IMSModel.MstCompanyInfo" Width="1.5" PointX="0.75" PointY="0.75" />
-        <EntityTypeShape EntityType="IMSModel.MstCompanyLocation" Width="1.5" PointX="9" PointY="20.5" />
-        <EntityTypeShape EntityType="IMSModel.MstCourier" Width="1.5" PointX="9" PointY="42.625" />
-        <EntityTypeShape EntityType="IMSModel.MstCustomer" Width="1.5" PointX="6.75" PointY="30.25" />
-        <EntityTypeShape EntityType="IMSModel.MstCustomerAddress" Width="1.5" PointX="6.75" PointY="25.375" />
+        <EntityTypeShape EntityType="IMSModel.MstCompanyLocation" Width="1.5" PointX="1.5" PointY="36.625" />
+        <EntityTypeShape EntityType="IMSModel.MstCourier" Width="1.5" PointX="1.5" PointY="18.5" />
+        <EntityTypeShape EntityType="IMSModel.MstCustomer" Width="1.5" PointX="3.75" PointY="29.75" />
+        <EntityTypeShape EntityType="IMSModel.MstCustomerAddress" Width="1.5" PointX="1.5" PointY="22.875" />
         <EntityTypeShape EntityType="IMSModel.MstFinancialYear" Width="1.5" PointX="2.75" PointY="0.75" />
-        <EntityTypeShape EntityType="IMSModel.MstFomDensity" Width="1.5" PointX="21.75" PointY="57.375" />
-        <EntityTypeShape EntityType="IMSModel.MstFomSize" Width="1.5" PointX="27.25" PointY="57" />
-        <EntityTypeShape EntityType="IMSModel.MstFomSuggestedMM" Width="1.5" PointX="24" PointY="60.75" />
-        <EntityTypeShape EntityType="IMSModel.MstFWRDesign" Width="1.5" PointX="16.5" PointY="49.75" />
-        <EntityTypeShape EntityType="IMSModel.MstFWRShade" Width="1.5" PointX="24.75" PointY="53.75" />
-        <EntityTypeShape EntityType="IMSModel.MstHsn" Width="1.5" PointX="3" PointY="52.375" />
-        <EntityTypeShape EntityType="IMSModel.MstMatSize" Width="1.5" PointX="16.5" PointY="63.5" />
-        <EntityTypeShape EntityType="IMSModel.MstMatThickness" Width="1.5" PointX="14.25" PointY="71.75" />
-        <EntityTypeShape EntityType="IMSModel.MstMenu" Width="1.5" PointX="2.25" PointY="37.625" />
+        <EntityTypeShape EntityType="IMSModel.MstFomDensity" Width="1.5" PointX="13.5" PointY="49.375" />
+        <EntityTypeShape EntityType="IMSModel.MstFomSize" Width="1.5" PointX="21.75" PointY="50.5" />
+        <EntityTypeShape EntityType="IMSModel.MstFomSuggestedMM" Width="1.5" PointX="24.75" PointY="51.75" />
+        <EntityTypeShape EntityType="IMSModel.MstFWRDesign" Width="1.5" PointX="21.75" PointY="57.75" />
+        <EntityTypeShape EntityType="IMSModel.MstFWRShade" Width="1.5" PointX="27" PointY="56.625" />
+        <EntityTypeShape EntityType="IMSModel.MstHsn" Width="1.5" PointX="3" PointY="64.25" />
+        <EntityTypeShape EntityType="IMSModel.MstMatSize" Width="1.5" PointX="24.75" PointY="56.5" />
+        <EntityTypeShape EntityType="IMSModel.MstMatThickness" Width="1.5" PointX="22.5" PointY="62.75" />
+        <EntityTypeShape EntityType="IMSModel.MstMenu" Width="1.5" PointX="1.5" PointY="14.625" />
         <EntityTypeShape EntityType="IMSModel.MstQuality" Width="1.5" PointX="19.5" PointY="55.5" />
-        <EntityTypeShape EntityType="IMSModel.MstRole" Width="1.5" PointX="2.25" PointY="33.625" />
-        <EntityTypeShape EntityType="IMSModel.MstSupplier" Width="1.5" PointX="3" PointY="63.875" />
-        <EntityTypeShape EntityType="IMSModel.MstSupplierAddress" Width="1.5" PointX="5.25" PointY="65" />
+        <EntityTypeShape EntityType="IMSModel.MstRole" Width="1.5" PointX="1.5" PointY="44.625" />
+        <EntityTypeShape EntityType="IMSModel.MstSupplier" Width="1.5" PointX="3" PointY="49.375" />
+        <EntityTypeShape EntityType="IMSModel.MstSupplierAddress" Width="1.5" PointX="5.25" PointY="61.5" />
         <EntityTypeShape EntityType="IMSModel.MstUnitOfMeasure" Width="1.5" PointX="0.75" PointY="51.5" />
-        <EntityTypeShape EntityType="IMSModel.MstUser" Width="1.5" PointX="4.5" PointY="31.25" />
-        <EntityTypeShape EntityType="IMSModel.MstuserType" Width="1.5" PointX="2.25" PointY="30.625" />
-        <EntityTypeShape EntityType="IMSModel.TrnAdvancePayment" Width="1.5" PointX="16" PointY="43.875" />
-        <EntityTypeShape EntityType="IMSModel.TrnGoodIssueNote" Width="1.5" PointX="6" PointY="71.25" />
-        <EntityTypeShape EntityType="IMSModel.TrnGoodIssueNoteItem" Width="1.5" PointX="16.5" PointY="55.125" />
-        <EntityTypeShape EntityType="IMSModel.TrnGoodReceiveNote" Width="1.5" PointX="11.25" PointY="71.75" />
-        <EntityTypeShape EntityType="IMSModel.TrnGoodReceiveNoteItem" Width="1.5" PointX="13.5" PointY="62.875" />
-        <EntityTypeShape EntityType="IMSModel.TrnMaterialQuotation" Width="1.5" PointX="3.75" PointY="71.25" />
-        <EntityTypeShape EntityType="IMSModel.TrnMaterialQuotationItem" Width="1.5" PointX="30" PointY="58" />
-        <EntityTypeShape EntityType="IMSModel.TrnMaterialSelection" Width="1.5" PointX="1.5" PointY="71.625" />
-        <EntityTypeShape EntityType="IMSModel.TrnMaterialSelectionItem" Width="1.5" PointX="27" PointY="64.125" />
-        <EntityTypeShape EntityType="IMSModel.TrnProductStock" Width="1.5" PointX="13.5" PointY="55.625" />
-        <EntityTypeShape EntityType="IMSModel.TrnProductStockDetail" Width="1.5" PointX="10.5" PointY="55.5" />
-        <EntityTypeShape EntityType="IMSModel.TrnPurchaseOrder" Width="1.5" PointX="11.25" PointY="30.5" />
-        <EntityTypeShape EntityType="IMSModel.TrnPurchaseOrderItem" Width="1.5" PointX="13.5" PointY="47" />
-        <EntityTypeShape EntityType="IMSModel.TrnSaleOrder" Width="1.5" PointX="9" PointY="30.25" />
-        <EntityTypeShape EntityType="IMSModel.TrnSaleOrderItem" Width="1.5" PointX="10.5" PointY="63.125" />
-        <EntityTypeShape EntityType="IMSModel.TrnSalesInvoice" Width="1.5" PointX="8.25" PointY="71" />
+        <EntityTypeShape EntityType="IMSModel.MstUser" Width="1.5" PointX="1.5" PointY="30.75" />
+        <EntityTypeShape EntityType="IMSModel.MstuserType" Width="1.5" PointX="1.5" PointY="41.5" />
+        <EntityTypeShape EntityType="IMSModel.TrnAdvancePayment" Width="1.5" PointX="6" PointY="48.125" />
+        <EntityTypeShape EntityType="IMSModel.TrnGoodIssueNote" Width="1.5" PointX="6" PointY="31" />
+        <EntityTypeShape EntityType="IMSModel.TrnGoodIssueNoteItem" Width="1.5" PointX="13.5" PointY="63.125" />
+        <EntityTypeShape EntityType="IMSModel.TrnGoodReceiveNote" Width="1.5" PointX="8.25" PointY="64.75" />
+        <EntityTypeShape EntityType="IMSModel.TrnGoodReceiveNoteItem" Width="1.5" PointX="10.5" PointY="62.875" />
+        <EntityTypeShape EntityType="IMSModel.TrnMaterialQuotation" Width="1.5" PointX="3.75" PointY="70.125" />
+        <EntityTypeShape EntityType="IMSModel.TrnMaterialQuotationItem" Width="1.5" PointX="29.25" PointY="55.875" />
+        <EntityTypeShape EntityType="IMSModel.TrnMaterialSelection" Width="1.5" PointX="1.5" PointY="73.125" />
+        <EntityTypeShape EntityType="IMSModel.TrnMaterialSelectionItem" Width="1.5" PointX="32.25" PointY="57" />
+        <EntityTypeShape EntityType="IMSModel.TrnProductStock" Width="1.5" PointX="16.5" PointY="62.625" />
+        <EntityTypeShape EntityType="IMSModel.TrnProductStockDetail" Width="1.5" PointX="16.5" PointY="55.5" />
+        <EntityTypeShape EntityType="IMSModel.TrnPurchaseOrder" Width="1.5" PointX="11.25" PointY="40.875" />
+        <EntityTypeShape EntityType="IMSModel.TrnPurchaseOrderItem" Width="1.5" PointX="13.5" PointY="55" />
+        <EntityTypeShape EntityType="IMSModel.TrnSaleOrder" Width="1.5" PointX="3.75" PointY="19.375" />
+        <EntityTypeShape EntityType="IMSModel.TrnSaleOrderItem" Width="1.5" PointX="10.5" PointY="55.125" />
+        <EntityTypeShape EntityType="IMSModel.TrnSalesInvoice" Width="1.5" PointX="8.25" PointY="30.625" />
         <EntityTypeShape EntityType="IMSModel.TrnSalesInvoiceItem" Width="1.5" PointX="10.5" PointY="47.375" />
-        <EntityTypeShape EntityType="IMSModel.vwDasBoard" Width="1.5" PointX="4.75" PointY="5.75" />
+        <EntityTypeShape EntityType="IMSModel.vwAccessory" Width="1.5" PointX="4.75" PointY="0.75" />
         <EntityTypeShape EntityType="IMSModel.vwFoam" Width="1.5" PointX="6.75" PointY="0.75" />
         <EntityTypeShape EntityType="IMSModel.vwFWR" Width="1.5" PointX="0.75" PointY="6.75" />
         <EntityTypeShape EntityType="IMSModel.vwMattress" Width="1.5" PointX="6.75" PointY="6.75" />
@@ -190,7 +190,7 @@
         <AssociationConnector Association="IMSModel.FK_TrnSaleOrderItems_TrnSaleOrder" />
         <AssociationConnector Association="IMSModel.FK_TrnSalesInvoice_TrnSaleOrder" />
         <AssociationConnector Association="IMSModel.FK_TrnSalesInvoiceItems_TrnSalesInvoice" />
-        <EntityTypeShape EntityType="IMSModel.vwAccessory" Width="1.5" PointX="9.375" PointY="0.75" />
+        <EntityTypeShape EntityType="IMSModel.vwDasBoard" Width="1.5" PointX="3.375" PointY="6.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

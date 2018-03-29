@@ -14,13 +14,13 @@ namespace IMSWebApi.Models
     
     public partial class vwDasBoard
     {
-        public Nullable<int> totalOutStandingAmount { get; set; }
+        public Nullable<long> totalOutStandingAmount { get; set; }
         public Nullable<int> totalSalesCount { get; set; }
         public int totalPaymentDue { get; set; }
         public Nullable<int> totalPurchaseCount { get; set; }
-        public Nullable<int> ytdSale { get; set; }
-        public Nullable<int> currentMonthSale { get; set; }
+        public Nullable<long> ytdSale { get; set; }
+        public Nullable<long> currentMonthSale { get; set; }
         public Nullable<int> itemsCountBelowReorderLevel { get; set; }
-        public Nullable<int> totalStockValue { get; set; }
+        public Nullable<long> totalStockValue { get; set; }
     }
 }

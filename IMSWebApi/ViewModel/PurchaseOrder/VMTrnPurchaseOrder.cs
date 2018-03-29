@@ -25,7 +25,7 @@ namespace IMSWebApi.ViewModel
         public string orderNumber { get; set; }
         public Nullable<DateTime> orderDate { get; set; }
         public Nullable<DateTime> expectedDeliveryDate { get; set; }
-        public Nullable<int> totalAmount { get; set; }
+        public Nullable<long> totalAmount { get; set; }
         [MaxLength(100)]
         public string remark { get; set; }
         [MaxLength(20)]

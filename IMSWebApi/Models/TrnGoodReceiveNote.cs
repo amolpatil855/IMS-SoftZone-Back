@@ -24,7 +24,7 @@ namespace IMSWebApi.Models
         public Nullable<System.DateTime> grnDate { get; set; }
         public long supplierId { get; set; }
         public long locationId { get; set; }
-        public int totalAmount { get; set; }
+        public long totalAmount { get; set; }
         public string financialYear { get; set; }
         public System.DateTime createdOn { get; set; }
         public long createdBy { get; set; }

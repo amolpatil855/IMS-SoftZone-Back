@@ -17,7 +17,7 @@ namespace IMSWebApi.ViewModel
         [Required]
         public long locationId { get; set; }
         [Required]
-        public int totalAmount { get; set; }
+        public long totalAmount { get; set; }
         [MaxLength(10)]
         public string financialYear { get; set; }
 

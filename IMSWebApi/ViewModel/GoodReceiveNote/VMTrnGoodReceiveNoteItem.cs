@@ -28,9 +28,9 @@ namespace IMSWebApi.ViewModel
         [Required]
         public decimal rate { get; set; }
         [Required]
-        public int amount { get; set; }
+        public long amount { get; set; }
         public Nullable<decimal> rateWithGST { get; set; }
-        public Nullable<int> amountWithGST { get; set; }
+        public Nullable<long> amountWithGST { get; set; }
         public Nullable<int> gst { get; set; }
 
         public string purchaseOrderNumber { get; set; }

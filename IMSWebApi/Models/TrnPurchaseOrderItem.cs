@@ -30,8 +30,8 @@ namespace IMSWebApi.Models
         public string orderType { get; set; }
         public Nullable<decimal> rate { get; set; }
         public Nullable<decimal> rateWithGST { get; set; }
-        public Nullable<int> amount { get; set; }
-        public Nullable<int> amountWithGST { get; set; }
+        public Nullable<long> amount { get; set; }
+        public Nullable<long> amountWithGST { get; set; }
         public Nullable<int> gst { get; set; }
         public string status { get; set; }
         public System.DateTime createdOn { get; set; }
