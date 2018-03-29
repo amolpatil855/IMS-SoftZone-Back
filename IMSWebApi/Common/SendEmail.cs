@@ -276,7 +276,7 @@ namespace IMSWebApi.Common
             {
                 string serialOrSize = soItem.serialno != null && soItem.serialno != "" ? soItem.serialno :
                     soItem.size != null && soItem.size != "" ? soItem.size :
-                   soItem.shadeId != null ? soItem.MstFWRShade.serialNumber + "(" + soItem.MstFWRShade.shadeCode + ")" :
+                   soItem.shadeId != null ? soItem.MstFWRShade.serialNumber + "(" + soItem.MstFWRShade.shadeCode + "-" + soItem.MstFWRShade.MstFWRDesign.designCode + ")" :
                    soItem.matSizeId != null ? soItem.MstMatSize.sizeCode + " (" + soItem.MstMatSize.MstMatThickNess.thicknessCode + "-" + soItem.MstMatSize.MstQuality.qualityCode + ")" :
                    soItem.fomSizeId != null ? soItem.MstFomSize.itemCode : soItem.sizeCode;
                 string accessoryCode = soItem.accessoryName != null && soItem.accessoryName != ""? soItem.accessoryName :
@@ -332,7 +332,7 @@ namespace IMSWebApi.Common
 
             foreach (var soItem in saleOrder.TrnSaleOrderItems)
             {
-                string serialOrSize = soItem.shadeId != null ? soItem.MstFWRShade.serialNumber + "(" + soItem.MstFWRShade.shadeCode + ")" :
+                string serialOrSize = soItem.shadeId != null ? soItem.MstFWRShade.serialNumber + "(" + soItem.MstFWRShade.shadeCode + "-" + soItem.MstFWRShade.MstFWRDesign.designCode + ")" :
                    soItem.matSizeId != null ? soItem.MstMatSize.sizeCode + " (" + soItem.MstMatSize.MstMatThickNess.thicknessCode + "-" + soItem.MstMatSize.MstQuality.qualityCode + ")" :
                    soItem.fomSizeId != null ? soItem.MstFomSize.itemCode : string.Empty;
                 string accessoryCode = soItem.accessoryId != null ? soItem.MstAccessory.itemCode : string.Empty;

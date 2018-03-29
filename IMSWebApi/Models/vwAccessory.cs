@@ -18,7 +18,7 @@ namespace IMSWebApi.Models
         public string itemCode { get; set; }
         public string name { get; set; }
         public string size { get; set; }
-        public string uomCode { get; set; }
+        public string uom { get; set; }
         public string hsnCode { get; set; }
         public string gst { get; set; }
         public decimal sellingRate { get; set; }
