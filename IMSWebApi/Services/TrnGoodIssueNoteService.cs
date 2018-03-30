@@ -41,6 +41,7 @@ namespace IMSWebApi.Services
                     ? gin.ginNumber.StartsWith(search)
                     || gin.MstCustomer.name.StartsWith(search)
                     || gin.salesOrderNumber.StartsWith(search)
+                    || gin.materialQuotationNumber.StartsWith(search)
                     || gin.status.StartsWith(search) : true)
                     .Select(gin => new VMTrnGoodIssueNoteList
                     {
@@ -60,6 +61,7 @@ namespace IMSWebApi.Services
                     ? gin.ginNumber.StartsWith(search)
                     || gin.MstCustomer.name.StartsWith(search)
                     || gin.salesOrderNumber.StartsWith(search)
+                    || gin.materialQuotationNumber.StartsWith(search)
                     || gin.status.StartsWith(search) : true).Count(),
                 Page = page
             };

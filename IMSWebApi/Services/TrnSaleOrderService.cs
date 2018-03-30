@@ -52,14 +52,16 @@ namespace IMSWebApi.Services
                             customerName = so.MstCustomer != null ? so.MstCustomer.name : string.Empty,
                             courierName = so.MstCourier != null ? so.MstCourier.name : string.Empty,
                             agentName = so.MstAgent != null ? so.MstAgent.name : string.Empty,
-                            status = so.status
+                            status = so.status,
+                            totalAmount = so.totalAmount
                         })
                         .Where(so => !string.IsNullOrEmpty(search)
                             ? so.orderNumber.StartsWith(search)
                             || so.customerName.StartsWith(search)
                             || so.courierName.StartsWith(search)
                             || so.agentName.StartsWith(search)
-                            || so.status.StartsWith(search) : true)
+                            || so.status.StartsWith(search)
+                            || so.totalAmount.ToString().StartsWith(search) : true)
                             .OrderByDescending(p => p.id).Skip(page * pageSize).Take(pageSize).ToList();
             saleOrderView = result;
 
@@ -71,7 +73,8 @@ namespace IMSWebApi.Services
                     ? so.orderNumber.StartsWith(search)
                     || so.MstCustomer.name.StartsWith(search)
                     || so.MstCourier.name.StartsWith(search)
-                    || so.status.StartsWith(search) : true).Count(),
+                    || so.status.StartsWith(search)
+                    || so.totalAmount.ToString().StartsWith(search) : true).Count(),
                 Page = page
             };
         }
@@ -397,7 +400,8 @@ namespace IMSWebApi.Services
                                 || saleOrder.MstCustomer.name.StartsWith(search)
                                 || saleOrder.MstCourier.name.StartsWith(search)
                                 || saleOrder.MstAgent.name.StartsWith(search)
-                                || saleOrder.status.StartsWith(search) : true))
+                                || saleOrder.status.StartsWith(search)
+                                || saleOrder.totalAmount.ToString().StartsWith(search) : true))
                                 .Select(so => new VMTrnSaleOrderList
                                 {
                                     id = so.id,
@@ -406,7 +410,8 @@ namespace IMSWebApi.Services
                                     customerName = so.MstCustomer != null ? so.MstCustomer.name : string.Empty,
                                     courierName = so.MstCourier != null ? so.MstCourier.name : string.Empty,
                                     agentName = so.MstAgent != null ? so.MstAgent.name : string.Empty,
-                                    status = so.status
+                                    status = so.status,
+                                    totalAmount = so.totalAmount
                                 })
                                 .OrderByDescending(p => p.id).Skip(page * pageSize).Take(pageSize).ToList();
                 saleOrderView = result;
@@ -419,7 +424,8 @@ namespace IMSWebApi.Services
                     ? so.orderNumber.StartsWith(search)
                     || so.MstCustomer.name.StartsWith(search)
                     || so.MstCourier.name.StartsWith(search)
-                    || so.status.StartsWith(search) : true).Count(),
+                    || so.status.StartsWith(search)
+                    || so.totalAmount.ToString().StartsWith(search) : true).Count(),
                 Page = page
             };
         }

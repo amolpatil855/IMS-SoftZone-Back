@@ -82,7 +82,9 @@ namespace IMSWebApi.Services
                     ? po.orderNumber.ToString().StartsWith(search)
                     || po.MstSupplier.code.ToString().StartsWith(search)
                     || po.MstCourier.name.StartsWith(search)
-                    || po.courierMode.StartsWith(search) : true)
+                    || po.courierMode.StartsWith(search)
+                    || po.totalAmount.ToString().StartsWith(search) 
+                    || po.status.StartsWith(search) : true)
                     .Select(po => new VMTrnPurchaseOrderList
                     {
                         id = po.id,
@@ -103,7 +105,9 @@ namespace IMSWebApi.Services
                     ? po.orderNumber.ToString().StartsWith(search)
                     || po.MstSupplier.name.ToString().StartsWith(search)
                     || po.MstCourier.name.StartsWith(search)
-                    || po.courierMode.StartsWith(search) : true).Count(),
+                    || po.courierMode.StartsWith(search)
+                    || po.totalAmount.ToString().StartsWith(search)
+                    || po.status.StartsWith(search) : true).Count(),
                 Page = page
             };
         }
