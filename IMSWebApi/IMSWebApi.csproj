@@ -264,6 +264,7 @@
     <Compile Include="Controllers\CompanyInfoController.cs" />
     <Compile Include="Controllers\CourierController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
+    <Compile Include="Controllers\CustomerLoginController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\FinancialYearController.cs" />
     <Compile Include="Controllers\FomDensityController.cs" />
@@ -477,6 +478,7 @@
     <Compile Include="Services\CompanyInfoService.cs" />
     <Compile Include="Services\CompanyLocationService.cs" />
     <Compile Include="Services\CourierService.cs" />
+    <Compile Include="Services\CustomerLoginService.cs" />
     <Compile Include="Services\CustomerService.cs" />
     <Compile Include="Services\DashboardService.cs" />
     <Compile Include="Services\FinancialYearService.cs" />

@@ -14,5 +14,6 @@ namespace IMSWebApi.ViewModel.SlaesOrder
         public string agentName { get; set; }
         public DateTime orderDate { get; set; }
         public string status { get; set; }
+        public Nullable<long> totalAmount { get; set; }
     }
 }

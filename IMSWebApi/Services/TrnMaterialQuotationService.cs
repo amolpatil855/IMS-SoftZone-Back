@@ -43,7 +43,8 @@ namespace IMSWebApi.Services
             materialQuotationView = repo.TrnMaterialQuotations.Where(mq => !string.IsNullOrEmpty(search)
                     ? mq.materialQuotationNumber.StartsWith(search)
                     || mq.MstCustomer.name.StartsWith(search)
-                    || mq.status.StartsWith(search) : true)
+                    || mq.status.StartsWith(search)
+                    || mq.totalAmount.ToString().StartsWith(search) : true)
                     .Select(mq => new VMTrnMaterialQuotationList
                     {
                         id = mq.id,
@@ -57,7 +58,11 @@ namespace IMSWebApi.Services
             return new ListResult<VMTrnMaterialQuotationList>
             {
                 Data = materialQuotationView,
-                TotalCount = materialQuotationView.Count(),
+                TotalCount = repo.TrnMaterialQuotations.Where(mq => !string.IsNullOrEmpty(search)
+                    ? mq.materialQuotationNumber.StartsWith(search)
+                    || mq.MstCustomer.name.StartsWith(search)
+                    || mq.status.StartsWith(search)
+                    || mq.totalAmount.ToString().StartsWith(search) : true).Count(),
                 Page = page
             };
         }
