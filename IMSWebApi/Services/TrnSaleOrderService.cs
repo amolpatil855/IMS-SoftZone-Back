@@ -390,10 +390,9 @@ namespace IMSWebApi.Services
         public ListResult<VMTrnSaleOrderList> getSalesOrdersForLoggedInUser(int pageSize, int page, string search)
         {
             List<VMTrnSaleOrderList> saleOrderView = null;
-            
+            Int64 customerId = repo.MstCustomers.Where(c => c.userId == _LoggedInuserId).FirstOrDefault().id;
             if (_IsCustomer)
-            {
-                Int64 customerId = repo.MstCustomers.Where(c => c.userId == _LoggedInuserId).FirstOrDefault().id;
+            {   
                 var result = repo.TrnSaleOrders.Where(saleOrder => saleOrder.customerId == customerId &&
                                 (!string.IsNullOrEmpty(search)
                                 ? saleOrder.orderNumber.StartsWith(search)
@@ -420,12 +419,14 @@ namespace IMSWebApi.Services
             return new ListResult<VMTrnSaleOrderList>
             {
                 Data = saleOrderView,
-                TotalCount = repo.TrnSaleOrders.Where(so => !string.IsNullOrEmpty(search)
-                    ? so.orderNumber.StartsWith(search)
-                    || so.MstCustomer.name.StartsWith(search)
-                    || so.MstCourier.name.StartsWith(search)
-                    || so.status.StartsWith(search)
-                    || so.totalAmount.ToString().StartsWith(search) : true).Count(),
+                TotalCount = repo.TrnSaleOrders.Where(saleOrder => saleOrder.customerId == customerId &&
+                                (!string.IsNullOrEmpty(search)
+                                ? saleOrder.orderNumber.StartsWith(search)
+                                || saleOrder.MstCustomer.name.StartsWith(search)
+                                || saleOrder.MstCourier.name.StartsWith(search)
+                                || saleOrder.MstAgent.name.StartsWith(search)
+                                || saleOrder.status.StartsWith(search)
+                                || saleOrder.totalAmount.ToString().StartsWith(search) : true)).Count(),
                 Page = page
             };
         }

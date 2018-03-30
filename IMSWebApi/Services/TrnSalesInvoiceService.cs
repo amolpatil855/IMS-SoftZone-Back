@@ -279,11 +279,14 @@ namespace IMSWebApi.Services
             return new ListResult<VMTrnSalesInvoiceList>
             {
                 Data = salesInvoiceView,
-                TotalCount = repo.TrnSalesInvoices.Where(s => !string.IsNullOrEmpty(search)
+                TotalCount = repo.TrnSalesInvoices
+                    .Where(s => (!string.IsNullOrEmpty(search)
                     ? s.TrnGoodIssueNote.ginNumber.StartsWith(search)
                     || s.invoiceNumber.StartsWith(search)
-                    || s.TrnSaleOrder.orderNumber.StartsWith(search)
-                    || s.status.StartsWith(search) : true
+                    || s.totalAmount.ToString().StartsWith(search)
+                    || s.courierDockYardNumber.StartsWith(search)
+                    || s.status.StartsWith(search)
+                    || (search.ToLower().Equals("yes") ? s.isPaid : search.ToLower().Equals("no") ? !(s.isPaid) : false) : true)
                     && (s.TrnMaterialQuotation != null ? s.TrnMaterialQuotation.customerId == customerId : s.TrnSaleOrder.customerId == customerId)
                     && !(s.status.Equals("Created"))).Count(),
                 Page = page
