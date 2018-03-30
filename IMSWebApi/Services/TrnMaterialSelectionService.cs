@@ -222,7 +222,7 @@ namespace IMSWebApi.Services
                 mqItem.orderQuantity = mqItem.balanceQuantity = mqItem.deliverQuantity = 0;
                 mqItem.rate = msItem.shadeId != null ? (msItem.MstFWRShade.MstQuality.flatRate != null ? Convert.ToDecimal(msItem.MstFWRShade.MstQuality.flatRate) : Convert.ToDecimal(msItem.MstFWRShade.MstQuality.rrp)) :
                     msItem.matSizeId != null ? msItem.MstMatSize.rate : 
-                    msItem.qualityId != null ? Convert.ToDecimal(msItem.MstQuality.custRatePerSqFeet) : 0;
+                    msItem.qualityId != null ? Math.Round(Convert.ToDecimal(((msItem.matHeight * msItem.matWidth) /Convert.ToDecimal(1550.5)) * msItem.MstQuality.custRatePerSqFeet),2,MidpointRounding.AwayFromZero) : 0;
                 mqItem.gst = msItem.shadeId != null ? msItem.MstFWRShade.MstQuality.MstHsn.gst :
                     msItem.matSizeId != null ? msItem.MstMatSize.MstQuality.MstHsn.gst :
                     msItem.qualityId != null ? msItem.MstQuality.MstHsn.gst : (int?)null;
