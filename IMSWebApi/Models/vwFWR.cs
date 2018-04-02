@@ -24,15 +24,15 @@ namespace IMSWebApi.Models
         public Nullable<decimal> width { get; set; }
         public Nullable<decimal> size { get; set; }
         public Nullable<decimal> cutRate { get; set; }
-        public string cutRateWithGst { get; set; }
+        public Nullable<decimal> cutRateWithGst { get; set; }
         public Nullable<decimal> roleRate { get; set; }
-        public string rollRateWithGst { get; set; }
+        public Nullable<decimal> rollRateWithGst { get; set; }
         public Nullable<decimal> rrp { get; set; }
-        public string rrpWithGst { get; set; }
+        public Nullable<decimal> rrpWithGst { get; set; }
         public Nullable<decimal> flatRate { get; set; }
-        public string flatRateWithGst { get; set; }
+        public Nullable<decimal> flatRateWithGst { get; set; }
         public Nullable<decimal> purchaseFlatRate { get; set; }
-        public string purchaseFlatRateWithGst { get; set; }
+        public Nullable<decimal> purchaseFlatRateWithGst { get; set; }
         public Nullable<decimal> availableStock { get; set; }
     }
 }

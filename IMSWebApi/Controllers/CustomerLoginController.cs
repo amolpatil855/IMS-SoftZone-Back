@@ -11,7 +11,6 @@ using System.Web.Http;
 namespace IMSWebApi.Controllers
 {
     [Authorize]
-    [ApiAuthorize(AccessLevel = "customerLogin")]
     public class CustomerLoginController : ApiController
     {
         private TrnSaleOrderService _trnSaleOrderService = null;
@@ -26,7 +25,7 @@ namespace IMSWebApi.Controllers
         }
 
         // GET api/CustomerLogin
-        
+        [ApiAuthorize(AccessLevel = "customerLogin")]
         [HttpGet]
         [Route("api/CustomerLogin/GetSalesOrdersForLoggedInUser")]
         public IHttpActionResult GetSalesOrdersForLoggedInUser(int pageSize = 0, int page = 0, string search = null)
@@ -36,6 +35,7 @@ namespace IMSWebApi.Controllers
         }
 
         // GET api/CustomerLogin/1
+        [ApiAuthorize(AccessLevel = "customerLogin")]
         [HttpGet]
         [Route("api/CustomerLogin/GetSalesOrderByIdForCustomerUser/{id}")]
         public IHttpActionResult GetSalesOrderByIdForCustomerUser(long id)
@@ -45,6 +45,7 @@ namespace IMSWebApi.Controllers
         }
 
         // PUT api/CustomerLogin/1
+        [ApiAuthorize(AccessLevel = "customerLogin")]
         [HttpPut]
         [Route("api/CustomerLogin/CancelSOForCustomerUser/{id}")]
         public IHttpActionResult CancelSOForCustomerUser(long id)
@@ -54,6 +55,7 @@ namespace IMSWebApi.Controllers
         }
 
         // POST api/CustomerLogin
+        [ApiAuthorize(AccessLevel = "customerLogin")]
         [HttpPost]
         [Route("api/CustomerLogin/PostTrnSaleOrderForCustomerUser")]
         public IHttpActionResult PostTrnSaleOrderForCustomerUser(VMTrnSaleOrder saleorder)
@@ -67,6 +69,7 @@ namespace IMSWebApi.Controllers
         }
 
         // PUT api/CustomerLogin
+        [ApiAuthorize(AccessLevel = "customerLogin")]
         [HttpPut]
         [Route("api/CustomerLogin/PutTrnSaleOrderForCustomerUser")]
         public IHttpActionResult PutTrnSaleOrderForCustomerUser(VMTrnSaleOrder saleorder)
@@ -80,6 +83,7 @@ namespace IMSWebApi.Controllers
         }
 
         // GET api/CustomerLogin
+        [ApiAuthorize(AccessLevel = "customerLogin")]
         [HttpGet]
         [Route("api/CustomerLogin/GetSalesInvoicesForLoggedInUser")]
         public IHttpActionResult GetSalesInvoicesForLoggedInUser(int pageSize = 0, int page = 0, string search = null)
@@ -89,6 +93,7 @@ namespace IMSWebApi.Controllers
         }
 
         // GET api/CustomerLogin/1
+        [ApiAuthorize(AccessLevel = "customerLogin")]
         [HttpGet]
         [Route("api/CustomerLogin/GetSalesInvoiceByIdForCustomerUser/{id}")]
         public IHttpActionResult GetSalesInvoiceByIdForCustomerUser(long id)
