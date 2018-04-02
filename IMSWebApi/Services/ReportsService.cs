@@ -2,6 +2,7 @@
 using IMSWebApi.Common;
 using IMSWebApi.Models;
 using IMSWebApi.ViewModel;
+using IMSWebApi.ViewModel.SlaesOrder;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -603,6 +604,58 @@ namespace IMSWebApi.Services
                     })
                     .Distinct().ToList();
             return mattressProductView;
+        }
+
+        //PO order status report
+        public ListResult<VMTrnPurchaseOrderList> getPOorderStatusReport(int pageSize, int page, string status)
+        {
+            List<VMTrnPurchaseOrderList> purchaseOrderListView;
+            purchaseOrderListView = repo.TrnPurchaseOrders.Where(po => po.status.Equals(status))
+                     .Select(po => new VMTrnPurchaseOrderList
+                     {
+                         id = po.id,
+                         orderNumber = po.orderNumber,
+                         orderDate = po.orderDate,
+                         supplierName = po.MstSupplier != null ? po.MstSupplier.code : null,
+                         courierName = po.MstCourier != null ? po.MstCourier.name : null,
+                         courierMode = po.courierMode,
+                         totalAmount = po.totalAmount,
+                         status = po.status
+                     })
+                    .OrderByDescending(o=>o.id)
+                    .Skip(page * pageSize).Take(pageSize).ToList();
+            return new ListResult<VMTrnPurchaseOrderList>
+            {
+                Data = purchaseOrderListView,
+                TotalCount = repo.TrnPurchaseOrders.Where(po=>po.status.Equals(status)).Count(),
+                Page = page
+            };
+        }
+
+        //SO order status report
+        public ListResult<VMTrnSaleOrderList> getSOorderStatusReport(int pageSize, int page, string status)
+        {
+            List<VMTrnSaleOrderList> saleOrderListView;
+            saleOrderListView = repo.TrnSaleOrders.Where(so => so.status.Equals(status))
+                      .Select(so => new VMTrnSaleOrderList
+                      {
+                          id = so.id,
+                          orderNumber = so.orderNumber,
+                          orderDate = so.orderDate,
+                          customerName = so.MstCustomer != null ? so.MstCustomer.name : string.Empty,
+                          courierName = so.MstCourier != null ? so.MstCourier.name : string.Empty,
+                          agentName = so.MstAgent != null ? so.MstAgent.name : string.Empty,
+                          status = so.status,
+                          totalAmount = so.totalAmount
+                      })
+                    .OrderByDescending(o => o.id)
+                    .Skip(page * pageSize).Take(pageSize).ToList();
+            return new ListResult<VMTrnSaleOrderList>
+            {
+                Data = saleOrderListView,
+                TotalCount = repo.TrnSaleOrders.Where(so => so.status.Equals(status)).Count(),
+                Page = page
+            };
         }
     }
 }

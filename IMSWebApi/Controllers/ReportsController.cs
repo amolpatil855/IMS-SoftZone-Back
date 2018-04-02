@@ -247,5 +247,23 @@ namespace IMSWebApi.Controllers
             var result = _reportsService.getMattressProductsForCLExport();
             return Ok(result);
         }
+
+        // GET api/Reports   
+        [HttpGet]
+        [Route("api/Reports/GetPOorderStatusReport")]
+        public IHttpActionResult GetPOorderStatusReport(int pageSize, int page, string status)
+        {
+            var result = _reportsService.getPOorderStatusReport(pageSize,page,status);
+            return Ok(result);
+        }
+
+        // GET api/Reports   
+        [HttpGet]
+        [Route("api/Reports/GetSOorderStatusReport")]
+        public IHttpActionResult GetSOorderStatusReport(int pageSize, int page, string status)
+        {
+            var result = _reportsService.getPOorderStatusReport(pageSize, page, status);
+            return Ok(result);
+        }
     }
 }

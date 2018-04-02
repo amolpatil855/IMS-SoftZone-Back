@@ -76,7 +76,7 @@ namespace IMSWebApi.Services
             return new ListResult<VMvwFWR>
             {
                 Data = fabricProductsView,
-                TotalCount = repo.vwFWRs.Where(f => f.Category.Equals("Fabric")).Count(),
+                TotalCount = repo.vwFWRs.Where(f => f.Category.Equals("Fabric") && f.flatRate != null).Count(),
                 Page = page
             };
         }
@@ -142,7 +142,7 @@ namespace IMSWebApi.Services
         {
 
             List<VMvwFWR> fabricProductsView;
-            fabricProductsView = repo.vwFWRs.Where(f => f.Category.Equals("Fabric"))
+            fabricProductsView = repo.vwFWRs.Where(f => f.Category.Equals("Fabric") && f.flatRate != null)
                     .Select(f => new VMvwFWR
                     {
                         Category = f.Category,
