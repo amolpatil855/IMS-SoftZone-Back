@@ -52,7 +52,6 @@ namespace IMSWebApi.Services
                     .Where(s => !string.IsNullOrEmpty(search)
                     ? s.ginNumber.StartsWith(search)
                     || s.invoiceNumber.StartsWith(search)
-                    || s.ginNumber.StartsWith(search)
                     || s.totalAmount.ToString().StartsWith(search)
                     || s.courierDockYardNumber.StartsWith(search)
                     || s.status.StartsWith(search)
@@ -66,7 +65,8 @@ namespace IMSWebApi.Services
                 TotalCount = repo.TrnSalesInvoices.Where(s => !string.IsNullOrEmpty(search)
                     ? s.TrnGoodIssueNote.ginNumber.StartsWith(search)
                     || s.invoiceNumber.StartsWith(search)
-                    || s.TrnSaleOrder.orderNumber.StartsWith(search)
+                    || s.totalAmount.ToString().StartsWith(search)
+                    || s.courierDockYardNumber.StartsWith(search)
                     || s.status.StartsWith(search)
                     || (search.ToLower().Equals("yes") ? s.isPaid : search.ToLower().Equals("no") ? !(s.isPaid) : false) : true).Count(),
                 Page = page

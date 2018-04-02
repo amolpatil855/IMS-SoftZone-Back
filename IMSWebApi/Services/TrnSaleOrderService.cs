@@ -73,6 +73,7 @@ namespace IMSWebApi.Services
                     ? so.orderNumber.StartsWith(search)
                     || so.MstCustomer.name.StartsWith(search)
                     || so.MstCourier.name.StartsWith(search)
+                    || so.MstAgent.name.StartsWith(search)
                     || so.status.StartsWith(search)
                     || so.totalAmount.ToString().StartsWith(search) : true).Count(),
                 Page = page
