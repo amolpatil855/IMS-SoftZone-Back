@@ -3,6 +3,7 @@ using IMSWebApi.Models;
 using IMSWebApi.ViewModel;
 using IMSWebApi.ViewModel.SalesInvoice;
 using IMSWebApi.ViewModel.SlaesOrder;
+using IMSWebApi.ViewModel.ViewsVM;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -147,93 +148,274 @@ namespace IMSWebApi.Services
             };
         }
 
-        public ListResult<VMTrnSalesInvoiceList> getRecordsForYTDSale(int pageSize, int page, string search)
+        public ListResult<VMvwitemBelowReOrderLevelList> getFabricsItemsBelowReOrderLevel(int pageSize, int page, string search)
         {
-            DateTime currentDate = DateTime.Now.Date;
-            MstFinancialYear yearDates = repo.MstFinancialYears.Where(f => f.startDate <= currentDate && f.endDate >= currentDate).FirstOrDefault();
-            List<VMTrnSalesInvoiceList> salesInvoiceView;
-            var result = repo.TrnSalesInvoices
-                    .Select(s => new VMTrnSalesInvoiceList
-                    {
-                        id = s.id,
-                        invoiceNumber = s.invoiceNumber,
-                        invoiceDate = s.invoiceDate,
-                        ginNumber = s.TrnGoodIssueNote.ginNumber,
-                        totalAmount = s.totalAmount,
-                        status = s.status,
-                        courierDockYardNumber = s.courierDockYardNumber,
-                        isPaid = s.isPaid
-                    })
-                    .Where(s => (!string.IsNullOrEmpty(search)
-                    ? s.ginNumber.StartsWith(search)
-                    || s.invoiceNumber.StartsWith(search)
-                    || s.totalAmount.ToString().StartsWith(search)
-                    || s.courierDockYardNumber.StartsWith(search)
-                    || s.status.StartsWith(search)
-                    || (search.ToLower().Equals("yes") ? s.isPaid : search.ToLower().Equals("no") ? !(s.isPaid) : false) : true)
-                    && (s.invoiceDate >= yearDates.startDate && s.invoiceDate <= yearDates.endDate))
-                    .OrderByDescending(p => p.id).Skip(page * pageSize).Take(pageSize).ToList();
-            salesInvoiceView = result;
+            var result = repo.vwitemBelowReOrderLevelLists.Where(item => item.categoryCode.Equals("Fabric") 
+                        && (!string.IsNullOrEmpty(search) ?
+                        item.categoryCode.StartsWith(search)
+                        || item.collectionCode.StartsWith(search)
+                        || item.qualityCode.StartsWith(search)
+                        || item.designCode.StartsWith(search)
+                        || item.shadeCode.StartsWith(search)
+                        || item.serialNumber.ToString().StartsWith(search) : true))
+                        .Select(i => new VMvwitemBelowReOrderLevelList
+                        {
+                            categoryCode = i.categoryCode,
+                            collectionCode = i.collectionCode,
+                            qualityCode = i.qualityCode,
+                            designCode = i.designCode,
+                            shadeCode = i.shadeCode,
+                            serialNumber = i.serialNumber
+                        }).
+                        OrderBy(o => o.collectionCode).Skip(page * pageSize).Take(pageSize).ToList();
 
-            return new ListResult<VMTrnSalesInvoiceList>
+            return new ListResult<VMvwitemBelowReOrderLevelList>
             {
-                Data = salesInvoiceView,
-                TotalCount = repo.TrnSalesInvoices.Where(s => (!string.IsNullOrEmpty(search)
-                    ? s.TrnGoodIssueNote.ginNumber.StartsWith(search)
-                    || s.invoiceNumber.StartsWith(search)
-                    || s.totalAmount.ToString().StartsWith(search)
-                    || s.courierDockYardNumber.StartsWith(search)
-                    || s.status.StartsWith(search)
-                    || (search.ToLower().Equals("yes") ? s.isPaid : search.ToLower().Equals("no") ? !(s.isPaid) : false) : true)
-                     && (s.invoiceDate >= yearDates.startDate && s.invoiceDate <= yearDates.endDate))
+                Data = result,
+                TotalCount = repo.vwitemBelowReOrderLevelLists.Where(item => item.categoryCode.Equals("Fabric")
+                        && (!string.IsNullOrEmpty(search) ?
+                        item.categoryCode.StartsWith(search)
+                        || item.collectionCode.StartsWith(search)
+                        || item.qualityCode.StartsWith(search)
+                        || item.designCode.StartsWith(search)
+                        || item.shadeCode.StartsWith(search)
+                        || item.serialNumber.ToString().StartsWith(search) : true))
                     .Count(),
                 Page = page
             };
+
         }
 
-        public ListResult<VMTrnSalesInvoiceList> getRecordsForCurrentMonthSale(int pageSize, int page, string search)
+        public ListResult<VMvwitemBelowReOrderLevelList> getFoamItemsBelowReOrderLevel(int pageSize, int page, string search)
         {
-            DateTime now = new DateTime(2018,03,28);
-            var startDate = new DateTime(now.Year, now.Month, 1);
-            var endDate = new DateTime(now.Year, now.Month, DateTime.DaysInMonth(now.Year, now.Month));
-            List<VMTrnSalesInvoiceList> salesInvoiceView;
-            var result = repo.TrnSalesInvoices
-                    .Select(s => new VMTrnSalesInvoiceList
-                    {
-                        id = s.id,
-                        invoiceNumber = s.invoiceNumber,
-                        invoiceDate = s.invoiceDate,
-                        ginNumber = s.TrnGoodIssueNote.ginNumber,
-                        totalAmount = s.totalAmount,
-                        status = s.status,
-                        courierDockYardNumber = s.courierDockYardNumber,
-                        isPaid = s.isPaid
-                    })
-                    .Where(s => (!string.IsNullOrEmpty(search)
-                    ? s.ginNumber.StartsWith(search)
-                    || s.invoiceNumber.StartsWith(search)
-                    || s.totalAmount.ToString().StartsWith(search)
-                    || s.courierDockYardNumber.StartsWith(search)
-                    || s.status.StartsWith(search)
-                    || (search.ToLower().Equals("yes") ? s.isPaid : search.ToLower().Equals("no") ? !(s.isPaid) : false) : true)
-                    && (s.invoiceDate >= startDate && s.invoiceDate <= endDate))
-                    .OrderByDescending(p => p.id).Skip(page * pageSize).Take(pageSize).ToList();
-            salesInvoiceView = result;
+            var result = repo.vwitemBelowReOrderLevelLists.Where(item => item.categoryCode.Equals("Foam")
+                        && (!string.IsNullOrEmpty(search) ?
+                        item.categoryCode.StartsWith(search)
+                        || item.collectionCode.StartsWith(search)
+                        || item.qualityCode.StartsWith(search)
+                        || item.itemCode.StartsWith(search) : true))
+                        .Select(i => new VMvwitemBelowReOrderLevelList
+                        {
+                            categoryCode = i.categoryCode,
+                            collectionCode = i.collectionCode,
+                            qualityCode = i.qualityCode,
+                            itemCode = i.itemCode
+                        }).
+                        OrderBy(o => o.collectionCode).Skip(page * pageSize).Take(pageSize).ToList();
 
-            return new ListResult<VMTrnSalesInvoiceList>
+            return new ListResult<VMvwitemBelowReOrderLevelList>
             {
-                Data = salesInvoiceView,
-                TotalCount = repo.TrnSalesInvoices.Where(s => (!string.IsNullOrEmpty(search)
-                    ? s.TrnGoodIssueNote.ginNumber.StartsWith(search)
-                    || s.invoiceNumber.StartsWith(search)
-                    || s.totalAmount.ToString().StartsWith(search)
-                    || s.courierDockYardNumber.StartsWith(search)
-                    || s.status.StartsWith(search)
-                    || (search.ToLower().Equals("yes") ? s.isPaid : search.ToLower().Equals("no") ? !(s.isPaid) : false) : true)
-                     && (s.invoiceDate >= startDate && s.invoiceDate <= endDate))
+                Data = result,
+                TotalCount = repo.vwitemBelowReOrderLevelLists.Where(item => item.categoryCode.Equals("Foam")
+                        && (!string.IsNullOrEmpty(search) ?
+                        item.categoryCode.StartsWith(search)
+                        || item.collectionCode.StartsWith(search)
+                        || item.qualityCode.StartsWith(search)
+                        || item.itemCode.StartsWith(search) : true))
                     .Count(),
                 Page = page
             };
+
         }
+
+        public ListResult<VMvwitemBelowReOrderLevelList> getMattressItemsBelowReOrderLevel(int pageSize, int page, string search)
+        {
+            var result = repo.vwitemBelowReOrderLevelLists.Where(item => item.categoryCode.Equals("Mattress")
+                        && (!string.IsNullOrEmpty(search) ?
+                        item.categoryCode.StartsWith(search)
+                        || item.collectionCode.StartsWith(search)
+                        || item.qualityCode.StartsWith(search)
+                        || item.thicknessCode.StartsWith(search)
+                        || item.sizeCode.StartsWith(search) : true))
+                        .Select(i => new VMvwitemBelowReOrderLevelList
+                        {
+                            categoryCode = i.categoryCode,
+                            collectionCode = i.collectionCode,
+                            qualityCode = i.qualityCode,
+                            thicknessCode = i.thicknessCode,
+                            sizeCode = i.sizeCode
+                        }).
+                        OrderBy(o => o.collectionCode).Skip(page * pageSize).Take(pageSize).ToList();
+
+            return new ListResult<VMvwitemBelowReOrderLevelList>
+            {
+                Data = result,
+                TotalCount = repo.vwitemBelowReOrderLevelLists.Where(item => item.categoryCode.Equals("Mattress")
+                        && (!string.IsNullOrEmpty(search) ?
+                        item.categoryCode.StartsWith(search)
+                        || item.collectionCode.StartsWith(search)
+                        || item.qualityCode.StartsWith(search)
+                        || item.thicknessCode.StartsWith(search)
+                        || item.sizeCode.StartsWith(search) : true)).Count(),
+                Page = page
+            };
+
+        }
+
+        public ListResult<VMvwitemBelowReOrderLevelList> getRugItemsBelowReOrderLevel(int pageSize, int page, string search)
+        {
+            var result = repo.vwitemBelowReOrderLevelLists.Where(item => item.categoryCode.Equals("Rug")
+                        && (!string.IsNullOrEmpty(search) ?
+                        item.categoryCode.StartsWith(search)
+                        || item.collectionCode.StartsWith(search)
+                        || item.qualityCode.StartsWith(search)
+                        || item.designCode.StartsWith(search)
+                        || item.shadeCode.StartsWith(search)
+                        || item.serialNumber.ToString().StartsWith(search) : true))
+                        .Select(i => new VMvwitemBelowReOrderLevelList
+                        {
+                            categoryCode = i.categoryCode,
+                            collectionCode = i.collectionCode,
+                            qualityCode = i.qualityCode,
+                            designCode = i.designCode,
+                            shadeCode = i.shadeCode,
+                            serialNumber = i.serialNumber
+                        }).
+                        OrderBy(o => o.collectionCode).Skip(page * pageSize).Take(pageSize).ToList();
+
+            return new ListResult<VMvwitemBelowReOrderLevelList>
+            {
+                Data = result,
+                TotalCount = repo.vwitemBelowReOrderLevelLists.Where(item => item.categoryCode.Equals("Rug")
+                        && (!string.IsNullOrEmpty(search) ?
+                        item.categoryCode.StartsWith(search)
+                        || item.collectionCode.StartsWith(search)
+                        || item.qualityCode.StartsWith(search)
+                        || item.designCode.StartsWith(search)
+                        || item.shadeCode.StartsWith(search)
+                        || item.serialNumber.ToString().StartsWith(search) : true))
+                    .Count(),
+                Page = page
+            };
+
+        }
+
+        public ListResult<VMvwitemBelowReOrderLevelList> getWallpaperItemsBelowReOrderLevel(int pageSize, int page, string search)
+        {
+            var result = repo.vwitemBelowReOrderLevelLists.Where(item => item.categoryCode.Equals("Wallpaper")
+                        && (!string.IsNullOrEmpty(search) ?
+                        item.categoryCode.StartsWith(search)
+                        || item.collectionCode.StartsWith(search)
+                        || item.qualityCode.StartsWith(search)
+                        || item.designCode.StartsWith(search)
+                        || item.shadeCode.StartsWith(search)
+                        || item.serialNumber.ToString().StartsWith(search) : true))
+                        .Select(i => new VMvwitemBelowReOrderLevelList
+                        {
+                            categoryCode = i.categoryCode,
+                            collectionCode = i.collectionCode,
+                            qualityCode = i.qualityCode,
+                            designCode = i.designCode,
+                            shadeCode = i.shadeCode,
+                            serialNumber = i.serialNumber
+                        }).
+                        OrderBy(o => o.collectionCode).Skip(page * pageSize).Take(pageSize).ToList();
+
+            return new ListResult<VMvwitemBelowReOrderLevelList>
+            {
+                Data = result,
+                TotalCount = repo.vwitemBelowReOrderLevelLists.Where(item => item.categoryCode.Equals("Wallpaper")
+                        && (!string.IsNullOrEmpty(search) ?
+                        item.categoryCode.StartsWith(search)
+                        || item.collectionCode.StartsWith(search)
+                        || item.qualityCode.StartsWith(search)
+                        || item.designCode.StartsWith(search)
+                        || item.shadeCode.StartsWith(search)
+                        || item.serialNumber.ToString().StartsWith(search) : true))
+                    .Count(),
+                Page = page
+            };
+
+        }
+        #region Not Needed now
+        //public ListResult<VMTrnSalesInvoiceList> getRecordsForYTDSale(int pageSize, int page, string search)
+        //{
+        //    DateTime currentDate = DateTime.Now.Date;
+        //    MstFinancialYear yearDates = repo.MstFinancialYears.Where(f => f.startDate <= currentDate && f.endDate >= currentDate).FirstOrDefault();
+        //    List<VMTrnSalesInvoiceList> salesInvoiceView;
+        //    var result = repo.TrnSalesInvoices
+        //            .Select(s => new VMTrnSalesInvoiceList
+        //            {
+        //                id = s.id,
+        //                invoiceNumber = s.invoiceNumber,
+        //                invoiceDate = s.invoiceDate,
+        //                ginNumber = s.TrnGoodIssueNote.ginNumber,
+        //                totalAmount = s.totalAmount,
+        //                status = s.status,
+        //                courierDockYardNumber = s.courierDockYardNumber,
+        //                isPaid = s.isPaid
+        //            })
+        //            .Where(s => (!string.IsNullOrEmpty(search)
+        //            ? s.ginNumber.StartsWith(search)
+        //            || s.invoiceNumber.StartsWith(search)
+        //            || s.totalAmount.ToString().StartsWith(search)
+        //            || s.courierDockYardNumber.StartsWith(search)
+        //            || s.status.StartsWith(search)
+        //            || (search.ToLower().Equals("yes") ? s.isPaid : search.ToLower().Equals("no") ? !(s.isPaid) : false) : true)
+        //            && (s.invoiceDate >= yearDates.startDate && s.invoiceDate <= yearDates.endDate))
+        //            .OrderByDescending(p => p.id).Skip(page * pageSize).Take(pageSize).ToList();
+        //    salesInvoiceView = result;
+
+        //    return new ListResult<VMTrnSalesInvoiceList>
+        //    {
+        //        Data = salesInvoiceView,
+        //        TotalCount = repo.TrnSalesInvoices.Where(s => (!string.IsNullOrEmpty(search)
+        //            ? s.TrnGoodIssueNote.ginNumber.StartsWith(search)
+        //            || s.invoiceNumber.StartsWith(search)
+        //            || s.totalAmount.ToString().StartsWith(search)
+        //            || s.courierDockYardNumber.StartsWith(search)
+        //            || s.status.StartsWith(search)
+        //            || (search.ToLower().Equals("yes") ? s.isPaid : search.ToLower().Equals("no") ? !(s.isPaid) : false) : true)
+        //             && (s.invoiceDate >= yearDates.startDate && s.invoiceDate <= yearDates.endDate))
+        //            .Count(),
+        //        Page = page
+        //    };
+        //}
+
+        //public ListResult<VMTrnSalesInvoiceList> getRecordsForCurrentMonthSale(int pageSize, int page, string search)
+        //{
+        //    DateTime now = new DateTime(2018,03,28);
+        //    var startDate = new DateTime(now.Year, now.Month, 1);
+        //    var endDate = new DateTime(now.Year, now.Month, DateTime.DaysInMonth(now.Year, now.Month));
+        //    List<VMTrnSalesInvoiceList> salesInvoiceView;
+        //    var result = repo.TrnSalesInvoices
+        //            .Select(s => new VMTrnSalesInvoiceList
+        //            {
+        //                id = s.id,
+        //                invoiceNumber = s.invoiceNumber,
+        //                invoiceDate = s.invoiceDate,
+        //                ginNumber = s.TrnGoodIssueNote.ginNumber,
+        //                totalAmount = s.totalAmount,
+        //                status = s.status,
+        //                courierDockYardNumber = s.courierDockYardNumber,
+        //                isPaid = s.isPaid
+        //            })
+        //            .Where(s => (!string.IsNullOrEmpty(search)
+        //            ? s.ginNumber.StartsWith(search)
+        //            || s.invoiceNumber.StartsWith(search)
+        //            || s.totalAmount.ToString().StartsWith(search)
+        //            || s.courierDockYardNumber.StartsWith(search)
+        //            || s.status.StartsWith(search)
+        //            || (search.ToLower().Equals("yes") ? s.isPaid : search.ToLower().Equals("no") ? !(s.isPaid) : false) : true)
+        //            && (s.invoiceDate >= startDate && s.invoiceDate <= endDate))
+        //            .OrderByDescending(p => p.id).Skip(page * pageSize).Take(pageSize).ToList();
+        //    salesInvoiceView = result;
+
+        //    return new ListResult<VMTrnSalesInvoiceList>
+        //    {
+        //        Data = salesInvoiceView,
+        //        TotalCount = repo.TrnSalesInvoices.Where(s => (!string.IsNullOrEmpty(search)
+        //            ? s.TrnGoodIssueNote.ginNumber.StartsWith(search)
+        //            || s.invoiceNumber.StartsWith(search)
+        //            || s.totalAmount.ToString().StartsWith(search)
+        //            || s.courierDockYardNumber.StartsWith(search)
+        //            || s.status.StartsWith(search)
+        //            || (search.ToLower().Equals("yes") ? s.isPaid : search.ToLower().Equals("no") ? !(s.isPaid) : false) : true)
+        //             && (s.invoiceDate >= startDate && s.invoiceDate <= endDate))
+        //            .Count(),
+        //        Page = page
+        //    };
+        //} 
+        #endregion
     }
 }
