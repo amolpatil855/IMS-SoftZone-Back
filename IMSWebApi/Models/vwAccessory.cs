@@ -22,9 +22,9 @@ namespace IMSWebApi.Models
         public string hsnCode { get; set; }
         public string gst { get; set; }
         public decimal sellingRate { get; set; }
-        public string sellingRateWithGst { get; set; }
+        public Nullable<decimal> sellingRateWithGst { get; set; }
         public decimal purchaseRate { get; set; }
-        public string purchaseRateWithGst { get; set; }
+        public Nullable<decimal> purchaseRateWithGst { get; set; }
         public Nullable<decimal> availableStock { get; set; }
     }
 }

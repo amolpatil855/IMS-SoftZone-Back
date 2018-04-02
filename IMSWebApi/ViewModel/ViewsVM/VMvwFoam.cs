@@ -21,13 +21,13 @@ namespace IMSWebApi.ViewModel
         public string hsnCode { get; set; }
         public string gst { get; set; }
         public decimal purchaseRatePerMM { get; set; }
-        public string purchaseRatePerMMWithGst { get; set; }
+        public Nullable<decimal> purchaseRatePerMMWithGst { get; set; }
         public decimal purchaseRatePerKG { get; set; }
-        public string purchaseRatePerKGWithGst { get; set; }
+        public Nullable<decimal> purchaseRatePerKGWithGst { get; set; }
         public decimal sellingRatePerMM { get; set; }
-        public string sellingRatePerMMWithGst { get; set; }
+        public Nullable<decimal> sellingRatePerMMWithGst { get; set; }
         public decimal sellingRatePerKG { get; set; }
-        public string sellingRatePerKGWithGst { get; set; }
+        public Nullable<decimal> sellingRatePerKGWithGst { get; set; }
         public Nullable<decimal> availableStock { get; set; }
         public string hsnWithGST { get; set; }
     }
