@@ -71,7 +71,7 @@ namespace IMSWebApi.Services
                         hsnWithGST = f.hsnCode + " (" + f.gst + ")"
                     })
                     .OrderBy(q => q.Collection)
-                    .Skip(page * pageSize).Take(pageSize).Distinct().ToList();
+                    .Skip(page * pageSize).Take(pageSize).ToList();
                     
             return new ListResult<VMvwFWR>
             {
@@ -162,7 +162,7 @@ namespace IMSWebApi.Services
                         hsnWithGST = f.hsnCode + " (" + f.gst + ")"
                     })
                     .OrderBy(q => q.Collection)
-                    .Distinct().ToList();
+                    .ToList();
 
             return fabricProductsView;
         }
