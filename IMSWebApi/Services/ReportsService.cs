@@ -611,7 +611,7 @@ namespace IMSWebApi.Services
         public ListResult<VMTrnPurchaseOrderList> getPOorderStatusReport(int pageSize, int page, string status)
         {
             List<VMTrnPurchaseOrderList> purchaseOrderListView;
-            purchaseOrderListView = repo.TrnPurchaseOrders.Where(po => po.status.Equals(status))
+            purchaseOrderListView = repo.TrnPurchaseOrders.Where(po => !string.IsNullOrEmpty(status) ? po.status.Equals(status) : true)
                      .Select(po => new VMTrnPurchaseOrderList
                      {
                          id = po.id,
@@ -628,7 +628,7 @@ namespace IMSWebApi.Services
             return new ListResult<VMTrnPurchaseOrderList>
             {
                 Data = purchaseOrderListView,
-                TotalCount = repo.TrnPurchaseOrders.Where(po=>po.status.Equals(status)).Count(),
+                TotalCount = repo.TrnPurchaseOrders.Where(po => !string.IsNullOrEmpty(status) ? po.status.Equals(status) : true).Count(),
                 Page = page
             };
         }
@@ -637,7 +637,7 @@ namespace IMSWebApi.Services
         public ListResult<VMTrnSaleOrderList> getSOorderStatusReport(int pageSize, int page, string status)
         {
             List<VMTrnSaleOrderList> saleOrderListView;
-            saleOrderListView = repo.TrnSaleOrders.Where(so => so.status.Equals(status))
+            saleOrderListView = repo.TrnSaleOrders.Where(so => !string.IsNullOrEmpty(status) ? so.status.Equals(status) : true)
                       .Select(so => new VMTrnSaleOrderList
                       {
                           id = so.id,
@@ -654,17 +654,18 @@ namespace IMSWebApi.Services
             return new ListResult<VMTrnSaleOrderList>
             {
                 Data = saleOrderListView,
-                TotalCount = repo.TrnSaleOrders.Where(so => so.status.Equals(status)).Count(),
+                TotalCount = repo.TrnSaleOrders.Where(so => !string.IsNullOrEmpty(status) ? so.status.Equals(status) : true).Count(),
                 Page = page
             };
         }
 
         //Sales Invoice Status and Payment Report
-        public ListResult<VMTrnSalesInvoiceList> getSalesInvoicePaymentStatusReport(int pageSize, int page, string status, bool isPaid)
+        public ListResult<VMTrnSalesInvoiceList> getSalesInvoicePaymentStatusReport(int pageSize, int page, string status, string isPaid)
         {
             List<VMTrnSalesInvoiceList> salesInvoiceView;
             var result = repo.TrnSalesInvoices
-                    .Where(si => si.status.Equals(status) && si.isPaid == isPaid)
+                .Where(si => (!string.IsNullOrEmpty(status) ? si.status.Equals(status) : true)
+                        && (!string.IsNullOrEmpty(isPaid) ? (isPaid.ToLower().Equals("yes") ? si.isPaid : !(si.isPaid)) : true))
                     .Select(s => new VMTrnSalesInvoiceList
                     {
                         id = s.id,
@@ -683,7 +684,8 @@ namespace IMSWebApi.Services
             {
                 Data = salesInvoiceView,
                 TotalCount = repo.TrnSalesInvoices
-                    .Where(si => si.status.Equals(status) && si.isPaid == isPaid).Count(),
+                    .Where(si => (!string.IsNullOrEmpty(status) ? si.status.Equals(status) : true)
+                        && (!string.IsNullOrEmpty(isPaid) ? (isPaid.ToLower().Equals("yes") ? si.isPaid : !(si.isPaid)) : true)).Count(),
                 Page = page
             };
         }

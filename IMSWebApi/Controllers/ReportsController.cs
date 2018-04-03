@@ -269,7 +269,7 @@ namespace IMSWebApi.Controllers
         // GET api/Reports   
         [HttpGet]
         [Route("api/Reports/GetSalesInvoicePaymentStatusReport")]
-        public IHttpActionResult GetSalesInvoicePaymentStatusReport(int pageSize, int page, string status, bool isPaid)
+        public IHttpActionResult GetSalesInvoicePaymentStatusReport(int pageSize, int page, string status, string isPaid)
         {
             var result = _reportsService.getSalesInvoicePaymentStatusReport(pageSize, page, status, isPaid);
             return Ok(result);
