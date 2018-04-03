@@ -19,7 +19,7 @@ namespace IMSWebApi.Controllers
         }
 
         // GET api/Reports   
-        [ApiAuthorize(AccessLevel = "reports")]
+        [ApiAuthorize(AccessLevel = "masterpricelist")]
         [HttpGet]
         [Route("api/Reports/GetFabricProductsForML")]
         public IHttpActionResult GetFabricProductsForML(int pageSize = 0, int page = 0)
@@ -29,7 +29,7 @@ namespace IMSWebApi.Controllers
         }
 
         // GET api/Reports   
-        [ApiAuthorize(AccessLevel = "reports")]
+        [ApiAuthorize(AccessLevel = "masterpricelist")]
         [HttpGet]
         [Route("api/Reports/GetRugProductsForML")]
         public IHttpActionResult GetRugProductsForML(int pageSize = 0, int page = 0)
@@ -39,7 +39,7 @@ namespace IMSWebApi.Controllers
         }
 
         // GET api/Reports   
-        [ApiAuthorize(AccessLevel = "reports")]
+        [ApiAuthorize(AccessLevel = "masterpricelist")]
         [HttpGet]
         [Route("api/Reports/GetWallpaperProductsForML")]
         public IHttpActionResult GetWallpaperProductsForML(int pageSize = 0, int page = 0)
@@ -49,7 +49,7 @@ namespace IMSWebApi.Controllers
         }
 
         // GET api/Reports   
-        [ApiAuthorize(AccessLevel = "reports")]
+        [ApiAuthorize(AccessLevel = "masterpricelist")]
         [HttpGet]
         [Route("api/Reports/GetFoamProductsForML")]
         public IHttpActionResult GetFoamProductsForML(int pageSize = 0, int page = 0)
@@ -59,7 +59,7 @@ namespace IMSWebApi.Controllers
         }
 
         // GET api/Reports   
-        [ApiAuthorize(AccessLevel = "reports")]
+        [ApiAuthorize(AccessLevel = "masterpricelist")]
         [HttpGet]
         [Route("api/Reports/GetAccessoryProductsForML")]
         public IHttpActionResult GetAccessoryProductsForML(int pageSize = 0, int page = 0)
@@ -69,7 +69,7 @@ namespace IMSWebApi.Controllers
         }
 
         // GET api/Reports   
-        [ApiAuthorize(AccessLevel = "reports")]
+        [ApiAuthorize(AccessLevel = "masterpricelist")]
         [HttpGet]
         [Route("api/Reports/GetMattressProductsForML")]
         public IHttpActionResult GetMattressProductsForML(int pageSize = 0, int page = 0)
@@ -79,7 +79,7 @@ namespace IMSWebApi.Controllers
         }
 
         // GET api/Reports   
-        [ApiAuthorize(AccessLevel = "reports")]
+        [ApiAuthorize(AccessLevel = "masterpricelist")]
         [HttpGet]
         [Route("api/Reports/GetFabricProductsForMLExport")]
         public IHttpActionResult GetFabricProductsForMLExport()
@@ -89,7 +89,7 @@ namespace IMSWebApi.Controllers
         }
 
         // GET api/Reports   
-        [ApiAuthorize(AccessLevel = "reports")]
+        [ApiAuthorize(AccessLevel = "masterpricelist")]
         [HttpGet]
         [Route("api/Reports/GetRugProductsForMLExport")]
         public IHttpActionResult GetRugProductsForMLExport()
@@ -99,7 +99,7 @@ namespace IMSWebApi.Controllers
         }
 
         // GET api/Reports   
-        [ApiAuthorize(AccessLevel = "reports")]
+        [ApiAuthorize(AccessLevel = "masterpricelist")]
         [HttpGet]
         [Route("api/Reports/GetWallpaperProductsForMLExport")]
         public IHttpActionResult GetWallpaperProductsForMLExport()
@@ -109,7 +109,7 @@ namespace IMSWebApi.Controllers
         }
 
         // GET api/Reports   
-        [ApiAuthorize(AccessLevel = "reports")]
+        [ApiAuthorize(AccessLevel = "masterpricelist")]
         [HttpGet]
         [Route("api/Reports/GetFoamProductsForMLExport")]
         public IHttpActionResult GetFoamProductsForMLExport()
@@ -119,7 +119,7 @@ namespace IMSWebApi.Controllers
         }
 
         // GET api/Reports   
-        [ApiAuthorize(AccessLevel = "reports")]
+        [ApiAuthorize(AccessLevel = "masterpricelist")]
         [HttpGet]
         [Route("api/Reports/GetAccessoryProductsForMLExport")]
         public IHttpActionResult GetAccessoryProductsForMLExport()
@@ -129,7 +129,7 @@ namespace IMSWebApi.Controllers
         }
 
         // GET api/Reports   
-        [ApiAuthorize(AccessLevel = "reports")]
+        [ApiAuthorize(AccessLevel = "masterpricelist")]
         [HttpGet]
         [Route("api/Reports/GetMattressProductsForMLExport")]
         public IHttpActionResult GetMattressProductsForMLExport()
@@ -142,6 +142,7 @@ namespace IMSWebApi.Controllers
 
         // GET api/Reports   
         [HttpGet]
+        [ApiAuthorize(AccessLevel = "clientpricelist")]
         [Route("api/Reports/GetFabricProductsForCL")]
         public IHttpActionResult GetFabricProductsForCL(int pageSize = 0, int page = 0)
         {
@@ -151,6 +152,7 @@ namespace IMSWebApi.Controllers
 
         // GET api/Reports   
         [HttpGet]
+        [ApiAuthorize(AccessLevel = "clientpricelist")]
         [Route("api/Reports/GetRugProductsForCL")]
         public IHttpActionResult GetRugProductsForCL(int pageSize = 0, int page = 0)
         {
@@ -160,6 +162,7 @@ namespace IMSWebApi.Controllers
 
         // GET api/Reports   
         [HttpGet]
+        [ApiAuthorize(AccessLevel = "clientpricelist")]
         [Route("api/Reports/GetWallpaperProductsForCL")]
         public IHttpActionResult GetWallpaperProductsForCL(int pageSize = 0, int page = 0)
         {
@@ -169,6 +172,7 @@ namespace IMSWebApi.Controllers
 
         // GET api/Reports   
         [HttpGet]
+        [ApiAuthorize(AccessLevel = "clientpricelist")]
         [Route("api/Reports/GetFoamProductsForCL")]
         public IHttpActionResult GetFoamProductsForCL(int pageSize = 0, int page = 0)
         {
@@ -178,6 +182,7 @@ namespace IMSWebApi.Controllers
 
         // GET api/Reports   
         [HttpGet]
+        [ApiAuthorize(AccessLevel = "clientpricelist")]
         [Route("api/Reports/GetAccessoryProductsForCL")]
         public IHttpActionResult GetAccessoryProductsForCL(int pageSize = 0, int page = 0)
         {
@@ -187,6 +192,7 @@ namespace IMSWebApi.Controllers
 
         // GET api/Reports   
         [HttpGet]
+        [ApiAuthorize(AccessLevel = "clientpricelist")]
         [Route("api/Reports/GetMattressProductsForCL")]
         public IHttpActionResult GetMattressProductsForCL(int pageSize = 0, int page = 0)
         {
@@ -196,6 +202,7 @@ namespace IMSWebApi.Controllers
 
         // GET api/Reports   
         [HttpGet]
+        [ApiAuthorize(AccessLevel = "clientpricelist")]
         [Route("api/Reports/GetFabricProductsForCLExport")]
         public IHttpActionResult GetFabricProductsForCLExport()
         {
@@ -205,6 +212,7 @@ namespace IMSWebApi.Controllers
 
         // GET api/Reports   
         [HttpGet]
+        [ApiAuthorize(AccessLevel = "clientpricelist")]
         [Route("api/Reports/GetRugProductsForCLExport")]
         public IHttpActionResult GetRugProductsForCLExport()
         {
@@ -214,6 +222,7 @@ namespace IMSWebApi.Controllers
 
         // GET api/Reports   
         [HttpGet]
+        [ApiAuthorize(AccessLevel = "clientpricelist")]
         [Route("api/Reports/GetWallpaperProductsForCLExport")]
         public IHttpActionResult GetWallpaperProductsForCLExport()
         {
@@ -223,6 +232,7 @@ namespace IMSWebApi.Controllers
 
         // GET api/Reports   
         [HttpGet]
+        [ApiAuthorize(AccessLevel = "clientpricelist")]
         [Route("api/Reports/GetFoamProductsForCLExport")]
         public IHttpActionResult GetFoamProductsForCLExport()
         {
@@ -232,6 +242,7 @@ namespace IMSWebApi.Controllers
 
         // GET api/Reports   
         [HttpGet]
+        [ApiAuthorize(AccessLevel = "clientpricelist")]
         [Route("api/Reports/GetAccessoryProductsForCLExport")]
         public IHttpActionResult GetAccessoryProductsForCLExport()
         {
@@ -241,6 +252,7 @@ namespace IMSWebApi.Controllers
 
         // GET api/Reports   
         [HttpGet]
+        [ApiAuthorize(AccessLevel = "clientpricelist")]
         [Route("api/Reports/GetMattressProductsForCLExport")]
         public IHttpActionResult GetMattressProductsForCLExport()
         {

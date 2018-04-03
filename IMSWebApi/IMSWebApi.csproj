@@ -587,6 +587,7 @@
     <Compile Include="ViewModel\ViewsVM\VMvwFoam.cs" />
     <Compile Include="ViewModel\ViewsVM\VMvwFWR.cs" />
     <Compile Include="ViewModel\ViewsVM\VMvwMattress.cs" />
+    <Compile Include="ViewModel\ViewsVM\VMvwDashboard.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />

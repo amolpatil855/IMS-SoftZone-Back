@@ -1,9 +1,9 @@
-﻿using IMSWebApi.Common;
+﻿using AutoMapper;
+using IMSWebApi.Common;
 using IMSWebApi.Models;
 using IMSWebApi.ViewModel;
 using IMSWebApi.ViewModel.SalesInvoice;
 using IMSWebApi.ViewModel.SlaesOrder;
-using IMSWebApi.ViewModel.ViewsVM;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,14 +14,28 @@ namespace IMSWebApi.Services
     public class DashboardService
     {
         WebAPIdbEntities repo = new WebAPIdbEntities();
+        bool _IsAdministrator;
 
         public DashboardService()
-        {  
+        {
+            _IsAdministrator = HttpContext.Current.User.IsInRole("Administrator");
         }
 
-        public vwDasBoard getDashboardData()
+        public VMvwDashboard getDashboardData()
         {
-            return repo.vwDasBoards.FirstOrDefault();
+            if (_IsAdministrator)
+            {
+                return Mapper.Map<vwDasBoard, VMvwDashboard>(repo.vwDasBoards.FirstOrDefault());
+            }
+            else
+            {
+                return repo.vwDasBoards.Select(d=>new VMvwDashboard
+                    {
+                        totalSalesCount = d.totalSalesCount,
+                        totalPurchaseCount = d.totalPurchaseCount,
+                        itemsCountBelowReorderLevel = d.itemsCountBelowReorderLevel
+                    }).FirstOrDefault();
+            }
         }
 
         public ListResult<VMTrnSalesInvoiceList> getRecordsForTotalOutstandingAmt(int pageSize, int page, string search)
