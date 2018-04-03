@@ -13,7 +13,7 @@ namespace IMSWebApi.Services
     public class CustomerLoginService
     {
         WebAPIdbEntities repo = new WebAPIdbEntities();
-
+        
         public CustomerLoginService()
         {
         }
@@ -50,7 +50,8 @@ namespace IMSWebApi.Services
         public ListResult<VMvwFWR> getFabricProducts(int pageSize, int page)
         {
             List<VMvwFWR> fabricProductsView;
-            fabricProductsView = repo.vwFWRs.Where(f => f.Category.Equals("Fabric"))
+            
+            fabricProductsView = repo.vwFWRs.Where(f => f.Category.Equals("Fabric") && f.flatRate != null)
                     .Select(f => new VMvwFWR
                     {
                         Category = f.Category,
@@ -75,7 +76,7 @@ namespace IMSWebApi.Services
             return new ListResult<VMvwFWR>
             {
                 Data = fabricProductsView,
-                TotalCount = repo.vwFWRs.Where(f => f.Category.Equals("Fabric")).Count(),
+                TotalCount = repo.vwFWRs.Where(f => f.Category.Equals("Fabric") && f.flatRate != null).Count(),
                 Page = page
             };
         }
@@ -112,103 +113,7 @@ namespace IMSWebApi.Services
             };
         }
 
-        public ListResult<VMvwFWR> getRugProducts(int pageSize, int page)
-        {
-            List<VMvwFWR> rugProductView;
-            rugProductView = repo.vwFWRs.Where(f => f.Category.Equals("Rug"))
-                    .Select(f => new VMvwFWR
-                    {
-                        Category = f.Category,
-                        Collection = f.Collection,
-                        QDS = f.QDS,
-                        serialNumber = f.serialNumber,
-                        uom = f.uom,
-                        hsnCode = f.hsnCode,
-                        gst = f.gst,
-                        width = f.width,
-                        size = f.size,
-                        rrp = f.rrp,
-                        rrpWithGst = f.rrpWithGst,
-                        flatRate = f.flatRate,
-                        flatRateWithGst = f.flatRateWithGst,
-                        availableStock = f.availableStock > 0 ? f.availableStock : 0,
-                        hsnWithGST = f.hsnCode + " (" + f.gst + ")"
-                    })
-                    .OrderBy(q => q.Collection)
-                    .Skip(page * pageSize).Take(pageSize).Distinct().ToList();
-          
-            return new ListResult<VMvwFWR>
-            {
-                Data = rugProductView,
-                TotalCount = repo.vwFWRs.Where(f => f.Category.Equals("Rug")).Count(),
-                Page = page
-            };
-        }
-
-        public ListResult<VMvwFWR> getWallpaperProducts(int pageSize, int page)
-        {  
-            List<VMvwFWR> wallpaperProductView;
-            wallpaperProductView = repo.vwFWRs.Where(f => f.Category.Equals("Wallpaper"))
-                     .Select(f => new VMvwFWR
-                     {
-                         Category = f.Category,
-                         Collection = f.Collection,
-                         QDS = f.QDS,
-                         serialNumber = f.serialNumber,
-                         uom = f.uom,
-                         hsnCode = f.hsnCode,
-                         gst = f.gst,
-                         width = f.width,
-                         size = f.size,
-                         rrp = f.rrp,
-                         rrpWithGst = f.rrpWithGst,
-                         flatRate = f.flatRate,
-                         flatRateWithGst = f.flatRateWithGst,
-                         availableStock = f.availableStock > 0 ? f.availableStock : 0,
-                         hsnWithGST = f.hsnCode + " (" + f.gst + ")"
-                     })
-                    .OrderBy(q => q.Collection)
-                    .Skip(page * pageSize).Take(pageSize).Distinct().ToList();
-          
-            return new ListResult<VMvwFWR>
-            {
-                Data = wallpaperProductView,
-                TotalCount = repo.vwFWRs.Where(f => f.Category.Equals("Wallpaper")).Count(),
-                Page = page
-            };
-        }
-
-        public ListResult<VMvwMattress> getMattressProducts(int pageSize, int page)
-        {
-            List<VMvwMattress> mattressProductView;
-            mattressProductView = repo.vwMattresses
-                    .OrderBy(q => q.Collection)
-                    .Select(m => new VMvwMattress
-                    {
-                        Category = m.Category,
-                        Collection = m.Collection,
-                        qualityCode = m.qualityCode,
-                        thicknessCode = m.thicknessCode,
-                        sizeCode = m.sizeCode,
-                        uom = m.uom,
-                        hsnCode = m.hsnCode,
-                        gst = m.gst,
-                        rate = m.rate,
-                        rateWithGst = m.rateWithGst,
-                        customRatePerSqFeet = m.customRatePerSqFeet,
-                        availableStock = m.availableStock > 0 ? m.availableStock : 0,
-                        hsnWithGST = m.hsnCode + " (" + m.gst + ")"
-                    })
-                    .Skip(page * pageSize).Take(pageSize).Distinct().ToList();
-
-            return new ListResult<VMvwMattress>
-            {
-                Data = mattressProductView,
-                TotalCount = repo.vwMattresses.Count(),
-                Page = page
-            };
-        }
-
+      
         //Category Wise List of Products for Export
         public List<VMvwAccessory> getAccessoryProductsForExport()
         {
@@ -237,7 +142,7 @@ namespace IMSWebApi.Services
         {
 
             List<VMvwFWR> fabricProductsView;
-            fabricProductsView = repo.vwFWRs.Where(f => f.Category.Equals("Fabric"))
+            fabricProductsView = repo.vwFWRs.Where(f => f.Category.Equals("Fabric") && f.flatRate != null)
                     .Select(f => new VMvwFWR
                     {
                         Category = f.Category,
@@ -288,85 +193,6 @@ namespace IMSWebApi.Services
                     .ToList();
            
             return foamProductView;
-        }
-
-        public List<VMvwFWR> getRugProductsForExport()
-        {
-            List<VMvwFWR> rugProductView;
-            rugProductView = repo.vwFWRs.Where(f => f.Category.Equals("Rug"))
-                    .Select(f => new VMvwFWR
-                    {
-                        Category = f.Category,
-                        Collection = f.Collection,
-                        QDS = f.QDS,
-                        serialNumber = f.serialNumber,
-                        uom = f.uom,
-                        hsnCode = f.hsnCode,
-                        gst = f.gst,
-                        width = f.width,
-                        size = f.size,
-                        rrp = f.rrp,
-                        rrpWithGst = f.rrpWithGst,
-                        flatRate = f.flatRate,
-                        flatRateWithGst = f.flatRateWithGst,
-                        availableStock = f.availableStock > 0 ? f.availableStock : 0,
-                        hsnWithGST = f.hsnCode + " (" + f.gst + ")"
-                    })
-                    .OrderBy(q => q.Collection)
-                    .Distinct().ToList();
-            return rugProductView;
-        }
-
-        public List<VMvwFWR> getWallpaperProductsForExport()
-        {
-            List<VMvwFWR> wallpaperProductView;
-            wallpaperProductView = repo.vwFWRs.Where(f => f.Category.Equals("Wallpaper"))
-                     .Select(f => new VMvwFWR
-                     {
-                         Category = f.Category,
-                         Collection = f.Collection,
-                         QDS = f.QDS,
-                         serialNumber = f.serialNumber,
-                         uom = f.uom,
-                         hsnCode = f.hsnCode,
-                         gst = f.gst,
-                         width = f.width,
-                         size = f.size,
-                         rrp = f.rrp,
-                         rrpWithGst = f.rrpWithGst,
-                         flatRate = f.flatRate,
-                         flatRateWithGst = f.flatRateWithGst,
-                         availableStock = f.availableStock > 0 ? f.availableStock : 0,
-                         hsnWithGST = f.hsnCode + " (" + f.gst + ")"
-                     })
-                    .OrderBy(q => q.Collection)
-                    .Distinct().ToList();
-            return wallpaperProductView;
-        }
-
-        public List<VMvwMattress> getMattressProductsForExport()
-        {
-            List<VMvwMattress> mattressProductView;
-            mattressProductView = repo.vwMattresses
-                    .OrderBy(q => q.Collection)
-                    .Select(m => new VMvwMattress
-                    {
-                        Category = m.Category,
-                        Collection = m.Collection,
-                        qualityCode = m.qualityCode,
-                        thicknessCode = m.thicknessCode,
-                        sizeCode = m.sizeCode,
-                        uom = m.uom,
-                        hsnCode = m.hsnCode,
-                        gst = m.gst,
-                        rate = m.rate,
-                        rateWithGst = m.rateWithGst,
-                        customRatePerSqFeet = m.customRatePerSqFeet,
-                        availableStock = m.availableStock > 0 ? m.availableStock : 0,
-                        hsnWithGST = m.hsnCode + " (" + m.gst + ")"
-                    })
-                    .Distinct().ToList();
-            return mattressProductView;
         }
     }
 }

@@ -74,5 +74,6 @@ namespace IMSWebApi.Models
         public virtual DbSet<vwFoam> vwFoams { get; set; }
         public virtual DbSet<vwFWR> vwFWRs { get; set; }
         public virtual DbSet<vwMattress> vwMattresses { get; set; }
+        public virtual DbSet<vwitemBelowReOrderLevelList> vwitemBelowReOrderLevelLists { get; set; }
     }
 }

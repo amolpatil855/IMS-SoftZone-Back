@@ -446,6 +446,9 @@
     <Compile Include="Models\vwFWR.cs">
       <DependentUpon>WebApiModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\vwitemBelowReOrderLevelList.cs">
+      <DependentUpon>WebApiModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\vwMattress.cs">
       <DependentUpon>WebApiModel.tt</DependentUpon>
     </Compile>
@@ -517,6 +520,7 @@
     <Compile Include="ViewModel\ProductMasters\VMAccessoryList.cs" />
     <Compile Include="ViewModel\Masters\VMAgent.cs" />
     <Compile Include="ViewModel\Masters\VMAgentList.cs" />
+    <Compile Include="ViewModel\ViewsVM\VMvwitemBelowReOrderLevelList.cs" />
     <Compile Include="ViewModel\VMCategory.cs" />
     <Compile Include="ViewModel\VMCollection.cs" />
     <Compile Include="ViewModel\VMCollectionList.cs" />
@@ -583,6 +587,7 @@
     <Compile Include="ViewModel\ViewsVM\VMvwFoam.cs" />
     <Compile Include="ViewModel\ViewsVM\VMvwFWR.cs" />
     <Compile Include="ViewModel\ViewsVM\VMvwMattress.cs" />
+    <Compile Include="ViewModel\ViewsVM\VMvwDashboard.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />

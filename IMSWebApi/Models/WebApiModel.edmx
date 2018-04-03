@@ -917,11 +917,6 @@ warning 6002: The table/view 'IMS.dbo.vwAccessory' does not have a primary key d
           <Property Name="availableStock" Type="decimal" Precision="9" Scale="2" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6013: The table/view 'IMS.dbo.vwAccessoryStockValue' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="vwAccessoryStockValue">
-          <Property Name="accessoryStockValue" Type="decimal" Precision="38" Scale="2" />
-        </EntityType>-->
-        <!--Errors Found During Generation:
 warning 6002: The table/view 'IMS.dbo.vwDasBoard' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwDasBoard">
           <Key>
@@ -981,11 +976,6 @@ warning 6002: The table/view 'IMS.dbo.vwFoam' does not have a primary key define
           <Property Name="availableStock" Type="decimal" Precision="9" Scale="2" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6013: The table/view 'IMS.dbo.vwFoamStockValue' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="vwFoamStockValue">
-          <Property Name="foamStockValue" Type="decimal" Precision="38" Scale="2" />
-        </EntityType>-->
-        <!--Errors Found During Generation:
 warning 6002: The table/view 'IMS.dbo.vwFWR' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwFWR">
           <Key>
@@ -1018,10 +1008,21 @@ warning 6002: The table/view 'IMS.dbo.vwFWR' does not have a primary key defined
           <Property Name="availableStock" Type="decimal" Precision="9" Scale="2" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6013: The table/view 'IMS.dbo.vwFWRStockValue' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="vwFWRStockValue">
-          <Property Name="FWRStockValue" Type="decimal" Precision="38" Scale="2" />
-        </EntityType>-->
+warning 6002: The table/view 'IMS.dbo.vwitemBelowReOrderLevelList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vwitemBelowReOrderLevelList">
+          <Key>
+            <PropertyRef Name="categoryCode" />
+          </Key>
+          <Property Name="categoryCode" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="collectionCode" Type="varchar" MaxLength="50" />
+          <Property Name="qualityCode" Type="varchar" MaxLength="50" />
+          <Property Name="designCode" Type="varchar" MaxLength="50" />
+          <Property Name="shadeCode" Type="varchar" MaxLength="50" />
+          <Property Name="serialNumber" Type="int" />
+          <Property Name="itemCode" Type="varchar" MaxLength="50" />
+          <Property Name="thicknessCode" Type="varchar" MaxLength="10" />
+          <Property Name="sizeCode" Type="varchar" MaxLength="20" />
+        </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwMattress">
@@ -1051,11 +1052,6 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <Property Name="customRatePerSqFeet" Type="decimal" Precision="7" Scale="2" />
           <Property Name="availableStock" Type="decimal" Precision="9" Scale="2" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6013: The table/view 'IMS.dbo.vwMattressStockValue' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="vwMattressStockValue">
-          <Property Name="mattressStockValue" Type="decimal" Precision="38" Scale="2" />
-        </EntityType>-->
         <Association Name="FK_CFGRoleMenu_MstMenu">
           <End Role="MstMenu" Type="Self.MstMenu" Multiplicity="1" />
           <End Role="CFGRoleMenu" Type="Self.CFGRoleMenu" Multiplicity="*" />
@@ -2829,6 +2825,19 @@ warning 6013: The table/view 'IMS.dbo.vwMattressStockValue' does not have a prim
     [vwFWR].[availableStock] AS [availableStock]
     FROM [dbo].[vwFWR] AS [vwFWR]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="vwitemBelowReOrderLevelList" EntityType="Self.vwitemBelowReOrderLevelList" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vwitemBelowReOrderLevelList].[categoryCode] AS [categoryCode], 
+    [vwitemBelowReOrderLevelList].[collectionCode] AS [collectionCode], 
+    [vwitemBelowReOrderLevelList].[qualityCode] AS [qualityCode], 
+    [vwitemBelowReOrderLevelList].[designCode] AS [designCode], 
+    [vwitemBelowReOrderLevelList].[shadeCode] AS [shadeCode], 
+    [vwitemBelowReOrderLevelList].[serialNumber] AS [serialNumber], 
+    [vwitemBelowReOrderLevelList].[itemCode] AS [itemCode], 
+    [vwitemBelowReOrderLevelList].[thicknessCode] AS [thicknessCode], 
+    [vwitemBelowReOrderLevelList].[sizeCode] AS [sizeCode]
+    FROM [dbo].[vwitemBelowReOrderLevelList] AS [vwitemBelowReOrderLevelList]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="vwMattress" EntityType="Self.vwMattress" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [vwMattress].[Category] AS [Category], 
@@ -3998,6 +4007,7 @@ warning 6013: The table/view 'IMS.dbo.vwMattressStockValue' does not have a prim
           <EntitySet Name="vwFoams" EntityType="IMSModel.vwFoam" />
           <EntitySet Name="vwFWRs" EntityType="IMSModel.vwFWR" />
           <EntitySet Name="vwMattresses" EntityType="IMSModel.vwMattress" />
+          <EntitySet Name="vwitemBelowReOrderLevelLists" EntityType="IMSModel.vwitemBelowReOrderLevelList" />
         </EntityContainer>
         <EntityType Name="CFGRoleMenu">
           <Key>
@@ -6944,6 +6954,20 @@ warning 6013: The table/view 'IMS.dbo.vwMattressStockValue' does not have a prim
           <Property Name="customRatePerSqFeet" Type="Decimal" Precision="7" Scale="2" />
           <Property Name="availableStock" Type="Decimal" Precision="9" Scale="2" />
         </EntityType>
+        <EntityType Name="vwitemBelowReOrderLevelList">
+          <Key>
+            <PropertyRef Name="categoryCode" />
+          </Key>
+          <Property Name="categoryCode" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="collectionCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="qualityCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="designCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="shadeCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="serialNumber" Type="Int32" />
+          <Property Name="itemCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="thicknessCode" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="sizeCode" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -7982,6 +8006,21 @@ warning 6013: The table/view 'IMS.dbo.vwMattressStockValue' does not have a prim
                 <ScalarProperty Name="qualityCode" ColumnName="qualityCode" />
                 <ScalarProperty Name="Collection" ColumnName="Collection" />
                 <ScalarProperty Name="Category" ColumnName="Category" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vwitemBelowReOrderLevelLists">
+            <EntityTypeMapping TypeName="IMSModel.vwitemBelowReOrderLevelList">
+              <MappingFragment StoreEntitySet="vwitemBelowReOrderLevelList">
+                <ScalarProperty Name="sizeCode" ColumnName="sizeCode" />
+                <ScalarProperty Name="thicknessCode" ColumnName="thicknessCode" />
+                <ScalarProperty Name="itemCode" ColumnName="itemCode" />
+                <ScalarProperty Name="serialNumber" ColumnName="serialNumber" />
+                <ScalarProperty Name="shadeCode" ColumnName="shadeCode" />
+                <ScalarProperty Name="designCode" ColumnName="designCode" />
+                <ScalarProperty Name="qualityCode" ColumnName="qualityCode" />
+                <ScalarProperty Name="collectionCode" ColumnName="collectionCode" />
+                <ScalarProperty Name="categoryCode" ColumnName="categoryCode" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
