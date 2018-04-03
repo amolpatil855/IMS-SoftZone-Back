@@ -1,4 +1,5 @@
-﻿using IMSWebApi.Services;
+﻿using IMSWebApi.CustomAttributes;
+using IMSWebApi.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,6 +30,7 @@ namespace IMSWebApi.Controllers
 
         // GET api/Dashboard
         [HttpGet]
+        [ApiAuthorize(AccessLevel = "unpaidinvoicelist")]
         [Route("api/Dashboard/GetRecordsForTotalOutstandingAmt")]
         public IHttpActionResult GetRecordsForTotalOutstandingAmt(int pageSize = 0, int page = 0, string search = null)
         {
@@ -38,6 +40,7 @@ namespace IMSWebApi.Controllers
 
         // GET api/Dashboard
         [HttpGet]
+        [ApiAuthorize(AccessLevel = "pendingsalesorderlist")]
         [Route("api/Dashboard/GetRecordsForSOCount")]
         public IHttpActionResult GetRecordsForSOCount(int pageSize = 0, int page = 0, string search = null)
         {
@@ -47,6 +50,7 @@ namespace IMSWebApi.Controllers
 
         // GET api/Dashboard
         [HttpGet]
+        [ApiAuthorize(AccessLevel = "pendingpurchaseorderlist")]
         [Route("api/Dashboard/GetRecordsForPOCount")]
         public IHttpActionResult GetRecordsForPOCount(int pageSize = 0, int page = 0, string search = null)
         {
@@ -56,6 +60,7 @@ namespace IMSWebApi.Controllers
 
         // GET api/Dashboard
         [HttpGet]
+        [ApiAuthorize(AccessLevel = "reorderstocklist")]
         [Route("api/Dashboard/GetFabricsItemsBelowReOrderLevel")]
         public IHttpActionResult GetFabricsItemsBelowReOrderLevel(int pageSize = 0, int page = 0, string search = null)
         {
@@ -64,6 +69,7 @@ namespace IMSWebApi.Controllers
         }
 
         [HttpGet]
+        [ApiAuthorize(AccessLevel = "reorderstocklist")]
         [Route("api/Dashboard/GetFoamItemsBelowReOrderLevel")]
         public IHttpActionResult GetFoamItemsBelowReOrderLevel(int pageSize = 0, int page = 0, string search = null)
         {
@@ -72,6 +78,7 @@ namespace IMSWebApi.Controllers
         }
 
         [HttpGet]
+        [ApiAuthorize(AccessLevel = "reorderstocklist")]
         [Route("api/Dashboard/GetMattressItemsBelowReOrderLevel")]
         public IHttpActionResult GetMattressItemsBelowReOrderLevel(int pageSize = 0, int page = 0, string search = null)
         {
@@ -80,6 +87,7 @@ namespace IMSWebApi.Controllers
         }
 
         [HttpGet]
+        [ApiAuthorize(AccessLevel = "reorderstocklist")]
         [Route("api/Dashboard/GetRugItemsBelowReOrderLevel")]
         public IHttpActionResult GetRugItemsBelowReOrderLevel(int pageSize = 0, int page = 0, string search = null)
         {
@@ -88,6 +96,7 @@ namespace IMSWebApi.Controllers
         }
 
         [HttpGet]
+        [ApiAuthorize(AccessLevel = "reorderstocklist")]
         [Route("api/Dashboard/GetWallpaperItemsBelowReOrderLevel")]
         public IHttpActionResult GetWallpaperItemsBelowReOrderLevel(int pageSize = 0, int page = 0, string search = null)
         {
