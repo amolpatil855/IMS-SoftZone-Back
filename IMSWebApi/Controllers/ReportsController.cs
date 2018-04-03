@@ -262,6 +262,7 @@ namespace IMSWebApi.Controllers
 
         // GET api/Reports   
         [HttpGet]
+        [ApiAuthorize(AccessLevel = "purchaseorderstatuslist")]
         [Route("api/Reports/GetPOorderStatusReport")]
         public IHttpActionResult GetPOorderStatusReport(int pageSize, int page, string status)
         {
@@ -271,6 +272,7 @@ namespace IMSWebApi.Controllers
 
         // GET api/Reports   
         [HttpGet]
+        [ApiAuthorize(AccessLevel = "salesorderstatuslist")]
         [Route("api/Reports/GetSOorderStatusReport")]
         public IHttpActionResult GetSOorderStatusReport(int pageSize, int page, string status)
         {
@@ -280,6 +282,7 @@ namespace IMSWebApi.Controllers
 
         // GET api/Reports   
         [HttpGet]
+        [ApiAuthorize(AccessLevel = "invoicestatuslist")]
         [Route("api/Reports/GetSalesInvoicePaymentStatusReport")]
         public IHttpActionResult GetSalesInvoicePaymentStatusReport(int pageSize, int page, string status, string isPaid)
         {
