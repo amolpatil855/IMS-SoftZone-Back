@@ -262,7 +262,16 @@ namespace IMSWebApi.Controllers
         [Route("api/Reports/GetSOorderStatusReport")]
         public IHttpActionResult GetSOorderStatusReport(int pageSize, int page, string status)
         {
-            var result = _reportsService.getPOorderStatusReport(pageSize, page, status);
+            var result = _reportsService.getSOorderStatusReport(pageSize, page, status);
+            return Ok(result);
+        }
+
+        // GET api/Reports   
+        [HttpGet]
+        [Route("api/Reports/GetSalesInvoicePaymentStatusReport")]
+        public IHttpActionResult GetSalesInvoicePaymentStatusReport(int pageSize, int page, string status, bool isPaid)
+        {
+            var result = _reportsService.getSalesInvoicePaymentStatusReport(pageSize, page, status, isPaid);
             return Ok(result);
         }
     }

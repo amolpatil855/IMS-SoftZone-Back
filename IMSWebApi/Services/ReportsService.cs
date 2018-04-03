@@ -2,6 +2,7 @@
 using IMSWebApi.Common;
 using IMSWebApi.Models;
 using IMSWebApi.ViewModel;
+using IMSWebApi.ViewModel.SalesInvoice;
 using IMSWebApi.ViewModel.SlaesOrder;
 using System;
 using System.Collections.Generic;
@@ -654,6 +655,35 @@ namespace IMSWebApi.Services
             {
                 Data = saleOrderListView,
                 TotalCount = repo.TrnSaleOrders.Where(so => so.status.Equals(status)).Count(),
+                Page = page
+            };
+        }
+
+        //Sales Invoice Status and Payment Report
+        public ListResult<VMTrnSalesInvoiceList> getSalesInvoicePaymentStatusReport(int pageSize, int page, string status, bool isPaid)
+        {
+            List<VMTrnSalesInvoiceList> salesInvoiceView;
+            var result = repo.TrnSalesInvoices
+                    .Where(si => si.status.Equals(status) && si.isPaid == isPaid)
+                    .Select(s => new VMTrnSalesInvoiceList
+                    {
+                        id = s.id,
+                        invoiceNumber = s.invoiceNumber,
+                        invoiceDate = s.invoiceDate,
+                        ginNumber = s.TrnGoodIssueNote.ginNumber,
+                        totalAmount = s.totalAmount,
+                        status = s.status,
+                        courierDockYardNumber = s.courierDockYardNumber,
+                        isPaid = s.isPaid
+                    })
+                    .OrderByDescending(p => p.id).Skip(page * pageSize).Take(pageSize).ToList();
+            salesInvoiceView = result;
+
+            return new ListResult<VMTrnSalesInvoiceList>
+            {
+                Data = salesInvoiceView,
+                TotalCount = repo.TrnSalesInvoices
+                    .Where(si => si.status.Equals(status) && si.isPaid == isPaid).Count(),
                 Page = page
             };
         }
