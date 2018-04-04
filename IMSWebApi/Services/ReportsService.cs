@@ -51,7 +51,7 @@ namespace IMSWebApi.Services
             List<VMvwFWR> fabricProductView;
             var result = repo.vwFWRs.Where(f => f.Category.Equals("Fabric"))
                     .OrderBy(q => q.Collection)
-                    .Skip(page * pageSize).Take(pageSize).Distinct().ToList();
+                    .Skip(page * pageSize).Take(pageSize).ToList();
             fabricProductView = Mapper.Map<List<vwFWR>, List<VMvwFWR>>(result);
             fabricProductView.ForEach(f =>
                 {
@@ -95,7 +95,7 @@ namespace IMSWebApi.Services
             List<VMvwFWR> rugProductView;
             var result = repo.vwFWRs.Where(f => f.Category.Equals("Rug"))
                     .OrderBy(q => q.Collection)
-                    .Skip(page * pageSize).Take(pageSize).Distinct().ToList();
+                    .Skip(page * pageSize).Take(pageSize).ToList();
             rugProductView = Mapper.Map<List<vwFWR>, List<VMvwFWR>>(result);
             rugProductView.ForEach(f =>
                 {
@@ -117,7 +117,7 @@ namespace IMSWebApi.Services
             List<VMvwFWR> wallpaperProductView;
             var result = repo.vwFWRs.Where(f => f.Category.Equals("Wallpaper"))
                     .OrderBy(q => q.Collection)
-                    .Skip(page * pageSize).Take(pageSize).Distinct().ToList();
+                    .Skip(page * pageSize).Take(pageSize).ToList();
             wallpaperProductView = Mapper.Map<List<vwFWR>, List<VMvwFWR>>(result);
             wallpaperProductView.ForEach(f => 
                 {
@@ -139,7 +139,7 @@ namespace IMSWebApi.Services
             List<VMvwMattress> mattressProductView;
             var result = repo.vwMattresses
                     .OrderBy(q => q.Collection)
-                    .Skip(page * pageSize).Take(pageSize).Distinct().ToList();
+                    .Skip(page * pageSize).Take(pageSize).ToList();
             mattressProductView = Mapper.Map<List<vwMattress>, List<VMvwMattress>>(result);
             mattressProductView.ForEach(m =>
                 {
@@ -178,7 +178,7 @@ namespace IMSWebApi.Services
             StringBuilder stringBuilder;
             List<VMvwFWR> fabricProductView;
             var result = repo.vwFWRs.Where(f => f.Category.Equals("Fabric"))
-                    .OrderBy(q => q.Collection).Distinct().ToList();
+                    .OrderBy(q => q.Collection).ToList();
             fabricProductView = Mapper.Map<List<vwFWR>, List<VMvwFWR>>(result);
             fabricProductView.ForEach(f =>
             {
@@ -210,7 +210,7 @@ namespace IMSWebApi.Services
             StringBuilder stringBuilder;
             List<VMvwFWR> rugProductView;
             var result = repo.vwFWRs.Where(f => f.Category.Equals("Rug"))
-                    .OrderBy(q => q.Collection).Distinct().ToList();
+                    .OrderBy(q => q.Collection).ToList();
             rugProductView = Mapper.Map<List<vwFWR>, List<VMvwFWR>>(result);
             rugProductView.ForEach(f =>
             {
@@ -226,7 +226,7 @@ namespace IMSWebApi.Services
             StringBuilder stringBuilder;
             List<VMvwFWR> wallpaperProductView;
             var result = repo.vwFWRs.Where(f => f.Category.Equals("Wallpaper"))
-                    .OrderBy(q => q.Collection).Distinct().ToList();
+                    .OrderBy(q => q.Collection).ToList();
             wallpaperProductView = Mapper.Map<List<vwFWR>, List<VMvwFWR>>(result);
             wallpaperProductView.ForEach(f =>
             {
@@ -242,7 +242,7 @@ namespace IMSWebApi.Services
             StringBuilder stringBuilder;
             List<VMvwMattress> mattressProductView;
             var result = repo.vwMattresses
-                    .OrderBy(q => q.Collection).Distinct().ToList();
+                    .OrderBy(q => q.Collection).ToList();
             mattressProductView = Mapper.Map<List<vwMattress>, List<VMvwMattress>>(result);
             mattressProductView.ForEach(m =>
             {
@@ -308,7 +308,7 @@ namespace IMSWebApi.Services
                         hsnWithGST = f.hsnCode + " (" + f.gst + ")"
                     })
                     .OrderBy(q => q.Collection)
-                    .Skip(page * pageSize).Take(pageSize).Distinct().ToList();
+                    .Skip(page * pageSize).Take(pageSize).ToList();
 
             return new ListResult<VMvwFWR>
             {
@@ -373,7 +373,7 @@ namespace IMSWebApi.Services
                         hsnWithGST = f.hsnCode + " (" + f.gst + ")"
                     })
                     .OrderBy(q => q.Collection)
-                    .Skip(page * pageSize).Take(pageSize).Distinct().ToList();
+                    .Skip(page * pageSize).Take(pageSize).ToList();
 
             return new ListResult<VMvwFWR>
             {
@@ -406,7 +406,7 @@ namespace IMSWebApi.Services
                          hsnWithGST = f.hsnCode + " (" + f.gst + ")"
                      })
                     .OrderBy(q => q.Collection)
-                    .Skip(page * pageSize).Take(pageSize).Distinct().ToList();
+                    .Skip(page * pageSize).Take(pageSize).ToList();
 
             return new ListResult<VMvwFWR>
             {
@@ -437,7 +437,7 @@ namespace IMSWebApi.Services
                         availableStock = m.availableStock > 0 ? m.availableStock : 0,
                         hsnWithGST = m.hsnCode + " (" + m.gst + ")"
                     })
-                    .Skip(page * pageSize).Take(pageSize).Distinct().ToList();
+                    .Skip(page * pageSize).Take(pageSize).ToList();
 
             return new ListResult<VMvwMattress>
             {
@@ -495,7 +495,7 @@ namespace IMSWebApi.Services
                         hsnWithGST = f.hsnCode + " (" + f.gst + ")"
                     })
                     .OrderBy(q => q.Collection)
-                    .Distinct().ToList();
+                    .ToList();
 
             return fabricProductsView;
         }
@@ -551,7 +551,7 @@ namespace IMSWebApi.Services
                         hsnWithGST = f.hsnCode + " (" + f.gst + ")"
                     })
                     .OrderBy(q => q.Collection)
-                    .Distinct().ToList();
+                    .ToList();
             return rugProductView;
         }
 
@@ -578,7 +578,7 @@ namespace IMSWebApi.Services
                          hsnWithGST = f.hsnCode + " (" + f.gst + ")"
                      })
                     .OrderBy(q => q.Collection)
-                    .Distinct().ToList();
+                    .ToList();
             return wallpaperProductView;
         }
 
@@ -603,7 +603,7 @@ namespace IMSWebApi.Services
                         availableStock = m.availableStock > 0 ? m.availableStock : 0,
                         hsnWithGST = m.hsnCode + " (" + m.gst + ")"
                     })
-                    .Distinct().ToList();
+                    .ToList();
             return mattressProductView;
         }
 

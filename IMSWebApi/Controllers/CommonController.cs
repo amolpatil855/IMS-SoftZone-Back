@@ -34,6 +34,7 @@ namespace IMSWebApi.Controllers
         private AccessoryService _accessoryService = null;
         private TrnGoodReceiveNoteService _trnGoodReceiveNoteService = null;
         private TrnMaterialQuotationService _trnMaterialQuotationService = null;
+        private PatternService _patternService = null;
 
         public CommonController()
         {
@@ -59,6 +60,7 @@ namespace IMSWebApi.Controllers
             _accessoryService = new AccessoryService();
             _trnGoodReceiveNoteService = new TrnGoodReceiveNoteService();
             _trnMaterialQuotationService = new TrnMaterialQuotationService();
+            _patternService = new PatternService();
         }
 
         [HttpGet]
@@ -388,6 +390,14 @@ namespace IMSWebApi.Controllers
         public IHttpActionResult GetCustomerLookupByMaterialQuotationId(long materialQuotationId)
         {
             var result = _trnMaterialQuotationService.getCustomerLookupByMaterialQuotationId(materialQuotationId);
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("api/Common/GetPatternLookup")]
+        public IHttpActionResult GetPatternLookup()
+        {
+            var result = _patternService.getPatternLookup();
             return Ok(result);
         }
     }
