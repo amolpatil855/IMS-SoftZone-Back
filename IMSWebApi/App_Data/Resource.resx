@@ -408,4 +408,13 @@
   <data name="AdvPaymentPending" xml:space="preserve">
     <value>Material Quotation can't be approved. Advance Payment is pending.</value>
   </data>
+  <data name="PatternAdded" xml:space="preserve">
+    <value>Pattern Added Successfully</value>
+  </data>
+  <data name="PatternDeleted" xml:space="preserve">
+    <value>Pattern Deleted Successfully</value>
+  </data>
+  <data name="PatternUpdated" xml:space="preserve">
+    <value>Pattern Updated Successfully</value>
+  </data>
 </root>

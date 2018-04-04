@@ -275,6 +275,7 @@
     <Compile Include="Controllers\MatSizeController.cs" />
     <Compile Include="Controllers\MatThicknessController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
+    <Compile Include="Controllers\PatternController.cs" />
     <Compile Include="Controllers\ProductListController.cs" />
     <Compile Include="Controllers\QualityController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
@@ -360,6 +361,9 @@
       <DependentUpon>WebApiModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\MstMenu.cs">
+      <DependentUpon>WebApiModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MstPattern.cs">
       <DependentUpon>WebApiModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\MstQuality.cs">
@@ -492,6 +496,7 @@
     <Compile Include="Services\MatSizeService.cs" />
     <Compile Include="Services\MatThicknessService.cs" />
     <Compile Include="Services\MenuService.cs" />
+    <Compile Include="Services\PatternService.cs" />
     <Compile Include="Services\ProductListService.cs" />
     <Compile Include="Services\ReportsService.cs" />
     <Compile Include="Services\TrnAdvancePaymentService.cs" />
@@ -542,6 +547,7 @@
     <Compile Include="ViewModel\ProductMasters\VMMatSize.cs" />
     <Compile Include="ViewModel\ProductMasters\VMMatSizeList.cs" />
     <Compile Include="ViewModel\ProductMasters\VMMatThickness.cs" />
+    <Compile Include="ViewModel\ProductMasters\VMPattern.cs" />
     <Compile Include="ViewModel\VMPOagainstSO.cs" />
     <Compile Include="ViewModel\VMProductDetails.cs" />
     <Compile Include="ViewModel\GoodIssueNote\VMTrnGoodIssueNote.cs" />

@@ -149,6 +149,33 @@ namespace IMSWebApi.Controllers
             var result = _customerLoginService.getAccessoryProductsForExport();
             return Ok(result);
         }
+
+        // GET api/CustomerLogin  
+        [HttpGet]
+        [Route("api/CustomerLogin/GetDashboardData")]
+        public IHttpActionResult GetDashboardData()
+        {
+            var result = _customerLoginService.getDashboardData();
+            return Ok(result);
+        }
+
+        // GET api/CustomerLogin
+        [HttpGet]
+        [Route("api/CustomerLogin/GetRecordsForTotalOutstandingAmt")]
+        public IHttpActionResult GetRecordsForTotalOutstandingAmt(int pageSize = 0, int page = 0, string search = null)
+        {
+            var result = _customerLoginService.getRecordsForTotalOutstandingAmt(pageSize, page, search);
+            return Ok(result);
+        }
+
+        // GET api/CustomerLogin
+        [HttpGet]
+        [Route("api/CustomerLogin/GetRecordsForSOCount")]
+        public IHttpActionResult GetRecordsForSOCount(int pageSize = 0, int page = 0, string search = null)
+        {
+            var result = _customerLoginService.getRecordsForSOCount(pageSize, page, search);
+            return Ok(result);
+        }
        
     }
 }

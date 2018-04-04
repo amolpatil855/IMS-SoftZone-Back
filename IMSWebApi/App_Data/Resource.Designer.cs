@@ -610,6 +610,33 @@ namespace IMSWebApi.App_Data {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Pattern Added Successfully.
+        /// </summary>
+        public static string PatternAdded {
+            get {
+                return ResourceManager.GetString("PatternAdded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pattern Deleted Successfully.
+        /// </summary>
+        public static string PatternDeleted {
+            get {
+                return ResourceManager.GetString("PatternDeleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pattern Updated Successfully.
+        /// </summary>
+        public static string PatternUpdated {
+            get {
+                return ResourceManager.GetString("PatternUpdated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Purchase Order Generated Successfully.
         /// </summary>
         public static string POAdded {

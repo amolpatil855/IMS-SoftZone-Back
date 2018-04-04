@@ -7,15 +7,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web;
+using Microsoft.AspNet.Identity;
+using IMSWebApi.ViewModel.SalesInvoice;
+using IMSWebApi.ViewModel.SlaesOrder;
 
 namespace IMSWebApi.Services
 {
     public class CustomerLoginService
     {
         WebAPIdbEntities repo = new WebAPIdbEntities();
-        
+        Int64 _LoggedInuserId;
+
         public CustomerLoginService()
         {
+            _LoggedInuserId = Convert.ToInt64(HttpContext.Current.User.Identity.GetUserId());
         }
 
         public ListResult<VMvwAccessory> getAccessoryProducts(int pageSize, int page)
@@ -193,6 +198,115 @@ namespace IMSWebApi.Services
                     .ToList();
            
             return foamProductView;
+        }
+
+        //DashBoard data
+
+        public VMvwDashboard getDashboardData()
+        {
+            VMvwDashboard dashboardData = new VMvwDashboard();
+            Int64 customerId = repo.MstCustomers.Where(c => c.userId == _LoggedInuserId).FirstOrDefault().id;
+            int totalSalesCount = repo.TrnSaleOrders.Where(so => so.customerId == customerId && !(so.status.Equals("Completed"))).Count();
+            long totalOutstandingAmount = repo.TrnSalesInvoices.Where(si => (si.isPaid == false) 
+                                                                  && (si.TrnSaleOrder != null ? si.TrnSaleOrder.customerId == customerId : false) 
+                                                                  && (si.status.Equals("Approved")))
+                                                               .Select(si=>si.totalAmount).DefaultIfEmpty(0).Sum();
+            dashboardData.totalSalesCount = totalSalesCount;
+            dashboardData.totalOutStandingAmount = totalOutstandingAmount;
+            return dashboardData;
+        }
+
+        public ListResult<VMTrnSalesInvoiceList> getRecordsForTotalOutstandingAmt(int pageSize, int page, string search)
+        {
+            List<VMTrnSalesInvoiceList> salesInvoiceView;
+            Int64 customerId = repo.MstCustomers.Where(c => c.userId == _LoggedInuserId).FirstOrDefault().id;
+            var result = repo.TrnSalesInvoices
+                      .Where(s => (s.isPaid == false) 
+                          && (s.TrnSaleOrder != null ? s.TrnSaleOrder.customerId == customerId : false) 
+                          && (s.status.Equals("Approved")) 
+                          && (!string.IsNullOrEmpty(search) 
+                          ? s.TrnGoodIssueNote.ginNumber.StartsWith(search)
+                        || s.invoiceNumber.StartsWith(search)
+                        || s.totalAmount.ToString().StartsWith(search)
+                        || s.courierDockYardNumber.StartsWith(search)
+                        || s.status.StartsWith(search)
+                        || (search.ToLower().Equals("yes") ? s.isPaid : search.ToLower().Equals("no") ? !(s.isPaid) : false) : true))
+                      .Select(s => new VMTrnSalesInvoiceList
+                        {
+                            id = s.id,
+                            invoiceNumber = s.invoiceNumber,
+                            invoiceDate = s.invoiceDate,
+                            ginNumber = s.TrnGoodIssueNote.ginNumber,
+                            totalAmount = s.totalAmount,
+                            status = s.status,
+                            courierDockYardNumber = s.courierDockYardNumber,
+                            isPaid = s.isPaid
+                        })
+                        .OrderByDescending(p => p.id).Skip(page * pageSize).Take(pageSize).ToList();
+            salesInvoiceView = result;
+
+            return new ListResult<VMTrnSalesInvoiceList>
+            {
+                Data = salesInvoiceView,
+                TotalCount = repo.TrnSalesInvoices
+                      .Where(s => (s.isPaid == false)
+                          && (s.TrnSaleOrder != null ? s.TrnSaleOrder.customerId == customerId : false)
+                          && (s.status.Equals("Approved"))
+                          && (!string.IsNullOrEmpty(search)
+                          ? s.TrnGoodIssueNote.ginNumber.StartsWith(search)
+                        || s.invoiceNumber.StartsWith(search)
+                        || s.totalAmount.ToString().StartsWith(search)
+                        || s.courierDockYardNumber.StartsWith(search)
+                        || s.status.StartsWith(search)
+                        || (search.ToLower().Equals("yes") ? s.isPaid : search.ToLower().Equals("no") ? !(s.isPaid) : false) : true))
+                    .Count(),
+                Page = page
+            };
+        }
+
+        public ListResult<VMTrnSaleOrderList> getRecordsForSOCount(int pageSize, int page, string search)
+        {
+            List<VMTrnSaleOrderList> saleOrderView;
+            Int64 customerId = repo.MstCustomers.Where(c => c.userId == _LoggedInuserId).FirstOrDefault().id;
+            var result = repo.TrnSaleOrders
+                        .Where(so => !(so.status.Equals("Completed"))
+                            && so.customerId == customerId
+                            && (!string.IsNullOrEmpty(search)
+                            ? so.orderNumber.StartsWith(search)
+                            || so.MstCustomer.name.StartsWith(search)
+                            || so.MstCourier.name.StartsWith(search)
+                            || so.MstAgent.name.StartsWith(search)
+                            || so.status.StartsWith(search)
+                            || so.totalAmount.ToString().StartsWith(search) : true))
+                        .Select(so => new VMTrnSaleOrderList
+                        {
+                            id = so.id,
+                            orderNumber = so.orderNumber,
+                            orderDate = so.orderDate,
+                            customerName = so.MstCustomer != null ? so.MstCustomer.name : string.Empty,
+                            courierName = so.MstCourier != null ? so.MstCourier.name : string.Empty,
+                            agentName = so.MstAgent != null ? so.MstAgent.name : string.Empty,
+                            status = so.status,
+                            totalAmount = so.totalAmount
+                        })
+                        .OrderByDescending(p => p.id).Skip(page * pageSize).Take(pageSize).ToList();
+            saleOrderView = result;
+
+            return new ListResult<VMTrnSaleOrderList>
+            {
+                Data = saleOrderView,
+                TotalCount = repo.TrnSaleOrders
+                        .Where(so => !(so.status.Equals("Completed"))
+                            && so.customerId == customerId
+                            && (!string.IsNullOrEmpty(search)
+                            ? so.orderNumber.StartsWith(search)
+                            || so.MstCustomer.name.StartsWith(search)
+                            || so.MstCourier.name.StartsWith(search)
+                            || so.MstAgent.name.StartsWith(search)
+                            || so.status.StartsWith(search)
+                            || so.totalAmount.ToString().StartsWith(search) : true)).Count(),
+                Page = page
+            };
         }
     }
 }

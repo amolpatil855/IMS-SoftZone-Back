@@ -160,6 +160,9 @@ namespace IMSWebApi.App_Start
 
             Mapper.CreateMap<vwDasBoard, VMvwDashboard>();
             Mapper.CreateMap<VMvwDashboard, vwDasBoard>();
+
+            Mapper.CreateMap<MstPattern, VMPattern>();
+            Mapper.CreateMap<VMPattern, MstPattern>();
         }
     }
 }
