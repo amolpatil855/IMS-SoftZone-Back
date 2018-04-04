@@ -9,9 +9,13 @@ namespace IMSWebApi.ViewModel
     {
         public string Category { get; set; }
         public string Collection { get; set; }
+        public long collectionId { get; set; }
         public string qualityCode { get; set; }
+        public long qualityId { get; set; }
         public string thicknessCode { get; set; }
+        public long matThicknessId { get; set; }
         public string sizeCode { get; set; }
+        public long matSizeId { get; set; }
         public string uom { get; set; }
         public string hsnCode { get; set; }
         public string gst { get; set; }

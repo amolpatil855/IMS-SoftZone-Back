@@ -23,10 +23,18 @@ namespace IMSWebApi.Services
             _LoggedInuserId = Convert.ToInt64(HttpContext.Current.User.Identity.GetUserId());
         }
 
-        public ListResult<VMvwAccessory> getAccessoryProducts(int pageSize, int page)
+        public ListResult<VMvwAccessory> getAccessoryProducts(int pageSize, int page, string search)
         {
             List<VMvwAccessory> accessoryProductsView;
-            accessoryProductsView = repo.vwAccessories
+            accessoryProductsView = repo.vwAccessories.Where(a => (!string.IsNullOrEmpty(search) ?
+                                            a.itemCode.StartsWith(search)
+                                            || a.name.StartsWith(search)
+                                            || a.size.StartsWith(search)
+                                            || a.uom.StartsWith(search)
+                                            || a.hsnCode.StartsWith(search)
+                                            || a.sellingRate.ToString().StartsWith(search)
+                                            || a.sellingRateWithGst.ToString().StartsWith(search)
+                                            || (search.ToLower().Equals("yes") ? a.availableStock > 0 : search.ToLower().Equals("no") ? a.availableStock <= 0 : false) : true))
                     .Select(a => new VMvwAccessory
                     {
                         Category = a.Category,
@@ -47,16 +55,38 @@ namespace IMSWebApi.Services
             return new ListResult<VMvwAccessory>
             {
                 Data = accessoryProductsView,
-                TotalCount = repo.vwAccessories.Count(),
+                TotalCount = repo.vwAccessories.Where(a => (!string.IsNullOrEmpty(search) ?
+                                            a.itemCode.StartsWith(search)
+                                            || a.name.StartsWith(search)
+                                            || a.size.StartsWith(search)
+                                            || a.uom.StartsWith(search)
+                                            || a.hsnCode.StartsWith(search)
+                                            || a.sellingRate.ToString().StartsWith(search)
+                                            || a.sellingRateWithGst.ToString().StartsWith(search)
+                                            || (search.ToLower().Equals("yes") ? a.availableStock > 0 : search.ToLower().Equals("no") ? a.availableStock <= 0 : false) : true)).Count(),
                 Page = page
             };
         }
 
-        public ListResult<VMvwFWR> getFabricProducts(int pageSize, int page)
+        public ListResult<VMvwFWR> getFabricProducts(int pageSize, int page, string search, Int64? collectionId, Int64? qualityId, Int64? designId, Int64? shadeId)
         {
             List<VMvwFWR> fabricProductsView;
             
-            fabricProductsView = repo.vwFWRs.Where(f => f.Category.Equals("Fabric") && f.flatRate != null)
+            fabricProductsView = repo.vwFWRs.Where(f => f.Category.Equals("Fabric") && f.flatRate != null
+                                                     && (collectionId != null ? f.collectionId == collectionId : true)
+                                                    && (qualityId != null ? f.qualityId == qualityId : true)
+                                                    && (designId != null ? f.designId == designId : true)
+                                                    && (shadeId != null ? f.shadeId == shadeId : true)
+                                                     && (!string.IsNullOrEmpty(search) ?
+                                                    f.Collection.StartsWith(search)
+                                                    || f.QDS.StartsWith(search)
+                                                    || f.serialNumber.ToString().StartsWith(search)
+                                                    || f.uom.StartsWith(search)
+                                                    || f.hsnCode.StartsWith(search)
+                                                    || f.width.ToString().StartsWith(search)
+                                                    || f.flatRate.ToString().StartsWith(search)
+                                                    || f.flatRateWithGst.ToString().StartsWith(search)
+                                                    || (search.ToLower().Equals("yes") ? f.availableStock > 0 : search.ToLower().Equals("no") ? f.availableStock <= 0 : false) : true))
                     .Select(f => new VMvwFWR
                     {
                         Category = f.Category,
@@ -68,8 +98,6 @@ namespace IMSWebApi.Services
                         gst = f.gst,
                         width = f.width,
                         size = f.size,
-                        rrp = f.rrp,
-                        rrpWithGst = f.rrpWithGst,
                         flatRate = f.flatRate,
                         flatRateWithGst = f.flatRateWithGst,
                         availableStock = f.availableStock > 0 ? f.availableStock : 0,
@@ -81,15 +109,42 @@ namespace IMSWebApi.Services
             return new ListResult<VMvwFWR>
             {
                 Data = fabricProductsView,
-                TotalCount = repo.vwFWRs.Where(f => f.Category.Equals("Fabric") && f.flatRate != null).Count(),
+                TotalCount = repo.vwFWRs.Where(f => f.Category.Equals("Fabric") && f.flatRate != null
+                                                     && (!string.IsNullOrEmpty(search) ?
+                                                    f.Collection.StartsWith(search)
+                                                    || f.QDS.StartsWith(search)
+                                                    || f.serialNumber.ToString().StartsWith(search)
+                                                    || f.uom.StartsWith(search)
+                                                    || f.hsnCode.StartsWith(search)
+                                                    || f.width.ToString().StartsWith(search)
+                                                    || f.flatRate.ToString().StartsWith(search)
+                                                    || f.flatRateWithGst.ToString().StartsWith(search)
+                                                    || (search.ToLower().Equals("yes") ? f.availableStock > 0 : search.ToLower().Equals("no") ? f.availableStock <= 0 : false) : true)).Count(),
                 Page = page
             };
         }
 
-        public ListResult<VMvwFoam> getFoamProducts(int pageSize, int page)
+        public ListResult<VMvwFoam> getFoamProducts(int pageSize, int page, string search, Int64? collectionId, Int64? qualityId, Int64? densityId, Int64? fomSuggestedMMId, Int64? fomSizeId)
         {   
             List<VMvwFoam> foamProductView;
-            foamProductView = repo.vwFoams
+            foamProductView = repo.vwFoams.Where(f => (collectionId != null ? f.collectionId == collectionId : true)
+                                            && (qualityId != null ? f.qualityId == qualityId : true)
+                                            && (densityId != null ? f.desityId == densityId : true)
+                                            && (fomSuggestedMMId != null ? f.fomSuggestedMMId == fomSuggestedMMId : true)
+                                            && (fomSizeId != null ? f.sizeId == fomSizeId : true)
+                                            && (!string.IsNullOrEmpty(search) ?
+                                            f.Collection.StartsWith(search)
+                                            || f.qualityCode.StartsWith(search)
+                                            || f.density.ToString().StartsWith(search)
+                                            || f.sizeCode.StartsWith(search)
+                                            || f.itemCode.StartsWith(search)
+                                            || f.uom.StartsWith(search)
+                                            || f.hsnCode.StartsWith(search)
+                                            || f.sellingRatePerMM.ToString().StartsWith(search)
+                                            || f.sellingRatePerMMWithGst.ToString().StartsWith(search)
+                                            || f.sellingRatePerKG.ToString().StartsWith(search)
+                                            || f.sellingRatePerKGWithGst.ToString().StartsWith(search)
+                                            || (search.ToLower().Equals("yes") ? f.availableStock > 0 : search.ToLower().Equals("no") ? f.availableStock <= 0 : false) : true))
                     .Select(f => new VMvwFoam
                     {
                         Category = f.Category,
@@ -113,7 +168,24 @@ namespace IMSWebApi.Services
             return new ListResult<VMvwFoam>
             {
                 Data = foamProductView,
-                TotalCount = repo.vwFoams.Count(),
+                TotalCount = repo.vwFoams.Where(f => (collectionId != null ? f.collectionId == collectionId : true)
+                                            && (qualityId != null ? f.qualityId == qualityId : true)
+                                            && (densityId != null ? f.desityId == densityId : true)
+                                            && (fomSuggestedMMId != null ? f.fomSuggestedMMId == fomSuggestedMMId : true)
+                                            && (fomSizeId != null ? f.sizeId == fomSizeId : true)
+                                            && (!string.IsNullOrEmpty(search) ?
+                                            f.Collection.StartsWith(search)
+                                            || f.qualityCode.StartsWith(search)
+                                            || f.density.ToString().StartsWith(search)
+                                            || f.sizeCode.StartsWith(search)
+                                            || f.itemCode.StartsWith(search)
+                                            || f.uom.StartsWith(search)
+                                            || f.hsnCode.StartsWith(search)
+                                            || f.sellingRatePerMM.ToString().StartsWith(search)
+                                            || f.sellingRatePerMMWithGst.ToString().StartsWith(search)
+                                            || f.sellingRatePerKG.ToString().StartsWith(search)
+                                            || f.sellingRatePerKGWithGst.ToString().StartsWith(search)
+                                            || (search.ToLower().Equals("yes") ? f.availableStock > 0 : search.ToLower().Equals("no") ? f.availableStock <= 0 : false) : true)).Count(),
                 Page = page
             };
         }
