@@ -90,6 +90,17 @@ namespace IMSWebApi.Services
                 }).Distinct().ToList();
         }
 
+        public List<VMLookUpItem> getMatSizeLookUpByMatThicknessId(Int64 matThicknessId)
+        {
+            return repo.MstMatSizes.Where(m => m.thicknessId == matThicknessId)
+                .OrderBy(m => m.sizeCode)
+                .Select(q => new VMLookUpItem
+                {
+                    value = q.id,
+                    label = q.sizeCode + " (" + q.MstMatThickness.thicknessCode + "-" + q.MstQuality.qualityCode + ")"
+                }).ToList();
+        }
+
         public ResponseMessage postMatSize(VMMatSize matSize)
         {
             MstMatSize matSizeToPost = Mapper.Map<VMMatSize, MstMatSize>(matSize);

@@ -257,6 +257,14 @@ namespace IMSWebApi.Controllers
         }
 
         [HttpGet]
+        [Route("api/Common/GetMatSizeLookUpByMatThicknessId")]
+        public IHttpActionResult GetMatSizeLookUpByMatThicknessId(long matThicknessId)
+        {
+            var result = _matSizeService.getMatSizeLookUpByMatThicknessId(matThicknessId);
+            return Ok(result);
+        }
+
+        [HttpGet]
         [Route("api/Common/GetMatThicknessLookUp")]
         public IHttpActionResult GetMatThicknessLookUp()
         {
@@ -344,6 +352,13 @@ namespace IMSWebApi.Controllers
             return Ok(result);
         }
 
+        [HttpGet]
+        [Route("api/Common/GetFomSizeLookUpByFomSuggestedMMId")]
+        public IHttpActionResult GetFomSizeLookUpByFomSuggestedMMId(long fomSuggestedMMId)
+        {
+            var result = _fomSizeService.getFomSizeLookUpByFomSuggestedMM(fomSuggestedMMId);
+            return Ok(result);
+        }
 
         [HttpGet]
         [Route("api/Common/GetUnitOfMeasureLookup")]
