@@ -21,6 +21,8 @@ namespace IMSWebApi.Models
         public long qualityId { get; set; }
         public string density { get; set; }
         public long desityId { get; set; }
+        public int suggestedMM { get; set; }
+        public long fomSuggestedMMId { get; set; }
         public string sizeCode { get; set; }
         public long sizeId { get; set; }
         public string itemCode { get; set; }

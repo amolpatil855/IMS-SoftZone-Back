@@ -960,6 +960,8 @@ warning 6002: The table/view 'IMS.dbo.vwFoam' does not have a primary key define
             <PropertyRef Name="qualityId" />
             <PropertyRef Name="density" />
             <PropertyRef Name="desityId" />
+            <PropertyRef Name="suggestedMM" />
+            <PropertyRef Name="fomSuggestedMMId" />
             <PropertyRef Name="sizeCode" />
             <PropertyRef Name="sizeId" />
             <PropertyRef Name="itemCode" />
@@ -977,6 +979,8 @@ warning 6002: The table/view 'IMS.dbo.vwFoam' does not have a primary key define
           <Property Name="qualityId" Type="bigint" Nullable="false" />
           <Property Name="density" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="desityId" Type="bigint" Nullable="false" />
+          <Property Name="suggestedMM" Type="int" Nullable="false" />
+          <Property Name="fomSuggestedMMId" Type="bigint" Nullable="false" />
           <Property Name="sizeCode" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="sizeId" Type="bigint" Nullable="false" />
           <Property Name="itemCode" Type="varchar" MaxLength="50" Nullable="false" />
@@ -999,15 +1003,23 @@ warning 6002: The table/view 'IMS.dbo.vwFWR' does not have a primary key defined
           <Key>
             <PropertyRef Name="Category" />
             <PropertyRef Name="Collection" />
+            <PropertyRef Name="collectionId" />
             <PropertyRef Name="QDS" />
+            <PropertyRef Name="qualityId" />
+            <PropertyRef Name="designId" />
             <PropertyRef Name="serialNumber" />
+            <PropertyRef Name="shadeId" />
             <PropertyRef Name="uom" />
             <PropertyRef Name="hsnCode" />
           </Key>
           <Property Name="Category" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="Collection" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="collectionId" Type="bigint" Nullable="false" />
           <Property Name="QDS" Type="varchar" MaxLength="154" Nullable="false" />
+          <Property Name="qualityId" Type="bigint" Nullable="false" />
+          <Property Name="designId" Type="bigint" Nullable="false" />
           <Property Name="serialNumber" Type="int" Nullable="false" />
+          <Property Name="shadeId" Type="bigint" Nullable="false" />
           <Property Name="uom" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="hsnCode" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="gst" Type="varchar" MaxLength="31" />
@@ -1047,9 +1059,13 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <Key>
             <PropertyRef Name="Category" />
             <PropertyRef Name="Collection" />
+            <PropertyRef Name="collectionId" />
             <PropertyRef Name="qualityCode" />
+            <PropertyRef Name="qualityId" />
             <PropertyRef Name="thicknessCode" />
+            <PropertyRef Name="matThicknessId" />
             <PropertyRef Name="sizeCode" />
+            <PropertyRef Name="matSizeId" />
             <PropertyRef Name="uom" />
             <PropertyRef Name="hsnCode" />
             <PropertyRef Name="rate" />
@@ -1057,9 +1073,13 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           </Key>
           <Property Name="Category" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="Collection" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="collectionId" Type="bigint" Nullable="false" />
           <Property Name="qualityCode" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="qualityId" Type="bigint" Nullable="false" />
           <Property Name="thicknessCode" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="matThicknessId" Type="bigint" Nullable="false" />
           <Property Name="sizeCode" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="matSizeId" Type="bigint" Nullable="false" />
           <Property Name="uom" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="hsnCode" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="gst" Type="varchar" MaxLength="31" />
@@ -2803,6 +2823,8 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
     [vwFoam].[qualityId] AS [qualityId], 
     [vwFoam].[density] AS [density], 
     [vwFoam].[desityId] AS [desityId], 
+    [vwFoam].[suggestedMM] AS [suggestedMM], 
+    [vwFoam].[fomSuggestedMMId] AS [fomSuggestedMMId], 
     [vwFoam].[sizeCode] AS [sizeCode], 
     [vwFoam].[sizeId] AS [sizeId], 
     [vwFoam].[itemCode] AS [itemCode], 
@@ -2824,8 +2846,12 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
             <DefiningQuery>SELECT 
     [vwFWR].[Category] AS [Category], 
     [vwFWR].[Collection] AS [Collection], 
+    [vwFWR].[collectionId] AS [collectionId], 
     [vwFWR].[QDS] AS [QDS], 
+    [vwFWR].[qualityId] AS [qualityId], 
+    [vwFWR].[designId] AS [designId], 
     [vwFWR].[serialNumber] AS [serialNumber], 
+    [vwFWR].[shadeId] AS [shadeId], 
     [vwFWR].[uom] AS [uom], 
     [vwFWR].[hsnCode] AS [hsnCode], 
     [vwFWR].[gst] AS [gst], 
@@ -2861,9 +2887,13 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
             <DefiningQuery>SELECT 
     [vwMattress].[Category] AS [Category], 
     [vwMattress].[Collection] AS [Collection], 
+    [vwMattress].[collectionId] AS [collectionId], 
     [vwMattress].[qualityCode] AS [qualityCode], 
+    [vwMattress].[qualityId] AS [qualityId], 
     [vwMattress].[thicknessCode] AS [thicknessCode], 
+    [vwMattress].[matThicknessId] AS [matThicknessId], 
     [vwMattress].[sizeCode] AS [sizeCode], 
+    [vwMattress].[matSizeId] AS [matSizeId], 
     [vwMattress].[uom] AS [uom], 
     [vwMattress].[hsnCode] AS [hsnCode], 
     [vwMattress].[gst] AS [gst], 
@@ -4023,11 +4053,11 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           </AssociationSet>
           <EntitySet Name="vwAccessories" EntityType="IMSModel.vwAccessory" />
           <EntitySet Name="vwDasBoards" EntityType="IMSModel.vwDasBoard" />
-          <EntitySet Name="vwFoams" EntityType="IMSModel.vwFoam" />
-          <EntitySet Name="vwFWRs" EntityType="IMSModel.vwFWR" />
-          <EntitySet Name="vwMattresses" EntityType="IMSModel.vwMattress" />
           <EntitySet Name="vwitemBelowReOrderLevelLists" EntityType="IMSModel.vwitemBelowReOrderLevelList" />
+          <EntitySet Name="vwFWRs" EntityType="IMSModel.vwFWR" />
           <EntitySet Name="MstPatterns" EntityType="IMSModel.MstPattern" />
+          <EntitySet Name="vwFoams" EntityType="IMSModel.vwFoam" />
+          <EntitySet Name="vwMattresses" EntityType="IMSModel.vwMattress" />
         </EntityContainer>
         <EntityType Name="CFGRoleMenu">
           <Key>
@@ -6875,47 +6905,19 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <Property Name="itemsCountBelowReorderLevel" Type="Int32" />
           <Property Name="totalStockValue" Type="Int64" />
         </EntityType>
-        <EntityType Name="vwFoam">
+        <EntityType Name="vwitemBelowReOrderLevelList">
           <Key>
-            <PropertyRef Name="Category" />
-            <PropertyRef Name="Collection" />
-            <PropertyRef Name="collectionId" />
-            <PropertyRef Name="qualityCode" />
-            <PropertyRef Name="qualityId" />
-            <PropertyRef Name="density" />
-            <PropertyRef Name="desityId" />
-            <PropertyRef Name="sizeCode" />
-            <PropertyRef Name="sizeId" />
-            <PropertyRef Name="itemCode" />
-            <PropertyRef Name="uom" />
-            <PropertyRef Name="hsnCode" />
-            <PropertyRef Name="purchaseRatePerMM" />
-            <PropertyRef Name="purchaseRatePerKG" />
-            <PropertyRef Name="sellingRatePerMM" />
-            <PropertyRef Name="sellingRatePerKG" />
+            <PropertyRef Name="categoryCode" />
           </Key>
-          <Property Name="Category" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="Collection" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="collectionId" Type="Int64" Nullable="false" />
-          <Property Name="qualityCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="qualityId" Type="Int64" Nullable="false" />
-          <Property Name="density" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="desityId" Type="Int64" Nullable="false" />
-          <Property Name="sizeCode" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="sizeId" Type="Int64" Nullable="false" />
-          <Property Name="itemCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="uom" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="hsnCode" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="gst" Type="String" MaxLength="31" FixedLength="false" Unicode="false" />
-          <Property Name="purchaseRatePerMM" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
-          <Property Name="purchaseRatePerMMWithGst" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="purchaseRatePerKG" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
-          <Property Name="purchaseRatePerKGWithGst" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="sellingRatePerMM" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
-          <Property Name="sellingRatePerMMWithGst" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="sellingRatePerKG" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
-          <Property Name="sellingRatePerKGWithGst" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="availableStock" Type="Decimal" Precision="9" Scale="2" />
+          <Property Name="categoryCode" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="collectionCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="qualityCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="designCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="shadeCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="serialNumber" Type="Int32" />
+          <Property Name="itemCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="thicknessCode" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="sizeCode" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="vwFWR">
           <Key>
@@ -6925,6 +6927,10 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
             <PropertyRef Name="serialNumber" />
             <PropertyRef Name="uom" />
             <PropertyRef Name="hsnCode" />
+            <PropertyRef Name="collectionId" />
+            <PropertyRef Name="qualityId" />
+            <PropertyRef Name="designId" />
+            <PropertyRef Name="shadeId" />
           </Key>
           <Property Name="Category" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="Collection" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
@@ -6946,47 +6952,10 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <Property Name="purchaseFlatRate" Type="Decimal" Precision="7" Scale="2" />
           <Property Name="purchaseFlatRateWithGst" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="availableStock" Type="Decimal" Precision="9" Scale="2" />
-        </EntityType>
-        <EntityType Name="vwMattress">
-          <Key>
-            <PropertyRef Name="Category" />
-            <PropertyRef Name="Collection" />
-            <PropertyRef Name="qualityCode" />
-            <PropertyRef Name="thicknessCode" />
-            <PropertyRef Name="sizeCode" />
-            <PropertyRef Name="uom" />
-            <PropertyRef Name="hsnCode" />
-            <PropertyRef Name="rate" />
-            <PropertyRef Name="purchaseRate" />
-          </Key>
-          <Property Name="Category" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="Collection" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="qualityCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="thicknessCode" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="sizeCode" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="uom" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="hsnCode" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="gst" Type="String" MaxLength="31" FixedLength="false" Unicode="false" />
-          <Property Name="rate" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
-          <Property Name="rateWithGst" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="purchaseRate" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
-          <Property Name="purchaseRateWithGst" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="customRatePerSqFeet" Type="Decimal" Precision="7" Scale="2" />
-          <Property Name="availableStock" Type="Decimal" Precision="9" Scale="2" />
-        </EntityType>
-        <EntityType Name="vwitemBelowReOrderLevelList">
-          <Key>
-            <PropertyRef Name="categoryCode" />
-          </Key>
-          <Property Name="categoryCode" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="collectionCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="qualityCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="designCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="shadeCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="serialNumber" Type="Int32" />
-          <Property Name="itemCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="thicknessCode" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="sizeCode" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="collectionId" Type="Int64" Nullable="false" />
+          <Property Name="qualityId" Type="Int64" Nullable="false" />
+          <Property Name="designId" Type="Int64" Nullable="false" />
+          <Property Name="shadeId" Type="Int64" Nullable="false" />
         </EntityType>
         <EntityType Name="MstPattern">
           <Key>
@@ -7005,6 +6974,87 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <Property Name="createdBy" Type="Int64" Nullable="false" />
           <Property Name="updatedOn" Type="DateTime" Precision="3" />
           <Property Name="updatedBy" Type="Int64" />
+        </EntityType>
+        <EntityType Name="vwFoam">
+          <Key>
+            <PropertyRef Name="Category" />
+            <PropertyRef Name="Collection" />
+            <PropertyRef Name="collectionId" />
+            <PropertyRef Name="qualityCode" />
+            <PropertyRef Name="qualityId" />
+            <PropertyRef Name="density" />
+            <PropertyRef Name="desityId" />
+            <PropertyRef Name="suggestedMM" />
+            <PropertyRef Name="fomSuggestedMMId" />
+            <PropertyRef Name="sizeCode" />
+            <PropertyRef Name="sizeId" />
+            <PropertyRef Name="itemCode" />
+            <PropertyRef Name="uom" />
+            <PropertyRef Name="hsnCode" />
+            <PropertyRef Name="purchaseRatePerMM" />
+            <PropertyRef Name="purchaseRatePerKG" />
+            <PropertyRef Name="sellingRatePerMM" />
+            <PropertyRef Name="sellingRatePerKG" />
+          </Key>
+          <Property Name="Category" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Collection" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="collectionId" Type="Int64" Nullable="false" />
+          <Property Name="qualityCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="qualityId" Type="Int64" Nullable="false" />
+          <Property Name="density" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="desityId" Type="Int64" Nullable="false" />
+          <Property Name="suggestedMM" Type="Int32" Nullable="false" />
+          <Property Name="fomSuggestedMMId" Type="Int64" Nullable="false" />
+          <Property Name="sizeCode" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="sizeId" Type="Int64" Nullable="false" />
+          <Property Name="itemCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="uom" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="hsnCode" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="gst" Type="String" MaxLength="31" FixedLength="false" Unicode="false" />
+          <Property Name="purchaseRatePerMM" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
+          <Property Name="purchaseRatePerMMWithGst" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="purchaseRatePerKG" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
+          <Property Name="purchaseRatePerKGWithGst" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="sellingRatePerMM" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
+          <Property Name="sellingRatePerMMWithGst" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="sellingRatePerKG" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
+          <Property Name="sellingRatePerKGWithGst" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="availableStock" Type="Decimal" Precision="9" Scale="2" />
+        </EntityType>
+        <EntityType Name="vwMattress">
+          <Key>
+            <PropertyRef Name="Category" />
+            <PropertyRef Name="Collection" />
+            <PropertyRef Name="collectionId" />
+            <PropertyRef Name="qualityCode" />
+            <PropertyRef Name="qualityId" />
+            <PropertyRef Name="thicknessCode" />
+            <PropertyRef Name="matThicknessId" />
+            <PropertyRef Name="sizeCode" />
+            <PropertyRef Name="matSizeId" />
+            <PropertyRef Name="uom" />
+            <PropertyRef Name="hsnCode" />
+            <PropertyRef Name="rate" />
+            <PropertyRef Name="purchaseRate" />
+          </Key>
+          <Property Name="Category" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Collection" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="collectionId" Type="Int64" Nullable="false" />
+          <Property Name="qualityCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="qualityId" Type="Int64" Nullable="false" />
+          <Property Name="thicknessCode" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="matThicknessId" Type="Int64" Nullable="false" />
+          <Property Name="sizeCode" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="matSizeId" Type="Int64" Nullable="false" />
+          <Property Name="uom" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="hsnCode" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="gst" Type="String" MaxLength="31" FixedLength="false" Unicode="false" />
+          <Property Name="rate" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
+          <Property Name="rateWithGst" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="purchaseRate" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
+          <Property Name="purchaseRateWithGst" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="customRatePerSqFeet" Type="Decimal" Precision="7" Scale="2" />
+          <Property Name="availableStock" Type="Decimal" Precision="9" Scale="2" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -7973,37 +8023,28 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="vwFoams">
-            <EntityTypeMapping TypeName="IMSModel.vwFoam">
-              <MappingFragment StoreEntitySet="vwFoam">
-                <ScalarProperty Name="availableStock" ColumnName="availableStock" />
-                <ScalarProperty Name="sellingRatePerKGWithGst" ColumnName="sellingRatePerKGWithGst" />
-                <ScalarProperty Name="sellingRatePerKG" ColumnName="sellingRatePerKG" />
-                <ScalarProperty Name="sellingRatePerMMWithGst" ColumnName="sellingRatePerMMWithGst" />
-                <ScalarProperty Name="sellingRatePerMM" ColumnName="sellingRatePerMM" />
-                <ScalarProperty Name="purchaseRatePerKGWithGst" ColumnName="purchaseRatePerKGWithGst" />
-                <ScalarProperty Name="purchaseRatePerKG" ColumnName="purchaseRatePerKG" />
-                <ScalarProperty Name="purchaseRatePerMMWithGst" ColumnName="purchaseRatePerMMWithGst" />
-                <ScalarProperty Name="purchaseRatePerMM" ColumnName="purchaseRatePerMM" />
-                <ScalarProperty Name="gst" ColumnName="gst" />
-                <ScalarProperty Name="hsnCode" ColumnName="hsnCode" />
-                <ScalarProperty Name="uom" ColumnName="uom" />
-                <ScalarProperty Name="itemCode" ColumnName="itemCode" />
-                <ScalarProperty Name="sizeId" ColumnName="sizeId" />
+          <EntitySetMapping Name="vwitemBelowReOrderLevelLists">
+            <EntityTypeMapping TypeName="IMSModel.vwitemBelowReOrderLevelList">
+              <MappingFragment StoreEntitySet="vwitemBelowReOrderLevelList">
                 <ScalarProperty Name="sizeCode" ColumnName="sizeCode" />
-                <ScalarProperty Name="desityId" ColumnName="desityId" />
-                <ScalarProperty Name="density" ColumnName="density" />
-                <ScalarProperty Name="qualityId" ColumnName="qualityId" />
+                <ScalarProperty Name="thicknessCode" ColumnName="thicknessCode" />
+                <ScalarProperty Name="itemCode" ColumnName="itemCode" />
+                <ScalarProperty Name="serialNumber" ColumnName="serialNumber" />
+                <ScalarProperty Name="shadeCode" ColumnName="shadeCode" />
+                <ScalarProperty Name="designCode" ColumnName="designCode" />
                 <ScalarProperty Name="qualityCode" ColumnName="qualityCode" />
-                <ScalarProperty Name="collectionId" ColumnName="collectionId" />
-                <ScalarProperty Name="Collection" ColumnName="Collection" />
-                <ScalarProperty Name="Category" ColumnName="Category" />
+                <ScalarProperty Name="collectionCode" ColumnName="collectionCode" />
+                <ScalarProperty Name="categoryCode" ColumnName="categoryCode" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="vwFWRs">
             <EntityTypeMapping TypeName="IMSModel.vwFWR">
               <MappingFragment StoreEntitySet="vwFWR">
+                <ScalarProperty Name="shadeId" ColumnName="shadeId" />
+                <ScalarProperty Name="designId" ColumnName="designId" />
+                <ScalarProperty Name="qualityId" ColumnName="qualityId" />
+                <ScalarProperty Name="collectionId" ColumnName="collectionId" />
                 <ScalarProperty Name="availableStock" ColumnName="availableStock" />
                 <ScalarProperty Name="purchaseFlatRateWithGst" ColumnName="purchaseFlatRateWithGst" />
                 <ScalarProperty Name="purchaseFlatRate" ColumnName="purchaseFlatRate" />
@@ -8027,41 +8068,6 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="vwMattresses">
-            <EntityTypeMapping TypeName="IMSModel.vwMattress">
-              <MappingFragment StoreEntitySet="vwMattress">
-                <ScalarProperty Name="availableStock" ColumnName="availableStock" />
-                <ScalarProperty Name="customRatePerSqFeet" ColumnName="customRatePerSqFeet" />
-                <ScalarProperty Name="purchaseRateWithGst" ColumnName="purchaseRateWithGst" />
-                <ScalarProperty Name="purchaseRate" ColumnName="purchaseRate" />
-                <ScalarProperty Name="rateWithGst" ColumnName="rateWithGst" />
-                <ScalarProperty Name="rate" ColumnName="rate" />
-                <ScalarProperty Name="gst" ColumnName="gst" />
-                <ScalarProperty Name="hsnCode" ColumnName="hsnCode" />
-                <ScalarProperty Name="uom" ColumnName="uom" />
-                <ScalarProperty Name="sizeCode" ColumnName="sizeCode" />
-                <ScalarProperty Name="thicknessCode" ColumnName="thicknessCode" />
-                <ScalarProperty Name="qualityCode" ColumnName="qualityCode" />
-                <ScalarProperty Name="Collection" ColumnName="Collection" />
-                <ScalarProperty Name="Category" ColumnName="Category" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="vwitemBelowReOrderLevelLists">
-            <EntityTypeMapping TypeName="IMSModel.vwitemBelowReOrderLevelList">
-              <MappingFragment StoreEntitySet="vwitemBelowReOrderLevelList">
-                <ScalarProperty Name="sizeCode" ColumnName="sizeCode" />
-                <ScalarProperty Name="thicknessCode" ColumnName="thicknessCode" />
-                <ScalarProperty Name="itemCode" ColumnName="itemCode" />
-                <ScalarProperty Name="serialNumber" ColumnName="serialNumber" />
-                <ScalarProperty Name="shadeCode" ColumnName="shadeCode" />
-                <ScalarProperty Name="designCode" ColumnName="designCode" />
-                <ScalarProperty Name="qualityCode" ColumnName="qualityCode" />
-                <ScalarProperty Name="collectionCode" ColumnName="collectionCode" />
-                <ScalarProperty Name="categoryCode" ColumnName="categoryCode" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="MstPatterns">
             <EntityTypeMapping TypeName="IMSModel.MstPattern">
               <MappingFragment StoreEntitySet="MstPattern">
@@ -8078,6 +8084,60 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
                 <ScalarProperty Name="fabricHeight" ColumnName="fabricHeight" />
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vwFoams">
+            <EntityTypeMapping TypeName="IMSModel.vwFoam">
+              <MappingFragment StoreEntitySet="vwFoam">
+                <ScalarProperty Name="availableStock" ColumnName="availableStock" />
+                <ScalarProperty Name="sellingRatePerKGWithGst" ColumnName="sellingRatePerKGWithGst" />
+                <ScalarProperty Name="sellingRatePerKG" ColumnName="sellingRatePerKG" />
+                <ScalarProperty Name="sellingRatePerMMWithGst" ColumnName="sellingRatePerMMWithGst" />
+                <ScalarProperty Name="sellingRatePerMM" ColumnName="sellingRatePerMM" />
+                <ScalarProperty Name="purchaseRatePerKGWithGst" ColumnName="purchaseRatePerKGWithGst" />
+                <ScalarProperty Name="purchaseRatePerKG" ColumnName="purchaseRatePerKG" />
+                <ScalarProperty Name="purchaseRatePerMMWithGst" ColumnName="purchaseRatePerMMWithGst" />
+                <ScalarProperty Name="purchaseRatePerMM" ColumnName="purchaseRatePerMM" />
+                <ScalarProperty Name="gst" ColumnName="gst" />
+                <ScalarProperty Name="hsnCode" ColumnName="hsnCode" />
+                <ScalarProperty Name="uom" ColumnName="uom" />
+                <ScalarProperty Name="itemCode" ColumnName="itemCode" />
+                <ScalarProperty Name="sizeId" ColumnName="sizeId" />
+                <ScalarProperty Name="sizeCode" ColumnName="sizeCode" />
+                <ScalarProperty Name="fomSuggestedMMId" ColumnName="fomSuggestedMMId" />
+                <ScalarProperty Name="suggestedMM" ColumnName="suggestedMM" />
+                <ScalarProperty Name="desityId" ColumnName="desityId" />
+                <ScalarProperty Name="density" ColumnName="density" />
+                <ScalarProperty Name="qualityId" ColumnName="qualityId" />
+                <ScalarProperty Name="qualityCode" ColumnName="qualityCode" />
+                <ScalarProperty Name="collectionId" ColumnName="collectionId" />
+                <ScalarProperty Name="Collection" ColumnName="Collection" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vwMattresses">
+            <EntityTypeMapping TypeName="IMSModel.vwMattress">
+              <MappingFragment StoreEntitySet="vwMattress">
+                <ScalarProperty Name="availableStock" ColumnName="availableStock" />
+                <ScalarProperty Name="customRatePerSqFeet" ColumnName="customRatePerSqFeet" />
+                <ScalarProperty Name="purchaseRateWithGst" ColumnName="purchaseRateWithGst" />
+                <ScalarProperty Name="purchaseRate" ColumnName="purchaseRate" />
+                <ScalarProperty Name="rateWithGst" ColumnName="rateWithGst" />
+                <ScalarProperty Name="rate" ColumnName="rate" />
+                <ScalarProperty Name="gst" ColumnName="gst" />
+                <ScalarProperty Name="hsnCode" ColumnName="hsnCode" />
+                <ScalarProperty Name="uom" ColumnName="uom" />
+                <ScalarProperty Name="matSizeId" ColumnName="matSizeId" />
+                <ScalarProperty Name="sizeCode" ColumnName="sizeCode" />
+                <ScalarProperty Name="matThicknessId" ColumnName="matThicknessId" />
+                <ScalarProperty Name="thicknessCode" ColumnName="thicknessCode" />
+                <ScalarProperty Name="qualityId" ColumnName="qualityId" />
+                <ScalarProperty Name="qualityCode" ColumnName="qualityCode" />
+                <ScalarProperty Name="collectionId" ColumnName="collectionId" />
+                <ScalarProperty Name="Collection" ColumnName="Collection" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -22,9 +22,9 @@ namespace IMSWebApi.Controllers
         [ApiAuthorize(AccessLevel = "masterpricelist")]
         [HttpGet]
         [Route("api/Reports/GetFabricProductsForML")]
-        public IHttpActionResult GetFabricProductsForML(int pageSize = 0, int page = 0)
+        public IHttpActionResult GetFabricProductsForML(int pageSize = 0, int page = 0, string search = null, long? collectionId = null , long? qualityId = null, long? designId = null, long? shadeId = null)
         {
-            var result = _reportsService.getFabricProductsForML(pageSize, page);
+            var result = _reportsService.getFabricProductsForML(pageSize, page, search, collectionId, qualityId, designId, shadeId);
             return Ok(result);
         }
 
@@ -32,9 +32,9 @@ namespace IMSWebApi.Controllers
         [ApiAuthorize(AccessLevel = "masterpricelist")]
         [HttpGet]
         [Route("api/Reports/GetRugProductsForML")]
-        public IHttpActionResult GetRugProductsForML(int pageSize = 0, int page = 0)
+        public IHttpActionResult GetRugProductsForML(int pageSize = 0, int page = 0, string search = null, long? collectionId = null, long? qualityId = null, long? designId = null, long? shadeId = null)
         {
-            var result = _reportsService.getRugProductsForML(pageSize, page);
+            var result = _reportsService.getRugProductsForML(pageSize, page, search, collectionId, qualityId, designId, shadeId);
             return Ok(result);
         }
 
@@ -42,9 +42,9 @@ namespace IMSWebApi.Controllers
         [ApiAuthorize(AccessLevel = "masterpricelist")]
         [HttpGet]
         [Route("api/Reports/GetWallpaperProductsForML")]
-        public IHttpActionResult GetWallpaperProductsForML(int pageSize = 0, int page = 0)
+        public IHttpActionResult GetWallpaperProductsForML(int pageSize, int page, string search = null, long? collectionId = null, long? qualityId = null, long? designId = null, long? shadeId = null)
         {
-            var result = _reportsService.getWallpaperProductsForML(pageSize, page);
+            var result = _reportsService.getWallpaperProductsForML(pageSize, page, search, collectionId, qualityId, designId, shadeId);
             return Ok(result);
         }
 
@@ -52,9 +52,9 @@ namespace IMSWebApi.Controllers
         [ApiAuthorize(AccessLevel = "masterpricelist")]
         [HttpGet]
         [Route("api/Reports/GetFoamProductsForML")]
-        public IHttpActionResult GetFoamProductsForML(int pageSize = 0, int page = 0)
+        public IHttpActionResult GetFoamProductsForML(int pageSize = 0, int page = 0, string search = null, long? collectionId = null, long? qualityId = null, long? densityId = null, long? fomSuggestedMMId = null, long? fomSizeId = null)
         {
-            var result = _reportsService.getFoamProductsForML(pageSize, page);
+            var result = _reportsService.getFoamProductsForML(pageSize, page, search, collectionId, qualityId, densityId, fomSuggestedMMId, fomSizeId);
             return Ok(result);
         }
 
@@ -62,9 +62,9 @@ namespace IMSWebApi.Controllers
         [ApiAuthorize(AccessLevel = "masterpricelist")]
         [HttpGet]
         [Route("api/Reports/GetAccessoryProductsForML")]
-        public IHttpActionResult GetAccessoryProductsForML(int pageSize = 0, int page = 0)
+        public IHttpActionResult GetAccessoryProductsForML(int pageSize = 0, int page = 0, string search = null)
         {
-            var result = _reportsService.getAccessoryProductsForML(pageSize, page);
+            var result = _reportsService.getAccessoryProductsForML(pageSize, page, search);
             return Ok(result);
         }
 
@@ -72,9 +72,9 @@ namespace IMSWebApi.Controllers
         [ApiAuthorize(AccessLevel = "masterpricelist")]
         [HttpGet]
         [Route("api/Reports/GetMattressProductsForML")]
-        public IHttpActionResult GetMattressProductsForML(int pageSize = 0, int page = 0)
+        public IHttpActionResult GetMattressProductsForML(int pageSize = 0, int page = 0, string search = null, long? collectionId = null, long? qualityId = null, long? matThicknessId = null, long? matSizeId = null)
         {
-            var result = _reportsService.getMattressProductsForML(pageSize, page);
+            var result = _reportsService.getMattressProductsForML(pageSize, page, search, collectionId, qualityId, matThicknessId, matSizeId);
             return Ok(result);
         }
 
@@ -144,9 +144,9 @@ namespace IMSWebApi.Controllers
         [HttpGet]
         [ApiAuthorize(AccessLevel = "clientpricelist")]
         [Route("api/Reports/GetFabricProductsForCL")]
-        public IHttpActionResult GetFabricProductsForCL(int pageSize = 0, int page = 0)
+        public IHttpActionResult GetFabricProductsForCL(int pageSize = 0, int page = 0, string search = null, long? collectionId = null, long? qualityId = null, long? designId = null, long? shadeId = null)
         {
-            var result = _reportsService.getFabricProductsForCL(pageSize, page);
+            var result = _reportsService.getFabricProductsForCL(pageSize, page, search, collectionId, qualityId, designId, shadeId);
             return Ok(result);
         }
 
@@ -154,9 +154,9 @@ namespace IMSWebApi.Controllers
         [HttpGet]
         [ApiAuthorize(AccessLevel = "clientpricelist")]
         [Route("api/Reports/GetRugProductsForCL")]
-        public IHttpActionResult GetRugProductsForCL(int pageSize = 0, int page = 0)
+        public IHttpActionResult GetRugProductsForCL(int pageSize = 0, int page = 0, string search = null, long? collectionId = null, long? qualityId = null, long? designId = null, long? shadeId = null)
         {
-            var result = _reportsService.getRugProductsForCL(pageSize, page);
+            var result = _reportsService.getRugProductsForCL(pageSize, page, search, collectionId, qualityId, designId, shadeId);
             return Ok(result);
         }
 
@@ -164,9 +164,9 @@ namespace IMSWebApi.Controllers
         [HttpGet]
         [ApiAuthorize(AccessLevel = "clientpricelist")]
         [Route("api/Reports/GetWallpaperProductsForCL")]
-        public IHttpActionResult GetWallpaperProductsForCL(int pageSize = 0, int page = 0)
+        public IHttpActionResult GetWallpaperProductsForCL(int pageSize = 0, int page = 0, string search = null, long? collectionId = null, long? qualityId = null, long? designId = null, long? shadeId = null)
         {
-            var result = _reportsService.getWallpaperProductsForCL(pageSize, page);
+            var result = _reportsService.getWallpaperProductsForCL(pageSize, page, search, collectionId, qualityId, designId, shadeId);
             return Ok(result);
         }
 
@@ -174,9 +174,9 @@ namespace IMSWebApi.Controllers
         [HttpGet]
         [ApiAuthorize(AccessLevel = "clientpricelist")]
         [Route("api/Reports/GetFoamProductsForCL")]
-        public IHttpActionResult GetFoamProductsForCL(int pageSize = 0, int page = 0)
+        public IHttpActionResult GetFoamProductsForCL(int pageSize = 0, int page = 0, string search = null, long? collectionId = null, long? qualityId = null, long? densityId = null, long? fomSuggestedMMId = null, long? fomSizeId = null)
         {
-            var result = _reportsService.getFoamProductsForCL(pageSize, page);
+            var result = _reportsService.getFoamProductsForCL(pageSize, page, search, collectionId, qualityId, densityId, fomSuggestedMMId, fomSizeId);
             return Ok(result);
         }
 
@@ -184,9 +184,9 @@ namespace IMSWebApi.Controllers
         [HttpGet]
         [ApiAuthorize(AccessLevel = "clientpricelist")]
         [Route("api/Reports/GetAccessoryProductsForCL")]
-        public IHttpActionResult GetAccessoryProductsForCL(int pageSize = 0, int page = 0)
+        public IHttpActionResult GetAccessoryProductsForCL(int pageSize = 0, int page = 0, string search = null)
         {
-            var result = _reportsService.getAccessoryProductsForCL(pageSize, page);
+            var result = _reportsService.getAccessoryProductsForCL(pageSize, page, search);
             return Ok(result);
         }
 
@@ -194,9 +194,9 @@ namespace IMSWebApi.Controllers
         [HttpGet]
         [ApiAuthorize(AccessLevel = "clientpricelist")]
         [Route("api/Reports/GetMattressProductsForCL")]
-        public IHttpActionResult GetMattressProductsForCL(int pageSize = 0, int page = 0)
+        public IHttpActionResult GetMattressProductsForCL(int pageSize = 0, int page = 0, string search = null, long? collectionId = null, long? qualityId = null, long? matThicknessId = null, long? matSizeId = null)
         {
-            var result = _reportsService.getMattressProductsForCL(pageSize, page);
+            var result = _reportsService.getMattressProductsForCL(pageSize, page, search, collectionId, qualityId, matThicknessId, matSizeId);
             return Ok(result);
         }
 

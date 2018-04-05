@@ -257,6 +257,14 @@ namespace IMSWebApi.Controllers
         }
 
         [HttpGet]
+        [Route("api/Common/GetMatSizeLookUpByMatThicknessId")]
+        public IHttpActionResult GetMatSizeLookUpByMatThicknessId(long matThicknessId)
+        {
+            var result = _matSizeService.getMatSizeLookUpByMatThicknessId(matThicknessId);
+            return Ok(result);
+        }
+
+        [HttpGet]
         [Route("api/Common/GetMatThicknessLookUp")]
         public IHttpActionResult GetMatThicknessLookUp()
         {
@@ -293,6 +301,14 @@ namespace IMSWebApi.Controllers
         public IHttpActionResult GetQualityLookUpByCollection(long collectionId)
         {
             var result = _qualityService.getQualityLookUpByCollection(collectionId);
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("api/Common/GetQualityLookUpForSO")]
+        public IHttpActionResult GetQualityLookUpForSO(long collectionId)
+        {
+            var result = _qualityService.getQualityLookUpForSO(collectionId);
             return Ok(result);
         }
 
@@ -344,6 +360,13 @@ namespace IMSWebApi.Controllers
             return Ok(result);
         }
 
+        [HttpGet]
+        [Route("api/Common/GetFomSizeLookUpByFomSuggestedMMId")]
+        public IHttpActionResult GetFomSizeLookUpByFomSuggestedMMId(long fomSuggestedMMId)
+        {
+            var result = _fomSizeService.getFomSizeLookUpByFomSuggestedMM(fomSuggestedMMId);
+            return Ok(result);
+        }
 
         [HttpGet]
         [Route("api/Common/GetUnitOfMeasureLookup")]

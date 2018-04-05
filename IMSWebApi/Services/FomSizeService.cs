@@ -92,6 +92,17 @@ namespace IMSWebApi.Services
                 }).Distinct().ToList();
         }
 
+        public List<VMLookUpItem> getFomSizeLookUpByFomSuggestedMM(Int64 fomSuggestedMMId)
+        {
+            return repo.MstFomSizes.Where(m => m.fomSuggestedMMId == fomSuggestedMMId)
+                .OrderBy(m => m.sizeCode)
+                .Select(q => new VMLookUpItem
+                {
+                    value = q.id,
+                    label = q.itemCode
+                }).ToList();
+        }
+
         public ResponseMessage postFomSize(VMFomSize fomSize)
         {
             MstFomSize fomSizeToPost = Mapper.Map<VMFomSize, MstFomSize>(fomSize);

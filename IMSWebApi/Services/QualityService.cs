@@ -74,6 +74,13 @@ namespace IMSWebApi.Services
                 .Select(q => new VMLookUpItem { value = q.id, label = q.qualityCode }).ToList();
         }
 
+        public List<VMLookUpItem> getQualityLookUpForSO(Int64 collectionId)
+        {
+            return repo.MstQualities.Where(q => q.collectionId == collectionId && q.flatRate != null)
+                .OrderBy(q => q.qualityCode)
+                .Select(q => new VMLookUpItem { value = q.id, label = q.qualityCode }).ToList();
+        }
+
         public ResponseMessage postQuality(VMQuality Quality)
         {
             MstQuality QualityToPost = Mapper.Map<VMQuality, MstQuality>(Quality);

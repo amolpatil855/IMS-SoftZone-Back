@@ -188,11 +188,11 @@
         <AssociationConnector Association="IMSModel.FK_TrnSalesInvoiceItems_TrnSalesInvoice" />
         <EntityTypeShape EntityType="IMSModel.vwAccessory" Width="1.5" PointX="5.75" PointY="0.75" />
         <EntityTypeShape EntityType="IMSModel.vwDasBoard" Width="1.5" PointX="5.75" PointY="5.75" />
-        <EntityTypeShape EntityType="IMSModel.vwFoam" Width="1.5" PointX="0.75" PointY="6.75" />
-        <EntityTypeShape EntityType="IMSModel.vwFWR" Width="1.5" PointX="2.75" PointY="6.75" />
-        <EntityTypeShape EntityType="IMSModel.vwMattress" Width="1.5" PointX="7.75" PointY="0.75" />
         <EntityTypeShape EntityType="IMSModel.vwitemBelowReOrderLevelList" Width="1.5" PointX="8.375" PointY="5.75" />
-        <EntityTypeShape EntityType="IMSModel.MstPattern" Width="1.5" PointX="5.375" PointY="9.75" />
+        <EntityTypeShape EntityType="IMSModel.vwFWR" Width="1.5" PointX="7.375" PointY="9.75" />
+        <EntityTypeShape EntityType="IMSModel.MstPattern" Width="1.5" PointX="3.375" PointY="9.75" />
+        <EntityTypeShape EntityType="IMSModel.vwFoam" Width="1.5" PointX="0.75" PointY="6.75" />
+        <EntityTypeShape EntityType="IMSModel.vwMattress" Width="1.5" PointX="9.375" PointY="9.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

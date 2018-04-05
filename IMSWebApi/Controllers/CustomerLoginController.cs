@@ -99,27 +99,27 @@ namespace IMSWebApi.Controllers
         // GET api/CustomerLogin   
         [HttpGet]
         [Route("api/CustomerLogin/GetFabricProducts")]
-        public IHttpActionResult GetFabricProducts(int pageSize = 0, int page = 0)
+        public IHttpActionResult GetFabricProducts(int pageSize = 0, int page = 0, string search = null, long? collectionId = null, long? qualityId = null, long? designId = null, long? shadeId = null)
         {
-            var result = _customerLoginService.getFabricProducts(pageSize, page);
+            var result = _customerLoginService.getFabricProducts(pageSize, page, search, collectionId, qualityId, designId, shadeId);
             return Ok(result);
         }
 
         // GET api/CustomerLogin   
         [HttpGet]
         [Route("api/CustomerLogin/GetFoamProducts")]
-        public IHttpActionResult GetFoamProducts(int pageSize = 0, int page = 0)
+        public IHttpActionResult GetFoamProducts(int pageSize = 0, int page = 0, string search = null, long? collectionId = null, long? qualityId = null, long? densityId = null, long? fomSuggestedMMId = null, long? fomSizeId = null)
         {
-            var result = _customerLoginService.getFoamProducts(pageSize, page);
+            var result = _customerLoginService.getFoamProducts(pageSize, page, search, collectionId, qualityId, densityId, fomSuggestedMMId, fomSizeId);
             return Ok(result);
         }
 
         // GET api/CustomerLogin   
         [HttpGet]
         [Route("api/CustomerLogin/GetAccessoryProducts")]
-        public IHttpActionResult GetAccessoryProducts(int pageSize = 0, int page = 0)
+        public IHttpActionResult GetAccessoryProducts(int pageSize = 0, int page = 0, string search = null)
         {
-            var result = _customerLoginService.getAccessoryProducts(pageSize, page);
+            var result = _customerLoginService.getAccessoryProducts(pageSize, page, search);
             return Ok(result);
         }
 

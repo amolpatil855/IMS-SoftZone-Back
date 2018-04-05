@@ -27,6 +27,10 @@ namespace IMSWebApi.ViewModel
         public Nullable<decimal> purchaseFlatRate { get; set; }
         public Nullable<decimal> purchaseFlatRateWithGst { get; set; }
         public Nullable<decimal> availableStock { get; set; }
+        public long collectionId { get; set; }
+        public long qualityId { get; set; }
+        public long designId { get; set; }
+        public long shadeId { get; set; }
         public string hsnWithGST { get; set; }
     }
 }
