@@ -214,6 +214,24 @@ namespace IMSWebApi.App_Data {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Curtain Selection Added Successfully.
+        /// </summary>
+        public static string CSAdded {
+            get {
+                return ResourceManager.GetString("CSAdded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Curtain Selection Updated Successfully.
+        /// </summary>
+        public static string CSUpdated {
+            get {
+                return ResourceManager.GetString("CSUpdated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Customer Added Successfully.
         /// </summary>
         public static string CustomerAdded {

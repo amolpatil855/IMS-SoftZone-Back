@@ -163,6 +163,12 @@ namespace IMSWebApi.App_Start
 
             Mapper.CreateMap<MstPattern, VMPattern>();
             Mapper.CreateMap<VMPattern, MstPattern>();
+
+            Mapper.CreateMap<TrnCurtainSelection, VMTrnCurtainSelection>();
+            Mapper.CreateMap<VMTrnCurtainSelection, TrnCurtainSelection>();
+
+            Mapper.CreateMap<TrnCurtainSelectionItem, VMTrnCurtainSelectionItem>();
+            Mapper.CreateMap<VMTrnCurtainSelectionItem, TrnCurtainSelectionItem>();
         }
     }
 }

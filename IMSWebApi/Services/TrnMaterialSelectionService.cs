@@ -36,7 +36,6 @@ namespace IMSWebApi.Services
             materialSelectionView = repo.TrnMaterialSelections.Where(ms => !string.IsNullOrEmpty(search)
                     ? ms.materialSelectionNumber.StartsWith(search)
                     || ms.MstCustomer.name.StartsWith(search)
-                    || ms.isQuotationCreated.ToString().StartsWith(search)
                     || (search.ToLower().Equals("yes") ? ms.isQuotationCreated : search.ToLower().Equals("no") ? !(ms.isQuotationCreated) : false) : true)
                     .Select(ms => new VMTrnMaterialSelectionList
                         {
@@ -54,7 +53,6 @@ namespace IMSWebApi.Services
                 TotalCount = repo.TrnMaterialSelections.Where(ms => !string.IsNullOrEmpty(search)
                     ? ms.materialSelectionNumber.StartsWith(search)
                     || ms.MstCustomer.name.StartsWith(search)
-                    || ms.isQuotationCreated.ToString().StartsWith(search)
                     || (search.ToLower().Equals("yes") ? ms.isQuotationCreated : search.ToLower().Equals("no") ? !(ms.isQuotationCreated) : false) : true).Count(),
                 Page = page
             };
