@@ -305,6 +305,14 @@ namespace IMSWebApi.Controllers
         }
 
         [HttpGet]
+        [Route("api/Common/GetQualityLookUpForSO")]
+        public IHttpActionResult GetQualityLookUpForSO(long collectionId)
+        {
+            var result = _qualityService.getQualityLookUpForSO(collectionId);
+            return Ok(result);
+        }
+
+        [HttpGet]
         [Route("api/Common/GetFomDensityLookUpByQuality")]
         public IHttpActionResult GetFomDensityLookUpByQuality(long qualityId)
         {

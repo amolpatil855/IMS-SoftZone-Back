@@ -110,7 +110,11 @@ namespace IMSWebApi.Services
             {
                 Data = fabricProductsView,
                 TotalCount = repo.vwFWRs.Where(f => f.Category.Equals("Fabric") && f.flatRate != null
-                                                     && (!string.IsNullOrEmpty(search) ?
+                                                     && (collectionId != null ? f.collectionId == collectionId : true)
+                                                    && (qualityId != null ? f.qualityId == qualityId : true)
+                                                    && (designId != null ? f.designId == designId : true)
+                                                    && (shadeId != null ? f.shadeId == shadeId : true)
+                                                    && (!string.IsNullOrEmpty(search) ?
                                                     f.Collection.StartsWith(search)
                                                     || f.QDS.StartsWith(search)
                                                     || f.serialNumber.ToString().StartsWith(search)
