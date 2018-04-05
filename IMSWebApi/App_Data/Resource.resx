@@ -417,4 +417,10 @@
   <data name="PatternUpdated" xml:space="preserve">
     <value>Pattern Updated Successfully</value>
   </data>
+  <data name="CSAdded" xml:space="preserve">
+    <value>Curtain Selection Added Successfully</value>
+  </data>
+  <data name="CSUpdated" xml:space="preserve">
+    <value>Curtain Selection Updated Successfully</value>
+  </data>
 </root>

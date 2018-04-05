@@ -35,6 +35,7 @@ namespace IMSWebApi.Controllers
         private TrnGoodReceiveNoteService _trnGoodReceiveNoteService = null;
         private TrnMaterialQuotationService _trnMaterialQuotationService = null;
         private PatternService _patternService = null;
+        private TrnCurtainSelectionService _trnCurtainSelectionService = null;
 
         public CommonController()
         {
@@ -61,6 +62,7 @@ namespace IMSWebApi.Controllers
             _trnGoodReceiveNoteService = new TrnGoodReceiveNoteService();
             _trnMaterialQuotationService = new TrnMaterialQuotationService();
             _patternService = new PatternService();
+            _trnCurtainSelectionService = new TrnCurtainSelectionService();
         }
 
         [HttpGet]
@@ -421,6 +423,22 @@ namespace IMSWebApi.Controllers
         public IHttpActionResult GetPatternLookup()
         {
             var result = _patternService.getPatternLookup();
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("api/Common/GetFabricDetailsForCS")]
+        public IHttpActionResult GetFabricDetailsForCS(long shadeId)
+        {
+            var result = _trnCurtainSelectionService.getFabricDetailsForMS(shadeId);
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("api/Common/GetAccessoryDetailsForCS")]
+        public IHttpActionResult GetAccessoryDetailsForCS(long accessoryId)
+        {
+            var result = _trnCurtainSelectionService.getAccessoryDetailsForMS(accessoryId);
             return Ok(result);
         }
     }

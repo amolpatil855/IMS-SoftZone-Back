@@ -81,7 +81,6 @@ namespace IMSWebApi.Services
                                                     f.Collection.StartsWith(search)
                                                     || f.QDS.StartsWith(search)
                                                     || f.serialNumber.ToString().StartsWith(search)
-                                                    || f.uom.StartsWith(search)
                                                     || f.hsnCode.StartsWith(search)
                                                     || f.width.ToString().StartsWith(search)
                                                     || f.flatRate.ToString().StartsWith(search)
@@ -118,7 +117,6 @@ namespace IMSWebApi.Services
                                                     f.Collection.StartsWith(search)
                                                     || f.QDS.StartsWith(search)
                                                     || f.serialNumber.ToString().StartsWith(search)
-                                                    || f.uom.StartsWith(search)
                                                     || f.hsnCode.StartsWith(search)
                                                     || f.width.ToString().StartsWith(search)
                                                     || f.flatRate.ToString().StartsWith(search)
@@ -142,7 +140,6 @@ namespace IMSWebApi.Services
                                             || f.density.ToString().StartsWith(search)
                                             || f.sizeCode.StartsWith(search)
                                             || f.itemCode.StartsWith(search)
-                                            || f.uom.StartsWith(search)
                                             || f.hsnCode.StartsWith(search)
                                             || f.sellingRatePerMM.ToString().StartsWith(search)
                                             || f.sellingRatePerMMWithGst.ToString().StartsWith(search)
@@ -183,7 +180,6 @@ namespace IMSWebApi.Services
                                             || f.density.ToString().StartsWith(search)
                                             || f.sizeCode.StartsWith(search)
                                             || f.itemCode.StartsWith(search)
-                                            || f.uom.StartsWith(search)
                                             || f.hsnCode.StartsWith(search)
                                             || f.sellingRatePerMM.ToString().StartsWith(search)
                                             || f.sellingRatePerMMWithGst.ToString().StartsWith(search)
@@ -282,7 +278,7 @@ namespace IMSWebApi.Services
         {
             VMvwDashboard dashboardData = new VMvwDashboard();
             Int64 customerId = repo.MstCustomers.Where(c => c.userId == _LoggedInuserId).FirstOrDefault().id;
-            int totalSalesCount = repo.TrnSaleOrders.Where(so => so.customerId == customerId && !(so.status.Equals("Completed"))).Count();
+            int totalSalesCount = repo.TrnSaleOrders.Where(so => so.customerId == customerId && (so.status.Equals("Created") || so.status.Equals("Approved"))).Count();
             long totalOutstandingAmount = repo.TrnSalesInvoices.Where(si => (si.isPaid == false) 
                                                                   && (si.TrnSaleOrder != null ? si.TrnSaleOrder.customerId == customerId : false) 
                                                                   && (si.status.Equals("Approved")))
@@ -345,7 +341,7 @@ namespace IMSWebApi.Services
             List<VMTrnSaleOrderList> saleOrderView;
             Int64 customerId = repo.MstCustomers.Where(c => c.userId == _LoggedInuserId).FirstOrDefault().id;
             var result = repo.TrnSaleOrders
-                        .Where(so => !(so.status.Equals("Completed"))
+                        .Where(so => (so.status.Equals("Created") || so.status.Equals("Approved"))
                             && so.customerId == customerId
                             && (!string.IsNullOrEmpty(search)
                             ? so.orderNumber.StartsWith(search)

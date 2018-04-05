@@ -285,6 +285,7 @@
     <Compile Include="Controllers\FWRShadeController.cs" />
     <Compile Include="Controllers\SupplierController.cs" />
     <Compile Include="Controllers\TrnAdvancePaymentController.cs" />
+    <Compile Include="Controllers\TrnCurtainSelectionController.cs" />
     <Compile Include="Controllers\TrnGoodIssueNoteController.cs" />
     <Compile Include="Controllers\TrnGoodReceiveNoteController.cs" />
     <Compile Include="Controllers\TrnMaterialQuotationController.cs" />
@@ -388,6 +389,12 @@
       <DependentUpon>WebApiModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TrnAdvancePayment.cs">
+      <DependentUpon>WebApiModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TrnCurtainSelection.cs">
+      <DependentUpon>WebApiModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TrnCurtainSelectionItem.cs">
       <DependentUpon>WebApiModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TrnGoodIssueNote.cs">
@@ -500,6 +507,7 @@
     <Compile Include="Services\ProductListService.cs" />
     <Compile Include="Services\ReportsService.cs" />
     <Compile Include="Services\TrnAdvancePaymentService.cs" />
+    <Compile Include="Services\TrnCurtainSelectionService.cs" />
     <Compile Include="Services\TrnGoodIssueNoteService.cs" />
     <Compile Include="Services\TrnMaterialQuotationService.cs" />
     <Compile Include="Services\TrnMaterialSelectionService.cs" />
@@ -586,6 +594,9 @@
     <Compile Include="ViewModel\ProductStock\VMTrnProductStockList.cs" />
     <Compile Include="ViewModel\ProductStock\VMTrnProductStockDetailList.cs" />
     <Compile Include="ViewModel\Masters\VMSupplierList.cs" />
+    <Compile Include="ViewModel\CurtainSelection\VMTrnCurtainSelection.cs" />
+    <Compile Include="ViewModel\CurtainSelection\VMTrnCurtainSelectionItem.cs" />
+    <Compile Include="ViewModel\CurtainSelection\VMTrnCurtainSelectionList.cs" />
     <Compile Include="ViewModel\VMUnitOfMeasure.cs" />
     <Compile Include="ViewModel\VMUser.cs" />
     <Compile Include="ViewModel\VMUserType.cs" />

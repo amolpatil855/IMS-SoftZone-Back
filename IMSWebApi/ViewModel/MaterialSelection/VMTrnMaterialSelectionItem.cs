@@ -24,11 +24,7 @@ namespace IMSWebApi.ViewModel
         public Nullable<long> matSizeId { get; set; }
         public Nullable<decimal> matHeight { get; set; }
         public Nullable<decimal> matWidth { get; set; }
-        public System.DateTime createdOn { get; set; }
-        public long createdBy { get; set; }
-        public Nullable<System.DateTime> updatedOn { get; set; }
-        public Nullable<long> updatedBy { get; set; }
-
+        
         public string categoryName { get; set; }
         public string collectionName { get; set; }
         public string serialno { get; set; }
