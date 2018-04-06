@@ -56,24 +56,28 @@ namespace IMSWebApi.Services
             };
         }
 
-        public VMProductDetails getFabricDetailsForMS(Int64 shadeId)
+        public List<VMProductForCS> getSerialNumberForCS(Int64 collectionId)
         {
-            return repo.MstFWRShades.Where(s => s.id == shadeId)
-                                    .Select(s => new VMProductDetails
+            var result = repo.MstFWRShades.Where(s => s.collectionId == collectionId)
+                                    .Select(s => new VMProductForCS
                                     {
+                                        shadeId = s.id,
+                                        serialno =  s.serialNumber.ToString() + " (" + s.shadeCode + "-" + s.MstFWRDesign.designCode +  ")",
                                         rrp = s.MstQuality.rrp != null ? s.MstQuality.rrp : null,
                                         flatRate = s.MstQuality.flatRate != null ? s.MstQuality.flatRate : null,
                                         maxFlatRateDisc = s.MstQuality.maxFlatRateDisc != null ? s.MstQuality.maxFlatRateDisc : null
-                                    }).FirstOrDefault();
+                                    }).ToList();
+            return result;
         }
 
-        public VMProductDetails getAccessoryDetailsForMS(Int64 accessoryId)
+        public List<VMProductForCS> getAccessoryItemCodeForCS()
         {
-            return repo.MstAccessories.Where(a => a.id == accessoryId)
-                                    .Select(a => new VMProductDetails
+            return repo.MstAccessories.Select(a => new VMProductForCS
                                     {
+                                        accessoryId = a.id,
+                                        itemCode = a.itemCode,
                                         sellingRate = a.sellingRate
-                                    }).FirstOrDefault();
+                                    }).ToList();
         }
 
         public VMTrnCurtainSelection getCurtainSelectionById(Int64 id)
