@@ -11,6 +11,7 @@ using System.Web.Http;
 
 namespace IMSWebApi.Controllers
 {
+    [Authorize]
     public class TrnSalesInvoiceController : ApiController
     {
         private TrnSalesInvoiceService _trnSalesInvoiceService = null;

@@ -10,6 +10,7 @@ using System.Web.Http;
 
 namespace IMSWebApi.Controllers
 {
+    [Authorize]
     public class TrnMaterialQuotationController : ApiController
     {
         private TrnMaterialQuotationService _trnMaterialQuotationService = null;

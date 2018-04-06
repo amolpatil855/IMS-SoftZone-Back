@@ -10,6 +10,7 @@ using System.Web.Http;
 
 namespace IMSWebApi.Controllers
 {
+    [Authorize]
     public class TrnAdvancePaymentController : ApiController
     {
         private TrnAdvancePaymentService _trnAdvancePaymentService = null;

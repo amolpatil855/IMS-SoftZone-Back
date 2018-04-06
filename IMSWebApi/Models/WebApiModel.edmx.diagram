@@ -203,6 +203,17 @@
         <AssociationConnector Association="IMSModel.FK_TrnCurtainSelectionItems_MstFWRShade" />
         <AssociationConnector Association="IMSModel.FK_TrnCurtainSelectionItems_MstPattern" />
         <AssociationConnector Association="IMSModel.FK_TrnCurtainSelectionItems_TrnCurtainSelection" />
+        <EntityTypeShape EntityType="IMSModel.TrnCurtainQuotation" Width="1.5" PointX="29.25" PointY="49.125" />
+        <EntityTypeShape EntityType="IMSModel.TrnCurtainQuotationItem" Width="1.5" PointX="31.5" PointY="32.75" />
+        <AssociationConnector Association="IMSModel.FK_TrnCurtainQuotationItems_MstAccessory" />
+        <AssociationConnector Association="IMSModel.FK_TrnCurtainQuotation_MstAgent" />
+        <AssociationConnector Association="IMSModel.FK_TrnCurtainQuotationItems_MstCategory" />
+        <AssociationConnector Association="IMSModel.FK_TrnCurtainQuotationItems_MstCollection" />
+        <AssociationConnector Association="IMSModel.FK_TrnCurtainQuotation_MstCustomer" />
+        <AssociationConnector Association="IMSModel.FK_TrnCurtainQuotationItems_MstFWRShade" />
+        <AssociationConnector Association="IMSModel.FK_TrnCurtainQuotationItems_MstPattern" />
+        <AssociationConnector Association="IMSModel.FK_TrnCurtainQuotation_TrnCurtainSelection" />
+        <AssociationConnector Association="IMSModel.FK_TrnCurtainQuotationItems_TrnCurtainQuotation" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

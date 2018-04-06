@@ -202,5 +202,51 @@ namespace IMSWebApi.Services
             });
 
         }
+
+        public VMTrnCurtainQuotation createCurtainQuotation(Int64 curtainSelectionId)
+        {
+            var curtainSelection = repo.TrnCurtainSelections.Where(ms => ms.id == curtainSelectionId).FirstOrDefault();
+
+            VMTrnCurtainQuotation VMCurtainQuotation = new VMTrnCurtainQuotation();
+            VMCurtainQuotation.TrnCurtainQuotationItems = new List<VMTrnCurtainQuotationItem>();
+            VMCurtainQuotation.curtainSelectionId = curtainSelectionId;
+            VMCurtainQuotation.curtainSelectionNo = curtainSelection.curtainSelectionNumber;
+
+            VMCurtainQuotation.customerId = curtainSelection.customerId;
+            VMCurtainQuotation.customerName = curtainSelection.MstCustomer.name;
+
+            VMCurtainQuotation.referById = curtainSelection.referById;
+            VMCurtainQuotation.agentName = curtainSelection.MstAgent != null ? curtainSelection.MstAgent.name : null;
+
+            foreach (var csItem in curtainSelection.TrnCurtainSelectionItems)
+            {
+                VMTrnCurtainQuotationItem cqItem = new VMTrnCurtainQuotationItem();
+                cqItem.area = csItem.area;
+                cqItem.unit = csItem.unit;
+                cqItem.patternId = csItem.patternId;
+                cqItem.categoryId = csItem.categoryId;
+                cqItem.categoryName = csItem.MstCategory != null ? csItem.MstCategory.code : null;
+                cqItem.collectionId = csItem.collectionId;
+                cqItem.collectionName = csItem.MstCollection != null ? csItem.MstCollection.collectionCode : null;
+                cqItem.shadeId = csItem.shadeId;
+                cqItem.serialno = csItem.shadeId != null ? csItem.MstFWRShade.serialNumber + "(" + csItem.MstFWRShade.shadeCode + "-" + csItem.MstFWRShade.MstFWRDesign.designCode + ")" : null;
+                cqItem.accessoryId = csItem.accessoryId;
+                cqItem.itemCode = cqItem.MstAccessory != null ? cqItem.MstAccessory.itemCode : null;
+                cqItem.isPatch = csItem.isPatch;
+                cqItem.isLining = csItem.isLining;
+                cqItem.rate = csItem.rate;
+                cqItem.discount = csItem.discount;
+                cqItem.gst = csItem.shadeId != null ? csItem.MstFWRShade.MstQuality.MstHsn.gst : csItem.MstAccessory.MstHsn.gst;
+
+                VMCurtainQuotation.TrnCurtainQuotationItems.Add(cqItem);
+            }
+            return VMCurtainQuotation;
+        }
+
+        public Int64 viewCurtainQuotation(Int64 curtainSelectionId)
+        {
+            Int64 curtainQuotationId = repo.TrnCurtainQuotations.Where(cq => cq.curtainSelectionId == curtainSelectionId).FirstOrDefault().id;
+            return curtainQuotationId;
+        }
     }
 }

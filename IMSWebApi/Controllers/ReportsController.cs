@@ -9,6 +9,7 @@ using System.Web.Http;
 
 namespace IMSWebApi.Controllers
 {
+    [Authorize]
     public class ReportsController : ApiController
     {
         private ReportsService _reportsService = null;
