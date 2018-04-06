@@ -427,18 +427,18 @@ namespace IMSWebApi.Controllers
         }
 
         [HttpGet]
-        [Route("api/Common/GetFabricDetailsForCS")]
-        public IHttpActionResult GetFabricDetailsForCS(long shadeId)
+        [Route("api/Common/GetSerialNumberForCS")]
+        public IHttpActionResult GetSerialNumberForCS(long collectionId)
         {
-            var result = _trnCurtainSelectionService.getFabricDetailsForMS(shadeId);
+            var result = _trnCurtainSelectionService.getSerialNumberForCS(collectionId);
             return Ok(result);
         }
 
         [HttpGet]
-        [Route("api/Common/GetAccessoryDetailsForCS")]
-        public IHttpActionResult GetAccessoryDetailsForCS(long accessoryId)
+        [Route("api/Common/GetAccessoryItemCodeForCS")]
+        public IHttpActionResult GetAccessoryItemCodeForCS()
         {
-            var result = _trnCurtainSelectionService.getAccessoryDetailsForMS(accessoryId);
+            var result = _trnCurtainSelectionService.getAccessoryItemCodeForCS();
             return Ok(result);
         }
     }
