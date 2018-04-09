@@ -463,6 +463,39 @@
           <Property Name="updatedOn" Type="datetime" />
           <Property Name="updatedBy" Type="bigint" />
         </EntityType>
+        <EntityType Name="MstTailor">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="email" Type="varchar" MaxLength="254" />
+          <Property Name="phone" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="alternatePhone1" Type="varchar" MaxLength="20" />
+          <Property Name="addressLine1" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="addressLine2" Type="varchar" MaxLength="500" />
+          <Property Name="city" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="state" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="country" Type="varchar" MaxLength="50" />
+          <Property Name="pin" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="createdOn" Type="datetime" Nullable="false" />
+          <Property Name="createdBy" Type="bigint" Nullable="false" />
+          <Property Name="updatedOn" Type="datetime" />
+          <Property Name="updatedBy" Type="bigint" />
+        </EntityType>
+        <EntityType Name="MstTailorPatternChargeDetails">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="tailorId" Type="bigint" Nullable="false" />
+          <Property Name="patternId" Type="bigint" Nullable="false" />
+          <Property Name="charge" Type="decimal" Precision="7" Scale="2" Nullable="false" />
+          <Property Name="createdOn" Type="datetime" Nullable="false" />
+          <Property Name="createdBy" Type="bigint" Nullable="false" />
+          <Property Name="updatedOn" Type="datetime" />
+          <Property Name="updatedBy" Type="bigint" />
+        </EntityType>
         <EntityType Name="MstUnitOfMeasure">
           <Key>
             <PropertyRef Name="id" />
@@ -558,6 +591,7 @@
           <Property Name="shadeId" Type="bigint" />
           <Property Name="accessoryId" Type="bigint" />
           <Property Name="isPatch" Type="bit" />
+          <Property Name="numberOfPatches" Type="int" />
           <Property Name="isLining" Type="bit" />
           <Property Name="isTrack" Type="bit" />
           <Property Name="height" Type="decimal" Precision="7" Scale="2" Nullable="false" />
@@ -608,6 +642,7 @@
           <Property Name="shadeId" Type="bigint" />
           <Property Name="accessoryId" Type="bigint" />
           <Property Name="isPatch" Type="bit" />
+          <Property Name="numberOfPatches" Type="int" />
           <Property Name="isLining" Type="bit" />
           <Property Name="rate" Type="decimal" Precision="7" Scale="2" Nullable="false" />
           <Property Name="discount" Type="decimal" Precision="4" Scale="2" />
@@ -1639,6 +1674,32 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
             </Principal>
             <Dependent Role="MstSupplierAddress">
               <PropertyRef Name="supplierId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MstTailorPatternChargeDetails_MstPattern">
+          <End Role="MstPattern" Type="Self.MstPattern" Multiplicity="1" />
+          <End Role="MstTailorPatternChargeDetails" Type="Self.MstTailorPatternChargeDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstPattern">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MstTailorPatternChargeDetails">
+              <PropertyRef Name="patternId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MstTailorPatternChargeDetails_MstTailor">
+          <End Role="MstTailor" Type="Self.MstTailor" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="MstTailorPatternChargeDetails" Type="Self.MstTailorPatternChargeDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstTailor">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MstTailorPatternChargeDetails">
+              <PropertyRef Name="tailorId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3060,6 +3121,8 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <EntitySet Name="MstRole" EntityType="Self.MstRole" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MstSupplier" EntityType="Self.MstSupplier" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MstSupplierAddress" EntityType="Self.MstSupplierAddress" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MstTailor" EntityType="Self.MstTailor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MstTailorPatternChargeDetails" EntityType="Self.MstTailorPatternChargeDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MstUnitOfMeasure" EntityType="Self.MstUnitOfMeasure" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MstUser" EntityType="Self.MstUser" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MstuserType" EntityType="Self.MstuserType" Schema="dbo" store:Type="Tables" />
@@ -3354,6 +3417,14 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <AssociationSet Name="FK_MstSupplierAddressDetails_MstSupplier" Association="Self.FK_MstSupplierAddressDetails_MstSupplier">
             <End Role="MstSupplier" EntitySet="MstSupplier" />
             <End Role="MstSupplierAddress" EntitySet="MstSupplierAddress" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MstTailorPatternChargeDetails_MstPattern" Association="Self.FK_MstTailorPatternChargeDetails_MstPattern">
+            <End Role="MstPattern" EntitySet="MstPattern" />
+            <End Role="MstTailorPatternChargeDetails" EntitySet="MstTailorPatternChargeDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MstTailorPatternChargeDetails_MstTailor" Association="Self.FK_MstTailorPatternChargeDetails_MstTailor">
+            <End Role="MstTailor" EntitySet="MstTailor" />
+            <End Role="MstTailorPatternChargeDetails" EntitySet="MstTailorPatternChargeDetails" />
           </AssociationSet>
           <AssociationSet Name="FK_MstUser_MstCompanyLocation" Association="Self.FK_MstUser_MstCompanyLocation">
             <End Role="MstCompanyLocation" EntitySet="MstCompanyLocation" />
@@ -4445,6 +4516,16 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <AssociationSet Name="FK_TrnCurtainQuotation_TrnCurtainSelection" Association="IMSModel.FK_TrnCurtainQuotation_TrnCurtainSelection">
             <End Role="TrnCurtainSelection" EntitySet="TrnCurtainSelections" />
             <End Role="TrnCurtainQuotation" EntitySet="TrnCurtainQuotations" />
+          </AssociationSet>
+          <EntitySet Name="MstTailorPatternChargeDetails" EntityType="IMSModel.MstTailorPatternChargeDetail" />
+          <AssociationSet Name="FK_MstTailorPatternChargeDetails_MstPattern" Association="IMSModel.FK_MstTailorPatternChargeDetails_MstPattern">
+            <End Role="MstPattern" EntitySet="MstPatterns" />
+            <End Role="MstTailorPatternChargeDetail" EntitySet="MstTailorPatternChargeDetails" />
+          </AssociationSet>
+          <EntitySet Name="MstTailors" EntityType="IMSModel.MstTailor" />
+          <AssociationSet Name="FK_MstTailorPatternChargeDetails_MstTailor" Association="IMSModel.FK_MstTailorPatternChargeDetails_MstTailor">
+            <End Role="MstTailor" EntitySet="MstTailors" />
+            <End Role="MstTailorPatternChargeDetail" EntitySet="MstTailorPatternChargeDetails" />
           </AssociationSet>
           <EntitySet Name="TrnCurtainSelectionItems" EntityType="IMSModel.TrnCurtainSelectionItem" />
           <AssociationSet Name="FK_TrnCurtainSelectionItems_MstAccessory" Association="IMSModel.FK_TrnCurtainSelectionItems_MstAccessory">
@@ -7424,6 +7505,7 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <Property Name="createdBy" Type="Int64" Nullable="false" />
           <Property Name="updatedOn" Type="DateTime" Precision="3" />
           <Property Name="updatedBy" Type="Int64" />
+          <NavigationProperty Name="MstTailorPatternChargeDetails" Relationship="IMSModel.FK_MstTailorPatternChargeDetails_MstPattern" FromRole="MstPattern" ToRole="MstTailorPatternChargeDetail" />
           <NavigationProperty Name="TrnCurtainSelectionItems" Relationship="IMSModel.FK_TrnCurtainSelectionItems_MstPattern" FromRole="MstPattern" ToRole="TrnCurtainSelectionItem" />
           <NavigationProperty Name="TrnCurtainQuotationItems" Relationship="IMSModel.FK_TrnCurtainQuotationItems_MstPattern" FromRole="MstPattern" ToRole="TrnCurtainQuotationItem" />
         </EntityType>
@@ -7610,6 +7692,66 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="MstTailorPatternChargeDetail">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="tailorId" Type="Int64" Nullable="false" />
+          <Property Name="patternId" Type="Int64" Nullable="false" />
+          <Property Name="charge" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
+          <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="createdBy" Type="Int64" Nullable="false" />
+          <Property Name="updatedOn" Type="DateTime" Precision="3" />
+          <Property Name="updatedBy" Type="Int64" />
+          <NavigationProperty Name="MstPattern" Relationship="IMSModel.FK_MstTailorPatternChargeDetails_MstPattern" FromRole="MstTailorPatternChargeDetail" ToRole="MstPattern" />
+          <NavigationProperty Name="MstTailor" Relationship="IMSModel.FK_MstTailorPatternChargeDetails_MstTailor" FromRole="MstTailorPatternChargeDetail" ToRole="MstTailor" />
+        </EntityType>
+        <Association Name="FK_MstTailorPatternChargeDetails_MstPattern">
+          <End Type="IMSModel.MstPattern" Role="MstPattern" Multiplicity="1" />
+          <End Type="IMSModel.MstTailorPatternChargeDetail" Role="MstTailorPatternChargeDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstPattern">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MstTailorPatternChargeDetail">
+              <PropertyRef Name="patternId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="MstTailor">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" MaxLength="254" FixedLength="false" Unicode="false" />
+          <Property Name="phone" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="alternatePhone1" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="addressLine1" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="addressLine2" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="city" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="state" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="country" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="pin" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="createdBy" Type="Int64" Nullable="false" />
+          <Property Name="updatedOn" Type="DateTime" Precision="3" />
+          <Property Name="updatedBy" Type="Int64" />
+          <NavigationProperty Name="MstTailorPatternChargeDetails" Relationship="IMSModel.FK_MstTailorPatternChargeDetails_MstTailor" FromRole="MstTailor" ToRole="MstTailorPatternChargeDetail" />
+        </EntityType>
+        <Association Name="FK_MstTailorPatternChargeDetails_MstTailor">
+          <End Type="IMSModel.MstTailor" Role="MstTailor" Multiplicity="1" />
+          <End Type="IMSModel.MstTailorPatternChargeDetail" Role="MstTailorPatternChargeDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstTailor">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MstTailorPatternChargeDetail">
+              <PropertyRef Name="tailorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityType Name="TrnCurtainSelectionItem">
           <Key>
             <PropertyRef Name="id" />
@@ -7624,6 +7766,7 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <Property Name="shadeId" Type="Int64" />
           <Property Name="accessoryId" Type="Int64" />
           <Property Name="isPatch" Type="Boolean" />
+          <Property Name="numberOfPatches" Type="Int32" />
           <Property Name="isLining" Type="Boolean" />
           <Property Name="rate" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
           <Property Name="discount" Type="Decimal" Precision="4" Scale="2" />
@@ -7724,6 +7867,7 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <Property Name="shadeId" Type="Int64" />
           <Property Name="accessoryId" Type="Int64" />
           <Property Name="isPatch" Type="Boolean" />
+          <Property Name="numberOfPatches" Type="Int32" />
           <Property Name="isLining" Type="Boolean" />
           <Property Name="isTrack" Type="Boolean" />
           <Property Name="height" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
@@ -8943,6 +9087,41 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="MstTailorPatternChargeDetails">
+            <EntityTypeMapping TypeName="IMSModel.MstTailorPatternChargeDetail">
+              <MappingFragment StoreEntitySet="MstTailorPatternChargeDetails">
+                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
+                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
+                <ScalarProperty Name="charge" ColumnName="charge" />
+                <ScalarProperty Name="patternId" ColumnName="patternId" />
+                <ScalarProperty Name="tailorId" ColumnName="tailorId" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MstTailors">
+            <EntityTypeMapping TypeName="IMSModel.MstTailor">
+              <MappingFragment StoreEntitySet="MstTailor">
+                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
+                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
+                <ScalarProperty Name="pin" ColumnName="pin" />
+                <ScalarProperty Name="country" ColumnName="country" />
+                <ScalarProperty Name="state" ColumnName="state" />
+                <ScalarProperty Name="city" ColumnName="city" />
+                <ScalarProperty Name="addressLine2" ColumnName="addressLine2" />
+                <ScalarProperty Name="addressLine1" ColumnName="addressLine1" />
+                <ScalarProperty Name="alternatePhone1" ColumnName="alternatePhone1" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="TrnCurtainSelectionItems">
             <EntityTypeMapping TypeName="IMSModel.TrnCurtainSelectionItem">
               <MappingFragment StoreEntitySet="TrnCurtainSelectionItems">
@@ -8953,6 +9132,7 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
                 <ScalarProperty Name="discount" ColumnName="discount" />
                 <ScalarProperty Name="rate" ColumnName="rate" />
                 <ScalarProperty Name="isLining" ColumnName="isLining" />
+                <ScalarProperty Name="numberOfPatches" ColumnName="numberOfPatches" />
                 <ScalarProperty Name="isPatch" ColumnName="isPatch" />
                 <ScalarProperty Name="accessoryId" ColumnName="accessoryId" />
                 <ScalarProperty Name="shadeId" ColumnName="shadeId" />
@@ -8988,6 +9168,7 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
                 <ScalarProperty Name="height" ColumnName="height" />
                 <ScalarProperty Name="isTrack" ColumnName="isTrack" />
                 <ScalarProperty Name="isLining" ColumnName="isLining" />
+                <ScalarProperty Name="numberOfPatches" ColumnName="numberOfPatches" />
                 <ScalarProperty Name="isPatch" ColumnName="isPatch" />
                 <ScalarProperty Name="accessoryId" ColumnName="accessoryId" />
                 <ScalarProperty Name="shadeId" ColumnName="shadeId" />

@@ -17,6 +17,7 @@ namespace IMSWebApi.ViewModel
         public Nullable<long> shadeId { get; set; }
         public Nullable<long> accessoryId { get; set; }
         public Nullable<bool> isPatch { get; set; }
+        public Nullable<int> numberOfPatches { get; set; }
         public Nullable<bool> isLining { get; set; }
         public Nullable<bool> isTrack { get; set; }
         public decimal height { get; set; }

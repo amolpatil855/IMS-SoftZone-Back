@@ -175,6 +175,12 @@ namespace IMSWebApi.App_Start
 
             Mapper.CreateMap<TrnCurtainQuotationItem, VMTrnCurtainQuotationItem>();
             Mapper.CreateMap<VMTrnCurtainQuotationItem, TrnCurtainQuotationItem>();
+
+            Mapper.CreateMap<MstTailor, VMTailor>();
+            Mapper.CreateMap<VMTailor, MstTailor>();
+
+            Mapper.CreateMap<MstTailorPatternChargeDetail, VMTailorPatternChargeDetail>();
+            Mapper.CreateMap<VMTailorPatternChargeDetail, MstTailorPatternChargeDetail>();
         }
     }
 }

@@ -284,6 +284,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\FWRShadeController.cs" />
     <Compile Include="Controllers\SupplierController.cs" />
+    <Compile Include="Controllers\TailorController.cs" />
     <Compile Include="Controllers\TrnAdvancePaymentController.cs" />
     <Compile Include="Controllers\TrnCurtainQuotationController.cs" />
     <Compile Include="Controllers\TrnCurtainSelectionController.cs" />
@@ -378,6 +379,12 @@
       <DependentUpon>WebApiModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\MstSupplierAddress.cs">
+      <DependentUpon>WebApiModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MstTailor.cs">
+      <DependentUpon>WebApiModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MstTailorPatternChargeDetail.cs">
       <DependentUpon>WebApiModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\MstUnitOfMeasure.cs">
@@ -513,6 +520,7 @@
     <Compile Include="Services\PatternService.cs" />
     <Compile Include="Services\ProductListService.cs" />
     <Compile Include="Services\ReportsService.cs" />
+    <Compile Include="Services\TailorService.cs" />
     <Compile Include="Services\TrnAdvancePaymentService.cs" />
     <Compile Include="Services\TrnCurtainQuotationService.cs" />
     <Compile Include="Services\TrnCurtainSelectionService.cs" />
@@ -609,6 +617,9 @@
     <Compile Include="ViewModel\CurtainQuotation\VMTrnCurtainQuotation.cs" />
     <Compile Include="ViewModel\CurtainQuotation\VMTrnCurtainQuotationItem.cs" />
     <Compile Include="ViewModel\CurtainQuotation\VMTrnCurtainQuotationList.cs" />
+    <Compile Include="ViewModel\Masters\VMTailor.cs" />
+    <Compile Include="ViewModel\Masters\VMTailorPatternChargeDetail.cs" />
+    <Compile Include="ViewModel\Masters\VMTailorList.cs" />
     <Compile Include="ViewModel\VMUnitOfMeasure.cs" />
     <Compile Include="ViewModel\VMUser.cs" />
     <Compile Include="ViewModel\VMUserType.cs" />

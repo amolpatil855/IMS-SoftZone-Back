@@ -78,6 +78,8 @@ namespace IMSWebApi.Models
         public virtual DbSet<vwMattress> vwMattresses { get; set; }
         public virtual DbSet<TrnCurtainSelection> TrnCurtainSelections { get; set; }
         public virtual DbSet<TrnCurtainQuotation> TrnCurtainQuotations { get; set; }
+        public virtual DbSet<MstTailorPatternChargeDetail> MstTailorPatternChargeDetails { get; set; }
+        public virtual DbSet<MstTailor> MstTailors { get; set; }
         public virtual DbSet<TrnCurtainSelectionItem> TrnCurtainSelectionItems { get; set; }
         public virtual DbSet<TrnCurtainQuotationItem> TrnCurtainQuotationItems { get; set; }
     }
