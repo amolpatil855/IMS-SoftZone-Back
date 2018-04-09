@@ -526,6 +526,58 @@
           <Property Name="updatedOn" Type="datetime" />
           <Property Name="updatedBy" Type="bigint" />
         </EntityType>
+        <EntityType Name="TrnCurtainQuotation">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="curtainSelectionId" Type="bigint" Nullable="false" />
+          <Property Name="curtainQuotationNumber" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="curtainQuotationDate" Type="datetime" Nullable="false" />
+          <Property Name="customerId" Type="bigint" Nullable="false" />
+          <Property Name="referById" Type="bigint" />
+          <Property Name="totalAmount" Type="bigint" Nullable="false" />
+          <Property Name="financialYear" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="status" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="createdOn" Type="datetime" Nullable="false" />
+          <Property Name="createdBy" Type="bigint" Nullable="false" />
+          <Property Name="updatedOn" Type="datetime" />
+          <Property Name="updatedBy" Type="bigint" />
+        </EntityType>
+        <EntityType Name="TrnCurtainQuotationItems">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="curtainQuotationId" Type="bigint" Nullable="false" />
+          <Property Name="area" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="unit" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="patternId" Type="bigint" Nullable="false" />
+          <Property Name="categoryId" Type="bigint" Nullable="false" />
+          <Property Name="collectionId" Type="bigint" />
+          <Property Name="shadeId" Type="bigint" />
+          <Property Name="accessoryId" Type="bigint" />
+          <Property Name="isPatch" Type="bit" />
+          <Property Name="isLining" Type="bit" />
+          <Property Name="isTrack" Type="bit" />
+          <Property Name="height" Type="decimal" Precision="7" Scale="2" Nullable="false" />
+          <Property Name="width" Type="decimal" Precision="7" Scale="2" Nullable="false" />
+          <Property Name="orderQuantity" Type="decimal" Precision="7" Scale="2" Nullable="false" />
+          <Property Name="balanceQuantity" Type="decimal" Precision="7" Scale="2" Nullable="false" />
+          <Property Name="deliverQuantity" Type="decimal" Precision="7" Scale="2" Nullable="false" />
+          <Property Name="orderType" Type="varchar" MaxLength="20" />
+          <Property Name="discount" Type="decimal" Precision="4" Scale="2" />
+          <Property Name="rate" Type="decimal" Precision="7" Scale="2" Nullable="false" />
+          <Property Name="rateWithGST" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="amount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="amountWithGST" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="gst" Type="int" />
+          <Property Name="status" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="createdOn" Type="datetime" Nullable="false" />
+          <Property Name="createdBy" Type="bigint" Nullable="false" />
+          <Property Name="updatedOn" Type="datetime" />
+          <Property Name="updatedBy" Type="bigint" />
+        </EntityType>
         <EntityType Name="TrnCurtainSelection">
           <Key>
             <PropertyRef Name="id" />
@@ -555,8 +607,8 @@
           <Property Name="collectionId" Type="bigint" />
           <Property Name="shadeId" Type="bigint" />
           <Property Name="accessoryId" Type="bigint" />
-          <Property Name="isPatch" Type="bit" Nullable="false" />
-          <Property Name="isLining" Type="bit" Nullable="false" />
+          <Property Name="isPatch" Type="bit" />
+          <Property Name="isLining" Type="bit" />
           <Property Name="rate" Type="decimal" Precision="7" Scale="2" Nullable="false" />
           <Property Name="discount" Type="decimal" Precision="4" Scale="2" />
           <Property Name="createdOn" Type="datetime" Nullable="false" />
@@ -1647,6 +1699,114 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
             </Principal>
             <Dependent Role="TrnAdvancePayment">
               <PropertyRef Name="materialQuotationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnCurtainQuotation_MstAgent">
+          <End Role="MstAgent" Type="Self.MstAgent" Multiplicity="0..1" />
+          <End Role="TrnCurtainQuotation" Type="Self.TrnCurtainQuotation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstAgent">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnCurtainQuotation">
+              <PropertyRef Name="referById" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnCurtainQuotation_MstCustomer">
+          <End Role="MstCustomer" Type="Self.MstCustomer" Multiplicity="1" />
+          <End Role="TrnCurtainQuotation" Type="Self.TrnCurtainQuotation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstCustomer">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnCurtainQuotation">
+              <PropertyRef Name="customerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnCurtainQuotation_TrnCurtainSelection">
+          <End Role="TrnCurtainSelection" Type="Self.TrnCurtainSelection" Multiplicity="1" />
+          <End Role="TrnCurtainQuotation" Type="Self.TrnCurtainQuotation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TrnCurtainSelection">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnCurtainQuotation">
+              <PropertyRef Name="curtainSelectionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnCurtainQuotationItems_MstAccessory">
+          <End Role="MstAccessory" Type="Self.MstAccessory" Multiplicity="0..1" />
+          <End Role="TrnCurtainQuotationItems" Type="Self.TrnCurtainQuotationItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstAccessory">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnCurtainQuotationItems">
+              <PropertyRef Name="accessoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnCurtainQuotationItems_MstCategory">
+          <End Role="MstCategory" Type="Self.MstCategory" Multiplicity="1" />
+          <End Role="TrnCurtainQuotationItems" Type="Self.TrnCurtainQuotationItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstCategory">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnCurtainQuotationItems">
+              <PropertyRef Name="categoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnCurtainQuotationItems_MstCollection">
+          <End Role="MstCollection" Type="Self.MstCollection" Multiplicity="0..1" />
+          <End Role="TrnCurtainQuotationItems" Type="Self.TrnCurtainQuotationItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstCollection">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnCurtainQuotationItems">
+              <PropertyRef Name="collectionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnCurtainQuotationItems_MstFWRShade">
+          <End Role="MstFWRShade" Type="Self.MstFWRShade" Multiplicity="0..1" />
+          <End Role="TrnCurtainQuotationItems" Type="Self.TrnCurtainQuotationItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstFWRShade">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnCurtainQuotationItems">
+              <PropertyRef Name="shadeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnCurtainQuotationItems_MstPattern">
+          <End Role="MstPattern" Type="Self.MstPattern" Multiplicity="1" />
+          <End Role="TrnCurtainQuotationItems" Type="Self.TrnCurtainQuotationItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstPattern">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnCurtainQuotationItems">
+              <PropertyRef Name="patternId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnCurtainQuotationItems_TrnCurtainQuotation">
+          <End Role="TrnCurtainQuotation" Type="Self.TrnCurtainQuotation" Multiplicity="1" />
+          <End Role="TrnCurtainQuotationItems" Type="Self.TrnCurtainQuotationItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TrnCurtainQuotation">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnCurtainQuotationItems">
+              <PropertyRef Name="curtainQuotationId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2904,6 +3064,8 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <EntitySet Name="MstUser" EntityType="Self.MstUser" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MstuserType" EntityType="Self.MstuserType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TrnAdvancePayment" EntityType="Self.TrnAdvancePayment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TrnCurtainQuotation" EntityType="Self.TrnCurtainQuotation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TrnCurtainQuotationItems" EntityType="Self.TrnCurtainQuotationItems" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TrnCurtainSelection" EntityType="Self.TrnCurtainSelection" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TrnCurtainSelectionItems" EntityType="Self.TrnCurtainSelectionItems" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TrnGoodIssueNote" EntityType="Self.TrnGoodIssueNote" Schema="dbo" store:Type="Tables" />
@@ -3212,6 +3374,42 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <AssociationSet Name="FK_TrnAdvancePayment_TrnMaterialQuotation" Association="Self.FK_TrnAdvancePayment_TrnMaterialQuotation">
             <End Role="TrnMaterialQuotation" EntitySet="TrnMaterialQuotation" />
             <End Role="TrnAdvancePayment" EntitySet="TrnAdvancePayment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnCurtainQuotation_MstAgent" Association="Self.FK_TrnCurtainQuotation_MstAgent">
+            <End Role="MstAgent" EntitySet="MstAgent" />
+            <End Role="TrnCurtainQuotation" EntitySet="TrnCurtainQuotation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnCurtainQuotation_MstCustomer" Association="Self.FK_TrnCurtainQuotation_MstCustomer">
+            <End Role="MstCustomer" EntitySet="MstCustomer" />
+            <End Role="TrnCurtainQuotation" EntitySet="TrnCurtainQuotation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnCurtainQuotation_TrnCurtainSelection" Association="Self.FK_TrnCurtainQuotation_TrnCurtainSelection">
+            <End Role="TrnCurtainSelection" EntitySet="TrnCurtainSelection" />
+            <End Role="TrnCurtainQuotation" EntitySet="TrnCurtainQuotation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnCurtainQuotationItems_MstAccessory" Association="Self.FK_TrnCurtainQuotationItems_MstAccessory">
+            <End Role="MstAccessory" EntitySet="MstAccessory" />
+            <End Role="TrnCurtainQuotationItems" EntitySet="TrnCurtainQuotationItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnCurtainQuotationItems_MstCategory" Association="Self.FK_TrnCurtainQuotationItems_MstCategory">
+            <End Role="MstCategory" EntitySet="MstCategory" />
+            <End Role="TrnCurtainQuotationItems" EntitySet="TrnCurtainQuotationItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnCurtainQuotationItems_MstCollection" Association="Self.FK_TrnCurtainQuotationItems_MstCollection">
+            <End Role="MstCollection" EntitySet="MstCollection" />
+            <End Role="TrnCurtainQuotationItems" EntitySet="TrnCurtainQuotationItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnCurtainQuotationItems_MstFWRShade" Association="Self.FK_TrnCurtainQuotationItems_MstFWRShade">
+            <End Role="MstFWRShade" EntitySet="MstFWRShade" />
+            <End Role="TrnCurtainQuotationItems" EntitySet="TrnCurtainQuotationItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnCurtainQuotationItems_MstPattern" Association="Self.FK_TrnCurtainQuotationItems_MstPattern">
+            <End Role="MstPattern" EntitySet="MstPattern" />
+            <End Role="TrnCurtainQuotationItems" EntitySet="TrnCurtainQuotationItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnCurtainQuotationItems_TrnCurtainQuotation" Association="Self.FK_TrnCurtainQuotationItems_TrnCurtainQuotation">
+            <End Role="TrnCurtainQuotation" EntitySet="TrnCurtainQuotation" />
+            <End Role="TrnCurtainQuotationItems" EntitySet="TrnCurtainQuotationItems" />
           </AssociationSet>
           <AssociationSet Name="FK_TrnCurtainSelection_MstAgent" Association="Self.FK_TrnCurtainSelection_MstAgent">
             <End Role="MstAgent" EntitySet="MstAgent" />
@@ -4227,14 +4425,31 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <EntitySet Name="vwFoams" EntityType="IMSModel.vwFoam" />
           <EntitySet Name="vwMattresses" EntityType="IMSModel.vwMattress" />
           <EntitySet Name="TrnCurtainSelections" EntityType="IMSModel.TrnCurtainSelection" />
+          <AssociationSet Name="FK_TrnCurtainSelection_MstAgent" Association="IMSModel.FK_TrnCurtainSelection_MstAgent">
+            <End Role="MstAgent" EntitySet="MstAgents" />
+            <End Role="TrnCurtainSelection" EntitySet="TrnCurtainSelections" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnCurtainSelection_MstCustomer" Association="IMSModel.FK_TrnCurtainSelection_MstCustomer">
+            <End Role="MstCustomer" EntitySet="MstCustomers" />
+            <End Role="TrnCurtainSelection" EntitySet="TrnCurtainSelections" />
+          </AssociationSet>
+          <EntitySet Name="TrnCurtainQuotations" EntityType="IMSModel.TrnCurtainQuotation" />
+          <AssociationSet Name="FK_TrnCurtainQuotation_MstAgent" Association="IMSModel.FK_TrnCurtainQuotation_MstAgent">
+            <End Role="MstAgent" EntitySet="MstAgents" />
+            <End Role="TrnCurtainQuotation" EntitySet="TrnCurtainQuotations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnCurtainQuotation_MstCustomer" Association="IMSModel.FK_TrnCurtainQuotation_MstCustomer">
+            <End Role="MstCustomer" EntitySet="MstCustomers" />
+            <End Role="TrnCurtainQuotation" EntitySet="TrnCurtainQuotations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnCurtainQuotation_TrnCurtainSelection" Association="IMSModel.FK_TrnCurtainQuotation_TrnCurtainSelection">
+            <End Role="TrnCurtainSelection" EntitySet="TrnCurtainSelections" />
+            <End Role="TrnCurtainQuotation" EntitySet="TrnCurtainQuotations" />
+          </AssociationSet>
           <EntitySet Name="TrnCurtainSelectionItems" EntityType="IMSModel.TrnCurtainSelectionItem" />
           <AssociationSet Name="FK_TrnCurtainSelectionItems_MstAccessory" Association="IMSModel.FK_TrnCurtainSelectionItems_MstAccessory">
             <End Role="MstAccessory" EntitySet="MstAccessories" />
             <End Role="TrnCurtainSelectionItem" EntitySet="TrnCurtainSelectionItems" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TrnCurtainSelection_MstAgent" Association="IMSModel.FK_TrnCurtainSelection_MstAgent">
-            <End Role="MstAgent" EntitySet="MstAgents" />
-            <End Role="TrnCurtainSelection" EntitySet="TrnCurtainSelections" />
           </AssociationSet>
           <AssociationSet Name="FK_TrnCurtainSelectionItems_MstCategory" Association="IMSModel.FK_TrnCurtainSelectionItems_MstCategory">
             <End Role="MstCategory" EntitySet="MstCategories" />
@@ -4243,10 +4458,6 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <AssociationSet Name="FK_TrnCurtainSelectionItems_MstCollection" Association="IMSModel.FK_TrnCurtainSelectionItems_MstCollection">
             <End Role="MstCollection" EntitySet="MstCollections" />
             <End Role="TrnCurtainSelectionItem" EntitySet="TrnCurtainSelectionItems" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TrnCurtainSelection_MstCustomer" Association="IMSModel.FK_TrnCurtainSelection_MstCustomer">
-            <End Role="MstCustomer" EntitySet="MstCustomers" />
-            <End Role="TrnCurtainSelection" EntitySet="TrnCurtainSelections" />
           </AssociationSet>
           <AssociationSet Name="FK_TrnCurtainSelectionItems_MstFWRShade" Association="IMSModel.FK_TrnCurtainSelectionItems_MstFWRShade">
             <End Role="MstFWRShade" EntitySet="MstFWRShades" />
@@ -4259,6 +4470,31 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <AssociationSet Name="FK_TrnCurtainSelectionItems_TrnCurtainSelection" Association="IMSModel.FK_TrnCurtainSelectionItems_TrnCurtainSelection">
             <End Role="TrnCurtainSelection" EntitySet="TrnCurtainSelections" />
             <End Role="TrnCurtainSelectionItem" EntitySet="TrnCurtainSelectionItems" />
+          </AssociationSet>
+          <EntitySet Name="TrnCurtainQuotationItems" EntityType="IMSModel.TrnCurtainQuotationItem" />
+          <AssociationSet Name="FK_TrnCurtainQuotationItems_MstAccessory" Association="IMSModel.FK_TrnCurtainQuotationItems_MstAccessory">
+            <End Role="MstAccessory" EntitySet="MstAccessories" />
+            <End Role="TrnCurtainQuotationItem" EntitySet="TrnCurtainQuotationItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnCurtainQuotationItems_MstCategory" Association="IMSModel.FK_TrnCurtainQuotationItems_MstCategory">
+            <End Role="MstCategory" EntitySet="MstCategories" />
+            <End Role="TrnCurtainQuotationItem" EntitySet="TrnCurtainQuotationItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnCurtainQuotationItems_MstCollection" Association="IMSModel.FK_TrnCurtainQuotationItems_MstCollection">
+            <End Role="MstCollection" EntitySet="MstCollections" />
+            <End Role="TrnCurtainQuotationItem" EntitySet="TrnCurtainQuotationItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnCurtainQuotationItems_MstFWRShade" Association="IMSModel.FK_TrnCurtainQuotationItems_MstFWRShade">
+            <End Role="MstFWRShade" EntitySet="MstFWRShades" />
+            <End Role="TrnCurtainQuotationItem" EntitySet="TrnCurtainQuotationItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnCurtainQuotationItems_MstPattern" Association="IMSModel.FK_TrnCurtainQuotationItems_MstPattern">
+            <End Role="MstPattern" EntitySet="MstPatterns" />
+            <End Role="TrnCurtainQuotationItem" EntitySet="TrnCurtainQuotationItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnCurtainQuotationItems_TrnCurtainQuotation" Association="IMSModel.FK_TrnCurtainQuotationItems_TrnCurtainQuotation">
+            <End Role="TrnCurtainQuotation" EntitySet="TrnCurtainQuotations" />
+            <End Role="TrnCurtainQuotationItem" EntitySet="TrnCurtainQuotationItems" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="CFGRoleMenu">
@@ -4306,6 +4542,7 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <NavigationProperty Name="TrnSaleOrderItems" Relationship="IMSModel.FK_TrnSaleOrderItems_MstAccessory" FromRole="MstAccessory" ToRole="TrnSaleOrderItem" />
           <NavigationProperty Name="TrnSalesInvoiceItems" Relationship="IMSModel.FK_TrnSalesInvoiceItems_MstAccessory" FromRole="MstAccessory" ToRole="TrnSalesInvoiceItem" />
           <NavigationProperty Name="TrnCurtainSelectionItems" Relationship="IMSModel.FK_TrnCurtainSelectionItems_MstAccessory" FromRole="MstAccessory" ToRole="TrnCurtainSelectionItem" />
+          <NavigationProperty Name="TrnCurtainQuotationItems" Relationship="IMSModel.FK_TrnCurtainQuotationItems_MstAccessory" FromRole="MstAccessory" ToRole="TrnCurtainQuotationItem" />
         </EntityType>
         <EntityType Name="MstAgent">
           <Key>
@@ -4329,6 +4566,7 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <NavigationProperty Name="TrnMaterialSelections" Relationship="IMSModel.FK_TrnMaterialSelection_MstAgent" FromRole="MstAgent" ToRole="TrnMaterialSelection" />
           <NavigationProperty Name="TrnSaleOrders" Relationship="IMSModel.FK_TrnSaleOrder_MstAgent" FromRole="MstAgent" ToRole="TrnSaleOrder" />
           <NavigationProperty Name="TrnCurtainSelections" Relationship="IMSModel.FK_TrnCurtainSelection_MstAgent" FromRole="MstAgent" ToRole="TrnCurtainSelection" />
+          <NavigationProperty Name="TrnCurtainQuotations" Relationship="IMSModel.FK_TrnCurtainQuotation_MstAgent" FromRole="MstAgent" ToRole="TrnCurtainQuotation" />
         </EntityType>
         <EntityType Name="MstCategory">
           <Key>
@@ -4362,6 +4600,7 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <NavigationProperty Name="TrnSaleOrderItems" Relationship="IMSModel.FK_TrnSaleOrderItem_MstCategory" FromRole="MstCategory" ToRole="TrnSaleOrderItem" />
           <NavigationProperty Name="TrnSalesInvoiceItems" Relationship="IMSModel.FK_TrnSalesInvoiceItems_MstCategory" FromRole="MstCategory" ToRole="TrnSalesInvoiceItem" />
           <NavigationProperty Name="TrnCurtainSelectionItems" Relationship="IMSModel.FK_TrnCurtainSelectionItems_MstCategory" FromRole="MstCategory" ToRole="TrnCurtainSelectionItem" />
+          <NavigationProperty Name="TrnCurtainQuotationItems" Relationship="IMSModel.FK_TrnCurtainQuotationItems_MstCategory" FromRole="MstCategory" ToRole="TrnCurtainQuotationItem" />
         </EntityType>
         <EntityType Name="MstCollection">
           <Key>
@@ -4398,6 +4637,7 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <NavigationProperty Name="TrnSaleOrderItems" Relationship="IMSModel.FK_TrnSaleOrderItem_MstCollection" FromRole="MstCollection" ToRole="TrnSaleOrderItem" />
           <NavigationProperty Name="TrnSalesInvoiceItems" Relationship="IMSModel.FK_TrnSalesInvoiceItems_MstCollection" FromRole="MstCollection" ToRole="TrnSalesInvoiceItem" />
           <NavigationProperty Name="TrnCurtainSelectionItems" Relationship="IMSModel.FK_TrnCurtainSelectionItems_MstCollection" FromRole="MstCollection" ToRole="TrnCurtainSelectionItem" />
+          <NavigationProperty Name="TrnCurtainQuotationItems" Relationship="IMSModel.FK_TrnCurtainQuotationItems_MstCollection" FromRole="MstCollection" ToRole="TrnCurtainQuotationItem" />
         </EntityType>
         <EntityType Name="MstCompanyInfo">
           <Key>
@@ -4496,6 +4736,7 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <NavigationProperty Name="TrnMaterialSelections" Relationship="IMSModel.FK_TrnMaterialSelection_MstCustomer" FromRole="MstCustomer" ToRole="TrnMaterialSelection" />
           <NavigationProperty Name="TrnSaleOrders" Relationship="IMSModel.FK_TrnSaleOrder_MstCustomer" FromRole="MstCustomer" ToRole="TrnSaleOrder" />
           <NavigationProperty Name="TrnCurtainSelections" Relationship="IMSModel.FK_TrnCurtainSelection_MstCustomer" FromRole="MstCustomer" ToRole="TrnCurtainSelection" />
+          <NavigationProperty Name="TrnCurtainQuotations" Relationship="IMSModel.FK_TrnCurtainQuotation_MstCustomer" FromRole="MstCustomer" ToRole="TrnCurtainQuotation" />
         </EntityType>
         <EntityType Name="MstCustomerAddress">
           <Key>
@@ -4671,6 +4912,7 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <NavigationProperty Name="TrnSaleOrderItems" Relationship="IMSModel.FK_TrnSaleOrderItem_MstFWRShade" FromRole="MstFWRShade" ToRole="TrnSaleOrderItem" />
           <NavigationProperty Name="TrnSalesInvoiceItems" Relationship="IMSModel.FK_TrnSalesInvoiceItems_MstFWRShade" FromRole="MstFWRShade" ToRole="TrnSalesInvoiceItem" />
           <NavigationProperty Name="TrnCurtainSelectionItems" Relationship="IMSModel.FK_TrnCurtainSelectionItems_MstFWRShade" FromRole="MstFWRShade" ToRole="TrnCurtainSelectionItem" />
+          <NavigationProperty Name="TrnCurtainQuotationItems" Relationship="IMSModel.FK_TrnCurtainQuotationItems_MstFWRShade" FromRole="MstFWRShade" ToRole="TrnCurtainQuotationItem" />
         </EntityType>
         <EntityType Name="MstHsn">
           <Key>
@@ -7183,6 +7425,7 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <Property Name="updatedOn" Type="DateTime" Precision="3" />
           <Property Name="updatedBy" Type="Int64" />
           <NavigationProperty Name="TrnCurtainSelectionItems" Relationship="IMSModel.FK_TrnCurtainSelectionItems_MstPattern" FromRole="MstPattern" ToRole="TrnCurtainSelectionItem" />
+          <NavigationProperty Name="TrnCurtainQuotationItems" Relationship="IMSModel.FK_TrnCurtainQuotationItems_MstPattern" FromRole="MstPattern" ToRole="TrnCurtainQuotationItem" />
         </EntityType>
         <EntityType Name="vwFoam">
           <Key>
@@ -7282,8 +7525,91 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <Property Name="updatedBy" Type="Int64" />
           <NavigationProperty Name="MstAgent" Relationship="IMSModel.FK_TrnCurtainSelection_MstAgent" FromRole="TrnCurtainSelection" ToRole="MstAgent" />
           <NavigationProperty Name="MstCustomer" Relationship="IMSModel.FK_TrnCurtainSelection_MstCustomer" FromRole="TrnCurtainSelection" ToRole="MstCustomer" />
+          <NavigationProperty Name="TrnCurtainQuotations" Relationship="IMSModel.FK_TrnCurtainQuotation_TrnCurtainSelection" FromRole="TrnCurtainSelection" ToRole="TrnCurtainQuotation" />
           <NavigationProperty Name="TrnCurtainSelectionItems" Relationship="IMSModel.FK_TrnCurtainSelectionItems_TrnCurtainSelection" FromRole="TrnCurtainSelection" ToRole="TrnCurtainSelectionItem" />
         </EntityType>
+        <Association Name="FK_TrnCurtainSelection_MstAgent">
+          <End Type="IMSModel.MstAgent" Role="MstAgent" Multiplicity="0..1" />
+          <End Type="IMSModel.TrnCurtainSelection" Role="TrnCurtainSelection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstAgent">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnCurtainSelection">
+              <PropertyRef Name="referById" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnCurtainSelection_MstCustomer">
+          <End Type="IMSModel.MstCustomer" Role="MstCustomer" Multiplicity="1" />
+          <End Type="IMSModel.TrnCurtainSelection" Role="TrnCurtainSelection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstCustomer">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnCurtainSelection">
+              <PropertyRef Name="customerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="TrnCurtainQuotation">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="curtainSelectionId" Type="Int64" Nullable="false" />
+          <Property Name="curtainQuotationNumber" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="curtainQuotationDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="customerId" Type="Int64" Nullable="false" />
+          <Property Name="referById" Type="Int64" />
+          <Property Name="totalAmount" Type="Int64" Nullable="false" />
+          <Property Name="financialYear" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="status" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="createdBy" Type="Int64" Nullable="false" />
+          <Property Name="updatedOn" Type="DateTime" Precision="3" />
+          <Property Name="updatedBy" Type="Int64" />
+          <NavigationProperty Name="MstAgent" Relationship="IMSModel.FK_TrnCurtainQuotation_MstAgent" FromRole="TrnCurtainQuotation" ToRole="MstAgent" />
+          <NavigationProperty Name="MstCustomer" Relationship="IMSModel.FK_TrnCurtainQuotation_MstCustomer" FromRole="TrnCurtainQuotation" ToRole="MstCustomer" />
+          <NavigationProperty Name="TrnCurtainSelection" Relationship="IMSModel.FK_TrnCurtainQuotation_TrnCurtainSelection" FromRole="TrnCurtainQuotation" ToRole="TrnCurtainSelection" />
+          <NavigationProperty Name="TrnCurtainQuotationItems" Relationship="IMSModel.FK_TrnCurtainQuotationItems_TrnCurtainQuotation" FromRole="TrnCurtainQuotation" ToRole="TrnCurtainQuotationItem" />
+        </EntityType>
+        <Association Name="FK_TrnCurtainQuotation_MstAgent">
+          <End Type="IMSModel.MstAgent" Role="MstAgent" Multiplicity="0..1" />
+          <End Type="IMSModel.TrnCurtainQuotation" Role="TrnCurtainQuotation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstAgent">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnCurtainQuotation">
+              <PropertyRef Name="referById" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnCurtainQuotation_MstCustomer">
+          <End Type="IMSModel.MstCustomer" Role="MstCustomer" Multiplicity="1" />
+          <End Type="IMSModel.TrnCurtainQuotation" Role="TrnCurtainQuotation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstCustomer">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnCurtainQuotation">
+              <PropertyRef Name="customerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnCurtainQuotation_TrnCurtainSelection">
+          <End Type="IMSModel.TrnCurtainSelection" Role="TrnCurtainSelection" Multiplicity="1" />
+          <End Type="IMSModel.TrnCurtainQuotation" Role="TrnCurtainQuotation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TrnCurtainSelection">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnCurtainQuotation">
+              <PropertyRef Name="curtainSelectionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityType Name="TrnCurtainSelectionItem">
           <Key>
             <PropertyRef Name="id" />
@@ -7297,8 +7623,8 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <Property Name="collectionId" Type="Int64" />
           <Property Name="shadeId" Type="Int64" />
           <Property Name="accessoryId" Type="Int64" />
-          <Property Name="isPatch" Type="Boolean" Nullable="false" />
-          <Property Name="isLining" Type="Boolean" Nullable="false" />
+          <Property Name="isPatch" Type="Boolean" />
+          <Property Name="isLining" Type="Boolean" />
           <Property Name="rate" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
           <Property Name="discount" Type="Decimal" Precision="4" Scale="2" />
           <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
@@ -7324,18 +7650,6 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_TrnCurtainSelection_MstAgent">
-          <End Type="IMSModel.MstAgent" Role="MstAgent" Multiplicity="0..1" />
-          <End Type="IMSModel.TrnCurtainSelection" Role="TrnCurtainSelection" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MstAgent">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="TrnCurtainSelection">
-              <PropertyRef Name="referById" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_TrnCurtainSelectionItems_MstCategory">
           <End Type="IMSModel.MstCategory" Role="MstCategory" Multiplicity="1" />
           <End Type="IMSModel.TrnCurtainSelectionItem" Role="TrnCurtainSelectionItem" Multiplicity="*" />
@@ -7357,18 +7671,6 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
             </Principal>
             <Dependent Role="TrnCurtainSelectionItem">
               <PropertyRef Name="collectionId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TrnCurtainSelection_MstCustomer">
-          <End Type="IMSModel.MstCustomer" Role="MstCustomer" Multiplicity="1" />
-          <End Type="IMSModel.TrnCurtainSelection" Role="TrnCurtainSelection" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MstCustomer">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="TrnCurtainSelection">
-              <PropertyRef Name="customerId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -7405,6 +7707,118 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
             </Principal>
             <Dependent Role="TrnCurtainSelectionItem">
               <PropertyRef Name="curtainSelectionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="TrnCurtainQuotationItem">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="curtainQuotationId" Type="Int64" Nullable="false" />
+          <Property Name="area" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="unit" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="patternId" Type="Int64" Nullable="false" />
+          <Property Name="categoryId" Type="Int64" Nullable="false" />
+          <Property Name="collectionId" Type="Int64" />
+          <Property Name="shadeId" Type="Int64" />
+          <Property Name="accessoryId" Type="Int64" />
+          <Property Name="isPatch" Type="Boolean" />
+          <Property Name="isLining" Type="Boolean" />
+          <Property Name="isTrack" Type="Boolean" />
+          <Property Name="height" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
+          <Property Name="width" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
+          <Property Name="orderQuantity" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
+          <Property Name="balanceQuantity" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
+          <Property Name="deliverQuantity" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
+          <Property Name="orderType" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="discount" Type="Decimal" Precision="4" Scale="2" />
+          <Property Name="rate" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
+          <Property Name="rateWithGST" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="amount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="amountWithGST" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="gst" Type="Int32" />
+          <Property Name="status" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="createdBy" Type="Int64" Nullable="false" />
+          <Property Name="updatedOn" Type="DateTime" Precision="3" />
+          <Property Name="updatedBy" Type="Int64" />
+          <NavigationProperty Name="MstAccessory" Relationship="IMSModel.FK_TrnCurtainQuotationItems_MstAccessory" FromRole="TrnCurtainQuotationItem" ToRole="MstAccessory" />
+          <NavigationProperty Name="MstCategory" Relationship="IMSModel.FK_TrnCurtainQuotationItems_MstCategory" FromRole="TrnCurtainQuotationItem" ToRole="MstCategory" />
+          <NavigationProperty Name="MstCollection" Relationship="IMSModel.FK_TrnCurtainQuotationItems_MstCollection" FromRole="TrnCurtainQuotationItem" ToRole="MstCollection" />
+          <NavigationProperty Name="MstFWRShade" Relationship="IMSModel.FK_TrnCurtainQuotationItems_MstFWRShade" FromRole="TrnCurtainQuotationItem" ToRole="MstFWRShade" />
+          <NavigationProperty Name="MstPattern" Relationship="IMSModel.FK_TrnCurtainQuotationItems_MstPattern" FromRole="TrnCurtainQuotationItem" ToRole="MstPattern" />
+          <NavigationProperty Name="TrnCurtainQuotation" Relationship="IMSModel.FK_TrnCurtainQuotationItems_TrnCurtainQuotation" FromRole="TrnCurtainQuotationItem" ToRole="TrnCurtainQuotation" />
+        </EntityType>
+        <Association Name="FK_TrnCurtainQuotationItems_MstAccessory">
+          <End Type="IMSModel.MstAccessory" Role="MstAccessory" Multiplicity="0..1" />
+          <End Type="IMSModel.TrnCurtainQuotationItem" Role="TrnCurtainQuotationItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstAccessory">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnCurtainQuotationItem">
+              <PropertyRef Name="accessoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnCurtainQuotationItems_MstCategory">
+          <End Type="IMSModel.MstCategory" Role="MstCategory" Multiplicity="1" />
+          <End Type="IMSModel.TrnCurtainQuotationItem" Role="TrnCurtainQuotationItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstCategory">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnCurtainQuotationItem">
+              <PropertyRef Name="categoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnCurtainQuotationItems_MstCollection">
+          <End Type="IMSModel.MstCollection" Role="MstCollection" Multiplicity="0..1" />
+          <End Type="IMSModel.TrnCurtainQuotationItem" Role="TrnCurtainQuotationItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstCollection">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnCurtainQuotationItem">
+              <PropertyRef Name="collectionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnCurtainQuotationItems_MstFWRShade">
+          <End Type="IMSModel.MstFWRShade" Role="MstFWRShade" Multiplicity="0..1" />
+          <End Type="IMSModel.TrnCurtainQuotationItem" Role="TrnCurtainQuotationItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstFWRShade">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnCurtainQuotationItem">
+              <PropertyRef Name="shadeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnCurtainQuotationItems_MstPattern">
+          <End Type="IMSModel.MstPattern" Role="MstPattern" Multiplicity="1" />
+          <End Type="IMSModel.TrnCurtainQuotationItem" Role="TrnCurtainQuotationItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstPattern">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnCurtainQuotationItem">
+              <PropertyRef Name="patternId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnCurtainQuotationItems_TrnCurtainQuotation">
+          <End Type="IMSModel.TrnCurtainQuotation" Role="TrnCurtainQuotation" Multiplicity="1" />
+          <End Type="IMSModel.TrnCurtainQuotationItem" Role="TrnCurtainQuotationItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TrnCurtainQuotation">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnCurtainQuotationItem">
+              <PropertyRef Name="curtainQuotationId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -8510,6 +8924,25 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="TrnCurtainQuotations">
+            <EntityTypeMapping TypeName="IMSModel.TrnCurtainQuotation">
+              <MappingFragment StoreEntitySet="TrnCurtainQuotation">
+                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
+                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="financialYear" ColumnName="financialYear" />
+                <ScalarProperty Name="totalAmount" ColumnName="totalAmount" />
+                <ScalarProperty Name="referById" ColumnName="referById" />
+                <ScalarProperty Name="customerId" ColumnName="customerId" />
+                <ScalarProperty Name="curtainQuotationDate" ColumnName="curtainQuotationDate" />
+                <ScalarProperty Name="curtainQuotationNumber" ColumnName="curtainQuotationNumber" />
+                <ScalarProperty Name="curtainSelectionId" ColumnName="curtainSelectionId" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="TrnCurtainSelectionItems">
             <EntityTypeMapping TypeName="IMSModel.TrnCurtainSelectionItem">
               <MappingFragment StoreEntitySet="TrnCurtainSelectionItems">
@@ -8529,6 +8962,41 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
                 <ScalarProperty Name="unit" ColumnName="unit" />
                 <ScalarProperty Name="area" ColumnName="area" />
                 <ScalarProperty Name="curtainSelectionId" ColumnName="curtainSelectionId" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TrnCurtainQuotationItems">
+            <EntityTypeMapping TypeName="IMSModel.TrnCurtainQuotationItem">
+              <MappingFragment StoreEntitySet="TrnCurtainQuotationItems">
+                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
+                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="gst" ColumnName="gst" />
+                <ScalarProperty Name="amountWithGST" ColumnName="amountWithGST" />
+                <ScalarProperty Name="amount" ColumnName="amount" />
+                <ScalarProperty Name="rateWithGST" ColumnName="rateWithGST" />
+                <ScalarProperty Name="rate" ColumnName="rate" />
+                <ScalarProperty Name="discount" ColumnName="discount" />
+                <ScalarProperty Name="orderType" ColumnName="orderType" />
+                <ScalarProperty Name="deliverQuantity" ColumnName="deliverQuantity" />
+                <ScalarProperty Name="balanceQuantity" ColumnName="balanceQuantity" />
+                <ScalarProperty Name="orderQuantity" ColumnName="orderQuantity" />
+                <ScalarProperty Name="width" ColumnName="width" />
+                <ScalarProperty Name="height" ColumnName="height" />
+                <ScalarProperty Name="isTrack" ColumnName="isTrack" />
+                <ScalarProperty Name="isLining" ColumnName="isLining" />
+                <ScalarProperty Name="isPatch" ColumnName="isPatch" />
+                <ScalarProperty Name="accessoryId" ColumnName="accessoryId" />
+                <ScalarProperty Name="shadeId" ColumnName="shadeId" />
+                <ScalarProperty Name="collectionId" ColumnName="collectionId" />
+                <ScalarProperty Name="categoryId" ColumnName="categoryId" />
+                <ScalarProperty Name="patternId" ColumnName="patternId" />
+                <ScalarProperty Name="unit" ColumnName="unit" />
+                <ScalarProperty Name="area" ColumnName="area" />
+                <ScalarProperty Name="curtainQuotationId" ColumnName="curtainQuotationId" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

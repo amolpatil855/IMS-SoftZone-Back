@@ -12,10 +12,10 @@ namespace IMSWebApi.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class TrnCurtainSelectionItem
+    public partial class TrnCurtainQuotationItem
     {
         public long id { get; set; }
-        public long curtainSelectionId { get; set; }
+        public long curtainQuotationId { get; set; }
         public string area { get; set; }
         public string unit { get; set; }
         public long patternId { get; set; }
@@ -25,8 +25,20 @@ namespace IMSWebApi.Models
         public Nullable<long> accessoryId { get; set; }
         public Nullable<bool> isPatch { get; set; }
         public Nullable<bool> isLining { get; set; }
-        public decimal rate { get; set; }
+        public Nullable<bool> isTrack { get; set; }
+        public decimal height { get; set; }
+        public decimal width { get; set; }
+        public decimal orderQuantity { get; set; }
+        public decimal balanceQuantity { get; set; }
+        public decimal deliverQuantity { get; set; }
+        public string orderType { get; set; }
         public Nullable<decimal> discount { get; set; }
+        public decimal rate { get; set; }
+        public decimal rateWithGST { get; set; }
+        public decimal amount { get; set; }
+        public decimal amountWithGST { get; set; }
+        public Nullable<int> gst { get; set; }
+        public string status { get; set; }
         public System.DateTime createdOn { get; set; }
         public long createdBy { get; set; }
         public Nullable<System.DateTime> updatedOn { get; set; }
@@ -37,6 +49,6 @@ namespace IMSWebApi.Models
         public virtual MstCollection MstCollection { get; set; }
         public virtual MstFWRShade MstFWRShade { get; set; }
         public virtual MstPattern MstPattern { get; set; }
-        public virtual TrnCurtainSelection TrnCurtainSelection { get; set; }
+        public virtual TrnCurtainQuotation TrnCurtainQuotation { get; set; }
     }
 }

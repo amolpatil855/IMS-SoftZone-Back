@@ -10,6 +10,7 @@ using System.Web.Http;
 
 namespace IMSWebApi.Controllers
 {
+    [Authorize]
     public class TrnGoodIssueNoteController : ApiController
     {
         private TrnGoodIssueNoteService _trnGoodIssueNoteService = null;

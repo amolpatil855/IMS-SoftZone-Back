@@ -25,5 +25,6 @@ namespace IMSWebApi.ViewModel
         public virtual VMAgent MstAgent { get; set; }
         public virtual VMCustomer MstCustomer { get; set; }
         public virtual List<VMTrnCurtainSelectionItem> TrnCurtainSelectionItems { get; set; }
+        public virtual List<VMTrnCurtainQuotation> TrnCurtainQuotations { get; set; }
     }
 }

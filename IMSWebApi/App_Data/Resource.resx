@@ -423,4 +423,10 @@
   <data name="CSUpdated" xml:space="preserve">
     <value>Curtain Selection Updated Successfully</value>
   </data>
+  <data name="CQCreated" xml:space="preserve">
+    <value>Curtain Quotation Added Successfully</value>
+  </data>
+  <data name="CQUpdated" xml:space="preserve">
+    <value>Curtain Quotation Updated Successfully</value>
+  </data>
 </root>

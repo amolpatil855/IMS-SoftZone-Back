@@ -52,4 +52,13 @@ namespace IMSWebApi.Enums
         Completed = 4,
         Cancelled = 5
     }
+
+    public enum CurtainQuotationStatus
+    {
+        Created = 1,
+        Approved = 2,
+        PartialCompleted = 3,
+        Completed = 4,
+        Cancelled = 5
+    }
 }

@@ -12,29 +12,30 @@ namespace IMSWebApi.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class MstPattern
+    public partial class TrnCurtainQuotation
     {
-        public MstPattern()
+        public TrnCurtainQuotation()
         {
-            this.TrnCurtainSelectionItems = new HashSet<TrnCurtainSelectionItem>();
             this.TrnCurtainQuotationItems = new HashSet<TrnCurtainQuotationItem>();
         }
     
         public long id { get; set; }
-        public string name { get; set; }
-        public decimal fabricHeight { get; set; }
-        public Nullable<decimal> liningHeight { get; set; }
-        public int meterPerInch { get; set; }
-        public int widthPerInch { get; set; }
-        public decimal setRateForPattern { get; set; }
-        public Nullable<decimal> verticalPatch { get; set; }
-        public Nullable<decimal> horizontalPatch { get; set; }
+        public long curtainSelectionId { get; set; }
+        public string curtainQuotationNumber { get; set; }
+        public System.DateTime curtainQuotationDate { get; set; }
+        public long customerId { get; set; }
+        public Nullable<long> referById { get; set; }
+        public long totalAmount { get; set; }
+        public string financialYear { get; set; }
+        public string status { get; set; }
         public System.DateTime createdOn { get; set; }
         public long createdBy { get; set; }
         public Nullable<System.DateTime> updatedOn { get; set; }
         public Nullable<long> updatedBy { get; set; }
     
-        public virtual ICollection<TrnCurtainSelectionItem> TrnCurtainSelectionItems { get; set; }
+        public virtual MstAgent MstAgent { get; set; }
+        public virtual MstCustomer MstCustomer { get; set; }
+        public virtual TrnCurtainSelection TrnCurtainSelection { get; set; }
         public virtual ICollection<TrnCurtainQuotationItem> TrnCurtainQuotationItems { get; set; }
     }
 }

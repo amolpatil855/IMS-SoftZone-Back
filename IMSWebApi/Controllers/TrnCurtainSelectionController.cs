@@ -63,5 +63,25 @@ namespace IMSWebApi.Controllers
             var result = _trnCurtainSelectionService.putCurtainSelection(curtainSelection);
             return Ok(result);
         }
+
+        // GET api/TrnCurtainSelection/1
+        [ApiAuthorize(AccessLevel = "curtainselection")]
+        [HttpGet]
+        [Route("api/TrnCurtainSelection/CreateCurtainQuotation/{id}")]
+        public IHttpActionResult CreateCurtainQuotation(long id)
+        {
+            var result = _trnCurtainSelectionService.createCurtainQuotation(id);
+            return Ok(result);
+        }
+
+        // GET api/TrnCurtainSelection/1
+        [ApiAuthorize(AccessLevel = "curtainselection")]
+        [HttpGet]
+        [Route("api/TrnCurtainSelection/ViewCurtainQuotation/{id}")]
+        public IHttpActionResult ViewCurtainQuotation(long id)
+        {
+            var result = _trnCurtainSelectionService.viewCurtainQuotation(id);
+            return Ok(result);
+        }
     }
 }
