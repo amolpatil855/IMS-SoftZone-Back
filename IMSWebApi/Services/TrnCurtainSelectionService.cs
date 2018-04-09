@@ -93,9 +93,10 @@ namespace IMSWebApi.Services
                 csItem.serialno = csItem.MstCategory.code.Equals("Fabric") || csItem.MstCategory.code.Equals("Rug") || csItem.MstCategory.code.Equals("Wallpaper")
                     ? csItem.MstFWRShade.serialNumber + "(" + csItem.MstFWRShade.shadeCode + "-" + csItem.MstFWRShade.MstFWRDesign.designCode + ")" : null;
 
-                csItem.VMProductsForCS = csItem.collectionId != null ? getSerialNumberForCS(Convert.ToInt64(csItem.collectionId)) : getAccessoryItemCodeForCS();
+                csItem.shadeList = csItem.collectionId != null ? getSerialNumberForCS(Convert.ToInt64(csItem.collectionId)) : null;
             });
             curtainSelectionView.TrnCurtainSelectionItems.ForEach(csItem => csItem.TrnCurtainSelection = null);
+            curtainSelectionView.TrnCurtainQuotations = null;
             return curtainSelectionView;
         }
 
@@ -138,7 +139,7 @@ namespace IMSWebApi.Services
                 curtainSelectionToPut.referById = curtainSelection.referById;
                 curtainSelectionToPut.isQuotationCreated = curtainSelection.isQuotationCreated;
 
-                updateMSItems(curtainSelection);
+                updateCSItems(curtainSelection);
 
                 curtainSelectionToPut.updatedOn = DateTime.Now;
                 curtainSelectionToPut.updatedBy = _LoggedInuserId;
@@ -149,7 +150,7 @@ namespace IMSWebApi.Services
             }
         }
 
-        public void updateMSItems(VMTrnCurtainSelection curtainSelection)
+        public void updateCSItems(VMTrnCurtainSelection curtainSelection)
         {
             var curtainSelectionToPut = repo.TrnCurtainSelections.Where(q => q.id == curtainSelection.id).FirstOrDefault();
 

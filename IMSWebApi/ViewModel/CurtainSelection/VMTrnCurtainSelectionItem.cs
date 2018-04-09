@@ -32,7 +32,7 @@ namespace IMSWebApi.ViewModel
         public string serialno { get; set; }
         public string itemCode { get; set; }
 
-        public virtual List<VMProductForCS> VMProductsForCS { get; set; }
+        public virtual List<VMProductForCS> shadeList { get; set; }
 
         public virtual VMAccessory MstAccessory { get; set; }
         public virtual VMCategory MstCategory { get; set; }
