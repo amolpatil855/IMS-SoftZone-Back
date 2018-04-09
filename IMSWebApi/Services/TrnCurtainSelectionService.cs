@@ -92,10 +92,10 @@ namespace IMSWebApi.Services
                 csItem.collectionName = csItem.collectionId != null ? csItem.MstCollection.collectionCode : null;
                 csItem.serialno = csItem.MstCategory.code.Equals("Fabric") || csItem.MstCategory.code.Equals("Rug") || csItem.MstCategory.code.Equals("Wallpaper")
                     ? csItem.MstFWRShade.serialNumber + "(" + csItem.MstFWRShade.shadeCode + "-" + csItem.MstFWRShade.MstFWRDesign.designCode + ")" : null;
-                
+
+                csItem.VMProductsForCS = csItem.collectionId != null ? getSerialNumberForCS(Convert.ToInt64(csItem.collectionId)) : getAccessoryItemCodeForCS();
             });
             curtainSelectionView.TrnCurtainSelectionItems.ForEach(csItem => csItem.TrnCurtainSelection = null);
-
             return curtainSelectionView;
         }
 
@@ -231,7 +231,7 @@ namespace IMSWebApi.Services
                 cqItem.shadeId = csItem.shadeId;
                 cqItem.serialno = csItem.shadeId != null ? csItem.MstFWRShade.serialNumber + "(" + csItem.MstFWRShade.shadeCode + "-" + csItem.MstFWRShade.MstFWRDesign.designCode + ")" : null;
                 cqItem.accessoryId = csItem.accessoryId;
-                cqItem.itemCode = cqItem.MstAccessory != null ? cqItem.MstAccessory.itemCode : null;
+                cqItem.itemCode = csItem.MstAccessory != null ? csItem.MstAccessory.itemCode : null;
                 cqItem.isPatch = csItem.isPatch;
                 cqItem.isLining = csItem.isLining;
                 cqItem.rate = csItem.rate;

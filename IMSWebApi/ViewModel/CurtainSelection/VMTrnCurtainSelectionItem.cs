@@ -21,10 +21,8 @@ namespace IMSWebApi.ViewModel
         public Nullable<long> collectionId { get; set; }
         public Nullable<long> shadeId { get; set; }
         public Nullable<long> accessoryId { get; set; }
-        [Required]
-        public bool isPatch { get; set; }
-        [Required]
-        public bool isLining { get; set; }
+        public Nullable<bool> isPatch { get; set; }
+        public Nullable<bool> isLining { get; set; }
         [Required]
         public decimal rate { get; set; }
         public Nullable<decimal> discount { get; set; }
@@ -33,6 +31,8 @@ namespace IMSWebApi.ViewModel
         public string collectionName { get; set; }
         public string serialno { get; set; }
         public string itemCode { get; set; }
+
+        public virtual List<VMProductForCS> VMProductsForCS { get; set; }
 
         public virtual VMAccessory MstAccessory { get; set; }
         public virtual VMCategory MstCategory { get; set; }
