@@ -31,12 +31,16 @@ namespace IMSWebApi.Services
             List<VMTailorList> tailorListingView;
             tailorListingView = repo.MstTailors.Where(t => !string.IsNullOrEmpty(search)
                     ? t.name.ToString().StartsWith(search)
-                    || t.phone.StartsWith(search) : true)
+                    || t.phone.StartsWith(search)
+                    || t.email.StartsWith(search) 
+                    || t.city.StartsWith(search) : true)
                     .Select(c => new VMTailorList
                     {
                         id = c.id,
                         name = c.name,
-                        phone = c.phone
+                        phone = c.phone,
+                        email = c.email,
+                        city = c.city
                     })
                     .OrderByDescending(o => o.id).Skip(page * pageSize).Take(pageSize).ToList();
             return new ListResult<VMTailorList>
@@ -44,7 +48,9 @@ namespace IMSWebApi.Services
                 Data = tailorListingView,
                 TotalCount = repo.MstTailors.Where(t => !string.IsNullOrEmpty(search)
                     ? t.name.ToString().StartsWith(search)
-                    || t.phone.StartsWith(search) : true).Count(),
+                    || t.phone.StartsWith(search)
+                    || t.email.StartsWith(search)
+                    || t.city.StartsWith(search) : true).Count(),
                 Page = page
             };
         }
@@ -132,7 +138,6 @@ namespace IMSWebApi.Services
                 {
                     var patternChargeDetailToPut = repo.MstTailorPatternChargeDetails.Where(p => p.id == x.id).FirstOrDefault();
 
-                    patternChargeDetailToPut.tailorId = x.tailorId;
                     patternChargeDetailToPut.patternId = x.patternId;
                     patternChargeDetailToPut.charge = x.charge;
                     patternChargeDetailToPut.updatedOn = DateTime.Now;
