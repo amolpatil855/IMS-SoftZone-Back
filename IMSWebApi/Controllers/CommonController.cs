@@ -36,6 +36,7 @@ namespace IMSWebApi.Controllers
         private TrnMaterialQuotationService _trnMaterialQuotationService = null;
         private PatternService _patternService = null;
         private TrnCurtainSelectionService _trnCurtainSelectionService = null;
+        private TrnCurtainQuotationService _trnCurtainQuotationService = null;
 
         public CommonController()
         {
@@ -63,6 +64,7 @@ namespace IMSWebApi.Controllers
             _trnMaterialQuotationService = new TrnMaterialQuotationService();
             _patternService = new PatternService();
             _trnCurtainSelectionService = new TrnCurtainSelectionService();
+            _trnCurtainQuotationService = new TrnCurtainQuotationService();
         }
 
         [HttpGet]
@@ -459,6 +461,22 @@ namespace IMSWebApi.Controllers
         public IHttpActionResult GetPatternDetailsForTailor()
         {
             var result = _patternService.getPatternDetailsForTailor();
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("api/Common/GetRodAccessoryItemCodeForCQ")]
+        public IHttpActionResult GetRodAccessoryItemCodeForCQ()
+        {
+            var result = _trnCurtainQuotationService.getRodAccessoryForCQ();
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("api/Common/GetTrackAccessoryItemCodeForCQ")]
+        public IHttpActionResult GetTrackAccessoryItemCodeForCQ()
+        {
+            var result = _trnCurtainQuotationService.getTrackAccessoryForCQ();
             return Ok(result);
         }
     }

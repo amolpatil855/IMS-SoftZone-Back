@@ -74,7 +74,11 @@ namespace IMSWebApi.Services
 
         public List<VMProductForCS> getAccessoryItemCodeForCS()
         {
-            return repo.MstAccessories.Select(a => new VMProductForCS
+            return repo.MstAccessories.Where(a => !(a.name.ToLower().Contains("rod") 
+                                                    || a.name.ToLower().Contains("track") 
+                                                    || a.itemCode.ToLower().Contains("rod") 
+                                                    || a.itemCode.ToLower().Contains("track")))
+                                    .Select(a => new VMProductForCS
                                     {
                                         accessoryId = a.id,
                                         itemCode = a.itemCode,
