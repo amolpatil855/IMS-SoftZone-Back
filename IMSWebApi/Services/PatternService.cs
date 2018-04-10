@@ -64,6 +64,12 @@ namespace IMSWebApi.Services
                 }).ToList();
         }
 
+        public List<VMPattern> getAllPatterns()
+        {
+            var result = repo.MstPatterns.ToList();
+            return Mapper.Map<List<MstPattern>, List<VMPattern>>(result);
+        }
+
         public VMPattern getPatternById(Int64 id)
         {
             var result = repo.MstPatterns.Where(p => p.id == id).FirstOrDefault();
