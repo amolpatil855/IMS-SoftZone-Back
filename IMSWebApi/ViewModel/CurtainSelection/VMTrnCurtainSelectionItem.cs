@@ -23,8 +23,7 @@ namespace IMSWebApi.ViewModel
         public Nullable<long> accessoryId { get; set; }
         public Nullable<bool> isPatch { get; set; }
         public Nullable<bool> isLining { get; set; }
-        [Required]
-        public decimal rate { get; set; }
+        public Nullable<decimal> rate { get; set; }
         public Nullable<decimal> discount { get; set; }
 
         public string categoryName { get; set; }

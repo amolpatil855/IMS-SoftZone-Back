@@ -15,6 +15,7 @@ namespace IMSWebApi.ViewModel
         public Nullable<decimal> maxFlatRateDisc { get; set; }
         public Nullable<decimal> maxCutRateDisc { get; set; }
         public Nullable<decimal> maxRoleRateDisc { get; set; }
+        public Nullable<decimal> fabricWidth { get; set; }
         
         // For Accessories
         public Nullable<long> accessoryId { get; set; }

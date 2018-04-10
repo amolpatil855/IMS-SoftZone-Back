@@ -25,7 +25,7 @@ namespace IMSWebApi.Models
         public Nullable<long> accessoryId { get; set; }
         public Nullable<bool> isPatch { get; set; }
         public Nullable<bool> isLining { get; set; }
-        public decimal rate { get; set; }
+        public Nullable<decimal> rate { get; set; }
         public Nullable<decimal> discount { get; set; }
         public System.DateTime createdOn { get; set; }
         public long createdBy { get; set; }

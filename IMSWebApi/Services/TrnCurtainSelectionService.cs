@@ -68,6 +68,7 @@ namespace IMSWebApi.Services
                                         maxFlatRateDisc = s.MstQuality.maxFlatRateDisc != null ? s.MstQuality.maxFlatRateDisc : null,
                                         maxCutRateDisc = s.MstQuality.maxCutRateDisc != null ? s.MstQuality.maxCutRateDisc : null,
                                         maxRoleRateDisc = s.MstQuality.maxRoleRateDisc != null ? s.MstQuality.maxRoleRateDisc : null,
+                                        fabricWidth = s.MstQuality.width != null ? s.MstQuality.width : null,
                                         gst = s.MstQuality.MstHsn != null ? s.MstQuality.MstHsn.gst : 0
                                     }).ToList();
             return result;
@@ -243,10 +244,7 @@ namespace IMSWebApi.Services
                 cqItem.itemCode = csItem.MstAccessory != null ? csItem.MstAccessory.itemCode : null;
                 cqItem.isPatch = csItem.isPatch;
                 cqItem.isLining = csItem.isLining;
-                cqItem.rate = csItem.rate;
-                cqItem.discount = csItem.discount;
-                cqItem.gst = csItem.shadeId != null ? csItem.MstFWRShade.MstQuality.MstHsn.gst : csItem.MstAccessory.MstHsn.gst;
-
+                
                 VMCurtainQuotation.TrnCurtainQuotationItems.Add(cqItem);
             }
             return VMCurtainQuotation;
