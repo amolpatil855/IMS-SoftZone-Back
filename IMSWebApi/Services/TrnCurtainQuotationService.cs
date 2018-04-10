@@ -87,7 +87,8 @@ namespace IMSWebApi.Services
                                         {
                                             accessoryId = a.id,
                                             itemCode = a.itemCode,
-                                            sellingRate = a.sellingRate
+                                            sellingRate = a.sellingRate,
+                                            gst = a.MstHsn.gst
                                         }).ToList();
         }
 
@@ -98,7 +99,8 @@ namespace IMSWebApi.Services
                                         {
                                             accessoryId = a.id,
                                             itemCode = a.itemCode,
-                                            sellingRate = a.sellingRate
+                                            sellingRate = a.sellingRate,
+                                            gst = a.MstHsn.gst
                                         }).ToList();
         }
 

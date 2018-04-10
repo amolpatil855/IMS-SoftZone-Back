@@ -67,7 +67,8 @@ namespace IMSWebApi.Services
                                         flatRate = s.MstQuality.flatRate != null ? s.MstQuality.flatRate : null,
                                         maxFlatRateDisc = s.MstQuality.maxFlatRateDisc != null ? s.MstQuality.maxFlatRateDisc : null,
                                         maxCutRateDisc = s.MstQuality.maxCutRateDisc != null ? s.MstQuality.maxCutRateDisc : null,
-                                        maxRoleRateDisc = s.MstQuality.maxRoleRateDisc != null ? s.MstQuality.maxRoleRateDisc : null
+                                        maxRoleRateDisc = s.MstQuality.maxRoleRateDisc != null ? s.MstQuality.maxRoleRateDisc : null,
+                                        gst = s.MstQuality.MstHsn != null ? s.MstQuality.MstHsn.gst : 0
                                     }).ToList();
             return result;
         }
@@ -82,7 +83,8 @@ namespace IMSWebApi.Services
                                     {
                                         accessoryId = a.id,
                                         itemCode = a.itemCode,
-                                        sellingRate = a.sellingRate
+                                        sellingRate = a.sellingRate,
+                                        gst = a.MstHsn.gst
                                     }).ToList();
         }
 

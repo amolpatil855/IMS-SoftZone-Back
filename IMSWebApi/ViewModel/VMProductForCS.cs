@@ -21,5 +21,6 @@ namespace IMSWebApi.ViewModel
         public string itemCode { get; set; }
         public Nullable<decimal> sellingRate { get; set; }
 
+        public int gst { get; set; }
     }
 }
