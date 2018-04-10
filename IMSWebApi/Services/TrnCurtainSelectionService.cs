@@ -65,7 +65,9 @@ namespace IMSWebApi.Services
                                         serialno =  s.serialNumber.ToString() + " (" + s.shadeCode + "-" + s.MstFWRDesign.designCode +  ")",
                                         rrp = s.MstQuality.rrp != null ? s.MstQuality.rrp : null,
                                         flatRate = s.MstQuality.flatRate != null ? s.MstQuality.flatRate : null,
-                                        maxFlatRateDisc = s.MstQuality.maxFlatRateDisc != null ? s.MstQuality.maxFlatRateDisc : null
+                                        maxFlatRateDisc = s.MstQuality.maxFlatRateDisc != null ? s.MstQuality.maxFlatRateDisc : null,
+                                        maxCutRateDisc = s.MstQuality.maxCutRateDisc != null ? s.MstQuality.maxCutRateDisc : null,
+                                        maxRoleRateDisc = s.MstQuality.maxRoleRateDisc != null ? s.MstQuality.maxRoleRateDisc : null
                                     }).ToList();
             return result;
         }
