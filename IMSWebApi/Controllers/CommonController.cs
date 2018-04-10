@@ -449,5 +449,17 @@ namespace IMSWebApi.Controllers
             var result = _trnCurtainSelectionService.getAccessoryItemCodeForCS();
             return Ok(result);
         }
+
+        /*
+         Added by Dakshineshwar Swain
+         Date :- 10th April 2018
+         */ 
+        [HttpGet]
+        [Route("api/Common/GetPatternDetailsForTailor")]
+        public IHttpActionResult GetPatternDetailsForTailor()
+        {
+            var result = _patternService.getPatternDetailsForTailor();
+            return Ok(result);
+        }
     }
 }
