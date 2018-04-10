@@ -70,6 +70,16 @@ namespace IMSWebApi.Services
             return Mapper.Map<List<MstPattern>, List<VMPattern>>(result);
         }
 
+        public List<VMPatternDetailsForTailor> getPatternDetailsForTailor()
+        {
+            return repo.MstPatterns.Select(p => new VMPatternDetailsForTailor
+                {
+                    patternId = p.id,
+                    name = p.name,
+                    charge = 0
+                }).ToList();
+        }
+
         public VMPattern getPatternById(Int64 id)
         {
             var result = repo.MstPatterns.Where(p => p.id == id).FirstOrDefault();

@@ -80,6 +80,30 @@ namespace IMSWebApi.Services
             return result;
         }
 
+        public List<VMProductForCS> getRodAccessoryForCQ()
+        {
+            return repo.MstAccessories.Where(a => a.name.ToLower().Contains("rod") || a.itemCode.ToLower().Contains("rod"))
+                                        .Select(a => new VMProductForCS
+                                        {
+                                            accessoryId = a.id,
+                                            itemCode = a.itemCode,
+                                            sellingRate = a.sellingRate,
+                                            gst = a.MstHsn.gst
+                                        }).ToList();
+        }
+
+        public List<VMProductForCS> getTrackAccessoryForCQ()
+        {
+            return repo.MstAccessories.Where(a => a.name.ToLower().Contains("track") || a.itemCode.ToLower().Contains("track"))
+                                        .Select(a => new VMProductForCS
+                                        {
+                                            accessoryId = a.id,
+                                            itemCode = a.itemCode,
+                                            sellingRate = a.sellingRate,
+                                            gst = a.MstHsn.gst
+                                        }).ToList();
+        }
+
         public VMTrnCurtainQuotation getCurtainQuotationById(Int64 id)
         {
             var result = repo.TrnCurtainQuotations.Where(cq => cq.id == id).FirstOrDefault();

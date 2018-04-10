@@ -572,6 +572,7 @@
     <Compile Include="ViewModel\ProductMasters\VMMatSizeList.cs" />
     <Compile Include="ViewModel\ProductMasters\VMMatThickness.cs" />
     <Compile Include="ViewModel\ProductMasters\VMPattern.cs" />
+    <Compile Include="ViewModel\VMPatternDetailsForTailor.cs" />
     <Compile Include="ViewModel\VMPOagainstSO.cs" />
     <Compile Include="ViewModel\VMProductDetails.cs" />
     <Compile Include="ViewModel\GoodIssueNote\VMTrnGoodIssueNote.cs" />

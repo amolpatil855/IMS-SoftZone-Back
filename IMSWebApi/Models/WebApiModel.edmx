@@ -655,7 +655,7 @@
           <Property Name="accessoryId" Type="bigint" />
           <Property Name="isPatch" Type="bit" />
           <Property Name="isLining" Type="bit" />
-          <Property Name="rate" Type="decimal" Precision="7" Scale="2" Nullable="false" />
+          <Property Name="rate" Type="decimal" Precision="7" Scale="2" />
           <Property Name="discount" Type="decimal" Precision="4" Scale="2" />
           <Property Name="createdOn" Type="datetime" Nullable="false" />
           <Property Name="createdBy" Type="bigint" Nullable="false" />
@@ -7903,7 +7903,7 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <Property Name="accessoryId" Type="Int64" />
           <Property Name="isPatch" Type="Boolean" />
           <Property Name="isLining" Type="Boolean" />
-          <Property Name="rate" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
+          <Property Name="rate" Type="Decimal" Precision="7" Scale="2" />
           <Property Name="discount" Type="Decimal" Precision="4" Scale="2" />
           <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="createdBy" Type="Int64" Nullable="false" />
