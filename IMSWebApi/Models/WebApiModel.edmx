@@ -591,11 +591,15 @@
           <Property Name="shadeId" Type="bigint" />
           <Property Name="accessoryId" Type="bigint" />
           <Property Name="isPatch" Type="bit" />
+          <Property Name="patchType" Type="varchar" MaxLength="20" />
           <Property Name="numberOfPatches" Type="int" />
+          <Property Name="patchWidth" Type="decimal" Precision="7" Scale="2" />
+          <Property Name="patchHeight" Type="decimal" Precision="7" Scale="2" />
           <Property Name="isLining" Type="bit" />
           <Property Name="isTrack" Type="bit" />
-          <Property Name="height" Type="decimal" Precision="7" Scale="2" Nullable="false" />
-          <Property Name="width" Type="decimal" Precision="7" Scale="2" Nullable="false" />
+          <Property Name="isRod" Type="bit" />
+          <Property Name="unitHeight" Type="decimal" Precision="7" Scale="2" Nullable="false" />
+          <Property Name="unitWidth" Type="decimal" Precision="7" Scale="2" Nullable="false" />
           <Property Name="orderQuantity" Type="decimal" Precision="7" Scale="2" Nullable="false" />
           <Property Name="balanceQuantity" Type="decimal" Precision="7" Scale="2" Nullable="false" />
           <Property Name="deliverQuantity" Type="decimal" Precision="7" Scale="2" Nullable="false" />
@@ -4577,7 +4581,7 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
             <End Role="TrnCurtainQuotation" EntitySet="TrnCurtainQuotations" />
             <End Role="TrnCurtainQuotationItem" EntitySet="TrnCurtainQuotationItems" />
           </AssociationSet>
-        </EntityContainer>
+          </EntityContainer>
         <EntityType Name="CFGRoleMenu">
           <Key>
             <PropertyRef Name="id" />
@@ -7867,11 +7871,15 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <Property Name="shadeId" Type="Int64" />
           <Property Name="accessoryId" Type="Int64" />
           <Property Name="isPatch" Type="Boolean" />
+          <Property Name="patchType" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="numberOfPatches" Type="Int32" />
+          <Property Name="patchWidth" Type="Decimal" Precision="7" Scale="2" />
+          <Property Name="patchHeight" Type="Decimal" Precision="7" Scale="2" />
           <Property Name="isLining" Type="Boolean" />
           <Property Name="isTrack" Type="Boolean" />
-          <Property Name="height" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
-          <Property Name="width" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
+          <Property Name="isRod" Type="Boolean" />
+          <Property Name="unitHeight" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
+          <Property Name="unitWidth" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
           <Property Name="orderQuantity" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
           <Property Name="balanceQuantity" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
           <Property Name="deliverQuantity" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
@@ -9164,11 +9172,15 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
                 <ScalarProperty Name="deliverQuantity" ColumnName="deliverQuantity" />
                 <ScalarProperty Name="balanceQuantity" ColumnName="balanceQuantity" />
                 <ScalarProperty Name="orderQuantity" ColumnName="orderQuantity" />
-                <ScalarProperty Name="width" ColumnName="width" />
-                <ScalarProperty Name="height" ColumnName="height" />
+                <ScalarProperty Name="unitWidth" ColumnName="unitWidth" />
+                <ScalarProperty Name="unitHeight" ColumnName="unitHeight" />
+                <ScalarProperty Name="isRod" ColumnName="isRod" />
                 <ScalarProperty Name="isTrack" ColumnName="isTrack" />
                 <ScalarProperty Name="isLining" ColumnName="isLining" />
+                <ScalarProperty Name="patchHeight" ColumnName="patchHeight" />
+                <ScalarProperty Name="patchWidth" ColumnName="patchWidth" />
                 <ScalarProperty Name="numberOfPatches" ColumnName="numberOfPatches" />
+                <ScalarProperty Name="patchType" ColumnName="patchType" />
                 <ScalarProperty Name="isPatch" ColumnName="isPatch" />
                 <ScalarProperty Name="accessoryId" ColumnName="accessoryId" />
                 <ScalarProperty Name="shadeId" ColumnName="shadeId" />

@@ -24,11 +24,15 @@ namespace IMSWebApi.Models
         public Nullable<long> shadeId { get; set; }
         public Nullable<long> accessoryId { get; set; }
         public Nullable<bool> isPatch { get; set; }
+        public string patchType { get; set; }
         public Nullable<int> numberOfPatches { get; set; }
+        public Nullable<decimal> patchWidth { get; set; }
+        public Nullable<decimal> patchHeight { get; set; }
         public Nullable<bool> isLining { get; set; }
         public Nullable<bool> isTrack { get; set; }
-        public decimal height { get; set; }
-        public decimal width { get; set; }
+        public Nullable<bool> isRod { get; set; }
+        public decimal unitHeight { get; set; }
+        public decimal unitWidth { get; set; }
         public decimal orderQuantity { get; set; }
         public decimal balanceQuantity { get; set; }
         public decimal deliverQuantity { get; set; }

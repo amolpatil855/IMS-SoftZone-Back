@@ -211,14 +211,14 @@
         <AssociationConnector Association="IMSModel.FK_TrnCurtainSelectionItems_MstFWRShade" />
         <AssociationConnector Association="IMSModel.FK_TrnCurtainSelectionItems_MstPattern" />
         <AssociationConnector Association="IMSModel.FK_TrnCurtainSelectionItems_TrnCurtainSelection" />
-        <EntityTypeShape EntityType="IMSModel.TrnCurtainQuotationItem" Width="1.5" PointX="31.5" PointY="32.625" />
+        <EntityTypeShape EntityType="IMSModel.TrnCurtainQuotationItem" Width="1.5" PointX="31.5" PointY="32.25" />
         <AssociationConnector Association="IMSModel.FK_TrnCurtainQuotationItems_MstAccessory" />
         <AssociationConnector Association="IMSModel.FK_TrnCurtainQuotationItems_MstCategory" />
         <AssociationConnector Association="IMSModel.FK_TrnCurtainQuotationItems_MstCollection" />
         <AssociationConnector Association="IMSModel.FK_TrnCurtainQuotationItems_MstFWRShade" />
         <AssociationConnector Association="IMSModel.FK_TrnCurtainQuotationItems_MstPattern" />
         <AssociationConnector Association="IMSModel.FK_TrnCurtainQuotationItems_TrnCurtainQuotation" />
-      </Diagram>
+        </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>
