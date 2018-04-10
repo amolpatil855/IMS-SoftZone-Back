@@ -108,7 +108,7 @@ namespace IMSWebApi.Services
 
                 foreach (var cqItems in curtainQuotationItems)
                 {
-                    cqItems.balanceQuantity = cqItems.orderQuantity;
+                    cqItems.balanceQuantity = cqItems.orderQuantity != null ? cqItems.orderQuantity : (Convert.ToInt64(cqItems.horizontalPatchQuantity) + Convert.ToInt64(cqItems.verticalPatchQuantity));
                     cqItems.deliverQuantity = 0;
                     cqItems.status = CurtainQuotationStatus.Created.ToString();
                     cqItems.createdOn = DateTime.Now;
@@ -195,10 +195,21 @@ namespace IMSWebApi.Services
                     cqItemToPut.shadeId = x.shadeId;
                     cqItemToPut.accessoryId = x.accessoryId;
                     cqItemToPut.isPatch = x.isPatch;
-                    cqItemToPut.patchType = x.patchType;
-                    cqItemToPut.numberOfPatches = x.numberOfPatches;
-                    cqItemToPut.patchHeight = x.patchHeight;
-                    cqItemToPut.patchWidth = x.patchWidth;
+
+                    cqItemToPut.isVerticalPatch = x.isVerticalPatch;
+                    cqItemToPut.noOfVerticalPatch = x.noOfVerticalPatch;
+                    cqItemToPut.verticalPatchWidth = x.verticalPatchWidth;
+                    cqItemToPut.verticalPatchQuantity = x.verticalPatchQuantity;
+                    cqItemToPut.verticalPatchAmount = x.verticalPatchAmount;
+                    cqItemToPut.verticalPatchAmountWithGST = x.verticalPatchAmountWithGST;
+
+                    cqItemToPut.isHorizontalPatch = x.isHorizontalPatch;
+                    cqItemToPut.noOfHorizontalPatch = x.noOfHorizontalPatch;
+                    cqItemToPut.horizontalPatchHeight = x.horizontalPatchHeight;
+                    cqItemToPut.horizontalPatchQuantity = x.horizontalPatchQuantity;
+                    cqItemToPut.horizontalPatchAmount = x.horizontalPatchAmount;
+                    cqItemToPut.horizontalPatchAmountWithGST = x.horizontalPatchAmountWithGST;
+                    
                     cqItemToPut.isLining = x.isLining;
                     cqItemToPut.isTrack = x.isTrack;
                     cqItemToPut.unitHeight = x.unitHeight;
@@ -224,7 +235,7 @@ namespace IMSWebApi.Services
                     TrnCurtainQuotationItem cqItem = Mapper.Map<VMTrnCurtainQuotationItem, TrnCurtainQuotationItem>(x);
                     cqItem.curtainQuotationId = curtainQuotation.id;
                     cqItem.status = CurtainQuotationStatus.Created.ToString();
-                    cqItem.balanceQuantity = cqItem.orderQuantity;
+                    cqItem.balanceQuantity = cqItem.orderQuantity != null ? cqItem.orderQuantity : (Convert.ToInt64(cqItem.horizontalPatchQuantity) + Convert.ToInt64(cqItem.verticalPatchQuantity));
                     cqItem.deliverQuantity = 0;
                     cqItem.createdBy = _LoggedInuserId;
                     cqItem.createdOn = DateTime.Now;
