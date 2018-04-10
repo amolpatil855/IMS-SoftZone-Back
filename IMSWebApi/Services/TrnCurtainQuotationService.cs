@@ -108,7 +108,7 @@ namespace IMSWebApi.Services
 
                 foreach (var cqItems in curtainQuotationItems)
                 {
-                    cqItems.balanceQuantity = cqItems.orderQuantity != null ? cqItems.orderQuantity : (Convert.ToInt64(cqItems.horizontalPatchQuantity) + Convert.ToInt64(cqItems.verticalPatchQuantity));
+                    cqItems.balanceQuantity = Convert.ToInt64(cqItems.orderQuantity) + Convert.ToInt64(cqItems.horizontalPatchQuantity) + Convert.ToInt64(cqItems.verticalPatchQuantity);
                     cqItems.deliverQuantity = 0;
                     cqItems.status = CurtainQuotationStatus.Created.ToString();
                     cqItems.createdOn = DateTime.Now;
@@ -217,7 +217,7 @@ namespace IMSWebApi.Services
                     cqItemToPut.isRod = x.isRod;
                     cqItemToPut.orderQuantity = x.orderQuantity;
                     cqItemToPut.deliverQuantity = x.deliverQuantity;
-                    cqItemToPut.balanceQuantity = x.balanceQuantity;
+                    cqItemToPut.balanceQuantity = Convert.ToInt64(x.orderQuantity) + Convert.ToInt64(x.horizontalPatchQuantity) + Convert.ToInt64(x.verticalPatchQuantity);
                     cqItemToPut.orderType = x.orderType;
                     cqItemToPut.rate = x.rate;
                     cqItemToPut.discount = x.discount;
