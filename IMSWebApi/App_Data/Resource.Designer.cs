@@ -907,6 +907,33 @@ namespace IMSWebApi.App_Data {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Tailor Added Successfully.
+        /// </summary>
+        public static string TailorAdded {
+            get {
+                return ResourceManager.GetString("TailorAdded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tailor Deleted Successfully.
+        /// </summary>
+        public static string TailorDeleted {
+            get {
+                return ResourceManager.GetString("TailorDeleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tailor Updated Successfully.
+        /// </summary>
+        public static string TailorUpdated {
+            get {
+                return ResourceManager.GetString("TailorUpdated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Product is Added in Stock.
         /// </summary>
         public static string TrnProductStockAdded {

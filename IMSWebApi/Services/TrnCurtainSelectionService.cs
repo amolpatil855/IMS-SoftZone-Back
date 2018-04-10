@@ -184,6 +184,7 @@ namespace IMSWebApi.Services
                     csItemToPut.shadeId = x.shadeId;
                     csItemToPut.accessoryId = x.accessoryId;
                     csItemToPut.isPatch = x.isPatch;
+                    csItemToPut.numberOfPatches = x.numberOfPatches;
                     csItemToPut.isLining = x.isLining;
                     csItemToPut.rate = x.rate;
                     csItemToPut.discount = x.discount;
@@ -234,6 +235,7 @@ namespace IMSWebApi.Services
                 cqItem.accessoryId = csItem.accessoryId;
                 cqItem.itemCode = csItem.MstAccessory != null ? csItem.MstAccessory.itemCode : null;
                 cqItem.isPatch = csItem.isPatch;
+                cqItem.numberOfPatches = csItem.numberOfPatches;
                 cqItem.isLining = csItem.isLining;
                 cqItem.rate = csItem.rate;
                 cqItem.discount = csItem.discount;

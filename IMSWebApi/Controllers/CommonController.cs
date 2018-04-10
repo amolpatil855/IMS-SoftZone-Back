@@ -427,6 +427,14 @@ namespace IMSWebApi.Controllers
         }
 
         [HttpGet]
+        [Route("api/Common/GetAllPatterns")]
+        public IHttpActionResult GetAllPatterns()
+        {
+            var result = _patternService.getAllPatterns();
+            return Ok(result);
+        }
+
+        [HttpGet]
         [Route("api/Common/GetSerialNumberForCS")]
         public IHttpActionResult GetSerialNumberForCS(long collectionId)
         {

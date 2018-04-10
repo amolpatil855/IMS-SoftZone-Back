@@ -12,31 +12,29 @@ namespace IMSWebApi.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class MstPattern
+    public partial class MstTailor
     {
-        public MstPattern()
+        public MstTailor()
         {
             this.MstTailorPatternChargeDetails = new HashSet<MstTailorPatternChargeDetail>();
-            this.TrnCurtainSelectionItems = new HashSet<TrnCurtainSelectionItem>();
-            this.TrnCurtainQuotationItems = new HashSet<TrnCurtainQuotationItem>();
         }
     
         public long id { get; set; }
         public string name { get; set; }
-        public decimal fabricHeight { get; set; }
-        public Nullable<decimal> liningHeight { get; set; }
-        public int meterPerInch { get; set; }
-        public int widthPerInch { get; set; }
-        public decimal setRateForPattern { get; set; }
-        public Nullable<decimal> verticalPatch { get; set; }
-        public Nullable<decimal> horizontalPatch { get; set; }
+        public string email { get; set; }
+        public string phone { get; set; }
+        public string alternatePhone1 { get; set; }
+        public string addressLine1 { get; set; }
+        public string addressLine2 { get; set; }
+        public string city { get; set; }
+        public string state { get; set; }
+        public string country { get; set; }
+        public string pin { get; set; }
         public System.DateTime createdOn { get; set; }
         public long createdBy { get; set; }
         public Nullable<System.DateTime> updatedOn { get; set; }
         public Nullable<long> updatedBy { get; set; }
     
         public virtual ICollection<MstTailorPatternChargeDetail> MstTailorPatternChargeDetails { get; set; }
-        public virtual ICollection<TrnCurtainSelectionItem> TrnCurtainSelectionItems { get; set; }
-        public virtual ICollection<TrnCurtainQuotationItem> TrnCurtainQuotationItems { get; set; }
     }
 }

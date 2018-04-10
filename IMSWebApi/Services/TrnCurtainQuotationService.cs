@@ -195,6 +195,7 @@ namespace IMSWebApi.Services
                     cqItemToPut.shadeId = x.shadeId;
                     cqItemToPut.accessoryId = x.accessoryId;
                     cqItemToPut.isPatch = x.isPatch;
+                    cqItemToPut.numberOfPatches = x.numberOfPatches;
                     cqItemToPut.isLining = x.isLining;
                     cqItemToPut.isTrack = x.isTrack;
                     cqItemToPut.height = x.height;
