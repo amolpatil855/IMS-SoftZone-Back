@@ -72,8 +72,8 @@ namespace IMSWebApi.Services
                     curtainQuotationNumber = cq.curtainQuotationNumber,
                     totalAmount = cq.totalAmount,
                     customerName = cq.MstCustomer != null ? cq.MstCustomer.name : null,
-                    customerId = cq.MstCustomer.id
-                    //balanceAmount = cq.totalAmount - cq.TrnAdvancePayments.Select(ap => ap.amount).DefaultIfEmpty(0).Sum()
+                    customerId = cq.MstCustomer.id,
+                    balanceAmount = cq.totalAmount - cq.TrnAdvancePayments.Select(ap => ap.amount).DefaultIfEmpty(0).Sum()
                 })
                     .OrderByDescending(o => o.id)
                     .ToList();
@@ -116,7 +116,7 @@ namespace IMSWebApi.Services
                 cqItem.collectionName = cqItem.collectionId != null ? cqItem.MstCollection.collectionCode : null;
                 cqItem.serialno = cqItem.MstCategory.code.Equals("Fabric") ? cqItem.MstFWRShade.serialNumber + "(" + cqItem.MstFWRShade.shadeCode + "-" + cqItem.MstFWRShade.MstFWRDesign.designCode + ")" : null;
             });
-            //curtainQuotationView.advanceAmount = repo.TrnAdvancePayments.Where(ap => ap.materialQuotationId == id).Select(ap => ap.amount).DefaultIfEmpty(0).Sum();
+            curtainQuotationView.advanceAmount = repo.TrnAdvancePayments.Where(ap => ap.materialQuotationId == id).Select(ap => ap.amount).DefaultIfEmpty(0).Sum();
             curtainQuotationView.TrnCurtainQuotationItems.ForEach(cqItem => cqItem.TrnCurtainQuotation = null);
             curtainQuotationView.TrnCurtainSelection.TrnCurtainQuotations = null;
             curtainQuotationView.TrnCurtainSelection.TrnCurtainSelectionItems.ForEach(csItems => csItems.TrnCurtainSelection = null);

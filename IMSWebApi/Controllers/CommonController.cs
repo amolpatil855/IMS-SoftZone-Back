@@ -479,5 +479,13 @@ namespace IMSWebApi.Controllers
             var result = _trnCurtainQuotationService.getTrackAccessoryForCQ();
             return Ok(result);
         }
+
+        [HttpGet]
+        [Route("api/Common/GetCurtainQuotationLookup")]
+        public IHttpActionResult GetCurtainQuotationLookup()
+        {
+            var result = _trnCurtainQuotationService.getCurtainQuotationLookup();
+            return Ok(result);
+        }
     }
 }

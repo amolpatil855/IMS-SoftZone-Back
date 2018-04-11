@@ -88,7 +88,7 @@ namespace IMSWebApi.App_Data {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Material Quotation can&apos;t be approved. Advance Payment is pending..
+        ///   Looks up a localized string similar to Quotation can&apos;t be approved. Advance Payment is pending..
         /// </summary>
         public static string AdvPaymentPending {
             get {
