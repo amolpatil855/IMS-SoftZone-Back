@@ -244,6 +244,8 @@ namespace IMSWebApi.Services
                 cqItem.itemCode = csItem.MstAccessory != null ? csItem.MstAccessory.itemCode : null;
                 cqItem.isPatch = csItem.isPatch;
                 cqItem.isLining = csItem.isLining;
+
+                cqItem.MstPattern = Mapper.Map<MstPattern,VMPattern>(csItem.MstPattern);
                 
                 VMCurtainQuotation.TrnCurtainQuotationItems.Add(cqItem);
             }

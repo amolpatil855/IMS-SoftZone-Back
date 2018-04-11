@@ -17,6 +17,7 @@ namespace IMSWebApi.Models
         public TrnCurtainQuotation()
         {
             this.TrnCurtainQuotationItems = new HashSet<TrnCurtainQuotationItem>();
+            this.TrnAdvancePayments = new HashSet<TrnAdvancePayment>();
         }
     
         public long id { get; set; }
@@ -37,5 +38,6 @@ namespace IMSWebApi.Models
         public virtual MstCustomer MstCustomer { get; set; }
         public virtual TrnCurtainSelection TrnCurtainSelection { get; set; }
         public virtual ICollection<TrnCurtainQuotationItem> TrnCurtainQuotationItems { get; set; }
+        public virtual ICollection<TrnAdvancePayment> TrnAdvancePayments { get; set; }
     }
 }

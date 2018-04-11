@@ -406,7 +406,7 @@
     <value>Advance Payment Updated Successfully</value>
   </data>
   <data name="AdvPaymentPending" xml:space="preserve">
-    <value>Material Quotation can't be approved. Advance Payment is pending.</value>
+    <value>Quotation can't be approved. Advance Payment is pending.</value>
   </data>
   <data name="PatternAdded" xml:space="preserve">
     <value>Pattern Added Successfully</value>

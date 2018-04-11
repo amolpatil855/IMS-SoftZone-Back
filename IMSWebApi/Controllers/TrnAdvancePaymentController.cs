@@ -23,9 +23,9 @@ namespace IMSWebApi.Controllers
         // GET api/TrnAdvancePayment
         [ApiAuthorize(AccessLevel = "advancepayment")]
         [HttpGet]
-        public IHttpActionResult Get(int pageSize = 0, int page = 0, string search = null)
+        public IHttpActionResult Get(int pageSize = 0, int page = 0, string search = null, string quotationType = null)
         {
-            var result = _trnAdvancePaymentService.getAdvancePayments(pageSize, page, search);
+            var result = _trnAdvancePaymentService.getAdvancePayments(pageSize, page, search, quotationType);
             return Ok(result);
         }
 

@@ -28,22 +28,25 @@ namespace IMSWebApi.Services
             generateOrderNumber = new GenerateOrderNumber();
         }
 
-        public ListResult<VMTrnAdvancePaymentList> getAdvancePayments(int pageSize, int page, string search)
+        public ListResult<VMTrnAdvancePaymentList> getAdvancePayments(int pageSize, int page, string search, string quotationType)
         {
             List<VMTrnAdvancePaymentList> advancePaymentView;
-            advancePaymentView = repo.TrnAdvancePayments.Where(ap => !string.IsNullOrEmpty(search)
+            advancePaymentView = repo.TrnAdvancePayments.Where(ap => (!string.IsNullOrEmpty(search)
                     ? ap.advancePaymentNumber.StartsWith(search)
                     || ap.MstCustomer.name.StartsWith(search)
-                    || ap.TrnMaterialQuotation.materialQuotationNumber.StartsWith(search)
-                    || ap.amount.ToString().StartsWith(search)
-                    || ap.paymentMode.StartsWith(search) : true)
+                    || (ap.TrnMaterialQuotation != null ? ap.TrnMaterialQuotation.materialQuotationNumber.StartsWith(search) : false)
+                    || (ap.TrnCurtainQuotation != null ? ap.TrnCurtainQuotation.curtainQuotationNumber.StartsWith(search) : false)
+                    || ap.amount.ToString().StartsWith(search): true)
+                    && (!string.IsNullOrEmpty(quotationType) ? ap.quotationType.Equals(quotationType) : true))
                     .Select(advPayment => new VMTrnAdvancePaymentList
                     {
                         id = advPayment.id,
                         advancePaymentNumber = advPayment.advancePaymentNumber,
                         advancePaymentDate = advPayment.advancePaymentDate,
                         customerName = advPayment.customerId != null ? advPayment.MstCustomer.name : string.Empty,
-                        materialQuotationNumber = advPayment.materialQuotationId != null ? advPayment.TrnMaterialQuotation.materialQuotationNumber : string.Empty,
+                        quotationNumber = advPayment.materialQuotationId != null ? advPayment.TrnMaterialQuotation.materialQuotationNumber : 
+                                advPayment.curtainQuotationId != null ? advPayment.TrnCurtainQuotation.curtainQuotationNumber : string.Empty,
+                        quotationType = advPayment.quotationType,
                         amount = advPayment.amount,
                         paymentMode = advPayment.paymentMode
                     })
@@ -53,12 +56,13 @@ namespace IMSWebApi.Services
             return new ListResult<VMTrnAdvancePaymentList>
             {
                 Data = advancePaymentView,
-                TotalCount = repo.TrnAdvancePayments.Where(ap => !string.IsNullOrEmpty(search)
+                TotalCount = repo.TrnAdvancePayments.Where(ap => (!string.IsNullOrEmpty(search)
                     ? ap.advancePaymentNumber.StartsWith(search)
                     || ap.MstCustomer.name.StartsWith(search)
-                    || ap.TrnMaterialQuotation.materialQuotationNumber.StartsWith(search)
-                    || ap.amount.ToString().StartsWith(search)
-                    || ap.paymentMode.StartsWith(search) : true).Count(),
+                    || (ap.TrnMaterialQuotation != null ? ap.TrnMaterialQuotation.materialQuotationNumber.StartsWith(search) : false)
+                    || (ap.TrnCurtainQuotation != null ? ap.TrnCurtainQuotation.curtainQuotationNumber.StartsWith(search) : false)
+                    || ap.amount.ToString().StartsWith(search): true)
+                    && (!string.IsNullOrEmpty(quotationType) ? ap.quotationType.Equals(quotationType) : true)).Count(),
                 Page = page
             };
         }
@@ -67,11 +71,20 @@ namespace IMSWebApi.Services
         {
             var result = repo.TrnAdvancePayments.Where(ap => ap.id == id).FirstOrDefault();
             VMTrnAdvancePayment advancePaymentView = Mapper.Map<TrnAdvancePayment, VMTrnAdvancePayment>(result);
-            advancePaymentView.materialQuotationNumber = result.TrnMaterialQuotation != null ? result.TrnMaterialQuotation.materialQuotationNumber : string.Empty;
+            advancePaymentView.quotationNumber = result.TrnMaterialQuotation != null ? result.TrnMaterialQuotation.materialQuotationNumber :
+                result.TrnCurtainQuotation != null ? result.TrnCurtainQuotation.curtainQuotationNumber : string.Empty;
             advancePaymentView.customerName = result.MstCustomer != null ? result.MstCustomer.name : string.Empty;
-           
-            advancePaymentView.TrnMaterialQuotation.TrnMaterialSelection = null;
-            advancePaymentView.TrnMaterialQuotation.TrnMaterialQuotationItems.ForEach(mqItem => mqItem.TrnMaterialQuotation = null);
+
+            if (advancePaymentView.TrnMaterialQuotation != null)
+            {
+                advancePaymentView.TrnMaterialQuotation.TrnMaterialSelection = null;
+                advancePaymentView.TrnMaterialQuotation.TrnMaterialQuotationItems.ForEach(mqItem => mqItem.TrnMaterialQuotation = null);
+            }
+            else if (advancePaymentView.TrnCurtainQuotation != null)
+            {
+                advancePaymentView.TrnCurtainQuotation.TrnCurtainSelection = null;
+                advancePaymentView.TrnCurtainQuotation.TrnCurtainQuotationItems.ForEach(cqItem => cqItem.TrnCurtainQuotation = null);
+            }
             return advancePaymentView;
         }
 
@@ -105,6 +118,8 @@ namespace IMSWebApi.Services
 
                 advancePaymentToPut.customerId = advancePayment.customerId;
                 advancePaymentToPut.materialQuotationId = advancePayment.materialQuotationId;
+                advancePaymentToPut.curtainQuotationId = advancePayment.curtainQuotationId;
+                advancePaymentToPut.quotationType = advancePayment.quotationType;
                 advancePaymentToPut.amount = advancePayment.amount;
                 advancePaymentToPut.paymentMode = advancePayment.paymentMode;
                 advancePaymentToPut.chequeNumber = advancePayment.chequeNumber;

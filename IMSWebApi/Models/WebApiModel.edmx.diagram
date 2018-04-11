@@ -32,7 +32,6 @@
         <EntityTypeShape EntityType="IMSModel.MstUnitOfMeasure" Width="1.5" PointX="0.75" PointY="51.5" />
         <EntityTypeShape EntityType="IMSModel.MstUser" Width="1.5" PointX="1.5" PointY="30.75" />
         <EntityTypeShape EntityType="IMSModel.MstuserType" Width="1.5" PointX="1.5" PointY="41.5" />
-        <EntityTypeShape EntityType="IMSModel.TrnAdvancePayment" Width="1.5" PointX="6" PointY="48.125" />
         <EntityTypeShape EntityType="IMSModel.TrnGoodIssueNote" Width="1.5" PointX="6" PointY="31" />
         <EntityTypeShape EntityType="IMSModel.TrnGoodIssueNoteItem" Width="1.5" PointX="13.5" PointY="63.125" />
         <EntityTypeShape EntityType="IMSModel.TrnGoodReceiveNote" Width="1.5" PointX="8.25" PointY="64.75" />
@@ -108,7 +107,6 @@
         <AssociationConnector Association="IMSModel.FK_TrnSaleOrder_MstCourier" />
         <AssociationConnector Association="IMSModel.FK_MstCustomer_MstUser" />
         <AssociationConnector Association="IMSModel.FK_MstCustomerAddressDetails_MstCustomer" />
-        <AssociationConnector Association="IMSModel.FK_TrnAdvancePayment_MstCustomer" />
         <AssociationConnector Association="IMSModel.FK_TrnGoodIssueNote_MstCustomer" />
         <AssociationConnector Association="IMSModel.FK_TrnMaterialQuotation_MstCustomer" />
         <AssociationConnector Association="IMSModel.FK_TrnMaterialSelection_MstCustomer" />
@@ -170,7 +168,6 @@
         <AssociationConnector Association="IMSModel.FK_TrnGoodReceiveNote_MstSupplier" />
         <AssociationConnector Association="IMSModel.FK_TrnPurchaseOrder_MstSupplier" />
         <AssociationConnector Association="IMSModel.FK_MstUser_MstUserType" />
-        <AssociationConnector Association="IMSModel.FK_TrnAdvancePayment_TrnMaterialQuotation" />
         <AssociationConnector Association="IMSModel.FK_TrnGoodIssueNote_TrnMaterialQuotation" />
         <AssociationConnector Association="IMSModel.FK_TrnGoodIssueNote_TrnSaleOrder" />
         <AssociationConnector Association="IMSModel.FK_TrnGoodIssueNoteItems_TrnGoodIssueNote" />
@@ -218,6 +215,10 @@
         <AssociationConnector Association="IMSModel.FK_TrnCurtainSelectionItems_MstFWRShade" />
         <AssociationConnector Association="IMSModel.FK_TrnCurtainSelectionItems_MstPattern" />
         <AssociationConnector Association="IMSModel.FK_TrnCurtainSelectionItems_TrnCurtainSelection" />
+        <EntityTypeShape EntityType="IMSModel.TrnAdvancePayment" Width="1.5" PointX="31.5" PointY="49.875" />
+        <AssociationConnector Association="IMSModel.FK_TrnAdvancePayment_MstCustomer" />
+        <AssociationConnector Association="IMSModel.FK_TrnAdvancePayment_TrnCurtainQuotation" />
+        <AssociationConnector Association="IMSModel.FK_TrnAdvancePayment_TrnMaterialQuotation" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

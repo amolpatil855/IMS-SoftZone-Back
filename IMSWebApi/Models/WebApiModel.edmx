@@ -546,7 +546,9 @@
           <Property Name="advancePaymentNumber" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="advancePaymentDate" Type="datetime" Nullable="false" />
           <Property Name="customerId" Type="bigint" Nullable="false" />
-          <Property Name="materialQuotationId" Type="bigint" Nullable="false" />
+          <Property Name="materialQuotationId" Type="bigint" />
+          <Property Name="curtainQuotationId" Type="bigint" />
+          <Property Name="quotationType" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="amount" Type="bigint" Nullable="false" />
           <Property Name="paymentMode" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="chequeNumber" Type="varchar" MaxLength="20" />
@@ -1762,8 +1764,20 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_TrnAdvancePayment_TrnCurtainQuotation">
+          <End Role="TrnCurtainQuotation" Type="Self.TrnCurtainQuotation" Multiplicity="0..1" />
+          <End Role="TrnAdvancePayment" Type="Self.TrnAdvancePayment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TrnCurtainQuotation">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnAdvancePayment">
+              <PropertyRef Name="curtainQuotationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_TrnAdvancePayment_TrnMaterialQuotation">
-          <End Role="TrnMaterialQuotation" Type="Self.TrnMaterialQuotation" Multiplicity="1" />
+          <End Role="TrnMaterialQuotation" Type="Self.TrnMaterialQuotation" Multiplicity="0..1" />
           <End Role="TrnAdvancePayment" Type="Self.TrnAdvancePayment" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="TrnMaterialQuotation">
@@ -3453,6 +3467,10 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
             <End Role="MstCustomer" EntitySet="MstCustomer" />
             <End Role="TrnAdvancePayment" EntitySet="TrnAdvancePayment" />
           </AssociationSet>
+          <AssociationSet Name="FK_TrnAdvancePayment_TrnCurtainQuotation" Association="Self.FK_TrnAdvancePayment_TrnCurtainQuotation">
+            <End Role="TrnCurtainQuotation" EntitySet="TrnCurtainQuotation" />
+            <End Role="TrnAdvancePayment" EntitySet="TrnAdvancePayment" />
+          </AssociationSet>
           <AssociationSet Name="FK_TrnAdvancePayment_TrnMaterialQuotation" Association="Self.FK_TrnAdvancePayment_TrnMaterialQuotation">
             <End Role="TrnMaterialQuotation" EntitySet="TrnMaterialQuotation" />
             <End Role="TrnAdvancePayment" EntitySet="TrnAdvancePayment" />
@@ -3934,7 +3952,6 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <EntitySet Name="MstUnitOfMeasures" EntityType="IMSModel.MstUnitOfMeasure" />
           <EntitySet Name="MstUsers" EntityType="IMSModel.MstUser" />
           <EntitySet Name="MstuserTypes" EntityType="IMSModel.MstuserType" />
-          <EntitySet Name="TrnAdvancePayments" EntityType="IMSModel.TrnAdvancePayment" />
           <EntitySet Name="TrnGoodIssueNotes" EntityType="IMSModel.TrnGoodIssueNote" />
           <EntitySet Name="TrnGoodIssueNoteItems" EntityType="IMSModel.TrnGoodIssueNoteItem" />
           <EntitySet Name="TrnGoodReceiveNotes" EntityType="IMSModel.TrnGoodReceiveNote" />
@@ -4187,10 +4204,6 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
             <End Role="MstCustomer" EntitySet="MstCustomers" />
             <End Role="MstCustomerAddress" EntitySet="MstCustomerAddresses" />
           </AssociationSet>
-          <AssociationSet Name="FK_TrnAdvancePayment_MstCustomer" Association="IMSModel.FK_TrnAdvancePayment_MstCustomer">
-            <End Role="MstCustomer" EntitySet="MstCustomers" />
-            <End Role="TrnAdvancePayment" EntitySet="TrnAdvancePayments" />
-          </AssociationSet>
           <AssociationSet Name="FK_TrnGoodIssueNote_MstCustomer" Association="IMSModel.FK_TrnGoodIssueNote_MstCustomer">
             <End Role="MstCustomer" EntitySet="MstCustomers" />
             <End Role="TrnGoodIssueNote" EntitySet="TrnGoodIssueNotes" />
@@ -4435,10 +4448,6 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
             <End Role="MstuserType" EntitySet="MstuserTypes" />
             <End Role="MstUser" EntitySet="MstUsers" />
           </AssociationSet>
-          <AssociationSet Name="FK_TrnAdvancePayment_TrnMaterialQuotation" Association="IMSModel.FK_TrnAdvancePayment_TrnMaterialQuotation">
-            <End Role="TrnMaterialQuotation" EntitySet="TrnMaterialQuotations" />
-            <End Role="TrnAdvancePayment" EntitySet="TrnAdvancePayments" />
-          </AssociationSet>
           <AssociationSet Name="FK_TrnGoodIssueNote_TrnMaterialQuotation" Association="IMSModel.FK_TrnGoodIssueNote_TrnMaterialQuotation">
             <End Role="TrnMaterialQuotation" EntitySet="TrnMaterialQuotations" />
             <End Role="TrnGoodIssueNote" EntitySet="TrnGoodIssueNotes" />
@@ -4587,6 +4596,19 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <AssociationSet Name="FK_TrnCurtainSelectionItems_TrnCurtainSelection" Association="IMSModel.FK_TrnCurtainSelectionItems_TrnCurtainSelection">
             <End Role="TrnCurtainSelection" EntitySet="TrnCurtainSelections" />
             <End Role="TrnCurtainSelectionItem" EntitySet="TrnCurtainSelectionItems" />
+          </AssociationSet>
+          <EntitySet Name="TrnAdvancePayments" EntityType="IMSModel.TrnAdvancePayment" />
+          <AssociationSet Name="FK_TrnAdvancePayment_MstCustomer" Association="IMSModel.FK_TrnAdvancePayment_MstCustomer">
+            <End Role="MstCustomer" EntitySet="MstCustomers" />
+            <End Role="TrnAdvancePayment" EntitySet="TrnAdvancePayments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnAdvancePayment_TrnCurtainQuotation" Association="IMSModel.FK_TrnAdvancePayment_TrnCurtainQuotation">
+            <End Role="TrnCurtainQuotation" EntitySet="TrnCurtainQuotations" />
+            <End Role="TrnAdvancePayment" EntitySet="TrnAdvancePayments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnAdvancePayment_TrnMaterialQuotation" Association="IMSModel.FK_TrnAdvancePayment_TrnMaterialQuotation">
+            <End Role="TrnMaterialQuotation" EntitySet="TrnMaterialQuotations" />
+            <End Role="TrnAdvancePayment" EntitySet="TrnAdvancePayments" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="CFGRoleMenu">
@@ -4822,13 +4844,13 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <Property Name="updatedBy" Type="Int64" />
           <NavigationProperty Name="MstUser" Relationship="IMSModel.FK_MstCustomer_MstUser" FromRole="MstCustomer" ToRole="MstUser" />
           <NavigationProperty Name="MstCustomerAddresses" Relationship="IMSModel.FK_MstCustomerAddressDetails_MstCustomer" FromRole="MstCustomer" ToRole="MstCustomerAddress" />
-          <NavigationProperty Name="TrnAdvancePayments" Relationship="IMSModel.FK_TrnAdvancePayment_MstCustomer" FromRole="MstCustomer" ToRole="TrnAdvancePayment" />
           <NavigationProperty Name="TrnGoodIssueNotes" Relationship="IMSModel.FK_TrnGoodIssueNote_MstCustomer" FromRole="MstCustomer" ToRole="TrnGoodIssueNote" />
           <NavigationProperty Name="TrnMaterialQuotations" Relationship="IMSModel.FK_TrnMaterialQuotation_MstCustomer" FromRole="MstCustomer" ToRole="TrnMaterialQuotation" />
           <NavigationProperty Name="TrnMaterialSelections" Relationship="IMSModel.FK_TrnMaterialSelection_MstCustomer" FromRole="MstCustomer" ToRole="TrnMaterialSelection" />
           <NavigationProperty Name="TrnSaleOrders" Relationship="IMSModel.FK_TrnSaleOrder_MstCustomer" FromRole="MstCustomer" ToRole="TrnSaleOrder" />
           <NavigationProperty Name="TrnCurtainSelections" Relationship="IMSModel.FK_TrnCurtainSelection_MstCustomer" FromRole="MstCustomer" ToRole="TrnCurtainSelection" />
           <NavigationProperty Name="TrnCurtainQuotations" Relationship="IMSModel.FK_TrnCurtainQuotation_MstCustomer" FromRole="MstCustomer" ToRole="TrnCurtainQuotation" />
+          <NavigationProperty Name="TrnAdvancePayments" Relationship="IMSModel.FK_TrnAdvancePayment_MstCustomer" FromRole="MstCustomer" ToRole="TrnAdvancePayment" />
         </EntityType>
         <EntityType Name="MstCustomerAddress">
           <Key>
@@ -5245,29 +5267,6 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <Property Name="updatedBy" Type="Int64" />
           <NavigationProperty Name="MstUsers" Relationship="IMSModel.FK_MstUser_MstUserType" FromRole="MstuserType" ToRole="MstUser" />
         </EntityType>
-        <EntityType Name="TrnAdvancePayment">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="advancePaymentNumber" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="advancePaymentDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="customerId" Type="Int64" Nullable="false" />
-          <Property Name="materialQuotationId" Type="Int64" Nullable="false" />
-          <Property Name="amount" Type="Int64" Nullable="false" />
-          <Property Name="paymentMode" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="chequeNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="chequeDate" Type="DateTime" Precision="0" />
-          <Property Name="bankName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="bankBranch" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="financialYear" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="createdBy" Type="Int64" Nullable="false" />
-          <Property Name="updatedOn" Type="DateTime" Precision="3" />
-          <Property Name="updatedBy" Type="Int64" />
-          <NavigationProperty Name="MstCustomer" Relationship="IMSModel.FK_TrnAdvancePayment_MstCustomer" FromRole="TrnAdvancePayment" ToRole="MstCustomer" />
-          <NavigationProperty Name="TrnMaterialQuotation" Relationship="IMSModel.FK_TrnAdvancePayment_TrnMaterialQuotation" FromRole="TrnAdvancePayment" ToRole="TrnMaterialQuotation" />
-        </EntityType>
         <EntityType Name="TrnGoodIssueNote">
           <Key>
             <PropertyRef Name="id" />
@@ -5405,11 +5404,11 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <Property Name="updatedBy" Type="Int64" />
           <NavigationProperty Name="MstAgent" Relationship="IMSModel.FK_TrnMaterialQuotation_MstAgent" FromRole="TrnMaterialQuotation" ToRole="MstAgent" />
           <NavigationProperty Name="MstCustomer" Relationship="IMSModel.FK_TrnMaterialQuotation_MstCustomer" FromRole="TrnMaterialQuotation" ToRole="MstCustomer" />
-          <NavigationProperty Name="TrnAdvancePayments" Relationship="IMSModel.FK_TrnAdvancePayment_TrnMaterialQuotation" FromRole="TrnMaterialQuotation" ToRole="TrnAdvancePayment" />
           <NavigationProperty Name="TrnGoodIssueNotes" Relationship="IMSModel.FK_TrnGoodIssueNote_TrnMaterialQuotation" FromRole="TrnMaterialQuotation" ToRole="TrnGoodIssueNote" />
           <NavigationProperty Name="TrnMaterialSelection" Relationship="IMSModel.FK_TrnMaterialQuotation_TrnMaterialSelection" FromRole="TrnMaterialQuotation" ToRole="TrnMaterialSelection" />
           <NavigationProperty Name="TrnMaterialQuotationItems" Relationship="IMSModel.FK_TrnMaterialQuotationItems_TrnMaterialQuotation" FromRole="TrnMaterialQuotation" ToRole="TrnMaterialQuotationItem" />
           <NavigationProperty Name="TrnSalesInvoices" Relationship="IMSModel.FK_TrnSalesInvoice_TrnMaterialQuotation" FromRole="TrnMaterialQuotation" ToRole="TrnSalesInvoice" />
+          <NavigationProperty Name="TrnAdvancePayments" Relationship="IMSModel.FK_TrnAdvancePayment_TrnMaterialQuotation" FromRole="TrnMaterialQuotation" ToRole="TrnAdvancePayment" />
         </EntityType>
         <EntityType Name="TrnMaterialQuotationItem">
           <Key>
@@ -6472,18 +6471,6 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_TrnAdvancePayment_MstCustomer">
-          <End Type="IMSModel.MstCustomer" Role="MstCustomer" Multiplicity="1" />
-          <End Type="IMSModel.TrnAdvancePayment" Role="TrnAdvancePayment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MstCustomer">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="TrnAdvancePayment">
-              <PropertyRef Name="customerId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_TrnGoodIssueNote_MstCustomer">
           <End Type="IMSModel.MstCustomer" Role="MstCustomer" Multiplicity="1" />
           <End Type="IMSModel.TrnGoodIssueNote" Role="TrnGoodIssueNote" Multiplicity="*" />
@@ -7218,18 +7205,6 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_TrnAdvancePayment_TrnMaterialQuotation">
-          <End Type="IMSModel.TrnMaterialQuotation" Role="TrnMaterialQuotation" Multiplicity="1" />
-          <End Type="IMSModel.TrnAdvancePayment" Role="TrnAdvancePayment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TrnMaterialQuotation">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="TrnAdvancePayment">
-              <PropertyRef Name="materialQuotationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_TrnGoodIssueNote_TrnMaterialQuotation">
           <End Type="IMSModel.TrnMaterialQuotation" Role="TrnMaterialQuotation" Multiplicity="0..1" />
           <End Type="IMSModel.TrnGoodIssueNote" Role="TrnGoodIssueNote" Multiplicity="*" />
@@ -7666,6 +7641,7 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <NavigationProperty Name="MstCustomer" Relationship="IMSModel.FK_TrnCurtainQuotation_MstCustomer" FromRole="TrnCurtainQuotation" ToRole="MstCustomer" />
           <NavigationProperty Name="TrnCurtainSelection" Relationship="IMSModel.FK_TrnCurtainQuotation_TrnCurtainSelection" FromRole="TrnCurtainQuotation" ToRole="TrnCurtainSelection" />
           <NavigationProperty Name="TrnCurtainQuotationItems" Relationship="IMSModel.FK_TrnCurtainQuotationItems_TrnCurtainQuotation" FromRole="TrnCurtainQuotation" ToRole="TrnCurtainQuotationItem" />
+          <NavigationProperty Name="TrnAdvancePayments" Relationship="IMSModel.FK_TrnAdvancePayment_TrnCurtainQuotation" FromRole="TrnCurtainQuotation" ToRole="TrnAdvancePayment" />
         </EntityType>
         <Association Name="FK_TrnCurtainQuotation_MstAgent">
           <End Type="IMSModel.MstAgent" Role="MstAgent" Multiplicity="0..1" />
@@ -7985,6 +7961,68 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
             </Principal>
             <Dependent Role="TrnCurtainSelectionItem">
               <PropertyRef Name="curtainSelectionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="TrnAdvancePayment">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="advancePaymentNumber" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="advancePaymentDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="customerId" Type="Int64" Nullable="false" />
+          <Property Name="materialQuotationId" Type="Int64" />
+          <Property Name="curtainQuotationId" Type="Int64" />
+          <Property Name="quotationType" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="amount" Type="Int64" Nullable="false" />
+          <Property Name="paymentMode" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="chequeNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="chequeDate" Type="DateTime" Precision="0" />
+          <Property Name="bankName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="bankBranch" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="financialYear" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="createdBy" Type="Int64" Nullable="false" />
+          <Property Name="updatedOn" Type="DateTime" Precision="3" />
+          <Property Name="updatedBy" Type="Int64" />
+          <NavigationProperty Name="MstCustomer" Relationship="IMSModel.FK_TrnAdvancePayment_MstCustomer" FromRole="TrnAdvancePayment" ToRole="MstCustomer" />
+          <NavigationProperty Name="TrnCurtainQuotation" Relationship="IMSModel.FK_TrnAdvancePayment_TrnCurtainQuotation" FromRole="TrnAdvancePayment" ToRole="TrnCurtainQuotation" />
+          <NavigationProperty Name="TrnMaterialQuotation" Relationship="IMSModel.FK_TrnAdvancePayment_TrnMaterialQuotation" FromRole="TrnAdvancePayment" ToRole="TrnMaterialQuotation" />
+        </EntityType>
+        <Association Name="FK_TrnAdvancePayment_MstCustomer">
+          <End Type="IMSModel.MstCustomer" Role="MstCustomer" Multiplicity="1" />
+          <End Type="IMSModel.TrnAdvancePayment" Role="TrnAdvancePayment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstCustomer">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnAdvancePayment">
+              <PropertyRef Name="customerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnAdvancePayment_TrnCurtainQuotation">
+          <End Type="IMSModel.TrnCurtainQuotation" Role="TrnCurtainQuotation" Multiplicity="0..1" />
+          <End Type="IMSModel.TrnAdvancePayment" Role="TrnAdvancePayment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TrnCurtainQuotation">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnAdvancePayment">
+              <PropertyRef Name="curtainQuotationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnAdvancePayment_TrnMaterialQuotation">
+          <End Type="IMSModel.TrnMaterialQuotation" Role="TrnMaterialQuotation" Multiplicity="0..1" />
+          <End Type="IMSModel.TrnAdvancePayment" Role="TrnAdvancePayment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TrnMaterialQuotation">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnAdvancePayment">
+              <PropertyRef Name="materialQuotationId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -8499,28 +8537,6 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
                 <ScalarProperty Name="createdBy" ColumnName="createdBy" />
                 <ScalarProperty Name="createdOn" ColumnName="createdOn" />
                 <ScalarProperty Name="userTypeName" ColumnName="userTypeName" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TrnAdvancePayments">
-            <EntityTypeMapping TypeName="IMSModel.TrnAdvancePayment">
-              <MappingFragment StoreEntitySet="TrnAdvancePayment">
-                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
-                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
-                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
-                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
-                <ScalarProperty Name="financialYear" ColumnName="financialYear" />
-                <ScalarProperty Name="bankBranch" ColumnName="bankBranch" />
-                <ScalarProperty Name="bankName" ColumnName="bankName" />
-                <ScalarProperty Name="chequeDate" ColumnName="chequeDate" />
-                <ScalarProperty Name="chequeNumber" ColumnName="chequeNumber" />
-                <ScalarProperty Name="paymentMode" ColumnName="paymentMode" />
-                <ScalarProperty Name="amount" ColumnName="amount" />
-                <ScalarProperty Name="materialQuotationId" ColumnName="materialQuotationId" />
-                <ScalarProperty Name="customerId" ColumnName="customerId" />
-                <ScalarProperty Name="advancePaymentDate" ColumnName="advancePaymentDate" />
-                <ScalarProperty Name="advancePaymentNumber" ColumnName="advancePaymentNumber" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -9211,6 +9227,30 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
                 <ScalarProperty Name="unit" ColumnName="unit" />
                 <ScalarProperty Name="area" ColumnName="area" />
                 <ScalarProperty Name="curtainSelectionId" ColumnName="curtainSelectionId" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TrnAdvancePayments">
+            <EntityTypeMapping TypeName="IMSModel.TrnAdvancePayment">
+              <MappingFragment StoreEntitySet="TrnAdvancePayment">
+                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
+                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
+                <ScalarProperty Name="financialYear" ColumnName="financialYear" />
+                <ScalarProperty Name="bankBranch" ColumnName="bankBranch" />
+                <ScalarProperty Name="bankName" ColumnName="bankName" />
+                <ScalarProperty Name="chequeDate" ColumnName="chequeDate" />
+                <ScalarProperty Name="chequeNumber" ColumnName="chequeNumber" />
+                <ScalarProperty Name="paymentMode" ColumnName="paymentMode" />
+                <ScalarProperty Name="amount" ColumnName="amount" />
+                <ScalarProperty Name="quotationType" ColumnName="quotationType" />
+                <ScalarProperty Name="curtainQuotationId" ColumnName="curtainQuotationId" />
+                <ScalarProperty Name="materialQuotationId" ColumnName="materialQuotationId" />
+                <ScalarProperty Name="customerId" ColumnName="customerId" />
+                <ScalarProperty Name="advancePaymentDate" ColumnName="advancePaymentDate" />
+                <ScalarProperty Name="advancePaymentNumber" ColumnName="advancePaymentNumber" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
