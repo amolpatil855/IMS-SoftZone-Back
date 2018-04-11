@@ -25,9 +25,10 @@ namespace IMSWebApi.ViewModel
         public string financialYear { get; set; }
 
         public string customerName { get; set; }
-        public string materialQuotationNumber { get; set; }
+        public string quotationNumber { get; set; }
         
         public virtual VMCustomer MstCustomer { get; set; }
         public virtual VMTrnMaterialQuotation TrnMaterialQuotation { get; set; }
+        public virtual VMTrnCurtainQuotation TrnCurtainQuotation { get; set; }
     }
 }
