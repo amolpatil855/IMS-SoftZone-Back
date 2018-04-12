@@ -231,6 +231,7 @@ namespace IMSWebApi.Services
             foreach (var csItem in curtainSelection.TrnCurtainSelectionItems)
             {
                 VMTrnCurtainQuotationItem cqItem = new VMTrnCurtainQuotationItem();
+                
                 cqItem.area = csItem.area;
                 cqItem.unit = csItem.unit;
                 cqItem.patternId = csItem.patternId;
@@ -246,7 +247,29 @@ namespace IMSWebApi.Services
                 cqItem.isLining = csItem.isLining;
 
                 cqItem.MstPattern = Mapper.Map<MstPattern,VMPattern>(csItem.MstPattern);
-                
+                if (csItem.shadeId != null)
+                {
+                    VMProductForCS shadeInfo = new VMProductForCS();
+                    shadeInfo.shadeId = csItem.shadeId;
+                    shadeInfo.serialno = csItem.MstFWRShade.serialNumber + "(" + csItem.MstFWRShade.shadeCode + "-" + csItem.MstFWRShade.MstFWRDesign.designCode + ")";
+                    shadeInfo.rrp = csItem.MstFWRShade.MstQuality.rrp;
+                    shadeInfo.flatRate = csItem.MstFWRShade.MstQuality.flatRate;
+                    shadeInfo.maxFlatRateDisc = csItem.MstFWRShade.MstQuality.maxFlatRateDisc;
+                    shadeInfo.maxCutRateDisc = csItem.MstFWRShade.MstQuality.maxCutRateDisc;
+                    shadeInfo.maxRoleRateDisc = csItem.MstFWRShade.MstQuality.maxRoleRateDisc;
+                    shadeInfo.fabricWidth = csItem.MstFWRShade.MstQuality.width;
+                    shadeInfo.gst = csItem.MstFWRShade.MstQuality.MstHsn.gst;
+                    cqItem.shadeDetails = shadeInfo;
+                }
+                else if(csItem.accessoryId != null)
+                {
+                    VMProductForCS accessoryInfo = new VMProductForCS();
+                    accessoryInfo.accessoryId = csItem.accessoryId;
+                    accessoryInfo.itemCode = csItem.MstAccessory.itemCode;
+                    accessoryInfo.sellingRate = csItem.MstAccessory.sellingRate;
+                    accessoryInfo.gst = csItem.MstAccessory.MstHsn.gst;
+                    cqItem.accessoriesDetails = accessoryInfo;
+                }
                 VMCurtainQuotation.TrnCurtainQuotationItems.Add(cqItem);
             }
             return VMCurtainQuotation;

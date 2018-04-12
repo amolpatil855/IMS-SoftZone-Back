@@ -21,12 +21,14 @@ namespace IMSWebApi.ViewModel
         public Nullable<int> noOfVerticalPatch { get; set; }
         public Nullable<decimal> verticalPatchWidth { get; set; }
         public Nullable<decimal> verticalPatchQuantity { get; set; }
+        public Nullable<decimal> verticalPatchDiscount { get; set; }
         public Nullable<long> verticalPatchAmount { get; set; }
         public Nullable<long> verticalPatchAmountWithGST { get; set; }
         public Nullable<bool> isHorizontalPatch { get; set; }
         public Nullable<int> noOfHorizontalPatch { get; set; }
         public Nullable<decimal> horizontalPatchHeight { get; set; }
         public Nullable<decimal> horizontalPatchQuantity { get; set; }
+        public Nullable<decimal> horizontalPatchDiscount { get; set; }
         public Nullable<long> horizontalPatchAmount { get; set; }
         public Nullable<long> horizontalPatchAmountWithGST { get; set; }
         public Nullable<bool> isLining { get; set; }
@@ -50,6 +52,9 @@ namespace IMSWebApi.ViewModel
         public string collectionName { get; set; }
         public string serialno { get; set; }
         public string itemCode { get; set; }
+
+        public VMProductForCS shadeDetails{ get; set; }
+        public VMProductForCS accessoriesDetails { get; set; }
 
         public virtual VMAccessory MstAccessory { get; set; }
         public virtual VMCategory MstCategory { get; set; }
