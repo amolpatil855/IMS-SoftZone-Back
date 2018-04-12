@@ -11,6 +11,7 @@ namespace IMSWebApi.ViewModel
         public long curtainQuotationId { get; set; }
         public string area { get; set; }
         public string unit { get; set; }
+        public Nullable<int> numberOfPanel { get; set; }
         public Nullable<long> patternId { get; set; }
         public long categoryId { get; set; }
         public Nullable<long> collectionId { get; set; }
@@ -43,8 +44,9 @@ namespace IMSWebApi.ViewModel
         public Nullable<decimal> discount { get; set; }
         public Nullable<decimal> rate { get; set; }
         public Nullable<decimal> rateWithGST { get; set; }
-        public Nullable<decimal> amount { get; set; }
-        public Nullable<decimal> amountWithGST { get; set; }
+        public Nullable<long> amount { get; set; }
+        public Nullable<long> amountWithGST { get; set; }
+        public Nullable<decimal> laborCharges { get; set; }
         public Nullable<int> gst { get; set; }
         public string status { get; set; }
 

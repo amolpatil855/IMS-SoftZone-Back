@@ -587,6 +587,7 @@
           <Property Name="curtainQuotationId" Type="bigint" Nullable="false" />
           <Property Name="area" Type="varchar" MaxLength="20" />
           <Property Name="unit" Type="varchar" MaxLength="20" />
+          <Property Name="numberOfPanel" Type="int" />
           <Property Name="patternId" Type="bigint" />
           <Property Name="categoryId" Type="bigint" Nullable="false" />
           <Property Name="collectionId" Type="bigint" />
@@ -619,8 +620,9 @@
           <Property Name="discount" Type="decimal" Precision="4" Scale="2" />
           <Property Name="rate" Type="decimal" Precision="7" Scale="2" />
           <Property Name="rateWithGST" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="amount" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="amountWithGST" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="amount" Type="bigint" />
+          <Property Name="amountWithGST" Type="bigint" />
+          <Property Name="laborCharges" Type="decimal" Precision="18" Scale="2" />
           <Property Name="gst" Type="int" />
           <Property Name="status" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="createdOn" Type="datetime" Nullable="false" />
@@ -7911,6 +7913,7 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <Property Name="curtainQuotationId" Type="Int64" Nullable="false" />
           <Property Name="area" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="unit" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="numberOfPanel" Type="Int32" />
           <Property Name="patternId" Type="Int64" />
           <Property Name="categoryId" Type="Int64" Nullable="false" />
           <Property Name="collectionId" Type="Int64" />
@@ -7943,8 +7946,9 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <Property Name="discount" Type="Decimal" Precision="4" Scale="2" />
           <Property Name="rate" Type="Decimal" Precision="7" Scale="2" />
           <Property Name="rateWithGST" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="amount" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="amountWithGST" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="amount" Type="Int64" />
+          <Property Name="amountWithGST" Type="Int64" />
+          <Property Name="laborCharges" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="gst" Type="Int32" />
           <Property Name="status" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
@@ -9220,6 +9224,7 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
                 <ScalarProperty Name="createdOn" ColumnName="createdOn" />
                 <ScalarProperty Name="status" ColumnName="status" />
                 <ScalarProperty Name="gst" ColumnName="gst" />
+                <ScalarProperty Name="laborCharges" ColumnName="laborCharges" />
                 <ScalarProperty Name="amountWithGST" ColumnName="amountWithGST" />
                 <ScalarProperty Name="amount" ColumnName="amount" />
                 <ScalarProperty Name="rateWithGST" ColumnName="rateWithGST" />
@@ -9254,6 +9259,7 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
                 <ScalarProperty Name="collectionId" ColumnName="collectionId" />
                 <ScalarProperty Name="categoryId" ColumnName="categoryId" />
                 <ScalarProperty Name="patternId" ColumnName="patternId" />
+                <ScalarProperty Name="numberOfPanel" ColumnName="numberOfPanel" />
                 <ScalarProperty Name="unit" ColumnName="unit" />
                 <ScalarProperty Name="area" ColumnName="area" />
                 <ScalarProperty Name="curtainQuotationId" ColumnName="curtainQuotationId" />

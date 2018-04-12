@@ -213,6 +213,7 @@ namespace IMSWebApi.Services
 
                     cqItemToPut.area = x.area;
                     cqItemToPut.unit = x.unit;
+                    cqItemToPut.numberOfPanel = x.numberOfPanel;
                     cqItemToPut.patternId = x.patternId;
                     cqItemToPut.categoryId = x.categoryId;
                     cqItemToPut.collectionId = x.collectionId;
@@ -250,6 +251,7 @@ namespace IMSWebApi.Services
                     cqItemToPut.amount = x.amount;
                     cqItemToPut.rateWithGST = x.rateWithGST;
                     cqItemToPut.amountWithGST = x.amountWithGST;
+                    cqItemToPut.laborCharges = x.laborCharges;
                     cqItemToPut.gst = x.gst;
                     cqItemToPut.status = x.status;
                     cqItemToPut.updatedOn = DateTime.Now;
