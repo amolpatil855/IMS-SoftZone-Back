@@ -115,6 +115,30 @@ namespace IMSWebApi.Services
                 cqItem.categoryName = cqItem.MstCategory.name;
                 cqItem.collectionName = cqItem.collectionId != null ? cqItem.MstCollection.collectionCode : null;
                 cqItem.serialno = cqItem.MstCategory.code.Equals("Fabric") ? cqItem.MstFWRShade.serialNumber + "(" + cqItem.MstFWRShade.shadeCode + "-" + cqItem.MstFWRShade.MstFWRDesign.designCode + ")" : null;
+                cqItem.itemCode = cqItem.MstCategory.code.Equals("Accessory") ? cqItem.MstAccessory.itemCode : null;
+                if (cqItem.shadeId != null)
+                {
+                    VMProductForCS shadeInfo = new VMProductForCS();
+                    shadeInfo.shadeId = cqItem.shadeId;
+                    shadeInfo.serialno = cqItem.MstFWRShade.serialNumber + "(" + cqItem.MstFWRShade.shadeCode + "-" + cqItem.MstFWRShade.MstFWRDesign.designCode + ")";
+                    shadeInfo.rrp = cqItem.MstFWRShade.MstQuality.rrp;
+                    shadeInfo.flatRate = cqItem.MstFWRShade.MstQuality.flatRate;
+                    shadeInfo.maxFlatRateDisc = cqItem.MstFWRShade.MstQuality.maxFlatRateDisc;
+                    shadeInfo.maxCutRateDisc = cqItem.MstFWRShade.MstQuality.maxCutRateDisc;
+                    shadeInfo.maxRoleRateDisc = cqItem.MstFWRShade.MstQuality.maxRoleRateDisc;
+                    shadeInfo.fabricWidth = cqItem.MstFWRShade.MstQuality.width;
+                    shadeInfo.gst = cqItem.MstFWRShade.MstQuality.MstHsn.gst;
+                    cqItem.shadeDetails = shadeInfo;
+                }
+                else if (cqItem.accessoryId != null)
+                {
+                    VMProductForCS accessoryInfo = new VMProductForCS();
+                    accessoryInfo.accessoryId = cqItem.accessoryId;
+                    accessoryInfo.itemCode = cqItem.MstAccessory.itemCode;
+                    accessoryInfo.sellingRate = cqItem.MstAccessory.sellingRate;
+                    accessoryInfo.gst = cqItem.MstAccessory.MstHsn.gst;
+                    cqItem.accessoriesDetails = accessoryInfo;
+                }
             });
             curtainQuotationView.advanceAmount = repo.TrnAdvancePayments.Where(ap => ap.materialQuotationId == id).Select(ap => ap.amount).DefaultIfEmpty(0).Sum();
             curtainQuotationView.TrnCurtainQuotationItems.ForEach(cqItem => cqItem.TrnCurtainQuotation = null);
