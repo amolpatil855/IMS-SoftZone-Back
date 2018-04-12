@@ -17,8 +17,8 @@ namespace IMSWebApi.Models
         public MstPattern()
         {
             this.MstTailorPatternChargeDetails = new HashSet<MstTailorPatternChargeDetail>();
-            this.TrnCurtainQuotationItems = new HashSet<TrnCurtainQuotationItem>();
             this.TrnCurtainSelectionItems = new HashSet<TrnCurtainSelectionItem>();
+            this.TrnCurtainQuotationItems = new HashSet<TrnCurtainQuotationItem>();
         }
     
         public long id { get; set; }
@@ -36,7 +36,7 @@ namespace IMSWebApi.Models
         public Nullable<long> updatedBy { get; set; }
     
         public virtual ICollection<MstTailorPatternChargeDetail> MstTailorPatternChargeDetails { get; set; }
-        public virtual ICollection<TrnCurtainQuotationItem> TrnCurtainQuotationItems { get; set; }
         public virtual ICollection<TrnCurtainSelectionItem> TrnCurtainSelectionItems { get; set; }
+        public virtual ICollection<TrnCurtainQuotationItem> TrnCurtainQuotationItems { get; set; }
     }
 }

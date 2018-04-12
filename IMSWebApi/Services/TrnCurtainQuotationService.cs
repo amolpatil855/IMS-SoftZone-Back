@@ -224,6 +224,7 @@ namespace IMSWebApi.Services
                     cqItemToPut.noOfVerticalPatch = x.noOfVerticalPatch;
                     cqItemToPut.verticalPatchWidth = x.verticalPatchWidth;
                     cqItemToPut.verticalPatchQuantity = x.verticalPatchQuantity;
+                    cqItemToPut.verticalPatchDiscount = x.verticalPatchDiscount;
                     cqItemToPut.verticalPatchAmount = x.verticalPatchAmount;
                     cqItemToPut.verticalPatchAmountWithGST = x.verticalPatchAmountWithGST;
 
@@ -231,6 +232,7 @@ namespace IMSWebApi.Services
                     cqItemToPut.noOfHorizontalPatch = x.noOfHorizontalPatch;
                     cqItemToPut.horizontalPatchHeight = x.horizontalPatchHeight;
                     cqItemToPut.horizontalPatchQuantity = x.horizontalPatchQuantity;
+                    cqItemToPut.horizontalPatchDiscount = x.horizontalPatchDiscount;
                     cqItemToPut.horizontalPatchAmount = x.horizontalPatchAmount;
                     cqItemToPut.horizontalPatchAmountWithGST = x.horizontalPatchAmountWithGST;
                     

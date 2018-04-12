@@ -28,12 +28,14 @@ namespace IMSWebApi.Models
         public Nullable<int> noOfVerticalPatch { get; set; }
         public Nullable<decimal> verticalPatchWidth { get; set; }
         public Nullable<decimal> verticalPatchQuantity { get; set; }
+        public Nullable<decimal> verticalPatchDiscount { get; set; }
         public Nullable<long> verticalPatchAmount { get; set; }
         public Nullable<long> verticalPatchAmountWithGST { get; set; }
         public Nullable<bool> isHorizontalPatch { get; set; }
         public Nullable<int> noOfHorizontalPatch { get; set; }
         public Nullable<decimal> horizontalPatchHeight { get; set; }
         public Nullable<decimal> horizontalPatchQuantity { get; set; }
+        public Nullable<decimal> horizontalPatchDiscount { get; set; }
         public Nullable<long> horizontalPatchAmount { get; set; }
         public Nullable<long> horizontalPatchAmountWithGST { get; set; }
         public Nullable<bool> isLining { get; set; }
