@@ -368,9 +368,10 @@
           <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="fabricHeight" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="liningHeight" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="woFabricHeight" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="woLiningHeight" Type="decimal" Precision="18" Scale="2" />
           <Property Name="meterPerInch" Type="int" Nullable="false" />
           <Property Name="widthPerInch" Type="int" Nullable="false" />
-          <Property Name="setRate" Type="decimal" Precision="7" Scale="2" Nullable="false" />
           <Property Name="setRateForCustomer" Type="decimal" Precision="7" Scale="2" Nullable="false" />
           <Property Name="verticalPatch" Type="decimal" Precision="18" Scale="2" />
           <Property Name="horizontalPatch" Type="decimal" Precision="18" Scale="2" />
@@ -8052,9 +8053,10 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="fabricHeight" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <Property Name="liningHeight" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="woFabricHeight" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="woLiningHeight" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="meterPerInch" Type="Int32" Nullable="false" />
           <Property Name="widthPerInch" Type="Int32" Nullable="false" />
-          <Property Name="setRate" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
           <Property Name="setRateForCustomer" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
           <Property Name="verticalPatch" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="horizontalPatch" Type="Decimal" Precision="18" Scale="2" />
@@ -9325,9 +9327,10 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
                 <ScalarProperty Name="horizontalPatch" ColumnName="horizontalPatch" />
                 <ScalarProperty Name="verticalPatch" ColumnName="verticalPatch" />
                 <ScalarProperty Name="setRateForCustomer" ColumnName="setRateForCustomer" />
-                <ScalarProperty Name="setRate" ColumnName="setRate" />
                 <ScalarProperty Name="widthPerInch" ColumnName="widthPerInch" />
                 <ScalarProperty Name="meterPerInch" ColumnName="meterPerInch" />
+                <ScalarProperty Name="woLiningHeight" ColumnName="woLiningHeight" />
+                <ScalarProperty Name="woFabricHeight" ColumnName="woFabricHeight" />
                 <ScalarProperty Name="liningHeight" ColumnName="liningHeight" />
                 <ScalarProperty Name="fabricHeight" ColumnName="fabricHeight" />
                 <ScalarProperty Name="name" ColumnName="name" />

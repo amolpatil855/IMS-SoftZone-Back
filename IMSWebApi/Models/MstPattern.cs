@@ -25,9 +25,10 @@ namespace IMSWebApi.Models
         public string name { get; set; }
         public decimal fabricHeight { get; set; }
         public Nullable<decimal> liningHeight { get; set; }
+        public Nullable<decimal> woFabricHeight { get; set; }
+        public Nullable<decimal> woLiningHeight { get; set; }
         public int meterPerInch { get; set; }
         public int widthPerInch { get; set; }
-        public decimal setRate { get; set; }
         public decimal setRateForCustomer { get; set; }
         public Nullable<decimal> verticalPatch { get; set; }
         public Nullable<decimal> horizontalPatch { get; set; }
