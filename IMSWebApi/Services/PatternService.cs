@@ -106,6 +106,8 @@ namespace IMSWebApi.Services
             patternToPut.name = pattern.name;
             patternToPut.fabricHeight = pattern.fabricHeight;
             patternToPut.liningHeight = pattern.liningHeight;
+            patternToPut.woFabricHeight = pattern.woFabricHeight;
+            patternToPut.woLiningHeight = pattern.woLiningHeight;
             patternToPut.meterPerInch = pattern.meterPerInch;
             patternToPut.widthPerInch = pattern.widthPerInch;
             patternToPut.setRateForCustomer = pattern.setRateForCustomer;
