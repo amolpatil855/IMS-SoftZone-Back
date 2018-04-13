@@ -487,5 +487,21 @@ namespace IMSWebApi.Controllers
             var result = _trnCurtainQuotationService.getCurtainQuotationLookup();
             return Ok(result);
         }
+
+        [HttpGet]
+        [Route("api/Common/GetRemoteAccessoryItemCodeForCQ")]
+        public IHttpActionResult GetRemoteAccessoryItemCodeForCQ()
+        {
+            var result = _trnCurtainQuotationService.getRemoteAccessoryForCQ();
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("api/Common/GetMotorAccessoryItemCodeForCQ")]
+        public IHttpActionResult GetMotorAccessoryItemCodeForCQ()
+        {
+            var result = _trnCurtainQuotationService.getMotorAccessoryForCQ();
+            return Ok(result);
+        }
     }
 }

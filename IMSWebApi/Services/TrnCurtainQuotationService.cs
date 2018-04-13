@@ -104,6 +104,30 @@ namespace IMSWebApi.Services
                                         }).ToList();
         }
 
+        public List<VMProductForCS> getRemoteAccessoryForCQ()
+        {
+            return repo.MstAccessories.Where(a => a.name.ToLower().Contains("remote") || a.itemCode.ToLower().Contains("remote"))
+                                        .Select(a => new VMProductForCS
+                                        {
+                                            accessoryId = a.id,
+                                            itemCode = a.itemCode,
+                                            sellingRate = a.sellingRate,
+                                            gst = a.MstHsn.gst
+                                        }).ToList();
+        }
+
+        public List<VMProductForCS> getMotorAccessoryForCQ()
+        {
+            return repo.MstAccessories.Where(a => a.name.ToLower().Contains("motor") || a.itemCode.ToLower().Contains("motor"))
+                                        .Select(a => new VMProductForCS
+                                        {
+                                            accessoryId = a.id,
+                                            itemCode = a.itemCode,
+                                            sellingRate = a.sellingRate,
+                                            gst = a.MstHsn.gst
+                                        }).ToList();
+        }
+
         public VMTrnCurtainQuotation getCurtainQuotationById(Int64 id)
         {
             var result = repo.TrnCurtainQuotations.Where(cq => cq.id == id).FirstOrDefault();
@@ -263,6 +287,8 @@ namespace IMSWebApi.Services
                     cqItemToPut.isRod = x.isRod;
                     cqItemToPut.orderQuantity = x.orderQuantity;
                     cqItemToPut.balanceQuantity = x.orderQuantity;
+                    cqItemToPut.isMotor = x.isMotor;
+                    cqItemToPut.isRemote = x.isRemote;
                     cqItemToPut.orderType = x.orderType;
                     cqItemToPut.rate = x.rate;
                     cqItemToPut.discount = x.discount;

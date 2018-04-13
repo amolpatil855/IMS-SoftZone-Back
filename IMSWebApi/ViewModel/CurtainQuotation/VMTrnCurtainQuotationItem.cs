@@ -31,6 +31,8 @@ namespace IMSWebApi.ViewModel
         public bool isRod { get; set; }
         public Nullable<decimal> unitHeight { get; set; }
         public Nullable<decimal> unitWidth { get; set; }
+        public bool isRemote { get; set; }
+        public bool isMotor { get; set; }
         public Nullable<decimal> orderQuantity { get; set; }
         public Nullable<decimal> balanceQuantity { get; set; }
         public Nullable<decimal> deliverQuantity { get; set; }
