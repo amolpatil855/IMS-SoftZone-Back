@@ -277,7 +277,6 @@ namespace IMSWebApi.Services
                     cqItemToPut.amountWithGST = x.amountWithGST;
                     cqItemToPut.laborCharges = x.laborCharges;
                     cqItemToPut.gst = x.gst;
-                    cqItemToPut.status = x.status;
                     cqItemToPut.updatedOn = DateTime.Now;
                     cqItemToPut.updatedBy = _LoggedInuserId;
                     repo.SaveChanges();

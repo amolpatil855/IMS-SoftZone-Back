@@ -62,7 +62,7 @@ namespace IMSWebApi.Services
                                     .Select(s => new VMProductForCS
                                     {
                                         shadeId = s.id,
-                                        serialno =  s.serialNumber.ToString() + " (" + s.shadeCode + "-" + s.MstFWRDesign.designCode +  ")",
+                                        serialno = s.serialNumber.ToString() + " (" + s.shadeCode + "-" + s.MstFWRDesign.designCode + ")",
                                         rrp = s.MstQuality.rrp != null ? s.MstQuality.rrp : null,
                                         flatRate = s.MstQuality.flatRate != null ? s.MstQuality.flatRate : null,
                                         maxFlatRateDisc = s.MstQuality.maxFlatRateDisc != null ? s.MstQuality.maxFlatRateDisc : null,
@@ -76,9 +76,9 @@ namespace IMSWebApi.Services
 
         public List<VMProductForCS> getAccessoryItemCodeForCS()
         {
-            return repo.MstAccessories.Where(a => !(a.name.ToLower().Contains("rod") 
-                                                    || a.name.ToLower().Contains("track") 
-                                                    || a.itemCode.ToLower().Contains("rod") 
+            return repo.MstAccessories.Where(a => !(a.name.ToLower().Contains("rod")
+                                                    || a.name.ToLower().Contains("track")
+                                                    || a.itemCode.ToLower().Contains("rod")
                                                     || a.itemCode.ToLower().Contains("track")))
                                     .Select(a => new VMProductForCS
                                     {
@@ -121,7 +121,7 @@ namespace IMSWebApi.Services
                     csItems.createdOn = DateTime.Now;
                     csItems.createdBy = _LoggedInuserId;
                 });
-                
+
                 var financialYear = repo.MstFinancialYears.Where(f => f.startDate <= curtainSelectionToPost.curtainSelectionDate.Date && f.endDate >= curtainSelectionToPost.curtainSelectionDate.Date).FirstOrDefault();
                 string curtainSelectionNo = generateOrderNumber.orderNumber(financialYear.startDate.ToString("yy"), financialYear.endDate.ToString("yy"), financialYear.curtainSelectionNumber, "CS");
                 curtainSelectionToPost.curtainSelectionNumber = curtainSelectionNo;
@@ -231,7 +231,7 @@ namespace IMSWebApi.Services
             foreach (var csItem in curtainSelection.TrnCurtainSelectionItems)
             {
                 VMTrnCurtainQuotationItem cqItem = new VMTrnCurtainQuotationItem();
-                
+
                 cqItem.area = csItem.area;
                 cqItem.unit = csItem.unit;
                 cqItem.patternId = csItem.patternId;
@@ -246,7 +246,7 @@ namespace IMSWebApi.Services
                 cqItem.isPatch = csItem.isPatch;
                 cqItem.isLining = csItem.isLining;
 
-                cqItem.MstPattern = Mapper.Map<MstPattern,VMPattern>(csItem.MstPattern);
+                cqItem.MstPattern = Mapper.Map<MstPattern, VMPattern>(csItem.MstPattern);
                 if (csItem.shadeId != null)
                 {
                     VMProductForCS shadeInfo = new VMProductForCS();
@@ -260,8 +260,10 @@ namespace IMSWebApi.Services
                     shadeInfo.fabricWidth = csItem.MstFWRShade.MstQuality.width;
                     shadeInfo.gst = csItem.MstFWRShade.MstQuality.MstHsn.gst;
                     cqItem.shadeDetails = shadeInfo;
+                    cqItem.rate = shadeInfo.rrp != null ? shadeInfo.rrp : shadeInfo.flatRate;
+                    cqItem.rateWithGST = Math.Round(Convert.ToDecimal(cqItem.rate + ((cqItem.rate * csItem.MstFWRShade.MstQuality.MstHsn.gst) / 100)), 2);
                 }
-                else if(csItem.accessoryId != null)
+                else if (csItem.accessoryId != null)
                 {
                     VMProductForCS accessoryInfo = new VMProductForCS();
                     accessoryInfo.accessoryId = csItem.accessoryId;
@@ -269,6 +271,9 @@ namespace IMSWebApi.Services
                     accessoryInfo.sellingRate = csItem.MstAccessory.sellingRate;
                     accessoryInfo.gst = csItem.MstAccessory.MstHsn.gst;
                     cqItem.accessoriesDetails = accessoryInfo;
+                    cqItem.rate = accessoryInfo.sellingRate;
+                    cqItem.rateWithGST = Math.Round(Convert.ToDecimal(cqItem.rate + ((cqItem.rate * csItem.MstAccessory.MstHsn.gst) / 100)), 2);
+    
                 }
                 VMCurtainQuotation.TrnCurtainQuotationItems.Add(cqItem);
             }
