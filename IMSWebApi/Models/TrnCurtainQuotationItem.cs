@@ -24,24 +24,18 @@ namespace IMSWebApi.Models
         public Nullable<long> collectionId { get; set; }
         public Nullable<long> shadeId { get; set; }
         public Nullable<long> accessoryId { get; set; }
-        public Nullable<bool> isPatch { get; set; }
-        public Nullable<bool> isVerticalPatch { get; set; }
+        public bool isPatch { get; set; }
+        public bool isVerticalPatch { get; set; }
         public Nullable<int> noOfVerticalPatch { get; set; }
         public Nullable<decimal> verticalPatchWidth { get; set; }
         public Nullable<decimal> verticalPatchQuantity { get; set; }
-        public Nullable<decimal> verticalPatchDiscount { get; set; }
-        public Nullable<long> verticalPatchAmount { get; set; }
-        public Nullable<long> verticalPatchAmountWithGST { get; set; }
-        public Nullable<bool> isHorizontalPatch { get; set; }
+        public bool isHorizontalPatch { get; set; }
         public Nullable<int> noOfHorizontalPatch { get; set; }
         public Nullable<decimal> horizontalPatchHeight { get; set; }
         public Nullable<decimal> horizontalPatchQuantity { get; set; }
-        public Nullable<decimal> horizontalPatchDiscount { get; set; }
-        public Nullable<long> horizontalPatchAmount { get; set; }
-        public Nullable<long> horizontalPatchAmountWithGST { get; set; }
-        public Nullable<bool> isLining { get; set; }
-        public Nullable<bool> isTrack { get; set; }
-        public Nullable<bool> isRod { get; set; }
+        public bool isLining { get; set; }
+        public bool isTrack { get; set; }
+        public bool isRod { get; set; }
         public Nullable<decimal> unitHeight { get; set; }
         public Nullable<decimal> unitWidth { get; set; }
         public Nullable<decimal> orderQuantity { get; set; }

@@ -23,8 +23,8 @@ namespace IMSWebApi.Models
             this.TrnPurchaseOrderItems = new HashSet<TrnPurchaseOrderItem>();
             this.TrnSaleOrderItems = new HashSet<TrnSaleOrderItem>();
             this.TrnSalesInvoiceItems = new HashSet<TrnSalesInvoiceItem>();
-            this.TrnCurtainSelectionItems = new HashSet<TrnCurtainSelectionItem>();
             this.TrnCurtainQuotationItems = new HashSet<TrnCurtainQuotationItem>();
+            this.TrnCurtainSelectionItems = new HashSet<TrnCurtainSelectionItem>();
         }
     
         public long id { get; set; }
@@ -54,7 +54,7 @@ namespace IMSWebApi.Models
         public virtual ICollection<TrnPurchaseOrderItem> TrnPurchaseOrderItems { get; set; }
         public virtual ICollection<TrnSaleOrderItem> TrnSaleOrderItems { get; set; }
         public virtual ICollection<TrnSalesInvoiceItem> TrnSalesInvoiceItems { get; set; }
-        public virtual ICollection<TrnCurtainSelectionItem> TrnCurtainSelectionItems { get; set; }
         public virtual ICollection<TrnCurtainQuotationItem> TrnCurtainQuotationItems { get; set; }
+        public virtual ICollection<TrnCurtainSelectionItem> TrnCurtainSelectionItems { get; set; }
     }
 }

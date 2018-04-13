@@ -21,8 +21,8 @@ namespace IMSWebApi.ViewModel
         public Nullable<long> collectionId { get; set; }
         public Nullable<long> shadeId { get; set; }
         public Nullable<long> accessoryId { get; set; }
-        public Nullable<bool> isPatch { get; set; }
-        public Nullable<bool> isLining { get; set; }
+        public bool isPatch { get; set; }
+        public bool isLining { get; set; }
         public Nullable<decimal> rate { get; set; }
         public Nullable<decimal> discount { get; set; }
 

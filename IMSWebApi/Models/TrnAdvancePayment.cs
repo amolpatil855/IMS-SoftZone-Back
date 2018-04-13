@@ -34,7 +34,7 @@ namespace IMSWebApi.Models
         public Nullable<long> updatedBy { get; set; }
     
         public virtual MstCustomer MstCustomer { get; set; }
-        public virtual TrnCurtainQuotation TrnCurtainQuotation { get; set; }
         public virtual TrnMaterialQuotation TrnMaterialQuotation { get; set; }
+        public virtual TrnCurtainQuotation TrnCurtainQuotation { get; set; }
     }
 }
