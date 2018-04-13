@@ -196,6 +196,7 @@ namespace IMSWebApi.Services
                 curtainQuotationToPut.curtainQuotationDate = curtainQuotation.curtainQuotationDate;
                 curtainQuotationToPut.referById = curtainQuotation.referById;
                 curtainQuotationToPut.totalAmount = curtainQuotation.totalAmount;
+                curtainQuotationToPut.expectedDeliveryDate = curtainQuotation.expectedDeliveryDate;
 
                 updateCQItems(curtainQuotation);
 
