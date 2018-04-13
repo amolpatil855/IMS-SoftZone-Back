@@ -22,6 +22,7 @@ namespace IMSWebApi.Models
     
         public long id { get; set; }
         public long customerId { get; set; }
+        public Nullable<long> shippingAddressId { get; set; }
         public string curtainSelectionNumber { get; set; }
         public System.DateTime curtainSelectionDate { get; set; }
         public Nullable<long> referById { get; set; }
@@ -34,6 +35,7 @@ namespace IMSWebApi.Models
     
         public virtual MstAgent MstAgent { get; set; }
         public virtual MstCustomer MstCustomer { get; set; }
+        public virtual MstCustomerAddress MstCustomerAddress { get; set; }
         public virtual ICollection<TrnCurtainQuotation> TrnCurtainQuotations { get; set; }
         public virtual ICollection<TrnCurtainSelectionItem> TrnCurtainSelectionItems { get; set; }
     }

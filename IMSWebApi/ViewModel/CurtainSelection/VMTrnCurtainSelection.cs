@@ -11,6 +11,7 @@ namespace IMSWebApi.ViewModel
         public long id { get; set; }
         [Required]
         public long customerId { get; set; }
+        public Nullable<long> shippingAddressId { get; set; }
         [MaxLength(20)]
         public string curtainSelectionNumber { get; set; }
         public System.DateTime curtainSelectionDate { get; set; }
@@ -24,6 +25,7 @@ namespace IMSWebApi.ViewModel
 
         public virtual VMAgent MstAgent { get; set; }
         public virtual VMCustomer MstCustomer { get; set; }
+        public virtual VMCustomerAddress MstCustomerAddress { get; set; }
         public virtual List<VMTrnCurtainSelectionItem> TrnCurtainSelectionItems { get; set; }
         public virtual List<VMTrnCurtainQuotation> TrnCurtainQuotations { get; set; }
     }

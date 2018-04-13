@@ -218,6 +218,7 @@ namespace IMSWebApi.Services
             {
                 var curtainQuotationToPut = repo.TrnCurtainQuotations.Where(ms => ms.id == curtainQuotation.id).FirstOrDefault();
                 curtainQuotationToPut.curtainQuotationDate = curtainQuotation.curtainQuotationDate;
+                curtainQuotationToPut.shippingAddressId = curtainQuotation.shippingAddressId;
                 curtainQuotationToPut.referById = curtainQuotation.referById;
                 curtainQuotationToPut.totalAmount = curtainQuotation.totalAmount;
                 curtainQuotationToPut.expectedDeliveryDate = curtainQuotation.expectedDeliveryDate;

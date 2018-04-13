@@ -25,6 +25,7 @@ namespace IMSWebApi.Models
         public string curtainQuotationNumber { get; set; }
         public System.DateTime curtainQuotationDate { get; set; }
         public long customerId { get; set; }
+        public Nullable<long> shippingAddressId { get; set; }
         public Nullable<long> referById { get; set; }
         public long totalAmount { get; set; }
         public string financialYear { get; set; }
@@ -37,6 +38,7 @@ namespace IMSWebApi.Models
     
         public virtual MstAgent MstAgent { get; set; }
         public virtual MstCustomer MstCustomer { get; set; }
+        public virtual MstCustomerAddress MstCustomerAddress { get; set; }
         public virtual ICollection<TrnAdvancePayment> TrnAdvancePayments { get; set; }
         public virtual TrnCurtainSelection TrnCurtainSelection { get; set; }
         public virtual ICollection<TrnCurtainQuotationItem> TrnCurtainQuotationItems { get; set; }
