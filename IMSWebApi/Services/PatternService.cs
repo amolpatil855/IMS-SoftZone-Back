@@ -34,7 +34,7 @@ namespace IMSWebApi.Services
                     || p.liningHeight.ToString().StartsWith(search)
                     || p.meterPerInch.ToString().StartsWith(search)
                     || p.widthPerInch.ToString().StartsWith(search)
-                    || p.setRateForPattern.ToString().StartsWith(search) : true)
+                    || p.setRateForCustomer.ToString().StartsWith(search) : true)
                     .OrderByDescending(o => o.id)
                     .Skip(page * pageSize).Take(pageSize).ToList();
 
@@ -49,7 +49,7 @@ namespace IMSWebApi.Services
                     || p.liningHeight.ToString().StartsWith(search)
                     || p.meterPerInch.ToString().StartsWith(search)
                     || p.widthPerInch.ToString().StartsWith(search)
-                    || p.setRateForPattern.ToString().StartsWith(search) : true).Count(),
+                    || p.setRateForCustomer.ToString().StartsWith(search) : true).Count(),
                 Page = page
             };
         }
@@ -106,9 +106,11 @@ namespace IMSWebApi.Services
             patternToPut.name = pattern.name;
             patternToPut.fabricHeight = pattern.fabricHeight;
             patternToPut.liningHeight = pattern.liningHeight;
+            patternToPut.woFabricHeight = pattern.woFabricHeight;
+            patternToPut.woLiningHeight = pattern.woLiningHeight;
             patternToPut.meterPerInch = pattern.meterPerInch;
             patternToPut.widthPerInch = pattern.widthPerInch;
-            patternToPut.setRateForPattern = pattern.setRateForPattern;
+            patternToPut.setRateForCustomer = pattern.setRateForCustomer;
             patternToPut.horizontalPatch = pattern.horizontalPatch;
             patternToPut.verticalPatch = pattern.verticalPatch;
 

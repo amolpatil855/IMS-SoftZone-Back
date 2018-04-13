@@ -15,12 +15,14 @@ namespace IMSWebApi.ViewModel
         [Required]
         public decimal fabricHeight { get; set; }
         public Nullable<decimal> liningHeight { get; set; }
+        public Nullable<decimal> woFabricHeight { get; set; }
+        public Nullable<decimal> woLiningHeight { get; set; }
         [Required]
         public int meterPerInch { get; set; }
         [Required]
         public int widthPerInch { get; set; }
         [Required]
-        public decimal setRateForPattern { get; set; }
+        public decimal setRateForCustomer { get; set; }
         public Nullable<decimal> verticalPatch { get; set; }
         public Nullable<decimal> horizontalPatch { get; set; }
     }

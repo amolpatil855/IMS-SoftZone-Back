@@ -23,7 +23,7 @@ namespace IMSWebApi.Models
         public Nullable<System.DateTime> updatedOn { get; set; }
         public Nullable<long> updatedBy { get; set; }
     
-        public virtual MstPattern MstPattern { get; set; }
         public virtual MstTailor MstTailor { get; set; }
+        public virtual MstPattern MstPattern { get; set; }
     }
 }

@@ -78,8 +78,12 @@ namespace IMSWebApi.Services
         {
             return repo.MstAccessories.Where(a => !(a.name.ToLower().Contains("rod")
                                                     || a.name.ToLower().Contains("track")
+                                                    || a.name.ToLower().Contains("remote")
+                                                    || a.name.ToLower().Contains("motor")
                                                     || a.itemCode.ToLower().Contains("rod")
-                                                    || a.itemCode.ToLower().Contains("track")))
+                                                    || a.itemCode.ToLower().Contains("track")
+                                                    || a.itemCode.ToLower().Contains("remote")
+                                                    || a.itemCode.ToLower().Contains("motor")))
                                     .Select(a => new VMProductForCS
                                     {
                                         accessoryId = a.id,
