@@ -29,6 +29,7 @@ namespace IMSWebApi.Models
         public long totalAmount { get; set; }
         public string financialYear { get; set; }
         public string status { get; set; }
+        public Nullable<System.DateTime> expectedDeliveryDate { get; set; }
         public System.DateTime createdOn { get; set; }
         public long createdBy { get; set; }
         public Nullable<System.DateTime> updatedOn { get; set; }
@@ -36,8 +37,8 @@ namespace IMSWebApi.Models
     
         public virtual MstAgent MstAgent { get; set; }
         public virtual MstCustomer MstCustomer { get; set; }
-        public virtual TrnCurtainSelection TrnCurtainSelection { get; set; }
         public virtual ICollection<TrnAdvancePayment> TrnAdvancePayments { get; set; }
+        public virtual TrnCurtainSelection TrnCurtainSelection { get; set; }
         public virtual ICollection<TrnCurtainQuotationItem> TrnCurtainQuotationItems { get; set; }
     }
 }

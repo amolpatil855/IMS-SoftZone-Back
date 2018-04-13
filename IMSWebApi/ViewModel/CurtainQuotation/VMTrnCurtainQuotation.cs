@@ -16,6 +16,7 @@ namespace IMSWebApi.ViewModel
         public long totalAmount { get; set; }
         public string financialYear { get; set; }
         public string status { get; set; }
+        public Nullable<System.DateTime> expectedDeliveryDate { get; set; }
 
         public string customerName { get; set; }
         public string agentName { get; set; }
