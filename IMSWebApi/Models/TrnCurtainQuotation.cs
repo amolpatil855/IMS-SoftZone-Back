@@ -25,7 +25,7 @@ namespace IMSWebApi.Models
         public string curtainQuotationNumber { get; set; }
         public System.DateTime curtainQuotationDate { get; set; }
         public long customerId { get; set; }
-        public long shippingAddressId { get; set; }
+        public Nullable<long> shippingAddressId { get; set; }
         public Nullable<long> referById { get; set; }
         public long totalAmount { get; set; }
         public string financialYear { get; set; }

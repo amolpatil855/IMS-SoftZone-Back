@@ -197,7 +197,7 @@
         <EntityTypeShape EntityType="IMSModel.TrnAdvancePayment" Width="1.5" PointX="31.5" PointY="49.875" />
         <AssociationConnector Association="IMSModel.FK_TrnAdvancePayment_MstCustomer" />
         <AssociationConnector Association="IMSModel.FK_TrnAdvancePayment_TrnMaterialQuotation" />
-        <EntityTypeShape EntityType="IMSModel.TrnCurtainSelectionItem" Width="1.5" PointX="29.25" PointY="33.875" />
+        <EntityTypeShape EntityType="IMSModel.TrnCurtainSelectionItem" PointX="29.25" PointY="33.875" Width="1.5" />
         <AssociationConnector Association="IMSModel.FK_TrnCurtainSelectionItems_MstAccessory" />
         <AssociationConnector Association="IMSModel.FK_TrnCurtainSelectionItems_MstCategory" />
         <AssociationConnector Association="IMSModel.FK_TrnCurtainSelectionItems_MstCollection" />

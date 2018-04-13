@@ -570,7 +570,7 @@
           <Property Name="curtainQuotationNumber" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="curtainQuotationDate" Type="datetime" Nullable="false" />
           <Property Name="customerId" Type="bigint" Nullable="false" />
-          <Property Name="shippingAddressId" Type="bigint" Nullable="false" />
+          <Property Name="shippingAddressId" Type="bigint" />
           <Property Name="referById" Type="bigint" />
           <Property Name="totalAmount" Type="bigint" Nullable="false" />
           <Property Name="financialYear" Type="varchar" MaxLength="20" Nullable="false" />
@@ -634,7 +634,7 @@
           </Key>
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="customerId" Type="bigint" Nullable="false" />
-          <Property Name="shippingAddressId" Type="bigint" Nullable="false" />
+          <Property Name="shippingAddressId" Type="bigint" />
           <Property Name="curtainSelectionNumber" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="curtainSelectionDate" Type="datetime" Nullable="false" />
           <Property Name="referById" Type="bigint" />
@@ -1816,7 +1816,7 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_TrnCurtainQuotation_MstCustomerAddress">
-          <End Role="MstCustomerAddress" Type="Self.MstCustomerAddress" Multiplicity="1" />
+          <End Role="MstCustomerAddress" Type="Self.MstCustomerAddress" Multiplicity="0..1" />
           <End Role="TrnCurtainQuotation" Type="Self.TrnCurtainQuotation" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="MstCustomerAddress">
@@ -1936,7 +1936,7 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_TrnCurtainSelection_MstCustomerAddress">
-          <End Role="MstCustomerAddress" Type="Self.MstCustomerAddress" Multiplicity="1" />
+          <End Role="MstCustomerAddress" Type="Self.MstCustomerAddress" Multiplicity="0..1" />
           <End Role="TrnCurtainSelection" Type="Self.TrnCurtainSelection" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="MstCustomerAddress">
@@ -4571,24 +4571,24 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           </AssociationSet>
           <EntitySet Name="TrnCurtainSelectionItems" EntityType="IMSModel.TrnCurtainSelectionItem" />
           <AssociationSet Name="FK_TrnCurtainSelectionItems_MstAccessory" Association="IMSModel.FK_TrnCurtainSelectionItems_MstAccessory">
-            <End Role="MstAccessory" EntitySet="MstAccessories" />
-            <End Role="TrnCurtainSelectionItem" EntitySet="TrnCurtainSelectionItems" />
+            <End EntitySet="MstAccessories" Role="MstAccessory" />
+            <End EntitySet="TrnCurtainSelectionItems" Role="TrnCurtainSelectionItem" />
           </AssociationSet>
           <AssociationSet Name="FK_TrnCurtainSelectionItems_MstCategory" Association="IMSModel.FK_TrnCurtainSelectionItems_MstCategory">
-            <End Role="MstCategory" EntitySet="MstCategories" />
-            <End Role="TrnCurtainSelectionItem" EntitySet="TrnCurtainSelectionItems" />
+            <End EntitySet="MstCategories" Role="MstCategory" />
+            <End EntitySet="TrnCurtainSelectionItems" Role="TrnCurtainSelectionItem" />
           </AssociationSet>
           <AssociationSet Name="FK_TrnCurtainSelectionItems_MstCollection" Association="IMSModel.FK_TrnCurtainSelectionItems_MstCollection">
-            <End Role="MstCollection" EntitySet="MstCollections" />
-            <End Role="TrnCurtainSelectionItem" EntitySet="TrnCurtainSelectionItems" />
+            <End EntitySet="MstCollections" Role="MstCollection" />
+            <End EntitySet="TrnCurtainSelectionItems" Role="TrnCurtainSelectionItem" />
           </AssociationSet>
           <AssociationSet Name="FK_TrnCurtainSelectionItems_MstFWRShade" Association="IMSModel.FK_TrnCurtainSelectionItems_MstFWRShade">
-            <End Role="MstFWRShade" EntitySet="MstFWRShades" />
-            <End Role="TrnCurtainSelectionItem" EntitySet="TrnCurtainSelectionItems" />
+            <End EntitySet="MstFWRShades" Role="MstFWRShade" />
+            <End EntitySet="TrnCurtainSelectionItems" Role="TrnCurtainSelectionItem" />
           </AssociationSet>
           <AssociationSet Name="FK_TrnCurtainSelectionItems_MstPattern" Association="IMSModel.FK_TrnCurtainSelectionItems_MstPattern">
-            <End Role="MstPattern" EntitySet="MstPatterns" />
-            <End Role="TrnCurtainSelectionItem" EntitySet="TrnCurtainSelectionItems" />
+            <End EntitySet="MstPatterns" Role="MstPattern" />
+            <End EntitySet="TrnCurtainSelectionItems" Role="TrnCurtainSelectionItem" />
           </AssociationSet>
           <EntitySet Name="TrnCurtainQuotationItems" EntityType="IMSModel.TrnCurtainQuotationItem" />
           <AssociationSet Name="FK_TrnCurtainQuotationItems_MstAccessory" Association="IMSModel.FK_TrnCurtainQuotationItems_MstAccessory">
@@ -7735,22 +7735,22 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <Key>
             <PropertyRef Name="id" />
           </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="curtainSelectionId" Type="Int64" Nullable="false" />
-          <Property Name="area" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="unit" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="patternId" Type="Int64" Nullable="false" />
-          <Property Name="categoryId" Type="Int64" Nullable="false" />
+          <Property Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int64" />
+          <Property Name="curtainSelectionId" Nullable="false" Type="Int64" />
+          <Property Name="area" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" Type="String" />
+          <Property Name="unit" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" Type="String" />
+          <Property Name="patternId" Nullable="false" Type="Int64" />
+          <Property Name="categoryId" Nullable="false" Type="Int64" />
           <Property Name="collectionId" Type="Int64" />
           <Property Name="shadeId" Type="Int64" />
           <Property Name="accessoryId" Type="Int64" />
-          <Property Name="isPatch" Type="Boolean" Nullable="false" />
-          <Property Name="isLining" Type="Boolean" Nullable="false" />
-          <Property Name="rate" Type="Decimal" Precision="7" Scale="2" />
-          <Property Name="discount" Type="Decimal" Precision="4" Scale="2" />
-          <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="createdBy" Type="Int64" Nullable="false" />
-          <Property Name="updatedOn" Type="DateTime" Precision="3" />
+          <Property Name="isPatch" Nullable="false" Type="Boolean" />
+          <Property Name="isLining" Nullable="false" Type="Boolean" />
+          <Property Name="rate" Precision="7" Scale="2" Type="Decimal" />
+          <Property Name="discount" Precision="4" Scale="2" Type="Decimal" />
+          <Property Name="createdOn" Nullable="false" Precision="3" Type="DateTime" />
+          <Property Name="createdBy" Nullable="false" Type="Int64" />
+          <Property Name="updatedOn" Precision="3" Type="DateTime" />
           <Property Name="updatedBy" Type="Int64" />
           <NavigationProperty Name="MstAccessory" Relationship="IMSModel.FK_TrnCurtainSelectionItems_MstAccessory" FromRole="TrnCurtainSelectionItem" ToRole="MstAccessory" />
           <NavigationProperty Name="MstCategory" Relationship="IMSModel.FK_TrnCurtainSelectionItems_MstCategory" FromRole="TrnCurtainSelectionItem" ToRole="MstCategory" />
@@ -7760,8 +7760,8 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <NavigationProperty Name="TrnCurtainSelection" Relationship="IMSModel.FK_TrnCurtainSelectionItems_TrnCurtainSelection" FromRole="TrnCurtainSelectionItem" ToRole="TrnCurtainSelection" />
         </EntityType>
         <Association Name="FK_TrnCurtainSelectionItems_MstAccessory">
-          <End Type="IMSModel.MstAccessory" Role="MstAccessory" Multiplicity="0..1" />
-          <End Type="IMSModel.TrnCurtainSelectionItem" Role="TrnCurtainSelectionItem" Multiplicity="*" />
+          <End Type="IMSModel.MstAccessory" Multiplicity="0..1" Role="MstAccessory" />
+          <End Type="IMSModel.TrnCurtainSelectionItem" Multiplicity="*" Role="TrnCurtainSelectionItem" />
           <ReferentialConstraint>
             <Principal Role="MstAccessory">
               <PropertyRef Name="id" />
@@ -7772,8 +7772,8 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_TrnCurtainSelectionItems_MstCategory">
-          <End Type="IMSModel.MstCategory" Role="MstCategory" Multiplicity="1" />
-          <End Type="IMSModel.TrnCurtainSelectionItem" Role="TrnCurtainSelectionItem" Multiplicity="*" />
+          <End Type="IMSModel.MstCategory" Multiplicity="1" Role="MstCategory" />
+          <End Type="IMSModel.TrnCurtainSelectionItem" Multiplicity="*" Role="TrnCurtainSelectionItem" />
           <ReferentialConstraint>
             <Principal Role="MstCategory">
               <PropertyRef Name="id" />
@@ -7784,8 +7784,8 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_TrnCurtainSelectionItems_MstCollection">
-          <End Type="IMSModel.MstCollection" Role="MstCollection" Multiplicity="0..1" />
-          <End Type="IMSModel.TrnCurtainSelectionItem" Role="TrnCurtainSelectionItem" Multiplicity="*" />
+          <End Type="IMSModel.MstCollection" Multiplicity="0..1" Role="MstCollection" />
+          <End Type="IMSModel.TrnCurtainSelectionItem" Multiplicity="*" Role="TrnCurtainSelectionItem" />
           <ReferentialConstraint>
             <Principal Role="MstCollection">
               <PropertyRef Name="id" />
@@ -7796,8 +7796,8 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_TrnCurtainSelectionItems_MstFWRShade">
-          <End Type="IMSModel.MstFWRShade" Role="MstFWRShade" Multiplicity="0..1" />
-          <End Type="IMSModel.TrnCurtainSelectionItem" Role="TrnCurtainSelectionItem" Multiplicity="*" />
+          <End Type="IMSModel.MstFWRShade" Multiplicity="0..1" Role="MstFWRShade" />
+          <End Type="IMSModel.TrnCurtainSelectionItem" Multiplicity="*" Role="TrnCurtainSelectionItem" />
           <ReferentialConstraint>
             <Principal Role="MstFWRShade">
               <PropertyRef Name="id" />
@@ -7808,8 +7808,8 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_TrnCurtainSelectionItems_MstPattern">
-          <End Type="IMSModel.MstPattern" Role="MstPattern" Multiplicity="1" />
-          <End Type="IMSModel.TrnCurtainSelectionItem" Role="TrnCurtainSelectionItem" Multiplicity="*" />
+          <End Type="IMSModel.MstPattern" Multiplicity="1" Role="MstPattern" />
+          <End Type="IMSModel.TrnCurtainSelectionItem" Multiplicity="*" Role="TrnCurtainSelectionItem" />
           <ReferentialConstraint>
             <Principal Role="MstPattern">
               <PropertyRef Name="id" />
@@ -7941,7 +7941,7 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <Property Name="curtainQuotationNumber" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="curtainQuotationDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="customerId" Type="Int64" Nullable="false" />
-          <Property Name="shippingAddressId" Type="Int64" Nullable="false" />
+          <Property Name="shippingAddressId" Type="Int64" />
           <Property Name="referById" Type="Int64" />
           <Property Name="totalAmount" Type="Int64" Nullable="false" />
           <Property Name="financialYear" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
@@ -7964,7 +7964,7 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           </Key>
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="customerId" Type="Int64" Nullable="false" />
-          <Property Name="shippingAddressId" Type="Int64" Nullable="false" />
+          <Property Name="shippingAddressId" Type="Int64" />
           <Property Name="curtainSelectionNumber" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="curtainSelectionDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="referById" Type="Int64" />
@@ -8029,7 +8029,7 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_TrnCurtainQuotation_MstCustomerAddress">
-          <End Type="IMSModel.MstCustomerAddress" Role="MstCustomerAddress" Multiplicity="1" />
+          <End Type="IMSModel.MstCustomerAddress" Role="MstCustomerAddress" Multiplicity="0..1" />
           <End Type="IMSModel.TrnCurtainQuotation" Role="TrnCurtainQuotation" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="MstCustomerAddress">
@@ -8041,7 +8041,7 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_TrnCurtainSelection_MstCustomerAddress">
-          <End Type="IMSModel.MstCustomerAddress" Role="MstCustomerAddress" Multiplicity="1" />
+          <End Type="IMSModel.MstCustomerAddress" Role="MstCustomerAddress" Multiplicity="0..1" />
           <End Type="IMSModel.TrnCurtainSelection" Role="TrnCurtainSelection" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="MstCustomerAddress">

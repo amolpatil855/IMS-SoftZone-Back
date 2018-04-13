@@ -22,7 +22,7 @@ namespace IMSWebApi.Models
     
         public long id { get; set; }
         public long customerId { get; set; }
-        public long shippingAddressId { get; set; }
+        public Nullable<long> shippingAddressId { get; set; }
         public string curtainSelectionNumber { get; set; }
         public System.DateTime curtainSelectionDate { get; set; }
         public Nullable<long> referById { get; set; }

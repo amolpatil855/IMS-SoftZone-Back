@@ -225,7 +225,7 @@ namespace IMSWebApi.Services
 
             VMCurtainQuotation.customerId = curtainSelection.customerId;
             VMCurtainQuotation.shippingAddressId = curtainSelection.shippingAddressId;
-            VMCurtainQuotation.MstCustomerAddress = Mapper.Map<MstCustomerAddress, VMCustomerAddress>(curtainSelection.MstCustomerAddress);
+            //VMCurtainQuotation.MstCustomerAddress = Mapper.Map<MstCustomerAddress, VMCustomerAddress>(curtainSelection.MstCustomerAddress);
             VMCurtainQuotation.customerName = curtainSelection.MstCustomer.name;
 
             VMCurtainQuotation.referById = curtainSelection.referById;
