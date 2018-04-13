@@ -145,6 +145,7 @@ namespace IMSWebApi.Services
             {
                 var curtainSelectionToPut = repo.TrnCurtainSelections.Where(ms => ms.id == curtainSelection.id).FirstOrDefault();
                 curtainSelectionToPut.customerId = curtainSelection.customerId;
+                curtainSelectionToPut.shippingAddressId = curtainSelection.shippingAddressId;
                 curtainSelectionToPut.referById = curtainSelection.referById;
                 curtainSelectionToPut.isQuotationCreated = curtainSelection.isQuotationCreated;
 
@@ -223,6 +224,8 @@ namespace IMSWebApi.Services
             VMCurtainQuotation.curtainSelectionNo = curtainSelection.curtainSelectionNumber;
 
             VMCurtainQuotation.customerId = curtainSelection.customerId;
+            VMCurtainQuotation.shippingAddressId = curtainSelection.shippingAddressId;
+            VMCurtainQuotation.MstCustomerAddress = Mapper.Map<MstCustomerAddress, VMCustomerAddress>(curtainSelection.MstCustomerAddress);
             VMCurtainQuotation.customerName = curtainSelection.MstCustomer.name;
 
             VMCurtainQuotation.referById = curtainSelection.referById;
@@ -247,6 +250,7 @@ namespace IMSWebApi.Services
                 cqItem.isLining = csItem.isLining;
 
                 cqItem.MstPattern = Mapper.Map<MstPattern, VMPattern>(csItem.MstPattern);
+                
                 if (csItem.shadeId != null)
                 {
                     VMProductForCS shadeInfo = new VMProductForCS();
