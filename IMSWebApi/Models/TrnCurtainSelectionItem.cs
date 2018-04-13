@@ -36,7 +36,7 @@ namespace IMSWebApi.Models
         public virtual MstCategory MstCategory { get; set; }
         public virtual MstCollection MstCollection { get; set; }
         public virtual MstFWRShade MstFWRShade { get; set; }
-        public virtual MstPattern MstPattern { get; set; }
         public virtual TrnCurtainSelection TrnCurtainSelection { get; set; }
+        public virtual MstPattern MstPattern { get; set; }
     }
 }
