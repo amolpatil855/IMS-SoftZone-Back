@@ -27,6 +27,7 @@ namespace IMSWebApi.Models
         public long customerId { get; set; }
         public Nullable<long> shippingAddressId { get; set; }
         public Nullable<long> referById { get; set; }
+        public Nullable<decimal> commonDiscount { get; set; }
         public long totalAmount { get; set; }
         public string financialYear { get; set; }
         public string status { get; set; }

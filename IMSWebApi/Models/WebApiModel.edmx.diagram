@@ -200,27 +200,27 @@
         <AssociationConnector Association="IMSModel.FK_TrnCurtainSelectionItems_MstCategory" />
         <AssociationConnector Association="IMSModel.FK_TrnCurtainSelectionItems_MstCollection" />
         <AssociationConnector Association="IMSModel.FK_TrnCurtainSelectionItems_MstFWRShade" />
-        <EntityTypeShape EntityType="IMSModel.TrnCurtainQuotationItem" Width="1.5" PointX="31.5" PointY="31.5" />
+        <EntityTypeShape EntityType="IMSModel.TrnCurtainSelection" Width="1.5" PointX="6" PointY="45.75" />
+        <AssociationConnector Association="IMSModel.FK_TrnCurtainSelection_MstAgent" />
+        <AssociationConnector Association="IMSModel.FK_TrnCurtainSelection_MstCustomer" />
+        <AssociationConnector Association="IMSModel.FK_TrnCurtainSelection_MstCustomerAddress" />
+        <AssociationConnector Association="IMSModel.FK_TrnCurtainSelectionItems_TrnCurtainSelection" />
+        <EntityTypeShape EntityType="IMSModel.MstPattern" Width="1.5" PointX="7.375" PointY="25.125" />
+        <EntityTypeShape EntityType="IMSModel.TrnCurtainQuotation" Width="1.5" PointX="8.25" PointY="45.25" />
+        <EntityTypeShape EntityType="IMSModel.TrnCurtainQuotationItem" Width="1.5" PointX="29.25" PointY="41" />
         <AssociationConnector Association="IMSModel.FK_TrnCurtainQuotationItems_MstAccessory" />
+        <AssociationConnector Association="IMSModel.FK_TrnCurtainQuotation_MstAgent" />
         <AssociationConnector Association="IMSModel.FK_TrnCurtainQuotationItems_MstCategory" />
         <AssociationConnector Association="IMSModel.FK_TrnCurtainQuotationItems_MstCollection" />
-        <AssociationConnector Association="IMSModel.FK_TrnCurtainQuotationItems_MstFWRShade" />
-        <EntityTypeShape EntityType="IMSModel.TrnCurtainQuotation" Width="1.5" PointX="8.25" PointY="45.25" />
-        <EntityTypeShape EntityType="IMSModel.TrnCurtainSelection" Width="1.5" PointX="6" PointY="45.75" />
-        <AssociationConnector Association="IMSModel.FK_TrnCurtainQuotation_MstAgent" />
-        <AssociationConnector Association="IMSModel.FK_TrnCurtainSelection_MstAgent" />
         <AssociationConnector Association="IMSModel.FK_TrnCurtainQuotation_MstCustomer" />
-        <AssociationConnector Association="IMSModel.FK_TrnCurtainSelection_MstCustomer" />
         <AssociationConnector Association="IMSModel.FK_TrnCurtainQuotation_MstCustomerAddress" />
-        <AssociationConnector Association="IMSModel.FK_TrnCurtainSelection_MstCustomerAddress" />
-        <AssociationConnector Association="IMSModel.FK_TrnAdvancePayment_TrnCurtainQuotation" />
-        <AssociationConnector Association="IMSModel.FK_TrnCurtainQuotation_TrnCurtainSelection" />
-        <AssociationConnector Association="IMSModel.FK_TrnCurtainQuotationItems_TrnCurtainQuotation" />
-        <AssociationConnector Association="IMSModel.FK_TrnCurtainSelectionItems_TrnCurtainSelection" />
-        <EntityTypeShape EntityType="IMSModel.MstPattern" Width="1.5" PointX="7.375" PointY="25.375" />
+        <AssociationConnector Association="IMSModel.FK_TrnCurtainQuotationItems_MstFWRShade" />
         <AssociationConnector Association="IMSModel.FK_MstTailorPatternChargeDetails_MstPattern" />
         <AssociationConnector Association="IMSModel.FK_TrnCurtainQuotationItems_MstPattern" />
         <AssociationConnector Association="IMSModel.FK_TrnCurtainSelectionItems_MstPattern" />
+        <AssociationConnector Association="IMSModel.FK_TrnAdvancePayment_TrnCurtainQuotation" />
+        <AssociationConnector Association="IMSModel.FK_TrnCurtainQuotation_TrnCurtainSelection" />
+        <AssociationConnector Association="IMSModel.FK_TrnCurtainQuotationItems_TrnCurtainQuotation" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

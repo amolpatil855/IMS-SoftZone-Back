@@ -29,10 +29,12 @@ namespace IMSWebApi.ViewModel
         public bool isLining { get; set; }
         public bool isTrack { get; set; }
         public bool isRod { get; set; }
+        public string fabricDirection { get; set; }
         public Nullable<decimal> unitHeight { get; set; }
         public Nullable<decimal> unitWidth { get; set; }
         public bool isRemote { get; set; }
         public bool isMotor { get; set; }
+        public bool isRodAccessory { get; set; }
         public Nullable<decimal> orderQuantity { get; set; }
         public Nullable<decimal> balanceQuantity { get; set; }
         public Nullable<decimal> deliverQuantity { get; set; }
