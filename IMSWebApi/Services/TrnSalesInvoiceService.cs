@@ -43,7 +43,8 @@ namespace IMSWebApi.Services
                         id = s.id,
                         invoiceNumber = s.invoiceNumber,
                         invoiceDate = s.invoiceDate,
-                        ginNumber = s.TrnGoodIssueNote.ginNumber,
+                        ginNumber = s.TrnGoodIssueNote != null ? s.TrnGoodIssueNote.ginNumber : string.Empty,
+                        curtainQuotationNumber = s.TrnCurtainQuotation != null ? s.TrnCurtainQuotation.curtainQuotationNumber : string.Empty,
                         totalAmount = s.totalAmount,
                         status = s.status,
                         courierDockYardNumber = s.courierDockYardNumber,
@@ -52,6 +53,7 @@ namespace IMSWebApi.Services
                     .Where(s => !string.IsNullOrEmpty(search)
                     ? s.ginNumber.StartsWith(search)
                     || s.invoiceNumber.StartsWith(search)
+                    || s.curtainQuotationNumber.StartsWith(search)
                     || s.totalAmount.ToString().StartsWith(search)
                     || s.courierDockYardNumber.StartsWith(search)
                     || s.status.StartsWith(search)
@@ -63,8 +65,9 @@ namespace IMSWebApi.Services
             {
                 Data = salesInvoiceView,
                 TotalCount = repo.TrnSalesInvoices.Where(s => !string.IsNullOrEmpty(search)
-                    ? s.TrnGoodIssueNote.ginNumber.StartsWith(search)
+                    ? (s.TrnGoodIssueNote != null ? s.TrnGoodIssueNote.ginNumber.StartsWith(search) : true)
                     || s.invoiceNumber.StartsWith(search)
+                    || (s.TrnCurtainQuotation != null ? s.TrnCurtainQuotation.curtainQuotationNumber.StartsWith(search) : true)
                     || s.totalAmount.ToString().StartsWith(search)
                     || s.courierDockYardNumber.StartsWith(search)
                     || s.status.StartsWith(search)
@@ -179,6 +182,56 @@ namespace IMSWebApi.Services
                 }
             });
 
+            salesInvoice.totalAmount = Convert.ToInt64(salesInvoice.TrnSalesInvoiceItems.Select(salesInvoiceItem => salesInvoiceItem.amountWithGST).Sum());
+            salesInvoice.createdOn = DateTime.Now;
+            salesInvoice.createdBy = _LoggedInuserId;
+
+            repo.TrnSalesInvoices.Add(salesInvoice);
+
+            financialYear.soInvoiceNumber += 1;
+            repo.SaveChanges();
+        }
+
+        public void createInvoiceForCurtainQuotation(TrnCurtainQuotation curtainQuotation)
+        {
+            TrnSalesInvoice salesInvoice = new TrnSalesInvoice();
+            salesInvoice.curtainQuotationId = curtainQuotation.id;
+
+            DateTime invoiceDate = curtainQuotation.curtainQuotationDate != null ? curtainQuotation.curtainQuotationDate.Date : DateTime.Now;
+            var financialYear = repo.MstFinancialYears.Where(f => f.startDate <= invoiceDate && f.endDate >= invoiceDate).FirstOrDefault();
+            string invoiceNo = generateOrderNumber.orderNumber(financialYear.startDate.ToString("yy"), financialYear.endDate.ToString("yy"), financialYear.soInvoiceNumber, "IN");
+            salesInvoice.invoiceNumber = invoiceNo;
+            salesInvoice.isPaid = false;
+            salesInvoice.invoiceDate = DateTime.Now;
+            salesInvoice.status = InvoiceStatus.Created.ToString();
+            salesInvoice.financialYear = financialYear.financialYear;
+            salesInvoice.expectedDeliveryDate = curtainQuotation.expectedDeliveryDate;
+
+            foreach (var cqItem in curtainQuotation.TrnCurtainQuotationItems)
+	        {
+		         TrnSalesInvoiceItem salesInvoiceItem = new TrnSalesInvoiceItem();
+                    salesInvoiceItem.categoryId = cqItem.categoryId;
+                    salesInvoiceItem.collectionId = cqItem.collectionId;
+                    salesInvoiceItem.shadeId = cqItem.shadeId;
+                    salesInvoiceItem.accessoryId = cqItem.accessoryId;
+                    salesInvoiceItem.quantity = Convert.ToDecimal(cqItem.orderQuantity);
+                    salesInvoiceItem.rate = Convert.ToDecimal(cqItem.rate);
+                    salesInvoiceItem.discountPercentage = cqItem.discount != null ? cqItem.discount : 0;
+                    salesInvoiceItem.amount = Convert.ToInt64(cqItem.amount);
+                    salesInvoiceItem.gst = cqItem.shadeId != null ? cqItem.MstFWRShade.MstQuality.MstHsn.gst :
+                        cqItem.accessoryId != null ? cqItem.MstAccessory.MstHsn.gst : (int?)null;
+
+                    salesInvoiceItem.uom = cqItem.categoryId != 7 ? cqItem.MstCategory.MstUnitOfMeasure.uomCode : cqItem.MstAccessory.MstUnitOfMeasure.uomCode;
+                    salesInvoiceItem.hsnCode = cqItem.shadeId != null ? cqItem.MstFWRShade.MstQuality.MstHsn.hsnCode :
+                        cqItem.accessoryId != null ? cqItem.MstAccessory.MstHsn.hsnCode : null;
+
+                    salesInvoiceItem.rateWithGST = cqItem.rateWithGST;
+
+                    salesInvoiceItem.amountWithGST = cqItem.amountWithGST;
+                    salesInvoiceItem.createdOn = DateTime.Now;
+                    salesInvoiceItem.createdBy = _LoggedInuserId;
+                    salesInvoice.TrnSalesInvoiceItems.Add(salesInvoiceItem);
+	        }
             salesInvoice.totalAmount = Convert.ToInt64(salesInvoice.TrnSalesInvoiceItems.Select(salesInvoiceItem => salesInvoiceItem.amountWithGST).Sum());
             salesInvoice.createdOn = DateTime.Now;
             salesInvoice.createdBy = _LoggedInuserId;

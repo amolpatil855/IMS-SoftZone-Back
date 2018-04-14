@@ -297,6 +297,7 @@
     <Compile Include="Controllers\TrnPurchaseOrderController.cs" />
     <Compile Include="Controllers\TrnSaleOrderController.cs" />
     <Compile Include="Controllers\TrnSalesInvoiceController.cs" />
+    <Compile Include="Controllers\TrnWorkOrderController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="CustomAttributes\AuthorizeUserAttribute.cs" />
@@ -459,6 +460,12 @@
     <Compile Include="Models\TrnSalesInvoiceItem.cs">
       <DependentUpon>WebApiModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\TrnWorkOrder.cs">
+      <DependentUpon>WebApiModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TrnWorkOrderItem.cs">
+      <DependentUpon>WebApiModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\vwAccessory.cs">
       <DependentUpon>WebApiModel.tt</DependentUpon>
     </Compile>
@@ -537,6 +544,7 @@
     <Compile Include="Services\TrnPurchaseOrderService.cs" />
     <Compile Include="Services\TrnSaleOrderService.cs" />
     <Compile Include="Services\TrnSalesInvoiceService.cs" />
+    <Compile Include="Services\TrnWorkOrderService.cs" />
     <Compile Include="Services\UnitOfMeasureService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Services\FomSizeService.cs" />
@@ -621,6 +629,9 @@
     <Compile Include="ViewModel\Masters\VMTailor.cs" />
     <Compile Include="ViewModel\Masters\VMTailorPatternChargeDetail.cs" />
     <Compile Include="ViewModel\Masters\VMTailorList.cs" />
+    <Compile Include="ViewModel\WorkOrder\VMTrnWorkOrder.cs" />
+    <Compile Include="ViewModel\WorkOrder\VMTrnWorkOrderItem.cs" />
+    <Compile Include="ViewModel\WorkOrder\VMTrnWorkOrderList.cs" />
     <Compile Include="ViewModel\VMUnitOfMeasure.cs" />
     <Compile Include="ViewModel\VMUser.cs" />
     <Compile Include="ViewModel\VMUserType.cs" />

@@ -181,6 +181,13 @@ namespace IMSWebApi.App_Start
 
             Mapper.CreateMap<MstTailorPatternChargeDetail, VMTailorPatternChargeDetail>();
             Mapper.CreateMap<VMTailorPatternChargeDetail, MstTailorPatternChargeDetail>();
+
+
+            Mapper.CreateMap<TrnWorkOrder, VMTrnWorkOrder>();
+            Mapper.CreateMap<VMTrnWorkOrder, TrnWorkOrder>();
+
+            Mapper.CreateMap<TrnWorkOrderItem, VMTrnWorkOrderItem>();
+            Mapper.CreateMap<VMTrnWorkOrderItem, TrnWorkOrderItem>();
         }
     }
 }

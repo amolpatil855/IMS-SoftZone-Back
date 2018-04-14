@@ -214,6 +214,15 @@ namespace IMSWebApi.App_Data {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Curtain Quotation Updated Successfully.
+        /// </summary>
+        public static string CQApproved {
+            get {
+                return ResourceManager.GetString("CQApproved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Curtain Quotation Added Successfully.
         /// </summary>
         public static string CQCreated {
