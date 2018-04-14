@@ -14,9 +14,9 @@ namespace IMSWebApi.ViewModel
         public string name { get; set; }
         [Required]
         public decimal fabricHeight { get; set; }
-        public Nullable<decimal> liningHeight { get; set; }
-        public Nullable<decimal> woFabricHeight { get; set; }
-        public Nullable<decimal> woLiningHeight { get; set; }
+        public decimal liningHeight { get; set; }
+        public decimal woFabricHeight { get; set; }
+        public decimal woLiningHeight { get; set; }
         [Required]
         public int meterPerInch { get; set; }
         [Required]

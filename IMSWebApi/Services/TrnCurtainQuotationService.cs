@@ -220,6 +220,7 @@ namespace IMSWebApi.Services
                 curtainQuotationToPut.curtainQuotationDate = curtainQuotation.curtainQuotationDate;
                 curtainQuotationToPut.shippingAddressId = curtainQuotation.shippingAddressId;
                 curtainQuotationToPut.referById = curtainQuotation.referById;
+                curtainQuotationToPut.commonDiscount = curtainQuotation.commonDiscount;
                 curtainQuotationToPut.totalAmount = curtainQuotation.totalAmount;
                 curtainQuotationToPut.expectedDeliveryDate = curtainQuotation.expectedDeliveryDate;
 
@@ -283,9 +284,11 @@ namespace IMSWebApi.Services
                     
                     cqItemToPut.isLining = x.isLining;
                     cqItemToPut.isTrack = x.isTrack;
+                    cqItemToPut.fabricDirection = x.fabricDirection;
                     cqItemToPut.unitHeight = x.unitHeight;
                     cqItemToPut.unitWidth = x.unitWidth;
                     cqItemToPut.isRod = x.isRod;
+                    cqItemToPut.isRodAccessory = x.isRodAccessory;
                     cqItemToPut.orderQuantity = x.orderQuantity;
                     cqItemToPut.balanceQuantity = x.orderQuantity;
                     cqItemToPut.isMotor = x.isMotor;
