@@ -438,4 +438,7 @@
   <data name="TailorUpdated" xml:space="preserve">
     <value>Tailor Updated Successfully</value>
   </data>
+  <data name="CQApproved" xml:space="preserve">
+    <value>Curtain Quotation Updated Successfully</value>
+  </data>
 </root>

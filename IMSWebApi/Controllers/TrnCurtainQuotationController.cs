@@ -63,5 +63,19 @@ namespace IMSWebApi.Controllers
             var result = _trnCurtainQuotationService.putCurtainQuotation(curtainQuotation);
             return Ok(result);
         }
+
+        // PUT api/TrnCurtainQuotation
+        [ApiAuthorize(Roles = "Administrator")]
+        [Route("api/TrnMaterialQuotation/ApproveCurtainQuotation/{id}")]
+        [HttpPut]
+        public IHttpActionResult ApproveCurtainQuotation(long id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var result = _trnCurtainQuotationService.approveCurtainQuotation(id);
+            return Ok(result);
+        }
     }
 }

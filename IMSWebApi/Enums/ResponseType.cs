@@ -61,4 +61,10 @@ namespace IMSWebApi.Enums
         Completed = 4,
         Cancelled = 5
     }
+
+    public enum WorkOrderStatus
+    {
+        Created = 1,
+        Approved = 2
+    }
 }

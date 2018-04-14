@@ -17,6 +17,7 @@ namespace IMSWebApi.Models
         public MstTailor()
         {
             this.MstTailorPatternChargeDetails = new HashSet<MstTailorPatternChargeDetail>();
+            this.TrnWorkOrders = new HashSet<TrnWorkOrder>();
         }
     
         public long id { get; set; }
@@ -36,5 +37,6 @@ namespace IMSWebApi.Models
         public Nullable<long> updatedBy { get; set; }
     
         public virtual ICollection<MstTailorPatternChargeDetail> MstTailorPatternChargeDetails { get; set; }
+        public virtual ICollection<TrnWorkOrder> TrnWorkOrders { get; set; }
     }
 }

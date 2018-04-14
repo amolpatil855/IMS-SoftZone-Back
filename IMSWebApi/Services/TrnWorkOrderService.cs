@@ -1,0 +1,321 @@
+﻿using IMSWebApi.Common;
+using IMSWebApi.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Resources;
+using System.Web;
+using Microsoft.AspNet.Identity;
+using IMSWebApi.ViewModel;
+using IMSWebApi.Enums;
+using System.Transactions;
+using AutoMapper;
+
+namespace IMSWebApi.Services
+{
+    public class TrnWorkOrderService
+    {
+        WebAPIdbEntities repo = new WebAPIdbEntities();
+        Int64 _LoggedInuserId;
+        ResourceManager resourceManager = null;
+        GenerateOrderNumber generateOrderNumber = null;
+        SendEmail emailNotification = new SendEmail();
+        TrnProductStockService _trnProductStockService = null;
+
+        public TrnWorkOrderService()
+        {
+            _LoggedInuserId = Convert.ToInt64(HttpContext.Current.User.Identity.GetUserId());
+            resourceManager = new ResourceManager("IMSWebApi.App_Data.Resource", Assembly.GetExecutingAssembly());
+            generateOrderNumber = new GenerateOrderNumber();
+            _trnProductStockService = new TrnProductStockService();
+        }
+
+        public ListResult<VMTrnWorkOrderList> getWorkOrders(int pageSize, int page, string search)
+        {
+            List<VMTrnWorkOrderList> workOrderView;
+            var result = repo.TrnWorkOrders
+                    .Select(wo => new VMTrnWorkOrderList
+                    {
+                        id = wo.id,
+                        workOrderNumber = wo.workOrderNumber,
+                        workOrderDate = wo.workOrderDate,
+                        customerName = wo.MstCustomer.name,
+                        status = wo.status,
+                    })
+                    .Where(wo => !string.IsNullOrEmpty(search)
+                    ? wo.workOrderNumber.StartsWith(search)
+                    || wo.customerName.StartsWith(search)
+                    || wo.status.StartsWith(search) : true)
+                    .OrderByDescending(p => p.id).Skip(page * pageSize).Take(pageSize).ToList();
+            workOrderView = result;
+
+            return new ListResult<VMTrnWorkOrderList>
+            {
+                Data = workOrderView,
+                TotalCount = repo.TrnWorkOrders.Where(wo => !string.IsNullOrEmpty(search)
+                    ? wo.workOrderNumber.StartsWith(search)
+                    || wo.MstCustomer.name.StartsWith(search)
+                    || wo.status.StartsWith(search) : true).Count(),
+                Page = page
+            };
+        }
+
+        public VMTrnWorkOrder getWorkOrderById(Int64 id)
+        {
+            var result = repo.TrnWorkOrders.Where(wo => wo.id == id).FirstOrDefault();
+            VMTrnWorkOrder workOrderView = Mapper.Map<TrnWorkOrder, VMTrnWorkOrder>(result);
+            workOrderView.customerName = result.MstCustomer != null ? result.MstCustomer.name : string.Empty;
+            workOrderView.curtainQuotationNo = result.TrnCurtainQuotation != null ? result.TrnCurtainQuotation.curtainQuotationNumber : string.Empty;
+            workOrderView.TrnWorkOrderItems.ForEach(woItem =>
+            {
+                woItem.categoryName = woItem.MstCategory.name;
+                woItem.collectionName = woItem.collectionId != null ? woItem.MstCollection.collectionCode : null;
+                woItem.serialno = woItem.MstCategory.code.Equals("Fabric") ? woItem.MstFWRShade.serialNumber + "(" + woItem.MstFWRShade.shadeCode + "-" + woItem.MstFWRShade.MstFWRDesign.designCode + ")" : null;
+                woItem.itemCode = woItem.MstCategory.code.Equals("Accessory") ? woItem.MstAccessory.itemCode : null;
+                woItem.patternName = woItem.MstPattern != null ? woItem.MstPattern.name : null;
+            });
+            workOrderView.TrnWorkOrderItems.ForEach(woItem => woItem.TrnWorkOrder = null);
+            workOrderView.TrnCurtainQuotation.TrnCurtainQuotationItems.ForEach(cqItem => cqItem.TrnCurtainQuotation = null);
+            workOrderView.TrnCurtainQuotation.TrnCurtainSelection = null;
+            return workOrderView;
+        }
+
+        public void createWorkOrder(TrnCurtainQuotation curtainQuotation)
+        {
+            using (var transaction = new TransactionScope())
+            {  
+                if (curtainQuotation != null)
+                {
+                    TrnWorkOrder workOrder = new TrnWorkOrder();
+                    workOrder.curtainQuotationId = curtainQuotation.id;
+
+                    DateTime currentDate = DateTime.Now.Date;
+                    var financialYear = repo.MstFinancialYears.Where(f => f.startDate <= currentDate && f.endDate >= currentDate).FirstOrDefault();
+                    string workOrderNo = generateOrderNumber.orderNumber(financialYear.startDate.ToString("yy"), financialYear.endDate.ToString("yy"), financialYear.jobCardNumber, "WO");
+                    workOrder.workOrderNumber = workOrderNo;
+                    workOrder.workOrderDate = DateTime.Now;
+
+                    workOrder.customerId = curtainQuotation.customerId;
+                    workOrder.financialYear = financialYear.financialYear;
+
+                    foreach (var cqItem in curtainQuotation.TrnCurtainQuotationItems)
+                    {
+                        TrnWorkOrderItem workOrderItems = new TrnWorkOrderItem();
+                        workOrderItems.categoryId = cqItem.categoryId;
+                        workOrderItems.rate = cqItem.rate;
+                        if (cqItem.isRod || cqItem.isRodAccessory)
+                        {
+                            workOrderItems.accessoryId = cqItem.accessoryId;
+                            workOrderItems.isPatch = workOrderItems.isVerticalPatch = workOrderItems.isHorizontalPatch = workOrderItems.isLining = workOrderItems.isTrack = workOrderItems.isRemote = workOrderItems.isMotor = false;
+                            workOrderItems.isRod = cqItem.isRod;
+                            workOrderItems.isRodAccessory = cqItem.isRodAccessory;
+                            workOrderItems.orderQuantity = cqItem.orderQuantity;
+                            workOrderItems.orderQuantity = adjustOrderQuantity(Convert.ToDecimal(workOrderItems.orderQuantity));
+                            workOrderItems.createdBy = _LoggedInuserId;
+                            workOrderItems.createdOn = DateTime.Now;
+                            workOrder.TrnWorkOrderItems.Add(workOrderItems);
+                        }
+                        else if (cqItem.isTrack || cqItem.isRemote || cqItem.isMotor)
+                        {
+                            workOrderItems.area = cqItem.area;
+                            workOrderItems.unit = cqItem.unit;
+                            workOrderItems.unitHeight = cqItem.unitHeight;
+                            workOrderItems.unitWidth = cqItem.unitWidth;
+                            workOrderItems.patternId = cqItem.patternId;
+                            workOrderItems.accessoryId = cqItem.accessoryId;
+                            workOrderItems.isPatch = workOrderItems.isVerticalPatch = workOrderItems.isHorizontalPatch = workOrderItems.isLining = workOrderItems.isRod = workOrderItems.isRodAccessory = false;
+                            workOrderItems.isTrack = cqItem.isTrack;
+                            workOrderItems.isRemote = cqItem.isRemote;
+                            workOrderItems.isMotor = cqItem.isMotor;
+                            workOrderItems.trackSize = cqItem.isTrack ? cqItem.unitWidth : null;  //track size will be width of unit
+                            workOrderItems.orderQuantity = cqItem.orderQuantity;
+                            workOrderItems.orderQuantity = adjustOrderQuantity(Convert.ToDecimal(workOrderItems.orderQuantity));
+                            workOrderItems.createdBy = _LoggedInuserId;
+                            workOrderItems.createdOn = DateTime.Now;
+                            workOrder.TrnWorkOrderItems.Add(workOrderItems);
+                        }
+                        else if ((cqItem.isLining || (!cqItem.isLining && !cqItem.isPatch)) && cqItem.shadeId != null)
+                        {
+                            workOrderItems.area = cqItem.area;
+                            workOrderItems.unit = cqItem.unit;
+                            workOrderItems.unitHeight = cqItem.unitHeight;
+                            workOrderItems.unitWidth = cqItem.unitWidth;
+                            workOrderItems.numberOfPanel = cqItem.numberOfPanel;
+                            workOrderItems.patternId = cqItem.patternId;
+                            workOrderItems.collectionId = cqItem.collectionId;
+                            workOrderItems.shadeId = cqItem.shadeId;
+                            workOrderItems.isPatch = workOrderItems.isVerticalPatch = workOrderItems.isHorizontalPatch = workOrderItems.isTrack = workOrderItems.isRod = workOrderItems.isRemote = workOrderItems.isMotor = workOrderItems.isRodAccessory = false;
+                            workOrderItems.isLining = cqItem.isLining;
+                            if (cqItem.MstFWRShade.MstQuality.width <= 100)
+                            {
+                                if (cqItem.isLining)
+                                    workOrderItems.orderQuantity = Math.Round(Convert.ToDecimal(((cqItem.unitHeight + cqItem.MstPattern.woLiningHeight) / cqItem.MstPattern.meterPerInch)), 2);
+                                else
+                                    workOrderItems.orderQuantity = Math.Round(Convert.ToDecimal(((cqItem.unitHeight + cqItem.MstPattern.woFabricHeight) / cqItem.MstPattern.meterPerInch)), 2);
+                            }
+                            else
+                            {
+                                if (cqItem.isLining && cqItem.fabricDirection.Equals("Vertical"))
+                                    workOrderItems.orderQuantity = Math.Round(Convert.ToDecimal(((54 * cqItem.numberOfPanel) / cqItem.MstPattern.meterPerInch)), 2);
+                                else if (cqItem.isLining && cqItem.fabricDirection.Equals("Horizontal"))
+                                    workOrderItems.orderQuantity = Math.Round(Convert.ToDecimal(((cqItem.unitHeight + cqItem.MstPattern.woLiningHeight) / cqItem.MstPattern.meterPerInch) * (cqItem.unitWidth / 50)), 2);
+                                else if (!cqItem.isLining && cqItem.fabricDirection.Equals("Vertical"))
+                                    workOrderItems.orderQuantity = Math.Round(Convert.ToDecimal(((54 * cqItem.numberOfPanel) / cqItem.MstPattern.meterPerInch)), 2);
+                                else if (!cqItem.isLining && cqItem.fabricDirection.Equals("Horizontal"))
+                                    workOrderItems.orderQuantity = Math.Round(Convert.ToDecimal(((cqItem.unitHeight + cqItem.MstPattern.woFabricHeight) / cqItem.MstPattern.meterPerInch) * (cqItem.unitWidth / 50)), 2);
+                            }
+                            workOrderItems.orderQuantity = cqItem.numberOfPanel != null ? (workOrderItems.orderQuantity * cqItem.numberOfPanel) : workOrderItems.orderQuantity;
+                            workOrderItems.orderQuantity = adjustOrderQuantity(Convert.ToDecimal(workOrderItems.orderQuantity));
+                            workOrderItems.createdBy = _LoggedInuserId;
+                            workOrderItems.createdOn = DateTime.Now;
+                            workOrder.TrnWorkOrderItems.Add(workOrderItems);
+                        }
+                        else if (cqItem.isPatch && cqItem.shadeId != null)
+                        {
+                            workOrderItems.area = cqItem.area;
+                            workOrderItems.unit = cqItem.unit;
+                            workOrderItems.unitHeight = cqItem.unitHeight;
+                            workOrderItems.unitWidth = cqItem.unitWidth;
+                            workOrderItems.numberOfPanel = cqItem.numberOfPanel;
+                            workOrderItems.patternId = cqItem.patternId;
+                            workOrderItems.collectionId = cqItem.collectionId;
+                            workOrderItems.shadeId = cqItem.shadeId;
+                            workOrderItems.isTrack = workOrderItems.isRemote = workOrderItems.isMotor = workOrderItems.isLining = workOrderItems.isRod = workOrderItems.isRodAccessory = false;
+
+                            workOrderItems.isPatch = cqItem.isPatch;
+                            workOrderItems.isVerticalPatch = cqItem.isVerticalPatch;
+                            workOrderItems.noOfVerticalPatch = cqItem.noOfVerticalPatch;
+                            workOrderItems.verticalPatchWidth = cqItem.verticalPatchWidth;
+                            workOrderItems.verticalPatchQuantity = cqItem.verticalPatchQuantity;
+                            workOrderItems.isHorizontalPatch = cqItem.isHorizontalPatch;
+                            workOrderItems.noOfHorizontalPatch = cqItem.noOfHorizontalPatch;
+                            workOrderItems.horizontalPatchHeight = cqItem.horizontalPatchHeight;
+                            workOrderItems.horizontalPatchQuantity = cqItem.horizontalPatchQuantity;
+                            workOrderItems.orderQuantity = cqItem.orderQuantity;
+                            workOrderItems.orderQuantity = adjustOrderQuantity(Convert.ToDecimal(workOrderItems.orderQuantity));
+                            workOrderItems.createdBy = _LoggedInuserId;
+                            workOrderItems.createdOn = DateTime.Now;
+                            workOrder.TrnWorkOrderItems.Add(workOrderItems);
+                        }
+                        else
+                        {
+                            workOrderItems.area = cqItem.area;
+                            workOrderItems.unit = cqItem.unit;
+                            workOrderItems.patternId = cqItem.patternId;
+                            workOrderItems.accessoryId = cqItem.accessoryId;
+                            workOrderItems.isPatch = workOrderItems.isVerticalPatch = workOrderItems.isHorizontalPatch = workOrderItems.isLining = workOrderItems.isRod = workOrderItems.isRodAccessory = false;
+                            workOrderItems.isTrack = cqItem.isTrack;
+                            workOrderItems.isRemote = cqItem.isRemote;
+                            workOrderItems.isMotor = cqItem.isMotor;
+                            workOrderItems.orderQuantity = cqItem.orderQuantity;
+                            workOrderItems.orderQuantity = adjustOrderQuantity(Convert.ToDecimal(workOrderItems.orderQuantity));
+                            workOrderItems.createdBy = _LoggedInuserId;
+                            workOrderItems.createdOn = DateTime.Now;
+                            workOrder.TrnWorkOrderItems.Add(workOrderItems);
+                        }
+
+
+                        if (cqItem.isTrack)
+                        {
+                            var endCapAccessory = repo.MstAccessories.Where(a => a.name.Replace(" ", string.Empty).ToLower().Contains("endcap")
+                                                                            || a.itemCode.Replace(" ", string.Empty).ToLower().Contains("endcap")).FirstOrDefault();
+                            TrnWorkOrderItem woEndCap = new TrnWorkOrderItem();
+                            woEndCap.unit = cqItem.unit;
+                            woEndCap.area = cqItem.area;
+                            woEndCap.unitHeight = cqItem.unitHeight;
+                            woEndCap.unitWidth = cqItem.unitWidth;
+                            woEndCap.patternId = cqItem.patternId;
+                            woEndCap.categoryId = cqItem.categoryId;
+                            woEndCap.accessoryId = endCapAccessory.id;
+                            woEndCap.numberOfPanel = cqItem.numberOfPanel;
+                            woEndCap.isPatch = woEndCap.isVerticalPatch = woEndCap.isHorizontalPatch = woEndCap.isLining = woEndCap.isRod = woEndCap.isRodAccessory = false;
+                            woEndCap.isTrack = false;
+                            woEndCap.isRemote = cqItem.isRemote;
+                            woEndCap.isMotor = cqItem.isMotor;
+                            woEndCap.trackSize = cqItem.isTrack ? cqItem.unitWidth : null;  //track size will be width of unit
+                            woEndCap.orderQuantity = 2;
+                            woEndCap.rate = endCapAccessory.sellingRate;
+                            woEndCap.createdBy = _LoggedInuserId;
+                            woEndCap.createdOn = DateTime.Now;
+                            workOrder.TrnWorkOrderItems.Add(woEndCap);
+
+                            var runnerAccessory = repo.MstAccessories.Where(a => a.name.Replace(" ", string.Empty).ToLower().Contains("runner")
+                                                                            || a.itemCode.Replace(" ", string.Empty).ToLower().Contains("runner")).FirstOrDefault();
+                            TrnWorkOrderItem woRunner = new TrnWorkOrderItem();
+                            woRunner.unit = cqItem.unit;
+                            woRunner.area = cqItem.area;
+                            woRunner.unitHeight = cqItem.unitHeight;
+                            woRunner.unitWidth = cqItem.unitWidth;
+                            woRunner.patternId = cqItem.patternId;
+                            woRunner.categoryId = cqItem.categoryId;
+                            woRunner.accessoryId = runnerAccessory.id;
+                            woRunner.numberOfPanel = cqItem.numberOfPanel;
+                            woRunner.isPatch = woRunner.isVerticalPatch = woRunner.isHorizontalPatch = woRunner.isLining = woRunner.isRod = woRunner.isRodAccessory = false;
+                            woRunner.isTrack = false;
+                            woRunner.isRemote = cqItem.isRemote;
+                            woRunner.isMotor = cqItem.isMotor;
+                            woRunner.trackSize = cqItem.isTrack ? cqItem.unitWidth : null;  //track size will be width of unit
+                            woRunner.orderQuantity = cqItem.numberOfPanel * 6;
+                            woRunner.rate = runnerAccessory.sellingRate;
+                            woRunner.createdBy = _LoggedInuserId;
+                            woRunner.createdOn = DateTime.Now;
+                            workOrder.TrnWorkOrderItems.Add(woRunner);
+
+                            var bracketAccessory = repo.MstAccessories.Where(a => a.name.Replace(" ", string.Empty).ToLower().Contains("bracket")
+                                                                           || a.itemCode.Replace(" ", string.Empty).ToLower().Contains("bracket")).FirstOrDefault();
+                            TrnWorkOrderItem woBracket = new TrnWorkOrderItem();
+                            woBracket.unit = cqItem.unit;
+                            woBracket.area = cqItem.area;
+                            woBracket.unitHeight = cqItem.unitHeight;
+                            woBracket.unitWidth = cqItem.unitWidth;
+                            woBracket.patternId = cqItem.patternId;
+                            woBracket.categoryId = cqItem.categoryId;
+                            woBracket.accessoryId = bracketAccessory.id;
+                            woBracket.numberOfPanel = cqItem.numberOfPanel;
+                            woBracket.isPatch = woBracket.isVerticalPatch = woBracket.isHorizontalPatch = woBracket.isLining = woBracket.isRod = woBracket.isRodAccessory = false;
+                            woBracket.isTrack = false;
+                            woBracket.isRemote = cqItem.isRemote;
+                            woBracket.isMotor = cqItem.isMotor;
+                            woBracket.trackSize = cqItem.isTrack ? cqItem.unitWidth : null;  //track size will be width of unit
+                            woBracket.orderQuantity = Math.Ceiling(Convert.ToDecimal(cqItem.unitWidth / 24)) < 2 ? 2 : Math.Ceiling(Convert.ToDecimal(cqItem.unitWidth / 24));
+                            woBracket.rate = bracketAccessory.sellingRate;
+                            woBracket.createdBy = _LoggedInuserId;
+                            woBracket.createdOn = DateTime.Now;
+                            workOrder.TrnWorkOrderItems.Add(woBracket);
+                        }
+                    }
+                    financialYear.jobCardNumber += 1;
+
+                    workOrder.status = WorkOrderStatus.Created.ToString();
+                    workOrder.createdBy = _LoggedInuserId;
+                    workOrder.createdOn = DateTime.Now;
+                    repo.TrnWorkOrders.Add(workOrder);
+                    repo.SaveChanges();
+
+                }
+                transaction.Complete();
+            }
+        }
+
+        public decimal adjustOrderQuantity(decimal orderQuantity)
+        {
+            if (orderQuantity != null)
+            {
+                decimal value = orderQuantity - Math.Floor(orderQuantity);
+                if (value > Convert.ToDecimal(0.50))
+                {
+                    value = value * 10;
+                    value = Math.Ceiling(value);
+                    value = value / 10;
+                    orderQuantity = Math.Floor(orderQuantity) + value;
+                }
+                else if (value > Convert.ToDecimal(0.00))
+                    orderQuantity = orderQuantity + (Convert.ToDecimal(0.50) - value);
+                return orderQuantity;
+            }
+            else
+                return 0;
+        }
+    }
+}

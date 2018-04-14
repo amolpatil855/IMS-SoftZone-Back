@@ -22,6 +22,8 @@ namespace IMSWebApi.Services
         ResourceManager resourceManager = null;
         GenerateOrderNumber generateOrderNumber = null;
         SendEmail emailNotification = null;
+        TrnWorkOrderService _trnWorkOrderService = null;
+        TrnSalesInvoiceService _trnSalesInvoiceService = null;
 
         public TrnCurtainQuotationService()
         {
@@ -30,6 +32,8 @@ namespace IMSWebApi.Services
             _IsAdministrator = HttpContext.Current.User.IsInRole("Administrator");
             generateOrderNumber = new GenerateOrderNumber();
             emailNotification = new SendEmail();
+            _trnWorkOrderService = new TrnWorkOrderService();
+            _trnSalesInvoiceService = new TrnSalesInvoiceService();
         }
 
         public ListResult<VMTrnCurtainQuotationList> getCurtainQuotations(int pageSize, int page, string search)
@@ -51,6 +55,7 @@ namespace IMSWebApi.Services
                         status = cq.status
                     })
                     .OrderByDescending(p => p.id).Skip(page * pageSize).Take(pageSize).ToList();
+
             return new ListResult<VMTrnCurtainQuotationList>
             {
                 Data = curtainQuotationView,
@@ -276,12 +281,12 @@ namespace IMSWebApi.Services
                     cqItemToPut.noOfVerticalPatch = x.noOfVerticalPatch;
                     cqItemToPut.verticalPatchWidth = x.verticalPatchWidth;
                     cqItemToPut.verticalPatchQuantity = x.verticalPatchQuantity;
-                    
+
                     cqItemToPut.isHorizontalPatch = x.isHorizontalPatch;
                     cqItemToPut.noOfHorizontalPatch = x.noOfHorizontalPatch;
                     cqItemToPut.horizontalPatchHeight = x.horizontalPatchHeight;
                     cqItemToPut.horizontalPatchQuantity = x.horizontalPatchQuantity;
-                    
+
                     cqItemToPut.isLining = x.isLining;
                     cqItemToPut.isTrack = x.isTrack;
                     cqItemToPut.fabricDirection = x.fabricDirection;
@@ -318,6 +323,44 @@ namespace IMSWebApi.Services
                     repo.SaveChanges();
                 }
             });
+        }
+
+        public ResponseMessage approveCurtainQuotation(Int64 id)
+        {
+            String messageToDisplay;
+            ResponseType type;
+            using (var transaction = new TransactionScope())
+            {
+                int advPaymentCount = repo.TrnAdvancePayments.Where(advPayment => advPayment.curtainQuotationId == id).Count();
+                if (advPaymentCount > 0)
+                {
+                    //string adminEmail = repo.MstUsers.Where(u => u.userName.Equals("Administrator")).FirstOrDefault().email;
+                    var curtainQuotation = repo.TrnCurtainQuotations.Where(cq => cq.id == id).FirstOrDefault();
+                    curtainQuotation.status = CurtainQuotationStatus.Approved.ToString();
+                    foreach (var cqItem in curtainQuotation.TrnCurtainQuotationItems)
+                    {
+                        cqItem.status = CurtainQuotationStatus.Approved.ToString();
+                        cqItem.updatedOn = DateTime.Now;
+                        cqItem.updatedBy = _LoggedInuserId;
+                    }
+                    repo.SaveChanges();
+
+                    _trnSalesInvoiceService.createInvoiceForCurtainQuotation(curtainQuotation);
+                    _trnWorkOrderService.createWorkOrder(curtainQuotation);
+                    messageToDisplay = "CQApproved";
+                    type = ResponseType.Success;
+
+                    //emailNotification.notificationForApprovedMQ(materialQuotation, "NotificationForApprovedMQ", adminEmail);
+
+                }
+                else
+                {
+                    messageToDisplay = "AdvPaymentPending";
+                    type = ResponseType.Error;
+                }
+                transaction.Complete();
+                return new ResponseMessage(id, resourceManager.GetString(messageToDisplay), type);
+            }
         }
     }
 }
