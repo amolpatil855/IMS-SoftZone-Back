@@ -133,6 +133,18 @@ namespace IMSWebApi.Services
                                         }).ToList();
         }
 
+        public List<VMProductForCS> getRodAccessoriesForCQ()
+        {
+            return repo.MstAccessories.Where(a => a.name.Replace(" ", string.Empty).ToLower().Contains("rodaccessory") || a.itemCode.ToLower().Contains("rodaccessory"))
+                                        .Select(a => new VMProductForCS
+                                        {
+                                            accessoryId = a.id,
+                                            itemCode = a.itemCode,
+                                            sellingRate = a.sellingRate,
+                                            gst = a.MstHsn.gst
+                                        }).ToList();
+        }
+
         public VMTrnCurtainQuotation getCurtainQuotationById(Int64 id)
         {
             var result = repo.TrnCurtainQuotations.Where(cq => cq.id == id).FirstOrDefault();

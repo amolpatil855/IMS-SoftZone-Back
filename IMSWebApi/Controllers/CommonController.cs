@@ -37,6 +37,7 @@ namespace IMSWebApi.Controllers
         private PatternService _patternService = null;
         private TrnCurtainSelectionService _trnCurtainSelectionService = null;
         private TrnCurtainQuotationService _trnCurtainQuotationService = null;
+        private TailorService _tailorService = null;
 
         public CommonController()
         {
@@ -65,6 +66,7 @@ namespace IMSWebApi.Controllers
             _patternService = new PatternService();
             _trnCurtainSelectionService = new TrnCurtainSelectionService();
             _trnCurtainQuotationService = new TrnCurtainQuotationService();
+            _tailorService = new TailorService();
         }
 
         [HttpGet]
@@ -473,6 +475,14 @@ namespace IMSWebApi.Controllers
         }
 
         [HttpGet]
+        [Route("api/Common/GetRodAccessoriesItemCodeForCQ")]
+        public IHttpActionResult GetRodAccessoriesItemCodeForCQ()
+        {
+            var result = _trnCurtainQuotationService.getRodAccessoriesForCQ();
+            return Ok(result);
+        }
+
+        [HttpGet]
         [Route("api/Common/GetTrackAccessoryItemCodeForCQ")]
         public IHttpActionResult GetTrackAccessoryItemCodeForCQ()
         {
@@ -501,6 +511,14 @@ namespace IMSWebApi.Controllers
         public IHttpActionResult GetMotorAccessoryItemCodeForCQ()
         {
             var result = _trnCurtainQuotationService.getMotorAccessoryForCQ();
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("api/Common/GetAllTailors")]
+        public IHttpActionResult GetAllTailors()
+        {
+            var result = _tailorService.getAlltailors();
             return Ok(result);
         }
     }
