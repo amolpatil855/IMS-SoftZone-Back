@@ -63,6 +63,14 @@ namespace IMSWebApi.Services
             return tailorViews;
         }
 
+        public List<VMTailor> getAlltailors()
+        {
+            var tailor = repo.MstTailors.ToList();
+            List<VMTailor> VMtailor = Mapper.Map<List<MstTailor>, List<VMTailor>>(tailor);
+            VMtailor.ForEach(t => t.MstTailorPatternChargeDetails.ForEach(tpDetails => tpDetails.MstTailor = null));
+            return VMtailor;
+        }
+
         public ResponseMessage postTailor(VMTailor tailor)
         {
             using (var transaction = new TransactionScope())
