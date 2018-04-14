@@ -441,4 +441,7 @@
   <data name="CQApproved" xml:space="preserve">
     <value>Curtain Quotation Updated Successfully</value>
   </data>
+  <data name="WOUpdated" xml:space="preserve">
+    <value>Work Order Updated Successfully</value>
+  </data>
 </root>

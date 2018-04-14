@@ -317,5 +317,42 @@ namespace IMSWebApi.Services
             else
                 return 0;
         }
+
+        public ResponseMessage putWorkOrder(VMTrnWorkOrder wordOrder)
+        {
+            using (var transaction = new TransactionScope())
+            {
+                var workOrderToPut = repo.TrnWorkOrders.Where(wo => wo.id == wordOrder.id).FirstOrDefault();
+
+                workOrderToPut.tailorId = wordOrder.tailorId;
+
+                updateWOItems(wordOrder);
+
+                workOrderToPut.updatedOn = DateTime.Now;
+                workOrderToPut.updatedBy = _LoggedInuserId;
+                repo.SaveChanges();
+
+                transaction.Complete();
+                return new ResponseMessage(wordOrder.id, resourceManager.GetString("WOUpdated"), ResponseType.Success);
+            }
+        }
+
+        public void updateWOItems(VMTrnWorkOrder workOrder)
+        {
+            var workOrderToPut = repo.TrnWorkOrders.Where(so => so.id == workOrder.id).FirstOrDefault();
+            workOrder.TrnWorkOrderItems.ForEach(x =>
+            {
+                if (workOrderToPut.TrnWorkOrderItems.Any(y => y.id == x.id))
+                {
+                    var woItemToPut = repo.TrnWorkOrderItems.Where(p => p.id == x.id).FirstOrDefault();
+
+                    woItemToPut.labourCharges = x.labourCharges;
+                    woItemToPut.updatedOn = DateTime.Now;
+                    woItemToPut.updatedBy = _LoggedInuserId;
+                    repo.SaveChanges();
+                }
+            });
+
+        }
     }
 }

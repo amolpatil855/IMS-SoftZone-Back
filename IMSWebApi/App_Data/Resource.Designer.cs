@@ -1031,5 +1031,14 @@ namespace IMSWebApi.App_Data {
                 return ResourceManager.GetString("UserUpdated", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Work Order Updated Successfully.
+        /// </summary>
+        public static string WOUpdated {
+            get {
+                return ResourceManager.GetString("WOUpdated", resourceCulture);
+            }
+        }
     }
 }
