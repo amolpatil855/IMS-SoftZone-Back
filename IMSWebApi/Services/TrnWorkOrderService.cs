@@ -43,11 +43,13 @@ namespace IMSWebApi.Services
                         workOrderNumber = wo.workOrderNumber,
                         workOrderDate = wo.workOrderDate,
                         customerName = wo.MstCustomer.name,
+                        tailorName = wo.MstTailor != null ? wo.MstTailor.name : string.Empty,
                         status = wo.status,
                     })
                     .Where(wo => !string.IsNullOrEmpty(search)
                     ? wo.workOrderNumber.StartsWith(search)
                     || wo.customerName.StartsWith(search)
+                    || wo.tailorName.StartsWith(search)
                     || wo.status.StartsWith(search) : true)
                     .OrderByDescending(p => p.id).Skip(page * pageSize).Take(pageSize).ToList();
             workOrderView = result;
@@ -58,6 +60,7 @@ namespace IMSWebApi.Services
                 TotalCount = repo.TrnWorkOrders.Where(wo => !string.IsNullOrEmpty(search)
                     ? wo.workOrderNumber.StartsWith(search)
                     || wo.MstCustomer.name.StartsWith(search)
+                    || (wo.MstTailor != null ? wo.MstTailor.name.StartsWith(search) : true)
                     || wo.status.StartsWith(search) : true).Count(),
                 Page = page
             };
