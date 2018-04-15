@@ -94,12 +94,20 @@ namespace IMSWebApi.Services
             if (result != null)
             {
                 salesInvoiceView = Mapper.Map<TrnSalesInvoice, VMTrnSalesInvoice>(result);
-                salesInvoiceView.TrnGoodIssueNote.TrnGoodIssueNoteItems.ForEach(ginItems => ginItems.TrnGoodIssueNote = null);
+                if (salesInvoiceView.TrnGoodIssueNote != null)
+                {
+                    salesInvoiceView.TrnGoodIssueNote.TrnGoodIssueNoteItems.ForEach(ginItems => ginItems.TrnGoodIssueNote = null);    
+                }
                 salesInvoiceView.TrnSalesInvoiceItems.ForEach(salesInvoiceItems => salesInvoiceItems.TrnSalesInvoice = null);
                 if (salesInvoiceView.TrnMaterialQuotation != null)
                 {
                     salesInvoiceView.TrnMaterialQuotation.TrnMaterialQuotationItems.ForEach(mqItem => mqItem.TrnMaterialQuotation = null);
                     salesInvoiceView.TrnMaterialQuotation.TrnMaterialSelection = null;
+                }
+                if (salesInvoiceView.TrnCurtainQuotation != null)
+                {
+                    salesInvoiceView.TrnCurtainQuotation.TrnCurtainQuotationItems.ForEach(cqItem => cqItem.TrnCurtainQuotation = null);
+                    salesInvoiceView.TrnCurtainQuotation.TrnCurtainSelection = null;
                 }
                 salesInvoiceView.TrnSalesInvoiceItems.ForEach(salesInvoiceItem =>
                 {

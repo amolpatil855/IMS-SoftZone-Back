@@ -12,6 +12,7 @@ namespace IMSWebApi.ViewModel
         public Nullable<System.DateTime> ginDate { get; set; }
         public string salesOrderNumber { get; set; }
         public string materialQuotationNumber { get; set; }
+        public string workOrderNumber { get; set; }
         public string  customerName { get; set; }
         public string status { get; set; }
     }

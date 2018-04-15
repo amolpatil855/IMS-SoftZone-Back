@@ -42,6 +42,7 @@ namespace IMSWebApi.Services
                     || gin.MstCustomer.name.StartsWith(search)
                     || gin.salesOrderNumber.StartsWith(search)
                     || gin.materialQuotationNumber.StartsWith(search)
+                    || gin.workOrderNumber.StartsWith(search)
                     || gin.status.StartsWith(search) : true)
                     .Select(gin => new VMTrnGoodIssueNoteList
                     {
@@ -50,6 +51,7 @@ namespace IMSWebApi.Services
                         ginDate = gin.ginDate,
                         salesOrderNumber = gin.TrnSaleOrder != null ? gin.TrnSaleOrder.orderNumber : string.Empty,
                         materialQuotationNumber = gin.TrnMaterialQuotation != null ? gin.TrnMaterialQuotation.materialQuotationNumber : string.Empty,
+                        workOrderNumber = gin.TrnWorkOrder != null ? gin.TrnWorkOrder.workOrderNumber : string.Empty,
                         customerName = gin.MstCustomer.name,
                         status = gin.status
                     })
@@ -62,6 +64,7 @@ namespace IMSWebApi.Services
                     || gin.MstCustomer.name.StartsWith(search)
                     || gin.salesOrderNumber.StartsWith(search)
                     || gin.materialQuotationNumber.StartsWith(search)
+                    || gin.workOrderNumber.StartsWith(search)
                     || gin.status.StartsWith(search) : true).Count(),
                 Page = page
             };
@@ -71,6 +74,7 @@ namespace IMSWebApi.Services
         {
             var result = repo.TrnGoodIssueNotes.Where(gin => gin.id == id).FirstOrDefault();
             decimal stockAvailable = 0;
+            
             VMTrnGoodIssueNote goodIssueNoteView = Mapper.Map<TrnGoodIssueNote, VMTrnGoodIssueNote>(result);
             goodIssueNoteView.TrnGoodIssueNoteItems.ForEach(ginItems => ginItems.TrnGoodIssueNote = null);
 
@@ -103,7 +107,14 @@ namespace IMSWebApi.Services
                 goodIssueNoteView.TrnMaterialQuotation.TrnMaterialSelection = null;
                 goodIssueNoteView.TrnMaterialQuotation.TrnMaterialQuotationItems.ForEach(mqItem => mqItem.TrnMaterialQuotation = null);
             }
-
+            if (goodIssueNoteView.TrnWorkOrder != null)
+            {
+                goodIssueNoteView.TrnWorkOrder.TrnWorkOrderItems.ForEach(woItems => woItems.TrnWorkOrder = null);
+                goodIssueNoteView.TrnWorkOrder.MstTailor.MstTailorPatternChargeDetails.ForEach(tpDetails => tpDetails.MstTailor = null);
+                goodIssueNoteView.TrnWorkOrder.TrnCurtainQuotation.TrnCurtainSelection.TrnCurtainSelectionItems.ForEach(csItems => csItems.TrnCurtainSelection = null);
+                goodIssueNoteView.TrnWorkOrder.TrnCurtainQuotation.TrnCurtainSelection.TrnCurtainQuotations = null;
+                goodIssueNoteView.TrnWorkOrder.TrnCurtainQuotation.TrnCurtainQuotationItems.ForEach(cqItems => cqItems.TrnCurtainQuotation = null);
+            }
             return goodIssueNoteView;
         }
 

@@ -26,6 +26,7 @@ namespace IMSWebApi.ViewModel
 
         public virtual VMCustomer MstCustomer { get; set; }
         public virtual VMTrnSaleOrder TrnSaleOrder { get; set; }
+        public virtual VMTrnWorkOrder TrnWorkOrder { get; set; }
         public virtual List<VMTrnGoodIssueNoteItem> TrnGoodIssueNoteItems { get; set; }
         public virtual VMTrnMaterialQuotation TrnMaterialQuotation { get; set; }
     }
