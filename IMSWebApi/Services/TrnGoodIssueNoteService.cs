@@ -500,6 +500,7 @@ namespace IMSWebApi.Services
                                                             || gin.MstCustomer.name.StartsWith(search)
                                                             || gin.salesOrderNumber.StartsWith(search)
                                                             || gin.materialQuotationNumber.StartsWith(search)
+                                                            || gin.workOrderNumber.StartsWith(search)
                                                             || gin.status.StartsWith(search) : true
                                                             && ginIdsForItemswithAvailableStock.Contains(gin.id))
                                                             .Select(gin => new VMTrnGoodIssueNoteList
@@ -509,6 +510,7 @@ namespace IMSWebApi.Services
                                                                 ginDate = gin.ginDate,
                                                                 salesOrderNumber = gin.TrnSaleOrder != null ? gin.TrnSaleOrder.orderNumber : null,
                                                                 materialQuotationNumber = gin.TrnMaterialQuotation != null ? gin.TrnMaterialQuotation.materialQuotationNumber : null,
+                                                                workOrderNumber = gin.TrnWorkOrder != null ? gin.TrnWorkOrder.workOrderNumber : string.Empty,
                                                                 customerName = gin.MstCustomer.name,
                                                                 status = gin.status
                                                             })
