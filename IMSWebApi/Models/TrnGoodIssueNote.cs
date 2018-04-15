@@ -27,6 +27,8 @@ namespace IMSWebApi.Models
         public string salesOrderNumber { get; set; }
         public Nullable<long> materialQuotationId { get; set; }
         public string materialQuotationNumber { get; set; }
+        public Nullable<long> workOrderId { get; set; }
+        public string workOrderNumber { get; set; }
         public Nullable<System.DateTime> ginDate { get; set; }
         public string status { get; set; }
         public string financialYear { get; set; }
@@ -38,6 +40,7 @@ namespace IMSWebApi.Models
         public virtual MstCustomer MstCustomer { get; set; }
         public virtual TrnMaterialQuotation TrnMaterialQuotation { get; set; }
         public virtual TrnSaleOrder TrnSaleOrder { get; set; }
+        public virtual TrnWorkOrder TrnWorkOrder { get; set; }
         public virtual ICollection<TrnGoodIssueNoteItem> TrnGoodIssueNoteItems { get; set; }
         public virtual ICollection<TrnSalesInvoice> TrnSalesInvoices { get; set; }
     }

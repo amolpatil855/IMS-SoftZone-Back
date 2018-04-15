@@ -22,6 +22,7 @@ namespace IMSWebApi.Services
         GenerateOrderNumber generateOrderNumber = null;
         SendEmail emailNotification = new SendEmail();
         TrnProductStockService _trnProductStockService = null;
+        TrnGoodIssueNoteService _trnGoodIssueNoteService = null;
 
         public TrnWorkOrderService()
         {
@@ -29,6 +30,7 @@ namespace IMSWebApi.Services
             resourceManager = new ResourceManager("IMSWebApi.App_Data.Resource", Assembly.GetExecutingAssembly());
             generateOrderNumber = new GenerateOrderNumber();
             _trnProductStockService = new TrnProductStockService();
+            _trnGoodIssueNoteService = new TrnGoodIssueNoteService();
         }
 
         public ListResult<VMTrnWorkOrderList> getWorkOrders(int pageSize, int page, string search)
@@ -78,6 +80,7 @@ namespace IMSWebApi.Services
             workOrderView.TrnWorkOrderItems.ForEach(woItem => woItem.TrnWorkOrder = null);
             workOrderView.TrnCurtainQuotation.TrnCurtainQuotationItems.ForEach(cqItem => cqItem.TrnCurtainQuotation = null);
             workOrderView.TrnCurtainQuotation.TrnCurtainSelection = null;
+            workOrderView.MstTailor.MstTailorPatternChargeDetails.ForEach(tpDetails => tpDetails.MstTailor = null);
             return workOrderView;
         }
 
@@ -112,6 +115,8 @@ namespace IMSWebApi.Services
                             workOrderItems.isRodAccessory = cqItem.isRodAccessory;
                             workOrderItems.orderQuantity = cqItem.orderQuantity;
                             workOrderItems.orderQuantity = adjustOrderQuantity(Convert.ToDecimal(workOrderItems.orderQuantity));
+                            workOrderItems.balanceQuantity = workOrderItems.orderQuantity;
+                            workOrderItems.deliverQuantity = 0;
                             workOrderItems.createdBy = _LoggedInuserId;
                             workOrderItems.createdOn = DateTime.Now;
                             workOrder.TrnWorkOrderItems.Add(workOrderItems);
@@ -131,6 +136,8 @@ namespace IMSWebApi.Services
                             workOrderItems.trackSize = cqItem.isTrack ? cqItem.unitWidth : null;  //track size will be width of unit
                             workOrderItems.orderQuantity = cqItem.orderQuantity;
                             workOrderItems.orderQuantity = adjustOrderQuantity(Convert.ToDecimal(workOrderItems.orderQuantity));
+                            workOrderItems.balanceQuantity = workOrderItems.orderQuantity;
+                            workOrderItems.deliverQuantity = 0;
                             workOrderItems.createdBy = _LoggedInuserId;
                             workOrderItems.createdOn = DateTime.Now;
                             workOrder.TrnWorkOrderItems.Add(workOrderItems);
@@ -167,6 +174,8 @@ namespace IMSWebApi.Services
                             }
                             workOrderItems.orderQuantity = cqItem.numberOfPanel != null ? (workOrderItems.orderQuantity * cqItem.numberOfPanel) : workOrderItems.orderQuantity;
                             workOrderItems.orderQuantity = adjustOrderQuantity(Convert.ToDecimal(workOrderItems.orderQuantity));
+                            workOrderItems.balanceQuantity = workOrderItems.orderQuantity;
+                            workOrderItems.deliverQuantity = 0;
                             workOrderItems.createdBy = _LoggedInuserId;
                             workOrderItems.createdOn = DateTime.Now;
                             workOrder.TrnWorkOrderItems.Add(workOrderItems);
@@ -194,6 +203,8 @@ namespace IMSWebApi.Services
                             workOrderItems.horizontalPatchQuantity = cqItem.horizontalPatchQuantity;
                             workOrderItems.orderQuantity = cqItem.orderQuantity;
                             workOrderItems.orderQuantity = adjustOrderQuantity(Convert.ToDecimal(workOrderItems.orderQuantity));
+                            workOrderItems.balanceQuantity = workOrderItems.orderQuantity;
+                            workOrderItems.deliverQuantity = 0;
                             workOrderItems.createdBy = _LoggedInuserId;
                             workOrderItems.createdOn = DateTime.Now;
                             workOrder.TrnWorkOrderItems.Add(workOrderItems);
@@ -210,6 +221,8 @@ namespace IMSWebApi.Services
                             workOrderItems.isMotor = cqItem.isMotor;
                             workOrderItems.orderQuantity = cqItem.orderQuantity;
                             workOrderItems.orderQuantity = adjustOrderQuantity(Convert.ToDecimal(workOrderItems.orderQuantity));
+                            workOrderItems.balanceQuantity = workOrderItems.orderQuantity;
+                            workOrderItems.deliverQuantity = 0;
                             workOrderItems.createdBy = _LoggedInuserId;
                             workOrderItems.createdOn = DateTime.Now;
                             workOrder.TrnWorkOrderItems.Add(workOrderItems);
@@ -236,6 +249,8 @@ namespace IMSWebApi.Services
                             woEndCap.trackSize = cqItem.isTrack ? cqItem.unitWidth : null;  //track size will be width of unit
                             woEndCap.orderQuantity = 2;
                             woEndCap.rate = endCapAccessory.sellingRate;
+                            woEndCap.balanceQuantity = woEndCap.orderQuantity;
+                            woEndCap.deliverQuantity = 0;
                             woEndCap.createdBy = _LoggedInuserId;
                             woEndCap.createdOn = DateTime.Now;
                             workOrder.TrnWorkOrderItems.Add(woEndCap);
@@ -258,6 +273,8 @@ namespace IMSWebApi.Services
                             woRunner.trackSize = cqItem.isTrack ? cqItem.unitWidth : null;  //track size will be width of unit
                             woRunner.orderQuantity = cqItem.numberOfPanel * 6;
                             woRunner.rate = runnerAccessory.sellingRate;
+                            woRunner.balanceQuantity = woRunner.orderQuantity;
+                            woRunner.deliverQuantity = 0;
                             woRunner.createdBy = _LoggedInuserId;
                             woRunner.createdOn = DateTime.Now;
                             workOrder.TrnWorkOrderItems.Add(woRunner);
@@ -280,6 +297,8 @@ namespace IMSWebApi.Services
                             woBracket.trackSize = cqItem.isTrack ? cqItem.unitWidth : null;  //track size will be width of unit
                             woBracket.orderQuantity = Math.Ceiling(Convert.ToDecimal(cqItem.unitWidth / 24)) < 2 ? 2 : Math.Ceiling(Convert.ToDecimal(cqItem.unitWidth / 24));
                             woBracket.rate = bracketAccessory.sellingRate;
+                            woBracket.balanceQuantity = woBracket.orderQuantity;
+                            woBracket.deliverQuantity = 0;
                             woBracket.createdBy = _LoggedInuserId;
                             woBracket.createdOn = DateTime.Now;
                             workOrder.TrnWorkOrderItems.Add(woBracket);
@@ -353,6 +372,29 @@ namespace IMSWebApi.Services
                 }
             });
 
+        }
+
+        public ResponseMessage approveWorkOrder(Int64 id)
+        {
+            using (var transaction = new TransactionScope())
+            {
+                var workOrder = repo.TrnWorkOrders.Where(wo => wo.id == id).FirstOrDefault();
+                //string adminEmail = repo.MstUsers.Where(u => u.userName.Equals("Administrator")).FirstOrDefault().email;
+                workOrder.status = WorkOrderStatus.Approved.ToString();
+                foreach (var woItem in workOrder.TrnWorkOrderItems)
+                {
+                    _trnProductStockService.AddwoIteminStock(woItem);
+                }
+                repo.SaveChanges();
+                _trnGoodIssueNoteService.postGoodIssueNoteForWO(workOrder);
+
+                //string customerEmail = saleOrder.MstCustomer.email;
+
+                //emailNotification.approvedSONotificationForCustomer(VMSaleOrder, "ApprovedSONotificationForCustomer", customerEmail, adminEmail, saleOrder.orderNumber);
+
+                transaction.Complete();
+                return new ResponseMessage(id, resourceManager.GetString("WOApproved"), ResponseType.Success);
+            }
         }
     }
 }

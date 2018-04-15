@@ -17,6 +17,7 @@ namespace IMSWebApi.Models
         public TrnWorkOrder()
         {
             this.TrnWorkOrderItems = new HashSet<TrnWorkOrderItem>();
+            this.TrnGoodIssueNotes = new HashSet<TrnGoodIssueNote>();
         }
     
         public long id { get; set; }
@@ -37,5 +38,6 @@ namespace IMSWebApi.Models
         public virtual MstTailor MstTailor { get; set; }
         public virtual TrnCurtainQuotation TrnCurtainQuotation { get; set; }
         public virtual ICollection<TrnWorkOrderItem> TrnWorkOrderItems { get; set; }
+        public virtual ICollection<TrnGoodIssueNote> TrnGoodIssueNotes { get; set; }
     }
 }

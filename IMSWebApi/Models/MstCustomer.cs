@@ -17,7 +17,6 @@ namespace IMSWebApi.Models
         public MstCustomer()
         {
             this.MstCustomerAddresses = new HashSet<MstCustomerAddress>();
-            this.TrnGoodIssueNotes = new HashSet<TrnGoodIssueNote>();
             this.TrnMaterialQuotations = new HashSet<TrnMaterialQuotation>();
             this.TrnMaterialSelections = new HashSet<TrnMaterialSelection>();
             this.TrnSaleOrders = new HashSet<TrnSaleOrder>();
@@ -25,6 +24,7 @@ namespace IMSWebApi.Models
             this.TrnCurtainSelections = new HashSet<TrnCurtainSelection>();
             this.TrnCurtainQuotations = new HashSet<TrnCurtainQuotation>();
             this.TrnWorkOrders = new HashSet<TrnWorkOrder>();
+            this.TrnGoodIssueNotes = new HashSet<TrnGoodIssueNote>();
         }
     
         public long id { get; set; }
@@ -52,7 +52,6 @@ namespace IMSWebApi.Models
     
         public virtual MstUser MstUser { get; set; }
         public virtual ICollection<MstCustomerAddress> MstCustomerAddresses { get; set; }
-        public virtual ICollection<TrnGoodIssueNote> TrnGoodIssueNotes { get; set; }
         public virtual ICollection<TrnMaterialQuotation> TrnMaterialQuotations { get; set; }
         public virtual ICollection<TrnMaterialSelection> TrnMaterialSelections { get; set; }
         public virtual ICollection<TrnSaleOrder> TrnSaleOrders { get; set; }
@@ -60,5 +59,6 @@ namespace IMSWebApi.Models
         public virtual ICollection<TrnCurtainSelection> TrnCurtainSelections { get; set; }
         public virtual ICollection<TrnCurtainQuotation> TrnCurtainQuotations { get; set; }
         public virtual ICollection<TrnWorkOrder> TrnWorkOrders { get; set; }
+        public virtual ICollection<TrnGoodIssueNote> TrnGoodIssueNotes { get; set; }
     }
 }

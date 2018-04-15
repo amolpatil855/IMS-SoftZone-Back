@@ -65,6 +65,7 @@ namespace IMSWebApi.Enums
     public enum WorkOrderStatus
     {
         Created = 1,
-        Approved = 2
+        Approved = 2,
+        Completed = 3
     }
 }

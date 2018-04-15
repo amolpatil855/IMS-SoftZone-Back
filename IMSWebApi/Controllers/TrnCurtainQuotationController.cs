@@ -66,7 +66,7 @@ namespace IMSWebApi.Controllers
 
         // PUT api/TrnCurtainQuotation
         [ApiAuthorize(Roles = "Administrator")]
-        [Route("api/TrnMaterialQuotation/ApproveCurtainQuotation/{id}")]
+        [Route("api/TrnCurtainQuotation/ApproveCurtainQuotation/{id}")]
         [HttpPut]
         public IHttpActionResult ApproveCurtainQuotation(long id)
         {

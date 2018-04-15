@@ -683,6 +683,8 @@
           <Property Name="salesOrderNumber" Type="varchar" MaxLength="50" />
           <Property Name="materialQuotationId" Type="bigint" />
           <Property Name="materialQuotationNumber" Type="varchar" MaxLength="50" />
+          <Property Name="workOrderId" Type="bigint" />
+          <Property Name="workOrderNumber" Type="varchar" MaxLength="50" />
           <Property Name="ginDate" Type="datetime" />
           <Property Name="status" Type="varchar" MaxLength="20" />
           <Property Name="financialYear" Type="varchar" MaxLength="10" Nullable="false" />
@@ -1083,7 +1085,7 @@
           <Property Name="unit" Type="varchar" MaxLength="20" />
           <Property Name="numberOfPanel" Type="int" />
           <Property Name="patternId" Type="bigint" />
-          <Property Name="categoryId" Type="bigint" />
+          <Property Name="categoryId" Type="bigint" Nullable="false" />
           <Property Name="collectionId" Type="bigint" />
           <Property Name="shadeId" Type="bigint" />
           <Property Name="accessoryId" Type="bigint" />
@@ -1107,6 +1109,8 @@
           <Property Name="isMotor" Type="bit" Nullable="false" />
           <Property Name="isRodAccessory" Type="bit" Nullable="false" />
           <Property Name="orderQuantity" Type="decimal" Precision="7" Scale="2" />
+          <Property Name="balanceQuantity" Type="decimal" Precision="7" Scale="2" />
+          <Property Name="deliverQuantity" Type="decimal" Precision="7" Scale="2" />
           <Property Name="rate" Type="decimal" Precision="7" Scale="2" />
           <Property Name="labourCharges" Type="decimal" Precision="18" Scale="2" />
           <Property Name="createdOn" Type="datetime" Nullable="false" />
@@ -2117,6 +2121,18 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
             </Principal>
             <Dependent Role="TrnGoodIssueNote">
               <PropertyRef Name="salesOrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnGoodIssueNote_TrnWorkOrder">
+          <End Role="TrnWorkOrder" Type="Self.TrnWorkOrder" Multiplicity="0..1" />
+          <End Role="TrnGoodIssueNote" Type="Self.TrnGoodIssueNote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TrnWorkOrder">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnGoodIssueNote">
+              <PropertyRef Name="workOrderId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3273,7 +3289,7 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_TrnWorkOrderItems_MstCategory">
-          <End Role="MstCategory" Type="Self.MstCategory" Multiplicity="0..1" />
+          <End Role="MstCategory" Type="Self.MstCategory" Multiplicity="1" />
           <End Role="TrnWorkOrderItems" Type="Self.TrnWorkOrderItems" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="MstCategory">
@@ -3779,6 +3795,10 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
             <End Role="TrnSaleOrder" EntitySet="TrnSaleOrder" />
             <End Role="TrnGoodIssueNote" EntitySet="TrnGoodIssueNote" />
           </AssociationSet>
+          <AssociationSet Name="FK_TrnGoodIssueNote_TrnWorkOrder" Association="Self.FK_TrnGoodIssueNote_TrnWorkOrder">
+            <End Role="TrnWorkOrder" EntitySet="TrnWorkOrder" />
+            <End Role="TrnGoodIssueNote" EntitySet="TrnGoodIssueNote" />
+          </AssociationSet>
           <AssociationSet Name="FK_TrnGoodIssueNoteItems_MstAccessory" Association="Self.FK_TrnGoodIssueNoteItems_MstAccessory">
             <End Role="MstAccessory" EntitySet="MstAccessory" />
             <End Role="TrnGoodIssueNoteItems" EntitySet="TrnGoodIssueNoteItems" />
@@ -4216,7 +4236,6 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <EntitySet Name="MstUnitOfMeasures" EntityType="IMSModel.MstUnitOfMeasure" />
           <EntitySet Name="MstUsers" EntityType="IMSModel.MstUser" />
           <EntitySet Name="MstuserTypes" EntityType="IMSModel.MstuserType" />
-          <EntitySet Name="TrnGoodIssueNotes" EntityType="IMSModel.TrnGoodIssueNote" />
           <EntitySet Name="TrnGoodIssueNoteItems" EntityType="IMSModel.TrnGoodIssueNoteItem" />
           <EntitySet Name="TrnGoodReceiveNotes" EntityType="IMSModel.TrnGoodReceiveNote" />
           <EntitySet Name="TrnGoodReceiveNoteItems" EntityType="IMSModel.TrnGoodReceiveNoteItem" />
@@ -4467,10 +4486,6 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
             <End Role="MstCustomer" EntitySet="MstCustomers" />
             <End Role="MstCustomerAddress" EntitySet="MstCustomerAddresses" />
           </AssociationSet>
-          <AssociationSet Name="FK_TrnGoodIssueNote_MstCustomer" Association="IMSModel.FK_TrnGoodIssueNote_MstCustomer">
-            <End Role="MstCustomer" EntitySet="MstCustomers" />
-            <End Role="TrnGoodIssueNote" EntitySet="TrnGoodIssueNotes" />
-          </AssociationSet>
           <AssociationSet Name="FK_TrnMaterialQuotation_MstCustomer" Association="IMSModel.FK_TrnMaterialQuotation_MstCustomer">
             <End Role="MstCustomer" EntitySet="MstCustomers" />
             <End Role="TrnMaterialQuotation" EntitySet="TrnMaterialQuotations" />
@@ -4711,18 +4726,6 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
             <End Role="MstuserType" EntitySet="MstuserTypes" />
             <End Role="MstUser" EntitySet="MstUsers" />
           </AssociationSet>
-          <AssociationSet Name="FK_TrnGoodIssueNote_TrnMaterialQuotation" Association="IMSModel.FK_TrnGoodIssueNote_TrnMaterialQuotation">
-            <End Role="TrnMaterialQuotation" EntitySet="TrnMaterialQuotations" />
-            <End Role="TrnGoodIssueNote" EntitySet="TrnGoodIssueNotes" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TrnGoodIssueNote_TrnSaleOrder" Association="IMSModel.FK_TrnGoodIssueNote_TrnSaleOrder">
-            <End Role="TrnSaleOrder" EntitySet="TrnSaleOrders" />
-            <End Role="TrnGoodIssueNote" EntitySet="TrnGoodIssueNotes" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TrnGoodIssueNoteItems_TrnGoodIssueNote" Association="IMSModel.FK_TrnGoodIssueNoteItems_TrnGoodIssueNote">
-            <End Role="TrnGoodIssueNote" EntitySet="TrnGoodIssueNotes" />
-            <End Role="TrnGoodIssueNoteItem" EntitySet="TrnGoodIssueNoteItems" />
-          </AssociationSet>
           <AssociationSet Name="FK_TrnGoodReceiveNoteItems_TrnGoodReceiveNote" Association="IMSModel.FK_TrnGoodReceiveNoteItems_TrnGoodReceiveNote">
             <End Role="TrnGoodReceiveNote" EntitySet="TrnGoodReceiveNotes" />
             <End Role="TrnGoodReceiveNoteItem" EntitySet="TrnGoodReceiveNoteItems" />
@@ -4865,6 +4868,36 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
             <End Role="TrnCurtainQuotation" EntitySet="TrnCurtainQuotations" />
             <End Role="TrnCurtainQuotationItem" EntitySet="TrnCurtainQuotationItems" />
           </AssociationSet>
+          <EntitySet Name="TrnWorkOrders" EntityType="IMSModel.TrnWorkOrder" />
+          <AssociationSet Name="FK_TrnWorkOrder_MstCustomer" Association="IMSModel.FK_TrnWorkOrder_MstCustomer">
+            <End Role="MstCustomer" EntitySet="MstCustomers" />
+            <End Role="TrnWorkOrder" EntitySet="TrnWorkOrders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnWorkOrder_MstTailor" Association="IMSModel.FK_TrnWorkOrder_MstTailor">
+            <End Role="MstTailor" EntitySet="MstTailors" />
+            <End Role="TrnWorkOrder" EntitySet="TrnWorkOrders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnWorkOrder_TrnCurtainQuotation" Association="IMSModel.FK_TrnWorkOrder_TrnCurtainQuotation">
+            <End Role="TrnCurtainQuotation" EntitySet="TrnCurtainQuotations" />
+            <End Role="TrnWorkOrder" EntitySet="TrnWorkOrders" />
+          </AssociationSet>
+          <EntitySet Name="TrnSalesInvoices" EntityType="IMSModel.TrnSalesInvoice" />
+          <AssociationSet Name="FK_TrnSalesInvoice_TrnCurtainQuotation" Association="IMSModel.FK_TrnSalesInvoice_TrnCurtainQuotation">
+            <End Role="TrnCurtainQuotation" EntitySet="TrnCurtainQuotations" />
+            <End Role="TrnSalesInvoice" EntitySet="TrnSalesInvoices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnSalesInvoice_TrnMaterialQuotation" Association="IMSModel.FK_TrnSalesInvoice_TrnMaterialQuotation">
+            <End Role="TrnMaterialQuotation" EntitySet="TrnMaterialQuotations" />
+            <End Role="TrnSalesInvoice" EntitySet="TrnSalesInvoices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnSalesInvoice_TrnSaleOrder" Association="IMSModel.FK_TrnSalesInvoice_TrnSaleOrder">
+            <End Role="TrnSaleOrder" EntitySet="TrnSaleOrders" />
+            <End Role="TrnSalesInvoice" EntitySet="TrnSalesInvoices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnSalesInvoiceItems_TrnSalesInvoice" Association="IMSModel.FK_TrnSalesInvoiceItems_TrnSalesInvoice">
+            <End Role="TrnSalesInvoice" EntitySet="TrnSalesInvoices" />
+            <End Role="TrnSalesInvoiceItem" EntitySet="TrnSalesInvoiceItems" />
+          </AssociationSet>
           <EntitySet Name="TrnWorkOrderItems" EntityType="IMSModel.TrnWorkOrderItem" />
           <AssociationSet Name="FK_TrnWorkOrderItems_MstAccessory" Association="IMSModel.FK_TrnWorkOrderItems_MstAccessory">
             <End Role="MstAccessory" EntitySet="MstAccessories" />
@@ -4886,43 +4919,34 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
             <End Role="MstPattern" EntitySet="MstPatterns" />
             <End Role="TrnWorkOrderItem" EntitySet="TrnWorkOrderItems" />
           </AssociationSet>
-          <EntitySet Name="TrnWorkOrders" EntityType="IMSModel.TrnWorkOrder" />
-          <AssociationSet Name="FK_TrnWorkOrder_MstCustomer" Association="IMSModel.FK_TrnWorkOrder_MstCustomer">
-            <End Role="MstCustomer" EntitySet="MstCustomers" />
-            <End Role="TrnWorkOrder" EntitySet="TrnWorkOrders" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TrnWorkOrder_MstTailor" Association="IMSModel.FK_TrnWorkOrder_MstTailor">
-            <End Role="MstTailor" EntitySet="MstTailors" />
-            <End Role="TrnWorkOrder" EntitySet="TrnWorkOrders" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TrnWorkOrder_TrnCurtainQuotation" Association="IMSModel.FK_TrnWorkOrder_TrnCurtainQuotation">
-            <End Role="TrnCurtainQuotation" EntitySet="TrnCurtainQuotations" />
-            <End Role="TrnWorkOrder" EntitySet="TrnWorkOrders" />
-          </AssociationSet>
           <AssociationSet Name="FK_TrnWorkOrderItems_TrnWorkOrder" Association="IMSModel.FK_TrnWorkOrderItems_TrnWorkOrder">
             <End Role="TrnWorkOrder" EntitySet="TrnWorkOrders" />
             <End Role="TrnWorkOrderItem" EntitySet="TrnWorkOrderItems" />
           </AssociationSet>
-          <EntitySet Name="TrnSalesInvoices" EntityType="IMSModel.TrnSalesInvoice" />
-          <AssociationSet Name="FK_TrnSalesInvoice_TrnCurtainQuotation" Association="IMSModel.FK_TrnSalesInvoice_TrnCurtainQuotation">
-            <End Role="TrnCurtainQuotation" EntitySet="TrnCurtainQuotations" />
-            <End Role="TrnSalesInvoice" EntitySet="TrnSalesInvoices" />
+          <EntitySet Name="TrnGoodIssueNotes" EntityType="IMSModel.TrnGoodIssueNote" />
+          <AssociationSet Name="FK_TrnGoodIssueNote_MstCustomer" Association="IMSModel.FK_TrnGoodIssueNote_MstCustomer">
+            <End Role="MstCustomer" EntitySet="MstCustomers" />
+            <End Role="TrnGoodIssueNote" EntitySet="TrnGoodIssueNotes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnGoodIssueNote_TrnMaterialQuotation" Association="IMSModel.FK_TrnGoodIssueNote_TrnMaterialQuotation">
+            <End Role="TrnMaterialQuotation" EntitySet="TrnMaterialQuotations" />
+            <End Role="TrnGoodIssueNote" EntitySet="TrnGoodIssueNotes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnGoodIssueNote_TrnSaleOrder" Association="IMSModel.FK_TrnGoodIssueNote_TrnSaleOrder">
+            <End Role="TrnSaleOrder" EntitySet="TrnSaleOrders" />
+            <End Role="TrnGoodIssueNote" EntitySet="TrnGoodIssueNotes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnGoodIssueNote_TrnWorkOrder" Association="IMSModel.FK_TrnGoodIssueNote_TrnWorkOrder">
+            <End Role="TrnWorkOrder" EntitySet="TrnWorkOrders" />
+            <End Role="TrnGoodIssueNote" EntitySet="TrnGoodIssueNotes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrnGoodIssueNoteItems_TrnGoodIssueNote" Association="IMSModel.FK_TrnGoodIssueNoteItems_TrnGoodIssueNote">
+            <End Role="TrnGoodIssueNote" EntitySet="TrnGoodIssueNotes" />
+            <End Role="TrnGoodIssueNoteItem" EntitySet="TrnGoodIssueNoteItems" />
           </AssociationSet>
           <AssociationSet Name="FK_TrnSalesInvoice_TrnGoodIssueNote" Association="IMSModel.FK_TrnSalesInvoice_TrnGoodIssueNote">
             <End Role="TrnGoodIssueNote" EntitySet="TrnGoodIssueNotes" />
             <End Role="TrnSalesInvoice" EntitySet="TrnSalesInvoices" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TrnSalesInvoice_TrnMaterialQuotation" Association="IMSModel.FK_TrnSalesInvoice_TrnMaterialQuotation">
-            <End Role="TrnMaterialQuotation" EntitySet="TrnMaterialQuotations" />
-            <End Role="TrnSalesInvoice" EntitySet="TrnSalesInvoices" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TrnSalesInvoice_TrnSaleOrder" Association="IMSModel.FK_TrnSalesInvoice_TrnSaleOrder">
-            <End Role="TrnSaleOrder" EntitySet="TrnSaleOrders" />
-            <End Role="TrnSalesInvoice" EntitySet="TrnSalesInvoices" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TrnSalesInvoiceItems_TrnSalesInvoice" Association="IMSModel.FK_TrnSalesInvoiceItems_TrnSalesInvoice">
-            <End Role="TrnSalesInvoice" EntitySet="TrnSalesInvoices" />
-            <End Role="TrnSalesInvoiceItem" EntitySet="TrnSalesInvoiceItems" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="CFGRoleMenu">
@@ -5161,7 +5185,6 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <Property Name="updatedBy" Type="Int64" />
           <NavigationProperty Name="MstUser" Relationship="IMSModel.FK_MstCustomer_MstUser" FromRole="MstCustomer" ToRole="MstUser" />
           <NavigationProperty Name="MstCustomerAddresses" Relationship="IMSModel.FK_MstCustomerAddressDetails_MstCustomer" FromRole="MstCustomer" ToRole="MstCustomerAddress" />
-          <NavigationProperty Name="TrnGoodIssueNotes" Relationship="IMSModel.FK_TrnGoodIssueNote_MstCustomer" FromRole="MstCustomer" ToRole="TrnGoodIssueNote" />
           <NavigationProperty Name="TrnMaterialQuotations" Relationship="IMSModel.FK_TrnMaterialQuotation_MstCustomer" FromRole="MstCustomer" ToRole="TrnMaterialQuotation" />
           <NavigationProperty Name="TrnMaterialSelections" Relationship="IMSModel.FK_TrnMaterialSelection_MstCustomer" FromRole="MstCustomer" ToRole="TrnMaterialSelection" />
           <NavigationProperty Name="TrnSaleOrders" Relationship="IMSModel.FK_TrnSaleOrder_MstCustomer" FromRole="MstCustomer" ToRole="TrnSaleOrder" />
@@ -5169,6 +5192,7 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <NavigationProperty Name="TrnCurtainSelections" Relationship="IMSModel.FK_TrnCurtainSelection_MstCustomer" FromRole="MstCustomer" ToRole="TrnCurtainSelection" />
           <NavigationProperty Name="TrnCurtainQuotations" Relationship="IMSModel.FK_TrnCurtainQuotation_MstCustomer" FromRole="MstCustomer" ToRole="TrnCurtainQuotation" />
           <NavigationProperty Name="TrnWorkOrders" Relationship="IMSModel.FK_TrnWorkOrder_MstCustomer" FromRole="MstCustomer" ToRole="TrnWorkOrder" />
+          <NavigationProperty Name="TrnGoodIssueNotes" Relationship="IMSModel.FK_TrnGoodIssueNote_MstCustomer" FromRole="MstCustomer" ToRole="TrnGoodIssueNote" />
         </EntityType>
         <EntityType Name="MstCustomerAddress">
           <Key>
@@ -5588,30 +5612,6 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <Property Name="updatedBy" Type="Int64" />
           <NavigationProperty Name="MstUsers" Relationship="IMSModel.FK_MstUser_MstUserType" FromRole="MstuserType" ToRole="MstUser" />
         </EntityType>
-        <EntityType Name="TrnGoodIssueNote">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ginNumber" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="customerId" Type="Int64" Nullable="false" />
-          <Property Name="salesOrderId" Type="Int64" />
-          <Property Name="salesOrderNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="materialQuotationId" Type="Int64" />
-          <Property Name="materialQuotationNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="ginDate" Type="DateTime" Precision="3" />
-          <Property Name="status" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="financialYear" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="createdBy" Type="Int64" Nullable="false" />
-          <Property Name="updatedOn" Type="DateTime" Precision="3" />
-          <Property Name="updatedBy" Type="Int64" />
-          <NavigationProperty Name="MstCustomer" Relationship="IMSModel.FK_TrnGoodIssueNote_MstCustomer" FromRole="TrnGoodIssueNote" ToRole="MstCustomer" />
-          <NavigationProperty Name="TrnMaterialQuotation" Relationship="IMSModel.FK_TrnGoodIssueNote_TrnMaterialQuotation" FromRole="TrnGoodIssueNote" ToRole="TrnMaterialQuotation" />
-          <NavigationProperty Name="TrnSaleOrder" Relationship="IMSModel.FK_TrnGoodIssueNote_TrnSaleOrder" FromRole="TrnGoodIssueNote" ToRole="TrnSaleOrder" />
-          <NavigationProperty Name="TrnGoodIssueNoteItems" Relationship="IMSModel.FK_TrnGoodIssueNoteItems_TrnGoodIssueNote" FromRole="TrnGoodIssueNote" ToRole="TrnGoodIssueNoteItem" />
-          <NavigationProperty Name="TrnSalesInvoices" Relationship="IMSModel.FK_TrnSalesInvoice_TrnGoodIssueNote" FromRole="TrnGoodIssueNote" ToRole="TrnSalesInvoice" />
-        </EntityType>
         <EntityType Name="TrnGoodIssueNoteItem">
           <Key>
             <PropertyRef Name="id" />
@@ -5725,11 +5725,11 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <Property Name="updatedBy" Type="Int64" />
           <NavigationProperty Name="MstAgent" Relationship="IMSModel.FK_TrnMaterialQuotation_MstAgent" FromRole="TrnMaterialQuotation" ToRole="MstAgent" />
           <NavigationProperty Name="MstCustomer" Relationship="IMSModel.FK_TrnMaterialQuotation_MstCustomer" FromRole="TrnMaterialQuotation" ToRole="MstCustomer" />
-          <NavigationProperty Name="TrnGoodIssueNotes" Relationship="IMSModel.FK_TrnGoodIssueNote_TrnMaterialQuotation" FromRole="TrnMaterialQuotation" ToRole="TrnGoodIssueNote" />
           <NavigationProperty Name="TrnMaterialSelection" Relationship="IMSModel.FK_TrnMaterialQuotation_TrnMaterialSelection" FromRole="TrnMaterialQuotation" ToRole="TrnMaterialSelection" />
           <NavigationProperty Name="TrnMaterialQuotationItems" Relationship="IMSModel.FK_TrnMaterialQuotationItems_TrnMaterialQuotation" FromRole="TrnMaterialQuotation" ToRole="TrnMaterialQuotationItem" />
           <NavigationProperty Name="TrnAdvancePayments" Relationship="IMSModel.FK_TrnAdvancePayment_TrnMaterialQuotation" FromRole="TrnMaterialQuotation" ToRole="TrnAdvancePayment" />
           <NavigationProperty Name="TrnSalesInvoices" Relationship="IMSModel.FK_TrnSalesInvoice_TrnMaterialQuotation" FromRole="TrnMaterialQuotation" ToRole="TrnSalesInvoice" />
+          <NavigationProperty Name="TrnGoodIssueNotes" Relationship="IMSModel.FK_TrnGoodIssueNote_TrnMaterialQuotation" FromRole="TrnMaterialQuotation" ToRole="TrnGoodIssueNote" />
         </EntityType>
         <EntityType Name="TrnMaterialQuotationItem">
           <Key>
@@ -5978,10 +5978,10 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <NavigationProperty Name="MstCourier" Relationship="IMSModel.FK_TrnSaleOrder_MstCourier" FromRole="TrnSaleOrder" ToRole="MstCourier" />
           <NavigationProperty Name="MstCustomer" Relationship="IMSModel.FK_TrnSaleOrder_MstCustomer" FromRole="TrnSaleOrder" ToRole="MstCustomer" />
           <NavigationProperty Name="MstCustomerAddress" Relationship="IMSModel.FK_TrnSaleOrder_MstCustomerAddress" FromRole="TrnSaleOrder" ToRole="MstCustomerAddress" />
-          <NavigationProperty Name="TrnGoodIssueNotes" Relationship="IMSModel.FK_TrnGoodIssueNote_TrnSaleOrder" FromRole="TrnSaleOrder" ToRole="TrnGoodIssueNote" />
           <NavigationProperty Name="TrnPurchaseOrders" Relationship="IMSModel.FK_TrnPurchaseOrder_TrnSaleOrder" FromRole="TrnSaleOrder" ToRole="TrnPurchaseOrder" />
           <NavigationProperty Name="TrnSaleOrderItems" Relationship="IMSModel.FK_TrnSaleOrderItems_TrnSaleOrder" FromRole="TrnSaleOrder" ToRole="TrnSaleOrderItem" />
           <NavigationProperty Name="TrnSalesInvoices" Relationship="IMSModel.FK_TrnSalesInvoice_TrnSaleOrder" FromRole="TrnSaleOrder" ToRole="TrnSalesInvoice" />
+          <NavigationProperty Name="TrnGoodIssueNotes" Relationship="IMSModel.FK_TrnGoodIssueNote_TrnSaleOrder" FromRole="TrnSaleOrder" ToRole="TrnGoodIssueNote" />
         </EntityType>
         <EntityType Name="TrnSaleOrderItem">
           <Key>
@@ -6765,18 +6765,6 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_TrnGoodIssueNote_MstCustomer">
-          <End Type="IMSModel.MstCustomer" Role="MstCustomer" Multiplicity="1" />
-          <End Type="IMSModel.TrnGoodIssueNote" Role="TrnGoodIssueNote" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MstCustomer">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="TrnGoodIssueNote">
-              <PropertyRef Name="customerId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_TrnMaterialQuotation_MstCustomer">
           <End Type="IMSModel.MstCustomer" Role="MstCustomer" Multiplicity="1" />
           <End Type="IMSModel.TrnMaterialQuotation" Role="TrnMaterialQuotation" Multiplicity="*" />
@@ -7496,42 +7484,6 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
             </Principal>
             <Dependent Role="MstUser">
               <PropertyRef Name="userTypeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TrnGoodIssueNote_TrnMaterialQuotation">
-          <End Type="IMSModel.TrnMaterialQuotation" Role="TrnMaterialQuotation" Multiplicity="0..1" />
-          <End Type="IMSModel.TrnGoodIssueNote" Role="TrnGoodIssueNote" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TrnMaterialQuotation">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="TrnGoodIssueNote">
-              <PropertyRef Name="materialQuotationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TrnGoodIssueNote_TrnSaleOrder">
-          <End Type="IMSModel.TrnSaleOrder" Role="TrnSaleOrder" Multiplicity="0..1" />
-          <End Type="IMSModel.TrnGoodIssueNote" Role="TrnGoodIssueNote" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TrnSaleOrder">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="TrnGoodIssueNote">
-              <PropertyRef Name="salesOrderId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TrnGoodIssueNoteItems_TrnGoodIssueNote">
-          <End Type="IMSModel.TrnGoodIssueNote" Role="TrnGoodIssueNote" Multiplicity="1" />
-          <End Type="IMSModel.TrnGoodIssueNoteItem" Role="TrnGoodIssueNoteItem" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TrnGoodIssueNote">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="TrnGoodIssueNoteItem">
-              <PropertyRef Name="goodIssueNoteId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -8310,6 +8262,142 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="TrnWorkOrder">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="curtainQuotationId" Type="Int64" Nullable="false" />
+          <Property Name="workOrderNumber" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="workOrderDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="customerId" Type="Int64" Nullable="false" />
+          <Property Name="tailorId" Type="Int64" />
+          <Property Name="financialYear" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="expectedDeliveryDate" Type="DateTime" Precision="3" />
+          <Property Name="status" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="createdBy" Type="Int64" Nullable="false" />
+          <Property Name="updatedOn" Type="DateTime" Precision="3" />
+          <Property Name="updatedBy" Type="Int64" />
+          <NavigationProperty Name="MstCustomer" Relationship="IMSModel.FK_TrnWorkOrder_MstCustomer" FromRole="TrnWorkOrder" ToRole="MstCustomer" />
+          <NavigationProperty Name="MstTailor" Relationship="IMSModel.FK_TrnWorkOrder_MstTailor" FromRole="TrnWorkOrder" ToRole="MstTailor" />
+          <NavigationProperty Name="TrnCurtainQuotation" Relationship="IMSModel.FK_TrnWorkOrder_TrnCurtainQuotation" FromRole="TrnWorkOrder" ToRole="TrnCurtainQuotation" />
+          <NavigationProperty Name="TrnWorkOrderItems" Relationship="IMSModel.FK_TrnWorkOrderItems_TrnWorkOrder" FromRole="TrnWorkOrder" ToRole="TrnWorkOrderItem" />
+          <NavigationProperty Name="TrnGoodIssueNotes" Relationship="IMSModel.FK_TrnGoodIssueNote_TrnWorkOrder" FromRole="TrnWorkOrder" ToRole="TrnGoodIssueNote" />
+        </EntityType>
+        <Association Name="FK_TrnWorkOrder_MstCustomer">
+          <End Type="IMSModel.MstCustomer" Role="MstCustomer" Multiplicity="1" />
+          <End Type="IMSModel.TrnWorkOrder" Role="TrnWorkOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstCustomer">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnWorkOrder">
+              <PropertyRef Name="customerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnWorkOrder_MstTailor">
+          <End Type="IMSModel.MstTailor" Role="MstTailor" Multiplicity="0..1" />
+          <End Type="IMSModel.TrnWorkOrder" Role="TrnWorkOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MstTailor">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnWorkOrder">
+              <PropertyRef Name="tailorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnWorkOrder_TrnCurtainQuotation">
+          <End Type="IMSModel.TrnCurtainQuotation" Role="TrnCurtainQuotation" Multiplicity="1" />
+          <End Type="IMSModel.TrnWorkOrder" Role="TrnWorkOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TrnCurtainQuotation">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnWorkOrder">
+              <PropertyRef Name="curtainQuotationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="TrnSalesInvoice">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="goodIssueNoteId" Type="Int64" />
+          <Property Name="salesOrderId" Type="Int64" />
+          <Property Name="materialQuotationId" Type="Int64" />
+          <Property Name="curtainQuotationId" Type="Int64" />
+          <Property Name="invoiceNumber" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="invoiceDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="buyersOrderNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="expectedDeliveryDate" Type="DateTime" Precision="0" />
+          <Property Name="totalAmount" Type="Int64" Nullable="false" />
+          <Property Name="amountPaid" Type="Int64" Nullable="false" />
+          <Property Name="isPaid" Type="Boolean" Nullable="false" />
+          <Property Name="status" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="courierDockYardNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="financialYear" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="createdBy" Type="Int64" Nullable="false" />
+          <Property Name="updatedOn" Type="DateTime" Precision="3" />
+          <Property Name="updatedBy" Type="Int64" />
+          <NavigationProperty Name="TrnCurtainQuotation" Relationship="IMSModel.FK_TrnSalesInvoice_TrnCurtainQuotation" FromRole="TrnSalesInvoice" ToRole="TrnCurtainQuotation" />
+          <NavigationProperty Name="TrnMaterialQuotation" Relationship="IMSModel.FK_TrnSalesInvoice_TrnMaterialQuotation" FromRole="TrnSalesInvoice" ToRole="TrnMaterialQuotation" />
+          <NavigationProperty Name="TrnSaleOrder" Relationship="IMSModel.FK_TrnSalesInvoice_TrnSaleOrder" FromRole="TrnSalesInvoice" ToRole="TrnSaleOrder" />
+          <NavigationProperty Name="TrnSalesInvoiceItems" Relationship="IMSModel.FK_TrnSalesInvoiceItems_TrnSalesInvoice" FromRole="TrnSalesInvoice" ToRole="TrnSalesInvoiceItem" />
+          <NavigationProperty Name="TrnGoodIssueNote" Relationship="IMSModel.FK_TrnSalesInvoice_TrnGoodIssueNote" FromRole="TrnSalesInvoice" ToRole="TrnGoodIssueNote" />
+        </EntityType>
+        <Association Name="FK_TrnSalesInvoice_TrnCurtainQuotation">
+          <End Type="IMSModel.TrnCurtainQuotation" Role="TrnCurtainQuotation" Multiplicity="0..1" />
+          <End Type="IMSModel.TrnSalesInvoice" Role="TrnSalesInvoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TrnCurtainQuotation">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnSalesInvoice">
+              <PropertyRef Name="curtainQuotationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnSalesInvoice_TrnMaterialQuotation">
+          <End Type="IMSModel.TrnMaterialQuotation" Role="TrnMaterialQuotation" Multiplicity="0..1" />
+          <End Type="IMSModel.TrnSalesInvoice" Role="TrnSalesInvoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TrnMaterialQuotation">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnSalesInvoice">
+              <PropertyRef Name="materialQuotationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnSalesInvoice_TrnSaleOrder">
+          <End Type="IMSModel.TrnSaleOrder" Role="TrnSaleOrder" Multiplicity="0..1" />
+          <End Type="IMSModel.TrnSalesInvoice" Role="TrnSalesInvoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TrnSaleOrder">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnSalesInvoice">
+              <PropertyRef Name="salesOrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnSalesInvoiceItems_TrnSalesInvoice">
+          <End Type="IMSModel.TrnSalesInvoice" Role="TrnSalesInvoice" Multiplicity="1" />
+          <End Type="IMSModel.TrnSalesInvoiceItem" Role="TrnSalesInvoiceItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TrnSalesInvoice">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnSalesInvoiceItem">
+              <PropertyRef Name="salesInvoiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityType Name="TrnWorkOrderItem">
           <Key>
             <PropertyRef Name="id" />
@@ -8320,7 +8408,7 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <Property Name="unit" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="numberOfPanel" Type="Int32" />
           <Property Name="patternId" Type="Int64" />
-          <Property Name="categoryId" Type="Int64" />
+          <Property Name="categoryId" Type="Int64" Nullable="false" />
           <Property Name="collectionId" Type="Int64" />
           <Property Name="shadeId" Type="Int64" />
           <Property Name="accessoryId" Type="Int64" />
@@ -8344,6 +8432,8 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <Property Name="isMotor" Type="Boolean" Nullable="false" />
           <Property Name="isRodAccessory" Type="Boolean" Nullable="false" />
           <Property Name="orderQuantity" Type="Decimal" Precision="7" Scale="2" />
+          <Property Name="balanceQuantity" Type="Decimal" Precision="7" Scale="2" />
+          <Property Name="deliverQuantity" Type="Decimal" Precision="7" Scale="2" />
           <Property Name="rate" Type="Decimal" Precision="7" Scale="2" />
           <Property Name="labourCharges" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
@@ -8370,7 +8460,7 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_TrnWorkOrderItems_MstCategory">
-          <End Type="IMSModel.MstCategory" Role="MstCategory" Multiplicity="0..1" />
+          <End Type="IMSModel.MstCategory" Role="MstCategory" Multiplicity="1" />
           <End Type="IMSModel.TrnWorkOrderItem" Role="TrnWorkOrderItem" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="MstCategory">
@@ -8417,66 +8507,10 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="TrnWorkOrder">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="curtainQuotationId" Type="Int64" Nullable="false" />
-          <Property Name="workOrderNumber" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="workOrderDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="customerId" Type="Int64" Nullable="false" />
-          <Property Name="tailorId" Type="Int64" />
-          <Property Name="financialYear" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="expectedDeliveryDate" Type="DateTime" Precision="3" />
-          <Property Name="status" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="createdBy" Type="Int64" Nullable="false" />
-          <Property Name="updatedOn" Type="DateTime" Precision="3" />
-          <Property Name="updatedBy" Type="Int64" />
-          <NavigationProperty Name="MstCustomer" Relationship="IMSModel.FK_TrnWorkOrder_MstCustomer" FromRole="TrnWorkOrder" ToRole="MstCustomer" />
-          <NavigationProperty Name="MstTailor" Relationship="IMSModel.FK_TrnWorkOrder_MstTailor" FromRole="TrnWorkOrder" ToRole="MstTailor" />
-          <NavigationProperty Name="TrnCurtainQuotation" Relationship="IMSModel.FK_TrnWorkOrder_TrnCurtainQuotation" FromRole="TrnWorkOrder" ToRole="TrnCurtainQuotation" />
-          <NavigationProperty Name="TrnWorkOrderItems" Relationship="IMSModel.FK_TrnWorkOrderItems_TrnWorkOrder" FromRole="TrnWorkOrder" ToRole="TrnWorkOrderItem" />
-        </EntityType>
-        <Association Name="FK_TrnWorkOrder_MstCustomer">
-          <End Type="IMSModel.MstCustomer" Role="MstCustomer" Multiplicity="1" />
-          <End Type="IMSModel.TrnWorkOrder" Role="TrnWorkOrder" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MstCustomer">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="TrnWorkOrder">
-              <PropertyRef Name="customerId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TrnWorkOrder_MstTailor">
-          <End Type="IMSModel.MstTailor" Role="MstTailor" Multiplicity="0..1" />
-          <End Type="IMSModel.TrnWorkOrder" Role="TrnWorkOrder" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MstTailor">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="TrnWorkOrder">
-              <PropertyRef Name="tailorId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TrnWorkOrder_TrnCurtainQuotation">
-          <End Type="IMSModel.TrnCurtainQuotation" Role="TrnCurtainQuotation" Multiplicity="1" />
-          <End Type="IMSModel.TrnWorkOrder" Role="TrnWorkOrder" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TrnCurtainQuotation">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="TrnWorkOrder">
-              <PropertyRef Name="curtainQuotationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_TrnWorkOrderItems_TrnWorkOrder">
-          <End Type="IMSModel.TrnWorkOrder" Role="TrnWorkOrder" Multiplicity="1" />
+          <End Type="IMSModel.TrnWorkOrder" Role="TrnWorkOrder" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Type="IMSModel.TrnWorkOrderItem" Role="TrnWorkOrderItem" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="TrnWorkOrder">
@@ -8487,44 +8521,90 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="TrnSalesInvoice">
+        <EntityType Name="TrnGoodIssueNote">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="goodIssueNoteId" Type="Int64" />
+          <Property Name="ginNumber" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="customerId" Type="Int64" Nullable="false" />
           <Property Name="salesOrderId" Type="Int64" />
+          <Property Name="salesOrderNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="materialQuotationId" Type="Int64" />
-          <Property Name="curtainQuotationId" Type="Int64" />
-          <Property Name="invoiceNumber" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="invoiceDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="buyersOrderNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="expectedDeliveryDate" Type="DateTime" Precision="0" />
-          <Property Name="totalAmount" Type="Int64" Nullable="false" />
-          <Property Name="amountPaid" Type="Int64" Nullable="false" />
-          <Property Name="isPaid" Type="Boolean" Nullable="false" />
-          <Property Name="status" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="courierDockYardNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="materialQuotationNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="workOrderId" Type="Int64" />
+          <Property Name="workOrderNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ginDate" Type="DateTime" Precision="3" />
+          <Property Name="status" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="financialYear" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="createdBy" Type="Int64" Nullable="false" />
           <Property Name="updatedOn" Type="DateTime" Precision="3" />
           <Property Name="updatedBy" Type="Int64" />
-          <NavigationProperty Name="TrnCurtainQuotation" Relationship="IMSModel.FK_TrnSalesInvoice_TrnCurtainQuotation" FromRole="TrnSalesInvoice" ToRole="TrnCurtainQuotation" />
-          <NavigationProperty Name="TrnGoodIssueNote" Relationship="IMSModel.FK_TrnSalesInvoice_TrnGoodIssueNote" FromRole="TrnSalesInvoice" ToRole="TrnGoodIssueNote" />
-          <NavigationProperty Name="TrnMaterialQuotation" Relationship="IMSModel.FK_TrnSalesInvoice_TrnMaterialQuotation" FromRole="TrnSalesInvoice" ToRole="TrnMaterialQuotation" />
-          <NavigationProperty Name="TrnSaleOrder" Relationship="IMSModel.FK_TrnSalesInvoice_TrnSaleOrder" FromRole="TrnSalesInvoice" ToRole="TrnSaleOrder" />
-          <NavigationProperty Name="TrnSalesInvoiceItems" Relationship="IMSModel.FK_TrnSalesInvoiceItems_TrnSalesInvoice" FromRole="TrnSalesInvoice" ToRole="TrnSalesInvoiceItem" />
+          <NavigationProperty Name="MstCustomer" Relationship="IMSModel.FK_TrnGoodIssueNote_MstCustomer" FromRole="TrnGoodIssueNote" ToRole="MstCustomer" />
+          <NavigationProperty Name="TrnMaterialQuotation" Relationship="IMSModel.FK_TrnGoodIssueNote_TrnMaterialQuotation" FromRole="TrnGoodIssueNote" ToRole="TrnMaterialQuotation" />
+          <NavigationProperty Name="TrnSaleOrder" Relationship="IMSModel.FK_TrnGoodIssueNote_TrnSaleOrder" FromRole="TrnGoodIssueNote" ToRole="TrnSaleOrder" />
+          <NavigationProperty Name="TrnWorkOrder" Relationship="IMSModel.FK_TrnGoodIssueNote_TrnWorkOrder" FromRole="TrnGoodIssueNote" ToRole="TrnWorkOrder" />
+          <NavigationProperty Name="TrnGoodIssueNoteItems" Relationship="IMSModel.FK_TrnGoodIssueNoteItems_TrnGoodIssueNote" FromRole="TrnGoodIssueNote" ToRole="TrnGoodIssueNoteItem" />
+          <NavigationProperty Name="TrnSalesInvoices" Relationship="IMSModel.FK_TrnSalesInvoice_TrnGoodIssueNote" FromRole="TrnGoodIssueNote" ToRole="TrnSalesInvoice" />
         </EntityType>
-        <Association Name="FK_TrnSalesInvoice_TrnCurtainQuotation">
-          <End Type="IMSModel.TrnCurtainQuotation" Role="TrnCurtainQuotation" Multiplicity="0..1" />
-          <End Type="IMSModel.TrnSalesInvoice" Role="TrnSalesInvoice" Multiplicity="*" />
+        <Association Name="FK_TrnGoodIssueNote_MstCustomer">
+          <End Type="IMSModel.MstCustomer" Role="MstCustomer" Multiplicity="1" />
+          <End Type="IMSModel.TrnGoodIssueNote" Role="TrnGoodIssueNote" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="TrnCurtainQuotation">
+            <Principal Role="MstCustomer">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="TrnSalesInvoice">
-              <PropertyRef Name="curtainQuotationId" />
+            <Dependent Role="TrnGoodIssueNote">
+              <PropertyRef Name="customerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnGoodIssueNote_TrnMaterialQuotation">
+          <End Type="IMSModel.TrnMaterialQuotation" Role="TrnMaterialQuotation" Multiplicity="0..1" />
+          <End Type="IMSModel.TrnGoodIssueNote" Role="TrnGoodIssueNote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TrnMaterialQuotation">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnGoodIssueNote">
+              <PropertyRef Name="materialQuotationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnGoodIssueNote_TrnSaleOrder">
+          <End Type="IMSModel.TrnSaleOrder" Role="TrnSaleOrder" Multiplicity="0..1" />
+          <End Type="IMSModel.TrnGoodIssueNote" Role="TrnGoodIssueNote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TrnSaleOrder">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnGoodIssueNote">
+              <PropertyRef Name="salesOrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnGoodIssueNote_TrnWorkOrder">
+          <End Type="IMSModel.TrnWorkOrder" Role="TrnWorkOrder" Multiplicity="0..1" />
+          <End Type="IMSModel.TrnGoodIssueNote" Role="TrnGoodIssueNote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TrnWorkOrder">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnGoodIssueNote">
+              <PropertyRef Name="workOrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrnGoodIssueNoteItems_TrnGoodIssueNote">
+          <End Type="IMSModel.TrnGoodIssueNote" Role="TrnGoodIssueNote" Multiplicity="1" />
+          <End Type="IMSModel.TrnGoodIssueNoteItem" Role="TrnGoodIssueNoteItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TrnGoodIssueNote">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TrnGoodIssueNoteItem">
+              <PropertyRef Name="goodIssueNoteId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -8537,42 +8617,6 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
             </Principal>
             <Dependent Role="TrnSalesInvoice">
               <PropertyRef Name="goodIssueNoteId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TrnSalesInvoice_TrnMaterialQuotation">
-          <End Type="IMSModel.TrnMaterialQuotation" Role="TrnMaterialQuotation" Multiplicity="0..1" />
-          <End Type="IMSModel.TrnSalesInvoice" Role="TrnSalesInvoice" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TrnMaterialQuotation">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="TrnSalesInvoice">
-              <PropertyRef Name="materialQuotationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TrnSalesInvoice_TrnSaleOrder">
-          <End Type="IMSModel.TrnSaleOrder" Role="TrnSaleOrder" Multiplicity="0..1" />
-          <End Type="IMSModel.TrnSalesInvoice" Role="TrnSalesInvoice" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TrnSaleOrder">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="TrnSalesInvoice">
-              <PropertyRef Name="salesOrderId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TrnSalesInvoiceItems_TrnSalesInvoice">
-          <End Type="IMSModel.TrnSalesInvoice" Role="TrnSalesInvoice" Multiplicity="1" />
-          <End Type="IMSModel.TrnSalesInvoiceItem" Role="TrnSalesInvoiceItem" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TrnSalesInvoice">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="TrnSalesInvoiceItem">
-              <PropertyRef Name="salesInvoiceId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -9087,26 +9131,6 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
                 <ScalarProperty Name="createdBy" ColumnName="createdBy" />
                 <ScalarProperty Name="createdOn" ColumnName="createdOn" />
                 <ScalarProperty Name="userTypeName" ColumnName="userTypeName" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TrnGoodIssueNotes">
-            <EntityTypeMapping TypeName="IMSModel.TrnGoodIssueNote">
-              <MappingFragment StoreEntitySet="TrnGoodIssueNote">
-                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
-                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
-                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
-                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
-                <ScalarProperty Name="financialYear" ColumnName="financialYear" />
-                <ScalarProperty Name="status" ColumnName="status" />
-                <ScalarProperty Name="ginDate" ColumnName="ginDate" />
-                <ScalarProperty Name="materialQuotationNumber" ColumnName="materialQuotationNumber" />
-                <ScalarProperty Name="materialQuotationId" ColumnName="materialQuotationId" />
-                <ScalarProperty Name="salesOrderNumber" ColumnName="salesOrderNumber" />
-                <ScalarProperty Name="salesOrderId" ColumnName="salesOrderId" />
-                <ScalarProperty Name="customerId" ColumnName="customerId" />
-                <ScalarProperty Name="ginNumber" ColumnName="ginNumber" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -9789,48 +9813,6 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="TrnWorkOrderItems">
-            <EntityTypeMapping TypeName="IMSModel.TrnWorkOrderItem">
-              <MappingFragment StoreEntitySet="TrnWorkOrderItems">
-                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
-                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
-                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
-                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
-                <ScalarProperty Name="labourCharges" ColumnName="labourCharges" />
-                <ScalarProperty Name="rate" ColumnName="rate" />
-                <ScalarProperty Name="orderQuantity" ColumnName="orderQuantity" />
-                <ScalarProperty Name="isRodAccessory" ColumnName="isRodAccessory" />
-                <ScalarProperty Name="isMotor" ColumnName="isMotor" />
-                <ScalarProperty Name="isRemote" ColumnName="isRemote" />
-                <ScalarProperty Name="unitWidth" ColumnName="unitWidth" />
-                <ScalarProperty Name="unitHeight" ColumnName="unitHeight" />
-                <ScalarProperty Name="trackSize" ColumnName="trackSize" />
-                <ScalarProperty Name="fabricDirection" ColumnName="fabricDirection" />
-                <ScalarProperty Name="isRod" ColumnName="isRod" />
-                <ScalarProperty Name="isTrack" ColumnName="isTrack" />
-                <ScalarProperty Name="isLining" ColumnName="isLining" />
-                <ScalarProperty Name="horizontalPatchQuantity" ColumnName="horizontalPatchQuantity" />
-                <ScalarProperty Name="horizontalPatchHeight" ColumnName="horizontalPatchHeight" />
-                <ScalarProperty Name="noOfHorizontalPatch" ColumnName="noOfHorizontalPatch" />
-                <ScalarProperty Name="isHorizontalPatch" ColumnName="isHorizontalPatch" />
-                <ScalarProperty Name="verticalPatchQuantity" ColumnName="verticalPatchQuantity" />
-                <ScalarProperty Name="verticalPatchWidth" ColumnName="verticalPatchWidth" />
-                <ScalarProperty Name="noOfVerticalPatch" ColumnName="noOfVerticalPatch" />
-                <ScalarProperty Name="isVerticalPatch" ColumnName="isVerticalPatch" />
-                <ScalarProperty Name="isPatch" ColumnName="isPatch" />
-                <ScalarProperty Name="accessoryId" ColumnName="accessoryId" />
-                <ScalarProperty Name="shadeId" ColumnName="shadeId" />
-                <ScalarProperty Name="collectionId" ColumnName="collectionId" />
-                <ScalarProperty Name="categoryId" ColumnName="categoryId" />
-                <ScalarProperty Name="patternId" ColumnName="patternId" />
-                <ScalarProperty Name="numberOfPanel" ColumnName="numberOfPanel" />
-                <ScalarProperty Name="unit" ColumnName="unit" />
-                <ScalarProperty Name="area" ColumnName="area" />
-                <ScalarProperty Name="workOrderId" ColumnName="workOrderId" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="TrnWorkOrders">
             <EntityTypeMapping TypeName="IMSModel.TrnWorkOrder">
               <MappingFragment StoreEntitySet="TrnWorkOrder">
@@ -9871,6 +9853,72 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
                 <ScalarProperty Name="materialQuotationId" ColumnName="materialQuotationId" />
                 <ScalarProperty Name="salesOrderId" ColumnName="salesOrderId" />
                 <ScalarProperty Name="goodIssueNoteId" ColumnName="goodIssueNoteId" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TrnWorkOrderItems">
+            <EntityTypeMapping TypeName="IMSModel.TrnWorkOrderItem">
+              <MappingFragment StoreEntitySet="TrnWorkOrderItems">
+                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
+                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
+                <ScalarProperty Name="labourCharges" ColumnName="labourCharges" />
+                <ScalarProperty Name="rate" ColumnName="rate" />
+                <ScalarProperty Name="deliverQuantity" ColumnName="deliverQuantity" />
+                <ScalarProperty Name="balanceQuantity" ColumnName="balanceQuantity" />
+                <ScalarProperty Name="orderQuantity" ColumnName="orderQuantity" />
+                <ScalarProperty Name="isRodAccessory" ColumnName="isRodAccessory" />
+                <ScalarProperty Name="isMotor" ColumnName="isMotor" />
+                <ScalarProperty Name="isRemote" ColumnName="isRemote" />
+                <ScalarProperty Name="unitWidth" ColumnName="unitWidth" />
+                <ScalarProperty Name="unitHeight" ColumnName="unitHeight" />
+                <ScalarProperty Name="trackSize" ColumnName="trackSize" />
+                <ScalarProperty Name="fabricDirection" ColumnName="fabricDirection" />
+                <ScalarProperty Name="isRod" ColumnName="isRod" />
+                <ScalarProperty Name="isTrack" ColumnName="isTrack" />
+                <ScalarProperty Name="isLining" ColumnName="isLining" />
+                <ScalarProperty Name="horizontalPatchQuantity" ColumnName="horizontalPatchQuantity" />
+                <ScalarProperty Name="horizontalPatchHeight" ColumnName="horizontalPatchHeight" />
+                <ScalarProperty Name="noOfHorizontalPatch" ColumnName="noOfHorizontalPatch" />
+                <ScalarProperty Name="isHorizontalPatch" ColumnName="isHorizontalPatch" />
+                <ScalarProperty Name="verticalPatchQuantity" ColumnName="verticalPatchQuantity" />
+                <ScalarProperty Name="verticalPatchWidth" ColumnName="verticalPatchWidth" />
+                <ScalarProperty Name="noOfVerticalPatch" ColumnName="noOfVerticalPatch" />
+                <ScalarProperty Name="isVerticalPatch" ColumnName="isVerticalPatch" />
+                <ScalarProperty Name="isPatch" ColumnName="isPatch" />
+                <ScalarProperty Name="accessoryId" ColumnName="accessoryId" />
+                <ScalarProperty Name="shadeId" ColumnName="shadeId" />
+                <ScalarProperty Name="collectionId" ColumnName="collectionId" />
+                <ScalarProperty Name="categoryId" ColumnName="categoryId" />
+                <ScalarProperty Name="patternId" ColumnName="patternId" />
+                <ScalarProperty Name="numberOfPanel" ColumnName="numberOfPanel" />
+                <ScalarProperty Name="unit" ColumnName="unit" />
+                <ScalarProperty Name="area" ColumnName="area" />
+                <ScalarProperty Name="workOrderId" ColumnName="workOrderId" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TrnGoodIssueNotes">
+            <EntityTypeMapping TypeName="IMSModel.TrnGoodIssueNote">
+              <MappingFragment StoreEntitySet="TrnGoodIssueNote">
+                <ScalarProperty Name="updatedBy" ColumnName="updatedBy" />
+                <ScalarProperty Name="updatedOn" ColumnName="updatedOn" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
+                <ScalarProperty Name="financialYear" ColumnName="financialYear" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="ginDate" ColumnName="ginDate" />
+                <ScalarProperty Name="workOrderNumber" ColumnName="workOrderNumber" />
+                <ScalarProperty Name="workOrderId" ColumnName="workOrderId" />
+                <ScalarProperty Name="materialQuotationNumber" ColumnName="materialQuotationNumber" />
+                <ScalarProperty Name="materialQuotationId" ColumnName="materialQuotationId" />
+                <ScalarProperty Name="salesOrderNumber" ColumnName="salesOrderNumber" />
+                <ScalarProperty Name="salesOrderId" ColumnName="salesOrderId" />
+                <ScalarProperty Name="customerId" ColumnName="customerId" />
+                <ScalarProperty Name="ginNumber" ColumnName="ginNumber" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

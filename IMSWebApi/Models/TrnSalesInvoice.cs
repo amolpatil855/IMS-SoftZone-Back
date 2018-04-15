@@ -40,9 +40,9 @@ namespace IMSWebApi.Models
         public Nullable<long> updatedBy { get; set; }
     
         public virtual TrnCurtainQuotation TrnCurtainQuotation { get; set; }
-        public virtual TrnGoodIssueNote TrnGoodIssueNote { get; set; }
         public virtual TrnMaterialQuotation TrnMaterialQuotation { get; set; }
         public virtual TrnSaleOrder TrnSaleOrder { get; set; }
         public virtual ICollection<TrnSalesInvoiceItem> TrnSalesInvoiceItems { get; set; }
+        public virtual TrnGoodIssueNote TrnGoodIssueNote { get; set; }
     }
 }
