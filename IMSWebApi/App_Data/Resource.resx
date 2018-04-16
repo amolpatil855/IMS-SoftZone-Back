@@ -444,4 +444,13 @@
   <data name="WOUpdated" xml:space="preserve">
     <value>Work Order Updated Successfully</value>
   </data>
+  <data name="WOApproved" xml:space="preserve">
+    <value>Work Order Approved Successfully</value>
+  </data>
+  <data name="CQApprovedByAdmin" xml:space="preserve">
+    <value>Can't Cancel, as it is already Approved By Admin</value>
+  </data>
+  <data name="CQCancelled" xml:space="preserve">
+    <value>Curtain Quotation Cancelled Successfully</value>
+  </data>
 </root>

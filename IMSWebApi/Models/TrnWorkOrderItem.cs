@@ -20,7 +20,7 @@ namespace IMSWebApi.Models
         public string unit { get; set; }
         public Nullable<int> numberOfPanel { get; set; }
         public Nullable<long> patternId { get; set; }
-        public Nullable<long> categoryId { get; set; }
+        public long categoryId { get; set; }
         public Nullable<long> collectionId { get; set; }
         public Nullable<long> shadeId { get; set; }
         public Nullable<long> accessoryId { get; set; }
@@ -44,6 +44,8 @@ namespace IMSWebApi.Models
         public bool isMotor { get; set; }
         public bool isRodAccessory { get; set; }
         public Nullable<decimal> orderQuantity { get; set; }
+        public Nullable<decimal> balanceQuantity { get; set; }
+        public Nullable<decimal> deliverQuantity { get; set; }
         public Nullable<decimal> rate { get; set; }
         public Nullable<decimal> labourCharges { get; set; }
         public System.DateTime createdOn { get; set; }

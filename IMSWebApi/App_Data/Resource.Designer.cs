@@ -223,6 +223,24 @@ namespace IMSWebApi.App_Data {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Can&apos;t Cancel, as it is already Approved By Admin.
+        /// </summary>
+        public static string CQApprovedByAdmin {
+            get {
+                return ResourceManager.GetString("CQApprovedByAdmin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Curtain Quotation Cancelled Successfully.
+        /// </summary>
+        public static string CQCancelled {
+            get {
+                return ResourceManager.GetString("CQCancelled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Curtain Quotation Added Successfully.
         /// </summary>
         public static string CQCreated {
@@ -1029,6 +1047,15 @@ namespace IMSWebApi.App_Data {
         public static string UserUpdated {
             get {
                 return ResourceManager.GetString("UserUpdated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Work Order Approved Successfully.
+        /// </summary>
+        public static string WOApproved {
+            get {
+                return ResourceManager.GetString("WOApproved", resourceCulture);
             }
         }
         

@@ -66,7 +66,7 @@ namespace IMSWebApi.Controllers
 
         // PUT api/TrnCurtainQuotation
         [ApiAuthorize(Roles = "Administrator")]
-        [Route("api/TrnMaterialQuotation/ApproveCurtainQuotation/{id}")]
+        [Route("api/TrnCurtainQuotation/ApproveCurtainQuotation/{id}")]
         [HttpPut]
         public IHttpActionResult ApproveCurtainQuotation(long id)
         {
@@ -75,6 +75,20 @@ namespace IMSWebApi.Controllers
                 return BadRequest(ModelState);
             }
             var result = _trnCurtainQuotationService.approveCurtainQuotation(id);
+            return Ok(result);
+        }
+
+        // PUT api/TrnCurtainQuotation
+        [ApiAuthorize(AccessLevel = "curtainquotation")]
+        [Route("api/TrnCurtainQuotation/CancelCurtainQuotation/{id}")]
+        [HttpPut]
+        public IHttpActionResult CancelCurtainQuotation(long id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var result = _trnCurtainQuotationService.cancelCurtainQuotation(id);
             return Ok(result);
         }
     }

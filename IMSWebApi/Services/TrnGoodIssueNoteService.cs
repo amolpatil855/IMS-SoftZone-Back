@@ -42,6 +42,7 @@ namespace IMSWebApi.Services
                     || gin.MstCustomer.name.StartsWith(search)
                     || gin.salesOrderNumber.StartsWith(search)
                     || gin.materialQuotationNumber.StartsWith(search)
+                    || gin.workOrderNumber.StartsWith(search)
                     || gin.status.StartsWith(search) : true)
                     .Select(gin => new VMTrnGoodIssueNoteList
                     {
@@ -50,6 +51,7 @@ namespace IMSWebApi.Services
                         ginDate = gin.ginDate,
                         salesOrderNumber = gin.TrnSaleOrder != null ? gin.TrnSaleOrder.orderNumber : string.Empty,
                         materialQuotationNumber = gin.TrnMaterialQuotation != null ? gin.TrnMaterialQuotation.materialQuotationNumber : string.Empty,
+                        workOrderNumber = gin.TrnWorkOrder != null ? gin.TrnWorkOrder.workOrderNumber : string.Empty,
                         customerName = gin.MstCustomer.name,
                         status = gin.status
                     })
@@ -62,6 +64,7 @@ namespace IMSWebApi.Services
                     || gin.MstCustomer.name.StartsWith(search)
                     || gin.salesOrderNumber.StartsWith(search)
                     || gin.materialQuotationNumber.StartsWith(search)
+                    || gin.workOrderNumber.StartsWith(search)
                     || gin.status.StartsWith(search) : true).Count(),
                 Page = page
             };
@@ -71,6 +74,7 @@ namespace IMSWebApi.Services
         {
             var result = repo.TrnGoodIssueNotes.Where(gin => gin.id == id).FirstOrDefault();
             decimal stockAvailable = 0;
+            
             VMTrnGoodIssueNote goodIssueNoteView = Mapper.Map<TrnGoodIssueNote, VMTrnGoodIssueNote>(result);
             goodIssueNoteView.TrnGoodIssueNoteItems.ForEach(ginItems => ginItems.TrnGoodIssueNote = null);
 
@@ -103,7 +107,14 @@ namespace IMSWebApi.Services
                 goodIssueNoteView.TrnMaterialQuotation.TrnMaterialSelection = null;
                 goodIssueNoteView.TrnMaterialQuotation.TrnMaterialQuotationItems.ForEach(mqItem => mqItem.TrnMaterialQuotation = null);
             }
-
+            if (goodIssueNoteView.TrnWorkOrder != null)
+            {
+                goodIssueNoteView.TrnWorkOrder.TrnWorkOrderItems.ForEach(woItems => woItems.TrnWorkOrder = null);
+                goodIssueNoteView.TrnWorkOrder.MstTailor.MstTailorPatternChargeDetails.ForEach(tpDetails => tpDetails.MstTailor = null);
+                goodIssueNoteView.TrnWorkOrder.TrnCurtainQuotation.TrnCurtainSelection.TrnCurtainSelectionItems.ForEach(csItems => csItems.TrnCurtainSelection = null);
+                goodIssueNoteView.TrnWorkOrder.TrnCurtainQuotation.TrnCurtainSelection.TrnCurtainQuotations = null;
+                goodIssueNoteView.TrnWorkOrder.TrnCurtainQuotation.TrnCurtainQuotationItems.ForEach(cqItems => cqItems.TrnCurtainQuotation = null);
+            }
             return goodIssueNoteView;
         }
 
@@ -191,6 +202,58 @@ namespace IMSWebApi.Services
             }
         }
 
+        //Create GIN for approved WorkOrder
+        public void postGoodIssueNoteForWO(TrnWorkOrder workOrder)
+        {
+            using (var transaction = new TransactionScope())
+            {
+                TrnGoodIssueNote goodIssueNoteToPost = new TrnGoodIssueNote();
+                goodIssueNoteToPost.customerId = workOrder.customerId;
+                goodIssueNoteToPost.workOrderId = workOrder != null ? workOrder.id : (long?)null;
+                goodIssueNoteToPost.workOrderNumber = workOrder != null ? workOrder.workOrderNumber : null;
+                DateTime dateForFinancialYear = workOrder != null ? workOrder.workOrderDate : DateTime.Now;
+                var financialYear = repo.MstFinancialYears.Where(f => f.startDate <= dateForFinancialYear.Date && f.endDate >= dateForFinancialYear.Date).FirstOrDefault();
+                string orderNo = generateOrderNumber.orderNumber(financialYear.startDate.ToString("yy"), financialYear.endDate.ToString("yy"), financialYear.ginNumber, "GI");
+                goodIssueNoteToPost.ginNumber = orderNo;
+                goodIssueNoteToPost.ginDate = DateTime.Now;
+                goodIssueNoteToPost.status = GINStatus.Created.ToString();
+                goodIssueNoteToPost.financialYear = financialYear.financialYear;
+                goodIssueNoteToPost.createdOn = DateTime.Now;
+                goodIssueNoteToPost.createdBy = _LoggedInuserId;
+
+                if (workOrder != null)
+                {
+                    List<TrnGoodIssueNoteItem> ginItems = workOrder.TrnWorkOrderItems.Where(woItem => woItem.balanceQuantity > 0).GroupBy(g => new
+                                                                                            {
+                                                                                                g.categoryId,
+                                                                                                g.collectionId,
+                                                                                                g.shadeId,
+                                                                                                g.accessoryId
+                                                                                            }).Select(group => new TrnGoodIssueNoteItem
+                                                                                            {
+                                                                                                categoryId = group.Key.categoryId,
+                                                                                                collectionId = group.Key.collectionId,
+                                                                                                shadeId = group.Key.shadeId,
+                                                                                                accessoryId = group.Key.accessoryId,
+                                                                                                orderQuantity = Convert.ToDecimal(group.Sum(woItem => woItem.balanceQuantity))
+                                                                                            }).ToList();
+                    ginItems.ForEach(ginItem =>
+                    {
+                        ginItem.status = GINStatus.Created.ToString();
+                        ginItem.createdOn = DateTime.Now;
+                        ginItem.createdBy = _LoggedInuserId;
+                    });
+                    goodIssueNoteToPost.TrnGoodIssueNoteItems = ginItems;
+                }
+                
+                repo.TrnGoodIssueNotes.Add(goodIssueNoteToPost);
+                financialYear.ginNumber += 1;
+
+                repo.SaveChanges();
+                transaction.Complete();
+            }
+        }
+
         public ResponseMessage putGoodIssueNote(VMTrnGoodIssueNote goodIssueNote)
         {
             if (goodIssueNote.TrnGoodIssueNoteItems.Where(ginItems => ginItems.issuedQuantity > 0).Count() > 0)
@@ -206,11 +269,12 @@ namespace IMSWebApi.Services
                     goodIssueNoteToPut.updatedOn = DateTime.Now;
                     goodIssueNoteToPut.updatedBy = _LoggedInuserId;
                     repo.SaveChanges();
-
-                    _trnSalesInvoiceService.createInvoiceForGIN(goodIssueNote);
-
-                    createGINForRemainingItems(goodIssueNote.salesOrderId,goodIssueNote.materialQuotationId);
-
+                    if (goodIssueNoteToPut.workOrderId == null)
+                    {
+                        _trnSalesInvoiceService.createInvoiceForGIN(goodIssueNote);
+                    }
+                    createGINForRemainingItems(goodIssueNote.salesOrderId, goodIssueNote.materialQuotationId, goodIssueNote.workOrderId);    
+                    
                     transaction.Complete();
                     return new ResponseMessage(goodIssueNote.id, resourceManager.GetString("InvoiceCreated"), ResponseType.Success);
                 }
@@ -250,9 +314,13 @@ namespace IMSWebApi.Services
                     {
                         updateStatusAndBalQtyForSOItem(ginItemToPut);
                     }
-                    else
+                    else if(goodIssueNote.materialQuotationId != null)
                     {
                         updateStatusAndBalQtyForMQItem(ginItemToPut);
+                    }
+                    else if(goodIssueNote.workOrderId != null)
+                    {
+                        updateStatusAndBalQtyForWOItem(ginItemToPut);       
                     }
                     _trnProductStockService.SubtractItemQtyFromStockDetailsForGIN(ginItemToPut);
                 }
@@ -326,8 +394,47 @@ namespace IMSWebApi.Services
             repo.SaveChanges();
         }
 
-        //Create GIN for remaining Items in SalesOrder OR Material Quotation
-        public void createGINForRemainingItems(Int64? salesOrderId,Int64? materialQuotationId)
+        public void updateStatusAndBalQtyForWOItem(TrnGoodIssueNoteItem ginItem)
+        {
+            List<TrnWorkOrderItem> woItems = repo.TrnWorkOrderItems.Where(woItem => woItem.workOrderId == ginItem.TrnGoodIssueNote.workOrderId
+                                                                          && woItem.categoryId == ginItem.categoryId
+                                                                          && woItem.collectionId == ginItem.collectionId
+                                                                          && woItem.shadeId == ginItem.shadeId
+                                                                          && woItem.accessoryId == ginItem.accessoryId
+                                                                          && woItem.balanceQuantity > 0).ToList();
+
+
+            decimal balQty = Convert.ToDecimal(ginItem.issuedQuantity);
+            int i = 0;
+            while(balQty>0)
+            {
+                if (balQty > Convert.ToDecimal(woItems[i].balanceQuantity))
+                {
+                    balQty = balQty - Convert.ToDecimal(woItems[i].balanceQuantity);
+                    woItems[i].deliverQuantity += woItems[i].balanceQuantity;
+                    woItems[i].balanceQuantity = 0;
+                }
+                else
+                {
+                    woItems[i].balanceQuantity = woItems[i].balanceQuantity - balQty;
+                    woItems[i].deliverQuantity += balQty; 
+                    balQty = 0;
+                }
+                i++;
+            }
+
+            //Set WO status Completed, if all its item's status is completed or closed
+            int woItemCount = repo.TrnWorkOrderItems.Where(wo => wo.workOrderId == ginItem.TrnGoodIssueNote.workOrderId).Count();
+            int completeWOItemCount = repo.TrnWorkOrderItems.Where(wo => wo.workOrderId == ginItem.TrnGoodIssueNote.workOrderId && (wo.orderQuantity == wo.deliverQuantity)).Count();
+            if (woItemCount == completeWOItemCount)
+            {
+                ginItem.TrnGoodIssueNote.TrnWorkOrder.status = WorkOrderStatus.Completed.ToString();
+            }
+            repo.SaveChanges();
+        }
+
+        //Create GIN for remaining Items in SalesOrder OR Material Quotation OR Work Order
+        public void createGINForRemainingItems(Int64? salesOrderId,Int64? materialQuotationId, Int64? workOrderId)
         {
             if (salesOrderId != null)
             {
@@ -339,7 +446,7 @@ namespace IMSWebApi.Services
                     postGoodIssueNote(VMSaleOrder, null);
                 }
             }
-            else
+            else if(materialQuotationId != null)
             {
                 TrnMaterialQuotation materialQuotation = repo.TrnMaterialQuotations.Where(mq => mq.id == materialQuotationId && mq.status.Equals("Approved")).FirstOrDefault();
                 if (materialQuotation != null)
@@ -347,6 +454,14 @@ namespace IMSWebApi.Services
                     //int itemsWithBalQty = saleOrder.TrnSaleOrderItems.Where(soItems => soItems.balanceQuantity != 0).Count();
                     VMTrnMaterialQuotation VMMaterialQuotation = Mapper.Map<TrnMaterialQuotation, VMTrnMaterialQuotation>(materialQuotation);
                     postGoodIssueNote(null, VMMaterialQuotation);
+                }
+            }
+            else if (workOrderId != null)
+            {
+                TrnWorkOrder workOrder = repo.TrnWorkOrders.Where(wo => wo.id == workOrderId && wo.status.Equals("Approved")).FirstOrDefault();
+                if (workOrder != null)
+                {
+                    postGoodIssueNoteForWO(workOrder);
                 }
             }
 
@@ -385,6 +500,7 @@ namespace IMSWebApi.Services
                                                             || gin.MstCustomer.name.StartsWith(search)
                                                             || gin.salesOrderNumber.StartsWith(search)
                                                             || gin.materialQuotationNumber.StartsWith(search)
+                                                            || gin.workOrderNumber.StartsWith(search)
                                                             || gin.status.StartsWith(search) : true
                                                             && ginIdsForItemswithAvailableStock.Contains(gin.id))
                                                             .Select(gin => new VMTrnGoodIssueNoteList
@@ -394,6 +510,7 @@ namespace IMSWebApi.Services
                                                                 ginDate = gin.ginDate,
                                                                 salesOrderNumber = gin.TrnSaleOrder != null ? gin.TrnSaleOrder.orderNumber : null,
                                                                 materialQuotationNumber = gin.TrnMaterialQuotation != null ? gin.TrnMaterialQuotation.materialQuotationNumber : null,
+                                                                workOrderNumber = gin.TrnWorkOrder != null ? gin.TrnWorkOrder.workOrderNumber : string.Empty,
                                                                 customerName = gin.MstCustomer.name,
                                                                 status = gin.status
                                                             })

@@ -181,7 +181,7 @@ namespace IMSWebApi.Services
                     cqItem.accessoriesDetails = accessoryInfo;
                 }
             });
-            curtainQuotationView.advanceAmount = repo.TrnAdvancePayments.Where(ap => ap.materialQuotationId == id).Select(ap => ap.amount).DefaultIfEmpty(0).Sum();
+            curtainQuotationView.advanceAmount = repo.TrnAdvancePayments.Where(ap => ap.curtainQuotationId == id).Select(ap => ap.amount).DefaultIfEmpty(0).Sum();
             curtainQuotationView.TrnCurtainQuotationItems.ForEach(cqItem => cqItem.TrnCurtainQuotation = null);
             curtainQuotationView.TrnCurtainSelection.TrnCurtainQuotations = null;
             curtainQuotationView.TrnCurtainSelection.TrnCurtainSelectionItems.ForEach(csItems => csItems.TrnCurtainSelection = null);
@@ -370,6 +370,39 @@ namespace IMSWebApi.Services
                     messageToDisplay = "AdvPaymentPending";
                     type = ResponseType.Error;
                 }
+                transaction.Complete();
+                return new ResponseMessage(id, resourceManager.GetString(messageToDisplay), type);
+            }
+        }
+
+        public ResponseMessage cancelCurtainQuotation(Int64 id)
+        {
+            String messageToDisplay;
+            ResponseType type;
+            using (var transaction = new TransactionScope())
+            {
+                var curtainQuotation = repo.TrnCurtainQuotations.Where(cq => cq.id == id).FirstOrDefault();
+                string adminEmail = repo.MstUsers.Where(u => u.userName.Equals("Administrator")).FirstOrDefault().email;
+                if (curtainQuotation.status.Equals("Created"))
+                {
+                    curtainQuotation.status = CurtainQuotationStatus.Cancelled.ToString();
+                    foreach (var cqItem in curtainQuotation.TrnCurtainQuotationItems)
+                    {
+                        cqItem.status = MaterialQuotationStatus.Cancelled.ToString();
+                    }
+                    messageToDisplay = "CQCancelled";
+                    type = ResponseType.Success;
+
+                    //emailNotification.notificationForCancelledMQ(materialQuotation, "NotificationForCancelledMQ", adminEmail);
+                }
+                else
+                {
+                    messageToDisplay = "CQApprovedByAdmin";
+                    type = ResponseType.Error;
+                }
+
+                repo.SaveChanges();
+
                 transaction.Complete();
                 return new ResponseMessage(id, resourceManager.GetString(messageToDisplay), type);
             }

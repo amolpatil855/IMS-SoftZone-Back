@@ -50,5 +50,15 @@ namespace IMSWebApi.Controllers
             var result = _trnWorkOrderService.putWorkOrder(workOrder);
             return Ok(result);
         }
+
+        // PUT api/TrnWorkOrder/1
+        [ApiAuthorize(Roles = "Administrator")]
+        [HttpPut]
+        [Route("api/TrnWorkOrder/ApproveWO/{id}")]
+        public IHttpActionResult ApproveWO(long id)
+        {
+            var result = _trnWorkOrderService.approveWorkOrder(id);
+            return Ok(result);
+        }
     }
 }

@@ -478,6 +478,45 @@ namespace IMSWebApi.Services
             }
         }
 
+        //When WorkOrder is approved, add/update soQuantity for workOrderItems in ProductStock
+        public void AddwoIteminStock(TrnWorkOrderItem woItem)
+        {
+            TrnProductStock product = new TrnProductStock();
+            if (woItem != null)
+            {
+                product = repo.TrnProductStocks.Where(z => z.categoryId == woItem.categoryId
+                                                      && z.collectionId == woItem.collectionId
+                                                      && z.fwrShadeId == woItem.shadeId
+                                                      && z.accessoryId == woItem.accessoryId).FirstOrDefault();
+            }
+            if (product != null)
+            {
+                product.soQuanity = product.soQuanity + (woItem != null ? Convert.ToDecimal(woItem.orderQuantity) : 0);
+                product.updatedOn = DateTime.Now;
+                product.updatedBy = _LoggedInuserId;
+                repo.SaveChanges();
+            }
+            else
+            {
+                TrnProductStock productStockToAdd = new TrnProductStock();
+                productStockToAdd.categoryId = woItem.categoryId;
+                productStockToAdd.collectionId = woItem != null ? woItem.collectionId : null;
+                productStockToAdd.fwrShadeId = woItem != null ? woItem.shadeId : null;
+                productStockToAdd.fomSizeId = null;
+                productStockToAdd.matSizeId = null;
+                productStockToAdd.accessoryId = woItem != null ? woItem.accessoryId : null;
+                productStockToAdd.qualityId = null;
+                productStockToAdd.matThicknessId = null;
+                productStockToAdd.matSizeCode = null;
+                productStockToAdd.soQuanity = woItem != null ? Convert.ToDecimal(woItem.orderQuantity) : 0;
+                productStockToAdd.stock = productStockToAdd.poQuantity = 0;
+                productStockToAdd.createdOn = DateTime.Now;
+                productStockToAdd.createdBy = _LoggedInuserId;
+                repo.TrnProductStocks.Add(productStockToAdd);
+                repo.SaveChanges();
+            }
+        }
+
         //When GIN is generated for soItem,update soQuantity, stock in ProductStock
         public void updateSOItemInStockForGIN(TrnGoodIssueNoteItem ginItem,decimal kgToBeSubtracted)
         {
