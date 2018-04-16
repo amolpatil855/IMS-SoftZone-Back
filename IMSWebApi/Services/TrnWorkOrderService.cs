@@ -83,14 +83,17 @@ namespace IMSWebApi.Services
             workOrderView.TrnWorkOrderItems.ForEach(woItem => woItem.TrnWorkOrder = null);
             workOrderView.TrnCurtainQuotation.TrnCurtainQuotationItems.ForEach(cqItem => cqItem.TrnCurtainQuotation = null);
             workOrderView.TrnCurtainQuotation.TrnCurtainSelection = null;
-            workOrderView.MstTailor.MstTailorPatternChargeDetails.ForEach(tpDetails => tpDetails.MstTailor = null);
+            if (workOrderView.MstTailor != null)
+            {
+                workOrderView.MstTailor.MstTailorPatternChargeDetails.ForEach(tpDetails => tpDetails.MstTailor = null);    
+            }
             return workOrderView;
         }
 
         public void createWorkOrder(TrnCurtainQuotation curtainQuotation)
         {
             using (var transaction = new TransactionScope())
-            {  
+            {
                 if (curtainQuotation != null)
                 {
                     TrnWorkOrder workOrder = new TrnWorkOrder();
@@ -171,7 +174,7 @@ namespace IMSWebApi.Services
                                 {
                                     workOrderItems.orderQuantity = Math.Round(Convert.ToDecimal(((54 * cqItem.numberOfPanel) / cqItem.MstPattern.meterPerInch)), 2);
                                     decimal fabricWidth = Convert.ToDecimal(cqItem.MstFWRShade.MstQuality.width);
-                                    while(fabricWidth < cqItem.unitHeight)
+                                    while (fabricWidth < cqItem.unitHeight)
                                     {
                                         fabricWidth = fabricWidth + fabricWidth;
                                         workOrderItems.orderQuantity = workOrderItems.orderQuantity + workOrderItems.orderQuantity;
