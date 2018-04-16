@@ -9,10 +9,15 @@ namespace IMSWebApi.ViewModel
     {
         public string Category { get; set; }
         public string Collection { get; set; }
+        public long collectionId { get; set; }
         public string QDS { get; set; }
+        public long qualityId { get; set; }
+        public long designId { get; set; }
         public int serialNumber { get; set; }
+        public long shadeId { get; set; }
         public string uom { get; set; }
         public string hsnCode { get; set; }
+        public string hsnWithGST { get; set; }
         public string gst { get; set; }
         public Nullable<decimal> width { get; set; }
         public Nullable<decimal> size { get; set; }
@@ -27,10 +32,5 @@ namespace IMSWebApi.ViewModel
         public Nullable<decimal> purchaseFlatRate { get; set; }
         public Nullable<decimal> purchaseFlatRateWithGst { get; set; }
         public Nullable<decimal> availableStock { get; set; }
-        public long collectionId { get; set; }
-        public long qualityId { get; set; }
-        public long designId { get; set; }
-        public long shadeId { get; set; }
-        public string hsnWithGST { get; set; }
     }
 }

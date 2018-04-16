@@ -66,12 +66,8 @@ namespace IMSWebApi.Models
         public virtual DbSet<TrnSaleOrder> TrnSaleOrders { get; set; }
         public virtual DbSet<TrnSaleOrderItem> TrnSaleOrderItems { get; set; }
         public virtual DbSet<TrnSalesInvoiceItem> TrnSalesInvoiceItems { get; set; }
-        public virtual DbSet<vwAccessory> vwAccessories { get; set; }
         public virtual DbSet<vwDasBoard> vwDasBoards { get; set; }
         public virtual DbSet<vwitemBelowReOrderLevelList> vwitemBelowReOrderLevelLists { get; set; }
-        public virtual DbSet<vwFWR> vwFWRs { get; set; }
-        public virtual DbSet<vwFoam> vwFoams { get; set; }
-        public virtual DbSet<vwMattress> vwMattresses { get; set; }
         public virtual DbSet<MstTailorPatternChargeDetail> MstTailorPatternChargeDetails { get; set; }
         public virtual DbSet<MstTailor> MstTailors { get; set; }
         public virtual DbSet<TrnAdvancePayment> TrnAdvancePayments { get; set; }
@@ -84,5 +80,9 @@ namespace IMSWebApi.Models
         public virtual DbSet<TrnSalesInvoice> TrnSalesInvoices { get; set; }
         public virtual DbSet<TrnWorkOrderItem> TrnWorkOrderItems { get; set; }
         public virtual DbSet<TrnGoodIssueNote> TrnGoodIssueNotes { get; set; }
+        public virtual DbSet<vwAccessory> vwAccessories { get; set; }
+        public virtual DbSet<vwFoam> vwFoams { get; set; }
+        public virtual DbSet<vwFWR> vwFWRs { get; set; }
+        public virtual DbSet<vwMattress> vwMattresses { get; set; }
     }
 }

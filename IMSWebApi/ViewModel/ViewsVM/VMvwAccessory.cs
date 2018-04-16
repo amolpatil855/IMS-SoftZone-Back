@@ -13,12 +13,12 @@ namespace IMSWebApi.ViewModel
         public string size { get; set; }
         public string uom { get; set; }
         public string hsnCode { get; set; }
+        public string hsnWithGST { get; set; }
         public string gst { get; set; }
         public decimal sellingRate { get; set; }
         public Nullable<decimal> sellingRateWithGst { get; set; }
         public decimal purchaseRate { get; set; }
         public Nullable<decimal> purchaseRateWithGst { get; set; }
         public Nullable<decimal> availableStock { get; set; }
-        public string hsnWithGST { get; set; }
     }
 }

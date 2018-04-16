@@ -25,6 +25,7 @@ namespace IMSWebApi.Models
         public long matSizeId { get; set; }
         public string uom { get; set; }
         public string hsnCode { get; set; }
+        public string hsnWithGST { get; set; }
         public string gst { get; set; }
         public decimal rate { get; set; }
         public Nullable<decimal> rateWithGst { get; set; }
