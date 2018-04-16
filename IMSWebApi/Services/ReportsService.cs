@@ -24,14 +24,13 @@ namespace IMSWebApi.Services
 
         public ListResult<VMvwAccessory> getAccessoryProductsForML(int pageSize, int page, string search)
         {
-            StringBuilder stringBuilder;
             List<VMvwAccessory> accessoryProductView;
             var result = repo.vwAccessories.Where(a => (!string.IsNullOrEmpty(search) ?
                                             a.itemCode.StartsWith(search)
                                             || a.name.StartsWith(search)
                                             || a.size.StartsWith(search)
                                             || a.uom.StartsWith(search)
-                                            || a.hsnCode.StartsWith(search)
+                                            || a.hsnWithGST.StartsWith(search)
                                             || a.sellingRate.ToString().StartsWith(search)
                                             || a.sellingRateWithGst.ToString().StartsWith(search)
                                             || a.purchaseRate.ToString().StartsWith(search)
@@ -40,13 +39,7 @@ namespace IMSWebApi.Services
                     .OrderBy(q => q.itemCode)
                     .Skip(page * pageSize).Take(pageSize).ToList();
             accessoryProductView = Mapper.Map<List<vwAccessory>, List<VMvwAccessory>>(result);
-            accessoryProductView.ForEach(a => 
-                {
-                    stringBuilder = new StringBuilder();
-                    a.availableStock = a.availableStock > 0 ? a.availableStock : 0;
-                    a.hsnWithGST = stringBuilder.Append(a.hsnCode).Append(" (").Append(a.gst).Append(")").ToString();
-                });
-
+            
             return new ListResult<VMvwAccessory>
             {
                 Data = accessoryProductView,
@@ -55,7 +48,7 @@ namespace IMSWebApi.Services
                                             || a.name.StartsWith(search)
                                             || a.size.StartsWith(search)
                                             || a.uom.StartsWith(search)
-                                            || a.hsnCode.StartsWith(search)
+                                            || a.hsnWithGST.StartsWith(search)
                                             || a.sellingRate.ToString().StartsWith(search)
                                             || a.sellingRateWithGst.ToString().StartsWith(search)
                                             || a.purchaseRate.ToString().StartsWith(search)
@@ -67,7 +60,6 @@ namespace IMSWebApi.Services
 
         public ListResult<VMvwFWR> getFabricProductsForML(int pageSize, int page, string search, Int64? collectionId, Int64? qualityId, Int64? designId, Int64? shadeId)
         {
-            StringBuilder stringBuilder;
             List<VMvwFWR> fabricProductView;
             var result = repo.vwFWRs.Where(f => f.Category.Equals("Fabric")
                                             && (collectionId != null ? f.collectionId == collectionId : true)
@@ -78,7 +70,7 @@ namespace IMSWebApi.Services
                                             f.Collection.StartsWith(search) 
                                             || f.QDS.StartsWith(search)
                                             || f.serialNumber.ToString().StartsWith(search)
-                                            || f.hsnCode.StartsWith(search)
+                                            || f.hsnWithGST.StartsWith(search)
                                             || f.width.ToString().StartsWith(search)
                                             || f.cutRate.ToString().StartsWith(search)
                                             || f.cutRateWithGst.ToString().StartsWith(search)
@@ -94,12 +86,7 @@ namespace IMSWebApi.Services
                                     .OrderBy(q => q.Collection)
                                     .Skip(page * pageSize).Take(pageSize).ToList();
             fabricProductView = Mapper.Map<List<vwFWR>, List<VMvwFWR>>(result);
-            fabricProductView.ForEach(f =>
-                {
-                    stringBuilder = new StringBuilder();
-                    f.availableStock = f.availableStock > 0 ? f.availableStock : 0;
-                    f.hsnWithGST = stringBuilder.Append(f.hsnCode).Append(" (").Append(f.gst).Append(")").ToString();
-                });
+            
             return new ListResult<VMvwFWR>
             {
                 Data = fabricProductView,
@@ -112,7 +99,7 @@ namespace IMSWebApi.Services
                                             f.Collection.StartsWith(search)
                                             || f.QDS.StartsWith(search)
                                             || f.serialNumber.ToString().StartsWith(search)
-                                            || f.hsnCode.StartsWith(search)
+                                            || f.hsnWithGST.StartsWith(search)
                                             || f.width.ToString().StartsWith(search)
                                             || f.cutRate.ToString().StartsWith(search)
                                             || f.cutRateWithGst.ToString().StartsWith(search)
@@ -131,7 +118,6 @@ namespace IMSWebApi.Services
 
         public ListResult<VMvwFoam> getFoamProductsForML(int pageSize, int page, string search, Int64? collectionId, Int64? qualityId, Int64? densityId, Int64? fomSuggestedMMId, Int64? fomSizeId)
         {
-            StringBuilder stringBuilder;
             List<VMvwFoam> foamProductView;
             var result = repo.vwFoams.Where(f => (collectionId != null ? f.collectionId == collectionId : true)
                                             && (qualityId != null ? f.qualityId == qualityId : true)
@@ -144,7 +130,7 @@ namespace IMSWebApi.Services
                                             || f.density.ToString().StartsWith(search)
                                             || f.sizeCode.StartsWith(search)
                                             || f.itemCode.StartsWith(search)
-                                            || f.hsnCode.StartsWith(search)
+                                            || f.hsnWithGST.StartsWith(search)
                                             || f.purchaseRatePerMM.ToString().StartsWith(search)
                                             || f.purchaseRatePerMMWithGst.ToString().StartsWith(search)
                                             || f.purchaseRatePerKG.ToString().StartsWith(search)
@@ -157,12 +143,7 @@ namespace IMSWebApi.Services
                     .OrderBy(q => q.Collection)
                     .Skip(page * pageSize).Take(pageSize).ToList();
             foamProductView = Mapper.Map<List<vwFoam>, List<VMvwFoam>>(result);
-            foamProductView.ForEach(f =>
-                {
-                    stringBuilder = new StringBuilder();
-                    f.availableStock = f.availableStock > 0 ? f.availableStock : 0;
-                    f.hsnWithGST = stringBuilder.Append(f.hsnCode).Append(" (").Append(f.gst).Append(")").ToString();
-                });
+            
             return new ListResult<VMvwFoam>
             {
                 Data = foamProductView,
@@ -177,7 +158,7 @@ namespace IMSWebApi.Services
                                             || f.density.ToString().StartsWith(search)
                                             || f.sizeCode.StartsWith(search)
                                             || f.itemCode.StartsWith(search)
-                                            || f.hsnCode.StartsWith(search)
+                                            || f.hsnWithGST.StartsWith(search)
                                             || f.purchaseRatePerMM.ToString().StartsWith(search)
                                             || f.purchaseRatePerMMWithGst.ToString().StartsWith(search)
                                             || f.purchaseRatePerKG.ToString().StartsWith(search)
@@ -193,7 +174,6 @@ namespace IMSWebApi.Services
 
         public ListResult<VMvwFWR> getRugProductsForML(int pageSize, int page, string search, Int64? collectionId, Int64? qualityId, Int64? designId, Int64? shadeId)
         {
-            StringBuilder stringBuilder;
             List<VMvwFWR> rugProductView;
             var result = repo.vwFWRs.Where(f => f.Category.Equals("Rug")
                                              && (collectionId != null ? f.collectionId == collectionId : true)
@@ -204,7 +184,7 @@ namespace IMSWebApi.Services
                                             f.Collection.StartsWith(search)
                                             || f.QDS.StartsWith(search)
                                             || f.serialNumber.ToString().StartsWith(search)
-                                            || f.hsnCode.StartsWith(search)
+                                            || f.hsnWithGST.StartsWith(search)
                                             || f.width.ToString().StartsWith(search)
                                             || f.cutRate.ToString().StartsWith(search)
                                             || f.cutRateWithGst.ToString().StartsWith(search)
@@ -220,12 +200,7 @@ namespace IMSWebApi.Services
                     .OrderBy(q => q.Collection)
                     .Skip(page * pageSize).Take(pageSize).ToList();
             rugProductView = Mapper.Map<List<vwFWR>, List<VMvwFWR>>(result);
-            rugProductView.ForEach(f =>
-                {
-                    stringBuilder = new StringBuilder();
-                    f.availableStock = f.availableStock > 0 ? f.availableStock : 0;
-                    f.hsnWithGST = stringBuilder.Append(f.hsnCode).Append(" (").Append(f.gst).Append(")").ToString();
-                });
+            
             return new ListResult<VMvwFWR>
             {
                 Data = rugProductView,
@@ -238,7 +213,7 @@ namespace IMSWebApi.Services
                                             f.Collection.StartsWith(search)
                                             || f.QDS.StartsWith(search)
                                             || f.serialNumber.ToString().StartsWith(search)
-                                            || f.hsnCode.StartsWith(search)
+                                            || f.hsnWithGST.StartsWith(search)
                                             || f.width.ToString().StartsWith(search)
                                             || f.cutRate.ToString().StartsWith(search)
                                             || f.cutRateWithGst.ToString().StartsWith(search)
@@ -257,7 +232,6 @@ namespace IMSWebApi.Services
 
         public ListResult<VMvwFWR> getWallpaperProductsForML(int pageSize, int page, string search, Int64? collectionId, Int64? qualityId, Int64? designId, Int64? shadeId)
         {
-            StringBuilder stringBuilder;
             List<VMvwFWR> wallpaperProductView;
             var result = repo.vwFWRs.Where(f => f.Category.Equals("Wallpaper")
                                              && (collectionId != null ? f.collectionId == collectionId : true)
@@ -268,7 +242,7 @@ namespace IMSWebApi.Services
                                             f.Collection.StartsWith(search)
                                             || f.QDS.StartsWith(search)
                                             || f.serialNumber.ToString().StartsWith(search)
-                                            || f.hsnCode.StartsWith(search)
+                                            || f.hsnWithGST.StartsWith(search)
                                             || f.width.ToString().StartsWith(search)
                                             || f.cutRate.ToString().StartsWith(search)
                                             || f.cutRateWithGst.ToString().StartsWith(search)
@@ -284,12 +258,7 @@ namespace IMSWebApi.Services
                     .OrderBy(q => q.Collection)
                     .Skip(page * pageSize).Take(pageSize).ToList();
             wallpaperProductView = Mapper.Map<List<vwFWR>, List<VMvwFWR>>(result);
-            wallpaperProductView.ForEach(f => 
-                {
-                    stringBuilder = new StringBuilder();
-                    f.availableStock = f.availableStock > 0 ? f.availableStock : 0;
-                    f.hsnWithGST = stringBuilder.Append(f.hsnCode).Append(" (").Append(f.gst).Append(")").ToString();
-                });
+            
             return new ListResult<VMvwFWR>
             {
                 Data = wallpaperProductView,
@@ -302,7 +271,7 @@ namespace IMSWebApi.Services
                                             f.Collection.StartsWith(search)
                                             || f.QDS.StartsWith(search)
                                             || f.serialNumber.ToString().StartsWith(search)
-                                            || f.hsnCode.StartsWith(search)
+                                            || f.hsnWithGST.StartsWith(search)
                                             || f.width.ToString().StartsWith(search)
                                             || f.cutRate.ToString().StartsWith(search)
                                             || f.cutRateWithGst.ToString().StartsWith(search)
@@ -321,7 +290,6 @@ namespace IMSWebApi.Services
 
         public ListResult<VMvwMattress> getMattressProductsForML(int pageSize, int page, string search, Int64? collectionId, Int64? qualityId, Int64? matThicknessId, Int64? matSizeId)
         {
-            StringBuilder stringBuilder;
             List<VMvwMattress> mattressProductView;
             var result = repo.vwMattresses.Where(m => (collectionId != null ? m.collectionId == collectionId : true)
                                             && (qualityId != null ? m.qualityId == qualityId : true)
@@ -332,7 +300,7 @@ namespace IMSWebApi.Services
                                             || m.qualityCode.StartsWith(search)
                                             || m.thicknessCode.StartsWith(search)
                                             || m.sizeCode.StartsWith(search)
-                                            || m.hsnCode.StartsWith(search)
+                                            || m.hsnWithGST.StartsWith(search)
                                             || m.rate.ToString().StartsWith(search)
                                             || m.rateWithGst.ToString().StartsWith(search)
                                             || m.purchaseRate.ToString().StartsWith(search)
@@ -342,12 +310,7 @@ namespace IMSWebApi.Services
                     .OrderBy(q => q.Collection)
                     .Skip(page * pageSize).Take(pageSize).ToList();
             mattressProductView = Mapper.Map<List<vwMattress>, List<VMvwMattress>>(result);
-            mattressProductView.ForEach(m =>
-                {
-                    stringBuilder = new StringBuilder();
-                    m.availableStock = m.availableStock > 0 ? m.availableStock : 0;
-                    m.hsnWithGST = stringBuilder.Append(m.hsnCode).Append(" (").Append(m.gst).Append(")").ToString();
-                });
+            
             return new ListResult<VMvwMattress>
             {
                 Data = mattressProductView,
@@ -360,7 +323,7 @@ namespace IMSWebApi.Services
                                             || m.qualityCode.StartsWith(search)
                                             || m.thicknessCode.StartsWith(search)
                                             || m.sizeCode.StartsWith(search)
-                                            || m.hsnCode.StartsWith(search)
+                                            || m.hsnWithGST.StartsWith(search)
                                             || m.rate.ToString().StartsWith(search)
                                             || m.rateWithGst.ToString().StartsWith(search)
                                             || m.purchaseRate.ToString().StartsWith(search)
@@ -374,98 +337,62 @@ namespace IMSWebApi.Services
         //Category Wise List of Products for Master List Export
         public List<VMvwAccessory> getAccessoryProductsForMLExport()
         {
-            StringBuilder stringBuilder;
             List<VMvwAccessory> accessoryProductView;
             var result = repo.vwAccessories
                     .OrderBy(q => q.itemCode)
                     .ToList();
             accessoryProductView = Mapper.Map<List<vwAccessory>, List<VMvwAccessory>>(result);
-            accessoryProductView.ForEach(a =>
-            {
-                stringBuilder = new StringBuilder();
-                a.availableStock = a.availableStock > 0 ? a.availableStock : 0;
-                a.hsnWithGST = stringBuilder.Append(a.hsnCode).Append(" (").Append(a.gst).Append(")").ToString();
-            });
+            
             return accessoryProductView;
         }
 
         public List<VMvwFWR> getFabricProductsForMLExport()
         {
-            StringBuilder stringBuilder;
             List<VMvwFWR> fabricProductView;
             var result = repo.vwFWRs.Where(f => f.Category.Equals("Fabric"))
                     .OrderBy(q => q.Collection).ToList();
             fabricProductView = Mapper.Map<List<vwFWR>, List<VMvwFWR>>(result);
-            fabricProductView.ForEach(f =>
-            {
-                stringBuilder = new StringBuilder();
-                f.availableStock = f.availableStock > 0 ? f.availableStock : 0;
-                f.hsnWithGST = stringBuilder.Append(f.hsnCode).Append(" (").Append(f.gst).Append(")").ToString();
-            });
+            
             return fabricProductView;
         }
 
         public List<VMvwFoam> getFoamProductsForMLExport()
         {
-            StringBuilder stringBuilder;
             List<VMvwFoam> foamProductView;
             var result = repo.vwFoams
                     .OrderBy(q => q.Collection).ToList();
             foamProductView = Mapper.Map<List<vwFoam>, List<VMvwFoam>>(result);
-            foamProductView.ForEach(f =>
-            {
-                stringBuilder = new StringBuilder();
-                f.availableStock = f.availableStock > 0 ? f.availableStock : 0;
-                f.hsnWithGST = stringBuilder.Append(f.hsnCode).Append(" (").Append(f.gst).Append(")").ToString();
-            });
+            
             return foamProductView;
         }
 
         public List<VMvwFWR> getRugProductsForMLExport()
         {
-            StringBuilder stringBuilder;
             List<VMvwFWR> rugProductView;
             var result = repo.vwFWRs.Where(f => f.Category.Equals("Rug"))
                     .OrderBy(q => q.Collection).ToList();
             rugProductView = Mapper.Map<List<vwFWR>, List<VMvwFWR>>(result);
-            rugProductView.ForEach(f =>
-            {
-                stringBuilder = new StringBuilder();
-                f.availableStock = f.availableStock > 0 ? f.availableStock : 0;
-                f.hsnWithGST = stringBuilder.Append(f.hsnCode).Append(" (").Append(f.gst).Append(")").ToString();
-            });
+            
             return rugProductView;
         }
 
         public List<VMvwFWR> getWallpaperProductsForMLExport()
         {
-            StringBuilder stringBuilder;
             List<VMvwFWR> wallpaperProductView;
             var result = repo.vwFWRs.Where(f => f.Category.Equals("Wallpaper"))
                     .OrderBy(q => q.Collection).ToList();
             wallpaperProductView = Mapper.Map<List<vwFWR>, List<VMvwFWR>>(result);
-            wallpaperProductView.ForEach(f =>
-            {
-                stringBuilder = new StringBuilder();
-                f.availableStock = f.availableStock > 0 ? f.availableStock : 0;
-                f.hsnWithGST = stringBuilder.Append(f.hsnCode).Append(" (").Append(f.gst).Append(")").ToString();
-            });
+            
             return wallpaperProductView;
         }
 
         public List<VMvwMattress> getMattressProductsForMLExport()
         {
-            StringBuilder stringBuilder;
             List<VMvwMattress> mattressProductView;
             var result = repo.vwMattresses
                     .OrderBy(q => q.Collection).ToList();
             mattressProductView = Mapper.Map<List<vwMattress>, List<VMvwMattress>>(result);
-            mattressProductView.ForEach(m =>
-            {
-                stringBuilder = new StringBuilder();
-                m.availableStock = m.availableStock > 0 ? m.availableStock : 0;
-                m.hsnWithGST = stringBuilder.Append(m.hsnCode).Append(" (").Append(m.gst).Append(")").ToString();
-            });
+            
             return mattressProductView;
         }
 
@@ -482,19 +409,18 @@ namespace IMSWebApi.Services
                         name = a.name,
                         size = a.size,
                         uom = a.uom,
-                        hsnCode = a.hsnCode,
                         gst = a.gst,
                         sellingRate = a.sellingRate,
                         sellingRateWithGst = a.sellingRateWithGst,
                         availableStock = a.availableStock > 0 ? a.availableStock : 0,
-                        hsnWithGST = a.hsnCode + " (" + a.gst + ")"
+                        hsnWithGST = a.hsnWithGST
                     })
                     .Where(a => (!string.IsNullOrEmpty(search) ?
                                             a.itemCode.StartsWith(search)
                                             || a.name.StartsWith(search)
                                             || a.size.StartsWith(search)
                                             || a.uom.StartsWith(search)
-                                            || a.hsnCode.StartsWith(search)
+                                            || a.hsnWithGST.StartsWith(search)
                                             || a.sellingRate.ToString().StartsWith(search)
                                             || a.sellingRateWithGst.ToString().StartsWith(search)
                                             || (search.ToLower().Equals("yes") ? a.availableStock > 0 : search.ToLower().Equals("no") ? a.availableStock <= 0 : false) : true))
@@ -509,7 +435,7 @@ namespace IMSWebApi.Services
                                             || a.name.StartsWith(search)
                                             || a.size.StartsWith(search)
                                             || a.uom.StartsWith(search)
-                                            || a.hsnCode.StartsWith(search)
+                                            || a.hsnWithGST.StartsWith(search)
                                             || a.sellingRate.ToString().StartsWith(search)
                                             || a.sellingRateWithGst.ToString().StartsWith(search)
                                             || (search.ToLower().Equals("yes") ? a.availableStock > 0 : search.ToLower().Equals("no") ? a.availableStock <= 0 : false) : true)).Count(),
@@ -530,7 +456,7 @@ namespace IMSWebApi.Services
                                             f.Collection.StartsWith(search)
                                             || f.QDS.StartsWith(search)
                                             || f.serialNumber.ToString().StartsWith(search)
-                                            || f.hsnCode.StartsWith(search)
+                                            || f.hsnWithGST.StartsWith(search)
                                             || f.width.ToString().StartsWith(search)
                                             || f.rrp.ToString().StartsWith(search)
                                             || f.rrpWithGst.ToString().StartsWith(search)
@@ -544,7 +470,6 @@ namespace IMSWebApi.Services
                         QDS = f.QDS,
                         serialNumber = f.serialNumber,
                         uom = f.uom,
-                        hsnCode = f.hsnCode,
                         gst = f.gst,
                         width = f.width,
                         size = f.size,
@@ -553,7 +478,7 @@ namespace IMSWebApi.Services
                         flatRate = f.flatRate,
                         flatRateWithGst = f.flatRateWithGst,
                         availableStock = f.availableStock > 0 ? f.availableStock : 0,
-                        hsnWithGST = f.hsnCode + " (" + f.gst + ")"
+                        hsnWithGST = f.hsnWithGST
                     })
                     .OrderBy(q => q.Collection)
                     .Skip(page * pageSize).Take(pageSize).ToList();
@@ -570,7 +495,7 @@ namespace IMSWebApi.Services
                                             f.Collection.StartsWith(search)
                                             || f.QDS.StartsWith(search)
                                             || f.serialNumber.ToString().StartsWith(search)
-                                            || f.hsnCode.StartsWith(search)
+                                            || f.hsnWithGST.StartsWith(search)
                                             || f.width.ToString().StartsWith(search)
                                             || f.rrp.ToString().StartsWith(search)
                                             || f.rrpWithGst.ToString().StartsWith(search)
@@ -595,7 +520,7 @@ namespace IMSWebApi.Services
                                             || f.density.ToString().StartsWith(search)
                                             || f.sizeCode.StartsWith(search)
                                             || f.itemCode.StartsWith(search)
-                                            || f.hsnCode.StartsWith(search)
+                                            || f.hsnWithGST.StartsWith(search)
                                             || f.sellingRatePerMM.ToString().StartsWith(search)
                                             || f.sellingRatePerMMWithGst.ToString().StartsWith(search)
                                             || f.sellingRatePerKG.ToString().StartsWith(search)
@@ -610,14 +535,13 @@ namespace IMSWebApi.Services
                         sizeCode = f.sizeCode,
                         itemCode = f.itemCode,
                         uom = f.uom,
-                        hsnCode = f.hsnCode,
                         gst = f.gst,
                         sellingRatePerKG = f.sellingRatePerKG,
                         sellingRatePerKGWithGst = f.sellingRatePerKGWithGst,
                         sellingRatePerMM = f.sellingRatePerMM,
                         sellingRatePerMMWithGst = f.sellingRatePerMMWithGst,
                         availableStock = f.availableStock > 0 ? f.availableStock : 0,
-                        hsnWithGST = f.hsnCode + " (" + f.gst + ")"
+                        hsnWithGST = f.hsnWithGST
                     })
                     .OrderBy(q => q.Collection)
                     .Skip(page * pageSize).Take(pageSize).ToList();
@@ -635,7 +559,7 @@ namespace IMSWebApi.Services
                                             || f.density.ToString().StartsWith(search)
                                             || f.sizeCode.StartsWith(search)
                                             || f.itemCode.StartsWith(search)
-                                            || f.hsnCode.StartsWith(search)
+                                            || f.hsnWithGST.StartsWith(search)
                                             || f.sellingRatePerMM.ToString().StartsWith(search)
                                             || f.sellingRatePerMMWithGst.ToString().StartsWith(search)
                                             || f.sellingRatePerKG.ToString().StartsWith(search)
@@ -657,7 +581,7 @@ namespace IMSWebApi.Services
                                             f.Collection.StartsWith(search)
                                             || f.QDS.StartsWith(search)
                                             || f.serialNumber.ToString().StartsWith(search)
-                                            || f.hsnCode.StartsWith(search)
+                                            || f.hsnWithGST.StartsWith(search)
                                             || f.width.ToString().StartsWith(search)
                                             || f.rrp.ToString().StartsWith(search)
                                             || f.rrpWithGst.ToString().StartsWith(search)
@@ -671,7 +595,6 @@ namespace IMSWebApi.Services
                         QDS = f.QDS,
                         serialNumber = f.serialNumber,
                         uom = f.uom,
-                        hsnCode = f.hsnCode,
                         gst = f.gst,
                         width = f.width,
                         size = f.size,
@@ -680,7 +603,7 @@ namespace IMSWebApi.Services
                         flatRate = f.flatRate,
                         flatRateWithGst = f.flatRateWithGst,
                         availableStock = f.availableStock > 0 ? f.availableStock : 0,
-                        hsnWithGST = f.hsnCode + " (" + f.gst + ")"
+                        hsnWithGST = f.hsnWithGST
                     })
                     .OrderBy(q => q.Collection)
                     .Skip(page * pageSize).Take(pageSize).ToList();
@@ -697,7 +620,7 @@ namespace IMSWebApi.Services
                                             f.Collection.StartsWith(search)
                                             || f.QDS.StartsWith(search)
                                             || f.serialNumber.ToString().StartsWith(search)
-                                            || f.hsnCode.StartsWith(search)
+                                            || f.hsnWithGST.StartsWith(search)
                                             || f.width.ToString().StartsWith(search)
                                             || f.rrp.ToString().StartsWith(search)
                                             || f.rrpWithGst.ToString().StartsWith(search)
@@ -720,7 +643,7 @@ namespace IMSWebApi.Services
                                             f.Collection.StartsWith(search)
                                             || f.QDS.StartsWith(search)
                                             || f.serialNumber.ToString().StartsWith(search)
-                                            || f.hsnCode.StartsWith(search)
+                                            || f.hsnWithGST.StartsWith(search)
                                             || f.width.ToString().StartsWith(search)
                                             || f.rrp.ToString().StartsWith(search)
                                             || f.rrpWithGst.ToString().StartsWith(search)
@@ -734,7 +657,6 @@ namespace IMSWebApi.Services
                          QDS = f.QDS,
                          serialNumber = f.serialNumber,
                          uom = f.uom,
-                         hsnCode = f.hsnCode,
                          gst = f.gst,
                          width = f.width,
                          size = f.size,
@@ -743,7 +665,7 @@ namespace IMSWebApi.Services
                          flatRate = f.flatRate,
                          flatRateWithGst = f.flatRateWithGst,
                          availableStock = f.availableStock > 0 ? f.availableStock : 0,
-                         hsnWithGST = f.hsnCode + " (" + f.gst + ")"
+                         hsnWithGST = f.hsnWithGST
                      })
                     .OrderBy(q => q.Collection)
                     .Skip(page * pageSize).Take(pageSize).ToList();
@@ -760,7 +682,7 @@ namespace IMSWebApi.Services
                                             f.Collection.StartsWith(search)
                                             || f.QDS.StartsWith(search)
                                             || f.serialNumber.ToString().StartsWith(search)
-                                            || f.hsnCode.StartsWith(search)
+                                            || f.hsnWithGST.StartsWith(search)
                                             || f.width.ToString().StartsWith(search)
                                             || f.rrp.ToString().StartsWith(search)
                                             || f.rrpWithGst.ToString().StartsWith(search)
@@ -783,7 +705,7 @@ namespace IMSWebApi.Services
                                             || m.qualityCode.StartsWith(search)
                                             || m.thicknessCode.StartsWith(search)
                                             || m.sizeCode.StartsWith(search)
-                                            || m.hsnCode.StartsWith(search)
+                                            || m.hsnWithGST.StartsWith(search)
                                             || m.rate.ToString().StartsWith(search)
                                             || m.rateWithGst.ToString().StartsWith(search)
                                             || m.customRatePerSqFeet.ToString().StartsWith(search)
@@ -797,13 +719,12 @@ namespace IMSWebApi.Services
                         thicknessCode = m.thicknessCode,
                         sizeCode = m.sizeCode,
                         uom = m.uom,
-                        hsnCode = m.hsnCode,
                         gst = m.gst,
                         rate = m.rate,
                         rateWithGst = m.rateWithGst,
                         customRatePerSqFeet = m.customRatePerSqFeet,
                         availableStock = m.availableStock > 0 ? m.availableStock : 0,
-                        hsnWithGST = m.hsnCode + " (" + m.gst + ")"
+                        hsnWithGST = m.hsnWithGST
                     })
                     .Skip(page * pageSize).Take(pageSize).ToList();
 
@@ -819,7 +740,7 @@ namespace IMSWebApi.Services
                                             || m.qualityCode.StartsWith(search)
                                             || m.thicknessCode.StartsWith(search)
                                             || m.sizeCode.StartsWith(search)
-                                            || m.hsnCode.StartsWith(search)
+                                            || m.hsnWithGST.StartsWith(search)
                                             || m.rate.ToString().StartsWith(search)
                                             || m.rateWithGst.ToString().StartsWith(search)
                                             || m.customRatePerSqFeet.ToString().StartsWith(search)
@@ -840,12 +761,11 @@ namespace IMSWebApi.Services
                         name = a.name,
                         size = a.size,
                         uom = a.uom,
-                        hsnCode = a.hsnCode,
                         gst = a.gst,
                         sellingRate = a.sellingRate,
                         sellingRateWithGst = a.sellingRateWithGst,
                         availableStock = a.availableStock > 0 ? a.availableStock : 0,
-                        hsnWithGST = a.hsnCode + " (" + a.gst + ")"
+                        hsnWithGST = a.hsnWithGST
                     })
                     .OrderBy(q => q.itemCode).ToList();
 
@@ -873,7 +793,7 @@ namespace IMSWebApi.Services
                         flatRate = f.flatRate,
                         flatRateWithGst = f.flatRateWithGst,
                         availableStock = f.availableStock > 0 ? f.availableStock : 0,
-                        hsnWithGST = f.hsnCode + " (" + f.gst + ")"
+                        hsnWithGST = f.hsnWithGST
                     })
                     .OrderBy(q => q.Collection)
                     .ToList();
@@ -901,7 +821,7 @@ namespace IMSWebApi.Services
                         sellingRatePerMM = f.sellingRatePerMM,
                         sellingRatePerMMWithGst = f.sellingRatePerMMWithGst,
                         availableStock = f.availableStock > 0 ? f.availableStock : 0,
-                        hsnWithGST = f.hsnCode + " (" + f.gst + ")"
+                        hsnWithGST = f.hsnWithGST
                     })
                     .OrderBy(q => q.Collection)
                     .ToList();
@@ -929,7 +849,7 @@ namespace IMSWebApi.Services
                         flatRate = f.flatRate,
                         flatRateWithGst = f.flatRateWithGst,
                         availableStock = f.availableStock > 0 ? f.availableStock : 0,
-                        hsnWithGST = f.hsnCode + " (" + f.gst + ")"
+                        hsnWithGST = f.hsnWithGST
                     })
                     .OrderBy(q => q.Collection)
                     .ToList();
@@ -956,7 +876,7 @@ namespace IMSWebApi.Services
                          flatRate = f.flatRate,
                          flatRateWithGst = f.flatRateWithGst,
                          availableStock = f.availableStock > 0 ? f.availableStock : 0,
-                         hsnWithGST = f.hsnCode + " (" + f.gst + ")"
+                         hsnWithGST = f.hsnWithGST
                      })
                     .OrderBy(q => q.Collection)
                     .ToList();
@@ -982,7 +902,7 @@ namespace IMSWebApi.Services
                         rateWithGst = m.rateWithGst,
                         customRatePerSqFeet = m.customRatePerSqFeet,
                         availableStock = m.availableStock > 0 ? m.availableStock : 0,
-                        hsnWithGST = m.hsnCode + " (" + m.gst + ")"
+                        hsnWithGST = m.hsnWithGST
                     })
                     .ToList();
             return mattressProductView;

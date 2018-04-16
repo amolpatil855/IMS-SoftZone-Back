@@ -28,6 +28,7 @@ namespace IMSWebApi.Models
         public string itemCode { get; set; }
         public string uom { get; set; }
         public string hsnCode { get; set; }
+        public string hsnWithGST { get; set; }
         public string gst { get; set; }
         public decimal purchaseRatePerMM { get; set; }
         public Nullable<decimal> purchaseRatePerMMWithGst { get; set; }
