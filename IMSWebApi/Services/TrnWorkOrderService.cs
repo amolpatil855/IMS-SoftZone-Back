@@ -77,7 +77,7 @@ namespace IMSWebApi.Services
                 woItem.categoryName = woItem.MstCategory.name;
                 woItem.collectionName = woItem.collectionId != null ? woItem.MstCollection.collectionCode : null;
                 woItem.serialno = woItem.MstCategory.code.Equals("Fabric") ? woItem.MstFWRShade.serialNumber + "(" + woItem.MstFWRShade.shadeCode + "-" + woItem.MstFWRShade.MstFWRDesign.designCode + ")" : null;
-                woItem.itemCode = woItem.MstCategory.code.Equals("Accessory") ? woItem.MstAccessory.itemCode : null;
+                woItem.itemCode = woItem.MstCategory.code.Equals("Accessories") ? woItem.MstAccessory.itemCode : null;
                 woItem.patternName = woItem.MstPattern != null ? woItem.MstPattern.name : null;
             });
             workOrderView.TrnWorkOrderItems.ForEach(woItem => woItem.TrnWorkOrder = null);
@@ -101,6 +101,7 @@ namespace IMSWebApi.Services
                     string workOrderNo = generateOrderNumber.orderNumber(financialYear.startDate.ToString("yy"), financialYear.endDate.ToString("yy"), financialYear.jobCardNumber, "WO");
                     workOrder.workOrderNumber = workOrderNo;
                     workOrder.workOrderDate = DateTime.Now;
+                    workOrder.expectedDeliveryDate = curtainQuotation.expectedDeliveryDate;
 
                     workOrder.customerId = curtainQuotation.customerId;
                     workOrder.financialYear = financialYear.financialYear;
@@ -167,11 +168,27 @@ namespace IMSWebApi.Services
                             else
                             {
                                 if (cqItem.isLining && cqItem.fabricDirection.Equals("Vertical"))
+                                {
                                     workOrderItems.orderQuantity = Math.Round(Convert.ToDecimal(((54 * cqItem.numberOfPanel) / cqItem.MstPattern.meterPerInch)), 2);
+                                    decimal fabricWidth = Convert.ToDecimal(cqItem.MstFWRShade.MstQuality.width);
+                                    while(fabricWidth < cqItem.unitHeight)
+                                    {
+                                        fabricWidth = fabricWidth + fabricWidth;
+                                        workOrderItems.orderQuantity = workOrderItems.orderQuantity + workOrderItems.orderQuantity;
+                                    }
+                                }
                                 else if (cqItem.isLining && cqItem.fabricDirection.Equals("Horizontal"))
                                     workOrderItems.orderQuantity = Math.Round(Convert.ToDecimal(((cqItem.unitHeight + cqItem.MstPattern.woLiningHeight) / cqItem.MstPattern.meterPerInch) * (cqItem.unitWidth / 50)), 2);
                                 else if (!cqItem.isLining && cqItem.fabricDirection.Equals("Vertical"))
+                                {
                                     workOrderItems.orderQuantity = Math.Round(Convert.ToDecimal(((54 * cqItem.numberOfPanel) / cqItem.MstPattern.meterPerInch)), 2);
+                                    decimal fabricWidth = Convert.ToDecimal(cqItem.MstFWRShade.MstQuality.width);
+                                    while (fabricWidth < cqItem.unitHeight)
+                                    {
+                                        fabricWidth = fabricWidth + fabricWidth;
+                                        workOrderItems.orderQuantity = workOrderItems.orderQuantity + workOrderItems.orderQuantity;
+                                    }
+                                }
                                 else if (!cqItem.isLining && cqItem.fabricDirection.Equals("Horizontal"))
                                     workOrderItems.orderQuantity = Math.Round(Convert.ToDecimal(((cqItem.unitHeight + cqItem.MstPattern.woFabricHeight) / cqItem.MstPattern.meterPerInch) * (cqItem.unitWidth / 50)), 2);
                             }

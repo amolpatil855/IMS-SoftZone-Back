@@ -156,7 +156,7 @@ namespace IMSWebApi.Services
                 cqItem.categoryName = cqItem.MstCategory.name;
                 cqItem.collectionName = cqItem.collectionId != null ? cqItem.MstCollection.collectionCode : null;
                 cqItem.serialno = cqItem.MstCategory.code.Equals("Fabric") ? cqItem.MstFWRShade.serialNumber + "(" + cqItem.MstFWRShade.shadeCode + "-" + cqItem.MstFWRShade.MstFWRDesign.designCode + ")" : null;
-                cqItem.itemCode = cqItem.MstCategory.code.Equals("Accessory") ? cqItem.MstAccessory.itemCode : null;
+                cqItem.itemCode = cqItem.MstCategory.code.Equals("Accessories") ? cqItem.MstAccessory.itemCode : null;
                 if (cqItem.shadeId != null)
                 {
                     VMProductForCS shadeInfo = new VMProductForCS();
@@ -388,7 +388,7 @@ namespace IMSWebApi.Services
                     curtainQuotation.status = CurtainQuotationStatus.Cancelled.ToString();
                     foreach (var cqItem in curtainQuotation.TrnCurtainQuotationItems)
                     {
-                        cqItem.status = MaterialQuotationStatus.Cancelled.ToString();
+                        cqItem.status = CurtainQuotationStatus.Cancelled.ToString();
                     }
                     messageToDisplay = "CQCancelled";
                     type = ResponseType.Success;
