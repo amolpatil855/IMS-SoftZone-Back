@@ -77,7 +77,7 @@ namespace IMSWebApi.Services
                 woItem.categoryName = woItem.MstCategory.name;
                 woItem.collectionName = woItem.collectionId != null ? woItem.MstCollection.collectionCode : null;
                 woItem.serialno = woItem.MstCategory.code.Equals("Fabric") ? woItem.MstFWRShade.serialNumber + "(" + woItem.MstFWRShade.shadeCode + "-" + woItem.MstFWRShade.MstFWRDesign.designCode + ")" : null;
-                woItem.itemCode = woItem.MstCategory.code.Equals("Accessory") ? woItem.MstAccessory.itemCode : null;
+                woItem.itemCode = woItem.MstCategory.code.Equals("Accessories") ? woItem.MstAccessory.itemCode : null;
                 woItem.patternName = woItem.MstPattern != null ? woItem.MstPattern.name : null;
             });
             workOrderView.TrnWorkOrderItems.ForEach(woItem => woItem.TrnWorkOrder = null);

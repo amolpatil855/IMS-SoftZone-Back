@@ -105,7 +105,7 @@ namespace IMSWebApi.Services
                 csItem.collectionName = csItem.collectionId != null ? csItem.MstCollection.collectionCode : null;
                 csItem.serialno = csItem.MstCategory.code.Equals("Fabric") || csItem.MstCategory.code.Equals("Rug") || csItem.MstCategory.code.Equals("Wallpaper")
                     ? csItem.MstFWRShade.serialNumber + "(" + csItem.MstFWRShade.shadeCode + "-" + csItem.MstFWRShade.MstFWRDesign.designCode + ")" : null;
-                csItem.itemCode = csItem.MstCategory.code.Equals("Accessory") ? csItem.MstAccessory.itemCode : null;
+                csItem.itemCode = csItem.MstCategory.code.Equals("Accessories") ? csItem.MstAccessory.itemCode : null;
                 csItem.shadeList = csItem.collectionId != null ? getSerialNumberForCS(Convert.ToInt64(csItem.collectionId)) : null;
             });
             curtainSelectionView.TrnCurtainSelectionItems.ForEach(csItem => csItem.TrnCurtainSelection = null);
