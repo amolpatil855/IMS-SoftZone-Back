@@ -270,7 +270,7 @@ namespace IMSWebApi.Services
                     cqItem.shadeDetails = shadeInfo;
                     cqItem.rate = shadeInfo.rrp != null ? shadeInfo.rrp : shadeInfo.flatRate;
                     cqItem.rateWithGST = Math.Round(Convert.ToDecimal(cqItem.rate + ((cqItem.rate * csItem.MstFWRShade.MstQuality.MstHsn.gst) / 100)), 2);
-                    cqItem.fabricDirection = (cqItem.isPatch == false && cqItem.isLining == false) && (shadeInfo.fabricWidth > 100) ? "Vertical" : null;
+                    cqItem.fabricDirection = ((cqItem.isPatch == false && cqItem.isLining == false) || cqItem.isLining) && (shadeInfo.fabricWidth > 100) ? "Vertical" : null;
 
                 }
                 else if (csItem.accessoryId != null)

@@ -652,6 +652,7 @@
     <Content Include="EmailTemplate\NotificationForPO.html" />
     <Content Include="EmailTemplate\NotificationForSO.html" />
     <Content Include="EmailTemplate\NotifyAdminForCancelledPO.html" />
+    <Content Include="EmailTemplate\NotifyAdminForCreateCQ.html" />
     <Content Include="EmailTemplate\NotifyAdminForCreatedMQ.html" />
     <Content Include="EmailTemplate\NotifySupplierForPO.html" />
     <Content Include="EmailTemplate\RegisterUser.html" />
