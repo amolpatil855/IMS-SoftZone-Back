@@ -173,11 +173,12 @@ namespace IMSWebApi.Services
                                 if (cqItem.isLining && cqItem.fabricDirection.Equals("Vertical"))
                                 {
                                     workOrderItems.orderQuantity = Math.Round(Convert.ToDecimal(((54 * cqItem.numberOfPanel) / cqItem.MstPattern.meterPerInch)), 2);
+                                    decimal qtyToBeAdded = Convert.ToDecimal(workOrderItems.orderQuantity);
                                     decimal fabricWidth = Convert.ToDecimal(cqItem.MstFWRShade.MstQuality.width);
                                     while (fabricWidth < cqItem.unitHeight)
                                     {
-                                        fabricWidth = fabricWidth + fabricWidth;
-                                        workOrderItems.orderQuantity = workOrderItems.orderQuantity + workOrderItems.orderQuantity;
+                                        fabricWidth = fabricWidth + Convert.ToDecimal(cqItem.MstFWRShade.MstQuality.width);
+                                        workOrderItems.orderQuantity = workOrderItems.orderQuantity + qtyToBeAdded;
                                     }
                                 }
                                 else if (cqItem.isLining && cqItem.fabricDirection.Equals("Horizontal"))
@@ -185,11 +186,12 @@ namespace IMSWebApi.Services
                                 else if (!cqItem.isLining && cqItem.fabricDirection.Equals("Vertical"))
                                 {
                                     workOrderItems.orderQuantity = Math.Round(Convert.ToDecimal(((54 * cqItem.numberOfPanel) / cqItem.MstPattern.meterPerInch)), 2);
+                                    decimal qtyToBeAdded = Convert.ToDecimal(workOrderItems.orderQuantity);
                                     decimal fabricWidth = Convert.ToDecimal(cqItem.MstFWRShade.MstQuality.width);
                                     while (fabricWidth < cqItem.unitHeight)
                                     {
-                                        fabricWidth = fabricWidth + fabricWidth;
-                                        workOrderItems.orderQuantity = workOrderItems.orderQuantity + workOrderItems.orderQuantity;
+                                        fabricWidth = fabricWidth + Convert.ToDecimal(cqItem.MstFWRShade.MstQuality.width);
+                                        workOrderItems.orderQuantity = workOrderItems.orderQuantity + qtyToBeAdded;
                                     }
                                 }
                                 else if (!cqItem.isLining && cqItem.fabricDirection.Equals("Horizontal"))
