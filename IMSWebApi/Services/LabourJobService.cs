@@ -25,14 +25,14 @@ namespace IMSWebApi.Services
             resourceManager = new ResourceManager("IMSWebApi.App_Data.Resource", Assembly.GetExecutingAssembly());
         }
 
-        public ListResult<VMvwLabourJob> getLabourJobs(int pageSize, int page, string isLabourChargePaid, Int64? tailorId, DateTime? startDate, DateTime? endDate)
+        public ListResult<VMvwLabourJob> getLabourJobs(int pageSize, int page, string search, string isLabourChargePaid, Int64? tailorId, DateTime? startDate, DateTime? endDate)
         {
             List<VMvwLabourJob> labourJobView;
-            //DateTime startDateValue;
-            //bool isStartDate = DateTime.TryParseExact(startDate, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out startDateValue);
-            //DateTime endDateValue;
-            //bool isEndDate = DateTime.TryParseExact(endDate, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out endDateValue);
-            var result = repo.vwLabourJobs.Where(wo => (!string.IsNullOrEmpty(isLabourChargePaid) ? (isLabourChargePaid.ToLower().Equals("yes") ? wo.isLabourChargesPaid : !(wo.isLabourChargesPaid)) : !(wo.isLabourChargesPaid))
+            var result = repo.vwLabourJobs.Where(wo => (!string.IsNullOrEmpty(search) ? (wo.workOrderNumber.StartsWith(search)
+                                                            || wo.curtainQuotationNumber.StartsWith(search)
+                                                            || wo.tailorName.StartsWith(search)
+                                                            || wo.labourcharges.ToString().StartsWith(search)) : true)
+                                                     && (!string.IsNullOrEmpty(isLabourChargePaid) ? (isLabourChargePaid.ToLower().Equals("yes") ? wo.isLabourChargesPaid : !(wo.isLabourChargesPaid)) : !(wo.isLabourChargesPaid))
                                                      && (tailorId != null ? wo.tailorId == tailorId : true)
                                                      && ((startDate != null && endDate != null) ? ((wo.workOrderDate <= startDate && endDate >= wo.workOrderDate) ? true : false) : true))
                     .Select(wo => new VMvwLabourJob
@@ -48,15 +48,14 @@ namespace IMSWebApi.Services
                     })
                     .OrderByDescending(p => p.workOrderId).Skip(page * pageSize).Take(pageSize).ToList();
             labourJobView = result;
-
             return new ListResult<VMvwLabourJob>
             {
                 Data = labourJobView,
-                //TotalCount = repo.vwLabourJobs.Where(wo => (!wo.isLabourChargesPaid && wo.tailorId != null)
-                //                                     && (!string.IsNullOrEmpty(isPaid) ? (isPaid.ToLower().Equals("yes") ? wo.isLabourChargesPaid : !(wo.isLabourChargesPaid)) : true)
-                //                                     && (tailorId != null ? wo.tailorId == tailorId : true)
-                //                                     && ((isStartDate && isEndDate) ? ((wo.workOrderDate <= startDateValue && endDateValue >= wo.workOrderDate) ? true : false) : true)).Count(),
-                TotalCount = repo.vwLabourJobs.Where(wo => (!string.IsNullOrEmpty(isLabourChargePaid) ? (isLabourChargePaid.ToLower().Equals("yes") ? wo.isLabourChargesPaid : !(wo.isLabourChargesPaid)) : !(wo.isLabourChargesPaid))
+                TotalCount = repo.vwLabourJobs.Where(wo => (!string.IsNullOrEmpty(search) ? (wo.workOrderNumber.StartsWith(search)
+                                                            || wo.curtainQuotationNumber.StartsWith(search)
+                                                            || wo.tailorName.StartsWith(search)
+                                                            || wo.labourcharges.ToString().StartsWith(search)) : true)
+                                                     && (!string.IsNullOrEmpty(isLabourChargePaid) ? (isLabourChargePaid.ToLower().Equals("yes") ? wo.isLabourChargesPaid : !(wo.isLabourChargesPaid)) : !(wo.isLabourChargesPaid))
                                                      && (tailorId != null ? wo.tailorId == tailorId : true)
                                                      && ((startDate != null && endDate != null) ? ((wo.workOrderDate <= startDate && endDate >= wo.workOrderDate) ? true : false) : true)).Count(),
                 Page = page

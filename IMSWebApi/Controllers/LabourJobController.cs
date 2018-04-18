@@ -21,9 +21,9 @@ namespace IMSWebApi.Controllers
         // GET api/LabourJob   
         [ApiAuthorize(AccessLevel = "labourjob")]
         [HttpGet]
-        public IHttpActionResult Get(int pageSize = 0, int page = 0, string isLabourChargePaid = null, long? tailorId = null, DateTime? startDate = null, DateTime? endDate = null)
+        public IHttpActionResult Get(int pageSize = 0, int page = 0, string search = null, string isLabourChargePaid = null, long? tailorId = null, DateTime? startDate = null, DateTime? endDate = null)
         {
-            var result = _labourJobService.getLabourJobs(pageSize, page, isLabourChargePaid, tailorId, startDate, endDate);
+            var result = _labourJobService.getLabourJobs(pageSize, page, search, isLabourChargePaid, tailorId, startDate, endDate);
             return Ok(result);
         }
 
