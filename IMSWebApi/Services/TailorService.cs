@@ -71,6 +71,15 @@ namespace IMSWebApi.Services
             return VMtailor;
         }
 
+        public List<VMLookUpItem> getTailorLookup()
+        {
+            return repo.MstTailors.Select(t => new VMLookUpItem
+                                            {
+                                                label = t.name,
+                                                value = t.id
+                                            }).ToList();
+        }
+
         public ResponseMessage postTailor(VMTailor tailor)
         {
             using (var transaction = new TransactionScope())

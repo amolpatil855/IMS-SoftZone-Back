@@ -521,5 +521,13 @@ namespace IMSWebApi.Controllers
             var result = _tailorService.getAlltailors();
             return Ok(result);
         }
+
+        [HttpGet]
+        [Route("api/Common/GetTailorLookup")]
+        public IHttpActionResult GetTailorLookup()
+        {
+            var result = _tailorService.getTailorLookup();
+            return Ok(result);
+        }
     }
 }
