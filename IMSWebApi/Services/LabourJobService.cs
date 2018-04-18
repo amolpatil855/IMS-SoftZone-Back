@@ -34,7 +34,7 @@ namespace IMSWebApi.Services
                                                             || wo.labourcharges.ToString().StartsWith(search)) : true)
                                                      && (!string.IsNullOrEmpty(isLabourChargePaid) ? (isLabourChargePaid.ToLower().Equals("yes") ? wo.isLabourChargesPaid : !(wo.isLabourChargesPaid)) : !(wo.isLabourChargesPaid))
                                                      && (tailorId != null ? wo.tailorId == tailorId : true)
-                                                     && ((startDate != null && endDate != null) ? ((wo.workOrderDate <= startDate && endDate >= wo.workOrderDate) ? true : false) : true))
+                                                     && ((startDate != null && endDate != null) ? (startDate <= wo.workOrderDate && endDate >= wo.workOrderDate ? true : false) : true))
                     .Select(wo => new VMvwLabourJob
                     {  
                         workOrderId = wo.workOrderId,
@@ -57,7 +57,7 @@ namespace IMSWebApi.Services
                                                             || wo.labourcharges.ToString().StartsWith(search)) : true)
                                                      && (!string.IsNullOrEmpty(isLabourChargePaid) ? (isLabourChargePaid.ToLower().Equals("yes") ? wo.isLabourChargesPaid : !(wo.isLabourChargesPaid)) : !(wo.isLabourChargesPaid))
                                                      && (tailorId != null ? wo.tailorId == tailorId : true)
-                                                     && ((startDate != null && endDate != null) ? ((wo.workOrderDate <= startDate && endDate >= wo.workOrderDate) ? true : false) : true)).Count(),
+                                                     && ((startDate != null && endDate != null) ? (startDate <= wo.workOrderDate && endDate >= wo.workOrderDate ? true : false) : true)).Count(),
                 Page = page
             };
         }
