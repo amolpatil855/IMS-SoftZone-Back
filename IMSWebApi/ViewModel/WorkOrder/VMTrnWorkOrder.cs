@@ -16,6 +16,7 @@ namespace IMSWebApi.ViewModel
         public string financialYear { get; set; }
         public Nullable<System.DateTime> expectedDeliveryDate { get; set; }
         public string status { get; set; }
+        public bool isLabourChargesPaid { get; set; }
 
         public string customerName { get; set; }
         public string curtainQuotationNo{ get; set; }

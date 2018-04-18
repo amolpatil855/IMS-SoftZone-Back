@@ -105,6 +105,7 @@ namespace IMSWebApi.Services
                     workOrder.workOrderNumber = workOrderNo;
                     workOrder.workOrderDate = DateTime.Now;
                     workOrder.expectedDeliveryDate = curtainQuotation.expectedDeliveryDate;
+                    workOrder.isLabourChargesPaid = false;
 
                     workOrder.customerId = curtainQuotation.customerId;
                     workOrder.financialYear = financialYear.financialYear;

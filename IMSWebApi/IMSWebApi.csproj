@@ -272,6 +272,7 @@
     <Compile Include="Controllers\FomSuggestedMMController.cs" />
     <Compile Include="Controllers\FWRDesignController.cs" />
     <Compile Include="Controllers\HsnController.cs" />
+    <Compile Include="Controllers\LabourJobController.cs" />
     <Compile Include="Controllers\MatSizeController.cs" />
     <Compile Include="Controllers\MatThicknessController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
@@ -481,6 +482,9 @@
     <Compile Include="Models\vwitemBelowReOrderLevelList.cs">
       <DependentUpon>WebApiModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\vwLabourJob.cs">
+      <DependentUpon>WebApiModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\vwMattress.cs">
       <DependentUpon>WebApiModel.tt</DependentUpon>
     </Compile>
@@ -521,6 +525,7 @@
     <Compile Include="Services\FomSuggestedMMService.cs" />
     <Compile Include="Services\FWRDesignService.cs" />
     <Compile Include="Services\HsnService.cs" />
+    <Compile Include="Services\LabourJobService.cs" />
     <Compile Include="Services\MatSizeService.cs" />
     <Compile Include="Services\MatThicknessService.cs" />
     <Compile Include="Services\MenuService.cs" />
@@ -575,6 +580,7 @@
     <Compile Include="ViewModel\ProductMasters\VMFWRDesign.cs" />
     <Compile Include="ViewModel\ProductMasters\VMFWRShadeList.cs" />
     <Compile Include="ViewModel\Masters\VMHsn.cs" />
+    <Compile Include="ViewModel\ViewsVM\VMvwLabourJob.cs" />
     <Compile Include="ViewModel\VMLookUpItem.cs" />
     <Compile Include="ViewModel\ProductMasters\VMMatSize.cs" />
     <Compile Include="ViewModel\ProductMasters\VMMatSizeList.cs" />

@@ -16,8 +16,8 @@ namespace IMSWebApi.Models
     {
         public TrnWorkOrder()
         {
-            this.TrnWorkOrderItems = new HashSet<TrnWorkOrderItem>();
             this.TrnGoodIssueNotes = new HashSet<TrnGoodIssueNote>();
+            this.TrnWorkOrderItems = new HashSet<TrnWorkOrderItem>();
         }
     
         public long id { get; set; }
@@ -29,6 +29,7 @@ namespace IMSWebApi.Models
         public string financialYear { get; set; }
         public Nullable<System.DateTime> expectedDeliveryDate { get; set; }
         public string status { get; set; }
+        public bool isLabourChargesPaid { get; set; }
         public System.DateTime createdOn { get; set; }
         public long createdBy { get; set; }
         public Nullable<System.DateTime> updatedOn { get; set; }
@@ -37,7 +38,7 @@ namespace IMSWebApi.Models
         public virtual MstCustomer MstCustomer { get; set; }
         public virtual MstTailor MstTailor { get; set; }
         public virtual TrnCurtainQuotation TrnCurtainQuotation { get; set; }
-        public virtual ICollection<TrnWorkOrderItem> TrnWorkOrderItems { get; set; }
         public virtual ICollection<TrnGoodIssueNote> TrnGoodIssueNotes { get; set; }
+        public virtual ICollection<TrnWorkOrderItem> TrnWorkOrderItems { get; set; }
     }
 }
