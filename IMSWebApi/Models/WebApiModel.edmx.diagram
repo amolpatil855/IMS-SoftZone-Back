@@ -207,10 +207,6 @@
         <AssociationConnector Association="IMSModel.FK_TrnAdvancePayment_TrnCurtainQuotation" />
         <AssociationConnector Association="IMSModel.FK_TrnCurtainQuotation_TrnCurtainSelection" />
         <AssociationConnector Association="IMSModel.FK_TrnCurtainQuotationItems_TrnCurtainQuotation" />
-        <EntityTypeShape EntityType="IMSModel.TrnWorkOrder" Width="1.5" PointX="12.625" PointY="23.75" />
-        <AssociationConnector Association="IMSModel.FK_TrnWorkOrder_MstCustomer" />
-        <AssociationConnector Association="IMSModel.FK_TrnWorkOrder_MstTailor" />
-        <AssociationConnector Association="IMSModel.FK_TrnWorkOrder_TrnCurtainQuotation" />
         <EntityTypeShape EntityType="IMSModel.TrnSalesInvoice" Width="1.5" PointX="13.5" PointY="42.375" />
         <AssociationConnector Association="IMSModel.FK_TrnSalesInvoice_TrnCurtainQuotation" />
         <AssociationConnector Association="IMSModel.FK_TrnSalesInvoice_TrnMaterialQuotation" />
@@ -222,18 +218,23 @@
         <AssociationConnector Association="IMSModel.FK_TrnWorkOrderItems_MstCollection" />
         <AssociationConnector Association="IMSModel.FK_TrnWorkOrderItems_MstFWRShade" />
         <AssociationConnector Association="IMSModel.FK_TrnWorkOrderItems_MstPattern" />
-        <AssociationConnector Association="IMSModel.FK_TrnWorkOrderItems_TrnWorkOrder" />
         <EntityTypeShape EntityType="IMSModel.TrnGoodIssueNote" Width="1.5" PointX="15.875" PointY="43.5" />
         <AssociationConnector Association="IMSModel.FK_TrnGoodIssueNote_MstCustomer" />
         <AssociationConnector Association="IMSModel.FK_TrnGoodIssueNote_TrnMaterialQuotation" />
         <AssociationConnector Association="IMSModel.FK_TrnGoodIssueNote_TrnSaleOrder" />
-        <AssociationConnector Association="IMSModel.FK_TrnGoodIssueNote_TrnWorkOrder" />
         <AssociationConnector Association="IMSModel.FK_TrnGoodIssueNoteItems_TrnGoodIssueNote" />
         <AssociationConnector Association="IMSModel.FK_TrnSalesInvoice_TrnGoodIssueNote" />
         <EntityTypeShape EntityType="IMSModel.vwAccessory" Width="1.5" PointX="5.75" PointY="0.75" />
         <EntityTypeShape EntityType="IMSModel.vwFoam" Width="1.5" PointX="0.75" PointY="6.75" />
         <EntityTypeShape EntityType="IMSModel.vwFWR" Width="1.5" PointX="2.75" PointY="6.75" />
         <EntityTypeShape EntityType="IMSModel.vwMattress" Width="1.5" PointX="4.75" PointY="9.75" />
+        <EntityTypeShape EntityType="IMSModel.TrnWorkOrder" Width="1.5" PointX="12.625" PointY="23.625" />
+        <AssociationConnector Association="IMSModel.FK_TrnWorkOrder_MstCustomer" />
+        <AssociationConnector Association="IMSModel.FK_TrnWorkOrder_MstTailor" />
+        <AssociationConnector Association="IMSModel.FK_TrnWorkOrder_TrnCurtainQuotation" />
+        <AssociationConnector Association="IMSModel.FK_TrnGoodIssueNote_TrnWorkOrder" />
+        <AssociationConnector Association="IMSModel.FK_TrnWorkOrderItems_TrnWorkOrder" />
+        <EntityTypeShape EntityType="IMSModel.vwLabourJob" Width="1.5" PointX="7.375" PointY="9.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

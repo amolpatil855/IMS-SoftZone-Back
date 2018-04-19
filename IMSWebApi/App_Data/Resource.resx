@@ -453,4 +453,7 @@
   <data name="CQCancelled" xml:space="preserve">
     <value>Curtain Quotation Cancelled Successfully</value>
   </data>
+  <data name="LabourChargePaid" xml:space="preserve">
+    <value>Work Order Updated for Labour Charges</value>
+  </data>
 </root>

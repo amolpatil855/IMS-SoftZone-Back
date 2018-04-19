@@ -511,6 +511,15 @@ namespace IMSWebApi.App_Data {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Work Order Updated for Labour Charges.
+        /// </summary>
+        public static string LabourChargePaid {
+            get {
+                return ResourceManager.GetString("LabourChargePaid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Mat Size Added Successfully.
         /// </summary>
         public static string MatSizeAdded {
