@@ -174,7 +174,7 @@ namespace IMSWebApi.Services
                             {
                                 if (cqItem.isLining && cqItem.fabricDirection.Equals("Vertical"))
                                 {
-                                    workOrderItems.orderQuantity = Math.Round(Convert.ToDecimal(((54 * cqItem.numberOfPanel) / cqItem.MstPattern.meterPerInch)), 2);
+                                    workOrderItems.orderQuantity = Math.Round(Convert.ToDecimal(((54.00 * cqItem.numberOfPanel) / cqItem.MstPattern.meterPerInch)), 2);
                                     decimal qtyToBeAdded = Convert.ToDecimal(workOrderItems.orderQuantity);
                                     decimal fabricWidth = Convert.ToDecimal(cqItem.MstFWRShade.MstQuality.width);
                                     while (fabricWidth < cqItem.unitHeight)
@@ -187,7 +187,7 @@ namespace IMSWebApi.Services
                                     workOrderItems.orderQuantity = Math.Round(Convert.ToDecimal(((cqItem.unitHeight + cqItem.MstPattern.woLiningHeight) / cqItem.MstPattern.meterPerInch) * (Math.Ceiling(Convert.ToDecimal(cqItem.unitWidth / 50)))), 2);
                                 else if (!cqItem.isLining && cqItem.fabricDirection.Equals("Vertical"))
                                 {
-                                    workOrderItems.orderQuantity = Math.Round(Convert.ToDecimal(((54 * cqItem.numberOfPanel) / cqItem.MstPattern.meterPerInch)), 2);
+                                    workOrderItems.orderQuantity = Math.Round(Convert.ToDecimal(((54.00 * cqItem.numberOfPanel) / cqItem.MstPattern.meterPerInch)), 2);
                                     decimal qtyToBeAdded = Convert.ToDecimal(workOrderItems.orderQuantity);
                                     decimal fabricWidth = Convert.ToDecimal(cqItem.MstFWRShade.MstQuality.width);
                                     while (fabricWidth < cqItem.unitHeight)
