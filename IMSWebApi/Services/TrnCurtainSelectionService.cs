@@ -102,10 +102,10 @@ namespace IMSWebApi.Services
             curtainSelectionView.TrnCurtainSelectionItems.ForEach(csItem =>
             {
                 csItem.categoryName = csItem.MstCategory.name;
-                csItem.collectionName = csItem.collectionId != null ? csItem.MstCollection.collectionCode : null;
+                csItem.collectionName = csItem.collectionId != null ? csItem.MstCollection != null ? csItem.MstCollection.collectionCode : null : null;
                 csItem.serialno = csItem.MstCategory.code.Equals("Fabric") || csItem.MstCategory.code.Equals("Rug") || csItem.MstCategory.code.Equals("Wallpaper")
-                    ? csItem.MstFWRShade.serialNumber + "(" + csItem.MstFWRShade.shadeCode + "-" + csItem.MstFWRShade.MstFWRDesign.designCode + ")" : null;
-                csItem.itemCode = csItem.MstCategory.code.Equals("Accessories") ? csItem.MstAccessory.itemCode : null;
+                    ? csItem.MstFWRShade != null ? csItem.MstFWRShade.serialNumber + "(" + csItem.MstFWRShade.shadeCode + "-" + csItem.MstFWRShade.MstFWRDesign.designCode + ")" : null : null;
+                csItem.itemCode = csItem.MstCategory.code.Equals("Accessories") ? csItem.MstAccessory != null ? csItem.MstAccessory.itemCode : null : null;
                 csItem.shadeList = csItem.collectionId != null ? getSerialNumberForCS(Convert.ToInt64(csItem.collectionId)) : null;
             });
             curtainSelectionView.TrnCurtainSelectionItems.ForEach(csItem => csItem.TrnCurtainSelection = null);
