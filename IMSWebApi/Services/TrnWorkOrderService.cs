@@ -168,6 +168,7 @@ namespace IMSWebApi.Services
                                     workOrderItems.orderQuantity = Math.Round(Convert.ToDecimal(((cqItem.unitHeight + cqItem.MstPattern.woLiningHeight) / cqItem.MstPattern.meterPerInch)), 2);
                                 else
                                     workOrderItems.orderQuantity = Math.Round(Convert.ToDecimal(((cqItem.unitHeight + cqItem.MstPattern.woFabricHeight) / cqItem.MstPattern.meterPerInch)), 2);
+                                workOrderItems.orderQuantity = cqItem.numberOfPanel != null ? (workOrderItems.orderQuantity * cqItem.numberOfPanel) : workOrderItems.orderQuantity;
                             }
                             else
                             {
@@ -183,7 +184,7 @@ namespace IMSWebApi.Services
                                     }
                                 }
                                 else if (cqItem.isLining && cqItem.fabricDirection.Equals("Horizontal"))
-                                    workOrderItems.orderQuantity = Math.Round(Convert.ToDecimal(((cqItem.unitHeight + cqItem.MstPattern.woLiningHeight) / cqItem.MstPattern.meterPerInch) * (cqItem.unitWidth / 50)), 2);
+                                    workOrderItems.orderQuantity = Math.Round(Convert.ToDecimal(((cqItem.unitHeight + cqItem.MstPattern.woLiningHeight) / cqItem.MstPattern.meterPerInch) * (Math.Ceiling(Convert.ToDecimal(cqItem.unitWidth / 50)))), 2);
                                 else if (!cqItem.isLining && cqItem.fabricDirection.Equals("Vertical"))
                                 {
                                     workOrderItems.orderQuantity = Math.Round(Convert.ToDecimal(((54 * cqItem.numberOfPanel) / cqItem.MstPattern.meterPerInch)), 2);
@@ -196,9 +197,8 @@ namespace IMSWebApi.Services
                                     }
                                 }
                                 else if (!cqItem.isLining && cqItem.fabricDirection.Equals("Horizontal"))
-                                    workOrderItems.orderQuantity = Math.Round(Convert.ToDecimal(((cqItem.unitHeight + cqItem.MstPattern.woFabricHeight) / cqItem.MstPattern.meterPerInch) * (cqItem.unitWidth / 50)), 2);
+                                    workOrderItems.orderQuantity = Math.Round(Convert.ToDecimal(((cqItem.unitHeight + cqItem.MstPattern.woFabricHeight) / cqItem.MstPattern.meterPerInch) * (Math.Ceiling(Convert.ToDecimal(cqItem.unitWidth / 50)))), 2);
                             }
-                            workOrderItems.orderQuantity = cqItem.numberOfPanel != null ? (workOrderItems.orderQuantity * cqItem.numberOfPanel) : workOrderItems.orderQuantity;
                             workOrderItems.orderQuantity = adjustOrderQuantity(Convert.ToDecimal(workOrderItems.orderQuantity));
                             workOrderItems.balanceQuantity = workOrderItems.orderQuantity;
                             workOrderItems.deliverQuantity = 0;
