@@ -172,7 +172,7 @@ namespace IMSWebApi.Services
                         ginItem.matSizeId != null ? ginItem.MstMatSize.MstQuality.MstHsn.gst :
                         ginItem.accessoryId != null ? ginItem.MstAccessory.MstHsn.gst :
                         ginItem.MstQuality.MstHsn.gst;
-                    salesInvoiceItem.uom = ginItem.categoryId != 7 ? ginItem.MstCategory.MstUnitOfMeasure.uomCode : null;
+                    salesInvoiceItem.uom = ginItem.categoryId != 7 ? ginItem.MstCategory.MstUnitOfMeasure.uomCode : (ginItem.MstAccessory != null ? ginItem.MstAccessory.MstUnitOfMeasure.uomCode : null);
                     salesInvoiceItem.hsnCode = ginItem.shadeId != null ? ginItem.MstFWRShade.MstQuality.MstHsn.hsnCode :
                         ginItem.fomSizeId != null ? ginItem.MstFomSize.MstQuality.MstHsn.hsnCode :
                         ginItem.matSizeId != null ? ginItem.MstMatSize.MstQuality.MstHsn.hsnCode :
