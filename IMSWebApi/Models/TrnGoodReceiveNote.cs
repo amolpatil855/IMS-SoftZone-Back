@@ -26,6 +26,8 @@ namespace IMSWebApi.Models
         public long locationId { get; set; }
         public long totalAmount { get; set; }
         public string financialYear { get; set; }
+        public string courierDetails { get; set; }
+        public string dockAtNumber { get; set; }
         public System.DateTime createdOn { get; set; }
         public long createdBy { get; set; }
         public Nullable<System.DateTime> updatedOn { get; set; }
