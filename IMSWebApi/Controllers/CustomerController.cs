@@ -99,7 +99,6 @@ namespace IMSWebApi.Controllers
             return Ok(result);
         }
 
-
         // POST api/Customer
         [ApiAuthorize(AccessLevel = "materialselection")]
         [HttpPost]
@@ -111,6 +110,15 @@ namespace IMSWebApi.Controllers
                 return BadRequest(ModelState);
             }
             return Ok(_customerService.postCustomer(customer));
+        }
+
+        [HttpGet]
+        [ApiAuthorize(AccessLevel = "customer")]
+        [Route("api/Customer/GetCustomerCode")]
+        public IHttpActionResult GetCustomerCode()
+        {
+            var result = _customerService.getCustomerCode();
+            return Ok(result);
         }
     }
 }

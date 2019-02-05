@@ -11,6 +11,7 @@ using IMSWebApi.Common;
 using System.Resources;
 using System.Reflection;
 using System.Transactions;
+using System.Text;
 
 namespace IMSWebApi.Services
 {
@@ -108,6 +109,16 @@ namespace IMSWebApi.Services
         {
             using (var transaction = new TransactionScope())
             {
+                var customerCodeExist = repo.MstCustomers.Where(c => c.code == customer.code).FirstOrDefault();
+                if (customerCodeExist != null)
+                {
+                    int customerCount = repo.MstCustomers.Count();
+                    customer.code = string.Empty;
+                    StringBuilder customerCode = new StringBuilder();
+                    customerCode.Append("SZ");
+                    customerCode.Append(customerCount + 1001);
+                    customer.code = customerCode.ToString();
+                }
                 Nullable<long> userId = null;
                 if (customer.isWholesaleCustomer == true)
                 {
@@ -273,6 +284,15 @@ namespace IMSWebApi.Services
             int addressAssociatedWithSOcount = repo.TrnSaleOrders.Where(so => so.shippingAddressId == id).Count();
 
             return addressAssociatedWithSOcount > 0 ? false : true;
+        }
+
+        public string getCustomerCode()
+        {
+            var result = repo.MstCustomers.Count();
+            StringBuilder customerCode = new StringBuilder();
+            customerCode.Append("SZ");
+            customerCode.Append(result + 1001);
+            return customerCode.ToString();
         }
     }
 }

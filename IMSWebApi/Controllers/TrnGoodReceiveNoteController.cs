@@ -89,5 +89,14 @@ namespace IMSWebApi.Controllers
             var result = _trnGoodReceiveNoteService.getCustomMatSizeCodeLookup(categoryId, collectionId, matQualityId, matThicknessId);
             return Ok(result);
         }
+
+        [ApiAuthorize(AccessLevel = "grn")]
+        [HttpGet]
+        [Route("api/TrnGoodReceiveNote/GetPendingPO")]
+        public IHttpActionResult GetPendingPO()
+        {
+            var result = _trnGoodReceiveNoteService.getPendingPO();
+            return Ok(result);
+        }
     }
 }

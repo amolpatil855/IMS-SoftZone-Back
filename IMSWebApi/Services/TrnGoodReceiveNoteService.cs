@@ -347,5 +347,18 @@ namespace IMSWebApi.Services
                                             
         }
 
+        public List<VMLookUpItem> getPendingPO()
+        {
+            return repo.TrnPurchaseOrders.Where(po => po.status.Equals("Approved") || po.status.Equals("PartialCompleted"))
+                .Select(s => new VMLookUpItem
+                            {
+                                value = s.id,
+                                label = s.orderNumber
+                            })
+                            .OrderBy(o => o.label)
+                            .Distinct()
+                            .ToList();
+        }
+
     }
 }

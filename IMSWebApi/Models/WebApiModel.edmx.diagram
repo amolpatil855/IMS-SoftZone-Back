@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="b93ccf94511548a08944c7935c3877fe" Name="Diagram1" ZoomLevel="62">
+      <Diagram DiagramId="b93ccf94511548a08944c7935c3877fe" Name="Diagram1" ZoomLevel="45">
         <EntityTypeShape EntityType="IMSModel.CFGRoleMenu" Width="1.5" PointX="3.75" PointY="44.625" />
         <EntityTypeShape EntityType="IMSModel.MstAccessory" Width="1.5" PointX="5.25" PointY="54.125" />
         <EntityTypeShape EntityType="IMSModel.MstAgent" Width="1.5" PointX="1.5" PointY="68.125" />
@@ -32,9 +32,6 @@
         <EntityTypeShape EntityType="IMSModel.MstUnitOfMeasure" Width="1.5" PointX="0.75" PointY="51.5" />
         <EntityTypeShape EntityType="IMSModel.MstUser" Width="1.5" PointX="1.5" PointY="30.75" />
         <EntityTypeShape EntityType="IMSModel.MstuserType" Width="1.5" PointX="1.5" PointY="41.5" />
-        <EntityTypeShape EntityType="IMSModel.TrnGoodIssueNoteItem" Width="1.5" PointX="13.5" PointY="63.125" />
-        <EntityTypeShape EntityType="IMSModel.TrnGoodReceiveNote" Width="1.5" PointX="8.25" PointY="64.75" />
-        <EntityTypeShape EntityType="IMSModel.TrnGoodReceiveNoteItem" Width="1.5" PointX="10.5" PointY="62.875" />
         <EntityTypeShape EntityType="IMSModel.TrnMaterialQuotation" Width="1.5" PointX="3.75" PointY="70.125" />
         <EntityTypeShape EntityType="IMSModel.TrnMaterialQuotationItem" Width="1.5" PointX="29.25" PointY="55.875" />
         <EntityTypeShape EntityType="IMSModel.TrnMaterialSelection" Width="1.5" PointX="1.5" PointY="73.125" />
@@ -52,8 +49,6 @@
         <AssociationConnector Association="IMSModel.FK_MstAccessory_MstHsn" />
         <AssociationConnector Association="IMSModel.FK_MstAccessory_MstSupplier" />
         <AssociationConnector Association="IMSModel.FK_MstAccessory_MstUnitOfMeasure" />
-        <AssociationConnector Association="IMSModel.FK_TrnGoodIssueNoteItems_MstAccessory" />
-        <AssociationConnector Association="IMSModel.FK_TrnGoodReceiveNoteItems_MstAccessory" />
         <AssociationConnector Association="IMSModel.FK_TrnProductStock_MstAccessory" />
         <AssociationConnector Association="IMSModel.FK_TrnProductStockDetails_MstAccessory" />
         <AssociationConnector Association="IMSModel.FK_TrnPurchaseOrderItems_MstAccessory" />
@@ -71,8 +66,6 @@
         <AssociationConnector Association="IMSModel.FK_MstMattressSize_MstCategory" />
         <AssociationConnector Association="IMSModel.FK_MstQuality_MstCategory" />
         <AssociationConnector Association="IMSModel.FK_MstShade_MstCategory" />
-        <AssociationConnector Association="IMSModel.FK_TrnGoodIssueNoteItems_MstCategory" />
-        <AssociationConnector Association="IMSModel.FK_TrnGoodReceiveNoteItems_MstCategory" />
         <AssociationConnector Association="IMSModel.FK_TrnMaterialQuotationItems_MstCategory" />
         <AssociationConnector Association="IMSModel.FK_TrnMaterialSelectionItems_MstCategory" />
         <AssociationConnector Association="IMSModel.FK_TrnProductStock_MstCategory" />
@@ -88,8 +81,6 @@
         <AssociationConnector Association="IMSModel.FK_MstMattressSize_MstCollection" />
         <AssociationConnector Association="IMSModel.FK_MstQuality_MstCollection" />
         <AssociationConnector Association="IMSModel.FK_MstShade_MstCollection" />
-        <AssociationConnector Association="IMSModel.FK_TrnGoodIssueNoteItems_MstCollection" />
-        <AssociationConnector Association="IMSModel.FK_TrnGoodReceiveNoteItems_MstCollection" />
         <AssociationConnector Association="IMSModel.FK_TrnMaterialQuotationItems_MstCollection" />
         <AssociationConnector Association="IMSModel.FK_TrnMaterialSelectionItems_MstCollection" />
         <AssociationConnector Association="IMSModel.FK_TrnProductStock_MstCollection" />
@@ -98,7 +89,6 @@
         <AssociationConnector Association="IMSModel.FK_TrnSaleOrderItem_MstCollection" />
         <AssociationConnector Association="IMSModel.FK_TrnSalesInvoiceItems_MstCollection" />
         <AssociationConnector Association="IMSModel.FK_MstUser_MstCompanyLocation" />
-        <AssociationConnector Association="IMSModel.FK_TrnGoodReceiveNote_MstCompanyLocation" />
         <AssociationConnector Association="IMSModel.FK_TrnProductStock_MstCompanyLocation" />
         <AssociationConnector Association="IMSModel.FK_TrnPurchaseOrder_MstCompanyLocation" />
         <AssociationConnector Association="IMSModel.FK_TrnPurchaseOrder_MstCourier" />
@@ -114,8 +104,6 @@
         <AssociationConnector Association="IMSModel.FK_MstFomSuggestdMM_MstFomDensity" />
         <AssociationConnector Association="IMSModel.FK_MstFomSize_MstFomSuggestdMM" />
         <AssociationConnector Association="IMSModel.FK_MstFomSize_MstQuality" />
-        <AssociationConnector Association="IMSModel.FK_TrnGoodIssueNoteItems_MstFomSize" />
-        <AssociationConnector Association="IMSModel.FK_TrnGoodReceiveNoteItems_MstFomSize" />
         <AssociationConnector Association="IMSModel.FK_TrnProductStock_MstFomSize" />
         <AssociationConnector Association="IMSModel.FK_TrnProductStock_MstFomSize1" />
         <AssociationConnector Association="IMSModel.FK_TrnPurchaseOrderItems_MstFomSize" />
@@ -125,8 +113,6 @@
         <AssociationConnector Association="IMSModel.FK_MstDesign_MstQuality" />
         <AssociationConnector Association="IMSModel.FK_MstShade_MstDesign" />
         <AssociationConnector Association="IMSModel.FK_MstShade_MstQuality" />
-        <AssociationConnector Association="IMSModel.FK_TrnGoodIssueNoteItems_MstFWRShade" />
-        <AssociationConnector Association="IMSModel.FK_TrnGoodReceiveNoteItems_MstFWRShade" />
         <AssociationConnector Association="IMSModel.FK_TrnMaterialQuotationItems_MstFWRShade" />
         <AssociationConnector Association="IMSModel.FK_TrnMaterialSelectionItems_MstFWRShade" />
         <AssociationConnector Association="IMSModel.FK_TrnProductStock_MstFWRShade" />
@@ -137,8 +123,6 @@
         <AssociationConnector Association="IMSModel.FK_MstQuality_MstHsn" />
         <AssociationConnector Association="IMSModel.FK_MstMattressSize_MstMattressThickNess" />
         <AssociationConnector Association="IMSModel.FK_MstMattressSize_MstQuality" />
-        <AssociationConnector Association="IMSModel.FK_TrnGoodIssueNoteItems_MstMatSize" />
-        <AssociationConnector Association="IMSModel.FK_TrnGoodReceiveNoteItems_MstMatSize" />
         <AssociationConnector Association="IMSModel.FK_TrnMaterialQuotationItems_MstMatSize" />
         <AssociationConnector Association="IMSModel.FK_TrnMaterialSelectionItems_MstMatSize" />
         <AssociationConnector Association="IMSModel.FK_TrnProductStock_MstMatSize" />
@@ -146,15 +130,11 @@
         <AssociationConnector Association="IMSModel.FK_TrnPurchaseOrderItems_MstMatSize" />
         <AssociationConnector Association="IMSModel.FK_TrnSaleOrderItem_MstMatSize" />
         <AssociationConnector Association="IMSModel.FK_TrnSalesInvoiceItems_MstMatSize" />
-        <AssociationConnector Association="IMSModel.FK_TrnGoodIssueNoteItems_MstMatThickness" />
-        <AssociationConnector Association="IMSModel.FK_TrnGoodReceiveNoteItems_MstMatThickness" />
         <AssociationConnector Association="IMSModel.FK_TrnMaterialQuotationItems_MstMatThickness" />
         <AssociationConnector Association="IMSModel.FK_TrnMaterialSelectionItems_MstMatThickness" />
         <AssociationConnector Association="IMSModel.FK_TrnProductStock_MstMatThickness" />
         <AssociationConnector Association="IMSModel.FK_TrnProductStockDetails_MstMatThickness" />
         <AssociationConnector Association="IMSModel.FK_TrnPurchaseOrderItems_MstMatThickness" />
-        <AssociationConnector Association="IMSModel.FK_TrnGoodIssueNoteItems_MstQuality" />
-        <AssociationConnector Association="IMSModel.FK_TrnGoodReceiveNoteItems_MstQuality" />
         <AssociationConnector Association="IMSModel.FK_TrnMaterialQuotationItems_MstQuality" />
         <AssociationConnector Association="IMSModel.FK_TrnMaterialSelectionItems_MstQuality" />
         <AssociationConnector Association="IMSModel.FK_TrnProductStock_MstQuality" />
@@ -162,11 +142,8 @@
         <AssociationConnector Association="IMSModel.FK_TrnPurchaseOrderItems_MstQuality" />
         <AssociationConnector Association="IMSModel.FK_MstUser_MstRole" />
         <AssociationConnector Association="IMSModel.FK_MstSupplierAddressDetails_MstSupplier" />
-        <AssociationConnector Association="IMSModel.FK_TrnGoodReceiveNote_MstSupplier" />
         <AssociationConnector Association="IMSModel.FK_TrnPurchaseOrder_MstSupplier" />
         <AssociationConnector Association="IMSModel.FK_MstUser_MstUserType" />
-        <AssociationConnector Association="IMSModel.FK_TrnGoodReceiveNoteItems_TrnGoodReceiveNote" />
-        <AssociationConnector Association="IMSModel.FK_TrnGoodReceiveNoteItems_TrnPurchaseOrder" />
         <AssociationConnector Association="IMSModel.FK_TrnMaterialQuotation_TrnMaterialSelection" />
         <AssociationConnector Association="IMSModel.FK_TrnMaterialQuotationItems_TrnMaterialQuotation" />
         <AssociationConnector Association="IMSModel.FK_TrnMaterialSelectionItems_TrnMaterialSelection" />
@@ -218,12 +195,6 @@
         <AssociationConnector Association="IMSModel.FK_TrnWorkOrderItems_MstCollection" />
         <AssociationConnector Association="IMSModel.FK_TrnWorkOrderItems_MstFWRShade" />
         <AssociationConnector Association="IMSModel.FK_TrnWorkOrderItems_MstPattern" />
-        <EntityTypeShape EntityType="IMSModel.TrnGoodIssueNote" Width="1.5" PointX="15.875" PointY="43.5" />
-        <AssociationConnector Association="IMSModel.FK_TrnGoodIssueNote_MstCustomer" />
-        <AssociationConnector Association="IMSModel.FK_TrnGoodIssueNote_TrnMaterialQuotation" />
-        <AssociationConnector Association="IMSModel.FK_TrnGoodIssueNote_TrnSaleOrder" />
-        <AssociationConnector Association="IMSModel.FK_TrnGoodIssueNoteItems_TrnGoodIssueNote" />
-        <AssociationConnector Association="IMSModel.FK_TrnSalesInvoice_TrnGoodIssueNote" />
         <EntityTypeShape EntityType="IMSModel.vwAccessory" Width="1.5" PointX="5.75" PointY="0.75" />
         <EntityTypeShape EntityType="IMSModel.vwFoam" Width="1.5" PointX="0.75" PointY="6.75" />
         <EntityTypeShape EntityType="IMSModel.vwFWR" Width="1.5" PointX="2.75" PointY="6.75" />
@@ -232,9 +203,38 @@
         <AssociationConnector Association="IMSModel.FK_TrnWorkOrder_MstCustomer" />
         <AssociationConnector Association="IMSModel.FK_TrnWorkOrder_MstTailor" />
         <AssociationConnector Association="IMSModel.FK_TrnWorkOrder_TrnCurtainQuotation" />
-        <AssociationConnector Association="IMSModel.FK_TrnGoodIssueNote_TrnWorkOrder" />
         <AssociationConnector Association="IMSModel.FK_TrnWorkOrderItems_TrnWorkOrder" />
         <EntityTypeShape EntityType="IMSModel.vwLabourJob" Width="1.5" PointX="7.375" PointY="9.75" />
+        <EntityTypeShape EntityType="IMSModel.TrnGoodReceiveNote" Width="1.5" PointX="33" PointY="63.75" />
+        <EntityTypeShape EntityType="IMSModel.TrnGoodReceiveNoteItem" Width="1.5" PointX="35.25" PointY="52" />
+        <AssociationConnector Association="IMSModel.FK_TrnGoodReceiveNoteItems_MstAccessory" />
+        <AssociationConnector Association="IMSModel.FK_TrnGoodReceiveNoteItems_MstCategory" />
+        <AssociationConnector Association="IMSModel.FK_TrnGoodReceiveNoteItems_MstCollection" />
+        <AssociationConnector Association="IMSModel.FK_TrnGoodReceiveNote_MstCompanyLocation" />
+        <AssociationConnector Association="IMSModel.FK_TrnGoodReceiveNoteItems_MstFomSize" />
+        <AssociationConnector Association="IMSModel.FK_TrnGoodReceiveNoteItems_MstFWRShade" />
+        <AssociationConnector Association="IMSModel.FK_TrnGoodReceiveNoteItems_MstMatSize" />
+        <AssociationConnector Association="IMSModel.FK_TrnGoodReceiveNoteItems_MstMatThickness" />
+        <AssociationConnector Association="IMSModel.FK_TrnGoodReceiveNoteItems_MstQuality" />
+        <AssociationConnector Association="IMSModel.FK_TrnGoodReceiveNote_MstSupplier" />
+        <AssociationConnector Association="IMSModel.FK_TrnGoodReceiveNoteItems_TrnGoodReceiveNote" />
+        <AssociationConnector Association="IMSModel.FK_TrnGoodReceiveNoteItems_TrnPurchaseOrder" />
+        <EntityTypeShape EntityType="IMSModel.TrnGoodIssueNote" Width="1.5" PointX="11.25" PointY="34.625" />
+        <EntityTypeShape EntityType="IMSModel.TrnGoodIssueNoteItem" Width="1.5" PointX="35.25" PointY="61.125" />
+        <AssociationConnector Association="IMSModel.FK_TrnGoodIssueNoteItems_MstAccessory" />
+        <AssociationConnector Association="IMSModel.FK_TrnGoodIssueNoteItems_MstCategory" />
+        <AssociationConnector Association="IMSModel.FK_TrnGoodIssueNoteItems_MstCollection" />
+        <AssociationConnector Association="IMSModel.FK_TrnGoodIssueNote_MstCustomer" />
+        <AssociationConnector Association="IMSModel.FK_TrnGoodIssueNoteItems_MstFomSize" />
+        <AssociationConnector Association="IMSModel.FK_TrnGoodIssueNoteItems_MstFWRShade" />
+        <AssociationConnector Association="IMSModel.FK_TrnGoodIssueNoteItems_MstMatSize" />
+        <AssociationConnector Association="IMSModel.FK_TrnGoodIssueNoteItems_MstMatThickness" />
+        <AssociationConnector Association="IMSModel.FK_TrnGoodIssueNoteItems_MstQuality" />
+        <AssociationConnector Association="IMSModel.C_FK_TrnGoodIssueNoteItems_TrnGoodIssueNote" />
+        <AssociationConnector Association="IMSModel.FK_TrnGoodIssueNote_TrnMaterialQuotation" />
+        <AssociationConnector Association="IMSModel.FK_TrnGoodIssueNote_TrnSaleOrder" />
+        <AssociationConnector Association="IMSModel.FK_TrnGoodIssueNote_TrnWorkOrder" />
+        <AssociationConnector Association="IMSModel.FK_TrnSalesInvoice_TrnGoodIssueNote" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
