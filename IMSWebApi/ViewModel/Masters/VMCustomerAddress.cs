@@ -12,9 +12,9 @@ namespace IMSWebApi.ViewModel
         [Required]
         public long customerId { get; set; }
         [Required]
-        [MaxLength(100)]
+        [MaxLength(500)]
         public string addressLine1 { get; set; }
-        [MaxLength(100)]
+        [MaxLength(500)]
         public string addressLine2 { get; set; }
         [Required]
         [MaxLength(50)]
