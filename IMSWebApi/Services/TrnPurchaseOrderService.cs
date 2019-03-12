@@ -131,6 +131,7 @@ namespace IMSWebApi.Services
                                 poItem.MstFomSize != null ? poItem.MstFomSize.itemCode : 
                                 poItem.matSizeCode != null ? poItem.matSizeCode + " (" + poItem.MstMatThickness.thicknessCode + "-" + poItem.MstQuality.qualityCode + ")" : null;
                 poItem.accessoryName = poItem.accessoryId != null ? poItem.MstAccessory.itemCode : null;
+                poItem.purchaseDiscount = poItem.accessoryId == null ? poItem.MstCollection.purchaseDiscount : null;
             });
 
             return purchaseOrderView;

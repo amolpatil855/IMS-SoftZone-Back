@@ -40,6 +40,7 @@ namespace IMSWebApi.ViewModel
         public string serialno { get; set; }
         public string size { get; set; }
         public string accessoryName { get; set; }
+        public Nullable<decimal> purchaseDiscount { get; set; }
 
         public virtual VMAccessory MstAccessory { get; set; }
         public virtual VMCategory MstCategory { get; set; }

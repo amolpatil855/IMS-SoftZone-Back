@@ -38,10 +38,10 @@ namespace IMSWebApi.Models
         public Nullable<long> updatedBy { get; set; }
     
         public virtual MstCustomer MstCustomer { get; set; }
-        public virtual TrnMaterialQuotation TrnMaterialQuotation { get; set; }
-        public virtual TrnSaleOrder TrnSaleOrder { get; set; }
         public virtual ICollection<TrnGoodIssueNoteItem> TrnGoodIssueNoteItems { get; set; }
-        public virtual ICollection<TrnSalesInvoice> TrnSalesInvoices { get; set; }
+        public virtual TrnMaterialQuotation TrnMaterialQuotation { get; set; }
         public virtual TrnWorkOrder TrnWorkOrder { get; set; }
+        public virtual ICollection<TrnSalesInvoice> TrnSalesInvoices { get; set; }
+        public virtual TrnSaleOrder TrnSaleOrder { get; set; }
     }
 }

@@ -41,6 +41,8 @@ namespace IMSWebApi.ViewModel.SalesInvoice
         public string courierName { get; set; }
         public string customerName { get; set; }
         public VMCustomerAddress shippingAddress { get; set; }
+        public string courierDetails { get; set; }
+        public string dockAtNumber { get; set; }
 
         public virtual VMAgent MstAgent { get; set; }
         public virtual VMCourier MstCourier { get; set; }
