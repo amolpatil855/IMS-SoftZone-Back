@@ -16,9 +16,9 @@ namespace IMSWebApi.Models
     {
         public MstCustomerAddress()
         {
-            this.TrnSaleOrders = new HashSet<TrnSaleOrder>();
             this.TrnCurtainSelections = new HashSet<TrnCurtainSelection>();
             this.TrnCurtainQuotations = new HashSet<TrnCurtainQuotation>();
+            this.TrnSaleOrders = new HashSet<TrnSaleOrder>();
         }
     
         public long id { get; set; }
@@ -37,8 +37,8 @@ namespace IMSWebApi.Models
         public Nullable<long> updatedBy { get; set; }
     
         public virtual MstCustomer MstCustomer { get; set; }
-        public virtual ICollection<TrnSaleOrder> TrnSaleOrders { get; set; }
         public virtual ICollection<TrnCurtainSelection> TrnCurtainSelections { get; set; }
         public virtual ICollection<TrnCurtainQuotation> TrnCurtainQuotations { get; set; }
+        public virtual ICollection<TrnSaleOrder> TrnSaleOrders { get; set; }
     }
 }

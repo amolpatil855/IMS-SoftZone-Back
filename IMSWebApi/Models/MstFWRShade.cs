@@ -16,8 +16,6 @@ namespace IMSWebApi.Models
     {
         public MstFWRShade()
         {
-            this.TrnGoodIssueNoteItems = new HashSet<TrnGoodIssueNoteItem>();
-            this.TrnGoodReceiveNoteItems = new HashSet<TrnGoodReceiveNoteItem>();
             this.TrnMaterialQuotationItems = new HashSet<TrnMaterialQuotationItem>();
             this.TrnMaterialSelectionItems = new HashSet<TrnMaterialSelectionItem>();
             this.TrnProductStockDetails = new HashSet<TrnProductStockDetail>();
@@ -28,6 +26,8 @@ namespace IMSWebApi.Models
             this.TrnCurtainSelectionItems = new HashSet<TrnCurtainSelectionItem>();
             this.TrnCurtainQuotationItems = new HashSet<TrnCurtainQuotationItem>();
             this.TrnWorkOrderItems = new HashSet<TrnWorkOrderItem>();
+            this.TrnGoodReceiveNoteItems = new HashSet<TrnGoodReceiveNoteItem>();
+            this.TrnGoodIssueNoteItems = new HashSet<TrnGoodIssueNoteItem>();
         }
     
         public long id { get; set; }
@@ -49,8 +49,6 @@ namespace IMSWebApi.Models
         public virtual MstCollection MstCollection { get; set; }
         public virtual MstFWRDesign MstFWRDesign { get; set; }
         public virtual MstQuality MstQuality { get; set; }
-        public virtual ICollection<TrnGoodIssueNoteItem> TrnGoodIssueNoteItems { get; set; }
-        public virtual ICollection<TrnGoodReceiveNoteItem> TrnGoodReceiveNoteItems { get; set; }
         public virtual ICollection<TrnMaterialQuotationItem> TrnMaterialQuotationItems { get; set; }
         public virtual ICollection<TrnMaterialSelectionItem> TrnMaterialSelectionItems { get; set; }
         public virtual ICollection<TrnProductStockDetail> TrnProductStockDetails { get; set; }
@@ -61,5 +59,7 @@ namespace IMSWebApi.Models
         public virtual ICollection<TrnCurtainSelectionItem> TrnCurtainSelectionItems { get; set; }
         public virtual ICollection<TrnCurtainQuotationItem> TrnCurtainQuotationItems { get; set; }
         public virtual ICollection<TrnWorkOrderItem> TrnWorkOrderItems { get; set; }
+        public virtual ICollection<TrnGoodReceiveNoteItem> TrnGoodReceiveNoteItems { get; set; }
+        public virtual ICollection<TrnGoodIssueNoteItem> TrnGoodIssueNoteItems { get; set; }
     }
 }

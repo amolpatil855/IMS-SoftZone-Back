@@ -220,6 +220,16 @@ namespace IMSWebApi.Services
 
                 goodReceiveNoteItems.ForEach(grnItems =>
                 {
+                    grnItems.MstAccessory = null;
+                    grnItems.MstCategory = null;
+                    grnItems.MstCollection = null;
+                    grnItems.MstFomSize = null;
+                    grnItems.MstFWRShade = null;
+                    grnItems.MstMatSize = null;
+                    grnItems.MstMatThickness = null;
+                    grnItems.MstQuality = null;
+                    grnItems.TrnPurchaseOrder = null;
+
                     grnItems.matSizeId = grnItems.matSizeId == -1 ? null : grnItems.matSizeId;     //set null for custom matSize
                     grnItems.createdOn = DateTime.Now;
                     grnItems.createdBy = _LoggedInuserId;
@@ -232,6 +242,10 @@ namespace IMSWebApi.Services
                 string orderNo = generateOrderNumber.orderNumber(financialYear.startDate.ToString("yy"), financialYear.endDate.ToString("yy"), financialYear.grnNumber,"GR");
                 goodReceiveNoteToPost.grnNumber = orderNo;
                 goodReceiveNoteToPost.financialYear = financialYear.financialYear;
+
+                goodReceiveNoteToPost.MstSupplier = null;
+                goodReceiveNoteToPost.MstCompanyLocation = null;
+
                 goodReceiveNoteToPost.createdOn = DateTime.Now;
                 goodReceiveNoteToPost.createdBy = _LoggedInuserId;
 
