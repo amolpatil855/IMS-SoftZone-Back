@@ -82,8 +82,8 @@ namespace IMSWebApi.Models
         public virtual DbSet<vwLabourJob> vwLabourJobs { get; set; }
         public virtual DbSet<TrnGoodReceiveNote> TrnGoodReceiveNotes { get; set; }
         public virtual DbSet<TrnGoodReceiveNoteItem> TrnGoodReceiveNoteItems { get; set; }
-        public virtual DbSet<TrnGoodIssueNote> TrnGoodIssueNotes { get; set; }
         public virtual DbSet<TrnGoodIssueNoteItem> TrnGoodIssueNoteItems { get; set; }
+        public virtual DbSet<TrnGoodIssueNote> TrnGoodIssueNotes { get; set; }
         public virtual DbSet<TrnSaleOrder> TrnSaleOrders { get; set; }
     }
 }

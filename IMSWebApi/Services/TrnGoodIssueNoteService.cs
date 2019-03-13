@@ -261,7 +261,8 @@ namespace IMSWebApi.Services
                 using (var transaction = new TransactionScope())
                 {
                     var goodIssueNoteToPut = repo.TrnGoodIssueNotes.Where(q => q.id == goodIssueNote.id).FirstOrDefault();
-
+                    goodIssueNoteToPut.courierDetails = goodIssueNote.courierDetails;
+                    goodIssueNoteToPut.dockAtNumber = goodIssueNote.dockAtNumber;
                     goodIssueNoteToPut.status = GINStatus.Completed.ToString();
 
                     updateGINItems(goodIssueNote);

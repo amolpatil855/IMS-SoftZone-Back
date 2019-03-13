@@ -24,6 +24,9 @@ namespace IMSWebApi.ViewModel
         [MaxLength(10)]
         public string financialYear { get; set; }
 
+        public string courierDetails { get; set; }
+        public string dockAtNumber { get; set; }
+
         public virtual VMCustomer MstCustomer { get; set; }
         public virtual VMTrnSaleOrder TrnSaleOrder { get; set; }
         public virtual VMTrnWorkOrder TrnWorkOrder { get; set; }

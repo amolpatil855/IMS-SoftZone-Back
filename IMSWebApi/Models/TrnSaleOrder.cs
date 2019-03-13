@@ -44,8 +44,6 @@ namespace IMSWebApi.Models
         public long createdBy { get; set; }
         public Nullable<System.DateTime> updatedOn { get; set; }
         public Nullable<long> updatedBy { get; set; }
-        public string courierDetails { get; set; }
-        public string dockAtNumber { get; set; }
     
         public virtual MstAgent MstAgent { get; set; }
         public virtual MstCourier MstCourier { get; set; }

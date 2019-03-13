@@ -36,12 +36,14 @@ namespace IMSWebApi.Models
         public long createdBy { get; set; }
         public Nullable<System.DateTime> updatedOn { get; set; }
         public Nullable<long> updatedBy { get; set; }
+        public string courierDetails { get; set; }
+        public string dockAtNumber { get; set; }
     
         public virtual MstCustomer MstCustomer { get; set; }
         public virtual ICollection<TrnGoodIssueNoteItem> TrnGoodIssueNoteItems { get; set; }
         public virtual TrnMaterialQuotation TrnMaterialQuotation { get; set; }
+        public virtual TrnSaleOrder TrnSaleOrder { get; set; }
         public virtual TrnWorkOrder TrnWorkOrder { get; set; }
         public virtual ICollection<TrnSalesInvoice> TrnSalesInvoices { get; set; }
-        public virtual TrnSaleOrder TrnSaleOrder { get; set; }
     }
 }
