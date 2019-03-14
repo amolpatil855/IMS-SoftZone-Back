@@ -89,6 +89,7 @@ namespace IMSWebApi.Services
                                 grnItem.MstFomSize != null ? grnItem.MstFomSize.itemCode : grnItem.matSizeCode;
                 grnItem.accessoryName = grnItem.accessoryId != null ? grnItem.MstAccessory.itemCode : null;
                 grnItem.purchaseOrderNumber = grnItem.TrnPurchaseOrder.orderNumber;
+                grnItem.fomQuantityInKG = grnItem.MstCategory.code.Equals("Foam") ? grnItem.fomQuantityInKG : null;
             });
             return goodReceiveNoteView;
         }

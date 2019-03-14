@@ -132,6 +132,7 @@ namespace IMSWebApi.Services
                                 poItem.matSizeCode != null ? poItem.matSizeCode + " (" + poItem.MstMatThickness.thicknessCode + "-" + poItem.MstQuality.qualityCode + ")" : null;
                 poItem.accessoryName = poItem.accessoryId != null ? poItem.MstAccessory.itemCode : null;
                 poItem.purchaseDiscount = poItem.accessoryId == null ? poItem.MstCollection.purchaseDiscount : null;
+                poItem.matSizeId = poItem.MstCategory.code.Equals("Mattress") && poItem.matSizeId == null ? -1 : poItem.matSizeId; 
             });
 
             return purchaseOrderView;
