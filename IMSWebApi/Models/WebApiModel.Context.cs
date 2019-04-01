@@ -56,8 +56,6 @@ namespace IMSWebApi.Models
         public virtual DbSet<TrnMaterialQuotationItem> TrnMaterialQuotationItems { get; set; }
         public virtual DbSet<TrnMaterialSelection> TrnMaterialSelections { get; set; }
         public virtual DbSet<TrnMaterialSelectionItem> TrnMaterialSelectionItems { get; set; }
-        public virtual DbSet<TrnProductStock> TrnProductStocks { get; set; }
-        public virtual DbSet<TrnProductStockDetail> TrnProductStockDetails { get; set; }
         public virtual DbSet<TrnPurchaseOrder> TrnPurchaseOrders { get; set; }
         public virtual DbSet<TrnPurchaseOrderItem> TrnPurchaseOrderItems { get; set; }
         public virtual DbSet<TrnSaleOrderItem> TrnSaleOrderItems { get; set; }
@@ -81,9 +79,11 @@ namespace IMSWebApi.Models
         public virtual DbSet<TrnWorkOrder> TrnWorkOrders { get; set; }
         public virtual DbSet<vwLabourJob> vwLabourJobs { get; set; }
         public virtual DbSet<TrnGoodReceiveNote> TrnGoodReceiveNotes { get; set; }
-        public virtual DbSet<TrnGoodReceiveNoteItem> TrnGoodReceiveNoteItems { get; set; }
         public virtual DbSet<TrnGoodIssueNoteItem> TrnGoodIssueNoteItems { get; set; }
         public virtual DbSet<TrnGoodIssueNote> TrnGoodIssueNotes { get; set; }
         public virtual DbSet<TrnSaleOrder> TrnSaleOrders { get; set; }
+        public virtual DbSet<TrnGoodReceiveNoteItem> TrnGoodReceiveNoteItems { get; set; }
+        public virtual DbSet<TrnProductStock> TrnProductStocks { get; set; }
+        public virtual DbSet<TrnProductStockDetail> TrnProductStockDetails { get; set; }
     }
 }

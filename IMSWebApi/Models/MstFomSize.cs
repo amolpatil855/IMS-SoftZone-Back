@@ -16,13 +16,13 @@ namespace IMSWebApi.Models
     {
         public MstFomSize()
         {
-            this.TrnProductStockDetails = new HashSet<TrnProductStockDetail>();
-            this.TrnProductStocks = new HashSet<TrnProductStock>();
             this.TrnPurchaseOrderItems = new HashSet<TrnPurchaseOrderItem>();
             this.TrnSaleOrderItems = new HashSet<TrnSaleOrderItem>();
             this.TrnSalesInvoiceItems = new HashSet<TrnSalesInvoiceItem>();
-            this.TrnGoodReceiveNoteItems = new HashSet<TrnGoodReceiveNoteItem>();
             this.TrnGoodIssueNoteItems = new HashSet<TrnGoodIssueNoteItem>();
+            this.TrnGoodReceiveNoteItems = new HashSet<TrnGoodReceiveNoteItem>();
+            this.TrnProductStockDetails = new HashSet<TrnProductStockDetail>();
+            this.TrnProductStocks = new HashSet<TrnProductStock>();
         }
     
         public long id { get; set; }
@@ -46,12 +46,12 @@ namespace IMSWebApi.Models
         public virtual MstFomDensity MstFomDensity { get; set; }
         public virtual MstFomSuggestedMM MstFomSuggestedMM { get; set; }
         public virtual MstQuality MstQuality { get; set; }
-        public virtual ICollection<TrnProductStockDetail> TrnProductStockDetails { get; set; }
-        public virtual ICollection<TrnProductStock> TrnProductStocks { get; set; }
         public virtual ICollection<TrnPurchaseOrderItem> TrnPurchaseOrderItems { get; set; }
         public virtual ICollection<TrnSaleOrderItem> TrnSaleOrderItems { get; set; }
         public virtual ICollection<TrnSalesInvoiceItem> TrnSalesInvoiceItems { get; set; }
-        public virtual ICollection<TrnGoodReceiveNoteItem> TrnGoodReceiveNoteItems { get; set; }
         public virtual ICollection<TrnGoodIssueNoteItem> TrnGoodIssueNoteItems { get; set; }
+        public virtual ICollection<TrnGoodReceiveNoteItem> TrnGoodReceiveNoteItems { get; set; }
+        public virtual ICollection<TrnProductStockDetail> TrnProductStockDetails { get; set; }
+        public virtual ICollection<TrnProductStock> TrnProductStocks { get; set; }
     }
 }

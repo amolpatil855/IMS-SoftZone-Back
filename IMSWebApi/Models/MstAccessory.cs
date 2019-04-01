@@ -16,16 +16,16 @@ namespace IMSWebApi.Models
     {
         public MstAccessory()
         {
-            this.TrnProductStocks = new HashSet<TrnProductStock>();
-            this.TrnProductStockDetails = new HashSet<TrnProductStockDetail>();
             this.TrnPurchaseOrderItems = new HashSet<TrnPurchaseOrderItem>();
             this.TrnSaleOrderItems = new HashSet<TrnSaleOrderItem>();
             this.TrnSalesInvoiceItems = new HashSet<TrnSalesInvoiceItem>();
             this.TrnCurtainSelectionItems = new HashSet<TrnCurtainSelectionItem>();
             this.TrnCurtainQuotationItems = new HashSet<TrnCurtainQuotationItem>();
             this.TrnWorkOrderItems = new HashSet<TrnWorkOrderItem>();
-            this.TrnGoodReceiveNoteItems = new HashSet<TrnGoodReceiveNoteItem>();
             this.TrnGoodIssueNoteItems = new HashSet<TrnGoodIssueNoteItem>();
+            this.TrnGoodReceiveNoteItems = new HashSet<TrnGoodReceiveNoteItem>();
+            this.TrnProductStocks = new HashSet<TrnProductStock>();
+            this.TrnProductStockDetails = new HashSet<TrnProductStockDetail>();
         }
     
         public long id { get; set; }
@@ -48,15 +48,15 @@ namespace IMSWebApi.Models
         public virtual MstHsn MstHsn { get; set; }
         public virtual MstSupplier MstSupplier { get; set; }
         public virtual MstUnitOfMeasure MstUnitOfMeasure { get; set; }
-        public virtual ICollection<TrnProductStock> TrnProductStocks { get; set; }
-        public virtual ICollection<TrnProductStockDetail> TrnProductStockDetails { get; set; }
         public virtual ICollection<TrnPurchaseOrderItem> TrnPurchaseOrderItems { get; set; }
         public virtual ICollection<TrnSaleOrderItem> TrnSaleOrderItems { get; set; }
         public virtual ICollection<TrnSalesInvoiceItem> TrnSalesInvoiceItems { get; set; }
         public virtual ICollection<TrnCurtainSelectionItem> TrnCurtainSelectionItems { get; set; }
         public virtual ICollection<TrnCurtainQuotationItem> TrnCurtainQuotationItems { get; set; }
         public virtual ICollection<TrnWorkOrderItem> TrnWorkOrderItems { get; set; }
-        public virtual ICollection<TrnGoodReceiveNoteItem> TrnGoodReceiveNoteItems { get; set; }
         public virtual ICollection<TrnGoodIssueNoteItem> TrnGoodIssueNoteItems { get; set; }
+        public virtual ICollection<TrnGoodReceiveNoteItem> TrnGoodReceiveNoteItems { get; set; }
+        public virtual ICollection<TrnProductStock> TrnProductStocks { get; set; }
+        public virtual ICollection<TrnProductStockDetail> TrnProductStockDetails { get; set; }
     }
 }
