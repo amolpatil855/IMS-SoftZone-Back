@@ -58,7 +58,7 @@ namespace IMSWebApi.Services
             return new ListResult<VMTrnProductStockDetailList>
             {
                 Data = trnProductStockDetailView,
-                TotalCount = repo.TrnProductStocks.Where(q => !string.IsNullOrEmpty(search)
+                TotalCount = repo.TrnProductStockDetails.Where(q => !string.IsNullOrEmpty(search)
                     ? q.MstCategory.code.StartsWith(search)
                     || q.MstCollection.collectionCode.StartsWith(search)
                     || q.MstAccessory.itemCode.StartsWith(search)
