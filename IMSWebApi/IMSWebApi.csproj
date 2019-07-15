@@ -50,6 +50,10 @@
       <HintPath>..\packages\AutoMapper.4.2.1\lib\net45\AutoMapper.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Bytescout.Spreadsheet, Version=3.4.0.1778, Culture=neutral, PublicKeyToken=f7dd1bd9d40a50eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\Bytescout.Spreadsheet.3.4.0.1778\lib\net40\Bytescout.Spreadsheet.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
@@ -299,6 +303,7 @@
     <Compile Include="Controllers\TrnSaleOrderController.cs" />
     <Compile Include="Controllers\TrnSalesInvoiceController.cs" />
     <Compile Include="Controllers\TrnWorkOrderController.cs" />
+    <Compile Include="Controllers\UploadFWRShadeController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="CustomAttributes\AuthorizeUserAttribute.cs" />
@@ -551,6 +556,7 @@
     <Compile Include="Services\TrnSalesInvoiceService.cs" />
     <Compile Include="Services\TrnWorkOrderService.cs" />
     <Compile Include="Services\UnitOfMeasureService.cs" />
+    <Compile Include="Services\UploadFWRShadeService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Services\FomSizeService.cs" />
     <Compile Include="Startup.cs" />

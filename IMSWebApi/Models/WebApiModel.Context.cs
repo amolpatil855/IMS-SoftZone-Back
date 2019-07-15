@@ -12,6 +12,8 @@ namespace IMSWebApi.Models
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class WebAPIdbEntities : DbContext
     {
@@ -85,5 +87,128 @@ namespace IMSWebApi.Models
         public virtual DbSet<TrnGoodReceiveNoteItem> TrnGoodReceiveNoteItems { get; set; }
         public virtual DbSet<TrnProductStockDetail> TrnProductStockDetails { get; set; }
         public virtual DbSet<TrnProductStock> TrnProductStocks { get; set; }
+    
+        public virtual ObjectResult<MstCategory> GET_CATEGORY_ID(string categories)
+        {
+            var categoriesParameter = categories != null ?
+                new ObjectParameter("Categories", categories) :
+                new ObjectParameter("Categories", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<MstCategory>("GET_CATEGORY_ID", categoriesParameter);
+        }
+    
+        public virtual ObjectResult<MstCategory> GET_CATEGORY_ID(string categories, MergeOption mergeOption)
+        {
+            var categoriesParameter = categories != null ?
+                new ObjectParameter("Categories", categories) :
+                new ObjectParameter("Categories", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<MstCategory>("GET_CATEGORY_ID", mergeOption, categoriesParameter);
+        }
+    
+        public virtual int GET_COLLECTION_ID(string collection)
+        {
+            var collectionParameter = collection != null ?
+                new ObjectParameter("Collection", collection) :
+                new ObjectParameter("Collection", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("GET_COLLECTION_ID", collectionParameter);
+        }
+    
+        public virtual ObjectResult<MstFWRDesign> GET_DESIGN_ID(string design)
+        {
+            var designParameter = design != null ?
+                new ObjectParameter("Design", design) :
+                new ObjectParameter("Design", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<MstFWRDesign>("GET_DESIGN_ID", designParameter);
+        }
+    
+        public virtual ObjectResult<MstFWRDesign> GET_DESIGN_ID(string design, MergeOption mergeOption)
+        {
+            var designParameter = design != null ?
+                new ObjectParameter("Design", design) :
+                new ObjectParameter("Design", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<MstFWRDesign>("GET_DESIGN_ID", mergeOption, designParameter);
+        }
+    
+        public virtual int GET_QUALITY_ID(string quality)
+        {
+            var qualityParameter = quality != null ?
+                new ObjectParameter("Quality", quality) :
+                new ObjectParameter("Quality", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("GET_QUALITY_ID", qualityParameter);
+        }
+    
+        public virtual int sp_helpdiagrams(string diagramname, Nullable<int> owner_id)
+        {
+            var diagramnameParameter = diagramname != null ?
+                new ObjectParameter("diagramname", diagramname) :
+                new ObjectParameter("diagramname", typeof(string));
+    
+            var owner_idParameter = owner_id.HasValue ?
+                new ObjectParameter("owner_id", owner_id) :
+                new ObjectParameter("owner_id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_helpdiagrams", diagramnameParameter, owner_idParameter);
+        }
+    
+        public virtual int sp_renamediagram(string diagramname, Nullable<int> owner_id, string new_diagramname)
+        {
+            var diagramnameParameter = diagramname != null ?
+                new ObjectParameter("diagramname", diagramname) :
+                new ObjectParameter("diagramname", typeof(string));
+    
+            var owner_idParameter = owner_id.HasValue ?
+                new ObjectParameter("owner_id", owner_id) :
+                new ObjectParameter("owner_id", typeof(int));
+    
+            var new_diagramnameParameter = new_diagramname != null ?
+                new ObjectParameter("new_diagramname", new_diagramname) :
+                new ObjectParameter("new_diagramname", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_renamediagram", diagramnameParameter, owner_idParameter, new_diagramnameParameter);
+        }
+    
+        public virtual int sp_upgraddiagrams()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_upgraddiagrams");
+        }
+    
+        [DbFunction("WebAPIdbEntities", "SplitStringAsTable")]
+        public virtual IQueryable<string> SplitStringAsTable(string inputString, string delimiter)
+        {
+            var inputStringParameter = inputString != null ?
+                new ObjectParameter("inputString", inputString) :
+                new ObjectParameter("inputString", typeof(string));
+    
+            var delimiterParameter = delimiter != null ?
+                new ObjectParameter("delimiter", delimiter) :
+                new ObjectParameter("delimiter", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<string>("[WebAPIdbEntities].[SplitStringAsTable](@inputString, @delimiter)", inputStringParameter, delimiterParameter);
+        }
+    
+        public virtual ObjectResult<MstCategory> UploadCategory()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<MstCategory>("UploadCategory");
+        }
+    
+        public virtual ObjectResult<MstCategory> UploadCategory(MergeOption mergeOption)
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<MstCategory>("UploadCategory", mergeOption);
+        }
+    
+        public virtual ObjectResult<MstFWRShade> UploadFWRShade()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<MstFWRShade>("UploadFWRShade");
+        }
+    
+        public virtual ObjectResult<MstFWRShade> UploadFWRShade(MergeOption mergeOption)
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<MstFWRShade>("UploadFWRShade", mergeOption);
+        }
     }
 }

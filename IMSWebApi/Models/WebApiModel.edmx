@@ -3380,6 +3380,41 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="GET_CATEGORY_ID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Categories" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="GET_COLLECTION_ID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Collection" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="GET_DESIGN_ID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Design" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="GET_QUALITY_ID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Quality" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SplitStringAsTable" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="inputString" Type="varchar(max)" Mode="In" />
+          <Parameter Name="delimiter" Type="char" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="Value" Type="varchar(max)" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="UploadCategory" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="UploadFWRShade" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="IMSModelStoreContainer">
           <EntitySet Name="CFGRoleMenu" EntityType="Self.CFGRoleMenu" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MstAccessory" EntityType="Self.MstAccessory" Schema="dbo" store:Type="Tables" />
@@ -4995,6 +5030,34 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
             <End Role="MstQuality" EntitySet="MstQualities" />
             <End Role="TrnProductStock" EntitySet="TrnProductStocks" />
           </AssociationSet>
+          <FunctionImport Name="GET_CATEGORY_ID" EntitySet="MstCategories" ReturnType="Collection(IMSModel.MstCategory)">
+          <Parameter Name="Categories" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GET_COLLECTION_ID">
+          <Parameter Name="Collection" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GET_DESIGN_ID" EntitySet="MstFWRDesigns" ReturnType="Collection(IMSModel.MstFWRDesign)">
+          <Parameter Name="Design" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GET_QUALITY_ID">
+          <Parameter Name="Quality" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagrams">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_renamediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="new_diagramname" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_upgraddiagrams" />
+          <FunctionImport Name="SplitStringAsTable" IsComposable="true" ReturnType="Collection(String)">
+            <Parameter Name="inputString" Mode="In" Type="String" />
+            <Parameter Name="delimiter" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="UploadCategory" EntitySet="MstCategories" ReturnType="Collection(IMSModel.MstCategory)" />
+          <FunctionImport Name="UploadFWRShade" EntitySet="MstFWRShades" ReturnType="Collection(IMSModel.MstFWRShade)" />
           </EntityContainer>
         <EntityType Name="CFGRoleMenu">
           <Key>
@@ -10021,6 +10084,16 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GET_CATEGORY_ID" FunctionName="IMSModel.Store.GET_CATEGORY_ID" />
+          <FunctionImportMapping FunctionImportName="GET_COLLECTION_ID" FunctionName="IMSModel.Store.GET_COLLECTION_ID" />
+          <FunctionImportMapping FunctionImportName="GET_DESIGN_ID" FunctionName="IMSModel.Store.GET_DESIGN_ID" />
+          <FunctionImportMapping FunctionImportName="GET_QUALITY_ID" FunctionName="IMSModel.Store.GET_QUALITY_ID" />
+          <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="IMSModel.Store.sp_helpdiagrams" />
+          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="IMSModel.Store.sp_renamediagram" />
+          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="IMSModel.Store.sp_upgraddiagrams" />
+          <FunctionImportMapping FunctionImportName="SplitStringAsTable" FunctionName="IMSModel.Store.SplitStringAsTable" />
+          <FunctionImportMapping FunctionImportName="UploadCategory" FunctionName="IMSModel.Store.UploadCategory" />
+          <FunctionImportMapping FunctionImportName="UploadFWRShade" FunctionName="IMSModel.Store.UploadFWRShade" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
