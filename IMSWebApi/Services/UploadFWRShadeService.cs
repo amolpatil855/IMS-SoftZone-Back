@@ -1,4 +1,5 @@
 ﻿using Bytescout.Spreadsheet;
+using IMSWebApi.Common;
 using IMSWebApi.Models;
 using IMSWebApi.ViewModel;
 using System;
@@ -17,13 +18,12 @@ namespace IMSWebApi.Services
     public class UploadFWRShadeService
     {
         WebAPIdbEntities repo = new WebAPIdbEntities();
-
-
-
+        DataTableHelper datatable_helper = new DataTableHelper();
+        
         public int uploadCategory(HttpPostedFileBase file)
         {
             DataTable categoryDataTable = new DataTable();
-            categoryDataTable = PrepareDataTable(file); //contains raw data table
+            categoryDataTable = datatable_helper.PrepareDataTable(file); //contains raw data table
 
             foreach (DataColumn col in categoryDataTable.Columns)
             {
@@ -71,7 +71,7 @@ namespace IMSWebApi.Services
         public int UploadShade(HttpPostedFileBase file)
         {
             DataTable shadeDataTable = new DataTable();
-            shadeDataTable = PrepareDataTable(file); //contains raw data table
+            shadeDataTable = datatable_helper.PrepareDataTable(file); //contains raw data table
 
             DataTable validatedDataTable = new DataTable();
             validatedDataTable = ValidateDataTable(shadeDataTable); //contains validated data
@@ -119,39 +119,6 @@ namespace IMSWebApi.Services
         }
 
         /// <summary>
-        /// preparing data table from excel file
-        /// </summary>
-        /// <param name="file"></param>
-        /// <returns></returns>
-        private DataTable PrepareDataTable(HttpPostedFileBase file)
-        {
-            var fileName = Path.GetFileName(file.FileName);
-
-            //var filePath = Path.Combine(HttpContext.Current.Server.MapPath("~/App_Data"), fileName);
-
-            DataTable dataTable = new DataTable();
-
-            Spreadsheet document = new Spreadsheet();
-
-            string saveFolder = @"D:\uploads"; //Pick a folder on your machine to store the uploaded files
-
-            string filePath1 = Path.Combine(saveFolder, fileName);
-
-            file.SaveAs(filePath1);
-
-            var temp = filePath1;
-
-            //var tempDirectory = filePath;
-            var fileExtension = Path.GetExtension(filePath1);
-            if (fileExtension == ".xls" || fileExtension == ".xlsx")
-            {
-                document.LoadFromFile(filePath1);
-                dataTable = document.ExportToDataTable(0, true);
-            }
-            return dataTable;
-        }
-
-        /// <summary>
         /// validate data table content
         /// </summary>
         /// <param name="rawTable"></param>
@@ -184,15 +151,12 @@ namespace IMSWebApi.Services
             //first validating without keys
             foreach (DataRow row in rawTable.Rows)
             {
-                model.categoryId = 1;
-                model.collectionId = 1;
-                model.qualityId = 1;
-                model.designId = 1;
+                model.categoryId = model.collectionId = model.qualityId = model.designId = 1;
                 model.shadeCode = row["Shade Code*"].ToString();
                 model.shadeName = row["Color*"].ToString();
-                model.serialNumber = Convert.ToInt32(row["Serial Number*"]);
-                model.description = row["Description "].ToString();
-                model.stockReorderLevel = Convert.ToInt32(row["Stock Reorder Level *"]);
+                model.serialNumber = !string.IsNullOrWhiteSpace(row["Serial Number*"].ToString()) ?  Convert.ToInt32(row["Serial Number*"]) : 0;
+                model.description = row["Description"].ToString();
+                model.stockReorderLevel = !string.IsNullOrWhiteSpace(row["Stock Reorder Level *"].ToString()) ? Convert.ToInt32(row["Stock Reorder Level *"]) : 0;
 
                 var context = new ValidationContext(model, null, null);
                 var result = new List<ValidationResult>();
@@ -231,7 +195,10 @@ namespace IMSWebApi.Services
             {
                 for(int j = i; j < rawTable.Rows.Count && j == i; j++)
                 {
-                    var row = designKey.Where(d => d.MstCollection.collectionName.Equals(rawTable.Rows[j]["Collection*"].ToString().Trim()) && d.MstQuality.qualityCode.Equals(rawTable.Rows[j]["Quality*"].ToString().Trim()) && d.designCode.Equals(rawTable.Rows[j]["Design*"].ToString().Trim())).FirstOrDefault();
+                    var row = designKey.Where(d => d.MstCategory.code.ToLower().Equals(rawTable.Rows[j]["Category*"].ToString().Trim().ToLower()) 
+                                        && d.MstCollection.collectionName.ToLower().Equals(rawTable.Rows[j]["Collection*"].ToString().Trim().ToLower()) 
+                                        && d.MstQuality.qualityCode.ToLower().Equals(rawTable.Rows[j]["Quality*"].ToString().Trim().ToLower()) 
+                                        && d.designCode.ToLower().Equals(rawTable.Rows[j]["Design*"].ToString().Trim().ToLower())).FirstOrDefault();
                     if (row != null)
                     {                        
                         rawTable.Rows[i]["Category*"] = row.categoryId;                        
@@ -250,118 +217,16 @@ namespace IMSWebApi.Services
 
             rawTable.AcceptChanges();
 
-            //iterating over data table for validating rows
-            //long z = 0;
-            //foreach (DataRow row in rawTable.Rows)
-            //{
-            //    model.categoryId = long.TryParse(row["Category*"].ToString(), out z) ? z : 0;
-            //    model.collectionId = long.TryParse(row["Collection*"].ToString(), out z) ? z : 0;
-            //    model.qualityId = long.TryParse(row["Quality*"].ToString(), out z) ? z : 0;
-            //    model.designId = long.TryParse(row["Design*"].ToString(), out z) ? z : 0;
-            //    //model.shadeCode = row["Shade Code*"].ToString();
-            //    //model.shadeName = row["Color*"].ToString();
-            //    //model.serialNumber = Convert.ToInt32(row["Serial Number*"]);
-            //    //model.description = row["Description "].ToString();
-            //    //model.stockReorderLevel = Convert.ToInt32(row["Stock Reorder Level *"]);
-
-            //    var context = new ValidationContext(model, null, null);
-            //    var result = new List<ValidationResult>();
-            //    var isValid = Validator.TryValidateObject(model, context, result, true);
-
-            //    string errormessage = "";
-            //    if (!isValid)
-            //    {
-            //        InvalidData.Rows.Add(row.ItemArray);
-                    //if (model.categoryId != 0)
-                    //{
-                    //    string x = InvalidData.Rows[InvalidData.Rows.Count - 1]["Category"].ToString();
-                    //    var category = designKey.Where(a => a.MstCategory.id == Convert.ToInt32(x)).FirstOrDefault();
-                    //    InvalidData.Rows[InvalidData.Rows.Count - 1]["Category"] = category.MstCategory.code;
-                    //}
-                    //if (model.collectionId != 0)
-                    //{
-                    //    string x = InvalidData.Rows[InvalidData.Rows.Count - 1]["Collection"].ToString();
-                    //    var collection = designKey.Where(a => a.MstCollection.id == Convert.ToInt32(x)).FirstOrDefault();
-                    //    InvalidData.Rows[InvalidData.Rows.Count - 1]["Collection"] = collection.MstCollection.collectionCode;
-                    //}
-                    //if (model.qualityId != 0)
-                    //{
-                    //    string x = InvalidData.Rows[InvalidData.Rows.Count - 1]["Quality"].ToString();
-                    //    var quality = designKey.Where(a => a.MstQuality.id == Convert.ToInt32(x)).FirstOrDefault();
-                    //    InvalidData.Rows[InvalidData.Rows.Count - 1]["Quality"] = quality.MstQuality.qualityCode;
-                    //}
-                    //if (model.collectionId != 0)
-                    //{
-                    //    string x = InvalidData.Rows[InvalidData.Rows.Count - 1]["Design"].ToString();
-                    //    var cc = designKey.Where(a => a.id == Convert.ToInt32(x)).FirstOrDefault();
-                    //    InvalidData.Rows[InvalidData.Rows.Count - 1]["Design"] = cc.designCode;
-                    //}
-
-
-                    //adding reason of invalid row
-            //        for (int i = 0; i < result.Count; i++)
-            //        {
-            //            errormessage = string.Join(".", string.Join(",", result.ElementAt(i)), errormessage);
-            //        }
-            //        InvalidData.Rows[InvalidData.Rows.Count - 1]["Reason"] = errormessage;
-            //        row.Delete();
-            //    }
-            //}
-
-            //rawTable.AcceptChanges();
-            //InvalidData.AcceptChanges();
-
             //if contains invalid data then convert to Excel 
             if(InvalidData != null)
             {
-                ConvertToExcel(InvalidData, true);
+                datatable_helper.ConvertToExcel(InvalidData, true);
             }
 
             //valid data convert to excel
-            ConvertToExcel(rawTable, false);
+            datatable_helper.ConvertToExcel(rawTable, false);
 
             return rawTable;
-        }
-
-        /// <summary>
-        /// Converting invalid data to excel sheet
-        /// </summary>
-        /// <param name="invalidData"></param>
-        /// <returns></returns>
-        private int ConvertToExcel(DataTable dataTable, bool isInvalid)
-        {
-            //Spreadsheet scc = new Spreadsheet();
-
-            //scc.Workbook.Worksheets.Add("Logs");
-            string saveLocation = @"D:\uploads\";
-            //string fileName = "excel.xls";
-            
-
-            //scc.ImportFromDataTable(dataTable, scc.Workbook.Worksheets.IndexOf("Logs"));
-            //scc.SaveAs(saveLocation+ "excel.xls");
-
-            var lines = new List<string>();
-            string[] columnNames = dataTable.Columns.Cast<DataColumn>().
-                                  Select(column => column.ColumnName).
-                                  ToArray();
-
-            var header = string.Join(",", columnNames);
-            lines.Add(header);
-
-            var valueLines = dataTable.AsEnumerable()
-                               .Select(row => string.Join(",", row.ItemArray));
-            lines.AddRange(valueLines);
-
-            if (isInvalid)
-            {
-                File.WriteAllLines(saveLocation + "Invalidexcel.xls", lines);
-            }            
-            else
-            {
-                File.WriteAllLines(saveLocation + "validexcel.xls", lines);
-            }
-
-            return 0;
-        }
+        }     
     }
 }

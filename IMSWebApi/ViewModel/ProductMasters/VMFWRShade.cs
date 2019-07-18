@@ -35,13 +35,15 @@ namespace IMSWebApi.ViewModel
         public string shadeName { get; set; }
 
         [Required]    
-        [Range(typeof(int), "1", "1000000000")]
+        //[Range(typeof(int), "1", "1000000000")]
+        [Range(1, int.MaxValue)]
         public int serialNumber { get; set; }
 
         [MaxLength(500)]
         public string description { get; set; }
 
         [Required]
+        [Range(1, int.MaxValue)]
         public int stockReorderLevel { get; set; }
     
         public virtual VMCategory MstCategory { get; set; }
