@@ -10,6 +10,7 @@ namespace IMSWebApi.Common
 {
     public class DataTableHelper
     {
+        string TimeStamp = string.Empty;
         /// <summary>
         /// preparing data table from excel file
         /// </summary>
@@ -17,13 +18,15 @@ namespace IMSWebApi.Common
         /// <returns></returns>
         public DataTable PrepareDataTable(HttpPostedFileBase file)
         {
+            TimeStamp = DateTime.Now.ToString("yyyyMMddHHmmssfff");
+
             var fileName = string.Concat(
             Path.GetFileNameWithoutExtension(file.FileName),
-            DateTime.Now.ToString("yyyyMMddHHmmssfff"),
+            TimeStamp,
             Path.GetExtension(file.FileName)
             );
 
-            var filePath = Path.Combine(HttpContext.Current.Server.MapPath("~/App_Data"), fileName);
+            var filePath = Path.Combine(HttpContext.Current.Server.MapPath("~/ExcelUpload"), fileName);
 
             DataTable dataTable = new DataTable();
 
@@ -57,13 +60,23 @@ namespace IMSWebApi.Common
             //Spreadsheet scc = new Spreadsheet();
 
             //scc.Workbook.Worksheets.Add("Logs");
-            var filePath = Path.Combine(HttpContext.Current.Server.MapPath("~/App_Data"));
+            var filePath = Path.Combine(HttpContext.Current.Server.MapPath("~/ExcelUpload"));
             //string saveLocation = @"D:\uploads\";
             //string fileName = "excel.xls";
 
 
             //scc.ImportFromDataTable(dataTable, scc.Workbook.Worksheets.IndexOf("Logs"));
             //scc.SaveAs(saveLocation+ "excel.xls");
+
+            var InvalidfileName = string.Concat(
+            "Invalidexcel_",
+            TimeStamp, ".xls"
+            );
+
+            var ValidfileName = string.Concat(
+            "Validexcel_",
+            TimeStamp, ".xls"
+            );
 
             var lines = new List<string>();
             string[] columnNames = dataTable.Columns.Cast<DataColumn>().
@@ -77,15 +90,34 @@ namespace IMSWebApi.Common
                                .Select(row => string.Join(",", row.ItemArray));
             lines.AddRange(valueLines);
 
+            string filewritpath = string.Concat(filePath,"\\", InvalidfileName);
+            string filewritpathforValid = string.Concat(filePath, "\\", ValidfileName);
+
             if (isInvalid)
             {
-                File.WriteAllLines(filePath + "/Invalidexcel.xls", lines);
+                //File.OpenWrite(filewritpath);
+                //File.WriteAllLines(filePath + InvalidfileName, lines);
+               // File.WriteAllLines(filewritpath, lines);
+
+                using (StreamWriter writer = new StreamWriter(filewritpath, true))
+                {
+                    foreach(var line in lines)
+                    {
+                        writer.WriteLine(line);
+                    }                   
+                }                
             }
             else
             {
-                File.WriteAllLines(filePath + "/validexcel.xls", lines);
+                //File.WriteAllLines(filePath + ValidfileName, lines);
+                using (StreamWriter writer = new StreamWriter(filewritpathforValid, true))
+                {
+                    foreach (var line in lines)
+                    {
+                        writer.WriteLine(line);
+                    }
+                }   
             }
-
             return 0;
         }
     }

@@ -19,7 +19,7 @@ namespace IMSWebApi.Services
     {
         WebAPIdbEntities repo = new WebAPIdbEntities();
         DataTableHelper datatable_helper = new DataTableHelper();
-        
+
         public int uploadCategory(HttpPostedFileBase file)
         {
             DataTable categoryDataTable = new DataTable();
@@ -39,8 +39,8 @@ namespace IMSWebApi.Services
             using (WebAPIdbEntities db = new WebAPIdbEntities())
             {
                 var i = db.Database.ExecuteSqlCommand("exec dbo.UploadCategory @CategoryType", param);
-            } 
-            
+            }
+
             //var res = repo.UploadCategory(categoryDataTable);
 
             //string cs = ConfigurationManager.ConnectionStrings["testconnection"].ConnectionString;
@@ -84,20 +84,20 @@ namespace IMSWebApi.Services
             validatedDataTable.Columns["Shade Code*"].SetOrdinal(4);
             validatedDataTable.Columns["Color*"].SetOrdinal(5);
             validatedDataTable.Columns["Serial Number*"].SetOrdinal(6);
-            validatedDataTable.Columns["Description "].SetOrdinal(7);            
+            validatedDataTable.Columns["Description "].SetOrdinal(7);
             validatedDataTable.Columns["Stock Reorder Level *"].SetOrdinal(8);
-            
+
             validatedDataTable.AcceptChanges();
 
             //var shade = repo.UploadFWRShade(validatedDataTable).ToList();
 
-            SqlParameter param = new SqlParameter("@ShadeType", SqlDbType.Structured);
-            param.TypeName = "dbo.ShadeType";
+            SqlParameter param = new SqlParameter("@FWRShadeType", SqlDbType.Structured);
+            param.TypeName = "dbo.FWRShadeType";
             param.Value = validatedDataTable;
 
             using (WebAPIdbEntities db = new WebAPIdbEntities())
             {
-                var i = db.Database.ExecuteSqlCommand("exec dbo.UploadFWRShade @ShadeType", param);
+                var i = db.Database.ExecuteSqlCommand("exec dbo.UploadFWRShade @FWRShadeType", param);
             }
 
             //string cs = ConfigurationManager.ConnectionStrings["testconnection"].ConnectionString;
@@ -154,9 +154,9 @@ namespace IMSWebApi.Services
                 model.categoryId = model.collectionId = model.qualityId = model.designId = 1;
                 model.shadeCode = row["Shade Code*"].ToString();
                 model.shadeName = row["Color*"].ToString();
-                model.serialNumber = !string.IsNullOrWhiteSpace(row["Serial Number*"].ToString()) ?  Convert.ToInt32(row["Serial Number*"]) : 0;
-                model.description = row["Description"].ToString();
-                model.stockReorderLevel = !string.IsNullOrWhiteSpace(row["Stock Reorder Level *"].ToString()) ? Convert.ToInt32(row["Stock Reorder Level *"]) : 0;
+                model.serialNumber = !string.IsNullOrWhiteSpace(row["Serial Number*"].ToString()) ? Convert.ToInt32(row["Serial Number*"]) : 0;
+                model.description = row["Description "].ToString();
+                model.stockReorderLevel = !string.IsNullOrWhiteSpace(row["Stock Reorder Level *"].ToString()) ? Convert.ToInt32(row["Stock Reorder Level *"]) : 0;
 
                 var context = new ValidationContext(model, null, null);
                 var result = new List<ValidationResult>();
@@ -165,7 +165,7 @@ namespace IMSWebApi.Services
                 string errormessage = "";
                 if (!isValid)
                 {
-                    InvalidData.Rows.Add(row.ItemArray);                    
+                    InvalidData.Rows.Add(row.ItemArray);
 
                     //adding reason of invalid row
                     for (int i = 0; i < result.Count; i++)
@@ -191,34 +191,35 @@ namespace IMSWebApi.Services
             var designKey = repo.GET_DESIGN_ID(designString).ToList();
 
             //replacing values of category, collection, quality and design by their ids
-            for (int i = 0; i < designKey.Count; i++)
+            //for (int i = 0; i < designKey.Count; i++)
+            //{
+            //for(int j = i; j < rawTable.Rows.Count && j == i; j++)
+            for (int j = 0; j < rawTable.Rows.Count; j++)
             {
-                for(int j = i; j < rawTable.Rows.Count && j == i; j++)
+                var row = designKey.Where(d => d.MstCategory.code.ToLower().Equals(rawTable.Rows[j]["Category*"].ToString().Trim().ToLower())
+                                    && d.MstCollection.collectionName.ToLower().Equals(rawTable.Rows[j]["Collection*"].ToString().Trim().ToLower())
+                                    && d.MstQuality.qualityCode.ToLower().Equals(rawTable.Rows[j]["Quality*"].ToString().Trim().ToLower())
+                                    && d.designCode.ToLower().Equals(rawTable.Rows[j]["Design*"].ToString().Trim().ToLower())).FirstOrDefault();
+                if (row != null)
                 {
-                    var row = designKey.Where(d => d.MstCategory.code.ToLower().Equals(rawTable.Rows[j]["Category*"].ToString().Trim().ToLower()) 
-                                        && d.MstCollection.collectionName.ToLower().Equals(rawTable.Rows[j]["Collection*"].ToString().Trim().ToLower()) 
-                                        && d.MstQuality.qualityCode.ToLower().Equals(rawTable.Rows[j]["Quality*"].ToString().Trim().ToLower()) 
-                                        && d.designCode.ToLower().Equals(rawTable.Rows[j]["Design*"].ToString().Trim().ToLower())).FirstOrDefault();
-                    if (row != null)
-                    {                        
-                        rawTable.Rows[i]["Category*"] = row.categoryId;                        
-                        rawTable.Rows[i]["Design*"] = row.id;
-                        rawTable.Rows[i]["Collection*"] = row.collectionId;
-                        rawTable.Rows[i]["Quality*"] = row.qualityId;
-                    }
-                    else
-                    {
-                        InvalidData.Rows.Add(rawTable.Rows[i].ItemArray);
-                        InvalidData.Rows[InvalidData.Rows.Count - 1]["Reason"] = "Please verify category, collection, design, quality";
-                        rawTable.Rows[i].Delete(); 
-                    }
+                    rawTable.Rows[j]["Category*"] = row.categoryId;
+                    rawTable.Rows[j]["Design*"] = row.id;
+                    rawTable.Rows[j]["Collection*"] = row.collectionId;
+                    rawTable.Rows[j]["Quality*"] = row.qualityId;
+                }
+                else
+                {
+                    InvalidData.Rows.Add(rawTable.Rows[j].ItemArray);
+                    InvalidData.Rows[InvalidData.Rows.Count - 1]["Reason"] = "Please verify category, collection, design, quality";
+                    rawTable.Rows[j].Delete();
                 }
             }
+            //}
 
             rawTable.AcceptChanges();
 
             //if contains invalid data then convert to Excel 
-            if(InvalidData != null)
+            if (InvalidData != null)
             {
                 datatable_helper.ConvertToExcel(InvalidData, true);
             }
@@ -227,6 +228,6 @@ namespace IMSWebApi.Services
             datatable_helper.ConvertToExcel(rawTable, false);
 
             return rawTable;
-        }     
+        }
     }
 }

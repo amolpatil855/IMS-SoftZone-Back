@@ -210,5 +210,10 @@ namespace IMSWebApi.Models
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<MstFWRShade>("UploadFWRShade", mergeOption);
         }
+    
+        public virtual int UploadFWRDesign()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UploadFWRDesign");
+        }
     }
 }

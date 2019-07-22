@@ -9,18 +9,26 @@ namespace IMSWebApi.ViewModel
     public class VMQuality
     {
         public long id { get; set; }
+
         [Required]
+        [Range(1, long.MaxValue, ErrorMessage = "Category does not exist")]
         public long categoryId { get; set; }
+
         [Required]
+        [Range(1, long.MaxValue, ErrorMessage = "Collection does not exist")] 
         public long collectionId { get; set; }
+
         [Required]
         [MaxLength(50)]
         public string qualityCode { get; set; }
+
         [Required]
-        [MaxLength(100)]
+        [MaxLength(100), MinLength(2)]
         public string qualityName { get; set; }
+
         [MaxLength(500)]
         public string description { get; set; }
+
         public Nullable<decimal> width { get; set; }
         public Nullable<decimal> size { get; set; }
         [Required]

@@ -729,6 +729,7 @@
   <ItemGroup>
     <Folder Include="Content\themes\base\images\" />
     <Folder Include="Content\themes\base\minified\images\" />
+    <Folder Include="ExcelUpload\" />
     <Folder Include="Images\" />
     <Folder Include="Scripts\" />
     <Folder Include="UploadFile\" />

@@ -12,10 +12,12 @@ namespace IMSWebApi.Controllers
     public class UploadFileController : ApiController
     {
         private UploadFWRShadeService _uploadShade = null;
+        private FWRDesignService _uploadDesign = null;
 
         public UploadFileController()
         {
             _uploadShade = new UploadFWRShadeService();
+            _uploadDesign = new FWRDesignService();
         }
 
         //[ApiAuthorize(AccessLevel = "shade")]
@@ -36,6 +38,12 @@ namespace IMSWebApi.Controllers
             {
                 case "MstFWRShade":
                     result = _uploadShade.UploadShade(filebase);
+                    break;
+                case "MstFWRDesign":
+                    result = _uploadDesign.UploadDesign(filebase);
+                    break;
+                case "MstQuality":
+                    result = 0;
                     break;
                 default:
                     break;

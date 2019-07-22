@@ -3414,6 +3414,7 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           </ReturnType>
         </Function>
         <Function Name="UploadCategory" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="UploadFWRDesign" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="UploadFWRShade" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="IMSModelStoreContainer">
           <EntitySet Name="CFGRoleMenu" EntityType="Self.CFGRoleMenu" Schema="dbo" store:Type="Tables" />
@@ -5058,6 +5059,7 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           </FunctionImport>
           <FunctionImport Name="UploadCategory" EntitySet="MstCategories" ReturnType="Collection(IMSModel.MstCategory)" />
           <FunctionImport Name="UploadFWRShade" EntitySet="MstFWRShades" ReturnType="Collection(IMSModel.MstFWRShade)" />
+          <FunctionImport Name="UploadFWRDesign" />
           </EntityContainer>
         <EntityType Name="CFGRoleMenu">
           <Key>
@@ -10094,6 +10096,7 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <FunctionImportMapping FunctionImportName="SplitStringAsTable" FunctionName="IMSModel.Store.SplitStringAsTable" />
           <FunctionImportMapping FunctionImportName="UploadCategory" FunctionName="IMSModel.Store.UploadCategory" />
           <FunctionImportMapping FunctionImportName="UploadFWRShade" FunctionName="IMSModel.Store.UploadFWRShade" />
+          <FunctionImportMapping FunctionImportName="UploadFWRDesign" FunctionName="IMSModel.Store.UploadFWRDesign" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
