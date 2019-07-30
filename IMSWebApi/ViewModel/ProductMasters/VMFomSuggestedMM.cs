@@ -12,11 +12,17 @@ namespace IMSWebApi.ViewModel
         //[Required]
         //public long categoryId { get; set; }
         [Required]
+        [Range(1, long.MaxValue)]
         public long collectionId { get; set; }
+
         [Required]
+        [Range(1, long.MaxValue)]
         public long qualityId { get; set; }
+
         [Required]
+        [Range(1, long.MaxValue)]
         public long fomDensityId { get; set; }
+
         [Required]
         public int suggestedMM { get; set; }
        

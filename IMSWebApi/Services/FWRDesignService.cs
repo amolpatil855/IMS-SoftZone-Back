@@ -161,12 +161,12 @@ namespace IMSWebApi.Services
 
             //datatable for invalid rows
             DataTable InvalidData = new DataTable();
-            InvalidData.Columns.Add("Category");
-            InvalidData.Columns.Add("Collection");
-            InvalidData.Columns.Add("Quality");
-            InvalidData.Columns.Add("Design Code");
-            InvalidData.Columns.Add("Design Name");
-            InvalidData.Columns.Add("Description");
+            InvalidData.Columns.Add("Category *");
+            InvalidData.Columns.Add("Collection *");
+            InvalidData.Columns.Add("Quality* ");
+            InvalidData.Columns.Add("Design Code* ");
+            InvalidData.Columns.Add("Design Name* ");
+            InvalidData.Columns.Add("Description ");
             InvalidData.Columns.Add("Reason");
 
             //setting column name as its caption name
@@ -208,28 +208,27 @@ namespace IMSWebApi.Services
             InvalidData.AcceptChanges();
 
             //finding distinct values of Design codes
-            List<string> Design = new List<string>();
-            Design = rawTable.AsEnumerable().Select(c => c.Field<string>("Design Code* ")).Distinct().ToList();
+            List<string> quality = new List<string>();
+            quality = rawTable.AsEnumerable().Select(c => c.Field<string>("Quality* ")).Distinct().ToList();
 
             //formatting as comma separated string
-            string designString = (string.Join(",", Design.ToArray()));
+            string qualityString = (string.Join(",", quality.ToArray()));
 
             //fetching data for design            
-            var designKey = repo.GET_DESIGN_ID(designString).ToList();
+            var designKey = repo.GET_QUALITY_ID(qualityString).ToList();
 
             //replacing values of category, collection, quality by their ids         
             for (int j = 0; j < rawTable.Rows.Count; j++)
             {
                 var row = designKey.Where(d => d.MstCategory.code.ToLower().Equals(rawTable.Rows[j]["Category *"].ToString().Trim().ToLower())
                                     && d.MstCollection.collectionName.ToLower().Equals(rawTable.Rows[j]["Collection *"].ToString().Trim().ToLower())
-                                    && d.MstQuality.qualityCode.ToLower().Equals(rawTable.Rows[j]["Quality* "].ToString().Trim().ToLower())
-                                    && d.designCode.ToLower().Equals(rawTable.Rows[j]["Design Code* "].ToString().Trim().ToLower())).FirstOrDefault();
+                                    && d.qualityCode.ToLower().Equals(rawTable.Rows[j]["Quality* "].ToString().Trim().ToLower())).FirstOrDefault();
 
                 if (row != null)
                 {
                     rawTable.Rows[j]["Category *"] = row.categoryId;
                     rawTable.Rows[j]["Collection *"] = row.collectionId;
-                    rawTable.Rows[j]["Quality* "] = row.qualityId;
+                    rawTable.Rows[j]["Quality* "] = row.id;
                 }
                 else
                 {
@@ -243,7 +242,7 @@ namespace IMSWebApi.Services
             rawTable.AcceptChanges();
 
             //if contains invalid data then convert to Excel 
-            if (InvalidData != null)
+            if (InvalidData.Rows.Count > 0)
             {
                 datatable_helper.ConvertToExcel(InvalidData, true);
             }

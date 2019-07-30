@@ -310,5 +310,77 @@ namespace IMSWebApi.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<MstSupplier>("GET_SUPPLIER_ID", mergeOption, supplierValueParameter);
         }
+    
+        public virtual ObjectResult<MstFomDensity> GET_DENSITY_ID(string density)
+        {
+            var densityParameter = density != null ?
+                new ObjectParameter("Density", density) :
+                new ObjectParameter("Density", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<MstFomDensity>("GET_DENSITY_ID", densityParameter);
+        }
+    
+        public virtual ObjectResult<MstFomDensity> GET_DENSITY_ID(string density, MergeOption mergeOption)
+        {
+            var densityParameter = density != null ?
+                new ObjectParameter("Density", density) :
+                new ObjectParameter("Density", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<MstFomDensity>("GET_DENSITY_ID", mergeOption, densityParameter);
+        }
+    
+        public virtual ObjectResult<MstPattern> GET_PATTERN_ID(string pattern)
+        {
+            var patternParameter = pattern != null ?
+                new ObjectParameter("Pattern", pattern) :
+                new ObjectParameter("Pattern", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<MstPattern>("GET_PATTERN_ID", patternParameter);
+        }
+    
+        public virtual ObjectResult<MstPattern> GET_PATTERN_ID(string pattern, MergeOption mergeOption)
+        {
+            var patternParameter = pattern != null ?
+                new ObjectParameter("Pattern", pattern) :
+                new ObjectParameter("Pattern", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<MstPattern>("GET_PATTERN_ID", mergeOption, patternParameter);
+        }
+    
+        public virtual ObjectResult<MstFomSuggestedMM> GET_SUGGESTED_MM_ID(string suggestedMMValue)
+        {
+            var suggestedMMValueParameter = suggestedMMValue != null ?
+                new ObjectParameter("SuggestedMMValue", suggestedMMValue) :
+                new ObjectParameter("SuggestedMMValue", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<MstFomSuggestedMM>("GET_SUGGESTED_MM_ID", suggestedMMValueParameter);
+        }
+    
+        public virtual ObjectResult<MstFomSuggestedMM> GET_SUGGESTED_MM_ID(string suggestedMMValue, MergeOption mergeOption)
+        {
+            var suggestedMMValueParameter = suggestedMMValue != null ?
+                new ObjectParameter("SuggestedMMValue", suggestedMMValue) :
+                new ObjectParameter("SuggestedMMValue", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<MstFomSuggestedMM>("GET_SUGGESTED_MM_ID", mergeOption, suggestedMMValueParameter);
+        }
+    
+        public virtual ObjectResult<MstTailor> GET_TAILOR_ID(string tailor)
+        {
+            var tailorParameter = tailor != null ?
+                new ObjectParameter("Tailor", tailor) :
+                new ObjectParameter("Tailor", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<MstTailor>("GET_TAILOR_ID", tailorParameter);
+        }
+    
+        public virtual ObjectResult<MstTailor> GET_TAILOR_ID(string tailor, MergeOption mergeOption)
+        {
+            var tailorParameter = tailor != null ?
+                new ObjectParameter("Tailor", tailor) :
+                new ObjectParameter("Tailor", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<MstTailor>("GET_TAILOR_ID", mergeOption, tailorParameter);
+        }
     }
 }

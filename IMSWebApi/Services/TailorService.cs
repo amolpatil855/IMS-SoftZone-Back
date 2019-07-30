@@ -11,6 +11,11 @@ using IMSWebApi.ViewModel;
 using AutoMapper;
 using System.Transactions;
 using IMSWebApi.Enums;
+using System.Data;
+using System.ComponentModel.DataAnnotations;
+using System.Data.SqlClient;
+using System.Configuration;
+using IMSWebApi.ViewModel.UploadVM;
 
 namespace IMSWebApi.Services
 {
@@ -19,6 +24,7 @@ namespace IMSWebApi.Services
         WebAPIdbEntities repo = new WebAPIdbEntities();
         Int64 _LoggedInuserId;
         ResourceManager resourceManager = null;
+        DataTableHelper datatable_helper = new DataTableHelper();
         
         public TailorService()
         {
@@ -190,5 +196,266 @@ namespace IMSWebApi.Services
                 return new ResponseMessage(id, resourceManager.GetString("TailorDeleted"), ResponseType.Success);
             }
         }
+
+        /// <summary>
+        /// uploading design excel sheet
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
+        public int UploadTailor(HttpPostedFileBase file)
+        {
+            DataTable tailor = new DataTable();
+            tailor = datatable_helper.PrepareDataTable(file); //contains raw data table
+
+            DataTable InvalidData = new DataTable();
+
+            DataTable validatedDataTable = new DataTable();
+            validatedDataTable = ValidateDataTable(tailor, ref InvalidData); //contains validated data
+
+            //reordering columns
+            validatedDataTable.Columns["Name*"].SetOrdinal(0);
+            validatedDataTable.Columns["Email"].SetOrdinal(1);
+            validatedDataTable.Columns["Phone*"].SetOrdinal(2);
+            validatedDataTable.Columns["Alternate Phone 1"].SetOrdinal(3);
+            validatedDataTable.Columns["Address Line 1*"].SetOrdinal(4);
+            validatedDataTable.Columns["Address Line 2"].SetOrdinal(5);
+            validatedDataTable.Columns["City*"].SetOrdinal(6);            
+            validatedDataTable.Columns["Pin Code*"].SetOrdinal(7);
+            validatedDataTable.Columns["State*"].SetOrdinal(8);
+
+            validatedDataTable.AcceptChanges();           
+
+
+            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["IMS"].ConnectionString))
+            {
+                using (SqlDataAdapter da = new SqlDataAdapter())
+                {
+                    da.SelectCommand = new SqlCommand("UploadTailor", conn);
+                    da.SelectCommand.CommandType = CommandType.StoredProcedure;
+                    SqlParameter param = new SqlParameter();
+                    param.ParameterName = "@TailorsType";
+                    param.Value = validatedDataTable;
+                    da.SelectCommand.Parameters.Add(param);
+                    DataSet ds = new DataSet();
+                    da.Fill(ds, "result_name");
+
+
+
+                    DataTable dt = ds.Tables["result_name"];
+                    if (dt.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in dt.Rows)
+                        {
+                            validatedDataTable.Rows.Remove(validatedDataTable.AsEnumerable().Where(r => r.Field<string>("Phone*") == row["phone"].ToString()).FirstOrDefault());
+                            InvalidData.Rows.Add(row.ItemArray);
+                            row.Delete();
+                        }
+                        dt.AcceptChanges();
+                    }
+                }
+            }
+
+            validatedDataTable.AcceptChanges();
+            InvalidData.AcceptChanges();
+            
+            //if contains invalid data then convert to Excel 
+            if (InvalidData.Rows.Count > 0)
+            {
+                datatable_helper.ConvertToExcel(InvalidData, true);
+            }
+
+
+            //valid data convert to excel
+            datatable_helper.ConvertToExcel(validatedDataTable, false);
+
+            return 0;
+        }
+
+        /// <summary>
+        /// validate data table content
+        /// </summary>
+        /// <param name="rawTable"></param>
+        /// <returns></returns>
+        private DataTable ValidateDataTable(DataTable rawTable, ref DataTable InvalidData)
+        {
+            var model = new VMTailor();
+                        
+            //setting column name as its caption name
+            foreach (DataColumn col in rawTable.Columns)
+            {
+                string colname = rawTable.Columns[col.ColumnName].Caption;
+                InvalidData.Columns.Add(colname);
+                col.ColumnName = colname;
+            }
+            InvalidData.Columns.Add("Reason");
+
+            rawTable.AcceptChanges();
+
+            //first validating without keys
+            foreach (DataRow row in rawTable.Rows)
+            {
+                model.name = row["Name*"].ToString();
+                model.email = row["Email"].ToString();
+                model.phone = row["Phone*"].ToString();
+                model.alternatePhone1 = row["Alternate Phone 1"].ToString();
+                model.addressLine1 = row["Address Line 1*"].ToString();
+                model.addressLine2 = row["Address Line 2"].ToString();
+                model.city = row["City*"].ToString();
+                model.state = row["State*"].ToString();
+                model.pin = row["Pin Code*"].ToString();
+
+                var context = new ValidationContext(model, null, null);
+                var result = new List<ValidationResult>();
+                var isValid = Validator.TryValidateObject(model, context, result, true);
+
+                string errormessage = "";
+                if (!isValid)
+                {
+                    InvalidData.Rows.Add(row.ItemArray);
+
+                    //adding reason of invalid row
+                    for (int i = 0; i < result.Count; i++)
+                    {
+                        errormessage = string.Join(".", string.Join(",", result.ElementAt(i)), errormessage);
+                    }
+                    InvalidData.Rows[InvalidData.Rows.Count - 1]["Reason"] = errormessage;
+                    row.Delete();
+                }
+            }
+
+            rawTable.AcceptChanges();
+            InvalidData.AcceptChanges();
+
+            return rawTable;
+        }
+
+        /// <summary>
+        /// uploading design excel sheet
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
+        public int UploadTailorPatternDetails(HttpPostedFileBase file)
+        {
+            DataTable pattern = new DataTable();
+            pattern = datatable_helper.PrepareDataTable(file); //contains raw data table
+
+            DataTable validatedDataTable = new DataTable();
+            validatedDataTable = ValidatePatternDataTable(pattern); //contains validated data
+
+            //reordering columns
+            validatedDataTable.Columns["Tailor Name*"].SetOrdinal(0);
+            validatedDataTable.Columns["Pattern Name*"].SetOrdinal(1);
+            validatedDataTable.Columns["Charge*"].SetOrdinal(2);
+
+            validatedDataTable.AcceptChanges();
+
+            SqlParameter param = new SqlParameter("@TailorPatternChargesType", SqlDbType.Structured);
+            param.TypeName = "dbo.TailorPatternChargesType";
+            param.Value = validatedDataTable;
+
+            using (WebAPIdbEntities db = new WebAPIdbEntities())
+            {
+                var i = db.Database.ExecuteSqlCommand("exec dbo.UploadTailorPatternCharges @TailorPatternChargesType", param);
+            }
+
+            return 0;
+        }
+
+        private DataTable ValidatePatternDataTable(DataTable rawTable)
+        {
+            var model = new VMPatternForTailor();
+
+            //datatable for invalid rows
+            DataTable InvalidData = new DataTable();
+            InvalidData.Columns.Add("Tailor Name*");
+            InvalidData.Columns.Add("Pattern Name*");
+            InvalidData.Columns.Add("Charge*");
+            InvalidData.Columns.Add("Reason");
+
+            //setting column name as its caption name
+            foreach (DataColumn col in rawTable.Columns)
+            {
+                string colname = rawTable.Columns[col.ColumnName].Caption;
+                col.ColumnName = colname;
+            }
+            rawTable.AcceptChanges();
+
+            //first validating without keys
+            foreach (DataRow row in rawTable.Rows)
+            {
+                model.tailorId = model.patternId = 1;
+                model.charge = !string.IsNullOrWhiteSpace(row["Charge*"].ToString()) ? Convert.ToDecimal(row["Charge*"]) : 0;
+
+                var context = new ValidationContext(model, null, null);
+                var result = new List<ValidationResult>();
+                var isValid = Validator.TryValidateObject(model, context, result, true);
+
+                string errormessage = "";
+                if (!isValid)
+                {
+                    InvalidData.Rows.Add(row.ItemArray);
+
+                    //adding reason of invalid row
+                    for (int i = 0; i < result.Count; i++)
+                    {
+                        errormessage = string.Join(".", string.Join(",", result.ElementAt(i)), errormessage);
+                    }
+                    InvalidData.Rows[InvalidData.Rows.Count - 1]["Reason"] = errormessage;
+                    row.Delete();
+                }
+            }
+
+            rawTable.AcceptChanges();
+            InvalidData.AcceptChanges();
+
+            //finding distinct values of tailor and pattern
+            List<string> tailorname = new List<string>();
+            tailorname = rawTable.AsEnumerable().Select(c => c.Field<string>("Tailor Name*")).Distinct().ToList();
+
+            List<string> patternname = new List<string>();
+            patternname = rawTable.AsEnumerable().Select(c => c.Field<string>("Pattern Name*")).Distinct().ToList();
+
+            //formatting as comma separated string
+            string tailorstring = (string.Join(",", tailorname.ToArray()));
+            string patternstring = (string.Join(",", patternname.ToArray()));
+
+            //fetching data for tailor and pattern            
+            var tailor = repo.GET_TAILOR_ID(tailorstring).ToList();
+            var pattern = repo.GET_PATTERN_ID(patternstring).ToList();
+
+            //replacing values of category, collection, quality by their ids         
+            for (int j = 0; j < rawTable.Rows.Count; j++)
+            {
+                var tailordata = tailor.Where(d => d.name.ToLower().Equals(rawTable.Rows[j]["Tailor Name*"].ToString().Trim().ToLower())).FirstOrDefault();
+                var patterndata = pattern.Where(d => d.name.ToLower().Equals(rawTable.Rows[j]["Pattern Name*"].ToString().Trim().ToLower())).FirstOrDefault();
+
+                if (tailordata != null && patterndata != null)
+                {
+                    rawTable.Rows[j]["Tailor Name*"] = tailordata.id;
+                    rawTable.Rows[j]["Pattern Name*"] = patterndata.id;
+                }
+                else
+                {
+                    InvalidData.Rows.Add(rawTable.Rows[j].ItemArray);
+                    InvalidData.Rows[InvalidData.Rows.Count - 1]["Reason"] = "Please verify tailor name, pattern name";
+                    rawTable.Rows[j].Delete();
+                }
+            }
+
+
+            rawTable.AcceptChanges();
+
+            //if contains invalid data then convert to Excel 
+            if (InvalidData.Rows.Count > 0)
+            {
+                datatable_helper.ConvertToExcel(InvalidData, true);
+            }
+
+            //valid data convert to excel
+            datatable_helper.ConvertToExcel(rawTable, false);
+
+            return rawTable;
+        }
+
     }
 }

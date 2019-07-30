@@ -10,6 +10,9 @@ using AutoMapper;
 using IMSWebApi.Enums;
 using System.Resources;
 using System.Reflection;
+using System.Data;
+using System.ComponentModel.DataAnnotations;
+using System.Data.SqlClient;
 
 namespace IMSWebApi.Services
 {
@@ -19,6 +22,7 @@ namespace IMSWebApi.Services
         CategoryService _categoryService = null;
         Int64 _LoggedInuserId;
         ResourceManager resourceManager = null;
+        DataTableHelper datatable_helper = new DataTableHelper();
 
         public FomSuggestedMMService()
         {
@@ -107,6 +111,135 @@ namespace IMSWebApi.Services
             repo.MstFomSuggestedMMs.Remove(repo.MstFomSuggestedMMs.Where(q => q.id == id).FirstOrDefault());
             repo.SaveChanges();
             return new ResponseMessage(id, resourceManager.GetString("FomSuggestedMMDeleted"), ResponseType.Success);
+        }
+
+         /// <summary>
+        /// uploading design excel sheet
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
+        public int UploadFoamSuggestedMM(HttpPostedFileBase file)
+        {
+            DataTable suggestedMMdt = new DataTable();
+            suggestedMMdt = datatable_helper.PrepareDataTable(file); //contains raw data table
+
+            DataTable validatedDataTable = new DataTable();
+            validatedDataTable = ValidateDataTable(suggestedMMdt); //contains validated data
+
+            //reordering columns
+            validatedDataTable.Columns["Collection *"].SetOrdinal(0);
+            validatedDataTable.Columns["Quality  *"].SetOrdinal(1);
+            validatedDataTable.Columns["Foam Density *"].SetOrdinal(2);
+            validatedDataTable.Columns["Suggested MM *"].SetOrdinal(3);
+
+            validatedDataTable.AcceptChanges();
+
+            SqlParameter param = new SqlParameter("@FoamSuggestedMMType", SqlDbType.Structured);
+            param.TypeName = "dbo.FoamSuggestedMMType";
+            param.Value = validatedDataTable;
+
+            using (WebAPIdbEntities db = new WebAPIdbEntities())
+            {
+                var i = db.Database.ExecuteSqlCommand("exec dbo.UploadFoamSuggestedMM @FoamSuggestedMMType", param);
+            }
+
+            return 0;
+        }
+
+        /// <summary>
+        /// validate data table content
+        /// </summary>
+        /// <param name="rawTable"></param>
+        /// <returns></returns>
+        private DataTable ValidateDataTable(DataTable rawTable)
+        {
+            var model = new VMFomSuggestedMM();
+
+            //datatable for invalid rows
+            DataTable InvalidData = new DataTable();
+            InvalidData.Columns.Add("Collection *");
+            InvalidData.Columns.Add("Quality  *");
+            InvalidData.Columns.Add("Foam Density *");
+            InvalidData.Columns.Add("Suggested MM *");
+            InvalidData.Columns.Add("Reason");
+
+            //setting column name as its caption name
+            foreach (DataColumn col in rawTable.Columns)
+            {
+                string colname = rawTable.Columns[col.ColumnName].Caption;
+                col.ColumnName = colname;
+            }
+            rawTable.AcceptChanges();
+
+            //first validating without keys
+            foreach (DataRow row in rawTable.Rows)
+            {
+                model.collectionId = model.qualityId = model.fomDensityId = 1;
+                model.suggestedMM = !string.IsNullOrWhiteSpace(row["Suggested MM *"].ToString()) ? Convert.ToInt32(row["Suggested MM *"]) : 0;
+               
+                var context = new ValidationContext(model, null, null);
+                var result = new List<ValidationResult>();
+                var isValid = Validator.TryValidateObject(model, context, result, true);
+
+                string errormessage = "";
+                if (!isValid)
+                {
+                    InvalidData.Rows.Add(row.ItemArray);
+
+                    //adding reason of invalid row
+                    for (int i = 0; i < result.Count; i++)
+                    {
+                        errormessage = string.Join(".", string.Join(",", result.ElementAt(i)), errormessage);
+                    }
+                    InvalidData.Rows[InvalidData.Rows.Count - 1]["Reason"] = errormessage;
+                    row.Delete();
+                }
+            }
+
+            rawTable.AcceptChanges();
+            InvalidData.AcceptChanges();
+
+            //finding distinct values of density
+            List<string> foamDensity = new List<string>();
+            foamDensity = rawTable.AsEnumerable().Select(c => c.Field<string>("Foam Density *")).Distinct().ToList();
+
+            //formatting as comma separated string
+            string densityvalues = (string.Join(",", foamDensity.ToArray()));
+
+            //fetching data for density            
+            var desnitykeys = repo.GET_DENSITY_ID(densityvalues).ToList();
+
+            for (int j = 0; j < rawTable.Rows.Count; j++)
+            {
+                var row = desnitykeys.Where(d => d.MstCollection.collectionName.ToLower().Equals(rawTable.Rows[j]["Collection *"].ToString().Trim().ToLower())
+                                    && d.MstQuality.qualityCode.ToLower().Equals(rawTable.Rows[j]["Quality  *"].ToString().Trim().ToLower())
+                                    && d.density.ToString().ToLower().Trim().Equals(rawTable.Rows[j]["Foam Density *"].ToString().Trim().ToLower())).FirstOrDefault();
+
+                if (row != null)
+                {
+                    rawTable.Rows[j]["Collection *"] = row.collectionId;
+                    rawTable.Rows[j]["Quality  *"] = row.qualityId;
+                    rawTable.Rows[j]["Foam Density *"] = row.id;
+                }
+                else
+                {
+                    InvalidData.Rows.Add(rawTable.Rows[j].ItemArray);
+                    InvalidData.Rows[InvalidData.Rows.Count - 1]["Reason"] = "Please verify collection, quality and foam density";
+                    rawTable.Rows[j].Delete();
+                }
+            }
+            rawTable.AcceptChanges();
+
+            //if contains invalid data then convert to Excel 
+            if (InvalidData.Rows.Count > 0)
+            {
+                datatable_helper.ConvertToExcel(InvalidData, true);
+            }
+
+            //valid data convert to excel
+            datatable_helper.ConvertToExcel(rawTable, false);
+
+            return rawTable;
         }
     }
 }

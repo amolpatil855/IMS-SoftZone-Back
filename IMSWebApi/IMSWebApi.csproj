@@ -648,6 +648,7 @@
     <Compile Include="ViewModel\Masters\VMTailor.cs" />
     <Compile Include="ViewModel\Masters\VMTailorPatternChargeDetail.cs" />
     <Compile Include="ViewModel\Masters\VMTailorList.cs" />
+    <Compile Include="ViewModel\UploadVM\VMPatternForTailor.cs" />
     <Compile Include="ViewModel\WorkOrder\VMTrnWorkOrder.cs" />
     <Compile Include="ViewModel\WorkOrder\VMTrnWorkOrderItem.cs" />
     <Compile Include="ViewModel\WorkOrder\VMTrnWorkOrderList.cs" />

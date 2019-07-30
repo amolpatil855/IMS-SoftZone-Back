@@ -12,12 +12,17 @@ namespace IMSWebApi.ViewModel
         //[Required]
         //public long categoryId { get; set; }
         [Required]
+        [Range(1, long.MaxValue, ErrorMessage = "Collection does not exist")]
         public long collectionId { get; set; }
+
         [Required]
+        [Range(1, long.MaxValue, ErrorMessage = "Quality does not exist")]
         public long qualityId { get; set; }
+
         [Required]
         [MaxLength(50)]
         public string density { get; set; }
+
         [MaxLength(500)]
         public string description { get; set; }
         [Required]

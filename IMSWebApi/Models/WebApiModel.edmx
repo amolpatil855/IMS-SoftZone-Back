@@ -3386,6 +3386,9 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
         <Function Name="GET_COLLECTION_ID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Collection" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="GET_DENSITY_ID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Density" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="GET_DESIGN_ID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Design" Type="varchar" Mode="In" />
         </Function>
@@ -3395,11 +3398,20 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
         <Function Name="GET_MAT_THICKNESS_ID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="MatThicknessValue" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="GET_PATTERN_ID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Pattern" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="GET_QUALITY_ID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Quality" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="GET_SUGGESTED_MM_ID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="SuggestedMMValue" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="GET_SUPPLIER_ID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="SupplierValue" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="GET_TAILOR_ID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Tailor" Type="varchar" Mode="In" />
         </Function>
         <Function Name="GET_UOM_ID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="UOMValue" Type="varchar" Mode="In" />
@@ -5084,7 +5096,19 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <Parameter Name="UOMValue" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="GET_SUPPLIER_ID" EntitySet="MstSuppliers" ReturnType="Collection(IMSModel.MstSupplier)">
-            <Parameter Name="SupplierValue" Mode="In" Type="String" />
+          <Parameter Name="SupplierValue" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GET_DENSITY_ID" EntitySet="MstFomDensities" ReturnType="Collection(IMSModel.MstFomDensity)">
+            <Parameter Name="Density" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GET_PATTERN_ID" EntitySet="MstPatterns" ReturnType="Collection(IMSModel.MstPattern)">
+            <Parameter Name="Pattern" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GET_SUGGESTED_MM_ID" EntitySet="MstFomSuggestedMMs" ReturnType="Collection(IMSModel.MstFomSuggestedMM)">
+            <Parameter Name="SuggestedMMValue" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GET_TAILOR_ID" EntitySet="MstTailors" ReturnType="Collection(IMSModel.MstTailor)">
+            <Parameter Name="Tailor" Mode="In" Type="String" />
           </FunctionImport>
           </EntityContainer>
         <EntityType Name="CFGRoleMenu">
@@ -10128,6 +10152,10 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <FunctionImportMapping FunctionImportName="GET_HSN_ID" FunctionName="IMSModel.Store.GET_HSN_ID" />
           <FunctionImportMapping FunctionImportName="GET_UOM_ID" FunctionName="IMSModel.Store.GET_UOM_ID" />
           <FunctionImportMapping FunctionImportName="GET_SUPPLIER_ID" FunctionName="IMSModel.Store.GET_SUPPLIER_ID" />
+          <FunctionImportMapping FunctionImportName="GET_DENSITY_ID" FunctionName="IMSModel.Store.GET_DENSITY_ID" />
+          <FunctionImportMapping FunctionImportName="GET_PATTERN_ID" FunctionName="IMSModel.Store.GET_PATTERN_ID" />
+          <FunctionImportMapping FunctionImportName="GET_SUGGESTED_MM_ID" FunctionName="IMSModel.Store.GET_SUGGESTED_MM_ID" />
+          <FunctionImportMapping FunctionImportName="GET_TAILOR_ID" FunctionName="IMSModel.Store.GET_TAILOR_ID" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

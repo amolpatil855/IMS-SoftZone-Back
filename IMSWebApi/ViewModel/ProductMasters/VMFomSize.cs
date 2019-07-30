@@ -12,19 +12,27 @@ namespace IMSWebApi.ViewModel
         //[Required]
         //public long categoryId { get; set; }
         [Required]
+        [Range(1, long.MaxValue, ErrorMessage = "Collection does not exist")]
         public long collectionId { get; set; }
+
         [Required]
+        [Range(1, long.MaxValue, ErrorMessage = "Quality does not exist")]
         public long qualityId { get; set; }
+
         [Required]
+        [Range(1, long.MaxValue, ErrorMessage = "Foam density does not exist")]
         public long fomDensityId { get; set; }
+
         [Required]
+        [Range(1, long.MaxValue, ErrorMessage = "Foam suggested MM does not exist")]
         public long fomSuggestedMMId { get; set; }
+
         [Required]
         public decimal width { get; set; }
         [Required]
         public decimal length { get; set; }
-        [Required]
-        [MaxLength(20)]
+        //[Required]
+        //[MaxLength(20)]
         public string sizeCode { get; set; }
         [MaxLength(50)]
         public string itemCode { get; set; }
