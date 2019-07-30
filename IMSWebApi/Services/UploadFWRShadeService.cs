@@ -41,32 +41,21 @@ namespace IMSWebApi.Services
                 var i = db.Database.ExecuteSqlCommand("exec dbo.UploadCategory @CategoryType", param);
             }
 
-            //var res = repo.UploadCategory(categoryDataTable);
-
-            //string cs = ConfigurationManager.ConnectionStrings["testconnection"].ConnectionString;
-            //using (SqlConnection con = new SqlConnection(cs))
-            //{
-            //    SqlCommand cmd = new SqlCommand("UploadCategory", con);
-            //    cmd.CommandType = CommandType.StoredProcedure;
-            //    SqlParameter param = new SqlParameter();
-            //    param.ParameterName = "@CategoryType";
-            //    param.Value = categoryDataTable;
-            //    cmd.Parameters.Add(param);
-            //    con.Open();
-            //    var res = cmd.ExecuteReader();
-            //    con.Close();
-            //}
 
             return 0;
         }
-        
+
         /// <summary>
         /// Separation of valid and invalid rows from uploaded file
         /// </summary>
         /// <param name="file"></param>
         /// <returns></returns>
-        public int UploadShade(HttpPostedFileBase file)
+        public string UploadShade(HttpPostedFileBase file)
         {
+            string path = AppDomain.CurrentDomain.BaseDirectory;
+
+            string Invalidfilename = string.Empty;
+
             DataTable shadeDataTable = new DataTable();
             shadeDataTable = datatable_helper.PrepareDataTable(file); //contains raw data table
 
@@ -87,57 +76,47 @@ namespace IMSWebApi.Services
 
             validatedDataTable.AcceptChanges();
 
-            //var shade = repo.UploadFWRShade(validatedDataTable).ToList();
-
-            //SqlParameter param = new SqlParameter("@FWRShadeType", SqlDbType.Structured);
-            //param.TypeName = "dbo.FWRShadeType";
-            //param.Value = validatedDataTable;
-
-            //using (WebAPIdbEntities db = new WebAPIdbEntities())
-            //{
-            //    var i = db.Database.ExecuteSqlCommand("exec dbo.UploadFWRShade @FWRShadeType", param);
-            //}
-
             using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["IMS"].ConnectionString))
             {
-                    using (SqlDataAdapter da = new SqlDataAdapter())
-                    {
-                        da.SelectCommand = new SqlCommand("UploadFWRShade", conn);
-                        da.SelectCommand.CommandType = CommandType.StoredProcedure;
-                        SqlParameter param = new SqlParameter();
-                        param.ParameterName = "@ShadeType";
-                        param.Value = validatedDataTable;
-                        da.SelectCommand.Parameters.Add(param);
-                        DataSet ds = new DataSet();
-                        da.Fill(ds, "result_name");
+                using (SqlDataAdapter da = new SqlDataAdapter())
+                {
+                    da.SelectCommand = new SqlCommand("UploadFWRShade", conn);
+                    da.SelectCommand.CommandType = CommandType.StoredProcedure;
+                    SqlParameter param = new SqlParameter();
+                    param.ParameterName = "@ShadeType";
+                    param.Value = validatedDataTable;
+                    da.SelectCommand.Parameters.Add(param);
+                    DataSet ds = new DataSet();
+                    da.Fill(ds, "result_name");
 
-                        DataTable dt = ds.Tables["result_name"];
-                        if (dt.Rows.Count > 0)
+                    DataTable dt = ds.Tables["result_name"];
+                    if (dt.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in dt.Rows)
                         {
-                            foreach (DataRow row in dt.Rows)
-                            {
-                                validatedDataTable.Rows.Remove(validatedDataTable.AsEnumerable().Where(r => r.Field<string>("Serial Number*") == row["serialNumber"].ToString()).FirstOrDefault());
-                                InvalidData.Rows.Add(row.ItemArray);
-                                row.Delete();
-                            }
-                            dt.AcceptChanges();
+                            validatedDataTable.Rows.Remove(validatedDataTable.AsEnumerable().Where(r => r.Field<string>("Serial Number*") == row["serialNumber"].ToString()).FirstOrDefault());
+                            InvalidData.Rows.Add(row.ItemArray);
+                            row.Delete();
                         }
+                        dt.AcceptChanges();
                     }
+                }
             }
 
             validatedDataTable.AcceptChanges();
             InvalidData.AcceptChanges();
-            
+
             //if contains invalid data then convert to Excel 
             if (InvalidData != null)
             {
-                datatable_helper.ConvertToExcel(InvalidData, true);
+                Invalidfilename = datatable_helper.ConvertToExcel(InvalidData, true);
+                Invalidfilename = string.Concat(path, "ExcelUpload\\", Invalidfilename);
             }
 
             //valid data convert to excel
             datatable_helper.ConvertToExcel(validatedDataTable, false);
 
-            return 0;
+            return Invalidfilename;
         }
 
         /// <summary>
@@ -149,25 +128,15 @@ namespace IMSWebApi.Services
         {
             var model = new VMFWRShade();
 
-            //datatable for invalid rows
-            
-            InvalidData.Columns.Add("Category");
-            InvalidData.Columns.Add("Collection");
-            InvalidData.Columns.Add("Quality");
-            InvalidData.Columns.Add("Design");
-            InvalidData.Columns.Add("Shade Code");
-            InvalidData.Columns.Add("Shade Name");
-            InvalidData.Columns.Add("Serial Number");
-            InvalidData.Columns.Add("Description");
-            InvalidData.Columns.Add("StockReorderLevel");
-            InvalidData.Columns.Add("Reason");
-
             //setting column name as its caption name
             foreach (DataColumn col in rawTable.Columns)
             {
                 string colname = rawTable.Columns[col.ColumnName].Caption;
+                InvalidData.Columns.Add(colname);
                 col.ColumnName = colname;
             }
+            InvalidData.Columns.Add("Reason");
+
             rawTable.AcceptChanges();
 
             //first validating without keys
@@ -213,9 +182,6 @@ namespace IMSWebApi.Services
             var designKey = repo.GET_DESIGN_ID(designString).ToList();
 
             //replacing values of category, collection, quality and design by their ids
-            //for (int i = 0; i < designKey.Count; i++)
-            //{
-            //for(int j = i; j < rawTable.Rows.Count && j == i; j++)
             for (int j = 0; j < rawTable.Rows.Count; j++)
             {
                 var row = designKey.Where(d => d.MstCategory.code.ToLower().Equals(rawTable.Rows[j]["Category*"].ToString().Trim().ToLower())
@@ -236,7 +202,6 @@ namespace IMSWebApi.Services
                     rawTable.Rows[j].Delete();
                 }
             }
-            //}
 
             rawTable.AcceptChanges();
 

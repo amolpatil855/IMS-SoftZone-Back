@@ -148,8 +148,12 @@ namespace IMSWebApi.Services
             return new ResponseMessage(id, resourceManager.GetString("MatSizeDeleted"), ResponseType.Success);
         }
 
-        public int UploadMatSize(HttpPostedFileBase file)
+        public string UploadMatSize(HttpPostedFileBase file)
         {
+            string path = AppDomain.CurrentDomain.BaseDirectory;
+
+            string Invalidfilename = string.Empty;
+
             DataTable matSizeDataTable = new DataTable();
             matSizeDataTable = datatable_helper.PrepareDataTable(file); //contains raw data table
 
@@ -168,17 +172,6 @@ namespace IMSWebApi.Services
             validatedDataTable.Columns["Stock Reorder Level*"].SetOrdinal(7);
 
             validatedDataTable.AcceptChanges();
-
-            //var shade = repo.UploadFWRShade(validatedDataTable).ToList();
-
-            //SqlParameter param = new SqlParameter("@FWRShadeType", SqlDbType.Structured);
-            //param.TypeName = "dbo.FWRShadeType";
-            //param.Value = validatedDataTable;
-
-            //using (WebAPIdbEntities db = new WebAPIdbEntities())
-            //{
-            //    var i = db.Database.ExecuteSqlCommand("exec dbo.UploadFWRShade @FWRShadeType", param);
-            //}
 
             using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["IMS"].ConnectionString))
             {
@@ -211,15 +204,16 @@ namespace IMSWebApi.Services
             InvalidData.AcceptChanges();
 
             //if contains invalid data then convert to Excel 
-            if (InvalidData != null)
+            if (InvalidData.Rows.Count > 0)
             {
-                datatable_helper.ConvertToExcel(InvalidData, true);
+                Invalidfilename = datatable_helper.ConvertToExcel(InvalidData, true);
+                Invalidfilename = string.Concat(path, "ExcelUpload\\", Invalidfilename);
             }
 
             //valid data convert to excel
             datatable_helper.ConvertToExcel(validatedDataTable, false);
 
-            return 0;
+            return Invalidfilename;
         }
 
         /// <summary>

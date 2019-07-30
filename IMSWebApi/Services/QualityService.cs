@@ -14,6 +14,7 @@ using System.Data;
 using System.ComponentModel.DataAnnotations;
 using System.Data.SqlClient;
 using IMSWebApi.ViewModel.UploadVM;
+using System.Configuration;
 
 namespace IMSWebApi.Services
 {
@@ -138,13 +139,19 @@ namespace IMSWebApi.Services
             return new ResponseMessage(id, resourceManager.GetString("QualityDeleted"), ResponseType.Success);
         }
 
-        public int UploadFWRQualityFlatRate(HttpPostedFileBase file)
+        public string UploadFWRQualityFlatRate(HttpPostedFileBase file)
         {
+            string path = AppDomain.CurrentDomain.BaseDirectory;
+
+            string Invalidfilename = string.Empty;
+
             DataTable fwrQualityFlatRateDatatable = new DataTable();
             fwrQualityFlatRateDatatable = datatable_helper.PrepareDataTable(file); //contains raw data table
 
+            DataTable InvalidData = new DataTable();
+
             DataTable validatedDataTable = new DataTable();
-            validatedDataTable = ValidateFWRQualityFlatDT(fwrQualityFlatRateDatatable); //contains validated data
+            validatedDataTable = ValidateFWRQualityFlatDT(fwrQualityFlatRateDatatable, ref InvalidData); //contains validated data
 
             //reordering columns
             validatedDataTable.Columns["Category*"].SetOrdinal(0);
@@ -169,17 +176,62 @@ namespace IMSWebApi.Services
             //{
             //    var i = db.Database.ExecuteSqlCommand("exec dbo.UploadFWRQualityFlatRate @FWRQualityFlatRateType", param);
             //}
+            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["IMS"].ConnectionString))
+            {
+                using (SqlDataAdapter da = new SqlDataAdapter())
+                {
+                    da.SelectCommand = new SqlCommand("UploadFWRQualityFlatRate", conn);
+                    da.SelectCommand.CommandType = CommandType.StoredProcedure;
+                    SqlParameter param = new SqlParameter();
+                    param.ParameterName = "@FWRQualityFlatRateType";
+                    param.Value = validatedDataTable;
+                    da.SelectCommand.Parameters.Add(param);
+                    DataSet ds = new DataSet();
+                    da.Fill(ds, "result_name");
 
-            return 0;
+                    DataTable dt = ds.Tables["result_name"];
+                    if (dt.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in dt.Rows)
+                        {
+                            validatedDataTable.Rows.Remove(validatedDataTable.AsEnumerable().Where(r => r.Field<string>("Code* ") == row["qualityCode"].ToString()).FirstOrDefault());
+                            InvalidData.Rows.Add(row.ItemArray);
+                            row.Delete();
+                        }
+                        dt.AcceptChanges();
+                    }
+                }
+            }
+
+            validatedDataTable.AcceptChanges();
+            InvalidData.AcceptChanges();
+
+            //if contains invalid data then convert to Excel 
+            if (InvalidData != null)
+            {
+                Invalidfilename = datatable_helper.ConvertToExcel(InvalidData, true);
+                Invalidfilename = string.Concat(path, "ExcelUpload\\", Invalidfilename);
+            }
+
+            //valid data convert to excel
+            datatable_helper.ConvertToExcel(validatedDataTable, false);
+
+            return Invalidfilename;
         }
 
-        public int UploadFWRQualityCutRoleRate(HttpPostedFileBase file)
+        public string UploadFWRQualityCutRoleRate(HttpPostedFileBase file)
         {
+            string path = AppDomain.CurrentDomain.BaseDirectory;
+
+            string Invalidfilename = string.Empty; 
+
             DataTable fwrQualityCutRoleRateDatatable = new DataTable();
             fwrQualityCutRoleRateDatatable = datatable_helper.PrepareDataTable(file); //contains raw data table
 
+            DataTable InvalidData = new DataTable();
+
             DataTable validatedDataTable = new DataTable();
-            validatedDataTable = ValidateFWRQualityCutRoleDT(fwrQualityCutRoleRateDatatable); //contains validated data
+            validatedDataTable = ValidateFWRQualityCutRoleDT(fwrQualityCutRoleRateDatatable, ref InvalidData); //contains validated data
 
             //reordering columns
             validatedDataTable.Columns["Category * "].SetOrdinal(0);
@@ -206,17 +258,62 @@ namespace IMSWebApi.Services
             //{
             //    var i = db.Database.ExecuteSqlCommand("exec dbo.UploadFWRQualityFlatRate @FWRQualityFlatRateType", param);
             //}
+            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["IMS"].ConnectionString))
+            {
+                using (SqlDataAdapter da = new SqlDataAdapter())
+                {
+                    da.SelectCommand = new SqlCommand("UploadFWRQualityCutRoleRate", conn);
+                    da.SelectCommand.CommandType = CommandType.StoredProcedure;
+                    SqlParameter param = new SqlParameter();
+                    param.ParameterName = "@FWRQualityCutRoleRateType";
+                    param.Value = validatedDataTable;
+                    da.SelectCommand.Parameters.Add(param);
+                    DataSet ds = new DataSet();
+                    da.Fill(ds, "result_name");
 
-            return 0;
+                    DataTable dt = ds.Tables["result_name"];
+                    if (dt.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in dt.Rows)
+                        {
+                            validatedDataTable.Rows.Remove(validatedDataTable.AsEnumerable().Where(r => r.Field<string>("Code* ") == row["qualityCode"].ToString()).FirstOrDefault());
+                            InvalidData.Rows.Add(row.ItemArray);
+                            row.Delete();
+                        }
+                        dt.AcceptChanges();
+                    }
+                }
+            }
+
+            validatedDataTable.AcceptChanges();
+            InvalidData.AcceptChanges();
+
+            //if contains invalid data then convert to Excel 
+            if (InvalidData != null)
+            {
+                Invalidfilename = datatable_helper.ConvertToExcel(InvalidData, true);
+                Invalidfilename = string.Concat(path, "ExcelUpload\\", Invalidfilename);
+            }
+
+            //valid data convert to excel
+            datatable_helper.ConvertToExcel(validatedDataTable, false);
+
+            return Invalidfilename;
         }
 
-        public int UploadMattressQuality(HttpPostedFileBase file)
+        public string UploadMattressQuality(HttpPostedFileBase file)
         {
+            string path = AppDomain.CurrentDomain.BaseDirectory;
+
+            string Invalidfilename = string.Empty;
+
             DataTable mattressQualityDatatable = new DataTable();
             mattressQualityDatatable = datatable_helper.PrepareDataTable(file); //contains raw data table
 
+            DataTable InvalidData = new DataTable();
+
             DataTable validatedDataTable = new DataTable();
-            validatedDataTable = ValidateMattressQualityDT(mattressQualityDatatable); //contains validated data
+            validatedDataTable = ValidateMattressQualityDT(mattressQualityDatatable, ref InvalidData); //contains validated data
 
             //reordering columns
             validatedDataTable.Columns["Category *"].SetOrdinal(0);
@@ -240,16 +337,62 @@ namespace IMSWebApi.Services
             //    var i = db.Database.ExecuteSqlCommand("exec dbo.UploadFWRQualityFlatRate @FWRQualityFlatRateType", param);
             //}
 
-            return 0;
+            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["IMS"].ConnectionString))
+            {
+                using (SqlDataAdapter da = new SqlDataAdapter())
+                {
+                    da.SelectCommand = new SqlCommand("UploadMattressQuality", conn);
+                    da.SelectCommand.CommandType = CommandType.StoredProcedure;
+                    SqlParameter param = new SqlParameter();
+                    param.ParameterName = "@MattressQualityType";
+                    param.Value = validatedDataTable;
+                    da.SelectCommand.Parameters.Add(param);
+                    DataSet ds = new DataSet();
+                    da.Fill(ds, "result_name");
+
+                    DataTable dt = ds.Tables["result_name"];
+                    if (dt.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in dt.Rows)
+                        {
+                            validatedDataTable.Rows.Remove(validatedDataTable.AsEnumerable().Where(r => r.Field<string>("Quality Code *") == row["qualityCode"].ToString()).FirstOrDefault());
+                            InvalidData.Rows.Add(row.ItemArray);
+                            row.Delete();
+                        }
+                        dt.AcceptChanges();
+                    }
+                }
+            }
+
+            validatedDataTable.AcceptChanges();
+            InvalidData.AcceptChanges();
+
+            //if contains invalid data then convert to Excel 
+            if (InvalidData != null)
+            {
+                Invalidfilename = datatable_helper.ConvertToExcel(InvalidData, true);
+                Invalidfilename = string.Concat(path, "ExcelUpload\\", Invalidfilename);
+            }
+
+            //valid data convert to excel
+            datatable_helper.ConvertToExcel(validatedDataTable, false);
+
+            return Invalidfilename;
         }
 
-        public int UploadFoamQuality(HttpPostedFileBase file)
+        public string UploadFoamQuality(HttpPostedFileBase file)
         {
+            string path = AppDomain.CurrentDomain.BaseDirectory;
+
+            string Invalidfilename = string.Empty;
+
             DataTable foamQualityDatatable = new DataTable();
             foamQualityDatatable = datatable_helper.PrepareDataTable(file); //contains raw data table
 
+            DataTable InvalidData = new DataTable();
+
             DataTable validatedDataTable = new DataTable();
-            validatedDataTable = ValidateFoamQualityDT(foamQualityDatatable); //contains validated data
+            validatedDataTable = ValidateFoamQualityDT(foamQualityDatatable, ref InvalidData); //contains validated data
 
             //reordering columns
             validatedDataTable.Columns["Category *"].SetOrdinal(0);
@@ -262,17 +405,47 @@ namespace IMSWebApi.Services
 
             validatedDataTable.AcceptChanges();
 
-            //Execute Stored Procedure Here
-            //SqlParameter param = new SqlParameter("@FWRQualityFlatRateType", SqlDbType.Structured);
-            //param.TypeName = "dbo.FWRQualityFlatRateType";
-            //param.Value = validatedDataTable;
+            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["IMS"].ConnectionString))
+            {
+                using (SqlDataAdapter da = new SqlDataAdapter())
+                {
+                    da.SelectCommand = new SqlCommand("UploadFoamQuality", conn);
+                    da.SelectCommand.CommandType = CommandType.StoredProcedure;
+                    SqlParameter param = new SqlParameter();
+                    param.ParameterName = "@FoamQualityType";
+                    param.Value = validatedDataTable;
+                    da.SelectCommand.Parameters.Add(param);
+                    DataSet ds = new DataSet();
+                    da.Fill(ds, "result_name");
 
-            //using (WebAPIdbEntities db = new WebAPIdbEntities())
-            //{
-            //    var i = db.Database.ExecuteSqlCommand("exec dbo.UploadFWRQualityFlatRate @FWRQualityFlatRateType", param);
-            //}
+                    DataTable dt = ds.Tables["result_name"];
+                    if (dt.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in dt.Rows)
+                        {
+                            validatedDataTable.Rows.Remove(validatedDataTable.AsEnumerable().Where(r => r.Field<string>("Quality Code *") == row["qualityCode"].ToString()).FirstOrDefault());
+                            InvalidData.Rows.Add(row.ItemArray);
+                            row.Delete();
+                        }
+                        dt.AcceptChanges();
+                    }
+                }
+            }
 
-            return 0;
+            validatedDataTable.AcceptChanges();
+            InvalidData.AcceptChanges();
+
+            //if contains invalid data then convert to Excel 
+            if (InvalidData != null)
+            {
+                Invalidfilename = datatable_helper.ConvertToExcel(InvalidData, true);
+                Invalidfilename = string.Concat(path, "ExcelUpload\\", Invalidfilename);
+            }
+
+            //valid data convert to excel
+            datatable_helper.ConvertToExcel(validatedDataTable, false);
+
+            return Invalidfilename;
         }
 
         /// <summary>
@@ -280,31 +453,18 @@ namespace IMSWebApi.Services
         /// </summary>
         /// <param name="rawTable"></param>
         /// <returns></returns>
-        private DataTable ValidateFWRQualityFlatDT(DataTable rawTable)
+        private DataTable ValidateFWRQualityFlatDT(DataTable rawTable, ref DataTable InvalidData)
         {
             var model = new VMFWRQualityFlatUpload();
-
-            //datatable for invalid rows
-            DataTable InvalidData = new DataTable();
-            InvalidData.Columns.Add("Category *");
-            InvalidData.Columns.Add("Collection *");
-            InvalidData.Columns.Add("Code* ");
-            InvalidData.Columns.Add("Name* ");
-            InvalidData.Columns.Add("HSN Code*");
-            InvalidData.Columns.Add("Description ");
-            InvalidData.Columns.Add("Width* ");
-            InvalidData.Columns.Add("Flat Rate * ");
-            InvalidData.Columns.Add("Purchase Flat Rate * ");
-            InvalidData.Columns.Add("Flat Rate Max Dis.%* ");
-            InvalidData.Columns.Add("Reason");
-
 
             //setting column name as its caption name
             foreach (DataColumn col in rawTable.Columns)
             {
                 string colname = rawTable.Columns[col.ColumnName].Caption;
+                InvalidData.Columns.Add(colname);
                 col.ColumnName = colname;
             }
+            InvalidData.Columns.Add("Reason");
 
             rawTable.AcceptChanges();
 
@@ -369,18 +529,7 @@ namespace IMSWebApi.Services
                     rawTable.Rows[j].Delete();
                 }
             }
-
-
             rawTable.AcceptChanges();
-
-            //if contains invalid data then convert to Excel 
-            if (InvalidData != null)
-            {
-                datatable_helper.ConvertToExcel(InvalidData, true);
-            }
-
-            //valid data convert to excel
-            datatable_helper.ConvertToExcel(rawTable, false);
 
             return rawTable;
         }
@@ -390,12 +539,9 @@ namespace IMSWebApi.Services
         /// </summary>
         /// <param name="rawTable"></param>
         /// <returns></returns>
-        private DataTable ValidateFWRQualityCutRoleDT(DataTable rawTable)
+        private DataTable ValidateFWRQualityCutRoleDT(DataTable rawTable, ref DataTable InvalidData)
         {
             var model = new VMFWRQualityCutRoleUpload();
-
-            //datatable for invalid rows
-            DataTable InvalidData = new DataTable();
 
             //setting column name as its caption name
             foreach (DataColumn col in rawTable.Columns)
@@ -471,18 +617,7 @@ namespace IMSWebApi.Services
                     rawTable.Rows[j].Delete();
                 }
             }
-
-
             rawTable.AcceptChanges();
-
-            //if contains invalid data then convert to Excel 
-            if (InvalidData != null)
-            {
-                datatable_helper.ConvertToExcel(InvalidData, true);
-            }
-
-            //valid data convert to excel
-            datatable_helper.ConvertToExcel(rawTable, false);
 
             return rawTable;
         }
@@ -492,12 +627,9 @@ namespace IMSWebApi.Services
         /// </summary>
         /// <param name="rawTable"></param>
         /// <returns></returns>
-        private DataTable ValidateMattressQualityDT(DataTable rawTable)
+        private DataTable ValidateMattressQualityDT(DataTable rawTable, ref DataTable InvalidData)
         {
             var model = new VMMattressQualityUpload();
-
-            //datatable for invalid rows
-            DataTable InvalidData = new DataTable();
 
             //setting column name as its caption name
             foreach (DataColumn col in rawTable.Columns)
@@ -569,18 +701,7 @@ namespace IMSWebApi.Services
                     rawTable.Rows[j].Delete();
                 }
             }
-
-
             rawTable.AcceptChanges();
-
-            //if contains invalid data then convert to Excel 
-            if (InvalidData != null)
-            {
-                datatable_helper.ConvertToExcel(InvalidData, true);
-            }
-
-            //valid data convert to excel
-            datatable_helper.ConvertToExcel(rawTable, false);
 
             return rawTable;
         }
@@ -590,12 +711,9 @@ namespace IMSWebApi.Services
         /// </summary>
         /// <param name="rawTable"></param>
         /// <returns></returns>
-        private DataTable ValidateFoamQualityDT(DataTable rawTable)
+        private DataTable ValidateFoamQualityDT(DataTable rawTable, ref DataTable InvalidData)
         {
             var model = new VMFoamQualityUpload();
-
-            //datatable for invalid rows
-            DataTable InvalidData = new DataTable();
 
             //setting column name as its caption name
             foreach (DataColumn col in rawTable.Columns)
@@ -666,18 +784,7 @@ namespace IMSWebApi.Services
                     rawTable.Rows[j].Delete();
                 }
             }
-
-
             rawTable.AcceptChanges();
-
-            //if contains invalid data then convert to Excel 
-            if (InvalidData != null)
-            {
-                datatable_helper.ConvertToExcel(InvalidData, true);
-            }
-
-            //valid data convert to excel
-            datatable_helper.ConvertToExcel(rawTable, false);
 
             return rawTable;
         }

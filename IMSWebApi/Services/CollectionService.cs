@@ -183,8 +183,12 @@ namespace IMSWebApi.Services
             return new ResponseMessage(id, resourceManager.GetString("CollectionDeleted"), ResponseType.Success);
         }
 
-        public int UploadCollections(HttpPostedFileBase file)
+        public string UploadCollections(HttpPostedFileBase file)
         {
+            string path = AppDomain.CurrentDomain.BaseDirectory;
+
+            string Invalidfilename = string.Empty;
+
             DataTable collectionDataTable = new DataTable();
             collectionDataTable = datatable_helper.PrepareDataTable(file); //contains raw data table
 
@@ -203,16 +207,6 @@ namespace IMSWebApi.Services
 
             validatedDataTable.AcceptChanges();
 
-            //var shade = repo.UploadFWRShade(validatedDataTable).ToList();
-
-            //SqlParameter param = new SqlParameter("@FWRShadeType", SqlDbType.Structured);
-            //param.TypeName = "dbo.FWRShadeType";
-            //param.Value = validatedDataTable;
-
-            //using (WebAPIdbEntities db = new WebAPIdbEntities())
-            //{
-            //    var i = db.Database.ExecuteSqlCommand("exec dbo.UploadFWRShade @FWRShadeType", param);
-            //}
 
             using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["IMS"].ConnectionString))
             {
@@ -247,13 +241,13 @@ namespace IMSWebApi.Services
             //if contains invalid data then convert to Excel 
             if (InvalidData != null)
             {
-                datatable_helper.ConvertToExcel(InvalidData, true);
+                Invalidfilename = datatable_helper.ConvertToExcel(InvalidData, true);
+                Invalidfilename = string.Concat(path, "ExcelUpload\\", Invalidfilename);
             }
-
             //valid data convert to excel
             datatable_helper.ConvertToExcel(validatedDataTable, false);
 
-            return 0;
+            return Invalidfilename;
         }
 
         /// <summary>

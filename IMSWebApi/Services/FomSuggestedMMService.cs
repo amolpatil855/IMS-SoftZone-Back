@@ -13,6 +13,7 @@ using System.Reflection;
 using System.Data;
 using System.ComponentModel.DataAnnotations;
 using System.Data.SqlClient;
+using System.Configuration;
 
 namespace IMSWebApi.Services
 {
@@ -118,13 +119,19 @@ namespace IMSWebApi.Services
         /// </summary>
         /// <param name="file"></param>
         /// <returns></returns>
-        public int UploadFoamSuggestedMM(HttpPostedFileBase file)
+        public string UploadFoamSuggestedMM(HttpPostedFileBase file)
         {
+            string path = AppDomain.CurrentDomain.BaseDirectory;
+
+            string Invalidfilename = string.Empty;
+
             DataTable suggestedMMdt = new DataTable();
             suggestedMMdt = datatable_helper.PrepareDataTable(file); //contains raw data table
 
+            DataTable InvalidData = new DataTable();
+
             DataTable validatedDataTable = new DataTable();
-            validatedDataTable = ValidateDataTable(suggestedMMdt); //contains validated data
+            validatedDataTable = ValidateDataTable(suggestedMMdt, ref InvalidData); //contains validated data
 
             //reordering columns
             validatedDataTable.Columns["Collection *"].SetOrdinal(0);
@@ -134,16 +141,56 @@ namespace IMSWebApi.Services
 
             validatedDataTable.AcceptChanges();
 
-            SqlParameter param = new SqlParameter("@FoamSuggestedMMType", SqlDbType.Structured);
-            param.TypeName = "dbo.FoamSuggestedMMType";
-            param.Value = validatedDataTable;
+            //SqlParameter param = new SqlParameter("@FoamSuggestedMMType", SqlDbType.Structured);
+            //param.TypeName = "dbo.FoamSuggestedMMType";
+            //param.Value = validatedDataTable;
 
-            using (WebAPIdbEntities db = new WebAPIdbEntities())
+            //using (WebAPIdbEntities db = new WebAPIdbEntities())
+            //{
+            //    var i = db.Database.ExecuteSqlCommand("exec dbo.UploadFoamSuggestedMM @FoamSuggestedMMType", param);
+            //}
+
+            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["IMS"].ConnectionString))
             {
-                var i = db.Database.ExecuteSqlCommand("exec dbo.UploadFoamSuggestedMM @FoamSuggestedMMType", param);
+                using (SqlDataAdapter da = new SqlDataAdapter())
+                {
+                    da.SelectCommand = new SqlCommand("UploadFoamSuggestedMM", conn);
+                    da.SelectCommand.CommandType = CommandType.StoredProcedure;
+                    SqlParameter param = new SqlParameter();
+                    param.ParameterName = "@FoamSuggestedMMType";
+                    param.Value = validatedDataTable;
+                    da.SelectCommand.Parameters.Add(param);
+                    DataSet ds = new DataSet();
+                    da.Fill(ds, "result_name");
+
+                    DataTable dt = ds.Tables["result_name"];
+                    if (dt.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in dt.Rows)
+                        {
+                            validatedDataTable.Rows.Remove(validatedDataTable.AsEnumerable().Where(r => r.Field<string>("Suggested MM *") == row["suggestedMM"].ToString()).FirstOrDefault());
+                            InvalidData.Rows.Add(row.ItemArray);
+                            row.Delete();
+                        }
+                        dt.AcceptChanges();
+                    }
+                }
             }
 
-            return 0;
+            validatedDataTable.AcceptChanges();
+            InvalidData.AcceptChanges();
+
+            //if contains invalid data then convert to Excel 
+            if (InvalidData.Rows.Count > 0)
+            {
+                Invalidfilename = datatable_helper.ConvertToExcel(InvalidData, true);
+                Invalidfilename = string.Concat(path, "ExcelUpload\\", Invalidfilename);
+            }
+
+            //valid data convert to excel
+            datatable_helper.ConvertToExcel(validatedDataTable, false);
+
+            return Invalidfilename;
         }
 
         /// <summary>
@@ -151,24 +198,18 @@ namespace IMSWebApi.Services
         /// </summary>
         /// <param name="rawTable"></param>
         /// <returns></returns>
-        private DataTable ValidateDataTable(DataTable rawTable)
+        private DataTable ValidateDataTable(DataTable rawTable, ref DataTable InvalidData)
         {
             var model = new VMFomSuggestedMM();
-
-            //datatable for invalid rows
-            DataTable InvalidData = new DataTable();
-            InvalidData.Columns.Add("Collection *");
-            InvalidData.Columns.Add("Quality  *");
-            InvalidData.Columns.Add("Foam Density *");
-            InvalidData.Columns.Add("Suggested MM *");
-            InvalidData.Columns.Add("Reason");
 
             //setting column name as its caption name
             foreach (DataColumn col in rawTable.Columns)
             {
                 string colname = rawTable.Columns[col.ColumnName].Caption;
+                InvalidData.Columns.Add(colname);
                 col.ColumnName = colname;
             }
+            InvalidData.Columns.Add("Reason");
             rawTable.AcceptChanges();
 
             //first validating without keys
@@ -229,15 +270,6 @@ namespace IMSWebApi.Services
                 }
             }
             rawTable.AcceptChanges();
-
-            //if contains invalid data then convert to Excel 
-            if (InvalidData.Rows.Count > 0)
-            {
-                datatable_helper.ConvertToExcel(InvalidData, true);
-            }
-
-            //valid data convert to excel
-            datatable_helper.ConvertToExcel(rawTable, false);
 
             return rawTable;
         }

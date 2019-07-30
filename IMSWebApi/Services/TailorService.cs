@@ -16,6 +16,10 @@ using System.ComponentModel.DataAnnotations;
 using System.Data.SqlClient;
 using System.Configuration;
 using IMSWebApi.ViewModel.UploadVM;
+using System.IO;
+using System.Net.Http;
+using System.Net;
+using System.ComponentModel;
 
 namespace IMSWebApi.Services
 {
@@ -25,7 +29,7 @@ namespace IMSWebApi.Services
         Int64 _LoggedInuserId;
         ResourceManager resourceManager = null;
         DataTableHelper datatable_helper = new DataTableHelper();
-        
+
         public TailorService()
         {
             _LoggedInuserId = Convert.ToInt64(HttpContext.Current.User.Identity.GetUserId());
@@ -38,7 +42,7 @@ namespace IMSWebApi.Services
             tailorListingView = repo.MstTailors.Where(t => !string.IsNullOrEmpty(search)
                     ? t.name.ToString().StartsWith(search)
                     || t.phone.StartsWith(search)
-                    || t.email.StartsWith(search) 
+                    || t.email.StartsWith(search)
                     || t.city.StartsWith(search) : true)
                     .Select(c => new VMTailorList
                     {
@@ -89,7 +93,7 @@ namespace IMSWebApi.Services
         public ResponseMessage postTailor(VMTailor tailor)
         {
             using (var transaction = new TransactionScope())
-            {   
+            {
                 MstTailor tailorToPost = Mapper.Map<VMTailor, MstTailor>(tailor);
                 List<MstTailorPatternChargeDetail> tailorPatternChargeDetails = tailorToPost.MstTailorPatternChargeDetails.ToList();
                 foreach (var tpDetails in tailorPatternChargeDetails)
@@ -202,8 +206,12 @@ namespace IMSWebApi.Services
         /// </summary>
         /// <param name="file"></param>
         /// <returns></returns>
-        public int UploadTailor(HttpPostedFileBase file)
+        public string UploadTailor(HttpPostedFileBase file)
         {
+            string path = AppDomain.CurrentDomain.BaseDirectory;
+
+            string Invalidfilename = string.Empty;
+
             DataTable tailor = new DataTable();
             tailor = datatable_helper.PrepareDataTable(file); //contains raw data table
 
@@ -219,11 +227,11 @@ namespace IMSWebApi.Services
             validatedDataTable.Columns["Alternate Phone 1"].SetOrdinal(3);
             validatedDataTable.Columns["Address Line 1*"].SetOrdinal(4);
             validatedDataTable.Columns["Address Line 2"].SetOrdinal(5);
-            validatedDataTable.Columns["City*"].SetOrdinal(6);            
+            validatedDataTable.Columns["City*"].SetOrdinal(6);
             validatedDataTable.Columns["Pin Code*"].SetOrdinal(7);
             validatedDataTable.Columns["State*"].SetOrdinal(8);
 
-            validatedDataTable.AcceptChanges();           
+            validatedDataTable.AcceptChanges();
 
 
             using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["IMS"].ConnectionString))
@@ -238,8 +246,6 @@ namespace IMSWebApi.Services
                     da.SelectCommand.Parameters.Add(param);
                     DataSet ds = new DataSet();
                     da.Fill(ds, "result_name");
-
-
 
                     DataTable dt = ds.Tables["result_name"];
                     if (dt.Rows.Count > 0)
@@ -257,18 +263,28 @@ namespace IMSWebApi.Services
 
             validatedDataTable.AcceptChanges();
             InvalidData.AcceptChanges();
-            
+
             //if contains invalid data then convert to Excel 
             if (InvalidData.Rows.Count > 0)
             {
-                datatable_helper.ConvertToExcel(InvalidData, true);
+                Invalidfilename = datatable_helper.ConvertToExcel(InvalidData, true);
+                Invalidfilename = string.Concat(path, "ExcelUpload\\", Invalidfilename);
             }
 
+            //var dataBytes = File.ReadAllBytes(Invalidfilename);
+            ////adding bytes to memory stream   
+            //var dataStream = new MemoryStream(dataBytes);  
 
+            //HttpResponseMessage httpResponseMessage = HttpContext.Request.CreateResponse(HttpStatusCode.OK);
+            //httpResponseMessage.Content = new StreamContent(dataStream);
+            //httpResponseMessage.Content.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment");
+            //httpResponseMessage.Content.Headers.ContentDisposition.FileName = filename;
+            //httpResponseMessage.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/octet-stream"); 
+            
             //valid data convert to excel
             datatable_helper.ConvertToExcel(validatedDataTable, false);
 
-            return 0;
+            return Invalidfilename;
         }
 
         /// <summary>
@@ -279,7 +295,7 @@ namespace IMSWebApi.Services
         private DataTable ValidateDataTable(DataTable rawTable, ref DataTable InvalidData)
         {
             var model = new VMTailor();
-                        
+
             //setting column name as its caption name
             foreach (DataColumn col in rawTable.Columns)
             {
@@ -334,13 +350,19 @@ namespace IMSWebApi.Services
         /// </summary>
         /// <param name="file"></param>
         /// <returns></returns>
-        public int UploadTailorPatternDetails(HttpPostedFileBase file)
+        public string UploadTailorPatternDetails(HttpPostedFileBase file)
         {
+            string path = AppDomain.CurrentDomain.BaseDirectory;
+
+            string Invalidfilename = string.Empty;
+
             DataTable pattern = new DataTable();
             pattern = datatable_helper.PrepareDataTable(file); //contains raw data table
 
+            DataTable InvalidData = new DataTable();
+
             DataTable validatedDataTable = new DataTable();
-            validatedDataTable = ValidatePatternDataTable(pattern); //contains validated data
+            validatedDataTable = ValidatePatternDataTable(pattern, ref InvalidData); //contains validated data
 
             //reordering columns
             validatedDataTable.Columns["Tailor Name*"].SetOrdinal(0);
@@ -349,35 +371,70 @@ namespace IMSWebApi.Services
 
             validatedDataTable.AcceptChanges();
 
-            SqlParameter param = new SqlParameter("@TailorPatternChargesType", SqlDbType.Structured);
-            param.TypeName = "dbo.TailorPatternChargesType";
-            param.Value = validatedDataTable;
+            //SqlParameter param = new SqlParameter("@TailorPatternChargesType", SqlDbType.Structured);
+            //param.TypeName = "dbo.TailorPatternChargesType";
+            //param.Value = validatedDataTable;
 
-            using (WebAPIdbEntities db = new WebAPIdbEntities())
+            //using (WebAPIdbEntities db = new WebAPIdbEntities())
+            //{
+            //    var i = db.Database.ExecuteSqlCommand("exec dbo.UploadTailorPatternCharges @TailorPatternChargesType", param);
+            //}
+
+            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["IMS"].ConnectionString))
             {
-                var i = db.Database.ExecuteSqlCommand("exec dbo.UploadTailorPatternCharges @TailorPatternChargesType", param);
+                using (SqlDataAdapter da = new SqlDataAdapter())
+                {
+                    da.SelectCommand = new SqlCommand("UploadTailorPatternCharges", conn);
+                    da.SelectCommand.CommandType = CommandType.StoredProcedure;
+                    SqlParameter param = new SqlParameter();
+                    param.ParameterName = "@TailorPatternChargesType";
+                    param.Value = validatedDataTable;
+                    da.SelectCommand.Parameters.Add(param);
+                    DataSet ds = new DataSet();
+                    da.Fill(ds, "result_name");
+
+                    DataTable dt = ds.Tables["result_name"];
+                    if (dt.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in dt.Rows)
+                        {
+                            validatedDataTable.Rows.Remove(validatedDataTable.AsEnumerable().Where(r => r.Field<string>("Charge*") == row["charge"].ToString()).FirstOrDefault());
+                            InvalidData.Rows.Add(row.ItemArray);
+                            row.Delete();
+                        }
+                        dt.AcceptChanges();
+                    }
+                }
             }
 
-            return 0;
+            validatedDataTable.AcceptChanges();
+            InvalidData.AcceptChanges();
+
+            //if contains invalid data then convert to Excel 
+            if (InvalidData.Rows.Count > 0)
+            {
+                Invalidfilename = datatable_helper.ConvertToExcel(InvalidData, true);
+                Invalidfilename = string.Concat(path, "ExcelUpload\\", Invalidfilename);
+            }
+
+            //valid data convert to excel
+            datatable_helper.ConvertToExcel(validatedDataTable, false);
+
+            return Invalidfilename;
         }
 
-        private DataTable ValidatePatternDataTable(DataTable rawTable)
+        private DataTable ValidatePatternDataTable(DataTable rawTable, ref DataTable InvalidData)
         {
             var model = new VMPatternForTailor();
-
-            //datatable for invalid rows
-            DataTable InvalidData = new DataTable();
-            InvalidData.Columns.Add("Tailor Name*");
-            InvalidData.Columns.Add("Pattern Name*");
-            InvalidData.Columns.Add("Charge*");
-            InvalidData.Columns.Add("Reason");
 
             //setting column name as its caption name
             foreach (DataColumn col in rawTable.Columns)
             {
                 string colname = rawTable.Columns[col.ColumnName].Caption;
+                InvalidData.Columns.Add(colname);
                 col.ColumnName = colname;
             }
+            InvalidData.Columns.Add("Reason");
             rawTable.AcceptChanges();
 
             //first validating without keys
@@ -441,18 +498,7 @@ namespace IMSWebApi.Services
                     rawTable.Rows[j].Delete();
                 }
             }
-
-
             rawTable.AcceptChanges();
-
-            //if contains invalid data then convert to Excel 
-            if (InvalidData.Rows.Count > 0)
-            {
-                datatable_helper.ConvertToExcel(InvalidData, true);
-            }
-
-            //valid data convert to excel
-            datatable_helper.ConvertToExcel(rawTable, false);
 
             return rawTable;
         }

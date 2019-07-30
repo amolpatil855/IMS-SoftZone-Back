@@ -56,7 +56,7 @@ namespace IMSWebApi.Common
         /// </summary>
         /// <param name="invalidData"></param>
         /// <returns></returns>
-        public int ConvertToExcel(DataTable dataTable, bool isInvalid)
+        public string ConvertToExcel(DataTable dataTable, bool isInvalid)
         {
             //Spreadsheet scc = new Spreadsheet();
 
@@ -119,7 +119,7 @@ namespace IMSWebApi.Common
                     }
                 }   
             }
-            return 0;
+            return InvalidfileName;
         }
     }
 }

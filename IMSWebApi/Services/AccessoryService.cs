@@ -135,8 +135,12 @@ namespace IMSWebApi.Services
             return new ResponseMessage(id, resourceManager.GetString("AccessoryDeleted"), ResponseType.Success);
         }
 
-        public int UploadAccessories(HttpPostedFileBase file)
+        public string UploadAccessories(HttpPostedFileBase file)
         {
+            string path = AppDomain.CurrentDomain.BaseDirectory;
+
+            string Invalidfilename = string.Empty;
+
             DataTable accessoryDataTable = new DataTable();
             accessoryDataTable = datatable_helper.PrepareDataTable(file); //contains raw data table
 
@@ -199,15 +203,16 @@ namespace IMSWebApi.Services
             InvalidData.AcceptChanges();
 
             //if contains invalid data then convert to Excel 
-            if (InvalidData != null)
+            if (InvalidData.Rows.Count > 0)
             {
-                datatable_helper.ConvertToExcel(InvalidData, true);
+                Invalidfilename = datatable_helper.ConvertToExcel(InvalidData, true);
+                Invalidfilename = string.Concat(path, "ExcelUpload\\", Invalidfilename);
             }
 
             //valid data convert to excel
             datatable_helper.ConvertToExcel(validatedDataTable, false);
 
-            return 0;
+            return Invalidfilename;
         }
 
         /// <summary>

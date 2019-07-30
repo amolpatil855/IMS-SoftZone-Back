@@ -133,8 +133,12 @@ namespace IMSWebApi.Services
             return new ResponseMessage(id, resourceManager.GetString("PatternDeleted"), ResponseType.Success);
         }
 
-        public int UploadPatterns(HttpPostedFileBase file)
+        public string UploadPatterns(HttpPostedFileBase file)
         {
+            string path = AppDomain.CurrentDomain.BaseDirectory;
+
+            string Invalidfilename = string.Empty;
+
             DataTable patternDataTable = new DataTable();
             patternDataTable = datatable_helper.PrepareDataTable(file); //contains raw data table
 
@@ -200,13 +204,14 @@ namespace IMSWebApi.Services
             //if contains invalid data then convert to Excel 
             if (InvalidData != null)
             {
-                datatable_helper.ConvertToExcel(InvalidData, true);
+                Invalidfilename = datatable_helper.ConvertToExcel(InvalidData, true);
+                Invalidfilename = string.Concat(path, "ExcelUpload\\", Invalidfilename);
             }
 
             //valid data convert to excel
             datatable_helper.ConvertToExcel(validatedDataTable, false);
 
-            return 0;
+            return Invalidfilename;
         }
 
         /// <summary>
