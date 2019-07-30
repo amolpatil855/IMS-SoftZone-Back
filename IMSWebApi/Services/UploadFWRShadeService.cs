@@ -59,10 +59,7 @@ namespace IMSWebApi.Services
 
             return 0;
         }
-
-
-
-
+        
         /// <summary>
         /// Separation of valid and invalid rows from uploaded file
         /// </summary>
@@ -74,7 +71,8 @@ namespace IMSWebApi.Services
             shadeDataTable = datatable_helper.PrepareDataTable(file); //contains raw data table
 
             DataTable validatedDataTable = new DataTable();
-            validatedDataTable = ValidateDataTable(shadeDataTable); //contains validated data
+            DataTable InvalidData = new DataTable();
+            validatedDataTable = ValidateDataTable(shadeDataTable, ref InvalidData); //contains validated data
 
             //reordering columns
             validatedDataTable.Columns["Category*"].SetOrdinal(0);
@@ -84,36 +82,60 @@ namespace IMSWebApi.Services
             validatedDataTable.Columns["Shade Code*"].SetOrdinal(4);
             validatedDataTable.Columns["Color*"].SetOrdinal(5);
             validatedDataTable.Columns["Serial Number*"].SetOrdinal(6);
-            validatedDataTable.Columns["Description "].SetOrdinal(7);
-            validatedDataTable.Columns["Stock Reorder Level *"].SetOrdinal(8);
+            validatedDataTable.Columns["Description"].SetOrdinal(7);
+            validatedDataTable.Columns["Stock Reorder Level *"].SetOrdinal(8);
 
             validatedDataTable.AcceptChanges();
 
             //var shade = repo.UploadFWRShade(validatedDataTable).ToList();
 
-            SqlParameter param = new SqlParameter("@FWRShadeType", SqlDbType.Structured);
-            param.TypeName = "dbo.FWRShadeType";
-            param.Value = validatedDataTable;
+            //SqlParameter param = new SqlParameter("@FWRShadeType", SqlDbType.Structured);
+            //param.TypeName = "dbo.FWRShadeType";
+            //param.Value = validatedDataTable;
 
-            using (WebAPIdbEntities db = new WebAPIdbEntities())
-            {
-                var i = db.Database.ExecuteSqlCommand("exec dbo.UploadFWRShade @FWRShadeType", param);
-            }
-
-            //string cs = ConfigurationManager.ConnectionStrings["testconnection"].ConnectionString;
-            //using (SqlConnection con = new SqlConnection(cs))
+            //using (WebAPIdbEntities db = new WebAPIdbEntities())
             //{
-            //    SqlCommand cmd = new SqlCommand("UploadFWRShade", con);
-            //    cmd.CommandType = CommandType.StoredProcedure;
-            //    SqlParameter param = new SqlParameter();
-            //    param.ParameterName = "@ShadeType";
-            //    param.Value = validatedDataTable;
-            //    cmd.Parameters.Add(param);
-            //    con.Open();
-            //    var res = cmd.ExecuteScalar();
-            //    con.Close();
+            //    var i = db.Database.ExecuteSqlCommand("exec dbo.UploadFWRShade @FWRShadeType", param);
             //}
 
+            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["IMS"].ConnectionString))
+            {
+                    using (SqlDataAdapter da = new SqlDataAdapter())
+                    {
+                        da.SelectCommand = new SqlCommand("UploadFWRShade", conn);
+                        da.SelectCommand.CommandType = CommandType.StoredProcedure;
+                        SqlParameter param = new SqlParameter();
+                        param.ParameterName = "@ShadeType";
+                        param.Value = validatedDataTable;
+                        da.SelectCommand.Parameters.Add(param);
+                        DataSet ds = new DataSet();
+                        da.Fill(ds, "result_name");
+
+                        DataTable dt = ds.Tables["result_name"];
+                        if (dt.Rows.Count > 0)
+                        {
+                            foreach (DataRow row in dt.Rows)
+                            {
+                                validatedDataTable.Rows.Remove(validatedDataTable.AsEnumerable().Where(r => r.Field<string>("Serial Number*") == row["serialNumber"].ToString()).FirstOrDefault());
+                                InvalidData.Rows.Add(row.ItemArray);
+                                row.Delete();
+                            }
+                            dt.AcceptChanges();
+                        }
+                    }
+            }
+
+            validatedDataTable.AcceptChanges();
+            InvalidData.AcceptChanges();
+            
+            //if contains invalid data then convert to Excel 
+            if (InvalidData != null)
+            {
+                datatable_helper.ConvertToExcel(InvalidData, true);
+            }
+
+            //valid data convert to excel
+            datatable_helper.ConvertToExcel(validatedDataTable, false);
 
             return 0;
         }
@@ -123,12 +145,12 @@ namespace IMSWebApi.Services
         /// </summary>
         /// <param name="rawTable"></param>
         /// <returns></returns>
-        private DataTable ValidateDataTable(DataTable rawTable)
+        private DataTable ValidateDataTable(DataTable rawTable, ref DataTable InvalidData)
         {
             var model = new VMFWRShade();
 
             //datatable for invalid rows
-            DataTable InvalidData = new DataTable();
+            
             InvalidData.Columns.Add("Category");
             InvalidData.Columns.Add("Collection");
             InvalidData.Columns.Add("Quality");
@@ -155,8 +177,8 @@ namespace IMSWebApi.Services
                 model.shadeCode = row["Shade Code*"].ToString();
                 model.shadeName = row["Color*"].ToString();
                 model.serialNumber = !string.IsNullOrWhiteSpace(row["Serial Number*"].ToString()) ? Convert.ToInt32(row["Serial Number*"]) : 0;
-                model.description = row["Description "].ToString();
-                model.stockReorderLevel = !string.IsNullOrWhiteSpace(row["Stock Reorder Level *"].ToString()) ? Convert.ToInt32(row["Stock Reorder Level *"]) : 0;
+                model.description = row["Description"].ToString();
+                model.stockReorderLevel = !string.IsNullOrWhiteSpace(row["Stock Reorder Level *"].ToString()) ? Convert.ToInt32(row["Stock Reorder Level *"]) : 0;
 
                 var context = new ValidationContext(model, null, null);
                 var result = new List<ValidationResult>();
@@ -217,15 +239,6 @@ namespace IMSWebApi.Services
             //}
 
             rawTable.AcceptChanges();
-
-            //if contains invalid data then convert to Excel 
-            if (InvalidData != null)
-            {
-                datatable_helper.ConvertToExcel(InvalidData, true);
-            }
-
-            //valid data convert to excel
-            datatable_helper.ConvertToExcel(rawTable, false);
 
             return rawTable;
         }

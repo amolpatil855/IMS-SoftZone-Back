@@ -106,13 +106,22 @@ namespace IMSWebApi.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<MstCategory>("GET_CATEGORY_ID", mergeOption, categoriesParameter);
         }
     
-        public virtual int GET_COLLECTION_ID(string collection)
+        public virtual ObjectResult<MstCollection> GET_COLLECTION_ID(string collection)
         {
             var collectionParameter = collection != null ?
                 new ObjectParameter("Collection", collection) :
                 new ObjectParameter("Collection", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("GET_COLLECTION_ID", collectionParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<MstCollection>("GET_COLLECTION_ID", collectionParameter);
+        }
+    
+        public virtual ObjectResult<MstCollection> GET_COLLECTION_ID(string collection, MergeOption mergeOption)
+        {
+            var collectionParameter = collection != null ?
+                new ObjectParameter("Collection", collection) :
+                new ObjectParameter("Collection", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<MstCollection>("GET_COLLECTION_ID", mergeOption, collectionParameter);
         }
     
         public virtual ObjectResult<MstFWRDesign> GET_DESIGN_ID(string design)
@@ -133,13 +142,22 @@ namespace IMSWebApi.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<MstFWRDesign>("GET_DESIGN_ID", mergeOption, designParameter);
         }
     
-        public virtual int GET_QUALITY_ID(string quality)
+        public virtual ObjectResult<MstQuality> GET_QUALITY_ID(string quality)
         {
             var qualityParameter = quality != null ?
                 new ObjectParameter("Quality", quality) :
                 new ObjectParameter("Quality", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("GET_QUALITY_ID", qualityParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<MstQuality>("GET_QUALITY_ID", qualityParameter);
+        }
+    
+        public virtual ObjectResult<MstQuality> GET_QUALITY_ID(string quality, MergeOption mergeOption)
+        {
+            var qualityParameter = quality != null ?
+                new ObjectParameter("Quality", quality) :
+                new ObjectParameter("Quality", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<MstQuality>("GET_QUALITY_ID", mergeOption, qualityParameter);
         }
     
         public virtual int sp_helpdiagrams(string diagramname, Nullable<int> owner_id)
@@ -214,6 +232,83 @@ namespace IMSWebApi.Models
         public virtual int UploadFWRDesign()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UploadFWRDesign");
+        }
+    
+        public virtual int UploadFWRQualityFlatRate()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UploadFWRQualityFlatRate");
+        }
+    
+        public virtual ObjectResult<MstMatThickness> GET_MAT_THICKNESS_ID(string matThicknessValue)
+        {
+            var matThicknessValueParameter = matThicknessValue != null ?
+                new ObjectParameter("MatThicknessValue", matThicknessValue) :
+                new ObjectParameter("MatThicknessValue", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<MstMatThickness>("GET_MAT_THICKNESS_ID", matThicknessValueParameter);
+        }
+    
+        public virtual ObjectResult<MstMatThickness> GET_MAT_THICKNESS_ID(string matThicknessValue, MergeOption mergeOption)
+        {
+            var matThicknessValueParameter = matThicknessValue != null ?
+                new ObjectParameter("MatThicknessValue", matThicknessValue) :
+                new ObjectParameter("MatThicknessValue", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<MstMatThickness>("GET_MAT_THICKNESS_ID", mergeOption, matThicknessValueParameter);
+        }
+    
+        public virtual ObjectResult<MstHsn> GET_HSN_ID(string hsnValue)
+        {
+            var hsnValueParameter = hsnValue != null ?
+                new ObjectParameter("HsnValue", hsnValue) :
+                new ObjectParameter("HsnValue", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<MstHsn>("GET_HSN_ID", hsnValueParameter);
+        }
+    
+        public virtual ObjectResult<MstHsn> GET_HSN_ID(string hsnValue, MergeOption mergeOption)
+        {
+            var hsnValueParameter = hsnValue != null ?
+                new ObjectParameter("HsnValue", hsnValue) :
+                new ObjectParameter("HsnValue", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<MstHsn>("GET_HSN_ID", mergeOption, hsnValueParameter);
+        }
+    
+        public virtual ObjectResult<MstUnitOfMeasure> GET_UOM_ID(string uOMValue)
+        {
+            var uOMValueParameter = uOMValue != null ?
+                new ObjectParameter("UOMValue", uOMValue) :
+                new ObjectParameter("UOMValue", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<MstUnitOfMeasure>("GET_UOM_ID", uOMValueParameter);
+        }
+    
+        public virtual ObjectResult<MstUnitOfMeasure> GET_UOM_ID(string uOMValue, MergeOption mergeOption)
+        {
+            var uOMValueParameter = uOMValue != null ?
+                new ObjectParameter("UOMValue", uOMValue) :
+                new ObjectParameter("UOMValue", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<MstUnitOfMeasure>("GET_UOM_ID", mergeOption, uOMValueParameter);
+        }
+    
+        public virtual ObjectResult<MstSupplier> GET_SUPPLIER_ID(string supplierValue)
+        {
+            var supplierValueParameter = supplierValue != null ?
+                new ObjectParameter("SupplierValue", supplierValue) :
+                new ObjectParameter("SupplierValue", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<MstSupplier>("GET_SUPPLIER_ID", supplierValueParameter);
+        }
+    
+        public virtual ObjectResult<MstSupplier> GET_SUPPLIER_ID(string supplierValue, MergeOption mergeOption)
+        {
+            var supplierValueParameter = supplierValue != null ?
+                new ObjectParameter("SupplierValue", supplierValue) :
+                new ObjectParameter("SupplierValue", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<MstSupplier>("GET_SUPPLIER_ID", mergeOption, supplierValueParameter);
         }
     }
 }

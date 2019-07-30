@@ -570,6 +570,11 @@
     <Compile Include="ViewModel\ProductMasters\VMAccessoryList.cs" />
     <Compile Include="ViewModel\Masters\VMAgent.cs" />
     <Compile Include="ViewModel\Masters\VMAgentList.cs" />
+    <Compile Include="ViewModel\UploadVM\VMFoamQualityUpload.cs" />
+    <Compile Include="ViewModel\UploadVM\VMFWRQualityCutRoleUpload.cs" />
+    <Compile Include="ViewModel\UploadVM\VMFWRQualityFlatUpload.cs" />
+    <Compile Include="ViewModel\UploadVM\VMMatSizeUpload.cs" />
+    <Compile Include="ViewModel\UploadVM\VMMattressQualityUpload.cs" />
     <Compile Include="ViewModel\ViewsVM\VMvwitemBelowReOrderLevelList.cs" />
     <Compile Include="ViewModel\VMCategory.cs" />
     <Compile Include="ViewModel\VMCollection.cs" />

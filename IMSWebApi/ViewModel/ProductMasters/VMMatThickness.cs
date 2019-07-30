@@ -9,9 +9,11 @@ namespace IMSWebApi.ViewModel
     public class VMMatThickness
     {
         public long id { get; set; }
-        [MaxLength(10)]
+        [Required]
+        [MaxLength(10, ErrorMessage="Max length of Thickness Code is out of range")]
         public string thicknessCode { get; set; }
         [Required] 
+        [Range(00.01, 99.99, ErrorMessage="Size is out of range")]
         public decimal size { get; set; }
     }
 }

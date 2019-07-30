@@ -18,11 +18,15 @@ namespace IMSWebApi.ViewModel
         public string itemCode { get; set; }
         [Required]
         public long supplierId { get; set; }
+        [Required]
         public long hsnId { get; set; }
+        [Required]
         public long uomId { get; set; }
         [Required]
+        [Range(1,99999.99, ErrorMessage="Selling Rate is out of range")]
         public decimal sellingRate { get; set; }
         [Required]
+        [Range(1, 99999.99, ErrorMessage = "Purchase Rate is out of range")]
         public decimal purchaseRate { get; set; }
         [Required]
         [MaxLength(20)]

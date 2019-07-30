@@ -11,6 +11,7 @@ namespace IMSWebApi.Common
     public class DataTableHelper
     {
         string TimeStamp = string.Empty;
+        string fileExtension = string.Empty;
         /// <summary>
         /// preparing data table from excel file
         /// </summary>
@@ -19,6 +20,7 @@ namespace IMSWebApi.Common
         public DataTable PrepareDataTable(HttpPostedFileBase file)
         {
             TimeStamp = DateTime.Now.ToString("yyyyMMddHHmmssfff");
+            fileExtension = Path.GetExtension(file.FileName);
 
             var fileName = string.Concat(
             Path.GetFileNameWithoutExtension(file.FileName),
@@ -41,7 +43,6 @@ namespace IMSWebApi.Common
             var temp = filePath;
 
             //var tempDirectory = filePath;
-            var fileExtension = Path.GetExtension(filePath);
             if (fileExtension == ".xls" || fileExtension == ".xlsx")
             {
                 document.LoadFromFile(filePath);
@@ -70,12 +71,12 @@ namespace IMSWebApi.Common
 
             var InvalidfileName = string.Concat(
             "Invalidexcel_",
-            TimeStamp, ".xls"
+            TimeStamp, fileExtension
             );
 
             var ValidfileName = string.Concat(
             "Validexcel_",
-            TimeStamp, ".xls"
+            TimeStamp, fileExtension
             );
 
             var lines = new List<string>();

@@ -13,11 +13,23 @@ namespace IMSWebApi.Controllers
     {
         private UploadFWRShadeService _uploadShade = null;
         private FWRDesignService _uploadDesign = null;
+        private QualityService _qualityService = null;
+        private MatThicknessService _matThicknessService = null;
+        private MatSizeService _matSizeService = null;
+        private AccessoryService _accessoryService = null;
+        private CollectionService _collectionService = null;
+        private PatternService _patternService = null;
 
         public UploadFileController()
         {
             _uploadShade = new UploadFWRShadeService();
             _uploadDesign = new FWRDesignService();
+            _qualityService = new QualityService();
+            _matThicknessService = new MatThicknessService();
+            _matSizeService = new MatSizeService();
+            _accessoryService = new AccessoryService();
+            _collectionService = new CollectionService();
+            _patternService = new PatternService();
         }
 
         //[ApiAuthorize(AccessLevel = "shade")]
@@ -42,8 +54,32 @@ namespace IMSWebApi.Controllers
                 case "MstFWRDesign":
                     result = _uploadDesign.UploadDesign(filebase);
                     break;
-                case "MstQuality":
-                    result = 0;
+                case "FWRQualityFlatRate":
+                    result = _qualityService.UploadFWRQualityFlatRate(filebase);
+                    break;
+                case "FWRQualityCutRoleRate":
+                    result = _qualityService.UploadFWRQualityCutRoleRate(filebase);
+                    break;
+                case "MattressQuality":
+                    result = _qualityService.UploadMattressQuality(filebase);
+                    break;
+                case "MattressThickness":
+                    result = _matThicknessService.UploadMatThickness(filebase);
+                    break;
+                case "MattressSize":
+                    result = _matSizeService.UploadMatSize(filebase);
+                    break;
+                case "Accessory":
+                    result = _accessoryService.UploadAccessories(filebase);
+                    break;
+                case "Collection":
+                    result = _collectionService.UploadCollections(filebase);
+                    break;
+                case "Pattern":
+                    result = _patternService.UploadPatterns(filebase);
+                    break;
+                case "FoamQuality":
+                    result = _qualityService.UploadFoamQuality(filebase);
                     break;
                 default:
                     break;

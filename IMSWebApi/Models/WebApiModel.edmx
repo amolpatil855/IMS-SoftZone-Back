@@ -3389,8 +3389,20 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
         <Function Name="GET_DESIGN_ID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Design" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="GET_HSN_ID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="HsnValue" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="GET_MAT_THICKNESS_ID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="MatThicknessValue" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="GET_QUALITY_ID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Quality" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="GET_SUPPLIER_ID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="SupplierValue" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="GET_UOM_ID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UOMValue" Type="varchar" Mode="In" />
         </Function>
         <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
@@ -3415,6 +3427,7 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
         </Function>
         <Function Name="UploadCategory" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="UploadFWRDesign" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="UploadFWRQualityFlatRate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="UploadFWRShade" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="IMSModelStoreContainer">
           <EntitySet Name="CFGRoleMenu" EntityType="Self.CFGRoleMenu" Schema="dbo" store:Type="Tables" />
@@ -5034,13 +5047,13 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <FunctionImport Name="GET_CATEGORY_ID" EntitySet="MstCategories" ReturnType="Collection(IMSModel.MstCategory)">
           <Parameter Name="Categories" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="GET_COLLECTION_ID">
+          <FunctionImport Name="GET_COLLECTION_ID" EntitySet="MstCollections" ReturnType="Collection(IMSModel.MstCollection)">
           <Parameter Name="Collection" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="GET_DESIGN_ID" EntitySet="MstFWRDesigns" ReturnType="Collection(IMSModel.MstFWRDesign)">
           <Parameter Name="Design" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="GET_QUALITY_ID">
+          <FunctionImport Name="GET_QUALITY_ID" EntitySet="MstQualities" ReturnType="Collection(IMSModel.MstQuality)">
           <Parameter Name="Quality" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_helpdiagrams">
@@ -5060,6 +5073,19 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <FunctionImport Name="UploadCategory" EntitySet="MstCategories" ReturnType="Collection(IMSModel.MstCategory)" />
           <FunctionImport Name="UploadFWRShade" EntitySet="MstFWRShades" ReturnType="Collection(IMSModel.MstFWRShade)" />
           <FunctionImport Name="UploadFWRDesign" />
+          <FunctionImport Name="UploadFWRQualityFlatRate" />
+          <FunctionImport Name="GET_MAT_THICKNESS_ID" EntitySet="MstMatThicknesses" ReturnType="Collection(IMSModel.MstMatThickness)">
+          <Parameter Name="MatThicknessValue" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GET_HSN_ID" EntitySet="MstHsns" ReturnType="Collection(IMSModel.MstHsn)">
+          <Parameter Name="HsnValue" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GET_UOM_ID" EntitySet="MstUnitOfMeasures" ReturnType="Collection(IMSModel.MstUnitOfMeasure)">
+          <Parameter Name="UOMValue" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GET_SUPPLIER_ID" EntitySet="MstSuppliers" ReturnType="Collection(IMSModel.MstSupplier)">
+            <Parameter Name="SupplierValue" Mode="In" Type="String" />
+          </FunctionImport>
           </EntityContainer>
         <EntityType Name="CFGRoleMenu">
           <Key>
@@ -10097,6 +10123,11 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <FunctionImportMapping FunctionImportName="UploadCategory" FunctionName="IMSModel.Store.UploadCategory" />
           <FunctionImportMapping FunctionImportName="UploadFWRShade" FunctionName="IMSModel.Store.UploadFWRShade" />
           <FunctionImportMapping FunctionImportName="UploadFWRDesign" FunctionName="IMSModel.Store.UploadFWRDesign" />
+          <FunctionImportMapping FunctionImportName="UploadFWRQualityFlatRate" FunctionName="IMSModel.Store.UploadFWRQualityFlatRate" />
+          <FunctionImportMapping FunctionImportName="GET_MAT_THICKNESS_ID" FunctionName="IMSModel.Store.GET_MAT_THICKNESS_ID" />
+          <FunctionImportMapping FunctionImportName="GET_HSN_ID" FunctionName="IMSModel.Store.GET_HSN_ID" />
+          <FunctionImportMapping FunctionImportName="GET_UOM_ID" FunctionName="IMSModel.Store.GET_UOM_ID" />
+          <FunctionImportMapping FunctionImportName="GET_SUPPLIER_ID" FunctionName="IMSModel.Store.GET_SUPPLIER_ID" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
