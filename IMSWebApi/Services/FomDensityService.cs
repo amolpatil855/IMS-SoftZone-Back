@@ -125,7 +125,7 @@ namespace IMSWebApi.Services
         /// </summary>
         /// <param name="file"></param>
         /// <returns></returns>
-        public string UploadFoamDensity(HttpPostedFileBase file)
+        public Tuple<string,int> UploadFoamDensity(HttpPostedFileBase file)
         {
             string path = AppDomain.CurrentDomain.BaseDirectory;
 
@@ -199,7 +199,7 @@ namespace IMSWebApi.Services
             //valid data convert to excel
             datatable_helper.ConvertToExcel(validatedDataTable, false);
 
-            return Invalidfilename;
+            return new Tuple<string, int>(Invalidfilename, validatedDataTable.Rows.Count);
         }
 
         /// <summary>

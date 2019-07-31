@@ -135,7 +135,7 @@ namespace IMSWebApi.Services
             return new ResponseMessage(id, resourceManager.GetString("AccessoryDeleted"), ResponseType.Success);
         }
 
-        public string UploadAccessories(HttpPostedFileBase file)
+        public Tuple<string,int> UploadAccessories(HttpPostedFileBase file)
         {
             string path = AppDomain.CurrentDomain.BaseDirectory;
 
@@ -212,7 +212,7 @@ namespace IMSWebApi.Services
             //valid data convert to excel
             datatable_helper.ConvertToExcel(validatedDataTable, false);
 
-            return Invalidfilename;
+            return new Tuple<string, int>(Invalidfilename, validatedDataTable.Rows.Count);
         }
 
         /// <summary>

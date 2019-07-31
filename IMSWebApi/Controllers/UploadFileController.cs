@@ -50,71 +50,73 @@ namespace IMSWebApi.Controllers
         public IHttpActionResult UploadFile(string TableName)
         {
             var httpRequest = HttpContext.Current.Request;
-            var result = 0;
+            //var result = 0;
             if (httpRequest.Files[0] == null || httpRequest.Files[0].ContentLength == 0)
             {
                 return BadRequest("Invalid File");
             }
-            string filepath = string.Empty;
+            //string filepath = string.Empty;
+
+            var data = Tuple.Create("", 0);
 
             HttpPostedFileBase filebase = new HttpPostedFileWrapper(HttpContext.Current.Request.Files[0]);
 
             switch (TableName)
             {
                 case "MstFWRShade":
-                    filepath = _uploadShade.UploadShade(filebase);
+                    data = _uploadShade.UploadShade(filebase);
                     break;
                 case "MstFWRDesign":
-                    filepath = _uploadDesign.UploadDesign(filebase);
+                    data = _uploadDesign.UploadDesign(filebase);
                     break;
                 case "FWRQualityFlatRate":
-                    filepath = _qualityService.UploadFWRQualityFlatRate(filebase);
+                    data = _qualityService.UploadFWRQualityFlatRate(filebase);
                     break;
                 case "FWRQualityCutRoleRate":
-                    filepath = _qualityService.UploadFWRQualityCutRoleRate(filebase);
+                    data = _qualityService.UploadFWRQualityCutRoleRate(filebase);
                     break;
                 case "MattressQuality":
-                    filepath = _qualityService.UploadMattressQuality(filebase);
+                    data = _qualityService.UploadMattressQuality(filebase);
                     break;
                 case "MattressThickness":
-                    filepath = _matThicknessService.UploadMatThickness(filebase);
+                    data = _matThicknessService.UploadMatThickness(filebase);
                     break;
                 case "MattressSize":
-                    filepath = _matSizeService.UploadMatSize(filebase);
+                    data = _matSizeService.UploadMatSize(filebase);
                     break;
                 case "Accessory":
-                    filepath = _accessoryService.UploadAccessories(filebase);
+                    data = _accessoryService.UploadAccessories(filebase);
                     break;
                 case "Collection":
-                    filepath = _collectionService.UploadCollections(filebase);
+                    data = _collectionService.UploadCollections(filebase);
                     break;
                 case "Pattern":
-                    filepath = _patternService.UploadPatterns(filebase);
+                    data = _patternService.UploadPatterns(filebase);
                     break;
                 case "FoamQuality":
-                    filepath = _qualityService.UploadFoamQuality(filebase);
+                    data = _qualityService.UploadFoamQuality(filebase);
                     break;
                 case "MstFomDensity":
-                    filepath = _uploadFoamDensity.UploadFoamDensity(filebase);
+                    data = _uploadFoamDensity.UploadFoamDensity(filebase);
                     break;
                 case "MstFomSize":
-                    filepath = _uploadFoamSize.UploadFoamSize(filebase);
+                    data = _uploadFoamSize.UploadFoamSize(filebase);
                     break;
                 case "MstFomSuggestedMM":
-                    filepath = _uploadFoamSuggestedMM.UploadFoamSuggestedMM(filebase);
+                    data = _uploadFoamSuggestedMM.UploadFoamSuggestedMM(filebase);
                     break;
                 case "Tailor":
-                    filepath = _uploadTailor.UploadTailor(filebase);
+                    data = _uploadTailor.UploadTailor(filebase);
                     break;
                 case "PatternDetails":
-                    filepath = _uploadTailor.UploadTailorPatternDetails(filebase);
+                    data = _uploadTailor.UploadTailorPatternDetails(filebase);
                     break;
                 default:
                     break;
             }
             //HttpResponseMessage HttpResponseMessage = GetFileDownloaded(filepath);
             //return Ok(result);
-            return Ok(new ResponseMessage(1, filepath, ResponseType.Success));
+            return Ok(new ResponseMessage(data.Item2, data.Item1, ResponseType.Success));
         }
 
         [HttpGet]

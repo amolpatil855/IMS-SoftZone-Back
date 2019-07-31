@@ -120,7 +120,7 @@ namespace IMSWebApi.Services
         /// </summary>
         /// <param name="file"></param>
         /// <returns></returns>
-        public string UploadDesign(HttpPostedFileBase file)
+        public Tuple<string,int> UploadDesign(HttpPostedFileBase file)
         {
             string path = AppDomain.CurrentDomain.BaseDirectory;
 
@@ -193,7 +193,7 @@ namespace IMSWebApi.Services
             //valid data convert to excel
             datatable_helper.ConvertToExcel(validatedDataTable, false);
 
-            return Invalidfilename;
+            return new Tuple<string, int>(Invalidfilename, validatedDataTable.Rows.Count);
         }
 
 

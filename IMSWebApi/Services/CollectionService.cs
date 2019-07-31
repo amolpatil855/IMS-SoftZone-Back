@@ -183,7 +183,7 @@ namespace IMSWebApi.Services
             return new ResponseMessage(id, resourceManager.GetString("CollectionDeleted"), ResponseType.Success);
         }
 
-        public string UploadCollections(HttpPostedFileBase file)
+        public Tuple<string,int> UploadCollections(HttpPostedFileBase file)
         {
             string path = AppDomain.CurrentDomain.BaseDirectory;
 
@@ -247,7 +247,7 @@ namespace IMSWebApi.Services
             //valid data convert to excel
             datatable_helper.ConvertToExcel(validatedDataTable, false);
 
-            return Invalidfilename;
+            return new Tuple<string, int>(Invalidfilename, validatedDataTable.Rows.Count);
         }
 
         /// <summary>

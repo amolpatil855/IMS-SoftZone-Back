@@ -139,7 +139,7 @@ namespace IMSWebApi.Services
             return new ResponseMessage(id, resourceManager.GetString("QualityDeleted"), ResponseType.Success);
         }
 
-        public string UploadFWRQualityFlatRate(HttpPostedFileBase file)
+        public Tuple<string,int> UploadFWRQualityFlatRate(HttpPostedFileBase file)
         {
             string path = AppDomain.CurrentDomain.BaseDirectory;
 
@@ -216,10 +216,10 @@ namespace IMSWebApi.Services
             //valid data convert to excel
             datatable_helper.ConvertToExcel(validatedDataTable, false);
 
-            return Invalidfilename;
+            return new Tuple<string, int>(Invalidfilename, validatedDataTable.Rows.Count);
         }
 
-        public string UploadFWRQualityCutRoleRate(HttpPostedFileBase file)
+        public Tuple<string,int> UploadFWRQualityCutRoleRate(HttpPostedFileBase file)
         {
             string path = AppDomain.CurrentDomain.BaseDirectory;
 
@@ -298,10 +298,10 @@ namespace IMSWebApi.Services
             //valid data convert to excel
             datatable_helper.ConvertToExcel(validatedDataTable, false);
 
-            return Invalidfilename;
+            return new Tuple<string, int>(Invalidfilename, validatedDataTable.Rows.Count);
         }
 
-        public string UploadMattressQuality(HttpPostedFileBase file)
+        public Tuple<string,int> UploadMattressQuality(HttpPostedFileBase file)
         {
             string path = AppDomain.CurrentDomain.BaseDirectory;
 
@@ -377,10 +377,10 @@ namespace IMSWebApi.Services
             //valid data convert to excel
             datatable_helper.ConvertToExcel(validatedDataTable, false);
 
-            return Invalidfilename;
+            return new Tuple<string, int>(Invalidfilename, validatedDataTable.Rows.Count);
         }
 
-        public string UploadFoamQuality(HttpPostedFileBase file)
+        public Tuple<string,int> UploadFoamQuality(HttpPostedFileBase file)
         {
             string path = AppDomain.CurrentDomain.BaseDirectory;
 

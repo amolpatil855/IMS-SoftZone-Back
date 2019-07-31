@@ -133,7 +133,7 @@ namespace IMSWebApi.Services
             return new ResponseMessage(id, resourceManager.GetString("PatternDeleted"), ResponseType.Success);
         }
 
-        public string UploadPatterns(HttpPostedFileBase file)
+        public Tuple<string,int> UploadPatterns(HttpPostedFileBase file)
         {
             string path = AppDomain.CurrentDomain.BaseDirectory;
 
@@ -211,7 +211,7 @@ namespace IMSWebApi.Services
             //valid data convert to excel
             datatable_helper.ConvertToExcel(validatedDataTable, false);
 
-            return Invalidfilename;
+            return new Tuple<string, int>(Invalidfilename, validatedDataTable.Rows.Count);
         }
 
         /// <summary>

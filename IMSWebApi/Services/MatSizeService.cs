@@ -148,7 +148,7 @@ namespace IMSWebApi.Services
             return new ResponseMessage(id, resourceManager.GetString("MatSizeDeleted"), ResponseType.Success);
         }
 
-        public string UploadMatSize(HttpPostedFileBase file)
+        public Tuple<string,int> UploadMatSize(HttpPostedFileBase file)
         {
             string path = AppDomain.CurrentDomain.BaseDirectory;
 
@@ -213,7 +213,7 @@ namespace IMSWebApi.Services
             //valid data convert to excel
             datatable_helper.ConvertToExcel(validatedDataTable, false);
 
-            return Invalidfilename;
+            return new Tuple<string, int>(Invalidfilename, validatedDataTable.Rows.Count);
         }
 
         /// <summary>

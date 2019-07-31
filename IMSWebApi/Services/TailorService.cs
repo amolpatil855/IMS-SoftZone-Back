@@ -206,11 +206,11 @@ namespace IMSWebApi.Services
         /// </summary>
         /// <param name="file"></param>
         /// <returns></returns>
-        public string UploadTailor(HttpPostedFileBase file)
+        public Tuple<string, int> UploadTailor(HttpPostedFileBase file)
         {
             string path = AppDomain.CurrentDomain.BaseDirectory;
 
-            string Invalidfilename = string.Empty;
+            string Invalidfilename = string.Empty;            
 
             DataTable tailor = new DataTable();
             tailor = datatable_helper.PrepareDataTable(file); //contains raw data table
@@ -271,20 +271,10 @@ namespace IMSWebApi.Services
                 Invalidfilename = string.Concat(path, "ExcelUpload\\", Invalidfilename);
             }
 
-            //var dataBytes = File.ReadAllBytes(Invalidfilename);
-            ////adding bytes to memory stream   
-            //var dataStream = new MemoryStream(dataBytes);  
-
-            //HttpResponseMessage httpResponseMessage = HttpContext.Request.CreateResponse(HttpStatusCode.OK);
-            //httpResponseMessage.Content = new StreamContent(dataStream);
-            //httpResponseMessage.Content.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment");
-            //httpResponseMessage.Content.Headers.ContentDisposition.FileName = filename;
-            //httpResponseMessage.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/octet-stream"); 
-            
             //valid data convert to excel
             datatable_helper.ConvertToExcel(validatedDataTable, false);
 
-            return Invalidfilename;
+            return new Tuple<string, int>(Invalidfilename, validatedDataTable.Rows.Count);
         }
 
         /// <summary>
@@ -350,7 +340,7 @@ namespace IMSWebApi.Services
         /// </summary>
         /// <param name="file"></param>
         /// <returns></returns>
-        public string UploadTailorPatternDetails(HttpPostedFileBase file)
+        public Tuple<string,int> UploadTailorPatternDetails(HttpPostedFileBase file)
         {
             string path = AppDomain.CurrentDomain.BaseDirectory;
 
@@ -420,7 +410,7 @@ namespace IMSWebApi.Services
             //valid data convert to excel
             datatable_helper.ConvertToExcel(validatedDataTable, false);
 
-            return Invalidfilename;
+            return new Tuple<string, int>(Invalidfilename, validatedDataTable.Rows.Count);
         }
 
         private DataTable ValidatePatternDataTable(DataTable rawTable, ref DataTable InvalidData)
