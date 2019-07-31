@@ -45,15 +45,13 @@ namespace IMSWebApi.Controllers
         //[ApiAuthorize(AccessLevel = "shade")]
         // POST api/UploadFile
         [HttpPost]
-        public HttpResponseMessage UploadFile(string TableName)
+        public IHttpActionResult UploadFile(string TableName)
         {
             var httpRequest = HttpContext.Current.Request;
             var result = 0;
             if (httpRequest.Files[0] == null || httpRequest.Files[0].ContentLength == 0)
             {
-                //return BadRequest("Invalid File");
-
-
+                return BadRequest("Invalid File");
             }
             string filepath = string.Empty;
 
@@ -112,11 +110,12 @@ namespace IMSWebApi.Controllers
                 default:
                     break;
             }
-            HttpResponseMessage HttpResponseMessage = GetFileDownloaded(filepath);
+            //HttpResponseMessage HttpResponseMessage = GetFileDownloaded(filepath);
             //return Ok(result);
-            return HttpResponseMessage;
+            return Ok(filepath);
         }
 
+        [HttpGet]
         //content disposition of a invalidfile as Attachment for downloading
         public HttpResponseMessage GetFileDownloaded(string filepath)
         {
