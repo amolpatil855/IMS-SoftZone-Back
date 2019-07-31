@@ -1,4 +1,6 @@
-﻿using IMSWebApi.Services;
+﻿using IMSWebApi.Enums;
+using IMSWebApi.Services;
+using IMSWebApi.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -112,7 +114,7 @@ namespace IMSWebApi.Controllers
             }
             //HttpResponseMessage HttpResponseMessage = GetFileDownloaded(filepath);
             //return Ok(result);
-            return Ok(filepath);
+            return Ok(new ResponseMessage(1, filepath, ResponseType.Success));
         }
 
         [HttpGet]
