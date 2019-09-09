@@ -228,9 +228,9 @@ namespace IMSWebApi.Services
                 model.density = row["Density *"].ToString();
                 model.description = row["Description"].ToString();
                 model.purchaseRatePerMM = !string.IsNullOrWhiteSpace(row["Purchase Rate/MM *"].ToString()) ? Convert.ToDecimal(row["Purchase Rate/MM *"]) : 0;
-                model.purchaseRatePerMM = !string.IsNullOrWhiteSpace(row["Purchase Rate/KG *"].ToString()) ? Convert.ToDecimal(row["Purchase Rate/KG *"]) : 0;
-                model.purchaseRatePerMM = !string.IsNullOrWhiteSpace(row["Selling Rate/MM *"].ToString()) ? Convert.ToDecimal(row["Selling Rate/MM *"]) : 0;
-                model.purchaseRatePerMM = !string.IsNullOrWhiteSpace(row["Selling Rate/KG *"].ToString()) ? Convert.ToDecimal(row["Selling Rate/KG *"]) : 0;
+                model.purchaseRatePerKG = !string.IsNullOrWhiteSpace(row["Purchase Rate/KG *"].ToString()) ? Convert.ToDecimal(row["Purchase Rate/KG *"]) : 0;
+                model.sellingRatePerMM = !string.IsNullOrWhiteSpace(row["Selling Rate/MM *"].ToString()) ? Convert.ToDecimal(row["Selling Rate/MM *"]) : 0;
+                model.sellingRatePerKG = !string.IsNullOrWhiteSpace(row["Selling Rate/KG *"].ToString()) ? Convert.ToDecimal(row["Selling Rate/KG *"]) : 0;
 
                 var context = new ValidationContext(model, null, null);
                 var result = new List<ValidationResult>();

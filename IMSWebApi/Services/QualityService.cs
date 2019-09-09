@@ -158,12 +158,12 @@ namespace IMSWebApi.Services
             validatedDataTable.Columns["Collection * "].SetOrdinal(1);
             validatedDataTable.Columns["Code* "].SetOrdinal(2);
             validatedDataTable.Columns["Name* "].SetOrdinal(3);
-            validatedDataTable.Columns["HSN Code*"].SetOrdinal(4);
-            validatedDataTable.Columns["Description "].SetOrdinal(5);
-            validatedDataTable.Columns["Width* "].SetOrdinal(6);
+            validatedDataTable.Columns["Description "].SetOrdinal(4);
+            validatedDataTable.Columns["Width* "].SetOrdinal(5);
+            validatedDataTable.Columns["HSN Code*"].SetOrdinal(6);
             validatedDataTable.Columns["Flat Rate * "].SetOrdinal(7);
             validatedDataTable.Columns["Purchase Flat Rate * "].SetOrdinal(8);
-            validatedDataTable.Columns["Flat Rate Max Dis.%* "].SetOrdinal(8);
+            validatedDataTable.Columns["Flat Rate Max Dis.%* "].SetOrdinal(9);
 
             validatedDataTable.AcceptChanges();
 
@@ -207,7 +207,7 @@ namespace IMSWebApi.Services
             InvalidData.AcceptChanges();
 
             //if contains invalid data then convert to Excel 
-            if (InvalidData != null)
+            if (InvalidData.Rows.Count > 0)
             {
                 Invalidfilename = datatable_helper.ConvertToExcel(InvalidData, true);
                 Invalidfilename = string.Concat(path, "ExcelUpload\\", Invalidfilename);
@@ -238,14 +238,14 @@ namespace IMSWebApi.Services
             validatedDataTable.Columns["Collection * "].SetOrdinal(1);
             validatedDataTable.Columns["Code* "].SetOrdinal(2);
             validatedDataTable.Columns["Name* "].SetOrdinal(3);
-            validatedDataTable.Columns["HSN Code*"].SetOrdinal(4);
-            validatedDataTable.Columns["Description "].SetOrdinal(5);
-            validatedDataTable.Columns["Width* "].SetOrdinal(6);
+            validatedDataTable.Columns["Description "].SetOrdinal(4);
+            validatedDataTable.Columns["Width* "].SetOrdinal(5);
+            validatedDataTable.Columns["HSN Code*"].SetOrdinal(6);
             validatedDataTable.Columns["Cut Rate* "].SetOrdinal(7);
             validatedDataTable.Columns["Role Rate* "].SetOrdinal(8);
-            validatedDataTable.Columns["Cut Rate Max Dis.%*"].SetOrdinal(9);
-            validatedDataTable.Columns["Role Rate Max Dis.%* "].SetOrdinal(10);
-            validatedDataTable.Columns["RRP* "].SetOrdinal(11);
+            validatedDataTable.Columns["RRP* "].SetOrdinal(9);
+            validatedDataTable.Columns["Cut Rate Max Dis.%*"].SetOrdinal(10);
+            validatedDataTable.Columns["Role Rate Max Dis.%* "].SetOrdinal(11);
 
             validatedDataTable.AcceptChanges();
 
@@ -289,7 +289,7 @@ namespace IMSWebApi.Services
             InvalidData.AcceptChanges();
 
             //if contains invalid data then convert to Excel 
-            if (InvalidData != null)
+            if (InvalidData.Rows.Count > 0)
             {
                 Invalidfilename = datatable_helper.ConvertToExcel(InvalidData, true);
                 Invalidfilename = string.Concat(path, "ExcelUpload\\", Invalidfilename);
@@ -368,7 +368,7 @@ namespace IMSWebApi.Services
             InvalidData.AcceptChanges();
 
             //if contains invalid data then convert to Excel 
-            if (InvalidData != null)
+            if (InvalidData.Rows.Count > 0)
             {
                 Invalidfilename = datatable_helper.ConvertToExcel(InvalidData, true);
                 Invalidfilename = string.Concat(path, "ExcelUpload\\", Invalidfilename);
@@ -436,7 +436,7 @@ namespace IMSWebApi.Services
             InvalidData.AcceptChanges();
 
             //if contains invalid data then convert to Excel 
-            if (InvalidData != null)
+            if (InvalidData.Rows.Count > 0)
             {
                 Invalidfilename = datatable_helper.ConvertToExcel(InvalidData, true);
                 Invalidfilename = string.Concat(path, "ExcelUpload\\", Invalidfilename);
@@ -445,7 +445,7 @@ namespace IMSWebApi.Services
             //valid data convert to excel
             datatable_helper.ConvertToExcel(validatedDataTable, false);
 
-            return Invalidfilename;
+            return new Tuple<string, int>(Invalidfilename, validatedDataTable.Rows.Count);
         }
 
         /// <summary>
@@ -504,28 +504,35 @@ namespace IMSWebApi.Services
 
             //finding distinct values of Design codes
             List<string> Collection = new List<string>();
+            List<string> HSN = new List<string>();
+
             Collection = rawTable.AsEnumerable().Select(c => c.Field<string>("Collection * ")).Distinct().ToList();
+            HSN = rawTable.AsEnumerable().Select(c => c.Field<string>("HSN Code*")).Distinct().ToList();
 
             //formatting as comma separated string
             string collectionString = (string.Join(",", Collection.ToArray()));
+            string HsnString = (string.Join(",", HSN.ToArray()));
 
             //fetching data for design            
             var collectionKey = repo.GET_COLLECTION_ID(collectionString).ToList();
+            var hsnKey = repo.GET_HSN_ID(HsnString).ToList();
 
             //replacing values of category, collection, quality by their ids         
             for (int j = 0; j < rawTable.Rows.Count; j++)
             {
-                var row = collectionKey.Where(d => d.MstCategory.code.ToLower().Equals(rawTable.Rows[j]["Category *"].ToString().Trim().ToLower())).FirstOrDefault();
+                var collectionRow = collectionKey.Where(d => d.MstCategory.code.ToLower().Equals(rawTable.Rows[j]["Category*"].ToString().Trim().ToLower())).FirstOrDefault();
+                var hsnRow = hsnKey.Where(d => d.hsnCode.Equals(rawTable.Rows[j]["HSN Code*"].ToString().Trim().ToLower())).FirstOrDefault();
 
-                if (row != null)
+                if (collectionRow != null && hsnRow != null)
                 {
-                    rawTable.Rows[j]["Category *"] = row.categoryId;
-                    rawTable.Rows[j]["Collection *"] = row.id;
+                    rawTable.Rows[j]["Category*"] = collectionRow.categoryId;
+                    rawTable.Rows[j]["Collection * "] = collectionRow.id;
+                    rawTable.Rows[j]["HSN Code*"] = hsnRow.id;
                 }
                 else
                 {
                     InvalidData.Rows.Add(rawTable.Rows[j].ItemArray);
-                    InvalidData.Rows[InvalidData.Rows.Count - 1]["Reason"] = "Please verify category, collection";
+                    InvalidData.Rows[InvalidData.Rows.Count - 1]["Reason"] = "Please verify category, collection, HSN";
                     rawTable.Rows[j].Delete();
                 }
             }
@@ -592,28 +599,35 @@ namespace IMSWebApi.Services
 
             //finding distinct values of Design codes
             List<string> Collection = new List<string>();
+            List<string> HSN = new List<string>();
+
             Collection = rawTable.AsEnumerable().Select(c => c.Field<string>("Collection * ")).Distinct().ToList();
+            HSN = rawTable.AsEnumerable().Select(c => c.Field<string>("HSN Code*")).Distinct().ToList();
 
             //formatting as comma separated string
             string collectionString = (string.Join(",", Collection.ToArray()));
+            string HsnString = (string.Join(",", HSN.ToArray()));
 
             //fetching data for design            
             var collectionKey = repo.GET_COLLECTION_ID(collectionString).ToList();
+            var hsnKey = repo.GET_HSN_ID(HsnString).ToList();
 
             //replacing values of category, collection, quality by their ids         
             for (int j = 0; j < rawTable.Rows.Count; j++)
             {
-                var row = collectionKey.Where(d => d.MstCategory.code.ToLower().Equals(rawTable.Rows[j]["Category * "].ToString().Trim().ToLower())).FirstOrDefault();
+                var collectionRow = collectionKey.Where(d => d.MstCategory.code.ToLower().Equals(rawTable.Rows[j]["Category * "].ToString().Trim().ToLower())).FirstOrDefault();
+                var hsnRow = hsnKey.Where(d => d.hsnCode.Equals(rawTable.Rows[j]["HSN Code*"].ToString().Trim().ToLower())).FirstOrDefault();
 
-                if (row != null)
+                if (collectionRow != null && hsnRow != null)
                 {
-                    rawTable.Rows[j]["Category * "] = row.categoryId;
-                    rawTable.Rows[j]["Collection * "] = row.id;
+                    rawTable.Rows[j]["Category * "] = collectionRow.categoryId;
+                    rawTable.Rows[j]["Collection * "] = collectionRow.id;
+                    rawTable.Rows[j]["HSN Code*"] = hsnRow.id;
                 }
                 else
                 {
                     InvalidData.Rows.Add(rawTable.Rows[j].ItemArray);
-                    InvalidData.Rows[InvalidData.Rows.Count - 1]["Reason"] = "Please verify category, collection";
+                    InvalidData.Rows[InvalidData.Rows.Count - 1]["Reason"] = "Please verify category, collection, HSN";
                     rawTable.Rows[j].Delete();
                 }
             }
@@ -676,28 +690,35 @@ namespace IMSWebApi.Services
 
             //finding distinct values of Design codes
             List<string> Collection = new List<string>();
+            List<string> HSN = new List<string>();
+            
             Collection = rawTable.AsEnumerable().Select(c => c.Field<string>("Collection *")).Distinct().ToList();
+            HSN = rawTable.AsEnumerable().Select(c => c.Field<string>("HSN Code *")).Distinct().ToList();
 
             //formatting as comma separated string
             string collectionString = (string.Join(",", Collection.ToArray()));
+            string HsnString = (string.Join(",", HSN.ToArray()));
 
             //fetching data for design            
             var collectionKey = repo.GET_COLLECTION_ID(collectionString).ToList();
+            var hsnKey = repo.GET_HSN_ID(HsnString).ToList();
 
             //replacing values of category, collection, quality by their ids         
             for (int j = 0; j < rawTable.Rows.Count; j++)
             {
-                var row = collectionKey.Where(d => d.MstCategory.code.ToLower().Equals(rawTable.Rows[j]["Category *"].ToString().Trim().ToLower())).FirstOrDefault();
+                var collectionRow = collectionKey.Where(d => d.MstCategory.code.ToLower().Equals(rawTable.Rows[j]["Category *"].ToString().Trim().ToLower())).FirstOrDefault();
+                var hsnRow = hsnKey.Where(d => d.hsnCode.Equals(rawTable.Rows[j]["HSN Code *"].ToString().Trim().ToLower())).FirstOrDefault();
 
-                if (row != null)
+                if (collectionRow != null && hsnRow != null)
                 {
-                    rawTable.Rows[j]["Category *"] = row.categoryId;
-                    rawTable.Rows[j]["Collection *"] = row.id;
+                    rawTable.Rows[j]["Category *"] = collectionRow.categoryId;
+                    rawTable.Rows[j]["Collection *"] = collectionRow.id;
+                    rawTable.Rows[j]["HSN Code *"] = hsnRow.id;
                 }
                 else
                 {
                     InvalidData.Rows.Add(rawTable.Rows[j].ItemArray);
-                    InvalidData.Rows[InvalidData.Rows.Count - 1]["Reason"] = "Please verify category, collection";
+                    InvalidData.Rows[InvalidData.Rows.Count - 1]["Reason"] = "Please verify category, collection, HSN";
                     rawTable.Rows[j].Delete();
                 }
             }
@@ -759,28 +780,35 @@ namespace IMSWebApi.Services
 
             //finding distinct values of Design codes
             List<string> Collection = new List<string>();
+            List<string> HSN = new List<string>();
+            
             Collection = rawTable.AsEnumerable().Select(c => c.Field<string>("Collection *")).Distinct().ToList();
-
+            HSN = rawTable.AsEnumerable().Select(c => c.Field<string>("HSN Code *")).Distinct().ToList();
+            
             //formatting as comma separated string
             string collectionString = (string.Join(",", Collection.ToArray()));
+            string HsnString = (string.Join(",", HSN.ToArray()));
 
             //fetching data for design            
             var collectionKey = repo.GET_COLLECTION_ID(collectionString).ToList();
+            var hsnKey = repo.GET_HSN_ID(HsnString).ToList();
 
             //replacing values of category, collection, quality by their ids         
             for (int j = 0; j < rawTable.Rows.Count; j++)
             {
-                var row = collectionKey.Where(d => d.MstCategory.code.ToLower().Equals(rawTable.Rows[j]["Category *"].ToString().Trim().ToLower())).FirstOrDefault();
+                var collectionRow = collectionKey.Where(d => d.MstCategory.code.ToLower().Equals(rawTable.Rows[j]["Category *"].ToString().Trim().ToLower())).FirstOrDefault();
+                var hsnRow = hsnKey.Where(d => d.hsnCode.Equals(rawTable.Rows[j]["HSN Code *"].ToString().Trim().ToLower())).FirstOrDefault();
 
-                if (row != null)
+                if (collectionRow != null && hsnRow != null)
                 {
-                    rawTable.Rows[j]["Category *"] = row.categoryId;
-                    rawTable.Rows[j]["Collection *"] = row.id;
+                    rawTable.Rows[j]["Category *"] = collectionRow.categoryId;
+                    rawTable.Rows[j]["Collection *"] = collectionRow.id;
+                    rawTable.Rows[j]["HSN Code *"] = hsnRow.id;
                 }
                 else
                 {
                     InvalidData.Rows.Add(rawTable.Rows[j].ItemArray);
-                    InvalidData.Rows[InvalidData.Rows.Count - 1]["Reason"] = "Please verify category, collection";
+                    InvalidData.Rows[InvalidData.Rows.Count - 1]["Reason"] = "Please verify category, collection, HSN";
                     rawTable.Rows[j].Delete();
                 }
             }

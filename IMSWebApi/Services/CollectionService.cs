@@ -198,12 +198,12 @@ namespace IMSWebApi.Services
 
             //reordering columns
             validatedDataTable.Columns["Category *"].SetOrdinal(0);
-            validatedDataTable.Columns["Collection Code *"].SetOrdinal(1);
-            validatedDataTable.Columns["Collection Name *"].SetOrdinal(2);
-            validatedDataTable.Columns["Supplier *"].SetOrdinal(3);
-            validatedDataTable.Columns["Manufacturer Name"].SetOrdinal(4);
-            validatedDataTable.Columns["Purchase Discount (%) *"].SetOrdinal(5);
-            validatedDataTable.Columns["Description"].SetOrdinal(6);
+            validatedDataTable.Columns["Supplier *"].SetOrdinal(1);
+            validatedDataTable.Columns["Collection Code *"].SetOrdinal(2);
+            validatedDataTable.Columns["Collection Name *"].SetOrdinal(3);
+            validatedDataTable.Columns["Purchase Discount (%) *"].SetOrdinal(4);
+            validatedDataTable.Columns["Description"].SetOrdinal(5);
+            validatedDataTable.Columns["Manufacturer Name *"].SetOrdinal(6);
 
             validatedDataTable.AcceptChanges();
 
@@ -239,7 +239,7 @@ namespace IMSWebApi.Services
             InvalidData.AcceptChanges();
 
             //if contains invalid data then convert to Excel 
-            if (InvalidData != null)
+            if (InvalidData.Rows.Count > 0)
             {
                 Invalidfilename = datatable_helper.ConvertToExcel(InvalidData, true);
                 Invalidfilename = string.Concat(path, "ExcelUpload\\", Invalidfilename);
@@ -258,8 +258,9 @@ namespace IMSWebApi.Services
         private DataTable ValidateDataTable(DataTable rawTable, ref DataTable InvalidData)
         {
             var model = new VMCollection();
-
+            
             //setting column name as its caption name
+
             foreach (DataColumn col in rawTable.Columns)
             {
                 string colname = rawTable.Columns[col.ColumnName].Caption;
@@ -275,7 +276,7 @@ namespace IMSWebApi.Services
                 model.categoryId = model.supplierId = 1;
                 model.collectionCode = row["Collection Code *"].ToString();
                 model.collectionName = row["Collection Name *"].ToString();
-                model.manufacturerName = row["Manufacturer Name"].ToString();
+                model.manufacturerName = row["Manufacturer Name *"].ToString();
                 model.purchaseDiscount = !string.IsNullOrWhiteSpace(row["Purchase Discount (%) *"].ToString()) ? Convert.ToDecimal(row["Purchase Discount (%) *"]) : 0;
                 model.description = row["Description"].ToString();
 

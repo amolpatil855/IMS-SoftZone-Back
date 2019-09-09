@@ -151,12 +151,12 @@ namespace IMSWebApi.Services
             validatedDataTable.Columns["Fabric Height*"].SetOrdinal(1);
             validatedDataTable.Columns["Lining Height*"].SetOrdinal(2);
             validatedDataTable.Columns["Work Order Fabric Height*"].SetOrdinal(3);
-            validatedDataTable.Columns["Work Order Lining Height"].SetOrdinal(4);
+            validatedDataTable.Columns["Work Order Lining Height*"].SetOrdinal(4);
             validatedDataTable.Columns["Meter Per Inch*"].SetOrdinal(5);
-            validatedDataTable.Columns["Width Per Inch"].SetOrdinal(6);
-            validatedDataTable.Columns["Set Rate for Customers"].SetOrdinal(7);
-            validatedDataTable.Columns["Vertical Patch"].SetOrdinal(8);
-            validatedDataTable.Columns["Horizontal Patch"].SetOrdinal(9);
+            validatedDataTable.Columns["Width Per Inch*"].SetOrdinal(6);
+            validatedDataTable.Columns["Set Rate for Customers*"].SetOrdinal(7);
+            validatedDataTable.Columns["Vertical Patch*"].SetOrdinal(8);
+            validatedDataTable.Columns["Horizontal Patch*"].SetOrdinal(9);
 
             validatedDataTable.AcceptChanges();
 
@@ -202,7 +202,7 @@ namespace IMSWebApi.Services
             InvalidData.AcceptChanges();
 
             //if contains invalid data then convert to Excel 
-            if (InvalidData != null)
+            if (InvalidData.Rows.Count > 0)
             {
                 Invalidfilename = datatable_helper.ConvertToExcel(InvalidData, true);
                 Invalidfilename = string.Concat(path, "ExcelUpload\\", Invalidfilename);
@@ -240,11 +240,11 @@ namespace IMSWebApi.Services
                 model.fabricHeight = !string.IsNullOrWhiteSpace(row["Fabric Height*"].ToString()) ? Convert.ToDecimal(row["Fabric Height*"]) : 0;
                 model.liningHeight = !string.IsNullOrWhiteSpace(row["Lining Height*"].ToString()) ? Convert.ToDecimal(row["Lining Height*"]) : 0;
                 model.woFabricHeight = !string.IsNullOrWhiteSpace(row["Work Order Fabric Height*"].ToString()) ? Convert.ToDecimal(row["Work Order Fabric Height*"]) : 0;
-                model.woLiningHeight = !string.IsNullOrWhiteSpace(row["Work Order FabLiningric Height*"].ToString()) ? Convert.ToDecimal(row["Work Order Lining Height*"]) : 0;
+                model.woLiningHeight = !string.IsNullOrWhiteSpace(row["Work Order Fabric Height*"].ToString()) ? Convert.ToDecimal(row["Work Order Lining Height*"]) : 0;
                 model.meterPerInch = !string.IsNullOrWhiteSpace(row["Meter Per Inch*"].ToString()) ? Convert.ToInt32(row["Meter Per Inch*"]) : 0;
                 model.widthPerInch = !string.IsNullOrWhiteSpace(row["Width Per Inch*"].ToString()) ? Convert.ToInt32(row["Width Per Inch*"]) : 0;
                 model.setRateForCustomer = !string.IsNullOrWhiteSpace(row["Set Rate for Customers*"].ToString()) ? Convert.ToDecimal(row["Set Rate for Customers*"]) : 0;
-                model.verticalPatch = !string.IsNullOrWhiteSpace(row["Vertical Patch"].ToString()) ? Convert.ToInt32(row["Vertical Patch*"]) : 0;
+                model.verticalPatch = !string.IsNullOrWhiteSpace(row["Vertical Patch*"].ToString()) ? Convert.ToInt32(row["Vertical Patch*"]) : 0;
                 model.horizontalPatch = !string.IsNullOrWhiteSpace(row["Horizontal Patch*"].ToString()) ? Convert.ToInt32(row["Horizontal Patch*"]) : 0;
                 
 

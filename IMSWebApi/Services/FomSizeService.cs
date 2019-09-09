@@ -293,7 +293,7 @@ namespace IMSWebApi.Services
 
             for (int j = 0; j < rawTable.Rows.Count; j++)
             {
-                var row = sizekeys.Where(d => d.MstCollection.collectionName.ToLower().Equals(rawTable.Rows[j]["Collection *"].ToString().Trim().ToLower())
+                var row = sizekeys.Where(d => d.MstCollection.collectionCode.ToLower().Equals(rawTable.Rows[j]["Collection *"].ToString().Trim().ToLower())
                                     && d.MstQuality.qualityCode.ToLower().Equals(rawTable.Rows[j]["Quality  *"].ToString().Trim().ToLower())
                                     && d.MstFomDensity.density.ToLower().Equals(rawTable.Rows[j]["Density *"].ToString().Trim().ToLower())
                                     && d.suggestedMM.ToString().ToLower().Trim().Equals(rawTable.Rows[j]["Suggested MM *"].ToString().Trim().ToLower())).FirstOrDefault();

@@ -48,6 +48,9 @@ namespace IMSWebApi.Common
                 document.LoadFromFile(filePath);
                 dataTable = document.ExportToDataTable(0, true);
             }
+
+            removeEmptyColumnsAndRows(ref dataTable);
+
             return dataTable;
         }
 
@@ -91,22 +94,22 @@ namespace IMSWebApi.Common
                                .Select(row => string.Join(",", row.ItemArray));
             lines.AddRange(valueLines);
 
-            string filewritpath = string.Concat(filePath,"\\", InvalidfileName);
+            string filewritpath = string.Concat(filePath, "\\", InvalidfileName);
             string filewritpathforValid = string.Concat(filePath, "\\", ValidfileName);
 
             if (isInvalid)
             {
                 //File.OpenWrite(filewritpath);
                 //File.WriteAllLines(filePath + InvalidfileName, lines);
-               // File.WriteAllLines(filewritpath, lines);
+                // File.WriteAllLines(filewritpath, lines);
 
                 using (StreamWriter writer = new StreamWriter(filewritpath, true))
                 {
-                    foreach(var line in lines)
+                    foreach (var line in lines)
                     {
                         writer.WriteLine(line);
-                    }                   
-                }                
+                    }
+                }
             }
             else
             {
@@ -117,9 +120,32 @@ namespace IMSWebApi.Common
                     {
                         writer.WriteLine(line);
                     }
-                }   
+                }
             }
             return InvalidfileName;
+        }
+
+        public void removeEmptyColumnsAndRows(ref DataTable datatable)
+        {
+            // Remove Empty Columns
+            foreach (DataColumn col in datatable.Columns.Cast<DataColumn>().ToArray())
+            {
+                if (string.IsNullOrWhiteSpace(datatable.Columns[col.ColumnName].Caption))
+                {
+                    datatable.Columns.Remove(col);
+                }
+            }
+            datatable.AcceptChanges();
+
+            //Remove Empty Rows
+            for (int rowNum = 0; rowNum < datatable.Rows.Count; rowNum++)
+            {
+                if (datatable.Rows[rowNum].IsNull(0))
+                {
+                    datatable.Rows[rowNum].Delete();
+                }
+            }
+            datatable.AcceptChanges();
         }
     }
 }

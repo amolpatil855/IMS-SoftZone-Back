@@ -260,7 +260,7 @@ namespace IMSWebApi.Services
             for (int j = 0; j < rawTable.Rows.Count; j++)
             {
                 var row = designKey.Where(d => d.MstCategory.code.ToLower().Equals(rawTable.Rows[j]["Category *"].ToString().Trim().ToLower())
-                                    && d.MstCollection.collectionName.ToLower().Equals(rawTable.Rows[j]["Collection *"].ToString().Trim().ToLower())
+                                    && d.MstCollection.collectionCode.ToLower().Equals(rawTable.Rows[j]["Collection *"].ToString().Trim().ToLower())
                                     && d.qualityCode.ToLower().Equals(rawTable.Rows[j]["Quality* "].ToString().Trim().ToLower())).FirstOrDefault();
 
                 if (row != null)

@@ -71,8 +71,8 @@ namespace IMSWebApi.Services
             validatedDataTable.Columns["Shade Code*"].SetOrdinal(4);
             validatedDataTable.Columns["Color*"].SetOrdinal(5);
             validatedDataTable.Columns["Serial Number*"].SetOrdinal(6);
-            validatedDataTable.Columns["Description"].SetOrdinal(7);
-            validatedDataTable.Columns["Stock Reorder Level *"].SetOrdinal(8);
+            validatedDataTable.Columns["Description "].SetOrdinal(7);
+            validatedDataTable.Columns["Stock Reorder Level *"].SetOrdinal(8);
 
             validatedDataTable.AcceptChanges();
 
@@ -107,7 +107,7 @@ namespace IMSWebApi.Services
             InvalidData.AcceptChanges();
 
             //if contains invalid data then convert to Excel 
-            if (InvalidData != null)
+            if (InvalidData.Rows.Count > 0)
             {
                 Invalidfilename = datatable_helper.ConvertToExcel(InvalidData, true);
                 Invalidfilename = string.Concat(path, "ExcelUpload\\", Invalidfilename);
@@ -127,6 +127,7 @@ namespace IMSWebApi.Services
         private DataTable ValidateDataTable(DataTable rawTable, ref DataTable InvalidData)
         {
             var model = new VMFWRShade();
+            int outputValue = 0;
 
             //setting column name as its caption name
             foreach (DataColumn col in rawTable.Columns)
@@ -145,9 +146,17 @@ namespace IMSWebApi.Services
                 model.categoryId = model.collectionId = model.qualityId = model.designId = 1;
                 model.shadeCode = row["Shade Code*"].ToString();
                 model.shadeName = row["Color*"].ToString();
-                model.serialNumber = !string.IsNullOrWhiteSpace(row["Serial Number*"].ToString()) ? Convert.ToInt32(row["Serial Number*"]) : 0;
-                model.description = row["Description"].ToString();
-                model.stockReorderLevel = !string.IsNullOrWhiteSpace(row["Stock Reorder Level *"].ToString()) ? Convert.ToInt32(row["Stock Reorder Level *"]) : 0;
+                if (!string.IsNullOrWhiteSpace(row["Serial Number*"].ToString()) ? Int32.TryParse(row["Serial Number*"].ToString(), out outputValue) : false)
+                {
+                    model.serialNumber = outputValue;
+                    outputValue = 0;
+                }
+                model.description = row["Description "].ToString();
+                if (!string.IsNullOrWhiteSpace(row["Stock Reorder Level *"].ToString()) ? Int32.TryParse(row["Stock Reorder Level *"].ToString(), out outputValue) : false)
+                {
+                    model.stockReorderLevel = outputValue;
+                    outputValue = 0;
+                }
 
                 var context = new ValidationContext(model, null, null);
                 var result = new List<ValidationResult>();
@@ -185,7 +194,7 @@ namespace IMSWebApi.Services
             for (int j = 0; j < rawTable.Rows.Count; j++)
             {
                 var row = designKey.Where(d => d.MstCategory.code.ToLower().Equals(rawTable.Rows[j]["Category*"].ToString().Trim().ToLower())
-                                    && d.MstCollection.collectionName.ToLower().Equals(rawTable.Rows[j]["Collection*"].ToString().Trim().ToLower())
+                                    && d.MstCollection.collectionCode.ToLower().Equals(rawTable.Rows[j]["Collection*"].ToString().Trim().ToLower())
                                     && d.MstQuality.qualityCode.ToLower().Equals(rawTable.Rows[j]["Quality*"].ToString().Trim().ToLower())
                                     && d.designCode.ToLower().Equals(rawTable.Rows[j]["Design*"].ToString().Trim().ToLower())).FirstOrDefault();
                 if (row != null)

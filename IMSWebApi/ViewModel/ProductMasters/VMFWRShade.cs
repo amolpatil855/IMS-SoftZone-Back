@@ -36,14 +36,14 @@ namespace IMSWebApi.ViewModel
 
         [Required]    
         //[Range(typeof(int), "1", "1000000000")]
-        [Range(1, int.MaxValue)]
+        [Range(1, int.MaxValue, ErrorMessage = "Serial Number out of range")]
         public int serialNumber { get; set; }
 
         [MaxLength(500)]
         public string description { get; set; }
 
         [Required]
-        [Range(1, int.MaxValue)]
+        [Range(1, int.MaxValue, ErrorMessage = "Stock Reorder Level out of range")]
         public int stockReorderLevel { get; set; }
     
         public virtual VMCategory MstCategory { get; set; }

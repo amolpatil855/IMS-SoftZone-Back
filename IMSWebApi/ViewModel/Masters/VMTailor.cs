@@ -15,9 +15,9 @@ namespace IMSWebApi.ViewModel
         [MaxLength(254)]
         public string email { get; set; }
         [Required]
-        [MaxLength(20)]
+        [MaxLength(10)]
         public string phone { get; set; }
-        [MaxLength(20)]
+        [MaxLength(10)]
         public string alternatePhone1 { get; set; }
         [Required]
         [MaxLength(500)]
@@ -32,7 +32,7 @@ namespace IMSWebApi.ViewModel
         public string state { get; set; }
         public string country { get; set; }
         [Required]
-        [MaxLength(10)]
+        [MaxLength(6)]
         public string pin { get; set; }
         
         public virtual List<VMTailorPatternChargeDetail> MstTailorPatternChargeDetails { get; set; }

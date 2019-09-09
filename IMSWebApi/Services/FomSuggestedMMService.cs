@@ -252,7 +252,7 @@ namespace IMSWebApi.Services
 
             for (int j = 0; j < rawTable.Rows.Count; j++)
             {
-                var row = desnitykeys.Where(d => d.MstCollection.collectionName.ToLower().Equals(rawTable.Rows[j]["Collection *"].ToString().Trim().ToLower())
+                var row = desnitykeys.Where(d => d.MstCollection.collectionCode.ToLower().Equals(rawTable.Rows[j]["Collection *"].ToString().Trim().ToLower())
                                     && d.MstQuality.qualityCode.ToLower().Equals(rawTable.Rows[j]["Quality  *"].ToString().Trim().ToLower())
                                     && d.density.ToString().ToLower().Trim().Equals(rawTable.Rows[j]["Foam Density *"].ToString().Trim().ToLower())).FirstOrDefault();
 

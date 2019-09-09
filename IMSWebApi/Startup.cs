@@ -16,7 +16,10 @@ namespace AngularJSAuthentication.API
     {
         public void Configuration(IAppBuilder app)
         {
-            HttpConfiguration config = new HttpConfiguration();
+            HttpConfiguration config = new HttpConfiguration()
+            {
+                IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Always // Add this line to enable detail mode in release
+            };
 
             ConfigureOAuth(app);
 
