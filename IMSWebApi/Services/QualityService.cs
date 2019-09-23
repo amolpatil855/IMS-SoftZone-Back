@@ -455,6 +455,7 @@ namespace IMSWebApi.Services
         /// <returns></returns>
         private DataTable ValidateFWRQualityFlatDT(DataTable rawTable, ref DataTable InvalidData)
         {
+            decimal outputValue = 0.0M;
             var model = new VMFWRQualityFlatUpload();
 
             //setting column name as its caption name
@@ -475,10 +476,26 @@ namespace IMSWebApi.Services
                 model.qualityCode = row["Code* "].ToString();
                 model.qualityName = row["Name* "].ToString();
                 model.description = row["Description "].ToString();
-                model.width = Convert.ToDecimal(row["Width* "].ToString());
-                model.flatRate = Convert.ToDecimal(row["Flat Rate * "].ToString());
-                model.purchaseFlatRate = Convert.ToDecimal(row["Purchase Flat Rate * "].ToString());
-                model.maxFlatRateDisc = Convert.ToDecimal(row["Flat Rate Max Dis.%* "].ToString());
+                if (!string.IsNullOrWhiteSpace(row["Width* "].ToString()) ? Decimal.TryParse(row["Width* "].ToString(), out outputValue) : false)
+                {
+                    model.width = outputValue;
+                    outputValue = 0.0M;
+                }
+                if (!string.IsNullOrWhiteSpace(row["Flat Rate * "].ToString()) ? Decimal.TryParse(row["Flat Rate * "].ToString(), out outputValue) : false)
+                {
+                    model.flatRate = outputValue;
+                    outputValue = 0.0M;
+                }
+                if (!string.IsNullOrWhiteSpace(row["Flat Rate Max Dis.%* "].ToString()) ? Decimal.TryParse(row["Flat Rate Max Dis.%* "].ToString(), out outputValue) : false)
+                {
+                    model.maxFlatRateDisc = outputValue;
+                    outputValue = 0.0M;
+                }
+                if (!string.IsNullOrWhiteSpace(row["Purchase Flat Rate * "].ToString()) ? Decimal.TryParse(row["Purchase Flat Rate * "].ToString(), out outputValue) : false)
+                {
+                    model.purchaseFlatRate = outputValue;
+                    outputValue = 0.0M;
+                }
 
                 var context = new ValidationContext(model, null, null);
                 var result = new List<ValidationResult>();

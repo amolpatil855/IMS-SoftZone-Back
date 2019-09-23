@@ -221,6 +221,7 @@ namespace IMSWebApi.Services
         /// <returns></returns>
         private DataTable ValidateDataTable(DataTable rawTable, ref DataTable InvalidData)
         {
+            int intOutputValue = 0;
             var model = new VMPattern();
 
             //setting column name as its caption name
@@ -241,11 +242,19 @@ namespace IMSWebApi.Services
                 model.liningHeight = !string.IsNullOrWhiteSpace(row["Lining Height*"].ToString()) ? Convert.ToDecimal(row["Lining Height*"]) : 0;
                 model.woFabricHeight = !string.IsNullOrWhiteSpace(row["Work Order Fabric Height*"].ToString()) ? Convert.ToDecimal(row["Work Order Fabric Height*"]) : 0;
                 model.woLiningHeight = !string.IsNullOrWhiteSpace(row["Work Order Fabric Height*"].ToString()) ? Convert.ToDecimal(row["Work Order Lining Height*"]) : 0;
-                model.meterPerInch = !string.IsNullOrWhiteSpace(row["Meter Per Inch*"].ToString()) ? Convert.ToInt32(row["Meter Per Inch*"]) : 0;
-                model.widthPerInch = !string.IsNullOrWhiteSpace(row["Width Per Inch*"].ToString()) ? Convert.ToInt32(row["Width Per Inch*"]) : 0;
+                if (!string.IsNullOrWhiteSpace(row["Meter Per Inch*"].ToString()) ? Int32.TryParse(row["Meter Per Inch*"].ToString(), out intOutputValue) : false)
+                {
+                    model.meterPerInch = intOutputValue;
+                    intOutputValue = 0;
+                }
+                if (!string.IsNullOrWhiteSpace(row["Width Per Inch*"].ToString()) ? Int32.TryParse(row["Width Per Inch*"].ToString(), out intOutputValue) : false)
+                {
+                    model.widthPerInch = intOutputValue;
+                    intOutputValue = 0;
+                }
                 model.setRateForCustomer = !string.IsNullOrWhiteSpace(row["Set Rate for Customers*"].ToString()) ? Convert.ToDecimal(row["Set Rate for Customers*"]) : 0;
-                model.verticalPatch = !string.IsNullOrWhiteSpace(row["Vertical Patch*"].ToString()) ? Convert.ToInt32(row["Vertical Patch*"]) : 0;
-                model.horizontalPatch = !string.IsNullOrWhiteSpace(row["Horizontal Patch*"].ToString()) ? Convert.ToInt32(row["Horizontal Patch*"]) : 0;
+                model.verticalPatch = !string.IsNullOrWhiteSpace(row["Vertical Patch*"].ToString()) ? Convert.ToDecimal(row["Vertical Patch*"]) : 0;
+                model.horizontalPatch = !string.IsNullOrWhiteSpace(row["Horizontal Patch*"].ToString()) ? Convert.ToDecimal(row["Horizontal Patch*"]) : 0;
                 
 
                 var context = new ValidationContext(model, null, null);
