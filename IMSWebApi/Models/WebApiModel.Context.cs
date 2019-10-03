@@ -382,5 +382,95 @@ namespace IMSWebApi.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<MstTailor>("GET_TAILOR_ID", mergeOption, tailorParameter);
         }
+    
+        public virtual ObjectResult<MstFWRShade> GET_FWRSHADE_ID(string serialnumber)
+        {
+            var serialnumberParameter = serialnumber != null ?
+                new ObjectParameter("Serialnumber", serialnumber) :
+                new ObjectParameter("Serialnumber", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<MstFWRShade>("GET_FWRSHADE_ID", serialnumberParameter);
+        }
+    
+        public virtual ObjectResult<MstFWRShade> GET_FWRSHADE_ID(string serialnumber, MergeOption mergeOption)
+        {
+            var serialnumberParameter = serialnumber != null ?
+                new ObjectParameter("Serialnumber", serialnumber) :
+                new ObjectParameter("Serialnumber", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<MstFWRShade>("GET_FWRSHADE_ID", mergeOption, serialnumberParameter);
+        }
+    
+        public virtual ObjectResult<MstCompanyLocation> GET_LOCATION_ID(string location)
+        {
+            var locationParameter = location != null ?
+                new ObjectParameter("Location", location) :
+                new ObjectParameter("Location", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<MstCompanyLocation>("GET_LOCATION_ID", locationParameter);
+        }
+    
+        public virtual ObjectResult<MstCompanyLocation> GET_LOCATION_ID(string location, MergeOption mergeOption)
+        {
+            var locationParameter = location != null ?
+                new ObjectParameter("Location", location) :
+                new ObjectParameter("Location", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<MstCompanyLocation>("GET_LOCATION_ID", mergeOption, locationParameter);
+        }
+    
+        public virtual ObjectResult<MstFomSize> GET_FOAMSIZE_ID(string foamsize)
+        {
+            var foamsizeParameter = foamsize != null ?
+                new ObjectParameter("Foamsize", foamsize) :
+                new ObjectParameter("Foamsize", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<MstFomSize>("GET_FOAMSIZE_ID", foamsizeParameter);
+        }
+    
+        public virtual ObjectResult<MstFomSize> GET_FOAMSIZE_ID(string foamsize, MergeOption mergeOption)
+        {
+            var foamsizeParameter = foamsize != null ?
+                new ObjectParameter("Foamsize", foamsize) :
+                new ObjectParameter("Foamsize", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<MstFomSize>("GET_FOAMSIZE_ID", mergeOption, foamsizeParameter);
+        }
+    
+        public virtual ObjectResult<MstMatSize> GET_MATTRESSSIZE_ID(string sizeCode)
+        {
+            var sizeCodeParameter = sizeCode != null ?
+                new ObjectParameter("sizeCode", sizeCode) :
+                new ObjectParameter("sizeCode", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<MstMatSize>("GET_MATTRESSSIZE_ID", sizeCodeParameter);
+        }
+    
+        public virtual ObjectResult<MstMatSize> GET_MATTRESSSIZE_ID(string sizeCode, MergeOption mergeOption)
+        {
+            var sizeCodeParameter = sizeCode != null ?
+                new ObjectParameter("sizeCode", sizeCode) :
+                new ObjectParameter("sizeCode", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<MstMatSize>("GET_MATTRESSSIZE_ID", mergeOption, sizeCodeParameter);
+        }
+    
+        public virtual ObjectResult<MstAccessory> GET_ACCESSORY_ID(string accessory)
+        {
+            var accessoryParameter = accessory != null ?
+                new ObjectParameter("Accessory", accessory) :
+                new ObjectParameter("Accessory", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<MstAccessory>("GET_ACCESSORY_ID", accessoryParameter);
+        }
+    
+        public virtual ObjectResult<MstAccessory> GET_ACCESSORY_ID(string accessory, MergeOption mergeOption)
+        {
+            var accessoryParameter = accessory != null ?
+                new ObjectParameter("Accessory", accessory) :
+                new ObjectParameter("Accessory", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<MstAccessory>("GET_ACCESSORY_ID", mergeOption, accessoryParameter);
+        }
     }
 }

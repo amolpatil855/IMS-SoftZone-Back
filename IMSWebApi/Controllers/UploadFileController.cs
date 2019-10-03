@@ -26,6 +26,7 @@ namespace IMSWebApi.Controllers
         private FomSizeService _uploadFoamSize = null;
         private FomSuggestedMMService _uploadFoamSuggestedMM = null;
         private TailorService _uploadTailor = null;
+        private TrnProductStockDetailService _productStockDetailService = null;
  
 
         public UploadFileController()
@@ -42,6 +43,7 @@ namespace IMSWebApi.Controllers
             _uploadFoamSize = new FomSizeService();
             _uploadFoamSuggestedMM = new FomSuggestedMMService();
             _uploadTailor = new TailorService();
+            _productStockDetailService = new TrnProductStockDetailService();
         }
 
         //[ApiAuthorize(AccessLevel = "shade")]
@@ -110,6 +112,18 @@ namespace IMSWebApi.Controllers
                     break;
                 case "PatternDetails":
                     data = _uploadTailor.UploadTailorPatternDetails(filebase);
+                    break;
+                case "FWRProductStock":
+                    data = _productStockDetailService.UploadFWRProductStock(filebase);
+                    break;
+                case "FoamProductStock":
+                    data = _productStockDetailService.UploadFoamProductStock(filebase);
+                    break;
+                case "MattressProductStock":
+                    data = _productStockDetailService.UploadMattressProductStock(filebase);
+                    break;
+                case "AccessoryProductStock":
+                    data = _productStockDetailService.UploadAccessoryProductStock(filebase);
                     break;
                 default:
                     break;

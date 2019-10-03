@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IMSWebApi.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -29,6 +30,7 @@ namespace IMSWebApi.ViewModel
         public string city { get; set; }
         [Required]
         [MaxLength(50)]
+        [EnumDataType(typeof(States))]
         public string state { get; set; }
         public string country { get; set; }
         [Required]

@@ -312,6 +312,7 @@
     <Compile Include="CustomAttributes\ExceptionFilterCustomAttribute.cs" />
     <Compile Include="CustomAttributes\ExceptionManagerApi.cs" />
     <Compile Include="Enums\ResponseType.cs" />
+    <Compile Include="Enums\States.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -570,6 +571,10 @@
     <Compile Include="ViewModel\ProductMasters\VMAccessoryList.cs" />
     <Compile Include="ViewModel\Masters\VMAgent.cs" />
     <Compile Include="ViewModel\Masters\VMAgentList.cs" />
+    <Compile Include="ViewModel\UploadVM\AccessoryProductStock.cs" />
+    <Compile Include="ViewModel\UploadVM\FoamProductStock.cs" />
+    <Compile Include="ViewModel\UploadVM\FWRProductStock.cs" />
+    <Compile Include="ViewModel\UploadVM\MattressProductStock.cs" />
     <Compile Include="ViewModel\UploadVM\VMFoamQualityUpload.cs" />
     <Compile Include="ViewModel\UploadVM\VMFWRQualityCutRoleUpload.cs" />
     <Compile Include="ViewModel\UploadVM\VMFWRQualityFlatUpload.cs" />

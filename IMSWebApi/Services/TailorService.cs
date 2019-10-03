@@ -307,7 +307,7 @@ namespace IMSWebApi.Services
                 model.addressLine1 = row["Address Line 1*"].ToString();
                 model.addressLine2 = row["Address Line 2"].ToString();
                 model.city = row["City*"].ToString();
-                model.state = row["State*"].ToString();
+                model.state = row["State*"].ToString().Replace(" ", "_");
                 model.pin = row["Pin Code*"].ToString();
 
                 var context = new ValidationContext(model, null, null);

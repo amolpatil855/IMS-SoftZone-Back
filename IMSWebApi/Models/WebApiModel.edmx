@@ -3380,41 +3380,56 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="GET_ACCESSORY_ID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Accessory" Type="varchar(max)" Mode="In" />
+        </Function>
         <Function Name="GET_CATEGORY_ID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="Categories" Type="varchar" Mode="In" />
+          <Parameter Name="Categories" Type="varchar(max)" Mode="In" />
         </Function>
         <Function Name="GET_COLLECTION_ID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="Collection" Type="varchar" Mode="In" />
+          <Parameter Name="Collection" Type="varchar(max)" Mode="In" />
         </Function>
         <Function Name="GET_DENSITY_ID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="Density" Type="varchar" Mode="In" />
+          <Parameter Name="Density" Type="varchar(max)" Mode="In" />
         </Function>
         <Function Name="GET_DESIGN_ID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="Design" Type="varchar" Mode="In" />
+          <Parameter Name="Design" Type="varchar(max)" Mode="In" />
+        </Function>
+        <Function Name="GET_FOAMSIZE_ID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Foamsize" Type="varchar(max)" Mode="In" />
+        </Function>
+        <Function Name="GET_FWRSHADE_ID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Serialnumber" Type="varchar(max)" Mode="In" />
         </Function>
         <Function Name="GET_HSN_ID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="HsnValue" Type="varchar" Mode="In" />
+          <Parameter Name="HsnValue" Type="varchar(max)" Mode="In" />
+        </Function>
+        <Function Name="GET_LOCATION_ID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Location" Type="varchar(max)" Mode="In" />
         </Function>
         <Function Name="GET_MAT_THICKNESS_ID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="MatThicknessValue" Type="varchar" Mode="In" />
+          <Parameter Name="MatThicknessValue" Type="varchar(max)" Mode="In" />
+        </Function>
+        <Function Name="GET_MATTRESSSIZE_ID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="sizeCode" Type="varchar(max)" Mode="In" />
         </Function>
         <Function Name="GET_PATTERN_ID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="Pattern" Type="varchar" Mode="In" />
+          <Parameter Name="Pattern" Type="varchar(max)" Mode="In" />
         </Function>
         <Function Name="GET_QUALITY_ID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="Quality" Type="varchar" Mode="In" />
+          <Parameter Name="Quality" Type="varchar(max)" Mode="In" />
         </Function>
         <Function Name="GET_SUGGESTED_MM_ID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="SuggestedMMValue" Type="varchar" Mode="In" />
+          <Parameter Name="SuggestedMMValue" Type="varchar(max)" Mode="In" />
         </Function>
         <Function Name="GET_SUPPLIER_ID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="SupplierValue" Type="varchar" Mode="In" />
+          <Parameter Name="SupplierValue" Type="varchar(max)" Mode="In" />
         </Function>
         <Function Name="GET_TAILOR_ID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="Tailor" Type="varchar" Mode="In" />
+          <Parameter Name="Tailor" Type="varchar(max)" Mode="In" />
         </Function>
         <Function Name="GET_UOM_ID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="UOMValue" Type="varchar" Mode="In" />
+          <Parameter Name="UOMValue" Type="varchar(max)" Mode="In" />
         </Function>
         <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
@@ -5099,16 +5114,31 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <Parameter Name="SupplierValue" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="GET_DENSITY_ID" EntitySet="MstFomDensities" ReturnType="Collection(IMSModel.MstFomDensity)">
-            <Parameter Name="Density" Mode="In" Type="String" />
+          <Parameter Name="Density" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="GET_PATTERN_ID" EntitySet="MstPatterns" ReturnType="Collection(IMSModel.MstPattern)">
-            <Parameter Name="Pattern" Mode="In" Type="String" />
+          <Parameter Name="Pattern" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="GET_SUGGESTED_MM_ID" EntitySet="MstFomSuggestedMMs" ReturnType="Collection(IMSModel.MstFomSuggestedMM)">
-            <Parameter Name="SuggestedMMValue" Mode="In" Type="String" />
+          <Parameter Name="SuggestedMMValue" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="GET_TAILOR_ID" EntitySet="MstTailors" ReturnType="Collection(IMSModel.MstTailor)">
-            <Parameter Name="Tailor" Mode="In" Type="String" />
+          <Parameter Name="Tailor" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GET_FWRSHADE_ID" EntitySet="MstFWRShades" ReturnType="Collection(IMSModel.MstFWRShade)">
+          <Parameter Name="Serialnumber" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GET_LOCATION_ID" EntitySet="MstCompanyLocations" ReturnType="Collection(IMSModel.MstCompanyLocation)">
+          <Parameter Name="Location" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GET_FOAMSIZE_ID" EntitySet="MstFomSizes" ReturnType="Collection(IMSModel.MstFomSize)">
+          <Parameter Name="Foamsize" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GET_MATTRESSSIZE_ID" EntitySet="MstMatSizes" ReturnType="Collection(IMSModel.MstMatSize)">
+          <Parameter Name="sizeCode" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GET_ACCESSORY_ID" EntitySet="MstAccessories" ReturnType="Collection(IMSModel.MstAccessory)">
+            <Parameter Name="Accessory" Mode="In" Type="String" />
           </FunctionImport>
           </EntityContainer>
         <EntityType Name="CFGRoleMenu">
@@ -10156,6 +10186,11 @@ warning 6002: The table/view 'IMS.dbo.vwMattress' does not have a primary key de
           <FunctionImportMapping FunctionImportName="GET_PATTERN_ID" FunctionName="IMSModel.Store.GET_PATTERN_ID" />
           <FunctionImportMapping FunctionImportName="GET_SUGGESTED_MM_ID" FunctionName="IMSModel.Store.GET_SUGGESTED_MM_ID" />
           <FunctionImportMapping FunctionImportName="GET_TAILOR_ID" FunctionName="IMSModel.Store.GET_TAILOR_ID" />
+          <FunctionImportMapping FunctionImportName="GET_FWRSHADE_ID" FunctionName="IMSModel.Store.GET_FWRSHADE_ID" />
+          <FunctionImportMapping FunctionImportName="GET_LOCATION_ID" FunctionName="IMSModel.Store.GET_LOCATION_ID" />
+          <FunctionImportMapping FunctionImportName="GET_FOAMSIZE_ID" FunctionName="IMSModel.Store.GET_FOAMSIZE_ID" />
+          <FunctionImportMapping FunctionImportName="GET_MATTRESSSIZE_ID" FunctionName="IMSModel.Store.GET_MATTRESSSIZE_ID" />
+          <FunctionImportMapping FunctionImportName="GET_ACCESSORY_ID" FunctionName="IMSModel.Store.GET_ACCESSORY_ID" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
