@@ -537,7 +537,8 @@ namespace IMSWebApi.Services
             //replacing values of category, collection, quality by their ids         
             for (int j = 0; j < rawTable.Rows.Count; j++)
             {
-                var collectionRow = collectionKey.Where(d => d.MstCategory.code.ToLower().Equals(rawTable.Rows[j]["Category*"].ToString().Trim().ToLower())).FirstOrDefault();
+                var collectionRow = collectionKey.Where(d => d.MstCategory.code.ToLower().Equals(rawTable.Rows[j]["Category*"].ToString().Trim().ToLower())
+                                                && d.collectionCode.ToLower().Equals(rawTable.Rows[j]["Collection * "].ToString().Trim().ToLower())).FirstOrDefault();
                 var hsnRow = hsnKey.Where(d => d.hsnCode.Equals(rawTable.Rows[j]["HSN Code*"].ToString().Trim().ToLower())).FirstOrDefault();
 
                 if (collectionRow != null && hsnRow != null)
@@ -585,7 +586,7 @@ namespace IMSWebApi.Services
                 model.qualityCode = row["Code* "].ToString();
                 model.qualityName = row["Name* "].ToString();
                 model.description = row["Description "].ToString();
-                model.width = Convert.ToDecimal(row["Width* "].ToString());
+                model.width = Convert.ToDecimal(row["Width* "].ToString().Replace("\"", " ").Trim());
                 model.cutRate = Convert.ToDecimal(row["Cut Rate* "].ToString());
                 model.roleRate = Convert.ToDecimal(row["Role Rate* "].ToString());
                 model.rrp = Convert.ToDecimal(row["RRP* "].ToString());
@@ -632,7 +633,8 @@ namespace IMSWebApi.Services
             //replacing values of category, collection, quality by their ids         
             for (int j = 0; j < rawTable.Rows.Count; j++)
             {
-                var collectionRow = collectionKey.Where(d => d.MstCategory.code.ToLower().Equals(rawTable.Rows[j]["Category * "].ToString().Trim().ToLower())).FirstOrDefault();
+                var collectionRow = collectionKey.Where(d => d.MstCategory.code.ToLower().Equals(rawTable.Rows[j]["Category * "].ToString().Trim().ToLower())
+                                                         && d.collectionCode.ToLower().Equals(rawTable.Rows[j]["Collection * "].ToString().Trim().ToLower())).FirstOrDefault();
                 var hsnRow = hsnKey.Where(d => d.hsnCode.Equals(rawTable.Rows[j]["HSN Code*"].ToString().Trim().ToLower())).FirstOrDefault();
 
                 if (collectionRow != null && hsnRow != null)
@@ -640,6 +642,9 @@ namespace IMSWebApi.Services
                     rawTable.Rows[j]["Category * "] = collectionRow.categoryId;
                     rawTable.Rows[j]["Collection * "] = collectionRow.id;
                     rawTable.Rows[j]["HSN Code*"] = hsnRow.id;
+
+                    // Change the Width Column Containing inch symbol
+                    rawTable.Rows[j]["Width* "] = rawTable.Rows[j]["Width* "].ToString().Replace("\"", " ").Trim();
                 }
                 else
                 {
@@ -723,7 +728,8 @@ namespace IMSWebApi.Services
             //replacing values of category, collection, quality by their ids         
             for (int j = 0; j < rawTable.Rows.Count; j++)
             {
-                var collectionRow = collectionKey.Where(d => d.MstCategory.code.ToLower().Equals(rawTable.Rows[j]["Category *"].ToString().Trim().ToLower())).FirstOrDefault();
+                var collectionRow = collectionKey.Where(d => d.MstCategory.code.ToLower().Equals(rawTable.Rows[j]["Category *"].ToString().Trim().ToLower())
+                                                        && d.collectionCode.ToLower().Equals(rawTable.Rows[j]["Collection * "].ToString().Trim().ToLower())).FirstOrDefault();
                 var hsnRow = hsnKey.Where(d => d.hsnCode.Equals(rawTable.Rows[j]["HSN Code *"].ToString().Trim().ToLower())).FirstOrDefault();
 
                 if (collectionRow != null && hsnRow != null)
@@ -813,7 +819,8 @@ namespace IMSWebApi.Services
             //replacing values of category, collection, quality by their ids         
             for (int j = 0; j < rawTable.Rows.Count; j++)
             {
-                var collectionRow = collectionKey.Where(d => d.MstCategory.code.ToLower().Equals(rawTable.Rows[j]["Category *"].ToString().Trim().ToLower())).FirstOrDefault();
+                var collectionRow = collectionKey.Where(d => d.MstCategory.code.ToLower().Equals(rawTable.Rows[j]["Category *"].ToString().Trim().ToLower())
+                                                         && d.collectionCode.ToLower().Equals(rawTable.Rows[j]["Collection * "].ToString().Trim().ToLower())).FirstOrDefault();
                 var hsnRow = hsnKey.Where(d => d.hsnCode.Equals(rawTable.Rows[j]["HSN Code *"].ToString().Trim().ToLower())).FirstOrDefault();
 
                 if (collectionRow != null && hsnRow != null)
