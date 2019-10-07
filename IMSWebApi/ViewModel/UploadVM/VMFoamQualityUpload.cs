@@ -32,6 +32,6 @@ namespace IMSWebApi.ViewModel.UploadVM
 
         [Required]
         [Range(00.01,99.99)]
-        public Nullable<decimal> maxDiscount { get; set; }
+        public decimal maxDiscount { get; set; }
     }
 }

@@ -729,7 +729,7 @@ namespace IMSWebApi.Services
             for (int j = 0; j < rawTable.Rows.Count; j++)
             {
                 var collectionRow = collectionKey.Where(d => d.MstCategory.code.ToLower().Equals(rawTable.Rows[j]["Category *"].ToString().Trim().ToLower())
-                                                        && d.collectionCode.ToLower().Equals(rawTable.Rows[j]["Collection * "].ToString().Trim().ToLower())).FirstOrDefault();
+                                                        && d.collectionCode.ToLower().Equals(rawTable.Rows[j]["Collection *"].ToString().Trim().ToLower())).FirstOrDefault();
                 var hsnRow = hsnKey.Where(d => d.hsnCode.Equals(rawTable.Rows[j]["HSN Code *"].ToString().Trim().ToLower())).FirstOrDefault();
 
                 if (collectionRow != null && hsnRow != null)
@@ -820,7 +820,7 @@ namespace IMSWebApi.Services
             for (int j = 0; j < rawTable.Rows.Count; j++)
             {
                 var collectionRow = collectionKey.Where(d => d.MstCategory.code.ToLower().Equals(rawTable.Rows[j]["Category *"].ToString().Trim().ToLower())
-                                                         && d.collectionCode.ToLower().Equals(rawTable.Rows[j]["Collection * "].ToString().Trim().ToLower())).FirstOrDefault();
+                                                         && d.collectionCode.ToLower().Equals(rawTable.Rows[j]["Collection *"].ToString().Trim().ToLower())).FirstOrDefault();
                 var hsnRow = hsnKey.Where(d => d.hsnCode.Equals(rawTable.Rows[j]["HSN Code *"].ToString().Trim().ToLower())).FirstOrDefault();
 
                 if (collectionRow != null && hsnRow != null)

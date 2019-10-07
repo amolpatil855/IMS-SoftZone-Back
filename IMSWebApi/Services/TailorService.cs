@@ -415,6 +415,7 @@ namespace IMSWebApi.Services
 
         private DataTable ValidatePatternDataTable(DataTable rawTable, ref DataTable InvalidData)
         {
+            decimal outputValue = 0.0M;
             var model = new VMPatternForTailor();
 
             //setting column name as its caption name
@@ -431,7 +432,11 @@ namespace IMSWebApi.Services
             foreach (DataRow row in rawTable.Rows)
             {
                 model.tailorId = model.patternId = 1;
-                model.charge = !string.IsNullOrWhiteSpace(row["Charge*"].ToString()) ? Convert.ToDecimal(row["Charge*"]) : 0;
+                if (!string.IsNullOrWhiteSpace(row["Charge*"].ToString()) ? Decimal.TryParse(row["Charge*"].ToString(), out outputValue) : false)
+                {
+                    model.charge = outputValue;
+                    outputValue = 0.0M;
+                }
 
                 var context = new ValidationContext(model, null, null);
                 var result = new List<ValidationResult>();
