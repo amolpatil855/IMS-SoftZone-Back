@@ -209,6 +209,7 @@ namespace IMSWebApi.Services
         /// <returns></returns>
         private DataTable ValidateDataTable(DataTable rawTable, ref DataTable InvalidData)
         {
+            decimal outputValue = 0.0M;
             var model = new VMFomDensity();
 
             //setting column name as its caption name
@@ -227,10 +228,32 @@ namespace IMSWebApi.Services
                 model.collectionId = model.qualityId = 1;
                 model.density = row["Density *"].ToString();
                 model.description = row["Description"].ToString();
-                model.purchaseRatePerMM = !string.IsNullOrWhiteSpace(row["Purchase Rate/MM *"].ToString()) ? Convert.ToDecimal(row["Purchase Rate/MM *"]) : 0;
-                model.purchaseRatePerKG = !string.IsNullOrWhiteSpace(row["Purchase Rate/KG *"].ToString()) ? Convert.ToDecimal(row["Purchase Rate/KG *"]) : 0;
-                model.sellingRatePerMM = !string.IsNullOrWhiteSpace(row["Selling Rate/MM *"].ToString()) ? Convert.ToDecimal(row["Selling Rate/MM *"]) : 0;
-                model.sellingRatePerKG = !string.IsNullOrWhiteSpace(row["Selling Rate/KG *"].ToString()) ? Convert.ToDecimal(row["Selling Rate/KG *"]) : 0;
+
+                if (!string.IsNullOrWhiteSpace(row["Purchase Rate/MM *"].ToString()) ? Decimal.TryParse(row["Purchase Rate/MM *"].ToString(), out outputValue) : false)
+                {
+                    model.purchaseRatePerMM = outputValue;
+                    outputValue = 0.0M;
+                }
+
+                //model.purchaseRatePerMM = !string.IsNullOrWhiteSpace(row["Purchase Rate/MM *"].ToString()) ? Convert.ToDecimal(row["Purchase Rate/MM *"]) : 0;
+                if (!string.IsNullOrWhiteSpace(row["Purchase Rate/KG *"].ToString()) ? Decimal.TryParse(row["Purchase Rate/KG *"].ToString(), out outputValue) : false)
+                {
+                    model.purchaseRatePerKG = outputValue;
+                    outputValue = 0.0M;
+                }
+                //model.purchaseRatePerKG = !string.IsNullOrWhiteSpace(row["Purchase Rate/KG *"].ToString()) ? Convert.ToDecimal(row["Purchase Rate/KG *"]) : 0;
+                if (!string.IsNullOrWhiteSpace(row["Selling Rate/MM *"].ToString()) ? Decimal.TryParse(row["Selling Rate/MM *"].ToString(), out outputValue) : false)
+                {
+                    model.sellingRatePerMM = outputValue;
+                    outputValue = 0.0M;
+                }
+                //model.sellingRatePerMM = !string.IsNullOrWhiteSpace(row["Selling Rate/MM *"].ToString()) ? Convert.ToDecimal(row["Selling Rate/MM *"]) : 0;
+                if (!string.IsNullOrWhiteSpace(row["Selling Rate/KG *"].ToString()) ? Decimal.TryParse(row["Selling Rate/KG *"].ToString(), out outputValue) : false)
+                {
+                    model.sellingRatePerKG = outputValue;
+                    outputValue = 0.0M;
+                }
+                //model.sellingRatePerKG = !string.IsNullOrWhiteSpace(row["Selling Rate/KG *"].ToString()) ? Convert.ToDecimal(row["Selling Rate/KG *"]) : 0;
 
                 var context = new ValidationContext(model, null, null);
                 var result = new List<ValidationResult>();
