@@ -19,12 +19,14 @@ namespace IMSWebApi.Services
     {
         WebAPIdbEntities repo = new WebAPIdbEntities();
         SendEmail Email = new SendEmail();
+        SendSMSNotification _smsNotification;
         Int64 _LoggedInuserId;
         ResourceManager resourceManager = null;
         public UserService()
         {
             _LoggedInuserId = Convert.ToInt64(HttpContext.Current.User.Identity.GetUserId());
             resourceManager = new ResourceManager("IMSWebApi.App_Data.Resource", Assembly.GetExecutingAssembly());
+            _smsNotification = new SendSMSNotification();
         }
 
         public VMUser getLoggedInUserDetails(string username)
@@ -135,6 +137,12 @@ namespace IMSWebApi.Services
             repo.MstUsers.Add(userToPost);
             repo.SaveChanges();
             sendEmail(userToPost.id, originalPassword, "RegisterUser", false);
+            if (!string.IsNullOrWhiteSpace(userToPost.phone))
+            {
+                string smsTemplate = resourceManager.GetString("UserCreationSMS");
+                smsTemplate = smsTemplate.Replace("{UserName}", user.userName).Replace("{Password}", originalPassword);
+                _smsNotification.SendSMS(smsTemplate, user.phone);
+            }
             return new ResponseMessage(userToPost.id, resourceManager.GetString("UserAdded"), ResponseType.Success);
         }
 
@@ -224,6 +232,12 @@ namespace IMSWebApi.Services
                 user.updatedOn = DateTime.Now;
                 repo.SaveChanges();
                 sendEmail(user.id, originalPassword, "ForgotPassword", true);
+                if (!string.IsNullOrWhiteSpace(user.phone))
+                {
+                    string smsTemplate = resourceManager.GetString("ForgetPasswordSMS");
+                    smsTemplate = smsTemplate.Replace("{UserName}", user.userName).Replace("{Password}", originalPassword);
+                    _smsNotification.SendSMS(smsTemplate, user.phone);
+                }
                 return new ResponseMessage(user.id, resourceManager.GetString("PasswordReset"), ResponseType.Success);
             }
             else if (user != null && user.isActive == false)

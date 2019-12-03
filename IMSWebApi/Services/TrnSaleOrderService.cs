@@ -13,6 +13,7 @@ using System.Transactions;
 using IMSWebApi.Enums;
 using IMSWebApi.ViewModel.SlaesOrder;
 using IMSWebApi.ViewModel.SalesInvoice;
+using System.Text;
 
 namespace IMSWebApi.Services
 {
@@ -27,6 +28,7 @@ namespace IMSWebApi.Services
         SendEmail emailNotification = null;
         TrnProductStockService _trnProductStockService = null;
         TrnGoodIssueNoteService _trnGoodIssueNoteServie = null;
+        SendSMSNotification _smsNotification;
 
         public TrnSaleOrderService()
         {
@@ -38,6 +40,7 @@ namespace IMSWebApi.Services
             emailNotification = new SendEmail();
             _trnProductStockService = new TrnProductStockService();
             _trnGoodIssueNoteServie = new TrnGoodIssueNoteService();
+            _smsNotification = new SendSMSNotification();
         }
 
         public ListResult<VMTrnSaleOrderList> getSaleOrders(int pageSize, int page, string search)
@@ -146,18 +149,44 @@ namespace IMSWebApi.Services
                 repo.SaveChanges();
 
                 MstUser loggedInUser = repo.MstUsers.Where(u => u.id == _LoggedInuserId).FirstOrDefault();
-                string adminEmail = repo.MstUsers.Where(u => u.userName.Equals("Administrator")).FirstOrDefault().email;
-                string customerEmail = repo.MstCustomers.Where(c => c.id == saleOrder.customerId).FirstOrDefault().email;
+                var adminDetails = repo.MstUsers.Where(u => u.userName.Equals("Administrator")).FirstOrDefault();
+                var customerDetails = repo.MstCustomers.Where(c => c.id == saleOrder.customerId).FirstOrDefault();
 
                 if (!_IsCustomer)
                 {
                     VMTrnSaleOrder VMSaleOrderToPost = Mapper.Map<TrnSaleOrder, VMTrnSaleOrder>(saleOrderToPost);
                     _trnGoodIssueNoteServie.postGoodIssueNote(VMSaleOrderToPost,null);
-                    emailNotification.approvedSONotificationForCustomer(saleOrder, "ApprovedSONotificationForCustomer", customerEmail, adminEmail, saleOrderToPost.orderNumber);
+                    emailNotification.approvedSONotificationForCustomer(saleOrder, "ApprovedSONotificationForCustomer", customerDetails.email, adminDetails.email, saleOrderToPost.orderNumber);
                 }
                 else
                 {
-                    emailNotification.notificationForSO(saleOrder, "NotificationForSO", loggedInUser, adminEmail, saleOrderToPost.orderNumber);
+                    emailNotification.notificationForSO(saleOrder, "NotificationForSO", loggedInUser, adminDetails.email, customerDetails.email, saleOrderToPost.orderNumber);
+                }
+
+                //SMS Notification for SO to Admin and Customer
+                if (!string.IsNullOrWhiteSpace(adminDetails.phone) || !string.IsNullOrWhiteSpace(customerDetails.phone))
+                {
+                    string smsTemplate = resourceManager.GetString("SOCreatedByCustomerSMS");
+                    smsTemplate = smsTemplate.Replace("{orderNo}", saleOrderToPost.orderNumber);
+                    int count = 1;
+
+                    StringBuilder poItemDetails = new StringBuilder();
+                    foreach (var soItem in saleOrder.TrnSaleOrderItems)
+                    {
+                        poItemDetails.Append(count + ". " + (soItem.shadeId != null ? soItem.collectionName.Split('(').First().Trim() + " " + soItem.serialno.Split('(').First().Trim() + " - " + soItem.orderQuantity :
+                            (soItem.accessoryId != null ? soItem.accessoryName + " - " + soItem.orderQuantity : soItem.collectionName.Split('(').First().Trim() + " " + soItem.size.Split('(').First().Trim() + " - " + soItem.orderQuantity)) + ", ");
+                        count++;
+                    }
+                    smsTemplate = smsTemplate.Replace("{Details}", poItemDetails.ToString().Trim().Trim(',').ToString());
+                    smsTemplate = smsTemplate.Replace("{amount}", (saleOrder.totalAmount.HasValue ? saleOrder.totalAmount.Value.ToString("#,##0") : Convert.ToInt64(saleOrder.totalAmount).ToString("#,##0")) + "/-");
+                    if (!string.IsNullOrWhiteSpace(adminDetails.phone))
+                    {
+                        _smsNotification.SendSMS(smsTemplate, adminDetails.phone);
+                    }
+                    if (!string.IsNullOrWhiteSpace(customerDetails.phone))
+                    {
+                        _smsNotification.SendSMS(smsTemplate, customerDetails.phone);
+                    }
                 }
 
                 transaction.Complete();
@@ -296,6 +325,7 @@ namespace IMSWebApi.Services
             {
                 var saleOrder = repo.TrnSaleOrders.Where(so => so.id == id).FirstOrDefault();
                 string adminEmail = repo.MstUsers.Where(u => u.userName.Equals("Administrator")).FirstOrDefault().email;
+                var customerDetails = repo.MstCustomers.Where(c => c.id == saleOrder.customerId).FirstOrDefault();
 
                 if (saleOrder.status.Equals("Created"))
                 {
@@ -308,7 +338,8 @@ namespace IMSWebApi.Services
                     type = ResponseType.Success;
                     
                     VMTrnSaleOrder VMsaleOrder = Mapper.Map<TrnSaleOrder, VMTrnSaleOrder>(saleOrder);
-                    emailNotification.cancelledSONotificationForCustomer(VMsaleOrder, "CancelledSONotificationForCustomer", adminEmail);
+                    emailNotification.cancelledSONotificationForCustomer(VMsaleOrder, "CancelledSONotificationForCustomer", adminEmail, customerDetails.email);
+                    SMSNotificationForCancelledSO(saleOrder);
                 }
                 else if (saleOrder.status.Equals("Approved") && _IsAdministrator)
                 {
@@ -337,7 +368,8 @@ namespace IMSWebApi.Services
                         type = ResponseType.Success;
 
                         VMTrnSaleOrder VMsaleOrder = Mapper.Map<TrnSaleOrder, VMTrnSaleOrder>(saleOrder);
-                        emailNotification.cancelledSONotificationForCustomer(VMsaleOrder, "CancelledSONotificationForCustomer", adminEmail);
+                        emailNotification.cancelledSONotificationForCustomer(VMsaleOrder, "CancelledSONotificationForCustomer", adminEmail, customerDetails.email);
+                        SMSNotificationForCancelledSO(saleOrder);
                     }
                     else
                     {
@@ -430,6 +462,38 @@ namespace IMSWebApi.Services
                                 || saleOrder.totalAmount.ToString().StartsWith(search) : true)).Count(),
                 Page = page
             };
+        }
+
+        private void SMSNotificationForCancelledSO(TrnSaleOrder saleOrder)
+        {
+            var adminDetails = repo.MstUsers.Where(u => u.userName.Equals("Administrator")).FirstOrDefault();
+            var customerDetails = repo.MstCustomers.Where(c => c.id == saleOrder.customerId).FirstOrDefault();
+
+            //SMS Notification for SO Cancelled to Admin and Customer
+            if (!string.IsNullOrWhiteSpace(adminDetails.phone) || !string.IsNullOrWhiteSpace(customerDetails.phone))
+            {
+                string smsTemplate = resourceManager.GetString("SOCancelledSMS");
+                smsTemplate = smsTemplate.Replace("{orderNo}", saleOrder.orderNumber);
+                int count = 1;
+
+                StringBuilder soItemDetails = new StringBuilder();
+                foreach (var soItem in saleOrder.TrnSaleOrderItems)
+                {
+                    soItemDetails.Append(count + ". " + (soItem.shadeId != null ? soItem.MstCollection.collectionCode + " " + soItem.MstFWRShade.serialNumber + " - " + soItem.orderQuantity :
+                        (soItem.accessoryId != null ? soItem.MstAccessory.itemCode + " - " + soItem.orderQuantity : soItem.MstCollection.collectionCode + " " + soItem.MstFomSize.itemCode + " - " + soItem.orderQuantity)) + ", ");
+                    count++;
+                }
+                smsTemplate = smsTemplate.Replace("{Details}", soItemDetails.ToString().Trim().Trim(',').ToString());
+                smsTemplate = smsTemplate.Replace("{amount}", (saleOrder.totalAmount.HasValue ? saleOrder.totalAmount.Value.ToString("#,##0") : Convert.ToInt64(saleOrder.totalAmount).ToString("#,##0")) + "/-");
+                if (!string.IsNullOrWhiteSpace(adminDetails.phone))
+                {
+                    _smsNotification.SendSMS(smsTemplate, adminDetails.phone);
+                }
+                if (!string.IsNullOrWhiteSpace(customerDetails.phone))
+                {
+                    _smsNotification.SendSMS(smsTemplate, customerDetails.phone);
+                }
+            }
         }
     }
 }

@@ -1,11 +1,11 @@
 ﻿using IMSWebApi.Models;
-using ReusableEmailComponent;
 using System.Text;
 using System.Web;
 using System.Configuration;
 using IMSWebApi.ViewModel;
 using System.Collections.Generic;
 using IMSWebApi.ViewModel.SalesInvoice;
+using System;
 
 namespace IMSWebApi.Common
 {
@@ -14,7 +14,11 @@ namespace IMSWebApi.Common
         public static string _smtpAddress =ConfigurationManager.AppSettings["SMTPHost"];
         public static string _emailFrom = ConfigurationManager.AppSettings["SMTPUserName"];
         public static string _password = ConfigurationManager.AppSettings["SMTPPassword"];
-        
+        public static string _smtpPort = ConfigurationManager.AppSettings["SMTPPortNo"];
+        public static bool _smtpSSL = ConfigurationManager.AppSettings["SMTPSSL"].ToLower().Equals("true") ? true : false;
+
+        SendEmailHelper emailHelper = new SendEmailHelper();
+
         //User registration and forgot password notification for user
         public void email(MstUser result,string originalPassword,string fileName,bool isResetPassword)
         {
@@ -40,15 +44,15 @@ namespace IMSWebApi.Common
 
             EmailProperties objEmail = new EmailProperties();
             objEmail.SmtpAddress = _smtpAddress;
+            objEmail.PortNumber = Convert.ToInt32(_smtpPort);
             objEmail.EmailFrom = _emailFrom;
             objEmail.Password = _password;
             objEmail.EmailTo.Add(result.email);
             objEmail.Subject = isResetPassword ? "Reset Your Password" : "Welcome to SoftZone!!!";
-            objEmail.EnableSSL = true;
             objEmail.Body = sbEmailDetails.ToString();
             objEmail.isBodyHtml = true;
-            objEmail.EnableSSL = true;
-            ReusableEmailComponent.DAOFactoryProvider.GetEmailDao().sendMail(objEmail); 
+            objEmail.EnableSSL = _smtpSSL;
+            emailHelper.sendMail(objEmail); 
         }
 
         //When PO is created, Nofity Admin for PO created
@@ -86,15 +90,15 @@ namespace IMSWebApi.Common
 
             EmailProperties objEmail = new EmailProperties();
             objEmail.SmtpAddress = _smtpAddress;
+            objEmail.PortNumber = Convert.ToInt32(_smtpPort);
             objEmail.EmailFrom = _emailFrom;
             objEmail.Password = _password;
             objEmail.EmailTo.Add(adminEmail);
             objEmail.Subject = "Purchase Order Created";
-            objEmail.EnableSSL = true;
             objEmail.Body = sbEmailDetails.ToString();
             objEmail.isBodyHtml = true;
-            objEmail.EnableSSL = true;
-            ReusableEmailComponent.DAOFactoryProvider.GetEmailDao().sendMail(objEmail);
+            objEmail.EnableSSL = _smtpSSL;
+            emailHelper.sendMail(objEmail);
         }
 
         //When PO approved, Notifiy Supplier and Admin for PO approved
@@ -141,16 +145,16 @@ namespace IMSWebApi.Common
 
             EmailProperties objEmail = new EmailProperties();
             objEmail.SmtpAddress = _smtpAddress;
+            objEmail.PortNumber = Convert.ToInt32(_smtpPort);
             objEmail.EmailFrom = _emailFrom;
             objEmail.Password = _password;
             objEmail.EmailTo.Add(supplierEmail);
             objEmail.EmailTo.Add(adminEmail);
             objEmail.Subject = "Purchase Order Approved";
-            objEmail.EnableSSL = true;
             objEmail.Body = sbEmailDetails.ToString();
             objEmail.isBodyHtml = true;
-            objEmail.EnableSSL = true;
-            ReusableEmailComponent.DAOFactoryProvider.GetEmailDao().sendMail(objEmail);
+            objEmail.EnableSSL = _smtpSSL;
+            emailHelper.sendMail(objEmail);
         }
 
         //When PO is cancelled, Notify Admin For PO cancelled
@@ -193,19 +197,19 @@ namespace IMSWebApi.Common
 
             EmailProperties objEmail = new EmailProperties();
             objEmail.SmtpAddress = _smtpAddress;
+            objEmail.PortNumber = Convert.ToInt32(_smtpPort);
             objEmail.EmailFrom = _emailFrom;
             objEmail.Password = _password;
             objEmail.EmailTo.Add(adminEmail);
             objEmail.Subject = "Purchase Order Cancelled";
-            objEmail.EnableSSL = true;
             objEmail.Body = sbEmailDetails.ToString();
             objEmail.isBodyHtml = true;
-            objEmail.EnableSSL = true;
-            ReusableEmailComponent.DAOFactoryProvider.GetEmailDao().sendMail(objEmail);
+            objEmail.EnableSSL = _smtpSSL;
+            emailHelper.sendMail(objEmail);
         }
 
         //Notify Admin when SO created by other users
-        public void notificationForSO(VMTrnSaleOrder saleOrder, string fileName, MstUser loggedInUser, string adminEmail, string orderNo)
+        public void notificationForSO(VMTrnSaleOrder saleOrder, string fileName, MstUser loggedInUser, string adminEmail, string customerEmail, string orderNo)
         {
             StringBuilder sbEmailDetails = new StringBuilder();
             sbEmailDetails.AppendLine(System.IO.File.ReadAllText(HttpContext.Current.Server.MapPath(@"~\EmailTemplate\" + fileName + ".html")));
@@ -242,15 +246,16 @@ namespace IMSWebApi.Common
 
             EmailProperties objEmail = new EmailProperties();
             objEmail.SmtpAddress = _smtpAddress;
+            objEmail.PortNumber = Convert.ToInt32(_smtpPort);
             objEmail.EmailFrom = _emailFrom;
             objEmail.Password = _password;
             objEmail.EmailTo.Add(adminEmail);
+            objEmail.EmailTo.Add(customerEmail);
             objEmail.Subject = "Sale Order Generated";
-            objEmail.EnableSSL = true;
             objEmail.Body = sbEmailDetails.ToString();
             objEmail.isBodyHtml = true;
-            objEmail.EnableSSL = true;
-            ReusableEmailComponent.DAOFactoryProvider.GetEmailDao().sendMail(objEmail);
+            objEmail.EnableSSL = _smtpSSL;
+            emailHelper.sendMail(objEmail);
         }
 
         //Whwn SO is approved, notifiy its customer and Admin about approved SO
@@ -299,20 +304,20 @@ namespace IMSWebApi.Common
 
             EmailProperties objEmail = new EmailProperties();
             objEmail.SmtpAddress = _smtpAddress;
+            objEmail.PortNumber = Convert.ToInt32(_smtpPort);
             objEmail.EmailFrom = _emailFrom;
             objEmail.Password = _password;
             objEmail.EmailTo.Add(customerEmail);
             objEmail.EmailTo.Add(adminEmail);
             objEmail.Subject = "Sale Order Approved";
-            objEmail.EnableSSL = true;
             objEmail.Body = sbEmailDetails.ToString();
             objEmail.isBodyHtml = true;
-            objEmail.EnableSSL = true;
-            ReusableEmailComponent.DAOFactoryProvider.GetEmailDao().sendMail(objEmail);
+            objEmail.EnableSSL = _smtpSSL;
+            emailHelper.sendMail(objEmail);
         }
 
         //When SO is cancelled, notify customer and Admin about cancelled SO
-        public void cancelledSONotificationForCustomer(VMTrnSaleOrder saleOrder, string fileName, string adminEmail)
+        public void cancelledSONotificationForCustomer(VMTrnSaleOrder saleOrder, string fileName, string adminEmail, string customerEmail)
         {
             StringBuilder sbEmailDetails = new StringBuilder();
             sbEmailDetails.AppendLine(System.IO.File.ReadAllText(HttpContext.Current.Server.MapPath(@"~\EmailTemplate\" + fileName + ".html")));
@@ -352,16 +357,16 @@ namespace IMSWebApi.Common
 
             EmailProperties objEmail = new EmailProperties();
             objEmail.SmtpAddress = _smtpAddress;
+            objEmail.PortNumber = Convert.ToInt32(_smtpPort);
             objEmail.EmailFrom = _emailFrom;
             objEmail.Password = _password;
             objEmail.EmailTo.Add(saleOrder.MstCustomer.email);
             objEmail.EmailTo.Add(adminEmail);
             objEmail.Subject = "Sale Order Cancelled";
-            objEmail.EnableSSL = true;
             objEmail.Body = sbEmailDetails.ToString();
             objEmail.isBodyHtml = true;
-            objEmail.EnableSSL = true;
-            ReusableEmailComponent.DAOFactoryProvider.GetEmailDao().sendMail(objEmail);
+            objEmail.EnableSSL = _smtpSSL;
+            emailHelper.sendMail(objEmail);
         }
 
         //Notification to Admin for Pending GIN containing items received in GRN
@@ -374,27 +379,36 @@ namespace IMSWebApi.Common
             
             string rows = "";
 
+            if (ginNumbers != null && ginNumbers.Count > 0)
+            {
+                rows += "<table><tr><th>GIN Numbers</th></tr>";
+            }
+
             foreach (string ginNumber in ginNumbers)
             {
                 rows += "<tr><td>" + ginNumber + "</td> </tr>";
+            }
+            if (ginNumbers != null && ginNumbers.Count > 0)
+            {
+                rows += "</table>";
             }
             sbEmailDetails = sbEmailDetails.Replace("@rows", rows);
 
             EmailProperties objEmail = new EmailProperties();
             objEmail.SmtpAddress = _smtpAddress;
+            objEmail.PortNumber = Convert.ToInt32(_smtpPort);
             objEmail.EmailFrom = _emailFrom;
             objEmail.Password = _password;
             objEmail.EmailTo.Add(adminEmail);
             objEmail.Subject = "GRN Created";
-            objEmail.EnableSSL = true;
             objEmail.Body = sbEmailDetails.ToString();
             objEmail.isBodyHtml = true;
-            objEmail.EnableSSL = true;
-            ReusableEmailComponent.DAOFactoryProvider.GetEmailDao().sendMail(objEmail);
+            objEmail.EnableSSL = _smtpSSL;
+            emailHelper.sendMail(objEmail);
         }
 
         //Notify Admin, Customer for Material Quotation Created
-        public void notifyAdminForCreatedMQ(VMTrnMaterialQuotation materialQuotation, string fileName, MstUser user, string adminEmail, string materialQuotationNo)
+        public void notifyAdminForCreatedMQ(VMTrnMaterialQuotation materialQuotation, string fileName, MstUser user, string adminEmail, string customerEmail, string materialQuotationNo)
         {
             StringBuilder sbEmailDetails = new StringBuilder();
             sbEmailDetails.AppendLine(System.IO.File.ReadAllText(HttpContext.Current.Server.MapPath(@"~\EmailTemplate\" + fileName + ".html")));
@@ -422,15 +436,16 @@ namespace IMSWebApi.Common
 
             EmailProperties objEmail = new EmailProperties();
             objEmail.SmtpAddress = _smtpAddress;
+            objEmail.PortNumber = Convert.ToInt32(_smtpPort);
             objEmail.EmailFrom = _emailFrom;
             objEmail.Password = _password;
             objEmail.EmailTo.Add(adminEmail);
+            objEmail.EmailTo.Add(customerEmail);
             objEmail.Subject = "Material Quotation Created";
-            objEmail.EnableSSL = true;
             objEmail.Body = sbEmailDetails.ToString();
             objEmail.isBodyHtml = true;
-            objEmail.EnableSSL = true;
-            ReusableEmailComponent.DAOFactoryProvider.GetEmailDao().sendMail(objEmail);
+            objEmail.EnableSSL = _smtpSSL;
+            emailHelper.sendMail(objEmail);
         }
 
         //Notify Customer, Admin for Material Quotation Approved
@@ -463,16 +478,16 @@ namespace IMSWebApi.Common
 
             EmailProperties objEmail = new EmailProperties();
             objEmail.SmtpAddress = _smtpAddress;
+            objEmail.PortNumber = Convert.ToInt32(_smtpPort);
             objEmail.EmailFrom = _emailFrom;
             objEmail.Password = _password;
             objEmail.EmailTo.Add(materialQuotation.MstCustomer.email);
             objEmail.EmailTo.Add(adminEmail);
             objEmail.Subject = "Material Quotation Approved";
-            objEmail.EnableSSL = true;
             objEmail.Body = sbEmailDetails.ToString();
             objEmail.isBodyHtml = true;
-            objEmail.EnableSSL = true;
-            ReusableEmailComponent.DAOFactoryProvider.GetEmailDao().sendMail(objEmail);
+            objEmail.EnableSSL = _smtpSSL;
+            emailHelper.sendMail(objEmail);
         }
 
         //Notify Customer, Admin for Material Quotation Cancelled
@@ -505,16 +520,16 @@ namespace IMSWebApi.Common
 
             EmailProperties objEmail = new EmailProperties();
             objEmail.SmtpAddress = _smtpAddress;
+            objEmail.PortNumber = Convert.ToInt32(_smtpPort);
             objEmail.EmailFrom = _emailFrom;
             objEmail.Password = _password;
             objEmail.EmailTo.Add(materialQuotation.MstCustomer.email);
             objEmail.EmailTo.Add(adminEmail);
             objEmail.Subject = "Material Quotation Cancelled";
-            objEmail.EnableSSL = true;
             objEmail.Body = sbEmailDetails.ToString();
             objEmail.isBodyHtml = true;
-            objEmail.EnableSSL = true;
-            ReusableEmailComponent.DAOFactoryProvider.GetEmailDao().sendMail(objEmail);
+            objEmail.EnableSSL = _smtpSSL;
+            emailHelper.sendMail(objEmail);
         }
     }
 }

@@ -456,4 +456,46 @@
   <data name="LabourChargePaid" xml:space="preserve">
     <value>Work Order Updated for Labour Charges</value>
   </data>
+  <data name="ForgetPasswordSMS" xml:space="preserve">
+    <value>Hi,\nYou have requested to reset your Password.\nUserID: {UserName}\nYour New Password: {Password}</value>
+  </data>
+  <data name="GRNForPendingGINSMS" xml:space="preserve">
+    <value>GRN No. - {grnNo}\n{Details}</value>
+  </data>
+  <data name="MQApprovedSMS" xml:space="preserve">
+    <value>Quotation No. - {quotationNo}, Approved.</value>
+  </data>
+  <data name="MQCancelledSMS" xml:space="preserve">
+    <value>Quotation No. - {quotationNo}, Cancelled.</value>
+  </data>
+  <data name="MQCreatedSMS" xml:space="preserve">
+    <value>Quotation No. - {quotationNo}, Amount - {amount}</value>
+  </data>
+  <data name="POCancelledSMS" xml:space="preserve">
+    <value>Purchase Order Cancelled No. - {orderNo}\n{Details}</value>
+  </data>
+  <data name="POCreatedByUserSMS" xml:space="preserve">
+    <value>Purchase Order Placed No. - {orderNo}\n{Details}</value>
+  </data>
+  <data name="SOApprovedSMS" xml:space="preserve">
+    <value>Hi,\nSale Order for {customerName} has been Approved.\nSale Order No: {orderNo}</value>
+  </data>
+  <data name="SOCancelledSMS" xml:space="preserve">
+    <value>Sales Order Cancelled No. - {orderNo}\n{Details}\nNet Amount : {amount}</value>
+  </data>
+  <data name="SOCreatedByCustomerSMS" xml:space="preserve">
+    <value>Sales Order Placed No. - {orderNo}\n{Details}\nNet Amount : {amount}</value>
+  </data>
+  <data name="SOCreatedBySZUserSMS" xml:space="preserve">
+    <value>Sales Order Placed No. - {orderNo}\n{Details}\nNet Amount : {amount}</value>
+  </data>
+  <data name="UserCreationSMS" xml:space="preserve">
+    <value>Hi,\nYou have been registered as User in SoftZone.\nUserID: {UserName}\nPwd: {Password}</value>
+  </data>
+  <data name="InvoiceCreatedSMS" xml:space="preserve">
+    <value>Invo No. {invoiceNo}, SO No. {orderNo}, Amt - {amount}</value>
+  </data>
+  <data name="POCompleteSMS" xml:space="preserve">
+    <value>Purchase Order Complete No. - {orderNo}\n{Details}</value>
+  </data>
 </root>

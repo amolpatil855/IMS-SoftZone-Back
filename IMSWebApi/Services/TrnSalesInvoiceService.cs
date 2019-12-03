@@ -24,6 +24,7 @@ namespace IMSWebApi.Services
         GenerateOrderNumber generateOrderNumber = null;
         SendEmail emailNotification = new SendEmail();
         TrnProductStockService _trnProductStockService = null;
+        SendSMSNotification _smsNotification;
 
         public TrnSalesInvoiceService()
         {
@@ -32,6 +33,7 @@ namespace IMSWebApi.Services
             resourceManager = new ResourceManager("IMSWebApi.App_Data.Resource", Assembly.GetExecutingAssembly());
             generateOrderNumber = new GenerateOrderNumber();
             _trnProductStockService = new TrnProductStockService();
+            _smsNotification = new SendSMSNotification();
         }
 
         public ListResult<VMTrnSalesInvoiceList> getSalesInvoices(int pageSize, int page, string search)
@@ -198,6 +200,25 @@ namespace IMSWebApi.Services
 
             financialYear.soInvoiceNumber += 1;
             repo.SaveChanges();
+
+            var adminDetails = repo.MstUsers.Where(u => u.userName.Equals("Administrator")).FirstOrDefault();
+            var customerDetails = repo.MstCustomers.Where(c => c.id == goodIssueNote.customerId).FirstOrDefault();
+            //SMS Notification for Invoice Created
+            if (!string.IsNullOrWhiteSpace(adminDetails.phone) || !string.IsNullOrWhiteSpace(customerDetails.phone))
+            {
+                string smsTemplate = resourceManager.GetString("InvoiceCreatedSMS");
+                smsTemplate = smsTemplate.Replace("{invoiceNo}", salesInvoice.invoiceNumber);
+                smsTemplate = smsTemplate.Replace("{orderNo}", goodIssueNote.salesOrderId > 0 ? goodIssueNote.salesOrderNumber : (goodIssueNote.materialQuotationId > 0 ? goodIssueNote.materialQuotationNumber : goodIssueNote.workOrderNumber));
+                smsTemplate = smsTemplate.Replace("{amount}", salesInvoice.totalAmount.ToString("#,##0") + "/-");
+                if (!string.IsNullOrWhiteSpace(adminDetails.phone))
+                {
+                    _smsNotification.SendSMS(smsTemplate, adminDetails.phone);
+                }
+                if (!string.IsNullOrWhiteSpace(customerDetails.phone))
+                {
+                    _smsNotification.SendSMS(smsTemplate, customerDetails.phone);
+                }
+            }
         }
 
         public void createInvoiceForCurtainQuotation(TrnCurtainQuotation curtainQuotation)
@@ -248,6 +269,25 @@ namespace IMSWebApi.Services
 
             financialYear.soInvoiceNumber += 1;
             repo.SaveChanges();
+
+            var adminDetails = repo.MstUsers.Where(u => u.userName.Equals("Administrator")).FirstOrDefault();
+            var customerDetails = repo.MstCustomers.Where(c => c.id == curtainQuotation.customerId).FirstOrDefault();
+            //SMS Notification for Invoice Created
+            if (!string.IsNullOrWhiteSpace(adminDetails.phone) || !string.IsNullOrWhiteSpace(customerDetails.phone))
+            {
+                string smsTemplate = resourceManager.GetString("InvoiceCreatedSMS");
+                smsTemplate = smsTemplate.Replace("{invoiceNo}", salesInvoice.invoiceNumber);
+                smsTemplate = smsTemplate.Replace("{orderNo}", curtainQuotation.curtainQuotationNumber);
+                smsTemplate = smsTemplate.Replace("{amount}", salesInvoice.totalAmount.ToString("#,##0") + "/-");
+                if (!string.IsNullOrWhiteSpace(adminDetails.phone))
+                {
+                    _smsNotification.SendSMS(smsTemplate, adminDetails.phone);
+                }
+                if (!string.IsNullOrWhiteSpace(customerDetails.phone))
+                {
+                    _smsNotification.SendSMS(smsTemplate, customerDetails.phone);
+                }
+            }
         }
 
         public ResponseMessage putSalesInvoice(VMTrnSalesInvoice salesInvoice)

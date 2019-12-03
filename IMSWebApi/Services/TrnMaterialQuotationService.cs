@@ -24,6 +24,7 @@ namespace IMSWebApi.Services
         TrnProductStockService _trnProductStockService = null;
         TrnGoodIssueNoteService _trnGoodIssueNoteServie = null;
         SendEmail emailNotification = null;
+        SendSMSNotification _smsNotification;
         
         public TrnMaterialQuotationService()
         {
@@ -34,6 +35,7 @@ namespace IMSWebApi.Services
             _trnProductStockService = new TrnProductStockService();
             _trnGoodIssueNoteServie = new TrnGoodIssueNoteService();
             emailNotification = new SendEmail();
+            _smsNotification = new SendSMSNotification();
         }
 
         public ListResult<VMTrnMaterialQuotationList> getMaterialQuotations(int pageSize, int page, string search)
@@ -149,9 +151,26 @@ namespace IMSWebApi.Services
                 repo.SaveChanges();
 
                 MstUser loggedInUser = repo.MstUsers.Where(u=>u.id == _LoggedInuserId).FirstOrDefault();
-                string adminEmail = repo.MstUsers.Where(u => u.userName.Equals("Administrator")).FirstOrDefault().email;
-                emailNotification.notifyAdminForCreatedMQ(materialQuotation, "NotifyAdminForCreatedMQ", loggedInUser,adminEmail, materialQuotationNo);
+                var adminDetails = repo.MstUsers.Where(u => u.userName.Equals("Administrator")).FirstOrDefault();
+                var customerDetails = repo.MstCustomers.Where(c => c.id == materialQuotation.customerId).FirstOrDefault();
+                emailNotification.notifyAdminForCreatedMQ(materialQuotation, "NotifyAdminForCreatedMQ", loggedInUser,adminDetails.email, customerDetails.email, materialQuotationNo);
 
+                //SMS Notification for MQ Created
+                if (!string.IsNullOrWhiteSpace(adminDetails.phone) || !string.IsNullOrWhiteSpace(customerDetails.phone))
+                {
+                    string smsTemplate = resourceManager.GetString("MQCreatedSMS");
+                    smsTemplate = smsTemplate.Replace("{quotationNo}", materialQuotationToPost.materialQuotationNumber);
+
+                    smsTemplate = smsTemplate.Replace("{amount}", materialQuotationToPost.totalAmount.ToString("#,##0") + "/-");
+                    if (!string.IsNullOrWhiteSpace(adminDetails.phone))
+                    {
+                        _smsNotification.SendSMS(smsTemplate, adminDetails.phone);
+                    }
+                    if (!string.IsNullOrWhiteSpace(customerDetails.phone))
+                    {
+                        _smsNotification.SendSMS(smsTemplate, customerDetails.phone);
+                    }
+                }
                 transaction.Complete();
                 return new ResponseMessage(materialQuotationToPost.id, resourceManager.GetString("MQCreated"), ResponseType.Success);
             }
@@ -241,7 +260,7 @@ namespace IMSWebApi.Services
                 int advPaymentCount = repo.TrnAdvancePayments.Where(advPayment => advPayment.materialQuotationId == id).Count();
                 if (advPaymentCount > 0)
                 {
-                    string adminEmail = repo.MstUsers.Where(u => u.userName.Equals("Administrator")).FirstOrDefault().email;
+                    var adminDetails = repo.MstUsers.Where(u => u.userName.Equals("Administrator")).FirstOrDefault();
                     var materialQuotation = repo.TrnMaterialQuotations.Where(mq => mq.id == id).FirstOrDefault();
                     materialQuotation.status = MaterialQuotationStatus.Approved.ToString();
                     foreach (var mqItem in materialQuotation.TrnMaterialQuotationItems)
@@ -257,8 +276,24 @@ namespace IMSWebApi.Services
                     messageToDisplay = "MQApproved";
                     type = ResponseType.Success;
 
-                    emailNotification.notificationForApprovedMQ(materialQuotation, "NotificationForApprovedMQ", adminEmail);
+                    emailNotification.notificationForApprovedMQ(materialQuotation, "NotificationForApprovedMQ", adminDetails.email);
 
+                    var customerDetails = repo.MstCustomers.Where(c => c.id == materialQuotation.customerId).FirstOrDefault();
+                    //SMS Notification for MQ Approved
+                    if (!string.IsNullOrWhiteSpace(adminDetails.phone) || !string.IsNullOrWhiteSpace(customerDetails.phone))
+                    {
+                        string smsTemplate = resourceManager.GetString("MQApprovedSMS");
+                        smsTemplate = smsTemplate.Replace("{quotationNo}", materialQuotation.materialQuotationNumber);
+
+                        if (!string.IsNullOrWhiteSpace(adminDetails.phone))
+                        {
+                            _smsNotification.SendSMS(smsTemplate, adminDetails.phone);
+                        }
+                        if (!string.IsNullOrWhiteSpace(customerDetails.phone))
+                        {
+                            _smsNotification.SendSMS(smsTemplate, customerDetails.phone);
+                        }
+                    }
                 }
                 else
                 {
@@ -277,7 +312,9 @@ namespace IMSWebApi.Services
             using (var transaction = new TransactionScope())
             {
                 var materialQuotation = repo.TrnMaterialQuotations.Where(so => so.id == id).FirstOrDefault();
-                string adminEmail = repo.MstUsers.Where(u => u.userName.Equals("Administrator")).FirstOrDefault().email;
+                var adminDetails = repo.MstUsers.Where(u => u.userName.Equals("Administrator")).FirstOrDefault();
+                var customerDetails = repo.MstCustomers.Where(c => c.id == materialQuotation.customerId).FirstOrDefault();
+
                 if (materialQuotation.status.Equals("Created"))
                 {
                     materialQuotation.status = SaleOrderStatus.Cancelled.ToString();
@@ -288,7 +325,23 @@ namespace IMSWebApi.Services
                     messageToDisplay = "MQCancelled";
                     type = ResponseType.Success;
 
-                    emailNotification.notificationForCancelledMQ(materialQuotation, "NotificationForCancelledMQ", adminEmail);
+                    emailNotification.notificationForCancelledMQ(materialQuotation, "NotificationForCancelledMQ", adminDetails.email);
+
+                    //SMS Notification for MQ Cancelled
+                    if (!string.IsNullOrWhiteSpace(adminDetails.phone) || !string.IsNullOrWhiteSpace(customerDetails.phone))
+                    {
+                        string smsTemplate = resourceManager.GetString("MQCancelledSMS");
+                        smsTemplate = smsTemplate.Replace("{quotationNo}", materialQuotation.materialQuotationNumber);
+
+                        if (!string.IsNullOrWhiteSpace(adminDetails.phone))
+                        {
+                            _smsNotification.SendSMS(smsTemplate, adminDetails.phone);
+                        }
+                        if (!string.IsNullOrWhiteSpace(customerDetails.phone))
+                        {
+                            _smsNotification.SendSMS(smsTemplate, customerDetails.phone);
+                        }
+                    }
                 }
                 else if (materialQuotation.status.Equals("Approved") && _IsAdministrator)
                 {
@@ -316,7 +369,23 @@ namespace IMSWebApi.Services
                         messageToDisplay = "MQCancelled";
                         type = ResponseType.Success;
 
-                        emailNotification.notificationForCancelledMQ(materialQuotation, "NotificationForCancelledMQ", adminEmail);
+                        emailNotification.notificationForCancelledMQ(materialQuotation, "NotificationForCancelledMQ", adminDetails.email);
+
+                        //SMS Notification for MQ Cancelled
+                        if (!string.IsNullOrWhiteSpace(adminDetails.phone) || !string.IsNullOrWhiteSpace(customerDetails.phone))
+                        {
+                            string smsTemplate = resourceManager.GetString("MQCancelledSMS");
+                            smsTemplate = smsTemplate.Replace("{quotationNo}", materialQuotation.materialQuotationNumber);
+
+                            if (!string.IsNullOrWhiteSpace(adminDetails.phone))
+                            {
+                                _smsNotification.SendSMS(smsTemplate, adminDetails.phone);
+                            }
+                            if (!string.IsNullOrWhiteSpace(customerDetails.phone))
+                            {
+                                _smsNotification.SendSMS(smsTemplate, customerDetails.phone);
+                            }
+                        }
                     }
                     else
                     {

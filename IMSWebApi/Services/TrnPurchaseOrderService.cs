@@ -11,6 +11,7 @@ using IMSWebApi.ViewModel;
 using AutoMapper;
 using System.Transactions;
 using IMSWebApi.Enums;
+using System.Text;
 
 namespace IMSWebApi.Services
 {
@@ -23,6 +24,7 @@ namespace IMSWebApi.Services
         TrnProductStockService _trnProductStockService = null;
         GenerateOrderNumber generateOrderNumber = null;
         SendEmail emailNotification = new SendEmail();
+        SendSMSNotification _smsNotification;
 
         public TrnPurchaseOrderService()
         {
@@ -31,6 +33,7 @@ namespace IMSWebApi.Services
             _IsAdministrator = HttpContext.Current.User.IsInRole("Administrator");
             resourceManager = new ResourceManager("IMSWebApi.App_Data.Resource", Assembly.GetExecutingAssembly());
             generateOrderNumber = new GenerateOrderNumber();
+            _smsNotification = new SendSMSNotification();
         }
 
         public List<VMLookUpItem> getCollectionBySuppliernCategoryId(Int64 supplierId, Int64 categoryId)
@@ -172,16 +175,34 @@ namespace IMSWebApi.Services
                 financialYear.poNumber += 1;
                 repo.SaveChanges();
                 MstUser loggedInUser = repo.MstUsers.Where(u => u.id == _LoggedInuserId).FirstOrDefault();
-                string adminEmail = repo.MstUsers.Where(u => u.userName.Equals("Administrator")).FirstOrDefault().email;
+                MstUser adminDetails = repo.MstUsers.Where(u => u.userName.Equals("Administrator")).FirstOrDefault();
                 string supplierEmail = repo.MstSuppliers.Where(s => s.id == purchaseOrder.supplierId).FirstOrDefault().email;
 
                 if (_IsAdministrator)
                 {
-                    emailNotification.notifySupplierForPO(purchaseOrder, "NotifySupplierForPO", supplierEmail, adminEmail, purchaseOrderToPost.orderNumber);
+                    emailNotification.notifySupplierForPO(purchaseOrder, "NotifySupplierForPO", supplierEmail, adminDetails.email, purchaseOrderToPost.orderNumber);
                 }
                 else
                 {
-                    emailNotification.notificationForPO(purchaseOrder, "NotificationForPO", loggedInUser, adminEmail, purchaseOrderToPost.orderNumber);
+                    emailNotification.notificationForPO(purchaseOrder, "NotificationForPO", loggedInUser, adminDetails.email, purchaseOrderToPost.orderNumber);
+                    
+                    //SMS Notification
+                    if (!string.IsNullOrWhiteSpace(adminDetails.phone))
+                    {
+                        string smsTemplate = resourceManager.GetString("POCreatedByUserSMS");
+                        smsTemplate = smsTemplate.Replace("{orderNo}", purchaseOrderToPost.orderNumber);
+                        int count = 1;
+                        
+                        StringBuilder poItemDetails = new StringBuilder();
+                        foreach (var poItem in purchaseOrder.TrnPurchaseOrderItems)
+                        {
+                            poItemDetails.Append(count + ". " + (poItem.shadeId != null ? poItem.collectionName.Split('(').First().Trim() + " " + poItem.serialno.Split('(').First().Trim() + " - " + poItem.orderQuantity :
+                                (poItem.accessoryId != null ? poItem.accessoryName + " - " + poItem.orderQuantity : poItem.collectionName.Split('(').First().Trim() + " " + poItem.size.Split('(').First().Trim() + " - " + poItem.orderQuantity)) + ", ");
+                            count++;
+                        }
+                        smsTemplate = smsTemplate.Replace("{Details}", poItemDetails.ToString().Trim().Trim(',').ToString());
+                        _smsNotification.SendSMS(smsTemplate, adminDetails.phone);
+                    }
                 }
 
                 transaction.Complete();
@@ -329,8 +350,28 @@ namespace IMSWebApi.Services
                     messageToDisplay = "POCancelled";
                     type = ResponseType.Success;
 
-                    string adminEmail = repo.MstUsers.Where(u => u.userName.Equals("Administrator")).FirstOrDefault().email;
-                    emailNotification.notifyAdminForCancelledPO(purchaseOrder, "NotifyAdminForCancelledPO", adminEmail);
+                    var adminDetails = repo.MstUsers.Where(u => u.userName.Equals("Administrator")).FirstOrDefault();
+                    emailNotification.notifyAdminForCancelledPO(purchaseOrder, "NotifyAdminForCancelledPO", adminDetails.email);
+
+                    if (!string.IsNullOrWhiteSpace(adminDetails.phone))
+                    {
+                        string smsTemplate = resourceManager.GetString("POCancelledSMS");
+                        smsTemplate = smsTemplate.Replace("{orderNo}", purchaseOrder.orderNumber);
+                        int count = 1;
+                        
+                        StringBuilder poItemDetails = new StringBuilder();
+                        foreach (var poItem in purchaseOrder.TrnPurchaseOrderItems)
+                        {
+                            poItemDetails.Append(count + ". " + (poItem.shadeId != null ? poItem.MstCollection.collectionCode + " " + poItem.MstFWRShade.serialNumber + " - " + poItem.orderQuantity :
+                                (poItem.accessoryId != null ? poItem.MstAccessory.itemCode + " - " + poItem.orderQuantity : 
+                                (poItem.fomSizeId != null ? poItem.MstCollection.collectionCode + " " + poItem.MstFomSize.itemCode + " - " + poItem.orderQuantity :
+                                poItem.MstCollection.collectionCode + " " + (poItem.matSizeId != null ? poItem.MstMatSize.sizeCode : poItem.matSizeCode) + " - " + poItem.orderQuantity))) + ", ");
+                            count++;
+                        }
+                        smsTemplate = smsTemplate.Replace("{Details}", poItemDetails.ToString().Trim().Trim(',').ToString());
+                        _smsNotification.SendSMS(smsTemplate, adminDetails.phone);
+                    }
+
                 }
                 else
                 {

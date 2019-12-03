@@ -11,6 +11,7 @@ using IMSWebApi.ViewModel;
 using AutoMapper;
 using System.Transactions;
 using IMSWebApi.Enums;
+using System.Text;
 
 namespace IMSWebApi.Services
 {
@@ -22,6 +23,7 @@ namespace IMSWebApi.Services
         GenerateOrderNumber generateOrderNumber = null;
         TrnProductStockService _productStockService = null;
         SendEmail emailNotification = null;
+        SendSMSNotification _smsNotification;
 
         public TrnGoodReceiveNoteService()
         {
@@ -30,6 +32,7 @@ namespace IMSWebApi.Services
             generateOrderNumber = new GenerateOrderNumber();
             _productStockService = new TrnProductStockService();
             emailNotification = new SendEmail();
+            _smsNotification = new SendSMSNotification();
         }
 
         public ListResult<VMTrnGoodReceiveNoteList> getGoodReceiveNote(int pageSize, int page, string search)
@@ -219,6 +222,8 @@ namespace IMSWebApi.Services
                 TrnGoodReceiveNote goodReceiveNoteToPost = Mapper.Map<VMTrnGoodReceiveNote, TrnGoodReceiveNote>(goodReceiveNote);
                 var goodReceiveNoteItems = goodReceiveNoteToPost.TrnGoodReceiveNoteItems.ToList();
 
+                StringBuilder poItemDetails = new StringBuilder();
+                int count = 1;
                 goodReceiveNoteItems.ForEach(grnItems =>
                 {
                     grnItems.MstAccessory = null;
@@ -234,8 +239,9 @@ namespace IMSWebApi.Services
                     grnItems.matSizeId = grnItems.matSizeId == -1 ? null : grnItems.matSizeId;     //set null for custom matSize
                     grnItems.createdOn = DateTime.Now;
                     grnItems.createdBy = _LoggedInuserId;
-                    updateStatusAndBalQtyForPOItem(grnItems);
+                    updateStatusAndBalQtyForPOItem(grnItems, ref poItemDetails, count);
                     addItemInProductDetails(grnItems, goodReceiveNoteToPost.locationId);
+                    count++;
                 });
 
                 DateTime grnDate = goodReceiveNote.grnDate != null ? goodReceiveNote.grnDate.Value.Date : DateTime.Now;
@@ -256,13 +262,26 @@ namespace IMSWebApi.Services
                 repo.SaveChanges();
 
                 mailNotificationForPendingGIN(goodReceiveNoteToPost);
+                //SMS Notification to admin for GRN
+
+                var adminDetails = repo.MstUsers.Where(u => u.userName.Equals("Administrator")).FirstOrDefault();
+
+                if (!string.IsNullOrWhiteSpace(adminDetails.phone))
+                {
+                    string smsTemplate = resourceManager.GetString("GRNForPendingGINSMS");
+                    smsTemplate = smsTemplate.Replace("{grnNo}", orderNo);
+                    
+                    smsTemplate = smsTemplate.Replace("{Details}", poItemDetails.ToString().Trim().Trim(',').ToString());
+                    _smsNotification.SendSMS(smsTemplate, adminDetails.phone);
+                }
+
 
                 transaction.Complete();
                 return new ResponseMessage(goodReceiveNoteToPost.id, resourceManager.GetString("GRNAdded"), ResponseType.Success);
             }
         }
 
-        public void updateStatusAndBalQtyForPOItem(TrnGoodReceiveNoteItem grnItem)
+        public void updateStatusAndBalQtyForPOItem(TrnGoodReceiveNoteItem grnItem, ref StringBuilder grnItemDetails, int grnItemCount)
         {
             TrnPurchaseOrderItem poItem = repo.TrnPurchaseOrderItems.Where(po => po.categoryId == grnItem.categoryId
                                                                           && po.collectionId == grnItem.collectionId
@@ -289,14 +308,40 @@ namespace IMSWebApi.Services
             if (poItemCount == completePOItemCount)
             {
                 poItem.TrnPurchaseOrder.status = PurchaseOrderStatus.Completed.ToString();
+
+                //Send SMS notification to Admin when PO is completed.
+                var adminDetails = repo.MstUsers.Where(u => u.userName.Equals("Administrator")).FirstOrDefault();
+                if (!string.IsNullOrWhiteSpace(adminDetails.phone))
+                {
+                    var purchaseOrder = repo.TrnPurchaseOrders.Where(po => po.id == grnItem.purchaseOrderId).FirstOrDefault();
+                    string smsTemplate = resourceManager.GetString("POCompleteSMS");
+                    smsTemplate = smsTemplate.Replace("{orderNo}", purchaseOrder.orderNumber);
+                    int count = 1;
+
+                    StringBuilder poItemDetails = new StringBuilder();
+                    foreach (var item in purchaseOrder.TrnPurchaseOrderItems)
+                    {
+                        poItemDetails.Append(count + ". " + (item.shadeId != null ? item.MstCollection.collectionCode + " " + item.MstFWRShade.serialNumber + " - " + item.orderQuantity :
+                            (item.accessoryId != null ? item.MstAccessory.itemCode + " - " + item.orderQuantity :
+                            (item.fomSizeId != null ? item.MstCollection.collectionCode + " " + item.MstFomSize.itemCode + " - " + item.orderQuantity :
+                            item.MstCollection.collectionCode + " " + (item.matSizeId != null ? item.MstMatSize.sizeCode : item.matSizeCode) + " - " + poItem.orderQuantity))) + ", ");
+                        count++;
+                    }
+                    smsTemplate = smsTemplate.Replace("{Details}", poItemDetails.ToString().Trim().Trim(',').ToString());
+                    _smsNotification.SendSMS(smsTemplate, adminDetails.phone);
+                }
             }
             else
             {
                 poItem.TrnPurchaseOrder.status = PurchaseOrderStatus.PartialCompleted.ToString();
             }
+
+            grnItemDetails.Append(grnItemCount + ". " + (poItem.shadeId != null ? poItem.MstCollection.collectionCode + " " + poItem.MstFWRShade.serialNumber + " - " + grnItem.receivedQuantity :
+                            (poItem.accessoryId != null ? poItem.MstAccessory.itemCode + " - " + grnItem.receivedQuantity :
+                            (poItem.fomSizeId != null ? poItem.MstCollection.collectionCode + " " + poItem.MstFomSize.itemCode + " - " + grnItem.receivedQuantity :
+                            poItem.MstCollection.collectionCode + " " + (poItem.matSizeId != null ? poItem.MstMatSize.sizeCode : poItem.matSizeCode) + " - " + grnItem.receivedQuantity))) + ", ");
+
             repo.SaveChanges();
-
-
         }
 
         public void addItemInProductDetails(TrnGoodReceiveNoteItem grnItem, Int64 locationId)
