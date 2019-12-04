@@ -316,16 +316,14 @@ namespace IMSWebApi.Services
                     var purchaseOrder = repo.TrnPurchaseOrders.Where(po => po.id == grnItem.purchaseOrderId).FirstOrDefault();
                     string smsTemplate = resourceManager.GetString("POCompleteSMS");
                     smsTemplate = smsTemplate.Replace("{orderNo}", purchaseOrder.orderNumber);
-                    int count = 1;
-
+                    
                     StringBuilder poItemDetails = new StringBuilder();
                     foreach (var item in purchaseOrder.TrnPurchaseOrderItems)
                     {
-                        poItemDetails.Append(count + ". " + (item.shadeId != null ? item.MstCollection.collectionCode + " " + item.MstFWRShade.serialNumber + " - " + item.orderQuantity :
+                        poItemDetails.Append(item.shadeId != null ? item.MstCollection.collectionCode + " " + item.MstFWRShade.serialNumber + " - " + item.orderQuantity :
                             (item.accessoryId != null ? item.MstAccessory.itemCode + " - " + item.orderQuantity :
                             (item.fomSizeId != null ? item.MstCollection.collectionCode + " " + item.MstFomSize.itemCode + " - " + item.orderQuantity :
-                            item.MstCollection.collectionCode + " " + (item.matSizeId != null ? item.MstMatSize.sizeCode : item.matSizeCode) + " - " + poItem.orderQuantity))) + ", ");
-                        count++;
+                            item.MstCollection.collectionCode + " " + (item.matSizeId != null ? item.MstMatSize.sizeCode : item.matSizeCode) + " - " + poItem.orderQuantity)));
                     }
                     smsTemplate = smsTemplate.Replace("{Details}", poItemDetails.ToString().Trim().Trim(',').ToString());
                     _smsNotification.SendSMS(smsTemplate, adminDetails.phone);
@@ -336,10 +334,10 @@ namespace IMSWebApi.Services
                 poItem.TrnPurchaseOrder.status = PurchaseOrderStatus.PartialCompleted.ToString();
             }
 
-            grnItemDetails.Append(grnItemCount + ". " + (poItem.shadeId != null ? poItem.MstCollection.collectionCode + " " + poItem.MstFWRShade.serialNumber + " - " + grnItem.receivedQuantity :
+            grnItemDetails.Append(poItem.shadeId != null ? poItem.MstCollection.collectionCode + " " + poItem.MstFWRShade.serialNumber + " - " + grnItem.receivedQuantity :
                             (poItem.accessoryId != null ? poItem.MstAccessory.itemCode + " - " + grnItem.receivedQuantity :
                             (poItem.fomSizeId != null ? poItem.MstCollection.collectionCode + " " + poItem.MstFomSize.itemCode + " - " + grnItem.receivedQuantity :
-                            poItem.MstCollection.collectionCode + " " + (poItem.matSizeId != null ? poItem.MstMatSize.sizeCode : poItem.matSizeCode) + " - " + grnItem.receivedQuantity))) + ", ");
+                            poItem.MstCollection.collectionCode + " " + (poItem.matSizeId != null ? poItem.MstMatSize.sizeCode : poItem.matSizeCode) + " - " + grnItem.receivedQuantity)));
 
             repo.SaveChanges();
         }

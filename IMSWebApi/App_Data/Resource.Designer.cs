@@ -421,7 +421,7 @@ namespace IMSWebApi.App_Data {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Hi,\nYou have requested to reset your Password.\nUserID: {UserName}\nYour New Password: {Password}.
+        ///   Looks up a localized string similar to Hi,\nYou have requested to reset your Password.\nUserID: {UserName}\nYour Updated Password: {Password}.
         /// </summary>
         public static string ForgetPasswordSMS {
             get {

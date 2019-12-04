@@ -191,14 +191,12 @@ namespace IMSWebApi.Services
                     {
                         string smsTemplate = resourceManager.GetString("POCreatedByUserSMS");
                         smsTemplate = smsTemplate.Replace("{orderNo}", purchaseOrderToPost.orderNumber);
-                        int count = 1;
                         
                         StringBuilder poItemDetails = new StringBuilder();
                         foreach (var poItem in purchaseOrder.TrnPurchaseOrderItems)
                         {
-                            poItemDetails.Append(count + ". " + (poItem.shadeId != null ? poItem.collectionName.Split('(').First().Trim() + " " + poItem.serialno.Split('(').First().Trim() + " - " + poItem.orderQuantity :
-                                (poItem.accessoryId != null ? poItem.accessoryName + " - " + poItem.orderQuantity : poItem.collectionName.Split('(').First().Trim() + " " + poItem.size.Split('(').First().Trim() + " - " + poItem.orderQuantity)) + ", ");
-                            count++;
+                            poItemDetails.Append(poItem.shadeId != null ? poItem.collectionName.Split('(').First().Trim() + " " + poItem.serialno.Split('(').First().Trim() + " - " + poItem.orderQuantity :
+                                (poItem.accessoryId != null ? poItem.accessoryName + " - " + poItem.orderQuantity : poItem.collectionName.Split('(').First().Trim() + " " + poItem.size.Split('(').First().Trim() + " - " + poItem.orderQuantity));
                         }
                         smsTemplate = smsTemplate.Replace("{Details}", poItemDetails.ToString().Trim().Trim(',').ToString());
                         _smsNotification.SendSMS(smsTemplate, adminDetails.phone);
@@ -357,16 +355,14 @@ namespace IMSWebApi.Services
                     {
                         string smsTemplate = resourceManager.GetString("POCancelledSMS");
                         smsTemplate = smsTemplate.Replace("{orderNo}", purchaseOrder.orderNumber);
-                        int count = 1;
                         
                         StringBuilder poItemDetails = new StringBuilder();
                         foreach (var poItem in purchaseOrder.TrnPurchaseOrderItems)
                         {
-                            poItemDetails.Append(count + ". " + (poItem.shadeId != null ? poItem.MstCollection.collectionCode + " " + poItem.MstFWRShade.serialNumber + " - " + poItem.orderQuantity :
+                            poItemDetails.Append(poItem.shadeId != null ? poItem.MstCollection.collectionCode + " " + poItem.MstFWRShade.serialNumber + " - " + poItem.orderQuantity :
                                 (poItem.accessoryId != null ? poItem.MstAccessory.itemCode + " - " + poItem.orderQuantity : 
                                 (poItem.fomSizeId != null ? poItem.MstCollection.collectionCode + " " + poItem.MstFomSize.itemCode + " - " + poItem.orderQuantity :
-                                poItem.MstCollection.collectionCode + " " + (poItem.matSizeId != null ? poItem.MstMatSize.sizeCode : poItem.matSizeCode) + " - " + poItem.orderQuantity))) + ", ");
-                            count++;
+                                poItem.MstCollection.collectionCode + " " + (poItem.matSizeId != null ? poItem.MstMatSize.sizeCode : poItem.matSizeCode) + " - " + poItem.orderQuantity)));
                         }
                         smsTemplate = smsTemplate.Replace("{Details}", poItemDetails.ToString().Trim().Trim(',').ToString());
                         _smsNotification.SendSMS(smsTemplate, adminDetails.phone);

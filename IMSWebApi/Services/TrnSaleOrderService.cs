@@ -168,14 +168,12 @@ namespace IMSWebApi.Services
                 {
                     string smsTemplate = resourceManager.GetString("SOCreatedByCustomerSMS");
                     smsTemplate = smsTemplate.Replace("{orderNo}", saleOrderToPost.orderNumber);
-                    int count = 1;
-
+                    
                     StringBuilder poItemDetails = new StringBuilder();
                     foreach (var soItem in saleOrder.TrnSaleOrderItems)
                     {
-                        poItemDetails.Append(count + ". " + (soItem.shadeId != null ? soItem.collectionName.Split('(').First().Trim() + " " + soItem.serialno.Split('(').First().Trim() + " - " + soItem.orderQuantity :
-                            (soItem.accessoryId != null ? soItem.accessoryName + " - " + soItem.orderQuantity : soItem.collectionName.Split('(').First().Trim() + " " + soItem.size.Split('(').First().Trim() + " - " + soItem.orderQuantity)) + ", ");
-                        count++;
+                        poItemDetails.Append(soItem.shadeId != null ? soItem.collectionName.Split('(').First().Trim() + " " + soItem.serialno.Split('(').First().Trim() + " - " + soItem.orderQuantity :
+                            (soItem.accessoryId != null ? soItem.accessoryName + " - " + soItem.orderQuantity : soItem.collectionName.Split('(').First().Trim() + " " + soItem.size.Split('(').First().Trim() + " - " + soItem.orderQuantity));
                     }
                     smsTemplate = smsTemplate.Replace("{Details}", poItemDetails.ToString().Trim().Trim(',').ToString());
                     smsTemplate = smsTemplate.Replace("{amount}", (saleOrder.totalAmount.HasValue ? saleOrder.totalAmount.Value.ToString("#,##0") : Convert.ToInt64(saleOrder.totalAmount).ToString("#,##0")) + "/-");
@@ -474,14 +472,12 @@ namespace IMSWebApi.Services
             {
                 string smsTemplate = resourceManager.GetString("SOCancelledSMS");
                 smsTemplate = smsTemplate.Replace("{orderNo}", saleOrder.orderNumber);
-                int count = 1;
-
+                
                 StringBuilder soItemDetails = new StringBuilder();
                 foreach (var soItem in saleOrder.TrnSaleOrderItems)
                 {
-                    soItemDetails.Append(count + ". " + (soItem.shadeId != null ? soItem.MstCollection.collectionCode + " " + soItem.MstFWRShade.serialNumber + " - " + soItem.orderQuantity :
-                        (soItem.accessoryId != null ? soItem.MstAccessory.itemCode + " - " + soItem.orderQuantity : soItem.MstCollection.collectionCode + " " + soItem.MstFomSize.itemCode + " - " + soItem.orderQuantity)) + ", ");
-                    count++;
+                    soItemDetails.Append(soItem.shadeId != null ? soItem.MstCollection.collectionCode + " " + soItem.MstFWRShade.serialNumber + " - " + soItem.orderQuantity :
+                        (soItem.accessoryId != null ? soItem.MstAccessory.itemCode + " - " + soItem.orderQuantity : soItem.MstCollection.collectionCode + " " + soItem.MstFomSize.itemCode + " - " + soItem.orderQuantity));
                 }
                 smsTemplate = smsTemplate.Replace("{Details}", soItemDetails.ToString().Trim().Trim(',').ToString());
                 smsTemplate = smsTemplate.Replace("{amount}", (saleOrder.totalAmount.HasValue ? saleOrder.totalAmount.Value.ToString("#,##0") : Convert.ToInt64(saleOrder.totalAmount).ToString("#,##0")) + "/-");

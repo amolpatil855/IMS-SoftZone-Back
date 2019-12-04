@@ -457,7 +457,7 @@
     <value>Work Order Updated for Labour Charges</value>
   </data>
   <data name="ForgetPasswordSMS" xml:space="preserve">
-    <value>Hi,\nYou have requested to reset your Password.\nUserID: {UserName}\nYour New Password: {Password}</value>
+    <value>Hi,\nYou have requested to reset your Password.\nUserID: {UserName}\nYour Updated Password: {Password}</value>
   </data>
   <data name="GRNForPendingGINSMS" xml:space="preserve">
     <value>GRN No. - {grnNo}\n{Details}</value>
